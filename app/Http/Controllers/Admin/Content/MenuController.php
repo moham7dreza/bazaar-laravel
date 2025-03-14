@@ -7,6 +7,7 @@ use App\Http\Requests\Admin\StoreMenuRequest;
 use App\Http\Requests\Admin\UpdateMenuRequest;
 use App\Http\Resources\Admin\Content\MenuCollection;
 use App\Http\Resources\Admin\Content\MenuResource;
+use App\Http\Responses\ApiJsonResponse;
 use App\Models\Content\Menu;
 use Illuminate\Http\Request;
 
@@ -53,7 +54,6 @@ class MenuController extends Controller
      */
     public function destroy(Menu $menu)
     {
-        $menu->delete();
-        return ['status' => true, 'msg' => 'منو حذف شد'];
+        return ApiJsonResponse::success('deleted', $menu->deleteOrFail());
     }
 }
