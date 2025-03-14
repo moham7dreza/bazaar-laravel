@@ -4,10 +4,11 @@ namespace App\Http\Controllers\Admin\Advertise;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\StoreCategoryRequest;
+use App\Http\Requests\Admin\UpdateCategoryRequest;
 use App\Http\Resources\Admin\Advertise\CategoryCollection;
 use App\Http\Resources\Admin\Advertise\CategoryResource;
+use App\Http\Responses\ApiJsonResponse;
 use App\Models\Advertise\Category;
-use Illuminate\Http\Request;
 
 class CategoryController extends Controller
 {
@@ -42,7 +43,7 @@ class CategoryController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Category $category)
+    public function update(UpdateCategoryRequest $request, Category $category)
     {
         $inputs = $request->all();
         $category->update($inputs);
@@ -54,7 +55,6 @@ class CategoryController extends Controller
      */
     public function destroy(Category $category)
     {
-        $category->delete();
-        return ['status' => true, 'msg' => 'دسته بندی حذف شد'];
+        return ApiJsonResponse::success('deleted', $category->deleteOrFail());
     }
 }
