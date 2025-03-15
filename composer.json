@@ -8,6 +8,7 @@
         "php": "^8.2",
         "cviebrock/eloquent-sluggable": "^11.0",
         "dedoc/scramble": "*",
+        "dyrynda/laravel-cascade-soft-deletes": "^4.4",
         "laravel/framework": "^11.0",
         "laravel/sanctum": "^4.0",
         "laravel/tinker": "^2.9"

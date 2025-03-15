@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('url')->nullable();
             $table->string('icon')->nullable();
             $table->string('position');
-            $table->foreignId('parent_id')->nullable()->constrained('categories')->onDelete('cascade')->onUpdate('cascade');
+            $table->foreignId('parent_id')->nullable()->constrained('menus')->onDelete('cascade')->onUpdate('cascade');
             $table->tinyInteger('status')->default(1)->comment('1 => enable, 0 => disable');
             $table->timestamps();
             $table->softDeletes();

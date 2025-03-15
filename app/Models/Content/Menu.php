@@ -2,14 +2,19 @@
 
 namespace App\Models\Content;
 
-use Cviebrock\EloquentSluggable\Sluggable;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Cviebrock\EloquentSluggable\Sluggable;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Dyrynda\Database\Support\CascadeSoftDeletes;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Menu extends Model
 {
-    use HasFactory, SoftDeletes, Sluggable;
+    use HasFactory, SoftDeletes, Sluggable, CascadeSoftDeletes;
+
+
+    protected $cascadeDeletes = ['children'];
+
 
     public function sluggable(): array
     {
@@ -21,4 +26,14 @@ class Menu extends Model
     }
 
     protected $guarded = ['id', 'slug'];
+
+    public function children()
+    {
+        return $this->hasMany($this, 'parent_id');
+    }
+
+    public function parent()
+    {
+        return $this->hasOne($this, 'parent_id');
+    }
 }
