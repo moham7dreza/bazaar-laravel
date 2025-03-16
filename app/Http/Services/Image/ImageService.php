@@ -60,4 +60,38 @@ class ImageService extends ImageToolsService
 
         return $images;
     }
+
+
+    public function deleteImage($imagePath)
+    {
+        if (file_exists($imagePath)) {
+            unlink($imagePath);
+        }
+    }
+
+
+    public function deleteIndex($images)
+    {
+        $directory = public_path($images['directory']);
+        $this->deleteDirectoryAndFiles($directory);
+    }
+
+
+    public function deleteDirectoryAndFiles($directory)
+    {
+        if (!is_dir($directory)) {
+            return false;
+        }
+
+        $files = glob($directory . DIRECTORY_SEPARATOR . '*', GLOB_MARK);
+        foreach ($files as $file) {
+            if (is_dir($file)) {
+                $this->deleteDirectoryAndFiles($file);
+            } else {
+                unlink($file);
+            }
+        }
+        $result = rmdir($directory);
+        return $result;
+    }
 }
