@@ -110,7 +110,7 @@ class ImageToolsService
     {
 
         //set properties
-        $this->getImageDirectory() ?? $this->setImageDirectory(ImageToolsService . phpdate('Y') . DIRECTORY_SEPARATOR . date('m') . DIRECTORY_SEPARATOR . date('d'));
+        $this->getImageDirectory() ?? $this->setImageDirectory(date('Y') . DIRECTORY_SEPARATOR . date('m') . DIRECTORY_SEPARATOR . date('d'));
         $this->getImageName() ?? $this->setImageName(time());
         $this->getImageFormat() ?? $this->setImageFormat($this->image->extension());
 
