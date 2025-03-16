@@ -43,7 +43,7 @@ class ImageToolsService
 
     public function getImageName()
     {
-        return $this->imageDirectory;
+        return $this->imageName;
     }
 
     public function setImageName($imageName)
@@ -88,14 +88,14 @@ class ImageToolsService
 
     public function setFinalImageName($finalImageName)
     {
-        $this->finalImageDirectory = $finalImageName;
+        $this->finalImageName = $finalImageName;
     }
 
     protected function checkDirectory($imageDirectory)
     {
 
         if (!file_exists($imageDirectory)) {
-            mkdir($imageDirectory, 666, true);
+            mkdir($imageDirectory, 0777, true);
         }
     }
 
@@ -121,7 +121,7 @@ class ImageToolsService
 
 
         // set final image name
-        $this->setFinalImageName($this->getImageName() . 'Services' . $this->getImageFormat());
+        $this->setFinalImageName($this->getImageName() . '.' . $this->getImageFormat());
 
 
         $this->checkDirectory($this->getFinalImageDirectory());
