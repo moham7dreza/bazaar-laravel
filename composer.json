@@ -9,6 +9,7 @@
         "cviebrock/eloquent-sluggable": "^11.0",
         "dedoc/scramble": "*",
         "dyrynda/laravel-cascade-soft-deletes": "^4.4",
+        "intervention/image": "^3.11",
         "laravel/framework": "^11.0",
         "laravel/sanctum": "^4.0",
         "laravel/tinker": "^2.9"
