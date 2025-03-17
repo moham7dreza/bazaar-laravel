@@ -7,12 +7,15 @@ use App\Http\Requests\Admin\StoreMenuRequest;
 use App\Http\Requests\Admin\UpdateMenuRequest;
 use App\Http\Resources\Admin\Content\MenuCollection;
 use App\Http\Resources\Admin\Content\MenuResource;
-use App\Http\Responses\ApiJsonResponse;
 use App\Models\Content\Menu;
+use App\Traits\HttpResponses;
+use Exception;
 use Illuminate\Http\Request;
 
 class MenuController extends Controller
 {
+
+    use HttpResponses;
     /**
      * Display a listing of the resource.
      */
@@ -36,6 +39,11 @@ class MenuController extends Controller
      */
     public function show(Menu $menu)
     {
+        // try {
+        //     $menu = Menu::findOrFail($id);
+        // } catch (Exception $e) {
+        //     return ['messgae' => 'منو پیدا نشد'];
+        // }
         return new MenuResource($menu);
     }
 
@@ -54,6 +62,8 @@ class MenuController extends Controller
      */
     public function destroy(Menu $menu)
     {
-        return ApiJsonResponse::success('deleted', $menu->deleteOrFail());
+        $menu->delete();
+        // return ['status' => true, 'msg' => 'منو حذف شد'];
+        return $this->success(null, 'منو حذف شد');
     }
 }

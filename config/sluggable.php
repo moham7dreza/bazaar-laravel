@@ -59,7 +59,7 @@ return [
      *    'method' => array('Str','slug'),
      */
 
-    'method' => function ($string, $separator = '-') {
+    'method' => function($string, $separator = '-') {
         $_transliteration = array(
             '/ä|æ|ǽ/' => 'ae',
             '/ö|œ/' => 'oe',
