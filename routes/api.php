@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\Advertise\AdvertisementController;
 use App\Http\Controllers\Admin\Advertise\CategoryAttributeController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -15,10 +16,12 @@ use App\Http\Controllers\Admin\Advertise\CategoryValueController;
 
 
 Route::prefix('admin')->name('admin.')->group(function () {
+
     Route::prefix('advertise')->name('advertise.')->group(function () {
         Route::apiResource('category', CategoryController::class);
         Route::apiResource('category-attribute', CategoryAttributeController::class);
         Route::apiResource('category-value', CategoryValueController::class);
+        Route::apiResource('advertisement', AdvertisementController::class);
     });
 
     Route::prefix('content')->name('content.')->group(function () {
