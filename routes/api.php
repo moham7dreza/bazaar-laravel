@@ -1,18 +1,24 @@
 <?php
 
-use App\Http\Controllers\Admin\Advertise\AdvertisementController;
-use App\Http\Controllers\Admin\Advertise\CategoryAttributeController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ImageController;
+use App\Http\Controllers\Admin\User\UserController;
 use App\Http\Controllers\Admin\Content\MenuController;
 use App\Http\Controllers\Admin\Content\PageController;
+use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\Admin\Advertise\CategoryController;
+use App\Http\Controllers\Admin\Advertise\AdvertisementController;
 use App\Http\Controllers\Admin\Advertise\CategoryValueController;
+use App\Http\Controllers\Admin\Advertise\CategoryAttributeController;
 
-// Route::middleware(['auth:sanctum', 'verified'])->get('/user', function (Request $request) {
-//     return $request->user();
-// });
+Route::middleware(['auth:sanctum', 'verified'])->get('/user', function (Request $request) {
+    return $request->user();
+});
+
+Route::post('/register', [RegisteredUserController::class, 'store'])
+                ->middleware('guest')
+                ->name('register');
 
 
 Route::prefix('admin')->name('admin.')->group(function () {
@@ -27,6 +33,10 @@ Route::prefix('admin')->name('admin.')->group(function () {
     Route::prefix('content')->name('content.')->group(function () {
         Route::apiResource('menu', MenuController::class);
         Route::apiResource('page', PageController::class);
+    });
+
+    Route::prefix('users')->name('users.')->group(function () {
+        Route::apiResource('user', UserController::class);
     });
 });
 
