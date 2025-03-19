@@ -17,8 +17,11 @@ Route::middleware(['auth:sanctum', 'verified'])->get('/user', function (Request 
 });
 
 Route::post('/register', [RegisteredUserController::class, 'store'])
-                ->middleware('guest')
-                ->name('register');
+    ->middleware('guest')
+    ->name('register');
+
+Route::post('send-otp', [RegisteredUserController::class, 'sendOtp'])->middleware('guest');
+Route::post('verify-otp', [RegisteredUserController::class, 'verifyOtpAndRegister'])->middleware('guest');
 
 
 Route::prefix('admin')->name('admin.')->group(function () {
