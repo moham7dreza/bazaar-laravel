@@ -49,5 +49,8 @@ class Advertisement extends Model
     }
 
 
-
+    public function viewedByUsers()
+    {
+        return $this->belongsToMany(User::class, 'advertisement_view_history')->withTimestamps();
+    }
 }

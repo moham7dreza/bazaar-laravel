@@ -65,4 +65,10 @@ class User extends Authenticatable implements MustVerifyEmail
     {
         return $this->hasMany(AdvertisementNote::class);
     }
+
+
+    public function viewedAdvertisements()
+    {
+        return $this->belongsToMany(Advertisement::class, 'advertisement_view_history')->withTimestamps();
+    }
 }
