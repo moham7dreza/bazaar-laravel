@@ -11,6 +11,7 @@ use App\Http\Controllers\Admin\Advertise\CategoryController;
 use App\Http\Controllers\Admin\Advertise\AdvertisementController;
 use App\Http\Controllers\Admin\Advertise\CategoryValueController;
 use App\Http\Controllers\Admin\Advertise\CategoryAttributeController;
+use App\Http\Controllers\App\Panel\AdvertisementController as PanelAdvertisementController;
 
 Route::middleware(['auth:sanctum', 'verified'])->get('/user', function (Request $request) {
     return $request->user();
@@ -40,6 +41,14 @@ Route::prefix('admin')->name('admin.')->group(function () {
 
     Route::prefix('users')->name('users.')->group(function () {
         Route::apiResource('user', UserController::class);
+    });
+});
+
+
+//user panel
+Route::prefix('panel')->name('panel.')->middleware(['auth:sanctum', 'mobileVerified'])->group(function () {
+    Route::prefix('advertise')->name('advertise.')->group(function () {
+        Route::apiResource('advertisement', PanelAdvertisementController::class);
     });
 });
 
