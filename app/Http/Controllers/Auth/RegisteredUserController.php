@@ -103,11 +103,11 @@ class RegisteredUserController extends Controller
 
         // register and login
         else {
-
             $user = User::create([
                 'password' => Hash::make(Str::random(10)),
                 'mobile' => $request->mobile,
                 'city_id' => $request->city_id,
+                'mobile_verified_at' => now(),
             ]);
 
             event(new Registered($user));
