@@ -36,4 +36,18 @@ class Advertisement extends Model
     {
         return $this->belongsTo(User::class);
     }
+
+    public function favoritedByUsers()
+    {
+        return $this->belongsToMany(User::class)->withTimestamps();
+    }
+
+
+    public function advertisementNotes()
+    {
+        return $this->hasMany(AdvertisementNote::class);
+    }
+
+
+
 }

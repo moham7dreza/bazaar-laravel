@@ -3,12 +3,19 @@
 namespace App\Http\Controllers\App\Panel;
 
 use Illuminate\Http\Request;
+use App\Traits\HttpResponses;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\App\StoreAdvertisementRequest;
 use App\Models\Advertise\Advertisement;
+use App\Http\Services\Image\ImageService;
+use App\Http\Resources\App\AdvertisementResource;
 use App\Http\Resources\App\AdvertisementCollection;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 
 class AdvertisementController extends Controller
 {
+    use HttpResponses, AuthorizesRequests;
+
     /**
      * Display a listing of the resource.
      */
@@ -20,32 +27,99 @@ class AdvertisementController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(StoreAdvertisementRequest $request, ImageService $imageService)
     {
-        //
+        $inputs = [
+            'title' => $request->title,
+            'description' => $request->description,
+            'ads_type' => $request->ads_type,
+            'ads_status' => $request->ads_status,
+            'category_id' => $request->category_id,
+            'city_id' => $request->city_id,
+            'contact' => $request->contact,
+            'image' => $request->image,
+            'price' => $request->price,
+            'tags' => $request->tags,
+            'lng' => $request->lng,
+            'lat' => $request->lat,
+            'willing_to_trade' => $request->willing_to_trade ? $request->willing_to_trade : 0,
+            'user_id' => auth()->user()->id,
+            'status' => 3,
+        ];
+        if ($request->hasFile('image')) {
+            $imageService->setExclusiveDirectory('images' . DIRECTORY_SEPARATOR . 'user-advertisement-images');
+            $result = $imageService->createIndexAndSave($request->image);
+            if ($result) {
+                $inputs['image'] = $result;
+            } else {
+                return $this->error(null, 'خطا در اپلود عکس', 500);
+            }
+        }
+        $ads = Advertisement::create($inputs);
+        return new AdvertisementResource($ads);
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(Advertisement $advertisement)
     {
-        //
+        $this->authorize('view', $advertisement);
+        return new AdvertisementResource($advertisement);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, Advertisement $advertisement, ImageService $imageService)
     {
-        //
+        $this->authorize('update', $advertisement);
+
+        $inputs = [
+            'title' => $request->title,
+            'description' => $request->description,
+            'ads_type' => $request->ads_type,
+            'ads_status' => $request->ads_status,
+            'city_id' => $request->city_id,
+            'contact' => $request->contact,
+            'image' => $request->image,
+            'price' => $request->price,
+            'tags' => $request->tags,
+            'lng' => $request->lng,
+            'lat' => $request->lat,
+            'willing_to_trade' => $request->willing_to_trade ? $request->willing_to_trade : 0,
+            'status' => 3,
+        ];
+
+        if ($request->hasFile('image')) {
+            if (!empty(($advertisement->image))) {
+                $imageService->deleteDirectoryAndFiles($advertisement->image['directory']);
+            }
+            $imageService->setExclusiveDirectory('images' . DIRECTORY_SEPARATOR . 'user-advertisement-images');
+            $result = $imageService->createIndexAndSave($request->image);
+            if ($result === false) {
+                return $this->error(null, 'خطا در فرایند اپلود', 500);
+            }
+            $inputs['image'] = $result;
+        } else {
+            if (isset($inputs['currentImage']) && !empty($advertisement->image)) {
+                $image = $advertisement->image;
+                $image['currentImage'] = $inputs['currentImage'];
+                $inputs['image'] = $image;
+            }
+        }
+        $advertisement->update($inputs);
+        return new AdvertisementResource($advertisement);
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Advertisement $advertisement)
     {
-        //
+        $this->authorize('delete', $advertisement);
+
+        $advertisement->delete();
+        return $this->success(null, 'آگهی حذف شد');
     }
 }
