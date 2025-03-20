@@ -14,6 +14,7 @@ use App\Http\Controllers\Admin\Advertise\CategoryAttributeController;
 use App\Http\Controllers\App\Panel\AdvertisementController as PanelAdvertisementController;
 use App\Http\Controllers\App\Panel\AdvertisementNoteController;
 use App\Http\Controllers\App\Panel\FavoriteAdvertisementController;
+use App\Http\Controllers\App\Panel\HistoryAdvertisementController;
 
 Route::middleware(['auth:sanctum', 'verified'])->get('/user', function (Request $request) {
     return $request->user();
@@ -66,6 +67,12 @@ Route::prefix('panel')->name('panel.')->middleware(['auth:sanctum', 'mobileVerif
         Route::get('/', [FavoriteAdvertisementController::class, 'index'])->name('index');
         Route::post('/{advertisement}', [FavoriteAdvertisementController::class, 'store'])->name('store');
         Route::delete('/{advertisement}', [FavoriteAdvertisementController::class, 'destroy'])->name('destroy');
+    });
+
+    Route::prefix('history')->name('history.')->group(function () {
+
+        Route::get('/', [HistoryAdvertisementController::class, 'index'])->name('index');
+        Route::post('/{advertisement}', [HistoryAdvertisementController::class, 'store'])->name('store');
     });
 });
 
