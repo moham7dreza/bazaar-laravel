@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Models\Advertise\Advertisement;
+use App\Models\Advertise\AdvertisementNote;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -52,5 +53,16 @@ class User extends Authenticatable implements MustVerifyEmail
     public function advertisements()
     {
         return $this->hasMany(Advertisement::class);
+    }
+
+    public function favoriteAdvertisements()
+    {
+        return $this->belongsToMany(Advertisement::class)->withTimestamps();
+    }
+
+
+    public function advertisementNotes()
+    {
+        return $this->hasMany(AdvertisementNote::class);
     }
 }

@@ -12,6 +12,8 @@ use App\Http\Controllers\Admin\Advertise\AdvertisementController;
 use App\Http\Controllers\Admin\Advertise\CategoryValueController;
 use App\Http\Controllers\Admin\Advertise\CategoryAttributeController;
 use App\Http\Controllers\App\Panel\AdvertisementController as PanelAdvertisementController;
+use App\Http\Controllers\App\Panel\AdvertisementNoteController;
+use App\Http\Controllers\App\Panel\FavoriteAdvertisementController;
 
 Route::middleware(['auth:sanctum', 'verified'])->get('/user', function (Request $request) {
     return $request->user();
@@ -49,6 +51,21 @@ Route::prefix('admin')->name('admin.')->group(function () {
 Route::prefix('panel')->name('panel.')->middleware(['auth:sanctum', 'mobileVerified'])->group(function () {
     Route::prefix('advertise')->name('advertise.')->group(function () {
         Route::apiResource('advertisement', PanelAdvertisementController::class);
+
+        Route::prefix('notes')->name('notes.')->group(function () {
+
+            Route::post('{advertisement}/store', [AdvertisementNoteController::class, 'store'])->name('store');
+            Route::get('/', [AdvertisementNoteController::class, 'index'])->name('index');
+            Route::get('{advertisement}/show', [AdvertisementNoteController::class, 'show'])->name('show');
+            Route::delete('{advertisement}/destroy', [AdvertisementNoteController::class, 'destroy'])->name('destroy');
+        });
+    });
+
+    Route::prefix('favorites')->name('favorites.')->group(function () {
+
+        Route::get('/', [FavoriteAdvertisementController::class, 'index'])->name('index');
+        Route::post('/{advertisement}', [FavoriteAdvertisementController::class, 'store'])->name('store');
+        Route::delete('/{advertisement}', [FavoriteAdvertisementController::class, 'destroy'])->name('destroy');
     });
 });
 
