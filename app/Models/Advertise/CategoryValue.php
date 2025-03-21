@@ -16,4 +16,9 @@ class CategoryValue extends Model
     {
         return $this->belongsTo(CategoryAttribute::class);
     }
+
+    public function advertisements()
+    {
+        return $this->belongsToMany(Advertisement::class, 'advertisement_category_values')->withTimestamps();
+    }
 }

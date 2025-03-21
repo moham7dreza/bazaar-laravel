@@ -28,6 +28,28 @@ class AdvertisementResource extends JsonResource
                     'url' => $image->url
                 ];
             }),
+            'category_attributes' => $this->category->attributes->map(function ($attribute) {
+                return [
+                    'id' => $attribute->id,
+                    'name' => $attribute->name,
+                    'unit' => $attribute->unit,
+                ];
+            }),
+            'category_values' => $this->categoryValues->map(function ($value) {
+                return [
+                    'id' => $value->id,
+                    'value' => $value->value,
+                ];
+            }),
+            'category_attributes_with_values' => $this->category->attributes->map(function ($attribute) {
+                $value = $this->categoryValues()->firstWhere('category_attribute_id', $attribute->id);
+                return [
+                    'id' => $attribute->id,
+                    'name' => $attribute->name,
+                    'unit' => $attribute->unit,
+                    'value' => $value ? $value->value : null,
+                ];
+            }),
             'city' => $this->city,
             'slug' => $this->slug,
             'published_at' => $this->published_at,

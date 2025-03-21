@@ -40,4 +40,9 @@ class Category extends Model
     {
         return $this->hasMany(Advertisement::class);
     }
+
+    public function attributes()
+    {
+        return $this->hasMany(CategoryAttribute::class);
+    }
 }

@@ -41,6 +41,10 @@ class Advertisement extends Model
     {
         return $this->belongsToMany(User::class)->withTimestamps();
     }
+    public function categoryValues()
+    {
+        return $this->belongsToMany(CategoryValue::class, 'advertisement_category_values')->withTimestamps();
+    }
 
 
     public function advertisementNotes()
