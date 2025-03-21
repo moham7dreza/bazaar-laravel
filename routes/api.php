@@ -18,6 +18,7 @@ use App\Http\Controllers\Admin\Advertise\StateController;
 use App\Http\Controllers\App\Home\AdvertisementController as HomeAdvertisementController;
 use App\Http\Controllers\App\Panel\GalleryController as PanelGalleryController;
 use App\Http\Controllers\App\Home\CategoryController as HomeCategoryController;
+use App\Http\Controllers\App\Home\CityController;
 use App\Http\Controllers\App\Home\MenuController as HomeMenuController;
 use App\Http\Controllers\App\Home\PageController as HomePageController;
 use App\Http\Controllers\App\Home\StateController as HomeStateController;
@@ -36,6 +37,7 @@ Route::get('pages', [HomePageController::class, 'index'])->name('pages');
 Route::get('advertisements', [HomeAdvertisementController::class, 'index'])->name('pages');
 Route::get('advertisements/{advertisement}', [HomeAdvertisementController::class, 'show'])->name('advertisements.show');
 Route::get('states', [HomeStateController::class, 'index'])->name('states');
+Route::get('cities', [CityController::class, 'index'])->name('cities');
 
 Route::post('/register', [RegisteredUserController::class, 'store'])
     ->middleware('guest')
