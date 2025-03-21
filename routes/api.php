@@ -1,10 +1,9 @@
 <?php
 
+use App\Enums\RouteSection;
 use App\Http\Controllers\Admin\Setting\SettingController;
-use App\Http\Controllers\App\Panel\‌GalleryController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\ImageController;
 use App\Http\Controllers\Admin\User\UserController;
 use App\Http\Controllers\Admin\Content\MenuController;
 use App\Http\Controllers\Admin\Content\PageController;
@@ -34,7 +33,7 @@ Route::middleware(['auth:sanctum', 'verified'])->get('/user', function (Request 
 Route::get('categories', [HomeCategoryController::class, 'index'])->name('categories');
 Route::get('menus', [HomeMenuController::class, 'index'])->name('menus');
 Route::get('pages', [HomePageController::class, 'index'])->name('pages');
-Route::get('advertisements', [HomeAdvertisementController::class, 'index'])->name('pages');
+Route::get('advertisements', [HomeAdvertisementController::class, 'index'])->name('advertisements.index');
 Route::get('advertisements/{advertisement}', [HomeAdvertisementController::class, 'show'])->name('advertisements.show');
 Route::get('states', [HomeStateController::class, 'index'])->name('states');
 Route::get('cities', [CityController::class, 'index'])->name('cities');
@@ -47,7 +46,7 @@ Route::post('send-otp', [RegisteredUserController::class, 'sendOtp'])->middlewar
 Route::post('verify-otp', [RegisteredUserController::class, 'verifyOtpAndRegister'])->middleware('guest');
 
 
-Route::prefix('admin')->name('admin.')->group(function () {
+Route::prefix(RouteSection::ADMIN)->name('admin.')->group(function () {
 
     Route::apiResource('setting', SettingController::class);
 
@@ -60,24 +59,24 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::apiResource('advertisement', AdvertisementController::class);
     });
 
-    Route::prefix('content')->name('content.')->group(function () {
+    Route::prefix(RouteSection::CONTENT)->name('content.')->group(function () {
         Route::apiResource('menu', MenuController::class);
         Route::apiResource('page', PageController::class);
     });
 
-    Route::prefix('users')->name('users.')->group(function () {
+    Route::prefix(RouteSection::USERS)->name('users.')->group(function () {
         Route::apiResource('user', UserController::class);
     });
 });
 
 
 //user panel
-Route::prefix('panel')->name('panel.')->middleware(['auth:sanctum', 'mobileVerified'])->group(function () {
-    Route::prefix('advertise')->name('advertise.')->group(function () {
+Route::prefix(RouteSection::PANEL)->name('panel.')->middleware(['auth:sanctum', 'mobileVerified'])->group(function () {
+    Route::prefix(RouteSection::ADVERTISE)->name('advertise.')->group(function () {
         Route::apiResource('advertisement', PanelAdvertisementController::class);
 
 
-        Route::prefix('gallery')->name('gallery.')->group(function () {
+        Route::prefix(RouteSection::GALLERY)->name('gallery.')->group(function () {
             Route::get('{advertisement}/', [PanelGalleryController::class, 'index'])->name('index');
             Route::post('{advertisement}/store', [PanelGalleryController::class, 'store'])->name('store');
             Route::get('show/{gallery}', [PanelGalleryController::class, 'show'])->name('show');
@@ -85,7 +84,7 @@ Route::prefix('panel')->name('panel.')->middleware(['auth:sanctum', 'mobileVerif
             Route::delete('/{gallery}', [PanelGalleryController::class, 'destroy'])->name('destroy');
         });
 
-        Route::prefix('notes')->name('notes.')->group(function () {
+        Route::prefix(RouteSection::NOTES)->name('notes.')->group(function () {
 
             Route::post('{advertisement}/store', [AdvertisementNoteController::class, 'store'])->name('store');
             Route::get('/', [AdvertisementNoteController::class, 'index'])->name('index');
@@ -94,19 +93,16 @@ Route::prefix('panel')->name('panel.')->middleware(['auth:sanctum', 'mobileVerif
         });
     });
 
-    Route::prefix('favorites')->name('favorites.')->group(function () {
+    Route::prefix(RouteSection::FAVORITES)->name('favorites.')->group(function () {
 
         Route::get('/', [FavoriteAdvertisementController::class, 'index'])->name('index');
         Route::post('/{advertisement}', [FavoriteAdvertisementController::class, 'store'])->name('store');
         Route::delete('/{advertisement}', [FavoriteAdvertisementController::class, 'destroy'])->name('destroy');
     });
 
-    Route::prefix('history')->name('history.')->group(function () {
+    Route::prefix(RouteSection::HISTORY)->name('history.')->group(function () {
 
         Route::get('/', [HistoryAdvertisementController::class, 'index'])->name('index');
         Route::post('/{advertisement}', [HistoryAdvertisementController::class, 'store'])->name('store');
     });
 });
-
-
-// Route::post('image/store', [ImageController::class, 'store'])->name('image.store');
