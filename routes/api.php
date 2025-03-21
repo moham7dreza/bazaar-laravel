@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\Setting\SettingController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ImageController;
@@ -38,6 +39,8 @@ Route::post('verify-otp', [RegisteredUserController::class, 'verifyOtpAndRegiste
 
 
 Route::prefix('admin')->name('admin.')->group(function () {
+
+    Route::apiResource('setting', SettingController::class);
 
     Route::prefix('advertise')->name('advertise.')->group(function () {
         Route::apiResource('category', CategoryController::class);
