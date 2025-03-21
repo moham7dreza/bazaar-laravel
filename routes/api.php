@@ -12,10 +12,12 @@ use App\Http\Controllers\Admin\Advertise\CategoryController;
 use App\Http\Controllers\Admin\Advertise\AdvertisementController;
 use App\Http\Controllers\Admin\Advertise\CategoryValueController;
 use App\Http\Controllers\Admin\Advertise\CategoryAttributeController;
+use App\Http\Controllers\Admin\Advertise\StateController;
 use App\Http\Controllers\App\Home\AdvertisementController as HomeAdvertisementController;
 use App\Http\Controllers\App\Home\CategoryController as HomeCategoryController;
 use App\Http\Controllers\App\Home\MenuController as HomeMenuController;
 use App\Http\Controllers\App\Home\PageController as HomePageController;
+use App\Http\Controllers\App\Home\StateController as HomeStateController;
 use App\Http\Controllers\App\Panel\AdvertisementController as PanelAdvertisementController;
 use App\Http\Controllers\App\Panel\AdvertisementNoteController;
 use App\Http\Controllers\App\Panel\FavoriteAdvertisementController;
@@ -29,6 +31,7 @@ Route::get('categories', [HomeCategoryController::class, 'index'])->name('catego
 Route::get('menus', [HomeMenuController::class, 'index'])->name('menus');
 Route::get('pages', [HomePageController::class, 'index'])->name('pages');
 Route::get('advertisements', [HomeAdvertisementController::class, 'index'])->name('pages');
+Route::get('states', [HomeStateController::class, 'index'])->name('states');
 
 Route::post('/register', [RegisteredUserController::class, 'store'])
     ->middleware('guest')
@@ -44,6 +47,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
 
     Route::prefix('advertise')->name('advertise.')->group(function () {
         Route::apiResource('category', CategoryController::class);
+        Route::apiResource('state', StateController::class);
         Route::apiResource('category-attribute', CategoryAttributeController::class);
         Route::apiResource('category-value', CategoryValueController::class);
         Route::apiResource('advertisement', AdvertisementController::class);
