@@ -20,9 +20,9 @@ class AdvertisementResource extends JsonResource
             'description' => $this->description,
             'ads_type' => $this->ads_type,
             'ads_status' => $this->ads_status,
+            'allCategories' => $this->getAllCategories($this->category),
             'category' => $this->category,
             'city' => $this->city,
-            'user' => $this->user,
             'slug' => $this->slug,
             'published_at' => $this->published_at,
             'expired_at' => $this->expired_at,
@@ -40,6 +40,20 @@ class AdvertisementResource extends JsonResource
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
         ];
+    }
+
+    private function getAllCategories($category)
+    {
+        $all = [];
+        while ($category) {
+            $all[] = [
+                'id' => $category->id,
+                'name' => $category->name,
+            ];
+            $category = $category->parent;
+        }
+
+        return array_reverse($all);
     }
 
     public function with($request)

@@ -31,6 +31,7 @@ Route::get('categories', [HomeCategoryController::class, 'index'])->name('catego
 Route::get('menus', [HomeMenuController::class, 'index'])->name('menus');
 Route::get('pages', [HomePageController::class, 'index'])->name('pages');
 Route::get('advertisements', [HomeAdvertisementController::class, 'index'])->name('pages');
+Route::get('advertisements/{advertisement}', [HomeAdvertisementController::class, 'show'])->name('advertisements.show');
 Route::get('states', [HomeStateController::class, 'index'])->name('states');
 
 Route::post('/register', [RegisteredUserController::class, 'store'])
