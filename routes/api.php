@@ -11,6 +11,10 @@ use App\Http\Controllers\Admin\Advertise\CategoryController;
 use App\Http\Controllers\Admin\Advertise\AdvertisementController;
 use App\Http\Controllers\Admin\Advertise\CategoryValueController;
 use App\Http\Controllers\Admin\Advertise\CategoryAttributeController;
+use App\Http\Controllers\App\Home\AdvertisementController as HomeAdvertisementController;
+use App\Http\Controllers\App\Home\CategoryController as HomeCategoryController;
+use App\Http\Controllers\App\Home\MenuController as HomeMenuController;
+use App\Http\Controllers\App\Home\PageController as HomePageController;
 use App\Http\Controllers\App\Panel\AdvertisementController as PanelAdvertisementController;
 use App\Http\Controllers\App\Panel\AdvertisementNoteController;
 use App\Http\Controllers\App\Panel\FavoriteAdvertisementController;
@@ -19,6 +23,11 @@ use App\Http\Controllers\App\Panel\HistoryAdvertisementController;
 Route::middleware(['auth:sanctum', 'verified'])->get('/user', function (Request $request) {
     return $request->user();
 });
+
+Route::get('categories', [HomeCategoryController::class, 'index'])->name('categories');
+Route::get('menus', [HomeMenuController::class, 'index'])->name('menus');
+Route::get('pages', [HomePageController::class, 'index'])->name('pages');
+Route::get('advertisements', [HomeAdvertisementController::class, 'index'])->name('pages');
 
 Route::post('/register', [RegisteredUserController::class, 'store'])
     ->middleware('guest')
