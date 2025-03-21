@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\Setting\SettingController;
+use App\Http\Controllers\App\Panel\‌GalleryController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ImageController;
@@ -12,8 +13,10 @@ use App\Http\Controllers\Admin\Advertise\CategoryController;
 use App\Http\Controllers\Admin\Advertise\AdvertisementController;
 use App\Http\Controllers\Admin\Advertise\CategoryValueController;
 use App\Http\Controllers\Admin\Advertise\CategoryAttributeController;
+use App\Http\Controllers\Admin\Advertise\GalleryController;
 use App\Http\Controllers\Admin\Advertise\StateController;
 use App\Http\Controllers\App\Home\AdvertisementController as HomeAdvertisementController;
+use App\Http\Controllers\App\Panel\GalleryController as PanelGalleryController;
 use App\Http\Controllers\App\Home\CategoryController as HomeCategoryController;
 use App\Http\Controllers\App\Home\MenuController as HomeMenuController;
 use App\Http\Controllers\App\Home\PageController as HomePageController;
@@ -48,6 +51,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
 
     Route::prefix('advertise')->name('advertise.')->group(function () {
         Route::apiResource('category', CategoryController::class);
+        Route::apiResource('gallery', GalleryController::class);
         Route::apiResource('state', StateController::class);
         Route::apiResource('category-attribute', CategoryAttributeController::class);
         Route::apiResource('category-value', CategoryValueController::class);
@@ -69,6 +73,15 @@ Route::prefix('admin')->name('admin.')->group(function () {
 Route::prefix('panel')->name('panel.')->middleware(['auth:sanctum', 'mobileVerified'])->group(function () {
     Route::prefix('advertise')->name('advertise.')->group(function () {
         Route::apiResource('advertisement', PanelAdvertisementController::class);
+
+
+        Route::prefix('gallery')->name('gallery.')->group(function () {
+            Route::get('{advertisement}/', [PanelGalleryController::class, 'index'])->name('index');
+            Route::post('{advertisement}/store', [PanelGalleryController::class, 'store'])->name('store');
+            Route::get('show/{gallery}', [PanelGalleryController::class, 'show'])->name('show');
+            Route::put('/{gallery}', [PanelGalleryController::class, 'update'])->name('update');
+            Route::delete('/{gallery}', [PanelGalleryController::class, 'destroy'])->name('destroy');
+        });
 
         Route::prefix('notes')->name('notes.')->group(function () {
 

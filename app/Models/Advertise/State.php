@@ -22,6 +22,6 @@ class State extends Model
 
     public function parent()
     {
-        return $this->hasOne($this, 'parent_id');
+        return $this->belongsTo($this, 'parent_id');
     }
 }

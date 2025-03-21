@@ -22,6 +22,12 @@ class AdvertisementResource extends JsonResource
             'ads_status' => $this->ads_status,
             'allCategories' => $this->getAllCategories($this->category),
             'category' => $this->category,
+            'gallery' => $this->images->map(function ($image) {
+                return [
+                    'id' => $image->id,
+                    'url' => $image->url
+                ];
+            }),
             'city' => $this->city,
             'slug' => $this->slug,
             'published_at' => $this->published_at,

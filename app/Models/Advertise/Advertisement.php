@@ -47,6 +47,10 @@ class Advertisement extends Model
     {
         return $this->hasMany(AdvertisementNote::class);
     }
+    public function images()
+    {
+        return $this->hasMany(Gallery::class);
+    }
 
 
     public function viewedByUsers()
