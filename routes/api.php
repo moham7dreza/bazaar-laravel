@@ -50,7 +50,7 @@ Route::prefix(RouteSection::ADMIN)->name('admin.')->group(function () {
 
     Route::apiResource('setting', SettingController::class);
 
-    Route::prefix('advertise')->name('advertise.')->group(function () {
+    Route::prefix(RouteSection::ADVERTISE)->name('advertise.')->group(function () {
         Route::apiResource('category', CategoryController::class);
         Route::apiResource('gallery', GalleryController::class);
         Route::apiResource('state', StateController::class);
