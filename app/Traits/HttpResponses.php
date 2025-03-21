@@ -19,7 +19,7 @@ trait HttpResponses
     }
 
 
-    protected function error($data, $message = null, $code)
+    protected function error($data, $message = null, $code = 400)
     {
         return response()->json([
             'statusTxt' => 'Request Error!!',
