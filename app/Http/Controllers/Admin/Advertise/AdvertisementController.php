@@ -3,23 +3,22 @@
 namespace App\Http\Controllers\Admin\Advertise;
 
 use App\Http\Requests\Admin\UpdateAdvertisementRequest;
-use Illuminate\Http\Request;
-use App\Traits\HttpResponses;
+use App\Http\Responses\ApiJsonResponse;
+use App\Http\Services\Image\ImageService;
 use App\Http\Controllers\Controller;
 use App\Models\Advertise\Advertisement;
-use App\Http\Services\Image\ImageService;
 use App\Http\Requests\Admin\StoreAdvertisementRequest;
 use App\Http\Resources\Admin\Advertise\AdvertisementResource;
 use App\Http\Resources\Admin\Advertise\AdvertisementCollection;
+use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Http\Response;
 
 class AdvertisementController extends Controller
 {
-    use HttpResponses;
-
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(): AdvertisementCollection
     {
         return new AdvertisementCollection(Advertisement::all());
     }
@@ -36,18 +35,18 @@ class AdvertisementController extends Controller
             if ($result) {
                 $inputs['image'] = $result;
             } else {
-                return $this->error(null, 'دسته بندی حذف شد', 500);
+                return ApiJsonResponse::error(trans('response.image.upload failed'), code: Response::HTTP_INTERNAL_SERVER_ERROR);
             }
         }
-        $ads = Advertisement::create($inputs);
-        return new AdvertisementResource($ads);
+
+        return new AdvertisementResource(Advertisement::create($inputs));
     }
 
 
     /**
      * Display the specified resource.
      */
-    public function show(Advertisement $advertisement)
+    public function show(Advertisement $advertisement): AdvertisementResource
     {
         return new AdvertisementResource($advertisement);
     }
@@ -55,7 +54,7 @@ class AdvertisementController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateAdvertisementRequest $request, Advertisement $advertisement, ImageService $imageService)
+    public function update(UpdateAdvertisementRequest $request, Advertisement $advertisement, ImageService $imageService): AdvertisementResource|JsonResource
     {
         $inputs = $request->all();
         if ($request->hasFile('image')) {
@@ -65,7 +64,7 @@ class AdvertisementController extends Controller
             $imageService->setExclusiveDirectory('images' . DIRECTORY_SEPARATOR . 'advertisement-images');
             $result = $imageService->createIndexAndSave($request->image);
             if ($result === false) {
-                return $this->error(null, 'خطا در فرایند اپلود', 500);
+                return ApiJsonResponse::error(trans('response.image.upload failed'), code: Response::HTTP_INTERNAL_SERVER_ERROR);
             }
             $inputs['image'] = $result;
         } else {
@@ -82,9 +81,8 @@ class AdvertisementController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Advertisement $advertisement)
+    public function destroy(Advertisement $advertisement): JsonResource
     {
-        $advertisement->delete();
-        return $this->success(null, 'آگهی حذف شد');
+        return ApiJsonResponse::success(trans('response.general.successful'), $advertisement->delete());
     }
 }
