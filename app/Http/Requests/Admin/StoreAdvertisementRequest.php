@@ -2,7 +2,9 @@
 
 namespace App\Http\Requests\Admin;
 
+use App\Enums\ImageSize;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class StoreAdvertisementRequest extends FormRequest
 {
@@ -40,6 +42,7 @@ class StoreAdvertisementRequest extends FormRequest
             'lng' => 'nullable|numeric',
             'lat' => 'nullable|numeric',
             'willing_to_trade' => 'nullable|numeric|in:0,1',
+            'current_image_size' => Rule::enum(ImageSize::class),
         ];
     }
 }
