@@ -6,7 +6,7 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return <<<'blade'
         <div style="display: flex;flex-direction: column;gap: 1rem;font-size: 2rem;">
-            <a href="/dosc/api">api docs</a>
+            <a href="/docs/api">api docs</a>
             <a href="/log-viewer">log viewer</a>
         </div>
     blade;
