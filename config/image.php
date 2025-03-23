@@ -19,4 +19,6 @@ return [
         ],
     ],
     'default-current-index-image' => ImageSize::MEDIUM->value,
+
+    'default-parent-upload-directory' => 'images',
 ];

@@ -2,6 +2,7 @@
 
 use App\Enums\RouteSection;
 use App\Http\Controllers\Admin\Setting\SettingController;
+use App\Http\Controllers\ImageController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\User\UserController;
@@ -44,6 +45,11 @@ Route::post('/register', [RegisteredUserController::class, 'store'])
 
 Route::post('send-otp', [RegisteredUserController::class, 'sendOtp'])->middleware('guest');
 Route::post('verify-otp', [RegisteredUserController::class, 'verifyOtpAndRegister'])->middleware('guest');
+
+Route::prefix(RouteSection::IMAGES)->name('images.')->group(function () {
+    Route::post('store', [ImageController::class, 'store'])->name('store');
+    Route::put('update', [ImageController::class, 'update'])->name('destroy');
+});
 
 
 Route::prefix(RouteSection::ADMIN)->name('admin.')->group(function () {
