@@ -3,6 +3,8 @@
 namespace App\Http\Requests;
 
 use App\Enums\ImageSize;
+use App\Enums\ImageUploadMethod;
+use App\Http\DataContracts\Image\ImageUploadDTO;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
@@ -24,9 +26,25 @@ class ImageUpdateRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'image' => ['nullable', 'mimes:png,jpg,jpeg'],
-            'directory' => ['required_with:image', 'string'],
-            'current_image_size' => [Rule::enum(ImageSize::class)],
+            // image
+            'image' => ['nullable', 'max:2000', 'image', 'mimes:png,jpg,jpeg,gif'],
+            'current_image_size' => ['string', Rule::enum(ImageSize::class)],
+            'directory' => ['required', 'string'],
+            'upload_method' => ['required', Rule::enum(ImageUploadMethod::class)],
+            'width' => ['required_if:upload_method,fit', 'integer'],
+            'height' => ['required_if:upload_method,fit', 'integer'],
         ];
+    }
+
+    public function getDTO(): ImageUploadDTO
+    {
+        return new ImageUploadDTO(
+            image: $this->file('image'),
+            uploadMethod: ImageUploadMethod::tryFrom($this->get('upload_method')),
+            uploadDirectory: $this->get('directory'),
+            currentImageSize: ImageSize::tryFrom($this->get('current_image_size')),
+            width: $this->get('width'),
+            height: $this->get('height'),
+        );
     }
 }

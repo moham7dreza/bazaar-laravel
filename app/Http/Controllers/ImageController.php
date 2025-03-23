@@ -18,7 +18,7 @@ class ImageController extends Controller
 
     public function store(ImageStoreRequest $request, ImageService $imageService): JsonResponse|array|string
     {
-        $result = $imageService->execute($request->getDTO());
+        $result = $imageService->upload($request->getDTO());
 
         if (!$result) {
             return ApiJsonResponse::error(trans('response.image.upload failed'), code: Response::HTTP_INTERNAL_SERVER_ERROR);
@@ -29,6 +29,21 @@ class ImageController extends Controller
 
     public function update(ImageUpdateRequest $request, ImageService $imageService)
     {
-        //
+        $image = [
+            'indexArray' => [
+                'large' => 'test',
+                'medium' => 'test',
+                'small' => 'test',
+            ],
+            'directory' => 'images\test\1404\01\03\1742733700',
+            'currentImage' => 'medium',
+        ];
+        $result = $imageService->update($request->getDTO(), $image);
+
+        if (!$result) {
+            return ApiJsonResponse::error(trans('response.image.upload failed'));
+        }
+
+        return $result;
     }
 }

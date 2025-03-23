@@ -11,9 +11,42 @@ use Morilog\Jalali\CalendarUtils;
 
 class ImageService extends ImageToolsService
 {
-    public function execute(ImageUploadDTO $DTO): array|string|null
+    public function upload(ImageUploadDTO $DTO): array|string|null
     {
         try {
+
+            $this->setExclusiveDirectory(
+                config('image.default-parent-upload-directory') . DIRECTORY_SEPARATOR . $DTO->uploadDirectory,
+            );
+
+            return match ($DTO->uploadMethod) {
+                ImageUploadMethod::METHOD_SAVE => $this->save($DTO->image),
+                ImageUploadMethod::METHOD_CREATE_INDEX_AND_SAVE => $this->createIndexAndSave($DTO->image),
+                ImageUploadMethod::METHOD_FIT_AND_SAVE => $this->fitAndSave($DTO->image, $DTO->width, $DTO->height),
+                default => null,
+            };
+
+        } catch (\Exception $e) {
+            \Log::error($e->getMessage());
+            return null;
+        }
+    }
+
+    public function update(ImageUploadDTO $DTO, array|null $image): array|string|null
+    {
+        try {
+
+            if ($DTO->uploadMethod === ImageUploadMethod::METHOD_CREATE_INDEX_AND_SAVE) {
+
+                if ($DTO->currentImageSize && !empty($image)) {
+                    $image['currentImage'] = $DTO->currentImageSize;
+                    return $image;
+                }
+
+                if (!empty($image)) {
+                    $this->deleteDirectoryAndFiles($image['directory']);
+                }
+            }
 
             $this->setExclusiveDirectory(
                 config('image.default-parent-upload-directory') . DIRECTORY_SEPARATOR . $DTO->uploadDirectory,
