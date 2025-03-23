@@ -84,7 +84,7 @@ class ImageService extends ImageToolsService
 
             $this->setImageDirectory($this->getImageDirectory() . DIRECTORY_SEPARATOR . time());
 
-                $this->getImageName() ?? $this->setImageName(CalendarUtils::strftime('YmdHis'));
+                $this->getImageName() ?? $this->setImageName(CalendarUtils::strftime('Y_m_d_H_i_s'));
 
             $imageName = $this->getImageName();
 
