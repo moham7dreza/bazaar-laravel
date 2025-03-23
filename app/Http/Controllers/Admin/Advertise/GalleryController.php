@@ -30,7 +30,7 @@ class GalleryController extends Controller
     {
         $inputs = $request->all();
 
-        if ($result = $imageService->execute($request->getDTO())) {
+        if ($result = $imageService->upload($request->getDTO())) {
             $inputs['url'] = $result;
         } else {
             return ApiJsonResponse::error(trans('response.image.upload failed'));
@@ -53,22 +53,10 @@ class GalleryController extends Controller
     public function update(UpdateGalleryRequest $request, Gallery $gallery, ImageService $imageService)
     {
         $inputs = $request->all();
-        if ($request->hasFile('url')) {
-            if (!empty(($gallery->url))) {
-                $imageService->deleteDirectoryAndFiles($gallery->url['directory']);
-            }
-            $imageService->setExclusiveDirectory('images' . DIRECTORY_SEPARATOR . 'advertisement-images-gallery');
-            $result = $imageService->createIndexAndSave($request->url);
-            if ($result === false) {
-                return $this->error(null, 'خطا در فرایند اپلود', 500);
-            }
+        if ($result = $imageService->update($request->getDTO(), $gallery->url)) {
             $inputs['url'] = $result;
         } else {
-            if (isset($inputs['currentImage']) && !empty($gallery->url)) {
-                $image = $gallery->url;
-                $image['currentImage'] = $inputs['currentImage'];
-                $inputs['url'] = $image;
-            }
+            return ApiJsonResponse::error(trans('response.image.upload failed'));
         }
         $gallery->update($inputs);
         return new GalleryResource($gallery);

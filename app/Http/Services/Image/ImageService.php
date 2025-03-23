@@ -44,7 +44,11 @@ class ImageService extends ImageToolsService
                 }
 
                 if (!empty($image)) {
-                    $this->deleteDirectoryAndFiles($image['directory']);
+                    $this->deleteIndex($image);
+                }
+            } else {
+                if (!empty($image)) {
+                    $this->deleteImage($image);
                 }
             }
 
