@@ -2,6 +2,8 @@
 
 namespace App\Http\Requests;
 
+use App\Enums\ImageUploadMethod;
+use App\Http\DataContracts\Image\ImageUploadDTO;
 use App\Http\Services\Image\ImageService;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
@@ -24,11 +26,22 @@ class ImageStoreRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'image' => ['required', 'mimes:png,jpg,jpeg'],
+            'image' => ['required', 'image', 'mimes:png,jpg,jpeg'],
             'directory' => ['required', 'string'],
-            'upload_method' => ['required', Rule::in(ImageService::METHODS)],
+            'upload_method' => ['required', Rule::enum(ImageUploadMethod::class)],
             'width' => ['required_if:upload_method,fit', 'integer'],
             'height' => ['required_if:upload_method,fit', 'integer'],
         ];
+    }
+
+    public function getDTO(): ImageUploadDTO
+    {
+        return new ImageUploadDTO(
+            image: $this->file('image'),
+            uploadMethod: ImageUploadMethod::from($this->get('upload_method')),
+            uploadDirectory: $this->get('directory'),
+            width: $this->get('width'),
+            height: $this->get('height'),
+        );
     }
 }

@@ -2,21 +2,27 @@
 
 namespace App\Http\Services\Image;
 
+use App\Enums\ImageUploadMethod;
+use App\Http\DataContracts\Image\ImageUploadDTO;
 use Intervention\Image\ImageManager;
 use Intervention\Image\Drivers\Gd\Driver;
 
 
 class ImageService extends ImageToolsService
 {
-    public const string METHOD_SAVE = 'save';
-    public const string METHOD_CREATE_INDEX_AND_SAVE = 'index';
-    public const string METHOD_FIT_AND_SAVE = 'fit';
+    public function execute(ImageUploadDTO $DTO): array|string|null
+    {
+        $this->setExclusiveDirectory(
+            config('image.default-parent-upload-directory') . DIRECTORY_SEPARATOR . $DTO->uploadDirectory,
+        );
 
-    public const array METHODS = [
-        self::METHOD_SAVE,
-        self::METHOD_CREATE_INDEX_AND_SAVE,
-        self::METHOD_FIT_AND_SAVE,
-    ];
+        return match ($DTO->uploadMethod) {
+            ImageUploadMethod::METHOD_SAVE => $this->save($DTO->image),
+            ImageUploadMethod::METHOD_CREATE_INDEX_AND_SAVE => $this->createIndexAndSave($DTO->image),
+            ImageUploadMethod::METHOD_FIT_AND_SAVE => $this->fitAndSave($DTO->image, $DTO->width, $DTO->height),
+            default => null,
+        };
+    }
 
     public function save($image): string|null
     {
