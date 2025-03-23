@@ -12,16 +12,23 @@ class ImageService extends ImageToolsService
 {
     public function execute(ImageUploadDTO $DTO): array|string|null
     {
-        $this->setExclusiveDirectory(
-            config('image.default-parent-upload-directory') . DIRECTORY_SEPARATOR . $DTO->uploadDirectory,
-        );
+        try {
 
-        return match ($DTO->uploadMethod) {
-            ImageUploadMethod::METHOD_SAVE => $this->save($DTO->image),
-            ImageUploadMethod::METHOD_CREATE_INDEX_AND_SAVE => $this->createIndexAndSave($DTO->image),
-            ImageUploadMethod::METHOD_FIT_AND_SAVE => $this->fitAndSave($DTO->image, $DTO->width, $DTO->height),
-            default => null,
-        };
+            $this->setExclusiveDirectory(
+                config('image.default-parent-upload-directory') . DIRECTORY_SEPARATOR . $DTO->uploadDirectory,
+            );
+
+            return match ($DTO->uploadMethod) {
+                ImageUploadMethod::METHOD_SAVE => $this->save($DTO->image),
+                ImageUploadMethod::METHOD_CREATE_INDEX_AND_SAVE => $this->createIndexAndSave($DTO->image),
+                ImageUploadMethod::METHOD_FIT_AND_SAVE => $this->fitAndSave($DTO->image, $DTO->width, $DTO->height),
+                default => null,
+            };
+
+        } catch (\Exception $e) {
+            \Log::error($e->getMessage());
+            return null;
+        }
     }
 
     public function save($image): string|null
