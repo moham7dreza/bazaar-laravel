@@ -20,7 +20,7 @@ class ApiJsonResponse
     }
 
 
-    public static function error($message, $data = [],  $code = Response::HTTP_UNPROCESSABLE_ENTITY): JsonResponse
+    public static function error($message, $data = [],  $code = Response::HTTP_INTERNAL_SERVER_ERROR): JsonResponse
     {
         return response()->json([
             'statusTxt' => 'Request Error!!',

@@ -3,8 +3,8 @@
 namespace App\Http\Controllers\Admin\Advertise;
 
 use App\Http\Resources\Admin\Advertise\GalleryCollection;
+use App\Http\Responses\ApiJsonResponse;
 use App\Http\Services\Image\ImageService;
-use Illuminate\Http\Request;
 use App\Traits\HttpResponses;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\StoreGalleryRequest;
@@ -29,14 +29,11 @@ class GalleryController extends Controller
     public function store(StoreGalleryRequest $request, ImageService $imageService)
     {
         $inputs = $request->all();
-        if ($request->hasFile('url')) {
-            $imageService->setExclusiveDirectory('images' . DIRECTORY_SEPARATOR . 'advertisement-images-gallery');
-            $result = $imageService->createIndexAndSave($request->url);
-            if ($result) {
-                $inputs['url'] = $result;
-            } else {
-                return $this->error(null, 'خطا در اپلود تصویر', 500);
-            }
+
+        if ($result = $imageService->execute($request->getDTO())) {
+            $inputs['url'] = $result;
+        } else {
+            return ApiJsonResponse::error(trans('response.image.upload failed'));
         }
         $gallery = Gallery::create($inputs);
         return new GalleryResource($gallery);

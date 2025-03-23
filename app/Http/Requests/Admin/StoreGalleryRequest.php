@@ -2,7 +2,12 @@
 
 namespace App\Http\Requests\Admin;
 
+use App\Enums\ImageSize;
+use App\Enums\ImageUploadMethod;
+use App\Http\DataContracts\Image\ImageUploadDTO;
+use App\Models\Advertise\Advertisement;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class StoreGalleryRequest extends FormRequest
 {
@@ -23,7 +28,26 @@ class StoreGalleryRequest extends FormRequest
     {
         return [
             'advertisement_id' => 'required|min:1|max:100000000|regex:/^[0-9]+$/u|exists:advertisements,id',
-            'url' => 'required|max:2000|image|mimes:png,jpg,jpeg,gif',
+            // image
+            'image' => 'nullable|max:2000|image|mimes:png,jpg,jpeg,gif',
+            'current_image_size' => [Rule::enum(ImageSize::class)],
+            'directory' => ['required', 'string'],
+            'upload_method' => ['required', Rule::enum(ImageUploadMethod::class)],
+            'width' => ['required_if:upload_method,fit', 'integer'],
+            'height' => ['required_if:upload_method,fit', 'integer'],
         ];
+    }
+
+    public function getDTO(): ImageUploadDTO
+    {
+        return new ImageUploadDTO(
+            image: $this->file('image'),
+            uploadMethod: ImageUploadMethod::tryFrom($this->get('upload_method')),
+            uploadDirectory: $this->get('directory'),
+            model: Advertisement::class,
+            currentImageSize: ImageSize::tryFrom($this->get('current_image_size')),
+            width: $this->get('width'),
+            height: $this->get('height'),
+        );
     }
 }
