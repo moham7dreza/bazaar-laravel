@@ -2,6 +2,8 @@
 
 namespace App\Http\Services\Image;
 
+use Morilog\Jalali\CalendarUtils;
+
 class ImageToolsService
 {
 
@@ -110,8 +112,13 @@ class ImageToolsService
     {
 
         //set properties
-            $this->getImageDirectory() ?? $this->setImageDirectory(date('Y') . DIRECTORY_SEPARATOR . date('m') . DIRECTORY_SEPARATOR . date('d'));
-            $this->getImageName() ?? $this->setImageName(time());
+            $this->getImageDirectory() ?? $this->setImageDirectory(
+            CalendarUtils::strftime('Y') . DIRECTORY_SEPARATOR .
+            CalendarUtils::strftime('m') . DIRECTORY_SEPARATOR .
+            CalendarUtils::strftime('d')
+        );
+
+            $this->getImageName() ?? $this->setImageName(CalendarUtils::strftime('YmdHis'));
             $this->getImageFormat() ?? $this->setImageFormat($this->image->extension());
 
 

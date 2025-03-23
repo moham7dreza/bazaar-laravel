@@ -6,6 +6,7 @@ use App\Enums\ImageUploadMethod;
 use App\Http\DataContracts\Image\ImageUploadDTO;
 use Intervention\Image\ImageManager;
 use Intervention\Image\Drivers\Gd\Driver;
+use Morilog\Jalali\CalendarUtils;
 
 
 class ImageService extends ImageToolsService
@@ -75,11 +76,15 @@ class ImageService extends ImageToolsService
 
             $this->setImage($image);
 
-                $this->getImageDirectory() ?? $this->setImageDirectory(date('Y') . DIRECTORY_SEPARATOR . date('m') . DIRECTORY_SEPARATOR . date('d'));
+                $this->getImageDirectory() ?? $this->setImageDirectory(
+                    CalendarUtils::strftime('Y') . DIRECTORY_SEPARATOR .
+                    CalendarUtils::strftime('m') . DIRECTORY_SEPARATOR .
+                    CalendarUtils::strftime('d')
+            );
 
             $this->setImageDirectory($this->getImageDirectory() . DIRECTORY_SEPARATOR . time());
 
-                $this->getImageName() ?? $this->setImageName(time());
+                $this->getImageName() ?? $this->setImageName(CalendarUtils::strftime('YmdHis'));
 
             $imageName = $this->getImageName();
 
