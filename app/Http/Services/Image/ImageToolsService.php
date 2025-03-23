@@ -15,7 +15,7 @@ class ImageToolsService
     protected $finalImageName;
 
 
-    public function setImage($image)
+    public function setImage($image): void
     {
         $this->image = $image;
     }
@@ -25,7 +25,7 @@ class ImageToolsService
         return $this->exclusiveDirectory;
     }
 
-    public function setExclusiveDirectory($exclusiveDirectory)
+    public function setExclusiveDirectory($exclusiveDirectory): void
     {
         $this->exclusiveDirectory = trim($exclusiveDirectory, '/\\');
     }
@@ -35,7 +35,7 @@ class ImageToolsService
         return $this->imageDirectory;
     }
 
-    public function setImageDirectory($imageDirectory)
+    public function setImageDirectory($imageDirectory): void
     {
         $this->imageDirectory = trim($imageDirectory, '/\\');
     }
@@ -46,13 +46,13 @@ class ImageToolsService
         return $this->imageName;
     }
 
-    public function setImageName($imageName)
+    public function setImageName($imageName): void
     {
         $this->imageName = $imageName;
     }
 
 
-    public function setCurrentImageName()
+    public function setCurrentImageName(): ?false
     {
         return !empty($this->image) ? $this->setImageName(pathinfo($this->image->getClientOriginalName(), PATHINFO_FILENAME)) : false;
     }
@@ -63,7 +63,7 @@ class ImageToolsService
     }
 
 
-    public function setImageFormat($imageFormat)
+    public function setImageFormat($imageFormat): void
     {
         $this->imageFormat = $imageFormat;
     }
@@ -75,7 +75,7 @@ class ImageToolsService
     }
 
 
-    public function setFinalImageDirectory($finalImageDirectory)
+    public function setFinalImageDirectory($finalImageDirectory): void
     {
         $this->finalImageDirectory = $finalImageDirectory;
     }
@@ -86,12 +86,12 @@ class ImageToolsService
     }
 
 
-    public function setFinalImageName($finalImageName)
+    public function setFinalImageName($finalImageName): void
     {
         $this->finalImageName = $finalImageName;
     }
 
-    protected function checkDirectory($imageDirectory)
+    protected function checkDirectory($imageDirectory): void
     {
 
         if (!file_exists($imageDirectory)) {
@@ -100,19 +100,19 @@ class ImageToolsService
     }
 
 
-    public function getImageAddress()
+    public function getImageAddress(): string
     {
         return $this->finalImageDirectory . DIRECTORY_SEPARATOR . $this->finalImageName;
     }
 
 
-    protected function provider()
+    protected function provider(): void
     {
 
         //set properties
-        $this->getImageDirectory() ?? $this->setImageDirectory(date('Y') . DIRECTORY_SEPARATOR . date('m') . DIRECTORY_SEPARATOR . date('d'));
-        $this->getImageName() ?? $this->setImageName(time());
-        $this->getImageFormat() ?? $this->setImageFormat($this->image->extension());
+            $this->getImageDirectory() ?? $this->setImageDirectory(date('Y') . DIRECTORY_SEPARATOR . date('m') . DIRECTORY_SEPARATOR . date('d'));
+            $this->getImageName() ?? $this->setImageName(time());
+            $this->getImageFormat() ?? $this->setImageFormat($this->image->extension());
 
 
         //set final image Directory
