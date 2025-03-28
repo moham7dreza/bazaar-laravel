@@ -41,4 +41,16 @@ class UserFactory extends Factory
             'email_verified_at' => null,
         ]);
     }
+
+    public function admin(): static
+    {
+        return $this->state(fn (array $attributes) => [
+            'name' => 'admin',
+            'email' => 'admin@admin.com',
+            'is_active' => 1,
+            'user_type' => 1,
+            'mobile_verified_at' => now(),
+            'mobile' => '09141234567',
+        ]);
+    }
 }
