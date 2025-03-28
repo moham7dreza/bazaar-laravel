@@ -52,7 +52,7 @@ Route::prefix(RouteSection::IMAGES)->name('images.')->group(function () {
 });
 
 
-Route::prefix(RouteSection::ADMIN)->name('admin.')->group(function () {
+Route::prefix(RouteSection::ADMIN)->name('admin.')->middleware(['auth', 'admin'])->group(function () {
 
     Route::apiResource('setting', SettingController::class);
 

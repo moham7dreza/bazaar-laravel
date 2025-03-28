@@ -6,6 +6,8 @@ return [
     ],
     'general' => [
         'successful' => 'operation done',
+        'unauthorized' => 'you should login first',
+        'forbidden' => 'you have not permission for this action',
         'failed' => 'operation failed',
     ]
 ];

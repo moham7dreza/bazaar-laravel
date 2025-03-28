@@ -20,6 +20,7 @@ return Application::configure(basePath: dirname(__DIR__))
         $middleware->alias([
             'verified' => \App\Http\Middleware\EnsureEmailIsVerified::class,
             'mobileVerified' => \App\Http\Middleware\EnsureMobileIsVerified::class,
+            'admin' => \App\Http\Middleware\CheckAdminMiddleware::class,
         ]);
 
         //
