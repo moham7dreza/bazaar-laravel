@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use App\Models\User;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Auth\Notifications\ResetPassword;
 
@@ -31,7 +32,11 @@ class AppServiceProvider extends ServiceProvider
 
     private function setupGates(): void
     {
-        \Gate::define('viewPulse', static function (?User $user) {
+        Gate::before(static function (?User $user, string $ability) {
+            return $user && $user->isAdmin() ? true : null;
+        });
+
+        Gate::define('viewPulse', static function (?User $user) {
             if (app()->environment('local', 'testing')) {
                 return true;
             }

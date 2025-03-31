@@ -2,22 +2,22 @@
 
 namespace App\Models;
 
+use App\Enums\UserPermission;
+use App\Enums\UserRole;
 use App\Models\Advertise\Advertisement;
 use App\Models\Advertise\AdvertisementNote;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable implements MustVerifyEmail
 {
     use HasFactory, Notifiable;
 
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array<int, string>
-     */
+    use HasRoles;
+
     protected $fillable = [
         'name',
         'email',
@@ -27,21 +27,11 @@ class User extends Authenticatable implements MustVerifyEmail
         'city_id',
     ];
 
-    /**
-     * The attributes that should be hidden for serialization.
-     *
-     * @var array<int, string>
-     */
     protected $hidden = [
         'password',
         'remember_token',
     ];
 
-    /**
-     * Get the attributes that should be cast.
-     *
-     * @return array<string, string>
-     */
     protected function casts(): array
     {
         return [
@@ -74,6 +64,16 @@ class User extends Authenticatable implements MustVerifyEmail
 
     public function isAdmin(): bool
     {
-        return $this->user_type === 1 || !is_null($this->mobile_verified_at);
+        return $this->user_type === 1
+            && !is_null($this->mobile_verified_at)
+            && $this->hasPermissionTo(UserPermission::SEE_PANEL)
+//            && $this->hasRole(UserRole::ADMIN)
+            ;
+    }
+
+    public function scopeAdmin($query)
+    {
+        return $query->where('user_type', 1)
+            ->whereNotNull('mobile_verified_at');
     }
 }
