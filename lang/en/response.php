@@ -6,6 +6,7 @@ return [
     ],
     'general' => [
         'successful' => 'operation done',
+        'not-found' => 'page not found',
         'unauthorized' => 'you should login first',
         'forbidden' => 'you have not permission for this action',
         'failed' => 'operation failed',
