@@ -11,6 +11,7 @@ Route::get('/', function () {
             <a href="/log-viewer">log viewer</a>
             <a href="/health?fresh">health</a>
             <a href="/pulse">pulse</a>
+            <a href="/telescope">telescope</a>
         </div>
     blade;
 });

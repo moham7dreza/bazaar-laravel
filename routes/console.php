@@ -11,3 +11,5 @@ Artisan::command('inspire', function () {
 Schedule::command(SpatieHealthCommands\RunHealthChecksCommand::class)->everyMinute();
 Schedule::command(SpatieHealthCommands\DispatchQueueCheckJobsCommand::class)->everyMinute();
 Schedule::command(SpatieHealthCommands\ScheduleCheckHeartbeatCommand::class)->everyMinute();
+
+Schedule::command('telescope:prune --hours=48')->daily();
