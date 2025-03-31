@@ -4,7 +4,7 @@ namespace App\Enums;
 
 use App\Traits\EnumDataListTrait;
 
-enum RequestOsEnum: string
+enum RequestOs: string
 {
     use EnumDataListTrait;
 

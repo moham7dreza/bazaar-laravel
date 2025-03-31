@@ -2,7 +2,7 @@
 
 namespace App\Enums;
 
-enum StorageDiskEnum: string
+enum StorageDisk: string
 {
     case LOCAL = 'local';
 }

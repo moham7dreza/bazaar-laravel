@@ -4,7 +4,7 @@ namespace App\Enums;
 
 use App\Traits\EnumDataListTrait;
 
-enum RequestPlatformEnum: string
+enum RequestPlatform: string
 {
     use EnumDataListTrait;
 
