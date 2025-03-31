@@ -15,8 +15,8 @@ return new class extends Migration
             $table->id();
             $table->string('title');
             $table->text('description');
-            $table->text('ads_type')->nullable()->comment('بازی');
-            $table->text('ads_status')->default('as_good_as_new')->comment('در حد نوع');
+            $table->string('ads_type')->nullable()->comment('بازی');
+            $table->string('ads_status')->default('as_good_as_new')->comment('در حد نوع');
             $table->foreignId('category_id')->constrained('categories')->onDelete('cascade')->onUpdate('cascade');
             $table->foreignId('city_id')->constrained('cities')->onDelete('cascade')->onUpdate('cascade');
             $table->foreignId('user_id')->constrained('users')->onDelete('cascade')->onUpdate('cascade');
