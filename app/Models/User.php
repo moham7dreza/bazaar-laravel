@@ -71,4 +71,9 @@ class User extends Authenticatable implements MustVerifyEmail
     {
         return $this->belongsToMany(Advertisement::class, 'advertisement_view_history')->withTimestamps();
     }
+
+    public function isAdmin(): bool
+    {
+        return $this->user_type === 1 || !is_null($this->mobile_verified_at);
+    }
 }
