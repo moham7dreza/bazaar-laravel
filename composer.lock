@@ -4,8 +4,67 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "32d50acf5e6a269723b8a49fab61d5c6",
+    "content-hash": "f19d5bc7652539e24aa4957b662da8ea",
     "packages": [
+        {
+            "name": "amiriun/sms",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/amiriun/laravel-sms.git",
+                "reference": "d6147da7e7b10014a56744f8f4430695a00e2850"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/amiriun/laravel-sms/zipball/d6147da7e7b10014a56744f8f4430695a00e2850",
+                "reference": "d6147da7e7b10014a56744f8f4430695a00e2850",
+                "shasum": ""
+            },
+            "require": {
+                "ippanel/php-rest-sdk": "^1.0",
+                "php": ">=7.3"
+            },
+            "require-dev": {
+                "guzzlehttp/guzzle": "^6.3"
+            },
+            "default-branch": true,
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "5.4-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Amiriun\\SMS\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Amir Alian"
+                },
+                {
+                    "name": "Amir Alian",
+                    "email": "amircup2006@gmail.com"
+                }
+            ],
+            "description": "Iranian sms,sms,kavenegar",
+            "homepage": "https://github.com/amiriun/laravel-sms/",
+            "keywords": [
+                "email",
+                "mail",
+                "mailer"
+            ],
+            "support": {
+                "issues": "https://github.com/amiriun/laravel-sms/issues",
+                "source": "https://github.com/amiriun/laravel-sms/tree/master"
+            },
+            "time": "2023-07-22T11:34:01+00:00"
+        },
         {
             "name": "beberlei/assert",
             "version": "v3.3.3",
@@ -1821,6 +1880,51 @@
                 }
             ],
             "time": "2025-02-27T13:08:55+00:00"
+        },
+        {
+            "name": "ippanel/php-rest-sdk",
+            "version": "v1.0.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/ippanel/php-rest-sdk.git",
+                "reference": "ef0375c46502ebdcf5cf2aec955492d0b7f384f9"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/ippanel/php-rest-sdk/zipball/ef0375c46502ebdcf5cf2aec955492d0b7f384f9",
+                "reference": "ef0375c46502ebdcf5cf2aec955492d0b7f384f9",
+                "shasum": ""
+            },
+            "require": {
+                "ext-curl": "*",
+                "php": ">=5.3.3"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^5"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "IPPanel\\": "src/IPPanel/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-2-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "ippanel",
+                    "email": "dev@ippanel.com"
+                }
+            ],
+            "description": "IPPanel REST API client",
+            "homepage": "https://github.com/ippanel/php-rest-sdk",
+            "support": {
+                "issues": "https://github.com/ippanel/php-rest-sdk/issues",
+                "source": "https://github.com/ippanel/php-rest-sdk/tree/v1.0.1"
+            },
+            "time": "2020-02-18T14:41:21+00:00"
         },
         {
             "name": "laravel/framework",
@@ -12528,6 +12632,7 @@
     "aliases": [],
     "minimum-stability": "stable",
     "stability-flags": {
+        "amiriun/sms": 20,
         "roave/security-advisories": 20
     },
     "prefer-stable": true,
