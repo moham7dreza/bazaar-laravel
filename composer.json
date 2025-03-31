@@ -6,6 +6,7 @@
     "license": "MIT",
     "require": {
         "php": "^8.3",
+        "ext-mongodb": "*",
         "amiriun/sms": "dev-master",
         "cviebrock/eloquent-sluggable": "^12.0",
         "dedoc/scramble": "^0.12",
@@ -23,6 +24,7 @@
         "shetabit/payment": "^6.1",
         "spatie/cpu-load-health-check": "^1.0",
         "spatie/laravel-health": "^1.33",
+        "spatie/laravel-prometheus": "^1.2",
         "spatie/security-advisories-health-check": "^1.2"
     },
     "require-dev": {

@@ -2,6 +2,7 @@
 
 return [
     App\Providers\AppServiceProvider::class,
+    App\Providers\PrometheusServiceProvider::class,
     App\Providers\HealthServiceProvider::class,
     App\Providers\TelescopeServiceProvider::class,
     Tests\TestsServiceProvider::class,
