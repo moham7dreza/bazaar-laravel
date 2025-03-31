@@ -9,4 +9,5 @@ enum QueueEnum: string
     use EnumDataListTrait;
 
     case HIGH = 'high';
+    case MONGO_LOG = 'mongo-log';
 }

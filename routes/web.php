@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use Spatie\Health\Http\Controllers as HeathCheckControllers;
 
 Route::get('/', function () {
+    mongo_info('view', ['ip' => request()->ip(), 'url' => request()->url()], true);
     return <<<'blade'
         <div style="display: flex;flex-direction: column;gap: 1rem;font-size: 2rem;">
             <a href="/docs/api">api docs</a>

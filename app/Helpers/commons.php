@@ -1,6 +1,8 @@
 <?php
 
 use App\Enums\Environment;
+use App\Jobs\MongoLogJob;
+use App\Models\Monitor\DevLog;
 use Illuminate\Database\Eloquent\Builder;
 use Morilog\Jalali\Jalalian;
 
@@ -225,12 +227,17 @@ if (!function_exists('ondemand_info')) {
 }
 
 if (!function_exists('mongo_info')) {
-    function mongo_info($log_key, $data): void
+    function mongo_info($log_key, $data, $queueable = false): void
     {
+        if(!$data || isEnvTesting()){
+            return;
+        }
         try {
-            DevLog::query()->create(array_merge($data, ['log_key' => $log_key]));
-        } catch (Exception $exception) {
+            $dispatch = $queueable ? 'dispatch' : 'dispatchSync';
 
+            MongoLogJob::$dispatch($data, $log_key);
+        } catch (\Exception $exception) {
+            //
         }
     }
 }
