@@ -3,19 +3,22 @@
 namespace App\Providers;
 
 use App\Models\Monitor\JobPerformanceLog;
+use Carbon\Carbon;
+use Exception;
 use Illuminate\Queue\Events;
-use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Lottery;
 use Illuminate\Support\ServiceProvider;
 
-class JobLoggingServiceProvider extends ServiceProvider
+final class JobLoggingServiceProvider extends ServiceProvider
 {
-    protected $startTime;
-    protected $startMemory;
-    protected $queryCount;
-    protected $totalQueryTime;
+    private float $startTime;
+    private int $startMemory;
+    private int $queryCount;
+    private float $totalQueryTime;
 
-    protected array $excludedJobs = [
+    private const array EXCLUDED_JOBS = [
         // example : Job::class
     ];
 
@@ -29,13 +32,13 @@ class JobLoggingServiceProvider extends ServiceProvider
         if (
             $this->app->runningUnitTests()
             || config('performance-log.job_log_disabled')
-            || !Lottery::odds(config('performance-log.job_log_sampling_rate'))->choose()
+//            || !Lottery::odds(config('performance-log.job_log_sampling_rate'))->choose()
         ) {
             return;
         }
-        \Event::listen(Events\JobProcessing::class, function (Events\JobProcessing $event) {
+        Event::listen(Events\JobProcessing::class, function (Events\JobProcessing $event) {
             try {
-                if (in_array($event->job->resolveName(), $this->excludedJobs, true)) {
+                if (self::isExcluded($event->job->resolveName())) {
                     return;
                 }
                 $this->startTime = microtime(true);
@@ -43,20 +46,21 @@ class JobLoggingServiceProvider extends ServiceProvider
                 $this->queryCount = 0;
                 $this->totalQueryTime = 0;
 
-                \DB::listen(function ($query) {
+                DB::listen(function ($query) {
                     $this->queryCount++;
                     $this->totalQueryTime += $query->time;
                 });
-            } catch (\Exception $e) {
+            } catch (Exception $e) {
                 report($e);
             }
         });
 
-        \Event::listen(Events\JobProcessed::class, function (Events\JobProcessed $event) {
+        Event::listen(Events\JobProcessed::class, function (Events\JobProcessed $event) {
             try {
-                if (in_array($event->job->resolveName(), $this->excludedJobs, true)) {
+                if (self::isExcluded($event->job->resolveName())) {
                     return;
                 }
+
                 $endTime = microtime(true);
                 $endMemory = memory_get_usage();
 
@@ -76,7 +80,7 @@ class JobLoggingServiceProvider extends ServiceProvider
                 ];
 
                 JobPerformanceLog::query()->create($data);
-            } catch (\Exception $e) {
+            } catch (Exception $e) {
                 report($e);
             }
         });
@@ -90,5 +94,10 @@ class JobLoggingServiceProvider extends ServiceProvider
     public function register(): void
     {
         //
+    }
+
+    private static function isExcluded(?string $job): bool
+    {
+        return in_array($job, self::EXCLUDED_JOBS, true);
     }
 }

@@ -12,7 +12,7 @@ use Illuminate\Support\ServiceProvider;
 
 final class CommandLoggingServiceProvider extends ServiceProvider
 {
-    private const EXCLUDED_COMMANDS = [
+    private const array EXCLUDED_COMMANDS = [
         'horizon:work',
         'health:custom-check',
         'health:schedule-check-heartbeat',
@@ -35,7 +35,10 @@ final class CommandLoggingServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        if ($this->app->runningUnitTests() || config('performance-log.command_log_disabled')) {
+        if (
+            $this->app->runningUnitTests()
+//            || config('performance-log.command_log_disabled')
+        ) {
             return;
         }
 

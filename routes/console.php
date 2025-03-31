@@ -1,5 +1,7 @@
 <?php
 
+use App\Models\Monitor\CommandPerformanceLog;
+use App\Models\Monitor\JobPerformanceLog;
 use Illuminate\Foundation\Inspiring;
 use Illuminate\Support\Facades\Artisan;
 use Spatie\Health\Commands as SpatieHealthCommands;
@@ -13,3 +15,10 @@ Schedule::command(SpatieHealthCommands\DispatchQueueCheckJobsCommand::class)->ev
 Schedule::command(SpatieHealthCommands\ScheduleCheckHeartbeatCommand::class)->everyMinute();
 
 Schedule::command('telescope:prune --hours=48')->daily();
+
+Schedule::command('model:prune --pretend', [
+    '--model' => [
+        JobPerformanceLog::class,
+        CommandPerformanceLog::class,
+    ],
+])->daily();
