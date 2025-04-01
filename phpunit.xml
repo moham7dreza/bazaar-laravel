@@ -17,6 +17,11 @@
             <directory>modules</directory>
         </include>
     </source>
+    <coverage>
+        <report>
+            <clover outputFile="tests/result@tests.xml"/>
+        </report>
+    </coverage>
     <php>
         <env name="APP_ENV" value="testing"/>
         <env name="APP_MAINTENANCE_DRIVER" value="file"/>
@@ -30,5 +35,6 @@
         <env name="SESSION_DRIVER" value="array"/>
         <env name="TELESCOPE_ENABLED" value="false"/>
         <env name="PULSE_ENABLED" value="false"/>
+        <env name="XDEBUG_MODE" value="coverage"/>
     </php>
 </phpunit>
