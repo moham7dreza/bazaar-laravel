@@ -123,6 +123,7 @@
             "@php artisan modules:cache"
         ],
         "dev": [
+            "git pull",
             "composer reload",
             "composer ide-helper",
             "@php artisan queue:work"

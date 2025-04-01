@@ -14,6 +14,16 @@
 2. apply required changes in .evn.testing
 3. run `composer testpf`
 
+### Commands
+1. `composer ide-helper` - generate IDE helper files
+2. `composer reload` - clear all cache and reinstall all dependencies
+3. `composer cache` - cache system views, events, routes, modules
+4. `composer testp` - run tests parallel
+5. `composer testpf` - recreate test databases and run tests parallel
+6. `composer dev` - run `git pull`, `composer reload` and `composer ide-helper` and queue:work
+7. `composer prod` - run `git pull`, clear all cache, install no dev dependencies, run migrations, `composer cache`, queue:work
+8. `composer setup` - run `git pull`, `key:generate`, `npm run setup`, `composer dev`
+
 ## Tasks
 1. refactor image upload operations in controllers
 2. define Repositories for important actions
