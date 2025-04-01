@@ -110,7 +110,8 @@
             "@php artisan optimize:clear",
             "@php artisan modules:clear",
             "@php artisan filament:optimize-clear",
-            "@php artisan migrate --force"
+            "@php artisan migrate --force",
+            "npm run setup"
         ],
         "testp": [
             "Composer\\Config::disableProcessTimeout",
@@ -142,12 +143,12 @@
             "@php artisan modules:clear",
             "@php artisan migrate --force",
             "composer cache",
+            "npm run setup",
             "@php artisan queue:work"
         ],
         "setup": [
             "git pull",
             "@php artisan key:generate",
-            "npm run setup",
             "composer dev"
         ]
     },
