@@ -35,6 +35,8 @@
         <env name="SESSION_DRIVER" value="array"/>
         <env name="TELESCOPE_ENABLED" value="false"/>
         <env name="PULSE_ENABLED" value="false"/>
+        <env name="ACTIVITY_LOGGER_ENABLED" value="false"/>
+        <env name="DEBUGBAR_ENABLED" value="false"/>
         <env name="XDEBUG_MODE" value="coverage"/>
     </php>
 </phpunit>

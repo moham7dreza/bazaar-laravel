@@ -65,6 +65,7 @@ class SuperAdminPanelProvider extends PanelProvider
                 \pxlrbt\FilamentEnvironmentIndicator\EnvironmentIndicatorPlugin::make()
                     ->visible(fn () => auth()->user()?->isAdmin())
                     ->showGitBranch(),
+                \Rmsramos\Activitylog\ActivitylogPlugin::make(),
             ]);
     }
 }
