@@ -138,6 +138,12 @@
             "@php artisan migrate --force",
             "composer cache",
             "@php artisan queue:work"
+        ],
+        "setup": [
+            "git pull",
+            "@php artisan key:generate",
+            "npm run setup",
+            "composer dev"
         ]
     },
     "extra": {

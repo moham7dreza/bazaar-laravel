@@ -1,12 +1,10 @@
 # Bazaar App Made With Laravel
 
 ### setup
-1. copy .env.example to .env
-2. run `composer install`
-3. run `php artisan key:gen`
-4. apply required changes in .evn
-5. run `php artisan migrate --seed`
-6. run `composer ide-helper`
+1. copy .env.example to .env 
+2. apply required changes in .env
+3. run `composer setup`
+4. if you use herd goto http://bazaar-laravel.test
 
 ### testing
 1. copy .env.testing.example to .env.testing 
