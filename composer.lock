@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "194dd7b29e237a424d640688ef1e9155",
+    "content-hash": "721aecf25f7fe1a41b852cbcc32b8432",
     "packages": [
         {
             "name": "amiriun/sms",
@@ -4004,6 +4004,38 @@
                 }
             ],
             "time": "2025-03-12T20:24:15+00:00"
+        },
+        {
+            "name": "modules/demo",
+            "version": "1.0",
+            "dist": {
+                "type": "path",
+                "url": "modules/demo",
+                "reference": "5f9f0edda7cac5ffd74dc3a1ab54e35ec9e3ae81"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Modules\\Demo\\Providers\\DemoServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Modules\\Demo\\": "src/",
+                    "Modules\\Demo\\Tests\\": "tests/",
+                    "Modules\\Demo\\Database\\Factories\\": "database/factories/",
+                    "Modules\\Demo\\Database\\Seeders\\": "database/seeders/"
+                }
+            },
+            "license": [
+                "proprietary"
+            ],
+            "transport-options": {
+                "symlink": true,
+                "relative": true
+            }
         },
         {
             "name": "mongodb/laravel-mongodb",

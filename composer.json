@@ -99,7 +99,7 @@
         ],
         "reload": [
             "@php artisan clear-compiled",
-            "composer install",
+            "composer install --ignore-platform-reqs",
             "@php artisan optimize:clear",
             "@php artisan modules:clear"
         ],
@@ -112,10 +112,7 @@
             "@php artisan test -p --recreate-databases"
         ],
         "cache": [
-            "@php artisan config:cache",
-            "@php artisan route:cache",
-            "@php artisan event:cache",
-            "@php artisan view:cache",
+            "@php artisan optimize",
             "@php artisan modules:cache"
         ]
     },
