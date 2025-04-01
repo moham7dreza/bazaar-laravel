@@ -1,8 +1,20 @@
 {
-    "name": "laravel/laravel",
+    "name": "moham7dreza/bazaar-laravel",
     "type": "project",
-    "description": "The skeleton application for the Laravel framework.",
+    "description": "advertise shopping site",
+    "homepage": "https://github.com/moham7dreza/bazaar-laravel",
     "keywords": ["laravel", "framework"],
+    "authors": [
+        {
+            "name": "Mohamadreza Rezaei",
+            "email": "me.moham6dreza@gmail.com"
+        }
+    ],
+    "version": "1.0.0",
+    "support": {
+        "email": "me.moham6dreza@gmail.com"
+    },
+    "readme": "./README.md",
     "license": "MIT",
     "require": {
         "php": "^8.3",
@@ -12,6 +24,7 @@
         "dedoc/scramble": "^0.12",
         "doctrine/dbal": "^4.2",
         "dyrynda/laravel-cascade-soft-deletes": "^4.0",
+        "internachi/modular": "^2.3",
         "intervention/image": "^3.7",
         "laravel/framework": "^12.0",
         "laravel/pulse": "^1.4",
@@ -60,7 +73,8 @@
     "scripts": {
         "post-autoload-dump": [
             "Illuminate\\Foundation\\ComposerScripts::postAutoloadDump",
-            "@php artisan package:discover --ansi"
+            "@php artisan package:discover --ansi",
+            "@php artisan modules:sync"
         ],
         "post-update-cmd": [
             "@php artisan vendor:publish --tag=laravel-assets --ansi --force"
@@ -74,25 +88,31 @@
             "@php artisan migrate --graceful --ansi"
         ],
         "ide-helper": [
-            "php artisan ide-helper:generate",
-            "php artisan ide-helper:models",
-            "php artisan ide-helper:meta",
-            "php artisan ide-helper:eloquent"
+            "@php artisan ide-helper:generate",
+            "@php artisan ide-helper:models",
+            "@php artisan ide-helper:meta",
+            "@php artisan ide-helper:eloquent"
         ],
         "reload": [
-            "rm -f bootstrap/cache/*.phpunit.php",
-            "rm -f bootstrap/cache/packages.php",
-            "rm -f bootstrap/cache/services.php",
+            "@php artisan clear-compiled",
             "composer install",
-            "php artisan opt:cle"
+            "@php artisan optimize:clear",
+            "@php artisan modules:clear"
         ],
         "testp" : [
             "Composer\\Config::disableProcessTimeout",
-            "php artisan test -p"
+            "@php artisan test -p"
         ],
         "testpf" : [
             "Composer\\Config::disableProcessTimeout",
-            "php artisan test -p --recreate-databases"
+            "@php artisan test -p --recreate-databases"
+        ],
+        "cache": [
+            "@php artisan config:cache",
+            "@php artisan route:cache",
+            "@php artisan event:cache",
+            "@php artisan view:cache",
+            "@php artisan modules:cache"
         ]
     },
     "extra": {
