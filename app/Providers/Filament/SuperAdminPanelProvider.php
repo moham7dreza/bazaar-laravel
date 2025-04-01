@@ -2,6 +2,7 @@
 
 namespace App\Providers\Filament;
 
+use App\Enums\Queue;
 use Filament\Http\Middleware\Authenticate;
 use Filament\Http\Middleware\AuthenticateSession;
 use Filament\Http\Middleware\DisableBladeIconComponents;
@@ -23,6 +24,7 @@ class SuperAdminPanelProvider extends PanelProvider
     public function panel(Panel $panel): Panel
     {
         return $panel
+            ->spa()
             ->default()
             ->id('super-admin')
             ->path('super-admin')
@@ -56,6 +58,10 @@ class SuperAdminPanelProvider extends PanelProvider
                 Authenticate::class,
             ])->plugins([
                 \Hasnayeen\Themes\ThemesPlugin::make(),
+                \ShuvroRoy\FilamentSpatieLaravelBackup\FilamentSpatieLaravelBackupPlugin::make()
+                    ->usingPolingInterval('10s')
+                    ->usingQueue(Queue::BACKUP->value)
+                    ->noTimeout(),
             ]);
     }
 }

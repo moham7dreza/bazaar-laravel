@@ -11,5 +11,6 @@ enum Queue: string
     case DEFAULT = 'default';
     case HIGH = 'high';
     case LOW = 'low';
+    case BACKUP = 'backup';
     case MONGO_LOG = 'mongo-log';
 }

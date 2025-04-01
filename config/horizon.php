@@ -215,7 +215,7 @@ return [
             'long' => [
                 'connection' => 'redis',
                 'queue' => [
-                    //
+                    QUEUE::BACKUP->value,
                 ],
                 'balance' => 'false',
                 'processes' => 1,
