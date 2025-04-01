@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use App\Models\User;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\ServiceProvider;
 use Spatie\CpuLoadHealthCheck\CpuLoadCheck;
 use Spatie\Health\Facades\Health;
@@ -30,7 +32,7 @@ class HealthServiceProvider extends ServiceProvider
                 ->failWhenMoreConnectionsThan(100),
             Checks\DebugModeCheck::new(),
             Checks\OptimizedAppCheck::new(),
-            Checks\PingCheck::new()->url(getenv('APP_URL'))->timeout(2)->retryTimes(3),
+            Checks\PingCheck::new()->url(getenv('APP_URL'))->timeout(2)->retryTimes(3)->label('App'),
             CpuLoadCheck::new()
                 ->failWhenLoadIsHigherInTheLast5Minutes(2.0)
                 ->failWhenLoadIsHigherInTheLast15Minutes(1.5),
@@ -51,6 +53,8 @@ class HealthServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        //
+        Gate::define('viewHealth', static function (?User $user) {
+            return !isEnvLocalOrTesting() ? $user?->isAdmin() : true;
+        });
     }
 }

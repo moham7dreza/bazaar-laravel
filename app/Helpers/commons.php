@@ -252,7 +252,7 @@ if (!function_exists('isEnvTesting')) {
 if (!function_exists('isEnvLocal')) {
     function isEnvLocal(): bool
     {
-        return app()->environment(Environment::LOCAL->value, Environment::LOCALHOST->value);
+        return app()->environment(Environment::local());
     }
 }
 
@@ -267,6 +267,13 @@ if (!function_exists('isEnvProduction')) {
     function isEnvProduction(): bool
     {
         return app()->environment(Environment::PRODUCTION->value);
+    }
+}
+
+if (!function_exists('isEnvLocalOrTesting')) {
+    function isEnvLocalOrTesting(): bool
+    {
+        return app()->environment(Environment::localOrTesting());
     }
 }
 

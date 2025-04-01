@@ -32,15 +32,12 @@ class AppServiceProvider extends ServiceProvider
 
     private function setupGates(): void
     {
-        Gate::before(static function (?User $user, string $ability) {
-            return $user && $user->isAdmin() ? true : null;
+        Gate::before(static function (?User $user) {
+            return $user?->isAdmin();
         });
 
         Gate::define('viewPulse', static function (?User $user) {
-            if (app()->environment('local', 'testing')) {
-                return true;
-            }
-            return $user?->isAdmin();
+            return !isEnvLocalOrTesting() ? $user?->isAdmin() : true;
         });
     }
 }

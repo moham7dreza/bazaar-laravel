@@ -13,13 +13,17 @@ Route::get('/', function () {
             <a href="/health?fresh">health</a>
             <a href="/pulse">pulse</a>
             <a href="/telescope">telescope</a>
+            <a href="/horizon">horizon</a>
             <a href="/metrics">metrics</a>
         </div>
     blade;
 });
 
-Route::get('health', HeathCheckControllers\HealthCheckResultsController::class);
-Route::get('health-json', HeathCheckControllers\HealthCheckJsonResultsController::class);
+Route::can('viewHealth')->middleware([])->group(function () {
+    Route::get('health', HeathCheckControllers\HealthCheckResultsController::class);
+    Route::get('health-json', HeathCheckControllers\HealthCheckJsonResultsController::class);
+});
+
 
 // Route::get('image', [ImageController::class, 'index']);
 // Route::post('image/store', [ImageController::class, 'store'])->name('image.store');
