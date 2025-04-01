@@ -42,7 +42,29 @@ class UserResource extends Resource
     {
         return $form
             ->schema([
-                //
+                Forms\Components\TextInput::make('name')
+                    ->required()
+                    ->string()
+                    ->translateLabel(),
+                Forms\Components\TextInput::make('email')
+                    ->required()
+                    ->email()
+                    ->translateLabel(),
+                Forms\Components\TextInput::make('mobile')
+                    ->required()
+                    ->string()
+                    ->translateLabel(),
+                Forms\Components\Select::make('city_id')
+                    ->translateLabel()
+                    ->searchable()
+                    ->preload()
+                    ->relationship('city', 'name'),
+                Forms\Components\Toggle::make('user_type')
+                    ->required()
+                    ->translateLabel(),
+                Forms\Components\Toggle::make('is_active')
+                    ->required()
+                    ->translateLabel(),
             ]);
     }
 
@@ -60,6 +82,18 @@ class UserResource extends Resource
                 Tables\Columns\TextColumn::make('email_verified_at')->translateLabel(),
             ])
             ->filters([
+                Tables\Filters\SelectFilter::make('user_type')
+                    ->translateLabel()
+                    ->options([
+                        '0' => 'User',
+                        '1' => 'Admin',
+                    ])
+                    ->multiple()
+                    ->searchable(),
+                Tables\Filters\Filter::make('mobile_verified_at')
+                    ->label('not verified mobile')
+                    ->translateLabel()
+                    ->query(fn(Builder $query): Builder => $query->whereNull('mobile_verified_at')),
                 Tables\Filters\QueryBuilder::make()
                     ->constraints([
                         Constraints\TextConstraint::make('name')->translateLabel(),

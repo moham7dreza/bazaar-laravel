@@ -4,10 +4,12 @@ namespace App\Models;
 
 use App\Enums\UserPermission;
 use App\Enums\UserRole;
+use App\Models\Geo\City;
 use Filament\Panel;
 use App\Models\Advertise\Advertisement;
 use App\Models\Advertise\AdvertisementNote;
 use Filament\Models\Contracts\FilamentUser;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -29,6 +31,8 @@ class User extends Authenticatable implements MustVerifyEmail, FilamentUser
         'mobile',
         'mobile_verified_at',
         'city_id',
+        'user_type',
+        'is_active',
     ];
 
     protected $hidden = [
@@ -74,6 +78,11 @@ class User extends Authenticatable implements MustVerifyEmail, FilamentUser
     public function viewedAdvertisements()
     {
         return $this->belongsToMany(Advertisement::class, 'advertisement_view_history')->withTimestamps();
+    }
+
+    public function city(): BelongsTo
+    {
+        return $this->belongsTo(City::class);
     }
 
     public function isAdmin(): bool
