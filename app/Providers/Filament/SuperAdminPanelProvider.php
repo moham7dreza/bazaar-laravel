@@ -62,6 +62,9 @@ class SuperAdminPanelProvider extends PanelProvider
                     ->usingPolingInterval('10s')
                     ->usingQueue(Queue::BACKUP->value)
                     ->noTimeout(),
+                \pxlrbt\FilamentEnvironmentIndicator\EnvironmentIndicatorPlugin::make()
+                    ->visible(fn () => auth()->user()?->isAdmin())
+                    ->showGitBranch(),
             ]);
     }
 }
