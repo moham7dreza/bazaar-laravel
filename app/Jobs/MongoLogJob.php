@@ -3,7 +3,7 @@
 namespace App\Jobs;
 
 use App\Models\Monitor\DevLog;
-use App\Enums\QueueEnum;
+use App\Enums\Queue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Queue\Queueable;
 
@@ -19,7 +19,7 @@ class MongoLogJob implements ShouldQueue
     )
     {
         $this->delay(now()->addSeconds(5));
-        $this->onQueue(QueueEnum::MONGO_LOG);
+        $this->onQueue(Queue::MONGO_LOG);
     }
 
     /**

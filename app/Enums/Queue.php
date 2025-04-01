@@ -4,7 +4,7 @@ namespace App\Enums;
 
 use App\Traits\EnumDataListTrait;
 
-enum QueueEnum: string
+enum Queue: string
 {
     use EnumDataListTrait;
 

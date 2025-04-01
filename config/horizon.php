@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Support\Str;
-use App\Enums\QueueEnum as QUEUE;
+use App\Enums\Queue as QUEUE;
 
 return [
 
