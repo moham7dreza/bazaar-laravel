@@ -2,6 +2,8 @@
 
 use App\Enums\RouteSection;
 use App\Http\Controllers\Admin\Setting\SettingController;
+use App\Http\Controllers\Auth\RegisteredUserWithOTPController;
+use App\Http\Controllers\Auth\VerifyUserWithOTPController;
 use App\Http\Controllers\ImageController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -43,8 +45,8 @@ Route::post('/register', [RegisteredUserController::class, 'store'])
     ->middleware('guest')
     ->name('api.register');
 
-Route::post('send-otp', [RegisteredUserController::class, 'sendOtp'])->middleware('guest');
-Route::post('verify-otp', [RegisteredUserController::class, 'verifyOtpAndRegister'])->middleware('guest');
+Route::post('send-otp', [RegisteredUserWithOTPController::class, 'store'])->middleware('guest');
+Route::post('verify-otp', [VerifyUserWithOTPController::class, 'store'])->middleware('guest');
 
 Route::prefix(RouteSection::IMAGES)->name('images.')->group(function () {
     Route::post('store', [ImageController::class, 'store'])->name('store');
