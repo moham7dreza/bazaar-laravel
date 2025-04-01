@@ -17,10 +17,6 @@ class PrometheusServiceProvider extends ServiceProvider
 {
     public function register(): void
     {
-        /*
-         * Here you can register all the exporters that you
-         * want to export to prometheus
-         */
         Prometheus::addGauge('User count')
             ->label('status')
             ->helpText('This is the number of users in our app')
@@ -32,11 +28,7 @@ class PrometheusServiceProvider extends ServiceProvider
                 ];
             });
 
-        /*
-         * Uncomment this line if you want to export
-         * all Horizon metrics to prometheus
-         */
-        // $this->registerHorizonCollectors();
+        $this->registerHorizonCollectors();
     }
 
     public function registerHorizonCollectors(): self
