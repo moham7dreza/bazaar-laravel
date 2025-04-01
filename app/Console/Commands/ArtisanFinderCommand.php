@@ -12,6 +12,9 @@ class ArtisanFinderCommand extends Command
     protected $signature = 'find:art {--exact}';
     protected $description = 'Find artisan command with given name';
 
+    /**
+     * @throws \JsonException
+     */
     public function handle(): int
     {
         $commands = collect($this->getApplication()?->all());
@@ -33,7 +36,7 @@ class ArtisanFinderCommand extends Command
         }
 
         $commandParameters = $this->getCommandParameters($command);
-        dump(compact('commandParameters'));
+        $this->info("Command parameters: " . json_encode($commandParameters, JSON_THROW_ON_ERROR));
 
         if (!$this->confirm('Do you want to continue?', true)) {
             $this->warn("Command execution cancelled.");

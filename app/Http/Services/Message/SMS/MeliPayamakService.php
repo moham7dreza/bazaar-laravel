@@ -162,7 +162,7 @@ class MeliPayamakService
             $GetCreditResult = $client->GetCredit(array("username" => $this->username, "password" => $this->password))->GetCreditResult;
             $sendSmsResult = $client->SendSms($parameters)->SendSmsResult;
 
-            if ($GetCreditResult == 0 && $sendSmsResult == 1) {
+            if ($GetCreditResult === 0 && $sendSmsResult === 1) {
                 return true;
             } else {
                 return false;
