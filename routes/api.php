@@ -41,7 +41,7 @@ Route::get('cities', [CityController::class, 'index'])->name('cities');
 
 Route::post('/register', [RegisteredUserController::class, 'store'])
     ->middleware('guest')
-    ->name('register');
+    ->name('api.register');
 
 Route::post('send-otp', [RegisteredUserController::class, 'sendOtp'])->middleware('guest');
 Route::post('verify-otp', [RegisteredUserController::class, 'verifyOtpAndRegister'])->middleware('guest');

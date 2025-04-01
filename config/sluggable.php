@@ -59,6 +59,8 @@ return [
      *    'method' => array('Str','slug'),
      */
 
+    'method' => null,
+    /*
     'method' => function($string, $separator = '-') {
         $_transliteration = array(
             '/ä|æ|ǽ/' => 'ae',
@@ -123,6 +125,7 @@ return [
         unset($_transliteration);
         return preg_replace(array_keys($map), array_values($map), $string);
     },
+    */
 
     /**
      * Separator to use when generating slugs.  Defaults to a hyphen.
