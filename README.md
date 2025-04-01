@@ -11,8 +11,7 @@
 ### testing
 1. copy .env.testing.example to .env.testing 
 2. apply required changes in .evn.testing
-3. run `php artisan migrate --env=testing`
-4. run `composer testp`
+3. run `composer testpf`
 
 ## Tasks
 1. refactor image upload operations in controllers

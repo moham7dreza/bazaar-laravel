@@ -106,10 +106,12 @@
             "@php artisan clear-compiled",
             "composer install --ignore-platform-reqs",
             "@php artisan optimize:clear",
-            "@php artisan modules:clear"
+            "@php artisan modules:clear",
+            "@php artisan migrate --force"
         ],
         "testp": [
             "Composer\\Config::disableProcessTimeout",
+            "@php artisan migrate --force --env=testing",
             "@php artisan test -p"
         ],
         "testpf": [
@@ -119,6 +121,23 @@
         "cache": [
             "@php artisan optimize",
             "@php artisan modules:cache"
+        ],
+        "dev": [
+            "composer reload",
+            "composer ide-helper",
+            "@php artisan queue:work"
+        ],
+        "prod": [
+            "git pull",
+            "@php artisan clear-compiled",
+            "composer install --ignore-platform-reqs --optimize-autoloader --no-dev",
+            "composer run-script post-install",
+            "composer dump-autoload --optimize",
+            "@php artisan optimize:clear",
+            "@php artisan modules:clear",
+            "@php artisan migrate --force",
+            "composer cache",
+            "@php artisan queue:work"
         ]
     },
     "extra": {
