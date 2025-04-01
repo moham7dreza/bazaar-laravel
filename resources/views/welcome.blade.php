@@ -19,7 +19,18 @@
         </style>
     @endif
 </head>
-
+    @php
+        $links = [
+                                        'Mainweb' => 'http://localhost:3000',
+                                        'Api Docs' => '/docs/api',
+                                        'Monitoring' => '/health?fresh',
+                                        'Logging' => '/log-viewer',
+                                        'Pulse' => '/pulse',
+                                        'Telescope' => '/telescope',
+                                        'Horizon' => '/horizon',
+                                        'Metrics' => '/metrics',
+                                    ];
+    @endphp
     <body>
     <div class="bg-white">
         <header class="absolute inset-x-0 top-0 z-50">
@@ -46,30 +57,10 @@
                                 <path fill-rule="evenodd" d="M5.22 8.22a.75.75 0 0 1 1.06 0L10 11.94l3.72-3.72a.75.75 0 1 1 1.06 1.06l-4.25 4.25a.75.75 0 0 1-1.06 0L5.22 9.28a.75.75 0 0 1 0-1.06Z" clip-rule="evenodd" />
                             </svg>
                         </button>
-
-                        <!--
-                          Flyout menu, show/hide based on flyout menu state.
-
-                          Entering: "transition ease-out duration-200"
-                            From: "opacity-0 translate-y-1"
-                            To: "opacity-100 translate-y-0"
-                          Leaving: "transition ease-in duration-150"
-                            From: "opacity-100 translate-y-0"
-                            To: "opacity-0 translate-y-1"
-                        -->
                         <div class="absolute left-1/2 z-10 mt-5 flex w-screen max-w-max -translate-x-1/2 px-4">
                             <div class="w-screen max-w-md flex-auto overflow-hidden rounded-3xl bg-white text-sm/6 ring-1 shadow-lg ring-gray-900/5">
                                 <div class="p-4">
-                                    @foreach([
-                                        'Mainweb' => 'http://localhost:3000',
-                                        'Api Docs' => '/docs/api',
-                                        'Monitoring' => '/health?fresh',
-                                        'Logging' => '/log-viewer',
-                                        'Pulse' => '/pulse',
-                                        'Telescope' => '/telescope',
-                                        'Horizon' => '/horizon',
-                                        'Metrics' => '/metrics',
-                                    ] as $title => $url)
+                                    @foreach($links as $title => $url)
                                         <div class="group relative flex gap-x-6 rounded-lg p-4 hover:bg-gray-50">
                                             <div class="mt-1 flex size-11 flex-none items-center justify-center rounded-lg bg-gray-50 group-hover:bg-white">
                                                 <svg class="size-6 text-gray-600 group-hover:text-indigo-600" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true" data-slot="icon">
@@ -107,7 +98,7 @@
 
                 </div>
                 <div class="hidden lg:flex lg:flex-1 lg:justify-end">
-                    <a href="#" class="text-sm/6 font-semibold text-gray-900">Log in <span aria-hidden="true">&rarr;</span></a>
+                    <a href="https://localhost:3000/login-register" target="_blank" class="text-sm/6 font-semibold text-gray-900">Log in <span aria-hidden="true">&rarr;</span></a>
                 </div>
             </nav>
             <!-- Mobile menu, show/hide based on menu open state. -->
@@ -130,13 +121,14 @@
                     <div class="mt-6 flow-root">
                         <div class="-my-6 divide-y divide-gray-500/10">
                             <div class="space-y-2 py-6">
-                                <a href="#" class="-mx-3 block rounded-lg px-3 py-2 text-base/7 font-semibold text-gray-900 hover:bg-gray-50">Product</a>
-                                <a href="#" class="-mx-3 block rounded-lg px-3 py-2 text-base/7 font-semibold text-gray-900 hover:bg-gray-50">Features</a>
-                                <a href="#" class="-mx-3 block rounded-lg px-3 py-2 text-base/7 font-semibold text-gray-900 hover:bg-gray-50">Marketplace</a>
-                                <a href="#" class="-mx-3 block rounded-lg px-3 py-2 text-base/7 font-semibold text-gray-900 hover:bg-gray-50">Company</a>
+                                @foreach($links as $title => $url)
+                                    <a href="{{$url}}" target="_blank" class="-mx-3 block rounded-lg px-3 py-2 text-base/7 font-semibold text-gray-900 hover:bg-gray-50">
+                                        {{$title}}
+                                    </a>
+                                @endforeach
                             </div>
                             <div class="py-6">
-                                <a href="#" class="-mx-3 block rounded-lg px-3 py-2.5 text-base/7 font-semibold text-gray-900 hover:bg-gray-50">Log in</a>
+                                <a href="https://localhost:3000/login-register" class="-mx-3 block rounded-lg px-3 py-2.5 text-base/7 font-semibold text-gray-900 hover:bg-gray-50">Log in</a>
                             </div>
                         </div>
                     </div>
