@@ -21,6 +21,7 @@
 </head>
     @php
         $links = [
+                                        'Super Admin Panel' => '/super-admin',
                                         'Mainweb' => 'http://localhost:3000',
                                         'Api Docs' => '/docs/api',
                                         'Monitoring' => '/health?fresh',

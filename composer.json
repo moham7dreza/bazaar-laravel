@@ -3,10 +3,7 @@
     "type": "project",
     "description": "advertise shopping site",
     "homepage": "https://github.com/moham7dreza/bazaar-laravel",
-    "keywords": [
-        "laravel",
-        "framework"
-    ],
+    "keywords": ["laravel", "framework"],
     "authors": [
         {
             "name": "Mohamadreza Rezaei",
@@ -28,6 +25,7 @@
         "dedoc/scramble": "^0.12",
         "doctrine/dbal": "^4.2",
         "dyrynda/laravel-cascade-soft-deletes": "^4.0",
+        "filament/filament": "3.3",
         "internachi/modular": "^2.3",
         "intervention/image": "^3.7",
         "laravel/framework": "^12.0",
@@ -83,7 +81,8 @@
         "post-autoload-dump": [
             "Illuminate\\Foundation\\ComposerScripts::postAutoloadDump",
             "@php artisan package:discover --ansi",
-            "@php artisan modules:sync"
+            "@php artisan modules:sync",
+            "@php artisan filament:upgrade"
         ],
         "post-update-cmd": [
             "@php artisan vendor:publish --tag=laravel-assets --ansi --force"
@@ -107,6 +106,7 @@
             "composer install --ignore-platform-reqs",
             "@php artisan optimize:clear",
             "@php artisan modules:clear",
+            "@php artisan filament:optimize-clear",
             "@php artisan migrate --force"
         ],
         "testp": [
@@ -120,7 +120,8 @@
         ],
         "cache": [
             "@php artisan optimize",
-            "@php artisan modules:cache"
+            "@php artisan modules:cache",
+            "@php artisan filament:optimize"
         ],
         "dev": [
             "git pull",
