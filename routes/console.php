@@ -15,6 +15,7 @@ Schedule::command(SpatieHealthCommands\DispatchQueueCheckJobsCommand::class)->ev
 Schedule::command(SpatieHealthCommands\ScheduleCheckHeartbeatCommand::class)->everyMinute();
 
 Schedule::command('telescope:prune --hours=48')->daily();
+Schedule::command('horizon:snapshot')->everyFiveMinutes();
 
 Schedule::command('model:prune --pretend', [
     '--model' => [
