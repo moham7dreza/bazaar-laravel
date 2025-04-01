@@ -11,10 +11,14 @@
         <testsuite name="Feature">
             <directory>tests/Feature</directory>
         </testsuite>
+        <testsuite name="EndToEnd">
+            <directory>tests/EndToEnd</directory>
+        </testsuite>
     </testsuites>
     <source>
         <include>
             <directory>app</directory>
+            <directory>modules</directory>
         </include>
     </source>
     <php>
