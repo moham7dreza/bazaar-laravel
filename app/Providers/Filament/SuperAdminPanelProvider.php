@@ -28,6 +28,9 @@ class SuperAdminPanelProvider extends PanelProvider
             ->default()
             ->id('super-admin')
             ->path('super-admin')
+//            ->databaseNotifications()
+//            ->sidebarCollapsibleOnDesktop()
+            ->globalSearchKeyBindings(['command+i', 'ctrl+i'])
             ->login()
             ->colors([
                 'primary' => Color::Amber,
