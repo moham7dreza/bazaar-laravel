@@ -42,29 +42,34 @@ class UserResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('name')
-                    ->required()
-                    ->string()
-                    ->translateLabel(),
-                Forms\Components\TextInput::make('email')
-                    ->required()
-                    ->email()
-                    ->translateLabel(),
-                Forms\Components\TextInput::make('mobile')
-                    ->required()
-                    ->string()
-                    ->translateLabel(),
-                Forms\Components\Select::make('city_id')
+                Forms\Components\Section::make()
                     ->translateLabel()
-                    ->searchable()
-                    ->preload()
-                    ->relationship('city', 'name'),
-                Forms\Components\Toggle::make('user_type')
-                    ->required()
-                    ->translateLabel(),
-                Forms\Components\Toggle::make('is_active')
-                    ->required()
-                    ->translateLabel(),
+                    ->columns()
+                    ->schema([
+                        Forms\Components\TextInput::make('name')
+                            ->required()
+                            ->string()
+                            ->translateLabel(),
+                        Forms\Components\TextInput::make('email')
+                            ->required()
+                            ->email()
+                            ->translateLabel(),
+                        Forms\Components\TextInput::make('mobile')
+                            ->required()
+                            ->string()
+                            ->translateLabel(),
+                        Forms\Components\Select::make('city_id')
+                            ->translateLabel()
+                            ->searchable()
+                            ->preload()
+                            ->relationship('city', 'name'),
+                        Forms\Components\Toggle::make('user_type')
+                            ->required()
+                            ->translateLabel(),
+                        Forms\Components\Toggle::make('is_active')
+                            ->required()
+                            ->translateLabel(),
+                    ])
             ]);
     }
 
