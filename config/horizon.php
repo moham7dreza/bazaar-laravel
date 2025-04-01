@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Str;
+use App\Enums\QueueEnum as QUEUE;
 
 return [
 
@@ -166,7 +167,7 @@ return [
     |
     */
 
-    'memory_limit' => 64,
+    'memory_limit' => 512,
 
     /*
     |--------------------------------------------------------------------------
@@ -182,7 +183,9 @@ return [
     'defaults' => [
         'supervisor-1' => [
             'connection' => 'redis',
-            'queue' => ['default'],
+            'queue' => [
+                QUEUE::DEFAULT->value,
+            ],
             'balance' => 'auto',
             'autoScalingStrategy' => 'time',
             'maxProcesses' => 1,
@@ -197,16 +200,77 @@ return [
 
     'environments' => [
         'production' => [
-            'supervisor-1' => [
-                'maxProcesses' => 10,
+            'laravel' => [
+                'connection' => 'redis',
+                'queue' => [
+                    QUEUE::HIGH->value,
+                    QUEUE::DEFAULT->value,
+                    QUEUE::MONGO_LOG->value,
+                ],
+                'balance' => 'false',
+                'processes' => 16,
+                'tries' => 3,
+                'timeout' => 60,
+            ],
+            'long' => [
+                'connection' => 'redis',
+                'queue' => [
+                    //
+                ],
+                'balance' => 'false',
+                'processes' => 1,
+                'tries' => 3,
+                'timeout' => 86400,
+            ],
+            'mongo' => [
+                'connection' => 'redis',
+                'queue' => [
+                    //
+                ],
+                'balance' => 'false',
+                'processes' => 1,
+                'tries' => 1,
+                'timeout' => 30,
+            ],
+            'sms' => [
+                'connection' => 'redis',
+                'queue' => [
+                    //
+                ],
+                'balance' => 'auto',
+                'minProcesses' => 1,
+                'maxProcesses' => 7,
                 'balanceMaxShift' => 1,
                 'balanceCooldown' => 3,
+                'tries' => 3,
+                'timeout' => 60,
+            ],
+            'sms-otp' => [
+                'connection' => 'redis',
+                'queue' => [
+                    //
+                ],
+                'balance' => 'auto',
+                'minProcesses' => 1,
+                'maxProcesses' => 5,
+                'balanceMaxShift' => 1,
+                'balanceCooldown' => 3,
+                'tries' => 3,
+                'timeout' => 60,
             ],
         ],
 
         'local' => [
             'supervisor-1' => [
-                'maxProcesses' => 3,
+                'connection' => 'redis',
+                'queue' => [
+                    QUEUE::HIGH->value,
+                    QUEUE::DEFAULT->value,
+                    QUEUE::LOW->value,
+                ],
+                'balance' => 'simple',
+                'processes' => 3,
+                'tries' => 3,
             ],
         ],
     ],

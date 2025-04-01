@@ -18,6 +18,7 @@ class MongoLogJob implements ShouldQueue
         public readonly string $logKey,
     )
     {
+        $this->delay(now()->addSeconds(5));
         $this->onQueue(QueueEnum::MONGO_LOG);
     }
 
