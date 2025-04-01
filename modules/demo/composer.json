@@ -1,0 +1,24 @@
+{
+	"name": "modules/demo",
+	"description": "",
+	"type": "library",
+	"version": "1.0",
+	"license": "proprietary",
+	"require": {},
+	"autoload": {
+		"psr-4": {
+			"Modules\\Demo\\": "src/",
+			"Modules\\Demo\\Tests\\": "tests/",
+			"Modules\\Demo\\Database\\Factories\\": "database/factories/",
+			"Modules\\Demo\\Database\\Seeders\\": "database/seeders/"
+		}
+	},
+	"minimum-stability": "stable",
+	"extra": {
+		"laravel": {
+			"providers": [
+				"Modules\\Demo\\Providers\\DemoServiceProvider"
+			]
+		}
+	}
+}

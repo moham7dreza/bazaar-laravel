@@ -3,7 +3,10 @@
     "type": "project",
     "description": "advertise shopping site",
     "homepage": "https://github.com/moham7dreza/bazaar-laravel",
-    "keywords": ["laravel", "framework"],
+    "keywords": [
+        "laravel",
+        "framework"
+    ],
     "authors": [
         {
             "name": "Mohamadreza Rezaei",
@@ -31,6 +34,7 @@
         "laravel/sanctum": "^4.0",
         "laravel/telescope": "^5.6",
         "laravel/tinker": "^2.0",
+        "modules/demo": "*",
         "mongodb/laravel-mongodb": "^5.2",
         "morilog/jalali": "^3.4",
         "opcodesio/log-viewer": "^3.15",
@@ -99,11 +103,11 @@
             "@php artisan optimize:clear",
             "@php artisan modules:clear"
         ],
-        "testp" : [
+        "testp": [
             "Composer\\Config::disableProcessTimeout",
             "@php artisan test -p"
         ],
-        "testpf" : [
+        "testpf": [
             "Composer\\Config::disableProcessTimeout",
             "@php artisan test -p --recreate-databases"
         ],
@@ -130,5 +134,14 @@
         }
     },
     "minimum-stability": "stable",
-    "prefer-stable": true
+    "prefer-stable": true,
+    "repositories": [
+        {
+            "type": "path",
+            "url": "modules/*",
+            "options": {
+                "symlink": true
+            }
+        }
+    ]
 }
