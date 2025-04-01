@@ -22,7 +22,7 @@ class MailViewProvider extends Mailable
 
     public function build()
     {
-        return $this->subject($this->subject)->view('emails.send-otp');
+        return $this->subject($this->subject)->view('mail');
     }
 
 }
