@@ -8,6 +8,7 @@
 2. apply required changes in .env
 3. run `composer run dev`
 4. if you use herd goto http://bazaar-laravel.test
+5. admin user credentials: admin@admin.com, password
 
 ### testing
 1. copy .env.testing.example to .env.testing 
