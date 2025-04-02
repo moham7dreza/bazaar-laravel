@@ -5,6 +5,7 @@ use App\Models\Monitor\JobPerformanceLog;
 use Illuminate\Foundation\Inspiring;
 use Illuminate\Support\Facades\Artisan;
 use Spatie\Health\Commands as SpatieHealthCommands;
+use Spatie\ScheduleMonitor\Models\MonitoredScheduledTaskLogItem;
 
 Artisan::command('inspire', function () {
     $this->comment(Inspiring::quote());
@@ -21,5 +22,6 @@ Schedule::command('model:prune --pretend', [
     '--model' => [
         JobPerformanceLog::class,
         CommandPerformanceLog::class,
+        MonitoredScheduledTaskLogItem::class,
     ],
 ])->daily();

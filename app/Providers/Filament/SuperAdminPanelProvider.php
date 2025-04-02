@@ -73,6 +73,7 @@ class SuperAdminPanelProvider extends PanelProvider
                 \Rmsramos\Activitylog\ActivitylogPlugin::make(),
                 \CharrafiMed\GlobalSearchModal\GlobalSearchModalPlugin::make(),
                 \Althinect\FilamentSpatieRolesPermissions\FilamentSpatieRolesPermissionsPlugin::make(),
+                \Mvenghaus\FilamentScheduleMonitor\FilamentPlugin::make(),
             ]);
     }
 
