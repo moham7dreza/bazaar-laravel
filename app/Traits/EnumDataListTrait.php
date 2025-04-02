@@ -8,12 +8,12 @@ trait EnumDataListTrait
 {
     public static function list(): array
     {
-        return array_map(fn($i) => ['name' => $i->name, 'value' => $i->value], self::cases());
+        return array_map(static fn($i) => ['name' => $i->name, 'value' => $i->value], self::cases());
     }
 
     public static function values(): array
     {
-        return array_map(fn($i) => $i->value, self::cases());
+        return array_map(static fn($i) => $i->value, self::cases());
     }
 
     public static function listByName(): array
@@ -43,11 +43,16 @@ trait EnumDataListTrait
      */
     public static function joinValues(): string
     {
-        return collect(self::values())->implode(',');
+        return self::collectValues()->implode(',');
     }
 
     public static function count(): int
     {
         return self::totalCases()->count();
+    }
+
+    public static function collectValues(): Collection
+    {
+        return collect(self::values());
     }
 }

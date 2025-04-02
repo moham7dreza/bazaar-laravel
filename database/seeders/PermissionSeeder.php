@@ -14,19 +14,12 @@ class PermissionSeeder extends Seeder
 {
     public function run(): void
     {
-        // Reset cached roles and permissions
         app()[PermissionRegistrar::class]->forgetCachedPermissions();
 
-        // all system permissions
-        foreach (UserPermission::cases() as $permission) {
-            Permission::query()->updateOrCreate(['name' => $permission]);
-        }
+        UserPermission::collectValues()->each(static fn($permission) => Permission::query()->updateOrCreate(['name' => $permission]));
         $this->command->info('permissions created.');
 
-        // all system roles
-        foreach (UserRole::cases() as $role) {
-            Role::query()->updateOrCreate(['name' => $role]);
-        }
+        UserRole::collectValues()->each(static fn($role) => Role::query()->updateOrCreate(['name' => $role]));
         $this->command->info('roles created.');
 
         $this->assignRoleToAdmin();
@@ -41,8 +34,6 @@ class PermissionSeeder extends Seeder
 
         $super_admin = User::query()->admin()->first() ?? User::factory()->admin()->create();
         $this->command->info('admin user ok.');
-
-//        $super_admin->update(['email_verified_at' => now()]);
 
         auth()->loginUsingId($super_admin->id);
         $this->command->info('admin user logged in.');
