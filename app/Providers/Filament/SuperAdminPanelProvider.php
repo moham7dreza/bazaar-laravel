@@ -29,7 +29,7 @@ class SuperAdminPanelProvider extends PanelProvider
             ->id('super-admin')
             ->path('super-admin')
 //            ->databaseNotifications()
-//            ->sidebarCollapsibleOnDesktop()
+            ->sidebarCollapsibleOnDesktop()
             ->globalSearchKeyBindings(['command+i', 'ctrl+i'])
             ->login()
             ->colors([
