@@ -5,11 +5,14 @@ namespace App\Models;
 use App\Enums\UserPermission;
 use App\Enums\UserRole;
 use App\Models\Geo\City;
+use App\Traits\MustVerifyMobile;
 use Filament\Panel;
 use App\Models\Advertise\Advertisement;
 use App\Models\Advertise\AdvertisementNote;
 use Filament\Models\Contracts\FilamentUser;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -18,11 +21,16 @@ use Spatie\Activitylog\LogOptions;
 use Spatie\Activitylog\Traits\LogsActivity;
 use Spatie\Permission\Traits\HasRoles;
 
-class User extends Authenticatable implements MustVerifyEmail, FilamentUser
+class User extends Authenticatable implements FilamentUser
 {
     use HasFactory, Notifiable;
     use LogsActivity;
     use HasRoles;
+    use MustVerifyMobile;
+
+    /*
+     * props Section
+     * **/
 
     protected $fillable = [
         'name',
@@ -40,11 +48,17 @@ class User extends Authenticatable implements MustVerifyEmail, FilamentUser
         'remember_token',
     ];
 
+    /*
+     * overrides and scopes Section
+     * **/
+
     protected function casts(): array
     {
         return [
             'email_verified_at' => 'datetime',
+            'mobile_verified_at' => 'datetime',
             'password' => 'hashed',
+            'is_active' => 'bool',
         ];
     }
 
@@ -55,27 +69,38 @@ class User extends Authenticatable implements MustVerifyEmail, FilamentUser
 
     public function canAccessPanel(Panel $panel): bool
     {
-        return $this->isAdmin() && $this->hasVerifiedEmail();
+        return $this->isAdmin();
     }
 
-    public function advertisements()
+    /** @scope admin() */
+    public function scopeAdmin($query)
+    {
+        return $query->where('user_type', 1)
+            ->whereNotNull('mobile_verified_at');
+    }
+
+    /*
+     * Relations Section
+     * **/
+
+    public function advertisements(): HasMany
     {
         return $this->hasMany(Advertisement::class);
     }
 
-    public function favoriteAdvertisements()
+    public function favoriteAdvertisements(): BelongsToMany
     {
         return $this->belongsToMany(Advertisement::class)->withTimestamps();
     }
 
 
-    public function advertisementNotes()
+    public function advertisementNotes(): HasMany
     {
         return $this->hasMany(AdvertisementNote::class);
     }
 
 
-    public function viewedAdvertisements()
+    public function viewedAdvertisements(): BelongsToMany
     {
         return $this->belongsToMany(Advertisement::class, 'advertisement_view_history')->withTimestamps();
     }
@@ -85,18 +110,16 @@ class User extends Authenticatable implements MustVerifyEmail, FilamentUser
         return $this->belongsTo(City::class);
     }
 
+    /*
+     * methods Section
+     * **/
+
     public function isAdmin(): bool
     {
         return $this->user_type === 1
-            && !is_null($this->mobile_verified_at)
+            && ($this->hasVerifiedMobile() || $this->hasVerifiedEmail())
             && $this->hasPermissionTo(UserPermission::SEE_PANEL)
 //            && $this->hasRole(UserRole::ADMIN)
             ;
-    }
-
-    public function scopeAdmin($query)
-    {
-        return $query->where('user_type', 1)
-            ->whereNotNull('mobile_verified_at');
     }
 }
