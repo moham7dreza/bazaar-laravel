@@ -4,11 +4,13 @@ namespace App\Filament\Resources;
 
 use App\Filament\Resources\UserResource\Pages;
 use App\Filament\Resources\UserResource\RelationManagers;
+use App\Filament\Resources\UserResource\Widgets\StatsOverview;
 use App\Models\User;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
+use Filament\Tables\Enums\ActionsPosition;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
@@ -37,6 +39,13 @@ class UserResource extends Resource
     public static function getNavigationLabel(): string
     {
         return __('Users');
+    }
+
+    public static function getWidgets(): array
+    {
+        return [
+            StatsOverview::class,
+        ];
     }
 
     public static function form(Form $form): Form
@@ -84,6 +93,9 @@ class UserResource extends Resource
                         Forms\Components\Toggle::make('is_active')
                             ->required()
                             ->translateLabel(),
+                        Forms\Components\Toggle::make('is_banned')
+                            ->required()
+                            ->translateLabel(),
                     ])
             ]);
     }
@@ -97,6 +109,7 @@ class UserResource extends Resource
                 Tables\Columns\TextColumn::make('mobile')->translateLabel()->searchable(),
                 Tables\Columns\TextColumn::make('user_type')->translateLabel()->sortable()->badge(),
                 Tables\Columns\TextColumn::make('is_active')->translateLabel()->sortable()->badge(),
+                Tables\Columns\TextColumn::make('is_banned')->translateLabel()->sortable()->badge(),
                 Tables\Columns\TextColumn::make('city.name')->translateLabel(),
                 Tables\Columns\TextColumn::make('mobile_verified_at')->translateLabel(),
                 Tables\Columns\TextColumn::make('email_verified_at')->translateLabel(),
@@ -123,13 +136,13 @@ class UserResource extends Resource
                         Constraints\TextConstraint::make('email_verified_at')->translateLabel(),
                     ])
                     ->constraintPickerColumns(),
-            ])
+            ], layout: Tables\Enums\FiltersLayout::AboveContentCollapsible)
             ->deferFilters()
             ->actions([
                 \STS\FilamentImpersonate\Tables\Actions\Impersonate::make(),
                 Tables\Actions\EditAction::make(),
                 ActivityLogTimelineTableAction::make('Activities')->limit(),
-            ])
+            ], position: ActionsPosition::BeforeColumns)
             ->bulkActions([
                 ExportBulkAction::make(),
                 Tables\Actions\BulkActionGroup::make([
@@ -152,5 +165,10 @@ class UserResource extends Resource
             'create' => Pages\CreateUser::route('/create'),
             'edit' => Pages\EditUser::route('/{record}/edit'),
         ];
+    }
+
+    public static function getGloballySearchableAttributes(): array
+    {
+        return ['name', 'email', 'mobile'];
     }
 }

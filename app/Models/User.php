@@ -13,6 +13,7 @@ use Filament\Models\Contracts\FilamentUser;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -27,6 +28,7 @@ class User extends Authenticatable implements FilamentUser
     use LogsActivity;
     use HasRoles;
     use MustVerifyMobile;
+    use SoftDeletes;
 
     /*
      * props Section
@@ -41,6 +43,7 @@ class User extends Authenticatable implements FilamentUser
         'city_id',
         'user_type',
         'is_active',
+        'is_banned',
     ];
 
     protected $hidden = [
@@ -59,12 +62,13 @@ class User extends Authenticatable implements FilamentUser
             'mobile_verified_at' => 'datetime',
             'password' => 'hashed',
             'is_active' => 'bool',
+            'is_banned' => 'bool',
         ];
     }
 
     public function getActivitylogOptions(): LogOptions
     {
-        return LogOptions::defaults()->logOnly(['email', 'mobile', 'user_type', 'is_active']);
+        return LogOptions::defaults()->logOnly(['email', 'mobile', 'user_type', 'is_active', 'is_banned']);
     }
 
     public function canAccessPanel(Panel $panel): bool

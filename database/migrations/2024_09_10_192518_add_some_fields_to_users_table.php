@@ -17,6 +17,8 @@ return new class extends Migration
             $table->foreignId('city_id')->after('email')->nullable()->constrained('cities');
             $table->tinyInteger('is_active')->default(0)->after('email');
             $table->tinyInteger('user_type')->default(0)->after('email');
+            $table->tinyInteger('is_banned')->default(0)->after('email');
+            $table->softDeletes();
         });
     }
 
