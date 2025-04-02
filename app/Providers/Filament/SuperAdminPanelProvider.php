@@ -2,7 +2,9 @@
 
 namespace App\Providers\Filament;
 
+use App\Enums\Language;
 use App\Enums\Queue;
+use BezhanSalleh\FilamentLanguageSwitch\LanguageSwitch;
 use Filament\Http\Middleware\Authenticate;
 use Filament\Http\Middleware\AuthenticateSession;
 use Filament\Http\Middleware\DisableBladeIconComponents;
@@ -70,5 +72,13 @@ class SuperAdminPanelProvider extends PanelProvider
                     ->showGitBranch(),
                 \Rmsramos\Activitylog\ActivitylogPlugin::make(),
             ]);
+    }
+
+    public function boot(): void
+    {
+        LanguageSwitch::configureUsing(static function (LanguageSwitch $switch) {
+            $switch
+                ->locales(Language::values());
+        });
     }
 }
