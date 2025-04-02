@@ -1,6 +1,6 @@
 # Bazaar App Made With Laravel
 <div style="display:flex;">
-    <img style="margin: auto;" src="public/img/backend-services.png" width="1260" height="963" alt="backend-services">
+    <img style="margin: auto;" src="public/img/backend-services.png" width="530" height="895" alt="backend-services">
 </div>
 
 ### setup
