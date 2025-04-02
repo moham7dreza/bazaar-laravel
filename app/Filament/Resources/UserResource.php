@@ -55,6 +55,20 @@ class UserResource extends Resource
                             ->required()
                             ->email()
                             ->translateLabel(),
+                        Forms\Components\TextInput::make('password')
+                            ->password()
+                            ->required()
+                            ->dehydrated(fn ($state) => filled($state))
+                            ->required(fn (string $context): bool => $context === 'create')
+                            ->maxLength(255),
+                        Forms\Components\TextInput::make('password_confirmation')
+                            ->password()
+                            ->required()
+                            ->maxLength(255)
+                            ->dehydrated(fn ($state) => filled($state))
+                            ->required(fn (string $context): bool => $context === 'create')
+                            ->same('password')
+                            ->label('Confirm Password'),
                         Forms\Components\TextInput::make('mobile')
                             ->required()
                             ->string()
@@ -112,6 +126,7 @@ class UserResource extends Resource
             ])
             ->deferFilters()
             ->actions([
+                \STS\FilamentImpersonate\Tables\Actions\Impersonate::make(),
                 Tables\Actions\EditAction::make(),
                 ActivityLogTimelineTableAction::make('Activities')->limit(),
             ])
