@@ -49,7 +49,6 @@
         "shuvroroy/filament-spatie-laravel-backup": "^2.2",
         "spatie/cpu-load-health-check": "^1.0",
         "spatie/laravel-health": "^1.33",
-        "spatie/laravel-permission": "^6.16",
         "spatie/laravel-prometheus": "^1.2",
         "spatie/security-advisories-health-check": "^1.2",
         "stechstudio/filament-impersonate": "^3.15"
