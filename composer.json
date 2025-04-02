@@ -112,7 +112,7 @@
             "@php artisan optimize:clear",
             "@php artisan modules:clear",
             "@php artisan filament:optimize-clear",
-            "@php artisan migrate --force",
+            "@php artisan migrate --force --seed",
             "npm run setup"
         ],
         "testp": [
