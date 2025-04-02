@@ -106,8 +106,9 @@
             "@php artisan ide-helper:eloquent"
         ],
         "reload": [
-            "@php artisan clear-compiled",
+            "Composer\\Config::disableProcessTimeout",
             "composer install --ignore-platform-reqs",
+            "@php artisan clear-compiled",
             "@php artisan optimize:clear",
             "@php artisan modules:clear",
             "@php artisan filament:optimize-clear",
@@ -129,28 +130,27 @@
             "@php artisan filament:optimize"
         ],
         "dev": [
-            "git pull",
+            "Composer\\Config::disableProcessTimeout",
             "composer reload",
             "composer ide-helper",
+            "git pull",
+            "@php artisan key:generate",
             "@php artisan queue:work"
         ],
         "prod": [
-            "git pull",
-            "@php artisan clear-compiled",
+            "Composer\\Config::disableProcessTimeout",
             "composer install --ignore-platform-reqs --optimize-autoloader --no-dev",
             "composer run-script post-install",
             "composer dump-autoload --optimize",
+            "@php artisan clear-compiled",
             "@php artisan optimize:clear",
             "@php artisan modules:clear",
             "@php artisan migrate --force",
             "composer cache",
             "npm run setup",
-            "@php artisan queue:work"
-        ],
-        "setup": [
             "git pull",
             "@php artisan key:generate",
-            "composer dev"
+            "@php artisan queue:work"
         ]
     },
     "extra": {

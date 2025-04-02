@@ -4,15 +4,15 @@
 </div>
 
 ### setup
-1. copy .env.example to .env 
+1. copy .env.example to .env
 2. apply required changes in .env
-3. run `composer setup`
+3. run `composer run dev`
 4. if you use herd goto http://bazaar-laravel.test
 
 ### testing
 1. copy .env.testing.example to .env.testing 
 2. apply required changes in .evn.testing
-3. run `composer testpf`
+3. run `composer testpf` for create test databases and run tests parallel
 
 ### Commands
 1. `composer ide-helper` - generate IDE helper files
@@ -20,9 +20,8 @@
 3. `composer cache` - cache system views, events, routes, modules
 4. `composer testp` - run tests parallel
 5. `composer testpf` - recreate test databases and run tests parallel
-6. `composer dev` - run `git pull`, `composer reload` and `composer ide-helper` and queue:work
+6. `composer dev` - run `composer reload` and `composer ide-helper`, `git pull` and queue:work
 7. `composer prod` - run `git pull`, clear all cache, install no dev dependencies, run migrations, `composer cache`, queue:work
-8. `composer setup` - run `git pull`, `key:generate`, `npm run setup`, `composer dev`
 
 ## Tasks
 1. refactor image upload operations in controllers
