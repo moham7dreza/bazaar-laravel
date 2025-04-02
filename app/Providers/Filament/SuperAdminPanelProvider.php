@@ -71,6 +71,7 @@ class SuperAdminPanelProvider extends PanelProvider
                     ->visible(fn () => auth()->user()?->isAdmin())
                     ->showGitBranch(),
                 \Rmsramos\Activitylog\ActivitylogPlugin::make(),
+                \CharrafiMed\GlobalSearchModal\GlobalSearchModalPlugin::make(),
             ]);
     }
 

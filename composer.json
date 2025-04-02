@@ -22,6 +22,7 @@
         "ext-pcntl": "*",
         "amiriun/sms": "dev-master",
         "bezhansalleh/filament-language-switch": "^3.1",
+        "charrafimed/global-search-modal": "^3.7",
         "cviebrock/eloquent-sluggable": "^12.0",
         "dedoc/scramble": "^0.12",
         "doctrine/dbal": "^4.2",
