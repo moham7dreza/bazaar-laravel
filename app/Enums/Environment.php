@@ -5,7 +5,7 @@ namespace App\Enums;
 enum Environment: string
 {
     case PRODUCTION = 'production';
-    case DEMO = 'demo';
+    case STAGING = 'staging';
     case TESTING = 'testing';
     case LOCAL = 'local';
     case LOCALHOST = 'localhost';

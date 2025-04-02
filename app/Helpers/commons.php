@@ -256,10 +256,10 @@ if (!function_exists('isEnvLocal')) {
     }
 }
 
-if (!function_exists('isEnvDemo')) {
-    function isEnvDemo(): bool
+if (!function_exists('isEnvStaging')) {
+    function isEnvStaging(): bool
     {
-        return app()->environment(Environment::DEMO->value);
+        return app()->environment(Environment::STAGING->value);
     }
 }
 
