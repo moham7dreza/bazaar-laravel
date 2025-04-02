@@ -19,7 +19,7 @@ class MongoLogJob implements ShouldQueue
     )
     {
         $this->delay(now()->addSeconds(5));
-        $this->onQueue(Queue::MONGO_LOG);
+        $this->onQueue(isEnvLocal() ? Queue::DEFAULT : Queue::MONGO_LOG);
     }
 
     /**
