@@ -2,6 +2,7 @@
 
 use App\Models\Monitor\CommandPerformanceLog;
 use App\Models\Monitor\JobPerformanceLog;
+use Cmsmaxinc\FilamentSystemVersions\Commands\CheckDependencyVersions;
 use Illuminate\Foundation\Inspiring;
 use Illuminate\Support\Facades\Artisan;
 use Spatie\Health\Commands as SpatieHealthCommands;
@@ -17,6 +18,7 @@ Schedule::command(SpatieHealthCommands\ScheduleCheckHeartbeatCommand::class)->ev
 
 Schedule::command('telescope:prune --hours=48')->daily();
 Schedule::command('horizon:snapshot')->everyFiveMinutes();
+Schedule::call(CheckDependencyVersions::class)->daily();
 
 Schedule::command('model:prune --pretend', [
     '--model' => [

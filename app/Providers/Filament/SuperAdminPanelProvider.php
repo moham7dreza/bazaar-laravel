@@ -46,6 +46,7 @@ class SuperAdminPanelProvider extends PanelProvider
             ->widgets([
                 Widgets\AccountWidget::class,
                 Widgets\FilamentInfoWidget::class,
+                \Cmsmaxinc\FilamentSystemVersions\Filament\Widgets\DependencyWidget::make(),
             ])
             ->middleware([
                 EncryptCookies::class,

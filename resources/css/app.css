@@ -2,6 +2,7 @@
 
 @source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
 @source '../../vendor/bezhansalleh/filament-language-switch/resources/views/language-switch.blade.php',
+@source '../../vendor/cmsmaxinc/filament-system-versions/resources/**/*.blade.php',
 @source '../../storage/framework/views/*.php';
 @source '../**/*.blade.php';
 @source '../**/*.js';

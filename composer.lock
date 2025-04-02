@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "36b9f3d2678bbe2591509dd996bc17dd",
+    "content-hash": "44411c095eb45ed02338bef31a88fd6f",
     "packages": [
         {
             "name": "althinect/filament-spatie-roles-permissions",
@@ -854,6 +854,72 @@
                 }
             ],
             "time": "2024-07-16T11:13:48+00:00"
+        },
+        {
+            "name": "cmsmaxinc/filament-system-versions",
+            "version": "v1.0.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/cmsmaxinc/filament-system-versions.git",
+                "reference": "6c1579ee2f0b16b6b2726644a991adab19307162"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/cmsmaxinc/filament-system-versions/zipball/6c1579ee2f0b16b6b2726644a991adab19307162",
+                "reference": "6c1579ee2f0b16b6b2726644a991adab19307162",
+                "shasum": ""
+            },
+            "require": {
+                "filament/filament": "^3.0",
+                "php": "^8.1",
+                "spatie/laravel-package-tools": "^1.15.0"
+            },
+            "require-dev": {
+                "laravel/pint": "^1.0",
+                "nunomaduro/collision": "^7.9",
+                "orchestra/testbench": "^8.0",
+                "pestphp/pest": "^2.1",
+                "pestphp/pest-plugin-arch": "^2.0",
+                "pestphp/pest-plugin-laravel": "^2.0"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "aliases": {
+                        "FilamentSystemVersions": "Cmsmaxinc\\FilamentSystemVersions\\Facades\\FilamentSystemVersions"
+                    },
+                    "providers": [
+                        "Cmsmaxinc\\FilamentSystemVersions\\FilamentSystemVersionsServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Cmsmaxinc\\FilamentSystemVersions\\": "src/",
+                    "Cmsmaxinc\\FilamentSystemVersions\\Database\\Factories\\": "database/factories/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "CMS Max"
+                }
+            ],
+            "description": "This is my package filament-system-versions",
+            "homepage": "https://github.com/cmsmaxinc/filament-system-versions",
+            "keywords": [
+                "cmsmaxinc",
+                "filament-system-versions",
+                "laravel"
+            ],
+            "support": {
+                "issues": "https://github.com/cmsmaxinc/filament-system-versions/issues",
+                "source": "https://github.com/cmsmaxinc/filament-system-versions"
+            },
+            "time": "2025-02-17T20:16:48+00:00"
         },
         {
             "name": "cocur/slugify",
