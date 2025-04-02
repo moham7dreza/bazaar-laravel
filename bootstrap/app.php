@@ -13,6 +13,12 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware) {
+
+        $middleware->append([
+            \App\Http\Middleware\BanUserMiddleware::class,
+            \App\Http\Middleware\EnableDebugForDeveloper::class,
+        ]);
+
         $middleware->api(prepend: [
             \Laravel\Sanctum\Http\Middleware\EnsureFrontendRequestsAreStateful::class,
         ]);
@@ -21,6 +27,7 @@ return Application::configure(basePath: dirname(__DIR__))
             'verified' => \App\Http\Middleware\EnsureEmailIsVerified::class,
             'mobileVerified' => \App\Http\Middleware\EnsureMobileIsVerified::class,
             'admin' => \App\Http\Middleware\CheckAdminMiddleware::class,
+            'dev' => \App\Http\Middleware\OnlyAllowDevelopersMiddleware::class,
         ]);
 
         //
