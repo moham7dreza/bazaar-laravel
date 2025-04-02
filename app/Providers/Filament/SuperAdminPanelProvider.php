@@ -72,6 +72,7 @@ class SuperAdminPanelProvider extends PanelProvider
                     ->showGitBranch(),
                 \Rmsramos\Activitylog\ActivitylogPlugin::make(),
                 \CharrafiMed\GlobalSearchModal\GlobalSearchModalPlugin::make(),
+                \Althinect\FilamentSpatieRolesPermissions\FilamentSpatieRolesPermissionsPlugin::make(),
             ]);
     }
 

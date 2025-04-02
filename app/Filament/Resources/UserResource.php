@@ -87,6 +87,12 @@ class UserResource extends Resource
                             ->searchable()
                             ->preload()
                             ->relationship('city', 'name'),
+                        Forms\Components\Select::make('roles')
+                            ->multiple()
+                            ->preload()
+                            ->searchable()
+                            ->translateLabel()
+                            ->relationship('roles', 'name'),
                         Forms\Components\Toggle::make('user_type')
                             ->required()
                             ->translateLabel(),

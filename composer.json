@@ -20,6 +20,7 @@
         "php": "^8.3",
         "ext-mongodb": "*",
         "ext-pcntl": "*",
+        "althinect/filament-spatie-roles-permissions": "^2.3",
         "amiriun/sms": "dev-master",
         "bezhansalleh/filament-language-switch": "^3.1",
         "charrafimed/global-search-modal": "^3.7",
