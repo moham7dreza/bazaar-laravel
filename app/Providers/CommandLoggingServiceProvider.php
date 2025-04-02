@@ -37,7 +37,7 @@ final class CommandLoggingServiceProvider extends ServiceProvider
     {
         if (
             $this->app->runningUnitTests()
-//            || config('performance-log.command_log_disabled')
+            || config('performance-log.command_log_disabled')
         ) {
             return;
         }
