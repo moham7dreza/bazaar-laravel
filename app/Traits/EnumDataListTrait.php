@@ -21,7 +21,7 @@ trait EnumDataListTrait
         return self::totalCases()->pluck('value', 'name')->toArray();
     }
 
-    private static function totalCases(): Collection
+    public static function totalCases(): Collection
     {
         return collect(self::cases());
     }

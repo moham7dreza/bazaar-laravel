@@ -16,10 +16,10 @@ class PermissionSeeder extends Seeder
     {
         app()[PermissionRegistrar::class]->forgetCachedPermissions();
 
-        UserPermission::collectValues()->each(static fn($permission) => Permission::query()->updateOrCreate(['name' => $permission]));
+        UserPermission::totalCases()->each(static fn($permission) => Permission::query()->updateOrCreate(['name' => $permission]));
         $this->command->info('permissions created.');
 
-        UserRole::collectValues()->each(static fn($role) => Role::query()->updateOrCreate(['name' => $role]));
+        UserRole::totalCases()->each(static fn($role) => Role::query()->updateOrCreate(['name' => $role]));
         $this->command->info('roles created.');
 
         $this->assignRoleToAdmin();
@@ -27,9 +27,9 @@ class PermissionSeeder extends Seeder
 
     private function assignRoleToAdmin(): void
     {
-        $role_super_admin = Role::query()->where('name', UserRole::ADMIN->value)->first();
+        $role_super_admin = Role::query()->where('name', UserRole::ADMIN)->first();
 
-        $role_super_admin->givePermissionTo(UserPermission::SEE_PANEL->value);
+        $role_super_admin->givePermissionTo(UserPermission::cases());
         $this->command->info('permissions assigned to admin role.');
 
         $super_admin = User::query()->admin()->first() ?? User::factory()->admin()->create();
@@ -38,7 +38,7 @@ class PermissionSeeder extends Seeder
         auth()->loginUsingId($super_admin->id);
         $this->command->info('admin user logged in.');
 
-        $super_admin->assignRole(UserRole::ADMIN->value);
+        $super_admin->assignRole(UserRole::ADMIN);
         $this->command->info('role and permissions assigned to admin user.');
     }
 }
