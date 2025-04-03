@@ -90,61 +90,14 @@ class SuperAdminPanelProvider extends PanelProvider
 
     private function getNavItems(): array
     {
-        return [
-            NavigationItem::make()
-                ->label(fn (): string => __('Root'))
-                ->url('/', shouldOpenInNewTab: true)
-                ->icon('heroicon-o-presentation-chart-line')
-                ->group('Tools')
-                ->sort(0),
-            NavigationItem::make()
-                ->label(fn (): string => __('Mainweb'))
-                ->url('http://localhost:3000', shouldOpenInNewTab: true)
-                ->icon('heroicon-o-presentation-chart-line')
-                ->group('Tools')
-                ->sort(0),
-            NavigationItem::make()
-                ->label(fn (): string => __('Api Docs'))
-                ->url('/docs/api', shouldOpenInNewTab: true)
-                ->icon('heroicon-o-presentation-chart-line')
-                ->group('Tools')
-                ->sort(0),
-            NavigationItem::make()
-                ->label(fn (): string => __('Telescope'))
-                ->url('/'.config('telescope.path'), shouldOpenInNewTab: true)
-                ->icon('heroicon-o-magnifying-glass-circle')
-                ->group('Tools')
-                ->sort(2),
-            NavigationItem::make()
-                ->label(fn (): string => __('Monitoring'))
-                ->url('/health?fresh', shouldOpenInNewTab: true)
-                ->icon('heroicon-o-magnifying-glass-circle')
-                ->group('Tools')
-                ->sort(2),
-            NavigationItem::make()
-                ->label(fn (): string => __('Logging'))
-                ->url('/'.config('log-viewer.route_path'), shouldOpenInNewTab: true)
-                ->icon('heroicon-o-exclamation-triangle')
-                ->group('Tools')
-                ->sort(1),
-            NavigationItem::make()
-                ->label(fn (): string => __('Pulse'))
-                ->url('/'.config('pulse.path'), shouldOpenInNewTab: true)
-                ->icon('heroicon-o-arrow-trending-up')
-                ->group('Tools')
-                ->sort(3),
-            NavigationItem::make()
-                ->label(fn (): string => __('Horizon'))
-                ->url('/'.config('horizon.path'), shouldOpenInNewTab: true)
-                ->icon('heroicon-o-queue-list')
-                ->group('Tools')
-                ->sort(4),
-            NavigationItem::make()
-                ->label(fn (): string => __('Metrics'))
-                ->url('/'.config('prometheus.urls.default'), shouldOpenInNewTab: true)
-                ->icon('heroicon-o-queue-list')
-                ->group('Tools')
-                ->sort(4),
-        ];
+        return collect(config('tools'))
+            ->map(fn (array $tool) => NavigationItem::make()
+                ->label(fn (): string => trans($tool['title']))
+                ->url($tool['url'], shouldOpenInNewTab: true)
+                ->icon($tool['heroicon'])
+                ->group($tool['group'])
+                ->sort($tool['sort'])
+            )
+            ->all();
     }
 }
