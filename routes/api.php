@@ -1,24 +1,17 @@
 <?php
 
 use App\Enums\RouteSection;
-use App\Http\Controllers\Admin\Setting\SettingController;
-use App\Http\Controllers\Auth\RegisteredUserWithOTPController;
-use App\Http\Controllers\Auth\VerifyUserWithOTPController;
-use App\Http\Controllers\ImageController;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Admin\User\UserController;
-use App\Http\Controllers\Admin\Content\MenuController;
-use App\Http\Controllers\Admin\Content\PageController;
-use App\Http\Controllers\Auth\RegisteredUserController;
-use App\Http\Controllers\Admin\Advertise\CategoryController;
 use App\Http\Controllers\Admin\Advertise\AdvertisementController;
-use App\Http\Controllers\Admin\Advertise\CategoryValueController;
 use App\Http\Controllers\Admin\Advertise\CategoryAttributeController;
+use App\Http\Controllers\Admin\Advertise\CategoryController;
+use App\Http\Controllers\Admin\Advertise\CategoryValueController;
 use App\Http\Controllers\Admin\Advertise\GalleryController;
 use App\Http\Controllers\Admin\Advertise\StateController;
+use App\Http\Controllers\Admin\Content\MenuController;
+use App\Http\Controllers\Admin\Content\PageController;
+use App\Http\Controllers\Admin\Setting\SettingController;
+use App\Http\Controllers\Admin\User\UserController;
 use App\Http\Controllers\App\Home\AdvertisementController as HomeAdvertisementController;
-use App\Http\Controllers\App\Panel\GalleryController as PanelGalleryController;
 use App\Http\Controllers\App\Home\CategoryController as HomeCategoryController;
 use App\Http\Controllers\App\Home\CityController;
 use App\Http\Controllers\App\Home\MenuController as HomeMenuController;
@@ -27,7 +20,14 @@ use App\Http\Controllers\App\Home\StateController as HomeStateController;
 use App\Http\Controllers\App\Panel\AdvertisementController as PanelAdvertisementController;
 use App\Http\Controllers\App\Panel\AdvertisementNoteController;
 use App\Http\Controllers\App\Panel\FavoriteAdvertisementController;
+use App\Http\Controllers\App\Panel\GalleryController as PanelGalleryController;
 use App\Http\Controllers\App\Panel\HistoryAdvertisementController;
+use App\Http\Controllers\Auth\RegisteredUserController;
+use App\Http\Controllers\Auth\RegisteredUserWithOTPController;
+use App\Http\Controllers\Auth\VerifyUserWithOTPController;
+use App\Http\Controllers\ImageController;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Route;
 
 Route::middleware(['auth:sanctum', 'verified'])->get('/user', function (Request $request) {
     return $request->user();
@@ -53,7 +53,6 @@ Route::prefix(RouteSection::IMAGES)->name('images.')->group(function () {
     Route::put('update', [ImageController::class, 'update'])->name('destroy');
 });
 
-
 Route::prefix(RouteSection::ADMIN)->name('admin.')->middleware(['auth', 'admin'])->group(function () {
 
     Route::apiResource('setting', SettingController::class);
@@ -77,12 +76,10 @@ Route::prefix(RouteSection::ADMIN)->name('admin.')->middleware(['auth', 'admin']
     });
 });
 
-
-//user panel
+// user panel
 Route::prefix(RouteSection::PANEL)->name('panel.')->middleware(['auth:sanctum', 'mobileVerified'])->group(function () {
     Route::prefix(RouteSection::ADVERTISE)->name('advertise.')->group(function () {
         Route::apiResource('advertisement', PanelAdvertisementController::class);
-
 
         Route::prefix(RouteSection::GALLERY)->name('gallery.')->group(function () {
             Route::get('{advertisement}/', [PanelGalleryController::class, 'index'])->name('index');

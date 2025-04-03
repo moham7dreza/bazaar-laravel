@@ -16,13 +16,14 @@ class CheckAdminMiddleware
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if (!auth()->check()) {
+        if (! auth()->check()) {
             return ApiJsonResponse::error(trans('response.general.unauthorized'), code: Response::HTTP_UNAUTHORIZED);
         }
         $user = auth()->user();
-        if (!$user->isAdmin()) {
+        if (! $user->isAdmin()) {
             return ApiJsonResponse::error(trans('response.general.forbidden'), code: Response::HTTP_FORBIDDEN);
         }
+
         return $next($request);
     }
 }

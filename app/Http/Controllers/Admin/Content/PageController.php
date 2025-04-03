@@ -2,14 +2,13 @@
 
 namespace App\Http\Controllers\Admin\Content;
 
-use App\Models\Content\Page;
-use Illuminate\Http\Request;
-use App\Traits\HttpResponses;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\StorePageRequest;
 use App\Http\Requests\Admin\UpdatePageRequest;
-use App\Http\Resources\Admin\Content\PageResource;
 use App\Http\Resources\Admin\Content\PageCollection;
+use App\Http\Resources\Admin\Content\PageResource;
+use App\Models\Content\Page;
+use App\Traits\HttpResponses;
 
 class PageController extends Controller
 {
@@ -30,6 +29,7 @@ class PageController extends Controller
     {
         $inputs = $request->all();
         $page = Page::create($inputs);
+
         return new PageResource($page);
     }
 
@@ -41,7 +41,6 @@ class PageController extends Controller
         return new PageResource($page);
     }
 
-
     /**
      * Update the specified resource in storage.
      */
@@ -49,6 +48,7 @@ class PageController extends Controller
     {
         $inputs = $request->all();
         $page->update($inputs);
+
         return new PageResource($page);
     }
 
@@ -58,6 +58,7 @@ class PageController extends Controller
     public function destroy(Page $page)
     {
         $page->delete();
+
         // return ['status' => true, 'msg' => 'منو حذف شد'];
         return $this->success(null, 'منو حذف شد');
     }

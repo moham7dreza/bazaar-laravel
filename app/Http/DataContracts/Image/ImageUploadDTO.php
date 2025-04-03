@@ -13,12 +13,11 @@ final readonly class ImageUploadDTO
         public UploadedFile|File|null $image,
         public ImageUploadMethod $uploadMethod,
         public string $uploadDirectory,
-        public string|null $model = null,
-        public ImageSize|null $currentImageSize = null,
-        public int|null $width = null,
-        public int|null $height = null,
-    )
-    {
+        public ?string $model = null,
+        public ?ImageSize $currentImageSize = null,
+        public ?int $width = null,
+        public ?int $height = null,
+    ) {
         //
     }
 }

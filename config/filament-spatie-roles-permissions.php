@@ -54,11 +54,11 @@ return [
     'should_redirect_to_index' => [
         'permissions' => [
             'after_create' => false,
-            'after_edit' => false
+            'after_edit' => false,
         ],
         'roles' => [
             'after_create' => false,
-            'after_edit' => false
+            'after_edit' => false,
         ],
     ],
 
@@ -134,7 +134,7 @@ return [
 
     'sort' => [
         'role_navigation' => false,
-        'permission_navigation' => false
+        'permission_navigation' => false,
     ],
 
     'generator' => [
@@ -186,7 +186,7 @@ return [
          */
         'model_directories' => [
             app_path('Models'),
-            //app_path('Domains/Forum')
+            // app_path('Domains/Forum')
         ],
 
         /*
@@ -211,7 +211,7 @@ return [
          * Define any other permission that should be synced with the DB
          */
         'custom_permissions' => [
-            //'view-log'
+            // 'view-log'
         ],
 
         'user_model' => \App\Models\User::class,

@@ -2,8 +2,8 @@
 
 namespace App\Jobs;
 
-use App\Models\Monitor\DevLog;
 use App\Enums\Queue;
+use App\Models\Monitor\DevLog;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Queue\Queueable;
 
@@ -14,10 +14,9 @@ class MongoLogJob implements ShouldQueue
     public int $tries = 0;
 
     public function __construct(
-        public readonly array  $data,
+        public readonly array $data,
         public readonly string $logKey,
-    )
-    {
+    ) {
         $this->delay(now()->addSeconds(5));
         $this->onQueue(isEnvLocal() ? Queue::DEFAULT : Queue::MONGO_LOG);
     }
@@ -33,7 +32,7 @@ class MongoLogJob implements ShouldQueue
     public function tags(): array
     {
         return [
-            "mongo-log"
+            'mongo-log',
         ];
     }
 }

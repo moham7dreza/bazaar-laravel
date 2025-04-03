@@ -1,8 +1,8 @@
 <?php
 
-use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 
 class AddStatusColumnToSmsLogs extends Migration
 {
@@ -13,8 +13,7 @@ class AddStatusColumnToSmsLogs extends Migration
      */
     public function up()
     {
-        Schema::table('sms_logs', function($table)
-        {
+        Schema::table('sms_logs', function ($table) {
             $table->integer('status')->after('connector')->nullable();
         });
     }
@@ -26,8 +25,7 @@ class AddStatusColumnToSmsLogs extends Migration
      */
     public function down()
     {
-        Schema::table('sms_logs', function(Blueprint $table)
-        {
+        Schema::table('sms_logs', function (Blueprint $table) {
             $table->dropColumn('status');
         });
     }

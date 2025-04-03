@@ -8,10 +8,9 @@ arch()
 arch()
     ->expect('App\Models')
     ->toBeClasses()
-    ->toExtend('Illuminate\Database\Eloquent\Model')
+    ->toExtend('Illuminate\Database\Eloquent\Model');
 //    ->toOnlyBeUsedIn('App\Repositories')
 //    ->ignoring('App\Models\User')
-;
 
 arch()
     ->expect('App\Http')
@@ -25,7 +24,7 @@ arch('globals')
     ->expect(['dd', 'dump'])
     ->not->toBeUsed();
 
-//arch('facades')
+// arch('facades')
 //    ->expect('Illuminate\Support\Facades')
 //    ->not->toBeUsed();
 
@@ -45,7 +44,7 @@ arch()
     ->expect('App\Helpers')
     ->not->toHavePrefix('Helper');
 
-//arch()
+// arch()
 //    ->expect('App\Models')
 //    ->toOnlyUse('Illuminate\Database');
 
@@ -73,12 +72,12 @@ arch()
         'App\Models\User',
     ]);
 
-//arch()
+// arch()
 //    ->expect('App')
 //    ->toUseStrictTypes();
 
 arch()->preset()->laravel();
 arch()->preset()->php();
-//arch()->preset()->strict();
-//arch()->preset()->relaxed();
+// arch()->preset()->strict();
+// arch()->preset()->relaxed();
 arch()->preset()->security()->ignoring('md5');

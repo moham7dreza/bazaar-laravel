@@ -6,5 +6,5 @@ use Tests\TestCase;
 
 class DemoServiceProviderTest extends TestCase
 {
-	// TODO
+    // TODO
 }

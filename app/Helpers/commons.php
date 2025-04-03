@@ -2,7 +2,6 @@
 
 use App\Enums\Environment;
 use App\Jobs\MongoLogJob;
-use App\Models\Monitor\DevLog;
 use Illuminate\Database\Eloquent\Builder;
 use Morilog\Jalali\Jalalian;
 
@@ -85,7 +84,7 @@ function validateNationalCode($nationalCode): bool
 
         for ($i = 0; $i < 9; $i++) {
             // 1234567890
-            $sum += (int)$nationalCode[$i] * (10 - $i);
+            $sum += (int) $nationalCode[$i] * (10 - $i);
         }
 
         $divideRemaining = $sum % 11;
@@ -96,7 +95,7 @@ function validateNationalCode($nationalCode): bool
             $lastDigit = 11 - ($divideRemaining);
         }
 
-        if ((int)$nationalCode[9] == $lastDigit) {
+        if ((int) $nationalCode[9] == $lastDigit) {
             return true;
         } else {
             return false;
@@ -114,32 +113,32 @@ function convert($size, $unit): array|string
         if ($fileSize > 1024) {
             convert($fileSize, 'KB');
         } else {
-            return convertEnglishToPersian($fileSize) . ' بایت ';
+            return convertEnglishToPersian($fileSize).' بایت ';
         }
     } elseif ($unit == 'KB') {
         $fileSize = round($size / 1024, 4);
         if ($fileSize > 1024) {
             convert($fileSize, 'MB');
         } else {
-            return convertEnglishToPersian($fileSize) . ' کیلوبایت ';
+            return convertEnglishToPersian($fileSize).' کیلوبایت ';
         }
     } elseif ($unit == 'MB') {
         $fileSize = round($size / 1024 / 1024, 4);
         if ($fileSize > 1024) {
             convert($fileSize, 'GB');
         } else {
-            return convertEnglishToPersian($fileSize) . ' مگابایت ';
+            return convertEnglishToPersian($fileSize).' مگابایت ';
         }
     } elseif ($unit == 'GB') {
         $fileSize = round($size / 1024 / 1024 / 1024, 4);
 
-        return convertEnglishToPersian($fileSize) . ' گیگابایت ';
+        return convertEnglishToPersian($fileSize).' گیگابایت ';
     }
 
     return convertEnglishToPersian($fileSize);
 }
 
-if (!function_exists('get_value_enums')) {
+if (! function_exists('get_value_enums')) {
     /**
      * Get value from enums file.
      */
@@ -155,7 +154,7 @@ if (!function_exists('get_value_enums')) {
     }
 }
 
-if (!function_exists('startWith')) {
+if (! function_exists('startWith')) {
     /**
      * Check start with character.
      */
@@ -165,7 +164,7 @@ if (!function_exists('startWith')) {
     }
 }
 
-if (!function_exists('router')) {
+if (! function_exists('router')) {
     /**
      * Check start with character.
      */
@@ -175,7 +174,7 @@ if (!function_exists('router')) {
     }
 }
 
-if (!function_exists('getUser')) {
+if (! function_exists('getUser')) {
     function getUser($request = null)
     {
         if (is_null($request)) {
@@ -185,51 +184,50 @@ if (!function_exists('getUser')) {
         return $request->user();
     }
 }
-if (!function_exists('getRandomArray')) {
+if (! function_exists('getRandomArray')) {
     function getRandomArray(int $count = 5): array
     {
         return collect()
             ->times($count)
-            ->map(fn() => fake()->name)
+            ->map(fn () => fake()->name)
             ->all();
     }
 }
 
-if (!function_exists('is_array_filled')) {
+if (! function_exists('is_array_filled')) {
     function is_array_filled(array $array): bool
     {
         return collect(array_values($array))->filter()->count() > 0;
     }
 }
 
-if (!function_exists('getImageList')) {
+if (! function_exists('getImageList')) {
     function getImageList($image): array|string
     {
         $images = is_string($image) ? [$image] : $image;
 
         return is_array($images)
-            ? collect($images)->map(fn($path) => asset($path))->unique()->toArray()
+            ? collect($images)->map(fn ($path) => asset($path))->unique()->toArray()
             : asset($images);
     }
 
 }
 
-
-if (!function_exists('ondemand_info')) {
+if (! function_exists('ondemand_info')) {
     function ondemand_info(string $message, array $context = [], string $file = 'custom'): void
     {
         Log::build([
             'driver' => 'single',
-            'path' => storage_path('logs/' . $file . '.log'),
+            'path' => storage_path('logs/'.$file.'.log'),
             'level' => 'info',
         ])->info($message, $context);
     }
 }
 
-if (!function_exists('mongo_info')) {
+if (! function_exists('mongo_info')) {
     function mongo_info($log_key, $data, $queueable = false): void
     {
-        if(!$data || isEnvTesting()){
+        if (! $data || isEnvTesting()) {
             return;
         }
         try {
@@ -242,35 +240,35 @@ if (!function_exists('mongo_info')) {
     }
 }
 
-if (!function_exists('isEnvTesting')) {
+if (! function_exists('isEnvTesting')) {
     function isEnvTesting(): bool
     {
         return app()->environment(Environment::TESTING->value);
     }
 }
 
-if (!function_exists('isEnvLocal')) {
+if (! function_exists('isEnvLocal')) {
     function isEnvLocal(): bool
     {
         return app()->environment(Environment::local());
     }
 }
 
-if (!function_exists('isEnvStaging')) {
+if (! function_exists('isEnvStaging')) {
     function isEnvStaging(): bool
     {
         return app()->environment(Environment::STAGING->value);
     }
 }
 
-if (!function_exists('isEnvProduction')) {
+if (! function_exists('isEnvProduction')) {
     function isEnvProduction(): bool
     {
         return app()->environment(Environment::PRODUCTION->value);
     }
 }
 
-if (!function_exists('isEnvLocalOrTesting')) {
+if (! function_exists('isEnvLocalOrTesting')) {
     function isEnvLocalOrTesting(): bool
     {
         return app()->environment(Environment::localOrTesting());
@@ -280,13 +278,13 @@ if (!function_exists('isEnvLocalOrTesting')) {
 function number2latin($str): array|string
 {
 
-    $western_arabic = array('0', '0', '1', '1', '2', '2', '3', '3', '4', '4', '5', '5', '6', '6', '7', '7', '8', '8', '9', '9');
-    $eastern_arabic = array('٠', '۰', '۱', '١', '٢', '۲', '٣', '۳', '٤', '۴', '٥', '۵', '٦', '۶', '٧', '۷', '٨', '۸', '٩', '۹');
+    $western_arabic = ['0', '0', '1', '1', '2', '2', '3', '3', '4', '4', '5', '5', '6', '6', '7', '7', '8', '8', '9', '9'];
+    $eastern_arabic = ['٠', '۰', '۱', '١', '٢', '۲', '٣', '۳', '٤', '۴', '٥', '۵', '٦', '۶', '٧', '۷', '٨', '۸', '٩', '۹'];
 
     return str_replace($eastern_arabic, $western_arabic, $str);
 }
 
-if (!function_exists('getSqlWithBindings')) {
+if (! function_exists('getSqlWithBindings')) {
     function getSqlWithBindings(Builder $query): array
     {
         return str_replace('?', $query->getBindings(), $query->toSql());

@@ -2,16 +2,15 @@
 
 namespace App\Http\Controllers\App\Panel;
 
-use Illuminate\Http\Request;
-use App\Traits\HttpResponses;
 use App\Http\Controllers\Controller;
 use App\Models\Advertise\Advertisement;
 use App\Models\Advertise\AdvertisementNote;
+use App\Traits\HttpResponses;
+use Illuminate\Http\Request;
 
 class AdvertisementNoteController extends Controller
 {
     use HttpResponses;
-
 
     public function store(Advertisement $advertisement, Request $request)
     {
@@ -29,23 +28,23 @@ class AdvertisementNoteController extends Controller
     {
         $note = AdvertisementNote::where('user_id', auth()->id())->where('advertisement_id', $advertisement->id)->first();
 
-        if (!$note) {
+        if (! $note) {
             return $this->error(null, 'یادداشتی برای این آگهی پیدا نشد', 404);
         }
 
         return $this->success($note, 'یادداشت دریافت شد');
     }
 
-
     public function destroy(Advertisement $advertisement)
     {
         $note = AdvertisementNote::where('user_id', auth()->id())->where('advertisement_id', $advertisement->id)->first();
 
-        if (!$note) {
+        if (! $note) {
             return $this->error(null, 'یادداشتی برای این آگهی پیدا نشد', 404);
         }
 
         $note->delete();
+
         return $this->success(null, 'یادداشت حذف شد');
     }
 }

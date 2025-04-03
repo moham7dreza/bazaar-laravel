@@ -1,4 +1,5 @@
 <?php
+
 return [
 
     'username' => env('SMS_USERNAME ', '09932932392'),
@@ -28,13 +29,13 @@ return [
         ],
     ],
 
-    'kavenegar'    => [
+    'kavenegar' => [
         'api_key' => env('KAVENEGAR_API_KEY', 'YOUR_API_KEY'),
         'numbers' => [
             'YOUR_NUMBERS',
         ],
     ],
-    'mediana'    => [
+    'mediana' => [
         'api_key' => env('MEDIANA_API_KEY', 'YOUR_API_KEY'),
         'numbers' => [
             'YOUR_NUMBERS',
@@ -46,17 +47,17 @@ return [
             'YOUR_NUMBERS',
         ],
     ],
-    'sms_ir'       => [
-        'api_key'    => env('SMSIR_API_KEY', 'YOUR_API_KEY'),
+    'sms_ir' => [
+        'api_key' => env('SMSIR_API_KEY', 'YOUR_API_KEY'),
         'secret_key' => env('SMSIR_SECRET_KEY', 'YOUR_SECRET_KEY'),
-        'numbers'    => [
+        'numbers' => [
             'YOUR_NUMBERS',
         ],
     ],
-    'payamresan'   => [
+    'payamresan' => [
         'username' => env('PAYAMRESAN_USERNAME', 'YOUR_USERNAME'),
         'password' => env('PAYAMRESAN_PASSWORD', 'YOUR_PASSWORD'),
-        'numbers'  => [
+        'numbers' => [
             'YOUR_NUMBERS',
         ],
     ],
@@ -76,5 +77,5 @@ return [
     'events' => [
         'after_receiving_sms' => \Amiriun\Sms\Events\SMSWasReceived::class,
         'after_delivering_sms' => \Amiriun\Sms\Events\SMSWasDelivered::class,
-    ]
+    ],
 ];

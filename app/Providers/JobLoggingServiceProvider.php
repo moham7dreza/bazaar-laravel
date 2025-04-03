@@ -14,8 +14,11 @@ use Illuminate\Support\ServiceProvider;
 final class JobLoggingServiceProvider extends ServiceProvider
 {
     private float $startTime;
+
     private int $startMemory;
+
     private int $queryCount;
+
     private float $totalQueryTime;
 
     private const array EXCLUDED_JOBS = [
@@ -24,15 +27,13 @@ final class JobLoggingServiceProvider extends ServiceProvider
 
     /**
      * Bootstrap any application services.
-     *
-     * @return void
      */
     public function boot(): void
     {
         if (
             $this->app->runningUnitTests()
             || config('performance-log.job_log_disabled')
-//            || !Lottery::odds(config('performance-log.job_log_sampling_rate'))->choose()
+            //            || !Lottery::odds(config('performance-log.job_log_sampling_rate'))->choose()
         ) {
             return;
         }
@@ -88,8 +89,6 @@ final class JobLoggingServiceProvider extends ServiceProvider
 
     /**
      * Register any application services.
-     *
-     * @return void
      */
     public function register(): void
     {

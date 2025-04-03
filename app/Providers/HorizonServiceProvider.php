@@ -29,7 +29,7 @@ class HorizonServiceProvider extends HorizonApplicationServiceProvider
     protected function gate(): void
     {
         Gate::define('viewHorizon', static function (?User $user) {
-            return !isEnvLocalOrTesting() ? $user?->isAdmin() : true;
+            return ! isEnvLocalOrTesting() ? $user?->isAdmin() : true;
         });
     }
 }

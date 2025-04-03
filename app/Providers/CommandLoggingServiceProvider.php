@@ -24,14 +24,15 @@ final class CommandLoggingServiceProvider extends ServiceProvider
     ];
 
     private float $startTime;
+
     private int $startMemory;
+
     private int $queryCount;
+
     private float $totalQueryTime;
 
     /**
      * Bootstrap any application services.
-     *
-     * @return void
      */
     public function boot(): void
     {
@@ -92,8 +93,6 @@ final class CommandLoggingServiceProvider extends ServiceProvider
 
     /**
      * Register any application services.
-     *
-     * @return void
      */
     public function register(): void
     {

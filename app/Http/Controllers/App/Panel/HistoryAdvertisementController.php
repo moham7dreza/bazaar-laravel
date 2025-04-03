@@ -2,18 +2,15 @@
 
 namespace App\Http\Controllers\App\Panel;
 
-use Illuminate\Http\Request;
-use App\Traits\HttpResponses;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\App\AdvertisementResource;
 use App\Models\Advertise\Advertisement;
+use App\Traits\HttpResponses;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 
 class HistoryAdvertisementController extends Controller
 {
-    use HttpResponses, AuthorizesRequests;
-
-
+    use AuthorizesRequests, HttpResponses;
 
     public function index()
     {

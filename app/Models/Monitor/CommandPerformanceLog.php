@@ -15,6 +15,7 @@ class CommandPerformanceLog extends Model
     use Prunable;
 
     public const UPDATED_AT = null;
+
     protected $guarded = [];
 
     /**

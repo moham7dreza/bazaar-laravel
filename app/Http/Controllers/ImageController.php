@@ -20,7 +20,7 @@ class ImageController extends Controller
     {
         $result = $imageService->upload($request->getDTO());
 
-        if (!$result) {
+        if (! $result) {
             return ApiJsonResponse::error(trans('response.image.upload failed'), code: Response::HTTP_INTERNAL_SERVER_ERROR);
         }
 
@@ -40,7 +40,7 @@ class ImageController extends Controller
         ];
         $result = $imageService->update($request->getDTO(), $image);
 
-        if (!$result) {
+        if (! $result) {
             return ApiJsonResponse::error(trans('response.image.upload failed'));
         }
 

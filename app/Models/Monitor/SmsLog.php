@@ -2,7 +2,6 @@
 
 namespace App\Models\Monitor;
 
-use Illuminate\Database\Eloquent\Factories\Factory;
 use MongoDB\Laravel\Eloquent\Model;
 
 class SmsLog extends Model
@@ -16,10 +15,10 @@ class SmsLog extends Model
     protected function casts(): array
     {
         return [
-//            'connector' => SmsProviderEnum::class,
-//            'status' => SmsStatusEnum::class,
-//            'type' => SmsTypeEnum::class,
-//            'message_type' => SmsMessageTypeEnum::class,
+            //            'connector' => SmsProviderEnum::class,
+            //            'status' => SmsStatusEnum::class,
+            //            'type' => SmsTypeEnum::class,
+            //            'message_type' => SmsMessageTypeEnum::class,
             'sent_at' => 'datetime',
             'delivered_at' => 'datetime',
         ];

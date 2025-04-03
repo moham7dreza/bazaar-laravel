@@ -2,14 +2,13 @@
 
 namespace App\Http\Controllers\Admin\Advertise;
 
-use Illuminate\Http\Request;
-use App\Traits\HttpResponses;
 use App\Http\Controllers\Controller;
-use App\Models\Advertise\CategoryValue;
 use App\Http\Requests\Admin\StoreCategoryValueRequest;
 use App\Http\Requests\Admin\UpdateCategoryValueRequest;
-use App\Http\Resources\Admin\Advertise\CategoryValueResource;
 use App\Http\Resources\Admin\Advertise\CategoryValueCollection;
+use App\Http\Resources\Admin\Advertise\CategoryValueResource;
+use App\Models\Advertise\CategoryValue;
+use App\Traits\HttpResponses;
 
 class CategoryValueController extends Controller
 {
@@ -30,6 +29,7 @@ class CategoryValueController extends Controller
     {
         $inputs = $request->all();
         $categoryValue = CategoryValue::create($inputs);
+
         return new CategoryValueResource($categoryValue);
     }
 
@@ -48,6 +48,7 @@ class CategoryValueController extends Controller
     {
         $inputs = $request->all();
         $categoryValue->update($inputs);
+
         return new CategoryValueResource($categoryValue);
     }
 
@@ -57,6 +58,7 @@ class CategoryValueController extends Controller
     public function destroy(CategoryValue $categoryValue)
     {
         $categoryValue->delete();
+
         // return ['status' => true, 'msg' => 'دسته بندی حذف شد'];
         return $this->success(null, 'مقدار ویژگی دسته بندی حذف شد');
     }

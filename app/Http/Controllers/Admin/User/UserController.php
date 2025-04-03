@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers\Admin\User;
 
-use App\Models\User;
-use Illuminate\Http\Request;
-use App\Traits\HttpResponses;
 use App\Http\Controllers\Controller;
-use App\Http\Resources\Admin\User\UserResource;
 use App\Http\Resources\Admin\User\UserCollection;
+use App\Http\Resources\Admin\User\UserResource;
+use App\Models\User;
+use App\Traits\HttpResponses;
+use Illuminate\Http\Request;
 
 class UserController extends Controller
 {
@@ -44,6 +44,7 @@ class UserController extends Controller
     {
         $inputs = ['name' => $request->name];
         $user->update($inputs);
+
         return new UserResource($user);
     }
 
@@ -53,6 +54,7 @@ class UserController extends Controller
     public function destroy(User $user)
     {
         $user->delete();
+
         return $this->success(null, 'کاربر حذف شد');
     }
 }

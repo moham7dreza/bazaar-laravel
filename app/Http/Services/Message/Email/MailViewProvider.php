@@ -8,7 +8,6 @@ use Illuminate\Queue\SerializesModels;
 
 class MailViewProvider extends Mailable
 {
-
     use Queueable, SerializesModels;
 
     public $details;
@@ -24,5 +23,4 @@ class MailViewProvider extends Mailable
     {
         return $this->subject($this->subject)->view('mail');
     }
-
 }

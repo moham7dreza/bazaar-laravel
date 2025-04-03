@@ -25,7 +25,7 @@ class AdvertisementResource extends JsonResource
             'gallery' => $this->images->map(function ($image) {
                 return [
                     'id' => $image->id,
-                    'url' => $image->url
+                    'url' => $image->url,
                 ];
             }),
             'category_attributes' => $this->category->attributes->map(function ($attribute) {
@@ -43,6 +43,7 @@ class AdvertisementResource extends JsonResource
             }),
             'category_attributes_with_values' => $this->category->attributes->map(function ($attribute) {
                 $value = $this->categoryValues()->firstWhere('category_attribute_id', $attribute->id);
+
                 return [
                     'id' => $attribute->id,
                     'name' => $attribute->name,

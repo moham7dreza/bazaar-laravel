@@ -10,8 +10,7 @@ class CustomFilenames
     /**
      * Customize the given logger instance.
      *
-     * @param Logger $logger
-     * @return void
+     * @param  Logger  $logger
      */
     public function __invoke($logger): void
     {

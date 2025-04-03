@@ -16,7 +16,7 @@ class AdvertisementCollection extends ResourceCollection
     {
         return [
             'data' => $this->collection,
-            'status' => true
+            'status' => true,
         ];
     }
 }

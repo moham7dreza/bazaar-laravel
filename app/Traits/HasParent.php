@@ -2,13 +2,13 @@
 
 namespace App\Traits;
 
-use Illuminate\Database\Eloquent\SoftDeletes;
 use Dyrynda\Database\Support\CascadeSoftDeletes;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 trait HasParent
 {
-    use SoftDeletes;
     use CascadeSoftDeletes;
+    use SoftDeletes;
 
     protected $cascadeDeletes = ['children'];
 

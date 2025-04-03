@@ -6,8 +6,8 @@ use App\Models\User;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\ServiceProvider;
 use Spatie\CpuLoadHealthCheck\CpuLoadCheck;
-use Spatie\Health\Facades\Health;
 use Spatie\Health\Checks\Checks;
+use Spatie\Health\Facades\Health;
 use Spatie\SecurityAdvisoriesHealthCheck\SecurityAdvisoriesCheck;
 
 class HealthServiceProvider extends ServiceProvider
@@ -45,7 +45,7 @@ class HealthServiceProvider extends ServiceProvider
             SecurityAdvisoriesCheck::new(),
             Checks\RedisMemoryUsageCheck::new()
                 ->warnWhenAboveMb(900)
-                ->failWhenAboveMb(1000)
+                ->failWhenAboveMb(1000),
         ]);
     }
 
@@ -55,7 +55,7 @@ class HealthServiceProvider extends ServiceProvider
     public function boot(): void
     {
         Gate::define('viewHealth', static function (?User $user) {
-            return !isEnvLocalOrTesting() ? $user?->isAdmin() : true;
+            return ! isEnvLocalOrTesting() ? $user?->isAdmin() : true;
         });
     }
 }

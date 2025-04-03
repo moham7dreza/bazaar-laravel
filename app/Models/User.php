@@ -4,20 +4,19 @@ namespace App\Models;
 
 use App\Enums\UserPermission;
 use App\Enums\UserRole;
-use App\Models\Geo\City;
-use App\Traits\MustVerifyMobile;
-use Filament\Panel;
 use App\Models\Advertise\Advertisement;
 use App\Models\Advertise\AdvertisementNote;
+use App\Models\Geo\City;
+use App\Traits\MustVerifyMobile;
 use Filament\Models\Contracts\FilamentUser;
+use Filament\Panel;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Illuminate\Notifications\Notifiable;
-use Illuminate\Contracts\Auth\MustVerifyEmail;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Notifications\Notifiable;
 use Spatie\Activitylog\LogOptions;
 use Spatie\Activitylog\Traits\LogsActivity;
 use Spatie\Permission\Traits\HasRoles;
@@ -25,8 +24,8 @@ use Spatie\Permission\Traits\HasRoles;
 class User extends Authenticatable implements FilamentUser
 {
     use HasFactory, Notifiable;
-    use LogsActivity;
     use HasRoles;
+    use LogsActivity;
     use MustVerifyMobile;
     use SoftDeletes;
 
@@ -97,12 +96,10 @@ class User extends Authenticatable implements FilamentUser
         return $this->belongsToMany(Advertisement::class)->withTimestamps();
     }
 
-
     public function advertisementNotes(): HasMany
     {
         return $this->hasMany(AdvertisementNote::class);
     }
-
 
     public function viewedAdvertisements(): BelongsToMany
     {
@@ -122,8 +119,7 @@ class User extends Authenticatable implements FilamentUser
     {
         return $this->user_type === 1
             && ($this->hasVerifiedMobile() || $this->hasVerifiedEmail())
-            && $this->hasPermissionTo(UserPermission::SEE_PANEL)
-//            && $this->hasRole(UserRole::ADMIN)
-            ;
+            && $this->hasPermissionTo(UserPermission::SEE_PANEL);
+        //            && $this->hasRole(UserRole::ADMIN)
     }
 }

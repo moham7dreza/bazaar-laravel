@@ -166,7 +166,8 @@
         "start": [
             "Composer\\Config::disableProcessTimeout",
             "@php artisan octane:start"
-        ]
+        ],
+        "pint": "./vendor/bin/pint"
     },
     "extra": {
         "laravel": {

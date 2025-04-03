@@ -23,10 +23,9 @@ class VerifyUserWithOTPController extends Controller
             'token' => ['required', 'string'],
         ]);
 
-
         $otp = Otp::where('token', $request->token)->where('login_id', $request->mobile)->where('used', 0)->first();
 
-        if (!$otp) {
+        if (! $otp) {
             return response()->json([
                 'message' => 'کد تایید یافت نشد',
             ], 422);
@@ -46,6 +45,7 @@ class VerifyUserWithOTPController extends Controller
 
         if ($otp->otp_code !== $request->otp) {
             $otp->increment('attempts');
+
             return response()->json([
                 'message' => 'کد وارد شده صحیح نمیباشد',
             ], status: 422);
@@ -55,9 +55,10 @@ class VerifyUserWithOTPController extends Controller
 
         $user = User::where('mobile', $request->mobile)->first();
 
-        //login
+        // login
         if ($user) {
             Auth::login($user);
+
             return response()->json([
                 'message' => 'با موفقیت وارد شدید',
             ], status: 200);

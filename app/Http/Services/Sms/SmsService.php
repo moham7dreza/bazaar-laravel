@@ -7,9 +7,10 @@ use SoapFault;
 
 class SmsService
 {
-
     private $username;
+
     private $password;
+
     private $from;
 
     public function __construct()
@@ -30,14 +31,15 @@ class SmsService
                 'password' => $this->password,
                 'to' => $phoneNumber,
                 'from' => $this->from,
-                'text' => 'کد تایید شما :' . $otpCode,
+                'text' => 'کد تایید شما :'.$otpCode,
                 'isflash' => false,
             ];
 
             $result = $client->SendSimpleSms2($parameters);
+
             return $result;
         } catch (SoapFault $soapFault) {
-            throw new \Exception('خطا در ارسال پیامک' . $soapFault->faultstring);
+            throw new \Exception('خطا در ارسال پیامک'.$soapFault->faultstring);
         }
     }
 }

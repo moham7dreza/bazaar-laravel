@@ -12,8 +12,7 @@ Route::can('viewHealth')->middleware([])->group(function () {
     Route::get('health-json', HeathCheckControllers\HealthCheckJsonResultsController::class);
 });
 
-
 // Route::get('image', [ImageController::class, 'index']);
 // Route::post('image/store', [ImageController::class, 'store'])->name('image.store');
 
-require __DIR__ . '/auth.php';
+require __DIR__.'/auth.php';

@@ -4,12 +4,14 @@ namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
 use Illuminate\Support\Collection;
+
 use function Laravel\Prompts\suggest;
 use function Laravel\Prompts\text;
 
 class ArtisanFinderCommand extends Command
 {
     protected $signature = 'find:art {--exact}';
+
     protected $description = 'Find artisan command with given name';
 
     /**
@@ -20,33 +22,36 @@ class ArtisanFinderCommand extends Command
         $commands = collect($this->getApplication()?->all());
         $commandName = $this->getSuggestedCommandName($commands);
 
-        if (!$this->isCommandValid($commands, $commandName)) {
-            $this->error("Command not found.");
+        if (! $this->isCommandValid($commands, $commandName)) {
+            $this->error('Command not found.');
+
             return Command::FAILURE;
         }
 
         $command = $commands->get($commandName);
-        if (!$command) {
-            $this->error("Command definition not found.");
+        if (! $command) {
+            $this->error('Command definition not found.');
+
             return Command::FAILURE;
         }
 
-        if (!$this->confirmCommandClassPath($command)) {
+        if (! $this->confirmCommandClassPath($command)) {
             return Command::FAILURE;
         }
 
         $commandParameters = $this->getCommandParameters($command);
-        $this->info("Command parameters: " . json_encode($commandParameters, JSON_THROW_ON_ERROR));
+        $this->info('Command parameters: '.json_encode($commandParameters, JSON_THROW_ON_ERROR));
 
-        if (!$this->confirm('Do you want to continue?', true)) {
-            $this->warn("Command execution cancelled.");
+        if (! $this->confirm('Do you want to continue?', true)) {
+            $this->warn('Command execution cancelled.');
+
             return Command::FAILURE;
         }
 
         try {
             $this->call($commandName, $commandParameters);
 
-            $this->warn("Command execution successfully.");
+            $this->warn('Command execution successfully.');
         } catch (\Exception $exception) {
             report($exception);
         }
@@ -77,10 +82,11 @@ class ArtisanFinderCommand extends Command
     private function matchesSearchTerms(string $command, string $input): bool
     {
         foreach (explode(' ', $input) as $term) {
-            if (!str_contains($command, $term)) {
+            if (! str_contains($command, $term)) {
                 return false;
             }
         }
+
         return true;
     }
 
@@ -93,6 +99,7 @@ class ArtisanFinderCommand extends Command
     {
         $commandClass = get_class($command);
         $this->warn("Command Class Path: $commandClass");
+
         return $this->confirm('Do you want to continue?', true);
     }
 
@@ -110,8 +117,9 @@ class ArtisanFinderCommand extends Command
 
     private function buildPlaceholderText($arguments, $options): string
     {
-        $argsList = implode(' ', array_map(static fn ($arg) => $arg->getName() . ($arg->isRequired() ? '*' : ''), $arguments));
-        $optionsList = implode(' ', array_map(static fn ($opt) => '--' . $opt->getName() . ($opt->isValueRequired() ? '*' : ''), $options));
+        $argsList = implode(' ', array_map(static fn ($arg) => $arg->getName().($arg->isRequired() ? '*' : ''), $arguments));
+        $optionsList = implode(' ', array_map(static fn ($opt) => '--'.$opt->getName().($opt->isValueRequired() ? '*' : ''), $options));
+
         return trim("$argsList $optionsList");
     }
 
@@ -122,6 +130,7 @@ class ArtisanFinderCommand extends Command
             placeholder: $placeholderText,
             hint: '*Required args - Press Enter for none. Use - for empty args, Set options as true/false in order.',
         );
+
         return explode(' ', $argsInput);
     }
 
@@ -131,15 +140,15 @@ class ArtisanFinderCommand extends Command
 
         foreach (array_keys($arguments) as $index => $argName) {
             $argValue = $userValues[$index] ?? null;
-            if (!in_array($argValue, [null, '-', ''], true)) {
+            if (! in_array($argValue, [null, '-', ''], true)) {
                 $commandParameters[$argName] = str_contains($argValue, ',') ? explode(',', $argValue) : $argValue;
             }
         }
 
         foreach (array_keys($options) as $index => $optName) {
             $optionValue = $userValues[count($arguments) + $index] ?? null;
-            if (!in_array($optionValue, [null, '-', ''], true)) {
-                $commandParameters['--' . $optName] = str_contains($optionValue, ',') ? explode(',', $optionValue) : $optionValue;
+            if (! in_array($optionValue, [null, '-', ''], true)) {
+                $commandParameters['--'.$optName] = str_contains($optionValue, ',') ? explode(',', $optionValue) : $optionValue;
             }
         }
 

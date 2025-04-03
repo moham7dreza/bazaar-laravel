@@ -21,7 +21,7 @@ class PrometheusServiceProvider extends ServiceProvider
             ->label('status')
             ->helpText('This is the number of users in our app')
             ->namespace('app')
-            ->value(function() {
+            ->value(function () {
                 return [
                     [User::where('is_active', 1)->count(), ['active']],
                     [User::where('is_active', 0)->count(), ['inactive']],

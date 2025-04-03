@@ -13,6 +13,7 @@ use Illuminate\Http\Request;
 class CategoryController extends Controller
 {
     use HttpResponses;
+
     /**
      * Display a listing of the resource.
      */
@@ -21,7 +22,6 @@ class CategoryController extends Controller
         return new CategoryCollection(Category::all());
     }
 
-
     /**
      * Store a newly created resource in storage.
      */
@@ -29,6 +29,7 @@ class CategoryController extends Controller
     {
         $inputs = $request->all();
         $category = Category::create($inputs);
+
         return new CategoryResource($category);
     }
 
@@ -40,7 +41,6 @@ class CategoryController extends Controller
         return new CategoryResource($category);
     }
 
-
     /**
      * Update the specified resource in storage.
      */
@@ -48,6 +48,7 @@ class CategoryController extends Controller
     {
         $inputs = $request->all();
         $category->update($inputs);
+
         return new CategoryResource($category);
     }
 
@@ -57,6 +58,7 @@ class CategoryController extends Controller
     public function destroy(Category $category)
     {
         $category->delete();
+
         // return ['status' => true, 'msg' => 'دسته بندی حذف شد'];
         return $this->success(null, 'دسته بندی حذف شد');
     }

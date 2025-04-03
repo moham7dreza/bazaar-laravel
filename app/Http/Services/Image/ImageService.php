@@ -4,10 +4,9 @@ namespace App\Http\Services\Image;
 
 use App\Enums\ImageUploadMethod;
 use App\Http\DataContracts\Image\ImageUploadDTO;
-use Intervention\Image\ImageManager;
 use Intervention\Image\Drivers\Gd\Driver;
+use Intervention\Image\ImageManager;
 use Morilog\Jalali\CalendarUtils;
-
 
 class ImageService extends ImageToolsService
 {
@@ -16,7 +15,7 @@ class ImageService extends ImageToolsService
         try {
 
             $this->setExclusiveDirectory(
-                config('image.default-parent-upload-directory') . DIRECTORY_SEPARATOR . $DTO->uploadDirectory,
+                config('image.default-parent-upload-directory').DIRECTORY_SEPARATOR.$DTO->uploadDirectory,
             );
 
             return match ($DTO->uploadMethod) {
@@ -28,32 +27,34 @@ class ImageService extends ImageToolsService
 
         } catch (\Exception $e) {
             \Log::error($e->getMessage());
+
             return null;
         }
     }
 
-    public function update(ImageUploadDTO $DTO, array|null $image): array|string|null
+    public function update(ImageUploadDTO $DTO, ?array $image): array|string|null
     {
         try {
 
             if ($DTO->uploadMethod === ImageUploadMethod::METHOD_CREATE_INDEX_AND_SAVE) {
 
-                if ($DTO->currentImageSize && !empty($image)) {
+                if ($DTO->currentImageSize && ! empty($image)) {
                     $image['currentImage'] = $DTO->currentImageSize;
+
                     return $image;
                 }
 
-                if (!empty($image)) {
+                if (! empty($image)) {
                     $this->deleteIndex($image);
                 }
             } else {
-                if (!empty($image)) {
+                if (! empty($image)) {
                     $this->deleteImage($image);
                 }
             }
 
             $this->setExclusiveDirectory(
-                config('image.default-parent-upload-directory') . DIRECTORY_SEPARATOR . $DTO->uploadDirectory,
+                config('image.default-parent-upload-directory').DIRECTORY_SEPARATOR.$DTO->uploadDirectory,
             );
 
             return match ($DTO->uploadMethod) {
@@ -65,17 +66,18 @@ class ImageService extends ImageToolsService
 
         } catch (\Exception $e) {
             \Log::error($e->getMessage());
+
             return null;
         }
     }
 
-    public function save($image): string|null
+    public function save($image): ?string
     {
         try {
             $this->setImage($image);
             $this->provider();
 
-            (new ImageManager(new Driver()))
+            (new ImageManager(new Driver))
                 ->read($image->getRealPath())
                 ->save(public_path($this->getImageAddress()), null, $this->getImageFormat());
 
@@ -83,17 +85,18 @@ class ImageService extends ImageToolsService
 
         } catch (\Exception $e) {
             \Log::error($e->getMessage());
+
             return null;
         }
     }
 
-    public function fitAndSave($image, $width, $height): string|null
+    public function fitAndSave($image, $width, $height): ?string
     {
         try {
             $this->setImage($image);
             $this->provider();
 
-            (new ImageManager(new Driver()))
+            (new ImageManager(new Driver))
                 ->read($image->getRealPath())
                 ->resizeDown($width, $height)
                 ->save(public_path($this->getImageAddress()), null, $this->getImageFormat());
@@ -102,36 +105,37 @@ class ImageService extends ImageToolsService
 
         } catch (\Exception $e) {
             \Log::error($e->getMessage());
+
             return null;
         }
     }
 
-    public function createIndexAndSave($image): array|null
+    public function createIndexAndSave($image): ?array
     {
         try {
             $imageSizes = config('image.index-image-sizes');
 
             $this->setImage($image);
 
-                $this->getImageDirectory() ?? $this->setImageDirectory(
-                    CalendarUtils::strftime('Y') . DIRECTORY_SEPARATOR .
-                    CalendarUtils::strftime('m') . DIRECTORY_SEPARATOR .
-                    CalendarUtils::strftime('d')
+            $this->getImageDirectory() ?? $this->setImageDirectory(
+                CalendarUtils::strftime('Y').DIRECTORY_SEPARATOR.
+                CalendarUtils::strftime('m').DIRECTORY_SEPARATOR.
+                CalendarUtils::strftime('d')
             );
 
-            $this->setImageDirectory($this->getImageDirectory() . DIRECTORY_SEPARATOR . time());
+            $this->setImageDirectory($this->getImageDirectory().DIRECTORY_SEPARATOR.time());
 
-                $this->getImageName() ?? $this->setImageName(CalendarUtils::strftime('Y_m_d_H_i_s'));
+            $this->getImageName() ?? $this->setImageName(CalendarUtils::strftime('Y_m_d_H_i_s'));
 
             $imageName = $this->getImageName();
 
             $indexArray = [];
             foreach ($imageSizes as $sizeAlias => $imageSize) {
-                $currentImageName = $imageName . '_' . $sizeAlias;
+                $currentImageName = $imageName.'_'.$sizeAlias;
                 $this->setImageName($currentImageName);
                 $this->provider();
 
-                (new ImageManager(new Driver()))
+                (new ImageManager(new Driver))
                     ->read($image->getRealPath())
                     ->resizeDown($imageSize['width'], $imageSize['height'])
                     ->save(public_path($this->getImageAddress()), null, $this->getImageFormat());
@@ -147,10 +151,10 @@ class ImageService extends ImageToolsService
 
         } catch (\Exception $e) {
             \Log::error($e->getMessage());
+
             return null;
         }
     }
-
 
     public function deleteImage($imagePath): bool
     {
@@ -158,45 +162,49 @@ class ImageService extends ImageToolsService
             if (is_file($imagePath)) {
                 unlink($imagePath);
             }
+
             return true;
         } catch (\Exception $e) {
             \Log::error($e->getMessage());
+
             return false;
         }
     }
-
 
     public function deleteIndex($images): bool
     {
         try {
             $directory = public_path($images['directory']);
+
             return $this->deleteDirectoryAndFiles($directory);
 
         } catch (\Exception $e) {
             \Log::error($e->getMessage());
+
             return false;
         }
     }
 
-
     public function deleteDirectoryAndFiles($directory): bool
     {
         try {
-            if (!is_dir($directory)) {
+            if (! is_dir($directory)) {
                 return false;
             }
 
-            foreach (glob($directory . DIRECTORY_SEPARATOR . '*', GLOB_MARK) as $file) {
+            foreach (glob($directory.DIRECTORY_SEPARATOR.'*', GLOB_MARK) as $file) {
                 if (is_dir($file)) {
                     $this->deleteDirectoryAndFiles($file);
                 } else {
                     unlink($file);
                 }
             }
+
             return rmdir($directory);
 
         } catch (\Exception $e) {
             \Log::error($e->getMessage());
+
             return false;
         }
     }

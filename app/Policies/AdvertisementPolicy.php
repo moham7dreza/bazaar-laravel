@@ -2,9 +2,8 @@
 
 namespace App\Policies;
 
-use App\Models\User;
-use Illuminate\Auth\Access\Response;
 use App\Models\Advertise\Advertisement;
+use App\Models\User;
 
 class AdvertisementPolicy
 {

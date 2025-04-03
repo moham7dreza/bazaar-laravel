@@ -14,10 +14,9 @@ class SettingController extends Controller
     public function index()
     {
         $setting = Setting::first();
+
         return $setting;
     }
-
-
 
     /**
      * Update the specified resource in storage.
@@ -26,6 +25,7 @@ class SettingController extends Controller
     {
         $setting = Setting::first();
         $setting->update($request->all());
+
         return $setting;
     }
 }

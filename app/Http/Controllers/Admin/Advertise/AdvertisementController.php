@@ -2,14 +2,14 @@
 
 namespace App\Http\Controllers\Admin\Advertise;
 
+use App\Http\Controllers\Controller;
+use App\Http\Requests\Admin\StoreAdvertisementRequest;
 use App\Http\Requests\Admin\UpdateAdvertisementRequest;
+use App\Http\Resources\Admin\Advertise\AdvertisementCollection;
+use App\Http\Resources\Admin\Advertise\AdvertisementResource;
 use App\Http\Responses\ApiJsonResponse;
 use App\Http\Services\Image\ImageService;
-use App\Http\Controllers\Controller;
 use App\Models\Advertise\Advertisement;
-use App\Http\Requests\Admin\StoreAdvertisementRequest;
-use App\Http\Resources\Admin\Advertise\AdvertisementResource;
-use App\Http\Resources\Admin\Advertise\AdvertisementCollection;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Http\Response;
 
@@ -30,7 +30,7 @@ class AdvertisementController extends Controller
     {
         $inputs = $request->all();
         if ($request->hasFile('image')) {
-            $imageService->setExclusiveDirectory('images' . DIRECTORY_SEPARATOR . 'advertisement-images');
+            $imageService->setExclusiveDirectory('images'.DIRECTORY_SEPARATOR.'advertisement-images');
             $result = $imageService->createIndexAndSave($request->image);
             if ($result) {
                 $inputs['image'] = $result;
@@ -41,7 +41,6 @@ class AdvertisementController extends Controller
 
         return new AdvertisementResource(Advertisement::create($inputs));
     }
-
 
     /**
      * Display the specified resource.
@@ -58,23 +57,24 @@ class AdvertisementController extends Controller
     {
         $inputs = $request->all();
         if ($request->hasFile('image')) {
-            if (!empty(($advertisement->image))) {
+            if (! empty(($advertisement->image))) {
                 $imageService->deleteDirectoryAndFiles($advertisement->image['directory']);
             }
-            $imageService->setExclusiveDirectory('images' . DIRECTORY_SEPARATOR . 'advertisement-images');
+            $imageService->setExclusiveDirectory('images'.DIRECTORY_SEPARATOR.'advertisement-images');
             $result = $imageService->createIndexAndSave($request->image);
             if ($result === false) {
                 return ApiJsonResponse::error(trans('response.image.upload failed'), code: Response::HTTP_INTERNAL_SERVER_ERROR);
             }
             $inputs['image'] = $result;
         } else {
-            if (isset($inputs['currentImage']) && !empty($advertisement->image)) {
+            if (isset($inputs['currentImage']) && ! empty($advertisement->image)) {
                 $image = $advertisement->image;
                 $image['currentImage'] = $inputs['currentImage'];
                 $inputs['image'] = $image;
             }
         }
         $advertisement->update($inputs);
+
         return new AdvertisementResource($advertisement);
     }
 

@@ -12,7 +12,7 @@ class OnlyAllowDevelopersMiddleware
     /**
      * Handle an incoming request.
      *
-     * @param Closure(Request): (Response) $next
+     * @param  Closure(Request): (Response)  $next
      */
     public function handle(Request $request, Closure $next): Response
     {
@@ -20,6 +20,7 @@ class OnlyAllowDevelopersMiddleware
         if ($mobile && in_array($mobile, config(''), true)) {
             return $next($request);
         }
+
         return ApiJsonResponse::error(trans('response.general.not-found'), code: Response::HTTP_NOT_FOUND);
     }
 }

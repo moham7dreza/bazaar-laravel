@@ -15,9 +15,9 @@ class EnsureMobileIsVerified
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if ($request->user() && !$request->user()->mobile_verified_at) {
+        if ($request->user() && ! $request->user()->mobile_verified_at) {
             return response()->json([
-                'message' => 'شماره موبایل تایید نشده است'
+                'message' => 'شماره موبایل تایید نشده است',
             ], 403);
         }
 

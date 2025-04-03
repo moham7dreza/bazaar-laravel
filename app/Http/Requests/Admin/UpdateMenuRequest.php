@@ -24,7 +24,7 @@ class UpdateMenuRequest extends FormRequest
         return [
             'title' => 'required|max:120|min:2|regex:/^[ا-یa-zA-Z0-9\-۰-۹ء-ي., ]+$/u',
             'url' => 'required|max:255',
-            'position' =>  'required|max:120|min:2|regex:/^[ا-یa-zA-Z0-9\-۰-۹ء-ي., ]+$/u',
+            'position' => 'required|max:120|min:2|regex:/^[ا-یa-zA-Z0-9\-۰-۹ء-ي., ]+$/u',
             'status' => 'required|numeric|in:0,1',
             'icon' => 'nullable|min:2|max:120',
             'parent_id' => 'nullable|min:1|max:100000000|regex:/^[0-9]+$/u|exists:menus,id',

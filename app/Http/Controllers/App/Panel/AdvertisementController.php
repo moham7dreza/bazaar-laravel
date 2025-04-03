@@ -2,19 +2,19 @@
 
 namespace App\Http\Controllers\App\Panel;
 
-use Illuminate\Http\Request;
-use App\Traits\HttpResponses;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\App\StoreAdvertisementRequest;
-use App\Models\Advertise\Advertisement;
-use App\Http\Services\Image\ImageService;
-use App\Http\Resources\App\AdvertisementResource;
 use App\Http\Resources\App\AdvertisementCollection;
+use App\Http\Resources\App\AdvertisementResource;
+use App\Http\Services\Image\ImageService;
+use App\Models\Advertise\Advertisement;
+use App\Traits\HttpResponses;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
+use Illuminate\Http\Request;
 
 class AdvertisementController extends Controller
 {
-    use HttpResponses, AuthorizesRequests;
+    use AuthorizesRequests, HttpResponses;
 
     /**
      * Display a listing of the resource.
@@ -47,7 +47,7 @@ class AdvertisementController extends Controller
             'status' => 3,
         ];
         if ($request->hasFile('image')) {
-            $imageService->setExclusiveDirectory('images' . DIRECTORY_SEPARATOR . 'user-advertisement-images');
+            $imageService->setExclusiveDirectory('images'.DIRECTORY_SEPARATOR.'user-advertisement-images');
             $result = $imageService->createIndexAndSave($request->image);
             if ($result) {
                 $inputs['image'] = $result;
@@ -56,6 +56,7 @@ class AdvertisementController extends Controller
             }
         }
         $ads = Advertisement::create($inputs);
+
         return new AdvertisementResource($ads);
     }
 
@@ -65,6 +66,7 @@ class AdvertisementController extends Controller
     public function show(Advertisement $advertisement)
     {
         $this->authorize('view', $advertisement);
+
         return new AdvertisementResource($advertisement);
     }
 
@@ -92,23 +94,24 @@ class AdvertisementController extends Controller
         ];
 
         if ($request->hasFile('image')) {
-            if (!empty(($advertisement->image))) {
+            if (! empty(($advertisement->image))) {
                 $imageService->deleteDirectoryAndFiles($advertisement->image['directory']);
             }
-            $imageService->setExclusiveDirectory('images' . DIRECTORY_SEPARATOR . 'user-advertisement-images');
+            $imageService->setExclusiveDirectory('images'.DIRECTORY_SEPARATOR.'user-advertisement-images');
             $result = $imageService->createIndexAndSave($request->image);
             if ($result === false) {
                 return $this->error(null, 'خطا در فرایند اپلود', 500);
             }
             $inputs['image'] = $result;
         } else {
-            if (isset($inputs['currentImage']) && !empty($advertisement->image)) {
+            if (isset($inputs['currentImage']) && ! empty($advertisement->image)) {
                 $image = $advertisement->image;
                 $image['currentImage'] = $inputs['currentImage'];
                 $inputs['image'] = $image;
             }
         }
         $advertisement->update($inputs);
+
         return new AdvertisementResource($advertisement);
     }
 
@@ -120,6 +123,7 @@ class AdvertisementController extends Controller
         $this->authorize('delete', $advertisement);
 
         $advertisement->delete();
+
         return $this->success(null, 'آگهی حذف شد');
     }
 }

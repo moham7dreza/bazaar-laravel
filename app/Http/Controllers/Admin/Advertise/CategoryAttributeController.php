@@ -2,18 +2,18 @@
 
 namespace App\Http\Controllers\Admin\Advertise;
 
-use Illuminate\Http\Request;
-use App\Traits\HttpResponses;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\StoreCategoryAttributeRequest;
 use App\Http\Requests\Admin\UpdateCategoryAttributeRequest;
 use App\Http\Resources\Admin\Advertise\CategoryAttributeCollection;
 use App\Http\Resources\Admin\Advertise\CategoryAttributeResource;
 use App\Models\Advertise\CategoryAttribute;
+use App\Traits\HttpResponses;
 
 class CategoryAttributeController extends Controller
 {
     use HttpResponses;
+
     /**
      * Display a listing of the resource.
      */
@@ -22,8 +22,6 @@ class CategoryAttributeController extends Controller
         return new CategoryAttributeCollection(CategoryAttribute::all());
     }
 
-
-
     /**
      * Store a newly created resource in storage.
      */
@@ -31,6 +29,7 @@ class CategoryAttributeController extends Controller
     {
         $inputs = $request->all();
         $categoryAttribute = CategoryAttribute::create($inputs);
+
         return new CategoryAttributeResource($categoryAttribute);
     }
 
@@ -42,7 +41,6 @@ class CategoryAttributeController extends Controller
         return new CategoryAttributeResource($categoryAttribute);
     }
 
-
     /**
      * Update the specified resource in storage.
      */
@@ -50,6 +48,7 @@ class CategoryAttributeController extends Controller
     {
         $inputs = $request->all();
         $categoryAttribute->update($inputs);
+
         return new CategoryAttributeResource($categoryAttribute);
     }
 
@@ -59,6 +58,7 @@ class CategoryAttributeController extends Controller
     public function destroy(CategoryAttribute $categoryAttribute)
     {
         $categoryAttribute->delete();
+
         // return ['status' => true, 'msg' => 'دسته بندی حذف شد'];
         return $this->success(null, 'ویژگی دسته بندی حذف شد');
     }

@@ -3,7 +3,6 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\UserResource\Pages;
-use App\Filament\Resources\UserResource\RelationManagers;
 use App\Filament\Resources\UserResource\Widgets\StatsOverview;
 use App\Models\User;
 use Filament\Forms;
@@ -11,10 +10,9 @@ use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Enums\ActionsPosition;
+use Filament\Tables\Filters\QueryBuilder\Constraints;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
-use Filament\Tables\Filters\QueryBuilder\Constraints;
 use pxlrbt\FilamentExcel\Actions\Tables\ExportBulkAction;
 use Rmsramos\Activitylog\Actions\ActivityLogTimelineTableAction;
 use Rmsramos\Activitylog\RelationManagers\ActivitylogRelationManager;
@@ -102,7 +100,7 @@ class UserResource extends Resource
                         Forms\Components\Toggle::make('is_banned')
                             ->required()
                             ->translateLabel(),
-                    ])
+                    ]),
             ]);
     }
 
@@ -132,7 +130,7 @@ class UserResource extends Resource
                 Tables\Filters\Filter::make('mobile_verified_at')
                     ->label('not verified mobile')
                     ->translateLabel()
-                    ->query(fn(Builder $query): Builder => $query->whereNull('mobile_verified_at')),
+                    ->query(fn (Builder $query): Builder => $query->whereNull('mobile_verified_at')),
                 Tables\Filters\QueryBuilder::make()
                     ->constraints([
                         Constraints\TextConstraint::make('name')->translateLabel(),

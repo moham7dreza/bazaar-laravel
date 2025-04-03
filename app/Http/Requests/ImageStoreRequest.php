@@ -4,7 +4,6 @@ namespace App\Http\Requests;
 
 use App\Enums\ImageUploadMethod;
 use App\Http\DataContracts\Image\ImageUploadDTO;
-use App\Http\Services\Image\ImageService;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 

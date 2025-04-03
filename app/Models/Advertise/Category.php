@@ -2,16 +2,15 @@
 
 namespace App\Models\Advertise;
 
-use Illuminate\Database\Eloquent\Model;
 use Cviebrock\EloquentSluggable\Sluggable;
-use Illuminate\Database\Eloquent\SoftDeletes;
 use Dyrynda\Database\Support\CascadeSoftDeletes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Category extends Model
 {
-    use HasFactory, SoftDeletes, Sluggable, CascadeSoftDeletes;
-
+    use CascadeSoftDeletes, HasFactory, Sluggable, SoftDeletes;
 
     protected $cascadeDeletes = ['children'];
 
@@ -19,8 +18,8 @@ class Category extends Model
     {
         return [
             'slug' => [
-                'source' => 'name'
-            ]
+                'source' => 'name',
+            ],
         ];
     }
 

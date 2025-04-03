@@ -10,12 +10,11 @@ use App\Http\Resources\Admin\Content\MenuResource;
 use App\Models\Content\Menu;
 use App\Traits\HttpResponses;
 use Exception;
-use Illuminate\Http\Request;
 
 class MenuController extends Controller
 {
-
     use HttpResponses;
+
     /**
      * Display a listing of the resource.
      */
@@ -31,6 +30,7 @@ class MenuController extends Controller
     {
         $inputs = $request->all();
         $menu = Menu::create($inputs);
+
         return new MenuResource($menu);
     }
 
@@ -54,6 +54,7 @@ class MenuController extends Controller
     {
         $inputs = $request->all();
         $menu->update($inputs);
+
         return new MenuResource($menu);
     }
 
@@ -63,6 +64,7 @@ class MenuController extends Controller
     public function destroy(Menu $menu)
     {
         $menu->delete();
+
         // return ['status' => true, 'msg' => 'منو حذف شد'];
         return $this->success(null, 'منو حذف شد');
     }

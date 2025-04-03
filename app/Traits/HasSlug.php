@@ -12,8 +12,8 @@ trait HasSlug
     {
         return [
             'slug' => [
-                'source' => 'title'
-            ]
+                'source' => 'title',
+            ],
         ];
     }
 }

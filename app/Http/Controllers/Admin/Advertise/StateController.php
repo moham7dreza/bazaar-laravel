@@ -2,18 +2,18 @@
 
 namespace App\Http\Controllers\Admin\Advertise;
 
-use Illuminate\Http\Request;
-use App\Traits\HttpResponses;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\StoreStateRequest;
 use App\Http\Requests\Admin\UpdateStateRequest;
 use App\Http\Resources\Admin\Advertise\StateCollection;
 use App\Http\Resources\Admin\Advertise\StateResource;
 use App\Models\Advertise\State;
+use App\Traits\HttpResponses;
 
 class StateController extends Controller
 {
     use HttpResponses;
+
     /**
      * Display a listing of the resource.
      */
@@ -29,6 +29,7 @@ class StateController extends Controller
     {
         $inputs = $request->all();
         $state = State::create($inputs);
+
         return new StateResource($state);
     }
 
@@ -40,7 +41,6 @@ class StateController extends Controller
         return new StateResource($state);
     }
 
-
     /**
      * Update the specified resource in storage.
      */
@@ -48,6 +48,7 @@ class StateController extends Controller
     {
         $inputs = $request->all();
         $state->update($inputs);
+
         return new StateResource($state);
     }
 
@@ -57,6 +58,7 @@ class StateController extends Controller
     public function destroy(State $state)
     {
         $state->delete();
+
         return $this->success(null, 'محل حذف شد');
     }
 }

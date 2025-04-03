@@ -14,14 +14,13 @@ class RegisteredUserWithOTPController extends Controller
     public function store(Request $request, SmsService $smsService)
     {
         $request->validate([
-            'mobile' => ['required', 'string', 'max:15']
+            'mobile' => ['required', 'string', 'max:15'],
         ]);
 
         $otpCode = random_int(1000, 9999);
         $token = Str::random(60);
 
         $user = User::where('mobile', $request->mobile)->first();
-
 
         Otp::updateOrCreate(
             ['login_id' => $request->mobile, 'used' => 0],
