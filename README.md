@@ -29,6 +29,7 @@
 7. `composer dev` - run `composer reload` and `composer ide-helper` and queue:work
 8. `composer prod` - run `git pull`, install no dev dependencies, clear all cache, run migrations, `composer cache`, queue:work
 9. `composer start` - fire octane server
+10. `composer pint` - run PHP code style fixer
 
 ## Tasks
 1. refactor image upload operations in controllers
