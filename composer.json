@@ -118,6 +118,7 @@
             "@php artisan optimize:clear",
             "@php artisan modules:clear",
             "@php artisan modules:sync",
+            "@php artisan schedule-monitor:sync",
             "@php artisan filament:optimize-clear",
             "@php artisan filament:upgrade",
             "@php artisan migrate --force --seed",
@@ -156,7 +157,9 @@
             "@php artisan key:generate",
             "composer cache",
             "npm install & npm run build",
-            "@php artisan queue:work"
+            "@php artisan queue:work",
+            "@php artisan schedule:run",
+            "@php artisan horizon"
         ]
     },
     "extra": {
