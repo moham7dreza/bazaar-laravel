@@ -1,6 +1,6 @@
 <?php
 
-namespace Modules\Demo\Tests;
+namespace Modules\Demo\Tests\Feature\Providers;
 
 use Tests\TestCase;
 
