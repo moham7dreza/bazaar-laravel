@@ -1,7 +1,7 @@
 <?php
 
 return [
-    'back-root' => [
+    'front-root' => [
         'title' => 'Mainweb',
         'url' => 'http://localhost:3000',
         'heroicon' => 'heroicon-o-presentation-chart-line',
@@ -9,9 +9,17 @@ return [
         'group' => 'Links',
         'sort' => 1,
     ],
-    'front-root' => [
+    'backend-root' => [
         'title' => 'Backend Root',
         'url' => '/',
+        'heroicon' => 'heroicon-o-presentation-chart-line',
+        'icon' => null,
+        'group' => 'Links',
+        'sort' => 1,
+    ],
+    'backend-admin' => [
+        'title' => 'Super Admin Panel',
+        'url' => '/super-admin',
         'heroicon' => 'heroicon-o-presentation-chart-line',
         'icon' => null,
         'group' => 'Links',

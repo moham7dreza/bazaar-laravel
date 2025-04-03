@@ -19,19 +19,6 @@
         </style>
     @endif
 </head>
-    @php
-        $links = [
-                                        'Super Admin Panel' => '/super-admin',
-                                        'Mainweb' => 'http://localhost:3000',
-                                        'Api Docs' => '/docs/api',
-                                        'Monitoring' => '/health?fresh',
-                                        'Logging' => '/log-viewer',
-                                        'Pulse' => '/pulse',
-                                        'Telescope' => '/telescope',
-                                        'Horizon' => '/horizon',
-                                        'Metrics' => '/metrics',
-                                    ];
-    @endphp
     <body>
     <div class="bg-white">
         <header class="absolute inset-x-0 top-0 z-40">
@@ -61,7 +48,7 @@
                         <div class="absolute left-1/2 z-10 mt-5 flex w-screen max-w-max -translate-x-1/2 px-4">
                             <div class="w-screen max-w-md flex-auto overflow-hidden rounded-3xl bg-white text-sm/6 ring-1 shadow-lg ring-gray-900/5">
                                 <div class="p-4">
-                                    @foreach($links as $title => $url)
+                                    @foreach(config('tools') as $tool)
                                         <div class="group relative flex gap-x-6 rounded-lg p-4 hover:bg-gray-50">
                                             <div class="mt-1 flex size-11 flex-none items-center justify-center rounded-lg bg-gray-50 group-hover:bg-white">
                                                 <svg class="size-6 text-gray-600 group-hover:text-indigo-600" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true" data-slot="icon">
@@ -70,8 +57,8 @@
                                                 </svg>
                                             </div>
                                             <div>
-                                                <a href="{{$url}}" target="_blank" class="font-semibold text-gray-900">
-                                                    {{$title}}
+                                                <a href="{{$tool['url']}}" target="_blank" class="font-semibold text-gray-900">
+                                                    {{trans($tool['title'])}}
                                                     <span class="absolute inset-0"></span>
                                                 </a>
                                             </div>
@@ -122,9 +109,9 @@
                     <div class="mt-6 flow-root">
                         <div class="-my-6 divide-y divide-gray-500/10">
                             <div class="space-y-2 py-6">
-                                @foreach($links as $title => $url)
-                                    <a href="{{$url}}" target="_blank" class="-mx-3 block rounded-lg px-3 py-2 text-base/7 font-semibold text-gray-900 hover:bg-gray-50">
-                                        {{$title}}
+                                @foreach(config('tools') as $tool)
+                                    <a href="{{$tool['url']}}" target="_blank" class="-mx-3 block rounded-lg px-3 py-2 text-base/7 font-semibold text-gray-900 hover:bg-gray-50">
+                                        {{trans($tool['title'])}}
                                     </a>
                                 @endforeach
                             </div>
