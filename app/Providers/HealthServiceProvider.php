@@ -21,6 +21,7 @@ class HealthServiceProvider extends ServiceProvider
             Checks\DatabaseCheck::new(),
             Checks\CacheCheck::new(),
             Checks\QueueCheck::new(),
+            Checks\RedisCheck::new(),
             Checks\BackupsCheck::new(),
             Checks\EnvironmentCheck::new()->expectEnvironment(getenv('APP_ENV')),
             Checks\DatabaseTableSizeCheck::new()
