@@ -10,6 +10,7 @@ use App\Models\Geo\City;
 use App\Traits\MustVerifyMobile;
 use Filament\Models\Contracts\FilamentUser;
 use Filament\Panel;
+use Illuminate\Database\Eloquent\Attributes\Scope;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
@@ -75,8 +76,8 @@ class User extends Authenticatable implements FilamentUser
         return $this->isAdmin();
     }
 
-    /** @scope admin() */
-    public function scopeAdmin($query)
+    #[Scope]
+    public function admin($query)
     {
         return $query->where('user_type', 1)
             ->whereNotNull('mobile_verified_at');

@@ -13,7 +13,7 @@ return [
     |
     */
 
-    'mode' => 'global',
+    'mode' => 'user',
 
     /*
     |--------------------------------------------------------------------------
@@ -30,7 +30,7 @@ return [
     */
 
     'default' => [
-        'theme' => 'default',
+        'theme' => \App\Enums\Theme::DRACULA->value,
         'theme_color' => 'blue',
     ],
 ];
