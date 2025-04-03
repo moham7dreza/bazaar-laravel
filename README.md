@@ -15,7 +15,8 @@
 6. if you use `herd` goto http://bazaar-laravel.test
 7. `admin` user credentials: admin@admin.com, password
 8. activate your idea's `laravel pint inspection`
-9. you are up, `explore` and have `fun`
+9. fill pusher credentials for use `chatify`
+10. you are up, `explore` and have `fun`
 
 ### Docker
 1. run `make` to see available commands

@@ -17,6 +17,14 @@ return [
         'group' => 'Links',
         'sort' => 1,
     ],
+    'chatify' => [
+        'title' => 'Chatify',
+        'url' => '/chatify',
+        'heroicon' => 'heroicon-o-presentation-chart-line',
+        'icon' => null,
+        'group' => 'Tools',
+        'sort' => 1,
+    ],
     'backend-admin' => [
         'title' => 'Super Admin Panel',
         'url' => '/super-admin',
