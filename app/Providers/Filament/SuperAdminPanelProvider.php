@@ -90,7 +90,7 @@ class SuperAdminPanelProvider extends PanelProvider
 
     private function getNavItems(): array
     {
-        return collect(config('tools'))
+        return collect(config('tools'))->except('backend-admin')
             ->map(fn (array $tool) => NavigationItem::make()
                 ->label(fn (): string => trans($tool['title']))
                 ->url($tool['url'], shouldOpenInNewTab: true)
