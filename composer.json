@@ -35,6 +35,7 @@
         "intervention/image": "^3.7",
         "laravel/framework": "^12.0",
         "laravel/horizon": "^5.31",
+        "laravel/octane": "^2.8",
         "laravel/pulse": "^1.4",
         "laravel/sanctum": "^4.0",
         "laravel/telescope": "^5.6",
@@ -143,6 +144,7 @@
             "composer reload",
             "composer ide-helper",
             "@php artisan key:generate",
+            "@php artisan octane:start",
             "@php artisan queue:work"
         ],
         "prod": [
@@ -159,7 +161,12 @@
             "npm install & npm run build",
             "@php artisan queue:work",
             "@php artisan schedule:run",
-            "@php artisan horizon"
+            "@php artisan horizon",
+            "@php artisan octane:start"
+        ],
+        "start": [
+            "Composer\\Config::disableProcessTimeout",
+            "@php artisan octane:start"
         ]
     },
     "extra": {

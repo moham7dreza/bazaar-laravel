@@ -27,3 +27,7 @@ _ide_helper.php
 _ide_helper_models.php
 .phpstorm.meta.php
 
+
+**/caddy
+frankenphp
+frankenphp-worker.php
