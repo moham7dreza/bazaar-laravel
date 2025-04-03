@@ -144,7 +144,6 @@
             "composer reload",
             "composer ide-helper",
             "@php artisan key:generate",
-            "@php artisan octane:start",
             "@php artisan queue:work"
         ],
         "prod": [
