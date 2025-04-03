@@ -6,7 +6,7 @@
     <img style="margin: auto;" src="public/img/filament.png" width="810" height="407" alt="filament">
 </div>
 
-### setup
+### Setup
 1. run `sh fix-permissions.sh`
 2. copy .env.example to .env and apply required changes
 3. run `composer run dev`
@@ -17,7 +17,14 @@
 8. activate your idea's `laravel pint inspection`
 9. you are up, `explore` and have `fun`
 
-### testing
+### Docker
+1. run `make` to see available commands
+2. run `make build` to build docker images
+3. run `make composer run dev` to init project
+4. run `make composer testpf` to create test databases and run tests parallel
+5. run `make horizon` to start horizon
+
+### Testing
 1. copy .env.testing.example to .env.testing and apply required changes
 2. run `composer testpf` for create test databases and run tests parallel
 3. if you set up `coverage` engine like Xdebug, you can get coverage report
