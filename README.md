@@ -14,7 +14,8 @@
 5. for use `OCTANE` you need to configure nginx and run `composer start` and goto http://bazaar.local
 6. if you use `herd` goto http://bazaar-laravel.test
 7. `admin` user credentials: admin@admin.com, password
-8. you are up, `explore` and have `fun`
+8. activate your idea's `laravel pint inspection`
+9. you are up, `explore` and have `fun`
 
 ### testing
 1. copy .env.testing.example to .env.testing and apply required changes
