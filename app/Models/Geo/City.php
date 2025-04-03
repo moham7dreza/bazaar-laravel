@@ -3,6 +3,7 @@
 namespace App\Models\Geo;
 
 use App\Models\Advertise\Advertisement;
+use Illuminate\Database\Eloquent\Attributes\Scope;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -17,8 +18,9 @@ class City extends Model
         return $this->hasMany(Advertisement::class);
     }
 
-    public function scopeActive(Builder $query): void
+    #[Scope]
+    public function active(Builder $query): Builder
     {
-        $query->where('status', 1);
+        return $query->where('status', 1);
     }
 }
