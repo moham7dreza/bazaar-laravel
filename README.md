@@ -41,6 +41,7 @@
 8. `composer prod` - run `git pull`, install no dev dependencies, clear all cache, run migrations, `composer cache`, queue:work
 9. `composer start` - fire octane server
 10. `composer pint` - run PHP code style fixer
+11. `composer reverb` - fire reverb server with output debug information
 
 ## Tasks
 1. refactor image upload operations in controllers

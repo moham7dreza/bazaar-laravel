@@ -37,6 +37,7 @@
         "laravel/horizon": "^5.31",
         "laravel/octane": "^2.8",
         "laravel/pulse": "^1.4",
+        "laravel/reverb": "^1.5",
         "laravel/sanctum": "^4.0",
         "laravel/telescope": "^5.6",
         "laravel/tinker": "^2.0",
@@ -163,13 +164,18 @@
             "@php artisan queue:work",
             "@php artisan schedule:run",
             "@php artisan horizon",
-            "@php artisan octane:start"
+            "@php artisan octane:start",
+            "@php artisan reverb:start"
         ],
         "start": [
             "Composer\\Config::disableProcessTimeout",
             "@php artisan octane:start"
         ],
-        "pint": "./vendor/bin/pint"
+        "pint": "./vendor/bin/pint",
+        "reverb": [
+            "Composer\\Config::disableProcessTimeout",
+            "@php artisan reverb:start --debug"
+        ]
     },
     "extra": {
         "laravel": {
