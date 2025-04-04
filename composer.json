@@ -117,12 +117,9 @@
             "Composer\\Config::disableProcessTimeout",
             "git pull",
             "composer install --ignore-platform-reqs",
-            "@php artisan clear-compiled",
-            "@php artisan optimize:clear",
-            "@php artisan modules:clear",
+            "composer clean",
             "@php artisan modules:sync",
             "@php artisan schedule-monitor:sync",
-            "@php artisan filament:optimize-clear",
             "@php artisan filament:upgrade",
             "@php artisan themes:upgrade",
             "@php artisan storage:link",
@@ -140,6 +137,12 @@
             "Composer\\Config::disableProcessTimeout",
             "@php artisan test -p --recreate-databases"
         ],
+        "clean": [
+            "@php artisan clear-compiled",
+            "@php artisan optimize:clear",
+            "@php artisan modules:clear",
+            "@php artisan filament:optimize-clear"
+        ],
         "cache": [
             "@php artisan optimize",
             "@php artisan modules:cache",
@@ -149,25 +152,19 @@
             "composer reload",
             "composer ide-helper",
             "@php artisan key:generate",
-            "@php artisan queue:work"
+            "npm run queue-reverb-vite"
         ],
         "prod": [
             "Composer\\Config::disableProcessTimeout",
             "git pull",
             "composer install --ignore-platform-reqs --optimize-autoloader --no-dev",
-            "@php artisan clear-compiled",
-            "@php artisan optimize:clear",
-            "@php artisan modules:clear",
-            "@php artisan filament:optimize-clear",
+            "composer clean",
             "@php artisan migrate --force",
             "@php artisan key:generate",
             "composer cache",
             "npm install & npm run build",
-            "@php artisan queue:work",
             "@php artisan schedule:run",
-            "@php artisan horizon",
-            "@php artisan octane:start",
-            "@php artisan reverb:start"
+            "npm run laravel"
         ],
         "start": [
             "Composer\\Config::disableProcessTimeout",
