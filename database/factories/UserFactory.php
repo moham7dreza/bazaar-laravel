@@ -3,6 +3,7 @@
 namespace Database\Factories;
 
 use App\Enums\Theme;
+use App\Models\Geo\City;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
@@ -25,6 +26,7 @@ class UserFactory extends Factory
             'user_type' => 0,
             'mobile' => '09121234567',
             'mobile_verified_at' => now(),
+            'city_id' => City::factory(),
         ];
     }
 
