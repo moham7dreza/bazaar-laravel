@@ -9,7 +9,7 @@
 ### Setup
 1. run `sh fix-permissions.sh`
 2. copy .env.example to .env and apply required changes
-3. run `composer run dev`
+3. run `composer run dev` to init project
 4. open new terminal and run `php artisan horizon` to start it
 5. for use `OCTANE` you need to configure nginx and run `composer start` and goto http://bazaar.local
 6. if you use `herd` goto http://bazaar-laravel.test
@@ -46,6 +46,9 @@
 ## Tasks
 1. refactor image upload operations in controllers
 2. define Repositories for important actions
-3. create factories for models
-4. write end-to-end tests for api routes
-5. define enums for status, types and more
+3. complete end-to-end tests for api routes
+4. complete enums for status, types and more
+5. how run scripts concurrently with single command (queue,horizon,reverb,octane,npm run dev)
+6. cron jobs for scheduled tasks
+7. fix gates for tools (horizon panel and more)
+8. fix global latest scope for models
