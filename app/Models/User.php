@@ -25,15 +25,15 @@ use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable implements FilamentUser
 {
-    use HasFactory, Notifiable;
+    /*** _____________________________________________ use SECTION ________________________________________________ ***/
+    use HasFactory;
     use HasRoles;
     use LogsActivity;
     use MustVerifyMobile;
+    use Notifiable;
     use SoftDeletes;
 
-    /*
-     * props Section
-     * **/
+    /*** _____________________________________________ props SECTION ______________________________________________ ***/
 
     protected $fillable = [
         'name',
@@ -52,9 +52,7 @@ class User extends Authenticatable implements FilamentUser
         'remember_token',
     ];
 
-    /*
-     * overrides and scopes Section
-     * **/
+    /*** _____________________________________________ model related methods SECTION ______________________________ ***/
 
     protected function casts(): array
     {
@@ -84,10 +82,7 @@ class User extends Authenticatable implements FilamentUser
             ->whereNotNull('mobile_verified_at');
     }
 
-    /*
-     * Relations Section
-     * **/
-
+    /*** _____________________________________________ relations SECTION __________________________________________ ***/
     public function advertisements(): HasMany
     {
         return $this->hasMany(Advertisement::class);
@@ -113,9 +108,7 @@ class User extends Authenticatable implements FilamentUser
         return $this->belongsTo(City::class);
     }
 
-    /*
-     * methods Section
-     * **/
+    /*** _____________________________________________ method SECTION __________________________________________ ***/
 
     public function isAdmin(): bool
     {

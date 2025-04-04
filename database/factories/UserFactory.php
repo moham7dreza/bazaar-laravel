@@ -20,6 +20,11 @@ class UserFactory extends Factory
             'password' => static::$password ??= Hash::make('password'),
             'remember_token' => Str::random(10),
             'theme' => Theme::DRACULA->value,
+            'is_banned' => false,
+            'is_active' => true,
+            'user_type' => 0,
+            'mobile' => '09121234567',
+            'mobile_verified_at' => now(),
         ];
     }
 
@@ -27,6 +32,7 @@ class UserFactory extends Factory
     {
         return $this->state(fn (array $attributes) => [
             'email_verified_at' => null,
+            'mobile_verified_at' => null,
         ]);
     }
 
@@ -35,10 +41,7 @@ class UserFactory extends Factory
         return $this->state(fn (array $attributes) => [
             'name' => 'admin',
             'email' => 'admin@admin.com',
-            'is_active' => 1,
             'user_type' => 1,
-            'mobile_verified_at' => now(),
-            'mobile' => '09141234567',
         ]);
     }
 }
