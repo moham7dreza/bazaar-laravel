@@ -14,10 +14,10 @@ return new class extends Migration
         Schema::create('otps', function (Blueprint $table) {
             $table->id();
             $table->string('token');
-            $table->foreignId('user_id')->constrained('users');
+            $table->foreignId('user_id')->constrained('users')->onUpdate('cascade')->onDelete('cascade');
             $table->string('otp_code');
             $table->string('login_id');
-            $table->tinyInteger('type')->default(0)->comment('0 => sms, 1 => email');
+            $table->tinyInteger('type')->default(0)->comment('0 => sms, 1 => email'); // NoticeType enum
             $table->tinyInteger('used')->default(0)->comment('0 => not used, 1 => used');
             $table->tinyInteger('attempts')->default(0);
             $table->timestamps();
