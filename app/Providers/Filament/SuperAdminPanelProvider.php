@@ -78,6 +78,7 @@ class SuperAdminPanelProvider extends PanelProvider
                 \Althinect\FilamentSpatieRolesPermissions\FilamentSpatieRolesPermissionsPlugin::make(),
                 \Mvenghaus\FilamentScheduleMonitor\FilamentPlugin::make(),
                 \Vormkracht10\FilamentMails\FilamentMailsPlugin::make(),
+                \TomatoPHP\FilamentPWA\FilamentPWAPlugin::make(),
             ])
             ->routes(fn () => \Vormkracht10\FilamentMails\Facades\FilamentMails::routes())
             ->navigationItems($this->getNavItems());

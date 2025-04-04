@@ -58,6 +58,7 @@
         "spatie/laravel-schedule-monitor": "^3.10",
         "spatie/security-advisories-health-check": "^1.2",
         "stechstudio/filament-impersonate": "^3.15",
+        "tomatophp/filament-pwa": "^1.0",
         "vormkracht10/filament-mails": "^2.3"
     },
     "require-dev": {
