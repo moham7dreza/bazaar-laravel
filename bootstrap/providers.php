@@ -4,6 +4,7 @@ return [
     Amiriun\SMS\SMSServiceProvider::class,
     App\Providers\AppServiceProvider::class,
     App\Providers\CommandLoggingServiceProvider::class,
+    App\Providers\FakerServiceProvider::class,
     App\Providers\Filament\SuperAdminPanelProvider::class,
     App\Providers\HealthServiceProvider::class,
     App\Providers\HorizonServiceProvider::class,
