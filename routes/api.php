@@ -9,7 +9,6 @@ use App\Http\Controllers\Admin\Advertise\GalleryController;
 use App\Http\Controllers\Admin\Advertise\StateController;
 use App\Http\Controllers\Admin\Content\MenuController;
 use App\Http\Controllers\Admin\Content\PageController;
-use App\Http\Controllers\Admin\Setting\SettingController;
 use App\Http\Controllers\Admin\User\UserController;
 use App\Http\Controllers\App\Home\AdvertisementController as HomeAdvertisementController;
 use App\Http\Controllers\App\Home\CategoryController as HomeCategoryController;
@@ -54,8 +53,6 @@ Route::prefix(RouteSection::IMAGES)->name('images.')->group(function () {
 });
 
 Route::prefix(RouteSection::ADMIN)->name('admin.')->middleware(['auth', 'admin'])->group(function () {
-
-    Route::apiResource('setting', SettingController::class);
 
     Route::prefix(RouteSection::ADVERTISE)->name('advertise.')->group(function () {
         Route::apiResource('category', CategoryController::class);
