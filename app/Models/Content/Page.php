@@ -9,8 +9,15 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Page extends Model
 {
-    use HasFactory, Sluggable, SoftDeletes;
+    /*** _____________________________________________ use SECTION ________________________________________________ ***/
+    use HasFactory;
+    use Sluggable;
+    use SoftDeletes;
 
+    /*** _____________________________________________ props SECTION ______________________________________________ ***/
+    protected $guarded = ['id', 'slug'];
+
+    /*** _____________________________________________ model related methods SECTION ______________________________ ***/
     public function sluggable(): array
     {
         return [
@@ -20,5 +27,15 @@ class Page extends Model
         ];
     }
 
-    protected $guarded = ['id', 'slug'];
+    protected function casts(): array
+    {
+        return [
+            'status' => 'boolean',
+        ];
+    }
+
+    /*** _____________________________________________ relations SECTION __________________________________________ ***/
+
+    /*** _____________________________________________ method SECTION __________________________________________ ***/
+
 }
