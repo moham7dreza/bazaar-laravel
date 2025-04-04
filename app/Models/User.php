@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Enums\UserPermission;
 use App\Enums\UserRole;
+use App\Http\Interfaces\MustVerifyMobile as ShouldVerifiedMobile;
 use App\Models\Advertise\Advertisement;
 use App\Models\Advertise\AdvertisementNote;
 use App\Models\Geo\City;
@@ -23,7 +24,7 @@ use Spatie\Activitylog\LogOptions;
 use Spatie\Activitylog\Traits\LogsActivity;
 use Spatie\Permission\Traits\HasRoles;
 
-class User extends Authenticatable implements FilamentUser
+class User extends Authenticatable implements FilamentUser, ShouldVerifiedMobile
 {
     /*** _____________________________________________ use SECTION ________________________________________________ ***/
     use HasFactory;
