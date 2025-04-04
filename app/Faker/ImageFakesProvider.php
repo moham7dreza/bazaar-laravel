@@ -7,6 +7,9 @@ use Faker\Provider\Base;
 
 class ImageFakesProvider extends Base
 {
+    /**
+     * Generate index array with custom format.
+     */
     public function imageIndexArray(): array
     {
         return [
@@ -20,6 +23,9 @@ class ImageFakesProvider extends Base
         ];
     }
 
+    /**
+     * Generate image directory
+     */
     public function directory(): string
     {
         return asset('images/menus/2025/01/01/2322324234');

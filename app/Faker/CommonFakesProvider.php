@@ -6,6 +6,9 @@ use Faker\Provider\Base;
 
 class CommonFakesProvider extends Base
 {
+    /**
+     * Generate tags in string format.
+     */
     public function tags(): string
     {
         return collect()
