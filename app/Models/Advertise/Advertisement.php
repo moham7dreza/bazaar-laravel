@@ -34,6 +34,8 @@ class Advertisement extends Model
             'is_special' => 'bool',
             'is_ladder' => 'bool',
             'willing_to_trade' => 'bool',
+            'published_at' => 'datetime',
+            'expired_at' => 'datetime',
             //            'ads_type' => AdvertisementType::class,
             //            'ads_status' => AdvertisementStatus::class,
         ];
