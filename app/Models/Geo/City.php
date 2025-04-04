@@ -7,15 +7,26 @@ use Illuminate\Database\Eloquent\Attributes\Scope;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class City extends Model
 {
-    use HasFactory, SoftDeletes;
+    /*** _____________________________________________ use SECTION ________________________________________________ ***/
+    use HasFactory;
+    use SoftDeletes;
 
-    public function advertisements()
+    /*** _____________________________________________ props SECTION ______________________________________________ ***/
+
+    protected $guarded = ['id'];
+
+    /*** _____________________________________________ model related methods SECTION ______________________________ ***/
+
+    protected function casts(): array
     {
-        return $this->hasMany(Advertisement::class);
+        return [
+            'status' => 'boolean',
+        ];
     }
 
     #[Scope]
@@ -23,4 +34,14 @@ class City extends Model
     {
         return $query->where('status', 1);
     }
+
+    /*** _____________________________________________ relations SECTION __________________________________________ ***/
+
+    public function advertisements(): HasMany
+    {
+        return $this->hasMany(Advertisement::class);
+    }
+
+    /*** _____________________________________________ method SECTION __________________________________________ ***/
+
 }

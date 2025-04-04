@@ -2,17 +2,21 @@
 
 namespace App\Models\Content;
 
+use App\Models\Scopes\LatestScope;
 use Cviebrock\EloquentSluggable\Sluggable;
 use Dyrynda\Database\Support\CascadeSoftDeletes;
+use Illuminate\Database\Eloquent\Attributes\ScopedBy;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
+#[ScopedBy([LatestScope::class])]
 class Menu extends Model
 {
     use CascadeSoftDeletes;
+
     /*** _____________________________________________ use SECTION ______________________________________________ ***/
     use HasFactory;
     use Sluggable;

@@ -2,11 +2,14 @@
 
 namespace App\Models\Content;
 
+use App\Models\Scopes\LatestScope;
 use Cviebrock\EloquentSluggable\Sluggable;
+use Illuminate\Database\Eloquent\Attributes\ScopedBy;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
+#[ScopedBy([LatestScope::class])]
 class Page extends Model
 {
     /*** _____________________________________________ use SECTION ________________________________________________ ***/
