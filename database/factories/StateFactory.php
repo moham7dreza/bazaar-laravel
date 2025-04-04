@@ -2,22 +2,21 @@
 
 namespace Database\Factories;
 
+use App\Models\Advertise\State;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
-/**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Model>
- */
 class StateFactory extends Factory
 {
-    /**
-     * Define the model's default state.
-     *
-     * @return array<string, mixed>
-     */
+    protected $model = State::class;
+
     public function definition(): array
     {
         return [
-            //
+            'name' => $this->faker->name,
+            'description' => $this->faker->text,
+            'icon' => 'fa fa-car',
+            'parent_id' => $this->faker->boolean ? State::factory() : null,
+            'status' => $this->faker->boolean,
         ];
     }
 }
