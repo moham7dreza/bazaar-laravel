@@ -35,20 +35,20 @@
 2. `composer ide-helper` - generate IDE helper files
 3. `composer reload` - `git pull`, install all dependencies, clear all cache, filament asset updates, migrate and npm install and build
 4. `composer cache` - cache system views, events, routes, modules and filament assets
-5. `composer testp` - run tests parallel
-6. `composer testpf` - recreate test databases and run tests parallel
-7. `composer dev` - run `composer reload` and `composer ide-helper` and queue:work
-8. `composer prod` - run `git pull`, install no dev dependencies, clear all cache, run migrations, `composer cache`, queue:work
-9. `composer start` - fire octane server
-10. `composer pint` - run PHP code style fixer
-11. `composer reverb` - fire reverb server with output debug information
+5. `composer clean` - clear all cache
+6. `composer testp` - run tests parallel
+7. `composer testpf` - recreate test databases and run tests parallel
+8. `composer dev` - run `composer reload` and `composer ide-helper` and queue:work
+9. `composer prod` - run `git pull`, install no dev dependencies, clear all cache, run migrations, `composer cache`, queue:work
+10. `composer start` - fire octane server
+11. `composer pint` - run PHP code style fixer
+12. `composer reverb` - fire reverb server with output debug information
 
 ## Tasks
 1. refactor image upload operations in controllers
 2. define Repositories for important actions
 3. complete end-to-end tests for api routes
 4. complete enums for status, types and more
-5. how run scripts concurrently with single command (queue,horizon,reverb,octane,npm run dev)
-6. cron jobs for scheduled tasks
-7. fix gates for tools (horizon panel and more)
-8. fix global latest scope for models
+5. cron jobs for scheduled tasks
+6. fix gates for tools (horizon panel and more)
+7. fix global latest scope for models
