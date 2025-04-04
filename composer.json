@@ -158,7 +158,7 @@
             "composer reload",
             "composer ide-helper",
             "@php artisan key:generate",
-            "npm run laravel"
+            "npm run queue-reverb-vite"
         ],
         "prod": [
             "Composer\\Config::disableProcessTimeout",
