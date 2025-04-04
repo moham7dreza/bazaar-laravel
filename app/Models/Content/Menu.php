@@ -6,13 +6,24 @@ use Cviebrock\EloquentSluggable\Sluggable;
 use Dyrynda\Database\Support\CascadeSoftDeletes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Menu extends Model
 {
-    use CascadeSoftDeletes, HasFactory, Sluggable, SoftDeletes;
+    use CascadeSoftDeletes;
+    /*** _____________________________________________ use SECTION ______________________________________________ ***/
+    use HasFactory;
+    use Sluggable;
+    use SoftDeletes;
 
-    protected $cascadeDeletes = ['children'];
+    /*** _____________________________________________ props SECTION ______________________________________________ ***/
+    protected array $cascadeDeletes = ['children'];
+
+    protected $guarded = ['id', 'slug'];
+
+    /*** _____________________________________________ model related methods SECTION ______________________________ ***/
 
     public function sluggable(): array
     {
@@ -23,15 +34,24 @@ class Menu extends Model
         ];
     }
 
-    protected $guarded = ['id', 'slug'];
+    protected function casts(): array
+    {
+        return [
+            'status' => 'boolean',
+        ];
+    }
 
-    public function children()
+    /*** _____________________________________________ relations SECTION __________________________________________ ***/
+
+    public function children(): HasMany
     {
         return $this->hasMany($this, 'parent_id');
     }
 
-    public function parent()
+    public function parent(): BelongsTo
     {
-        return $this->hasOne($this, 'parent_id');
+        return $this->belongsTo($this, 'parent_id');
     }
+
+    /*** _____________________________________________ methods SECTION ____________________________________________ ***/
 }

@@ -2,6 +2,8 @@
 
 namespace Database\Factories;
 
+use App\Enums\MenuPosition;
+use App\Models\Content\Menu;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -17,7 +19,12 @@ class MenuFactory extends Factory
     public function definition(): array
     {
         return [
-            //
+            'title' => $this->faker->title,
+            'url' => $this->faker->url,
+            'icon' => 'fa fa-car',
+            'position' => MenuPosition::random(),
+            'parent_id' => $this->faker->boolean ? Menu::factory() : null,
+            'status' => $this->faker->boolean,
         ];
     }
 }
