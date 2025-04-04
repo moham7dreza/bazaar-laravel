@@ -2,22 +2,39 @@
 
 namespace Database\Factories;
 
+use App\Models\Advertise\Advertisement;
+use App\Models\Advertise\Category;
+use App\Models\Geo\City;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
-/**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Model>
- */
 class AdvertisementFactory extends Factory
 {
-    /**
-     * Define the model's default state.
-     *
-     * @return array<string, mixed>
-     */
+    protected $model = Advertisement::class;
+
     public function definition(): array
     {
         return [
-            //
+            'title' => $this->faker->title,
+            'description' => $this->faker->text,
+            'ads_type' => $this->faker->name,
+            'ads_status' => $this->faker->name,
+            'category_id' => Category::factory(),
+            'city_id' => City::factory(),
+            'user_id' => User::factory(),
+            'status' => $this->faker->boolean,
+            'published_at' => now()->addMonth(),
+            'expired_at' => now()->addYear(),
+            'view' => $this->faker->randomNumber(1000),
+            'contact' => $this->faker->phoneNumber,
+            'is_special' => $this->faker->boolean,
+            'is_ladder' => $this->faker->boolean,
+            'image' => $this->faker->imageIndexArray,
+            'price' => $this->faker->randomNumber(1000),
+            'tags' => $this->faker->tags,
+            'lat' => $this->faker->latitude,
+            'lng' => $this->faker->longitude,
+            'willing_to_trade' => $this->faker->boolean,
         ];
     }
 }
