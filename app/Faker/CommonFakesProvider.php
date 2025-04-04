@@ -11,12 +11,8 @@ class CommonFakesProvider extends Base
      */
     public function tags(): string
     {
-        return collect()
-            ->tap(function ($collection) {
-                while ($this->generator->randomNumber(10) < 0) {
-                    $collection->push($this->generator->jobTitle);
-                }
-            })
+        return collect(range(1, $this->generator->numberBetween(5, 10)))
+            ->map(fn () => $this->generator->jobTitle)
             ->implode(',');
     }
 }

@@ -18,6 +18,11 @@ class FakerServiceProvider extends ServiceProvider
 
             return $faker;
         });
+
+        $this->app->bind(
+            Generator::class.':'.config('app.faker_locale'),
+            Generator::class
+        );
     }
 
     public function boot(): void
