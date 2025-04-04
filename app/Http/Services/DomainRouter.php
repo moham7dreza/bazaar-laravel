@@ -2,6 +2,7 @@
 
 namespace App\Http\Services;
 
+use App\Enums\Environment;
 use Illuminate\Http\Request;
 
 readonly class DomainRouter
@@ -14,37 +15,33 @@ readonly class DomainRouter
         $scheme = $this->request->schemeAndHttpHost();
 
         return match ($this->getEnvironment($baseHost)) {
-            'production' => [
+            Environment::PRODUCTION => [
                 'api' => "{$scheme}/api/v1",
                 'web' => $this->request->httpHost(),
                 'assets' => str_replace('api', 'cdn', $scheme),
-                'environment' => 'production',
+                'environment' => Environment::PRODUCTION->value,
             ],
-            'staging' => [
+            Environment::STAGING => [
                 'api' => "{$scheme}/api/v1",
                 'web' => str_replace('api', 'staging', $this->request->httpHost()),
                 'assets' => str_replace('api', 'staging-cdn', $scheme),
-                'environment' => 'staging',
+                'environment' => Environment::STAGING->value,
             ],
             default => [
                 'api' => 'http://localhost:8000/api/v1',
                 'web' => 'http://localhost:3000',
                 'assets' => 'http://localhost:9000',
-                'environment' => 'local',
+                'environment' => Environment::LOCAL->value,
             ]
         };
     }
 
-    private function getEnvironment(string $host): string
+    private function getEnvironment(string $host): Environment
     {
-        if (str_contains($host, 'prod')) {
-            return 'production';
-        }
-
-        if (str_contains($host, 'staging')) {
-            return 'staging';
-        }
-
-        return 'local';
+        return match (true) {
+            str_contains($host, 'prod') => Environment::PRODUCTION,
+            str_contains($host, 'staging') => Environment::STAGING,
+            default => Environment::LOCAL,
+        };
     }
 }
