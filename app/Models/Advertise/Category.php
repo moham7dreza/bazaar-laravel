@@ -37,6 +37,13 @@ class Category extends Model
         ];
     }
 
+    protected function casts(): array
+    {
+        return [
+            'status' => 'boolean',
+        ];
+    }
+
     /*** _____________________________________________ relations SECTION __________________________________________ ***/
     public function children(): HasMany
     {

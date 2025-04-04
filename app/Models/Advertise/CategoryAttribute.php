@@ -27,6 +27,7 @@ class CategoryAttribute extends Model
     {
         return [
             'unit' => Unit::class,
+            'status' => 'boolean',
         ];
     }
 
