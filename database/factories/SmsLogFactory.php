@@ -7,7 +7,7 @@ use App\Enums\SmsProvider;
 use App\Enums\SmsSenderNumber;
 use App\Enums\SmsStatus;
 use App\Enums\SmsType;
-use App\Models\Monitor\SmsLog;
+use App\Models\SmsLog;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
@@ -18,7 +18,7 @@ class SmsLogFactory extends Factory
     public function definition(): array
     {
         return [
-            'message_id' => $this->faker->uuid,
+            'message_id' => $this->faker->numberBetween(10000, 9999),
             'user_id' => User::factory(),
             'connector' => SmsProvider::random(),
             'type' => SmsType::random(),

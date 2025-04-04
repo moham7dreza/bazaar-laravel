@@ -12,7 +12,7 @@ use App\Models\Advertise\Gallery;
 use App\Models\Advertise\State;
 use App\Models\Content\Menu;
 use App\Models\Content\Page;
-use App\Models\Monitor\SmsLog;
+use App\Models\SmsLog;
 use App\Models\User\Otp;
 use Illuminate\Database\Seeder;
 
@@ -31,8 +31,9 @@ class DatabaseSeeder extends Seeder
             );
         Advertisement::factory(5)
             ->has(AdvertisementNote::factory(2))
-            ->has(Gallery::factory(2))
+            ->has(Gallery::factory(2), 'images')
             ->create();
+        $this->command->alert('Relations seeded');
 
         $this->call([
             PermissionSeeder::class,

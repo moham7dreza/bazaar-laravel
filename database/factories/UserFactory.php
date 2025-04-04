@@ -24,7 +24,7 @@ class UserFactory extends Factory
             'is_banned' => false,
             'is_active' => true,
             'user_type' => 0,
-            'mobile' => '09121234567',
+            'mobile' => $this->faker->phoneNumber,
             'mobile_verified_at' => now(),
             'city_id' => City::factory(),
         ];

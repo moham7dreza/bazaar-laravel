@@ -1,13 +1,12 @@
 <?php
 
-namespace App\Models\Monitor;
+namespace App\Models;
 
 use App\Enums\SmsMessageType;
 use App\Enums\SmsProvider;
 use App\Enums\SmsSenderNumber;
 use App\Enums\SmsStatus;
 use App\Enums\SmsType;
-use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
