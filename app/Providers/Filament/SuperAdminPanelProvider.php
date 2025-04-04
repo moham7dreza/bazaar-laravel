@@ -77,7 +77,9 @@ class SuperAdminPanelProvider extends PanelProvider
                 \CharrafiMed\GlobalSearchModal\GlobalSearchModalPlugin::make(),
                 \Althinect\FilamentSpatieRolesPermissions\FilamentSpatieRolesPermissionsPlugin::make(),
                 \Mvenghaus\FilamentScheduleMonitor\FilamentPlugin::make(),
+                \Vormkracht10\FilamentMails\FilamentMailsPlugin::make(),
             ])
+            ->routes(fn () => \Vormkracht10\FilamentMails\Facades\FilamentMails::routes())
             ->navigationItems($this->getNavItems());
     }
 
