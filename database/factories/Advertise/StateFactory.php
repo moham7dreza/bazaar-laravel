@@ -1,6 +1,6 @@
 <?php
 
-namespace Database\Factories;
+namespace Database\Factories\Advertise;
 
 use App\Models\Advertise\State;
 use Illuminate\Database\Eloquent\Factories\Factory;

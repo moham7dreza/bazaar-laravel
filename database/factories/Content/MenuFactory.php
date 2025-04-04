@@ -1,6 +1,6 @@
 <?php
 
-namespace Database\Factories;
+namespace Database\Factories\Content;
 
 use App\Enums\MenuPosition;
 use App\Models\Content\Menu;

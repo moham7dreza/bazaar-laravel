@@ -1,6 +1,6 @@
 <?php
 
-namespace Database\Factories;
+namespace Database\Factories\User;
 
 use App\Enums\NoticeType;
 use App\Models\User;

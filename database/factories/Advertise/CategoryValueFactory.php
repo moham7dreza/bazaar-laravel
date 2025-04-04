@@ -1,6 +1,6 @@
 <?php
 
-namespace Database\Factories;
+namespace Database\Factories\Advertise;
 
 use App\Enums\AttributeType;
 use App\Models\Advertise\CategoryAttribute;

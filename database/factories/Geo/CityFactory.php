@@ -1,6 +1,6 @@
 <?php
 
-namespace Database\Factories;
+namespace Database\Factories\Geo;
 
 use App\Models\Geo\City;
 use Illuminate\Database\Eloquent\Factories\Factory;
