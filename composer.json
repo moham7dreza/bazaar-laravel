@@ -127,7 +127,9 @@
             "@php artisan themes:upgrade",
             "@php artisan storage:link",
             "@php artisan migrate --force --seed",
-            "npm install & npm run build"
+            "npm install & npm run build",
+            "@php artisan schedule:run",
+            "./vendor/bin/pint --test"
         ],
         "testp": [
             "Composer\\Config::disableProcessTimeout",
