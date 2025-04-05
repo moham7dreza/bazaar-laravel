@@ -9,14 +9,13 @@
 ### Setup
 1. run `sh fix-permissions.sh`
 2. copy .env.example to .env and apply required changes
-3. run `composer run dev` to init project
-4. open new terminal and run `php artisan horizon` to start it
-5. for use `OCTANE` you need to configure nginx and run `composer start` and goto http://bazaar.local
-6. if you use `herd` goto http://bazaar-laravel.test
-7. `admin` user credentials: admin@admin.com, password
-8. activate your idea's `laravel pint inspection`
-9. fill pusher credentials for use `chatify`
-10. you are up, `explore` and have `fun`
+3. run `composer run dev` to an init project and start servers (`OCTANE`, `HORIZON`, `VITE`, `QUEUE`, `SCHEDULE`, `REVERB`, `PULSE`)
+4. for use `OCTANE` with nginx you need to configure it from [doc](https://laravel.com/docs/12.x/octane#serving-your-application-via-nginx)
+5. if you use `herd` goto http://bazaar-laravel.test
+6. `admin` user credentials: admin@admin.com, password
+7. activate your idea's `laravel pint inspection`
+8. fill pusher credentials for use `chatify`
+9. you are up, `explore` and have `fun`
 
 ### Docker
 1. run `make` to see available commands
