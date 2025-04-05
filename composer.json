@@ -118,9 +118,9 @@
         "reload": [
             "Composer\\Config::disableProcessTimeout",
             "git pull",
-            "composer install --ignore-platform-reqs",
+            "@composer install --ignore-platform-reqs",
             "@php artisan down",
-            "composer clean",
+            "@composer clean",
             "@php artisan modules:sync",
             "@php artisan filament:upgrade",
             "@php artisan themes:upgrade",
@@ -129,12 +129,17 @@
             "@php artisan schedule-monitor:sync",
             "npm install && npm run build",
             "@php artisan schedule:run",
+            "@php artisan backup:run",
             "./vendor/bin/pint --test",
+            "@php artisan scramble:analyze",
             "@php artisan up"
         ],
         "stop": [
             "@php artisan octane:stop",
-            "@php artisan reverb:restart"
+            "@php artisan reverb:restart",
+            "@php artisan queue:restart",
+            "@php artisan pulse:restart",
+            "@php artisan horizon:terminate"
         ],
         "testp": [
             "Composer\\Config::disableProcessTimeout",
@@ -149,39 +154,76 @@
             "@php artisan clear-compiled",
             "@php artisan optimize:clear",
             "@php artisan modules:clear",
-            "@php artisan filament:optimize-clear"
+            "@php artisan filament:optimize-clear",
+            "@php artisan schedule:clear-cache",
+            "@php artisan permission:cache-reset",
+            "@php artisan debugbar:clear"
+        ],
+        "deep-clean": [
+            "@php artisan activitylog:clean",
+            "@php artisan mail:prune",
+            "@php artisan telescope:clear",
+            "@php artisan telescope:prune",
+            "@php artisan horizon:clear",
+            "@php artisan horizon:clear-metrics",
+            "@php artisan pulse:clear",
+            "@php artisan queue:clear",
+            "@php artisan settings:clear-cache",
+            "@php artisan settings:clear-discovered",
+            "@php artisan auth:clear-resets",
+            "@php artisan backup:clean",
+            "@php artisan cache:prune-stale-tags",
+            "@php artisan filament-excel:prune",
+            "@php artisan sanctum:prune-expired"
         ],
         "cache": [
             "@php artisan optimize",
             "@php artisan modules:cache",
-            "@php artisan filament:optimize"
+            "@php artisan filament:optimize",
+            "@php artisan settings:discover"
         ],
         "dev": [
-            "composer reload",
-            "composer ide-helper",
+            "@composer reload",
+            "@composer ide-helper",
             "@php artisan key:generate",
-            "npm run queue-reverb-vite"
+            "@composer deploy"
         ],
         "prod": [
             "Composer\\Config::disableProcessTimeout",
             "git pull",
-            "composer install --ignore-platform-reqs --optimize-autoloader --no-dev",
-            "composer clean",
+            "@composer install --ignore-platform-reqs --optimize-autoloader --no-dev",
+            "@composer clean",
             "@php artisan migrate --force",
             "@php artisan key:generate",
-            "composer cache",
-            "npm install & npm run build",
+            "@composer cache",
+            "npm install && npm run build",
             "@php artisan schedule:run",
-            "npm run laravel"
+            "@composer deploy"
         ],
         "start": [
             "Composer\\Config::disableProcessTimeout",
-            "@php artisan octane:start"
+            "@php artisan octane:start --port=9000"
         ],
         "pint": "./vendor/bin/pint",
         "reverb": [
             "Composer\\Config::disableProcessTimeout",
             "@php artisan reverb:start --debug"
+        ],
+        "deploy": [
+            "Composer\\Config::disableProcessTimeout",
+            "concurrently -k -n \"QUEUE,HORIZON,REVERB,OCTANE,VITE,SCHEDULE,PULSE\" -c \"green,blue,magenta,cyan,yellow,red,gray\" \"php artisan queue:work\" \"php artisan horizon\" \"php artisan reverb:start --debug\" \"php artisan octane:start --port=9000\" \"npm run dev\" \"php artisan schedule:work\" \"php artisan pulse:work\""
+        ],
+        "queue-reverb": [
+            "Composer\\Config::disableProcessTimeout",
+            "concurrently -k -n \"QUEUE,REVERB\" -c \"green,blue\" \"php artisan queue:work\" \"php artisan reverb:start --debug\""
+        ],
+        "queue-reverb-vite": [
+            "Composer\\Config::disableProcessTimeout",
+            "concurrently -k -n \"QUEUE,REVERB,VITE\" -c \"green,blue,yellow\" \"php artisan queue:work\" \"php artisan reverb:start --debug\" \"npm run dev\""
+        ],
+        "larvel": [
+            "Composer\\Config::disableProcessTimeout",
+            "npx concurrently -c \"#93c5fd,#c4b5fd,#fdba74\" \"php artisan serve\" \"php artisan queue:listen --tries=1\" \"npm run dev\" --names=server,queue,vite"
         ]
     },
     "extra": {

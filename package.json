@@ -3,11 +3,7 @@
     "type": "module",
     "scripts": {
         "build": "vite build",
-        "dev": "vite",
-        "setup": "npm i & npm run build",
-        "laravel": "concurrently -k -n \"QUEUE,HORIZON,REVERB,OCTANE,VITE\" -c \"green,blue,magenta,cyan,yellow\" \"php artisan queue:work\" \"php artisan horizon\" \"php artisan reverb:start --debug\" \"php artisan octane:start\" \"npm run dev\"",
-        "queue-reverb": "concurrently -k -n \"QUEUE,REVERB\" -c \"green,blue\" \"php artisan queue:work\" \"php artisan reverb:start --debug\"",
-        "queue-reverb-vite": "concurrently -k -n \"QUEUE,REVERB,VITE\" -c \"green,blue,yellow\" \"php artisan queue:work\" \"php artisan reverb:start --debug\" \"npm run dev\""
+        "dev": "vite"
     },
     "devDependencies": {
         "@tailwindcss/vite": "^4.1.3",
