@@ -204,6 +204,7 @@ return [
                 'connection' => 'redis',
                 'queue' => [
                     QUEUE::HIGH->value,
+                    QUEUE::MAIL->value,
                     QUEUE::DEFAULT->value,
                     QUEUE::MONGO_LOG->value,
                 ],

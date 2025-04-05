@@ -17,13 +17,16 @@ class EmailService implements MessageInterface
 
     private $to;
 
-    public function fire()
+    private $emailFiles;
+
+    public function fire(): void
     {
-
-        Mail::to($this->to)->send(new MailViewProvider($this->details, $this->subject, $this->from));
-
-        return true;
-
+        Mail::to($this->to)->send(new MailViewProvider(
+            subject: $this->subject,
+            from: $this->from,
+            details: $this->details,
+            files: $this->emailFiles
+        ));
     }
 
     public function getDetails()
@@ -31,7 +34,7 @@ class EmailService implements MessageInterface
         return $this->details;
     }
 
-    public function setDetails($details)
+    public function setDetails($details): void
     {
         $this->details = $details;
     }
@@ -41,17 +44,17 @@ class EmailService implements MessageInterface
         return $this->subject;
     }
 
-    public function setSubject($subject)
+    public function setSubject($subject): void
     {
         $this->subject = $subject;
     }
 
-    public function getFrom()
+    public function getFrom(): array
     {
         return $this->from;
     }
 
-    public function setFrom($address, $name)
+    public function setFrom($address, $name): void
     {
         $this->from = [
             [
@@ -66,8 +69,18 @@ class EmailService implements MessageInterface
         return $this->to;
     }
 
-    public function setTo($to)
+    public function setTo($to): void
     {
         $this->to = $to;
+    }
+
+    public function getEmailFiles()
+    {
+        return $this->emailFiles;
+    }
+
+    public function setEmailFiles($emailFiles): void
+    {
+        $this->emailFiles = $emailFiles;
     }
 }

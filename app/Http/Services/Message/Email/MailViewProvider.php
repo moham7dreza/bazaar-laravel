@@ -2,25 +2,54 @@
 
 namespace App\Http\Services\Message\Email;
 
+use App\Enums\Queue;
 use Illuminate\Bus\Queueable;
+use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
+use Illuminate\Mail\Mailables\Address;
+use Illuminate\Mail\Mailables\Content;
+use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
 
-class MailViewProvider extends Mailable
+class MailViewProvider extends Mailable implements ShouldQueue
 {
     use Queueable, SerializesModels;
 
-    public $details;
-
-    public function __construct($details, $subject, $from)
-    {
-        $this->details = $details;
-        $this->subject = $subject;
-        $this->from = $from;
+    public function __construct(
+        public $subject,
+        public $from,
+        public $details,
+        public $files = [],
+    ) {
+        $this->onQueue(isEnvLocalOrTesting() ? Queue::DEFAULT : Queue::MAIL);
     }
 
-    public function build()
+    public function envelope(): Envelope
     {
-        return $this->subject($this->subject)->view('mail');
+        return new Envelope(
+            from: new Address($this->from[0]['address'], $this->from[0]['name']),
+            subject: $this->subject,
+        );
+    }
+
+    public function content(): Content
+    {
+        return new Content(
+            view: 'mail',
+            with: [
+                'subject' => $this->details['subject'],
+                'body' => $this->details['body'],
+            ]
+        );
+    }
+
+    public function attachments(): array
+    {
+        $publicFiles = [];
+        foreach ($this->files as $file) {
+            $publicFiles[] = public_path($file);
+        }
+
+        return $publicFiles;
     }
 }
