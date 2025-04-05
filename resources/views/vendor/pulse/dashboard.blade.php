@@ -1,5 +1,5 @@
 <x-pulse>
-    <livewire:reverb.connections cols="full" />
+
     <livewire:reverb.messages cols="full" />
 
     <livewire:pulse.servers cols="full" />
@@ -19,4 +19,6 @@
     <livewire:pulse.slow-jobs cols="6" />
 
     <livewire:pulse.slow-outgoing-requests cols="6" />
+
+    <livewire:reverb.connections cols="full" />
 </x-pulse>
