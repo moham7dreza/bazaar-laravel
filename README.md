@@ -32,17 +32,21 @@
 
 ### Commands
 1. `search` commands with `php artisan find:art` and use --exact argument for exact search
-2. `composer ide-helper` - generate IDE helper files
-3. `composer reload` - `git pull`, install all dependencies, clear all cache, filament asset updates, migrate and npm install and build
-4. `composer cache` - cache system views, events, routes, modules and filament assets
-5. `composer clean` - clear all cache
-6. `composer testp` - run tests parallel
-7. `composer testpf` - recreate test databases and run tests parallel
-8. `composer dev` - run `composer reload` and `composer ide-helper` and queue:work
-9. `composer prod` - run `git pull`, install no dev dependencies, clear all cache, run migrations, `composer cache`, queue:work
-10. `composer start` - fire octane server
-11. `composer pint` - run PHP code style fixer
-12. `composer reverb` - fire reverb server with output debug information
+2. `search` laravel document with `php artisan docs`
+3. `composer ide-helper` - generate IDE helper files
+4. `composer reload` - `git pull`, install all dependencies, clear all cache, filament asset updates, migrate and npm install and build
+5. `composer cache` - cache system views, events, routes, modules and filament assets
+6. `composer clean` - clear all cache
+7. `composer deep-clean` - clear cache and data from database and storage
+8. `composer testp` - run tests parallel
+9. `composer testpf` - recreate test databases and run tests parallel
+10. `composer dev` - run `composer reload` and `composer ide-helper` and queue:work
+11. `composer prod` - run `git pull`, install no dev dependencies, clear all cache, run migrations, `composer cache`, queue:work
+12. `composer start` - fire octane server
+13. `composer pint` - run PHP code style fixer
+14. `composer stop` - stop all servers
+15. `composer reverb` - fire reverb server with output debug information
+16. `composer deply` - run octane, horizon, reverb, vite and pulse, queue, schedule concurrently
 
 ## Tasks
 1. refactor image upload operations in controllers

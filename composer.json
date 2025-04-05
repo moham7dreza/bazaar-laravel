@@ -197,7 +197,6 @@
             "@php artisan key:generate",
             "@composer cache",
             "npm install && npm run build",
-            "@php artisan schedule:run",
             "@composer deploy"
         ],
         "start": [
