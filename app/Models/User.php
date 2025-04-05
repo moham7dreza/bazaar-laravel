@@ -53,6 +53,8 @@ class User extends Authenticatable implements FilamentUser, ShouldVerifiedMobile
         'remember_token',
     ];
 
+    protected static array $recordEvents = ['deleted', 'updated'];
+
     /*** _____________________________________________ model related methods SECTION ______________________________ ***/
 
     protected function casts(): array
