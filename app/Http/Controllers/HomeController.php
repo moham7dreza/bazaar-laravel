@@ -17,7 +17,7 @@ class HomeController extends Controller
             PackageSent::dispatch('processed', 'prosper');
             PackageSent::dispatch('delivered', 'olamide');
 
-            $this->sendEmail();
+            //            $this->sendEmail();
         } catch (\Exception $e) {
             \Log::error($e->getMessage());
         }
