@@ -8,7 +8,7 @@
 
 ### Setup
 1. run `sh fix-permissions.sh`
-2. copy .env.example to .env and apply required changes
+2. copy .env.example to .env and apply required changes (`MYSQL`, `REDIS`, `MONGO`, ...)
 3. run `composer run dev` to an init project and start servers (`OCTANE`, `HORIZON`, `VITE`, `QUEUE`, `SCHEDULE`, `REVERB`, `PULSE`)
 4. for use `OCTANE` with nginx you need to configure it from [doc](https://laravel.com/docs/12.x/octane#serving-your-application-via-nginx)
 5. if you use `herd` goto http://bazaar-laravel.test
