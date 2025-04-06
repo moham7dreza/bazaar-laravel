@@ -59,7 +59,14 @@ install-laravel: ## Download source Laravel and update .env file
 		rm -rf src;\
 	fi
 
-pint-to-git: ## Download source Laravel and update .env file
+install: ### init project
+	./fix-permissions.sh;\
+	cp .env.example .env;\
+    cp .env.testing.example .env.testing;\
+    make pint-to-git;\
+    composer run dev;\
+
+pint-to-git: ## run pint and add modified files to git
 	@if [ -d "./.git" ]; then \
 		chmod +x ./docker-repo/scripts/setup.sh;\
 		./docker-repo/scripts/setup.sh;\
