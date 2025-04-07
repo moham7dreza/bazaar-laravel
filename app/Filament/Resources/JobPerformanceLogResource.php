@@ -25,7 +25,7 @@ class JobPerformanceLogResource extends Resource
 
     protected static ?string $recordTitleAttribute = 'job';
 
-    protected static ?int $navigationSort = 1;
+    protected static ?int $navigationSort = 3;
 
     public static function getNavigationBadge(): ?string
     {
