@@ -18,6 +18,7 @@ class HomeController extends Controller
             PackageSent::dispatch('delivered', 'olamide');
 
             //            $this->sendEmail();
+            $this->sendSms();
         } catch (\Exception $e) {
             \Log::error($e->getMessage());
         }
@@ -39,5 +40,17 @@ class HomeController extends Controller
         $emailService->setEmailFiles([]);
         $messagesService = new MessageService($emailService);
         $messagesService->send();
+    }
+
+    private function sendSms(): void
+    {
+        info('sms start');
+        $data = new \Amiriun\SMS\DataContracts\SendSMSDTO;
+        $data->setSenderNumber('300024444'); // also this can be set as default in config/sms.php
+        $data->setMessage('Hello, this is a test');
+        $data->setTo('09123000000');
+
+        $getResponse = app('\Amiriun\SMS\Services\SMSService')->send($data);
+        info('sms result', [$getResponse]);
     }
 }

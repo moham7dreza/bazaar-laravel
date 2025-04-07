@@ -8,5 +8,6 @@ enum SmsMessageType: string
 {
     use EnumDataListTrait;
 
+    case DEFAULT = 'default';
     case LOGIN_OTP = 'login-otp';
 }
