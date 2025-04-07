@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use Amiriun\SMS\DataContracts\SentSMSOutputDTO;
+use Amiriun\SMS\Services\SMSService;
 use App\Events\PackageSent;
 use App\Http\Services\Message\Email\EmailService;
 use App\Http\Services\Message\MessageService;
@@ -42,15 +44,13 @@ class HomeController extends Controller
         $messagesService->send();
     }
 
-    private function sendSms(): void
+    private function sendSms(): SentSMSOutputDTO
     {
-        info('sms start');
         $data = new \Amiriun\SMS\DataContracts\SendSMSDTO;
         $data->setSenderNumber('300024444'); // also this can be set as default in config/sms.php
         $data->setMessage('Hello, this is a test');
         $data->setTo('09123000000');
 
-        $getResponse = app('\Amiriun\SMS\Services\SMSService')->send($data);
-        info('sms result', [$getResponse]);
+        return app(SMSService::class)->send($data);
     }
 }
