@@ -33,6 +33,14 @@ return [
         'group' => 'Links',
         'sort' => 1,
     ],
+    'user-panel' => [
+        'title' => 'User Panel',
+        'url' => config('app.frontend_url').'/admin',
+        'heroicon' => 'heroicon-o-home-modern',
+        'icon' => null,
+        'group' => 'Links',
+        'sort' => 1,
+    ],
     'api-doc' => [
         'title' => 'Api Docs',
         'url' => '/docs/api',
