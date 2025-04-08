@@ -1,6 +1,14 @@
 <?php
 
 return [
+    'github' => [
+        'title' => 'Github',
+        'url' => 'https://github.com/moham7dreza',
+        'heroicon' => 'heroicon-o-home',
+        'icon' => null,
+        'group' => 'Links',
+        'sort' => 1,
+    ],
     'front-root' => [
         'title' => 'Mainweb',
         'url' => 'http://localhost:3000',
