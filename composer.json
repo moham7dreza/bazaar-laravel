@@ -206,7 +206,7 @@
         ],
         "serve": [
             "Composer\\Config::disableProcessTimeout",
-            "concurrently -k -n \"SERVER,QUEUE,VITE,NEXT\" -c \"green,blue,yellow,black\" \"php artisan serve --port=9000\" \"php artisan queue:listen --tries=1\" \"npm run dev\" \"cd /var/www/bazaar-next && npm run dev\""
+            "concurrently -k -n \"QUEUE,REVERB,SERVER,VITE,NEXT\" -c \"green,magenta,cyan,yellow,black\" \"php artisan queue:listen --tries=1\" \"php artisan reverb:start\" \"php artisan serve --port=9000\"  \"npm run dev\" \"cd /var/www/bazaar-next && npm run dev\""
         ]
     },
     "extra": {
