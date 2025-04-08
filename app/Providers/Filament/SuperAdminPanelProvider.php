@@ -97,7 +97,7 @@ class SuperAdminPanelProvider extends PanelProvider
         return collect(config('tools'))->except('backend-admin')
             ->map(fn (array $tool) => NavigationItem::make()
                 ->label(fn (): string => trans($tool['title']))
-                ->url($tool['url'], shouldOpenInNewTab: true)
+                ->url($tool['url'], shouldOpenInNewTab: false)
                 ->icon($tool['heroicon'])
                 ->group($tool['group'])
                 ->sort($tool['sort'])
