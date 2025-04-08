@@ -9,7 +9,7 @@
 ### Setup
 1. run `sh fix-permissions.sh`
 2. copy .env.example to .env and apply required changes (`MYSQL`, `REDIS`, `MONGO`, ...)
-3. run `composer run dev` to an init project and start servers (`OCTANE`, `HORIZON`, `VITE`, `QUEUE`, `SCHEDULE`, `REVERB`, `PULSE`)
+3. run `composer run dev` to an init project and start servers
 4. for use `OCTANE` with nginx you need to configure it from [doc](https://laravel.com/docs/12.x/octane#serving-your-application-via-nginx)
 5. if you use `herd` goto http://bazaar-laravel.test
 6. `admin` user credentials: admin@admin.com, password
@@ -39,13 +39,12 @@
 7. `composer deep-clean` - clear cache and data from database and storage
 8. `composer testp` - run tests parallel
 9. `composer testpf` - recreate test databases and run tests parallel
-10. `composer dev` - run `composer reload` and `composer ide-helper` and queue:work
-11. `composer prod` - run `git pull`, install no dev dependencies, clear all cache, run migrations, `composer cache`, queue:work
-12. `composer start` - fire octane server
-13. `composer pint` - run PHP code style fixer
-14. `composer stop` - stop all servers
-15. `composer reverb` - fire reverb server with output debug information
-16. `composer deply` - run octane, horizon, reverb, vite and pulse, queue, schedule concurrently
+10. `composer dev` - run `composer reload`, `composer ide-helper`, `composer start`
+11. `composer prod` - run `git pull`, install no dev dependencies, clear all cache, run migrations, `composer cache`, `vite build`, `composer start` 
+12. `composer start` - fire all servers concurrently (`QUEUE`,`HORIZON`,`REVERB`,`OCTANE`,`VITE`,`SCHEDULE`,`PULSE`,`NEXT`)
+13. `composer serve` - fire all servers concurrently (`SERVER`,`QUEUE`,`VITE`,`NEXT`)
+14. `composer pint` - run PHP code style fixer
+15. `composer stop` - stop all servers
 
 ## Tasks
 1. refactor image upload operations in controllers
