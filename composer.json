@@ -118,7 +118,7 @@
         "reload": [
             "Composer\\Config::disableProcessTimeout",
             "git pull",
-            "@composer install --ignore-platform-reqs",
+            "@composer install",
             "@php artisan down",
             "@composer clean",
             "@php artisan modules:sync",
@@ -191,7 +191,7 @@
         "prod": [
             "Composer\\Config::disableProcessTimeout",
             "git pull",
-            "@composer install --ignore-platform-reqs --optimize-autoloader --no-dev",
+            "@composer install --optimize-autoloader --no-dev",
             "@composer clean",
             "@php artisan migrate --force",
             "@php artisan key:generate",
@@ -212,17 +212,9 @@
             "Composer\\Config::disableProcessTimeout",
             "concurrently -k -n \"QUEUE,HORIZON,REVERB,OCTANE,VITE,SCHEDULE,PULSE\" -c \"green,blue,magenta,cyan,yellow,red,gray\" \"php artisan queue:work\" \"php artisan horizon\" \"php artisan reverb:start --debug\" \"php artisan octane:start --port=9000\" \"npm run dev\" \"php artisan schedule:work\" \"php artisan pulse:work\""
         ],
-        "queue-reverb": [
+        "serve": [
             "Composer\\Config::disableProcessTimeout",
-            "concurrently -k -n \"QUEUE,REVERB\" -c \"green,blue\" \"php artisan queue:work\" \"php artisan reverb:start --debug\""
-        ],
-        "queue-reverb-vite": [
-            "Composer\\Config::disableProcessTimeout",
-            "concurrently -k -n \"QUEUE,REVERB,VITE\" -c \"green,blue,yellow\" \"php artisan queue:work\" \"php artisan reverb:start --debug\" \"npm run dev\""
-        ],
-        "larvel": [
-            "Composer\\Config::disableProcessTimeout",
-            "npx concurrently -c \"#93c5fd,#c4b5fd,#fdba74\" \"php artisan serve\" \"php artisan queue:listen --tries=1\" \"npm run dev\" --names=server,queue,vite"
+            "concurrently -k -n \"SERVER,QUEUE,VITE\" -c \"green,blue,yellow\" \"php artisan serve --port=9000\" \"php artisan queue:listen --tries=1\" \"npm run dev\""
         ]
     },
     "extra": {
