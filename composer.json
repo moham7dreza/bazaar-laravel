@@ -186,7 +186,7 @@
             "@composer reload",
             "@composer ide-helper",
             "@php artisan key:generate",
-            "@composer deploy"
+            "@composer start"
         ],
         "prod": [
             "Composer\\Config::disableProcessTimeout",
@@ -197,24 +197,16 @@
             "@php artisan key:generate",
             "@composer cache",
             "npm install && npm run build",
-            "@composer deploy"
-        ],
-        "start": [
-            "Composer\\Config::disableProcessTimeout",
-            "@php artisan octane:start --port=9000"
+            "@composer start"
         ],
         "pint": "./vendor/bin/pint",
-        "reverb": [
+        "start": [
             "Composer\\Config::disableProcessTimeout",
-            "@php artisan reverb:start --debug"
-        ],
-        "deploy": [
-            "Composer\\Config::disableProcessTimeout",
-            "concurrently -k -n \"QUEUE,HORIZON,REVERB,OCTANE,VITE,SCHEDULE,PULSE\" -c \"green,blue,magenta,cyan,yellow,red,gray\" \"php artisan queue:work\" \"php artisan horizon\" \"php artisan reverb:start --debug\" \"php artisan octane:start --port=9000\" \"npm run dev\" \"php artisan schedule:work\" \"php artisan pulse:work\""
+            "concurrently -k -n \"QUEUE,HORIZON,REVERB,OCTANE,VITE,SCHEDULE,PULSE,NEXT\" -c \"green,blue,magenta,cyan,yellow,red,gray,black\" \"php artisan queue:work\" \"php artisan horizon\" \"php artisan reverb:start --debug\" \"php artisan octane:start --port=9000\" \"npm run dev\" \"php artisan schedule:work\" \"php artisan pulse:work\" \"cd /var/www/bazaar-next && npm run dev\""
         ],
         "serve": [
             "Composer\\Config::disableProcessTimeout",
-            "concurrently -k -n \"SERVER,QUEUE,VITE\" -c \"green,blue,yellow\" \"php artisan serve --port=9000\" \"php artisan queue:listen --tries=1\" \"npm run dev\""
+            "concurrently -k -n \"SERVER,QUEUE,VITE,NEXT\" -c \"green,blue,yellow,black\" \"php artisan serve --port=9000\" \"php artisan queue:listen --tries=1\" \"npm run dev\" \"cd /var/www/bazaar-next && npm run dev\""
         ]
     },
     "extra": {
