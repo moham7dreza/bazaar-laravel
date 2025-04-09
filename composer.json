@@ -115,6 +115,9 @@
             "@php artisan ide-helper:meta",
             "@php artisan ide-helper:eloquent"
         ],
+        "fresh": [
+            "@php artisan migrate:fresh --force --seed"
+        ],
         "reload": [
             "Composer\\Config::disableProcessTimeout",
             "git pull",
