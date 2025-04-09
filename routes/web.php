@@ -7,7 +7,7 @@ use Spatie\Health\Http\Controllers as HeathCheckControllers;
 
 Route::get('/', [HomeController::class, 'index'])->name('welcome');
 
-Route::can('viewHealth')->middleware([])->group(function () {
+Route::can('viewHealth')->middleware(['admin', 'dev'])->group(function () {
     Route::get('health', HeathCheckControllers\HealthCheckResultsController::class);
     Route::get('health-json', HeathCheckControllers\HealthCheckJsonResultsController::class);
 });
