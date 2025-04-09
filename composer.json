@@ -146,6 +146,9 @@
             "@php artisan migrate --force --env=testing",
             "@php artisan test -p"
         ],
+        "testf": [
+            "@php artisan migrate:fresh --force --env=testing"
+        ],
         "testpf": [
             "Composer\\Config::disableProcessTimeout",
             "@php artisan test -p --recreate-databases"
