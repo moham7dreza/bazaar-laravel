@@ -97,8 +97,11 @@ class UserResource extends Resource
                         Forms\Components\Toggle::make('is_active')
                             ->required()
                             ->translateLabel(),
-                        Forms\Components\Toggle::make('is_banned')
-                            ->required()
+                        Forms\Components\DatePicker::make('suspended_at')
+                            ->nullable()
+                            ->translateLabel(),
+                        Forms\Components\DatePicker::make('suspended_until')
+                            ->nullable()
                             ->translateLabel(),
                     ]),
             ]);
@@ -113,7 +116,8 @@ class UserResource extends Resource
                 Tables\Columns\TextColumn::make('mobile')->translateLabel()->searchable(),
                 Tables\Columns\TextColumn::make('user_type')->translateLabel()->sortable()->badge(),
                 Tables\Columns\TextColumn::make('is_active')->translateLabel()->sortable()->badge(),
-                Tables\Columns\TextColumn::make('is_banned')->translateLabel()->sortable()->badge(),
+                Tables\Columns\TextColumn::make('suspended_at')->translateLabel(),
+                Tables\Columns\TextColumn::make('suspended_until')->translateLabel(),
                 Tables\Columns\TextColumn::make('city.name')->translateLabel(),
                 Tables\Columns\TextColumn::make('mobile_verified_at')->translateLabel(),
                 Tables\Columns\TextColumn::make('email_verified_at')->translateLabel(),
@@ -131,6 +135,10 @@ class UserResource extends Resource
                     ->label('not verified mobile')
                     ->translateLabel()
                     ->query(fn (Builder $query): Builder => $query->whereNull('mobile_verified_at')),
+                Tables\Filters\Filter::make('suspended_at')
+                    ->label('suspended users')
+                    ->translateLabel()
+                    ->query(fn (Builder $query): Builder => $query->whereNotNull('suspended_at')),
                 Tables\Filters\QueryBuilder::make()
                     ->constraints([
                         Constraints\TextConstraint::make('name')->translateLabel(),
@@ -138,6 +146,8 @@ class UserResource extends Resource
                         Constraints\TextConstraint::make('mobile')->translateLabel(),
                         Constraints\TextConstraint::make('mobile_verified_at')->translateLabel(),
                         Constraints\TextConstraint::make('email_verified_at')->translateLabel(),
+                        Constraints\TextConstraint::make('suspended_at')->translateLabel(),
+                        Constraints\TextConstraint::make('suspended_until')->translateLabel(),
                     ])
                     ->constraintPickerColumns(),
             ], layout: Tables\Enums\FiltersLayout::AboveContentCollapsible)

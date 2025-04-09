@@ -16,7 +16,7 @@ return Application::configure(basePath: dirname(__DIR__))
     ->withMiddleware(function (Middleware $middleware) {
 
         $middleware->append([
-            \App\Http\Middleware\BanUserMiddleware::class,
+            \App\Http\Middleware\UserCheckSuspendedMiddleware::class,
             \App\Http\Middleware\EnableDebugForDeveloper::class,
         ]);
 

@@ -1,5 +1,6 @@
 <?php
 
+use App\Console\Commands;
 use App\Models\Monitor\CommandPerformanceLog;
 use App\Models\Monitor\JobPerformanceLog;
 use Cmsmaxinc\FilamentSystemVersions\Commands\CheckDependencyVersions;
@@ -29,3 +30,5 @@ Schedule::command('model:prune --pretend', [
         MonitoredScheduledTaskLogItem::class,
     ],
 ])->daily();
+
+Schedule::command(Commands\UserSuspendClearCommand::class)->everyFiveMinutes();

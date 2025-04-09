@@ -7,7 +7,7 @@ use Closure;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-class BanUserMiddleware
+class UserCheckSuspendedMiddleware
 {
     /**
      * Handle an incoming request.
@@ -16,11 +16,10 @@ class BanUserMiddleware
      */
     public function handle(Request $request, Closure $next)
     {
-        $user = getUser();
-        if ($user && $user->is_banned) {
+        if (auth()->check() && auth()->user()->isSuspended()) {
             auth()->logout();
 
-            return ApiJsonResponse::error(trans('response.general.unauthorized'), code: Response::HTTP_UNAUTHORIZED);
+            return ApiJsonResponse::error(trans('response.general.suspended'), code: Response::HTTP_FORBIDDEN);
         }
 
         return $next($request);

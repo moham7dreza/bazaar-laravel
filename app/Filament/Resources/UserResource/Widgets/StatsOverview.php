@@ -21,7 +21,7 @@ class StatsOverview extends BaseWidget
     protected function getStats(): array
     {
         return [
-            Stat::make(__('Banned Users'), $this->getPageTableQuery()->where('is_banned', 1)->count()),
+            Stat::make(__('Suspended Users'), $this->getPageTableQuery()->whereNotNull('suspended_at')->count()),
             Stat::make(__('Not Activated Users'), $this->getPageTableQuery()->where('is_active', 0)->count()),
             Stat::make(__('Mobile Not Verified Users'), $this->getPageTableQuery()->whereNull('mobile_verified_at')->count()),
             Stat::make(__('Email Not verified Users'), $this->getPageTableQuery()->whereNull('email_verified_at')->count()),

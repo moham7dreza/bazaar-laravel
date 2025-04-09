@@ -45,7 +45,8 @@ class User extends Authenticatable implements FilamentUser, ShouldVerifiedMobile
         'city_id',
         'user_type',
         'is_active',
-        'is_banned',
+        'suspended_at',
+        'suspended_until',
     ];
 
     protected $hidden = [
@@ -64,13 +65,22 @@ class User extends Authenticatable implements FilamentUser, ShouldVerifiedMobile
             'mobile_verified_at' => 'datetime',
             'password' => 'hashed',
             'is_active' => 'bool',
-            'is_banned' => 'bool',
+            'suspended_at' => 'datetime',
+            'suspended_until' => 'datetime',
         ];
     }
 
     public function getActivitylogOptions(): LogOptions
     {
-        return LogOptions::defaults()->logOnly(['email', 'mobile', 'user_type', 'is_active', 'is_banned']);
+        return LogOptions::defaults()
+            ->logOnly([
+                'email',
+                'mobile',
+                'user_type',
+                'is_active',
+                'suspended_at',
+                'suspended_until',
+            ]);
     }
 
     public function canAccessPanel(Panel $panel): bool
@@ -83,6 +93,12 @@ class User extends Authenticatable implements FilamentUser, ShouldVerifiedMobile
     {
         return $query->where('user_type', 1)
             ->whereNotNull('mobile_verified_at');
+    }
+
+    #[Scope]
+    public function suspended(Builder $query): Builder
+    {
+        return $query->whereNotNull('suspended_at')->where('suspended_until', '>=', now());
     }
 
     /*** _____________________________________________ relations SECTION __________________________________________ ***/
@@ -120,4 +136,28 @@ class User extends Authenticatable implements FilamentUser, ShouldVerifiedMobile
             && $this->hasPermissionTo(UserPermission::SEE_PANEL);
         //            && $this->hasRole(UserRole::ADMIN)
     }
+
+    // suspend section
+
+    public function isSuspended(): bool
+    {
+        return ! is_null($this->suspended_at) && now()->lte($this->suspended_until);
+    }
+
+    public function suspend(): bool
+    {
+        return $this->update([
+            'suspend_at' => now(),
+            'suspended_until' => now()->addWeek(),
+        ]);
+    }
+
+    public function unsuspend(): bool
+    {
+        return $this->update([
+            'suspended_until' => null,
+        ]);
+    }
+
+    // end suspend section
 }

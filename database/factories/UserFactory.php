@@ -21,7 +21,8 @@ class UserFactory extends Factory
             'password' => static::$password ??= Hash::make('password'),
             'remember_token' => Str::random(10),
             'theme' => Theme::DRACULA->value,
-            'is_banned' => false,
+            'suspended_at' => null,
+            'suspended_until' => null,
             'is_active' => true,
             'user_type' => 0,
             'mobile' => $this->faker->phoneNumber,
@@ -44,6 +45,14 @@ class UserFactory extends Factory
             'name' => 'admin',
             'email' => 'admin@admin.com',
             'user_type' => 1,
+        ]);
+    }
+
+    public function suspended(): static
+    {
+        return $this->state(fn (array $attributes) => [
+            'suspended_at' => now(),
+            'suspended_until' => now()->addWeek(),
         ]);
     }
 }

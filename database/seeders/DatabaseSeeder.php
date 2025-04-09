@@ -13,6 +13,7 @@ use App\Models\Advertise\State;
 use App\Models\Content\Menu;
 use App\Models\Content\Page;
 use App\Models\SmsLog;
+use App\Models\User;
 use App\Models\User\Otp;
 use Illuminate\Database\Seeder;
 
@@ -20,6 +21,7 @@ class DatabaseSeeder extends Seeder
 {
     public function run(): void
     {
+        User::factory(5)->suspended()->create();
         Otp::factory(5)->create();
         Menu::factory(5)->create();
         Page::factory(5)->create();
