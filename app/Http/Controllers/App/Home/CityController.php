@@ -13,7 +13,7 @@ class CityController extends Controller
      */
     public function index()
     {
-        return new CityCollection(City::active()->get());
+        return new CityCollection(City::query()->active()->get());
     }
 
     /**

@@ -32,7 +32,7 @@ class City extends Model
     #[Scope]
     public function active(Builder $query): Builder
     {
-        return $query->where('status', 1);
+        return $query->where('status', true);
     }
 
     /*** _____________________________________________ relations SECTION __________________________________________ ***/
