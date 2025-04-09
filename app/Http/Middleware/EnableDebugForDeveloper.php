@@ -16,7 +16,7 @@ class EnableDebugForDeveloper
     public function handle(Request $request, Closure $next): Response
     {
         $user = getUser();
-        if ($user && in_array($user->mobile, config(''), true)) {
+        if ($user && in_array($user->mobile, config('developer.backends'), true)) {
             config(['app.debug' => true]);
         }
 
