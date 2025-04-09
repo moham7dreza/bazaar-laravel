@@ -133,8 +133,7 @@ class User extends Authenticatable implements FilamentUser, ShouldVerifiedMobile
     {
         return $this->user_type === 1
             && ($this->hasVerifiedMobile() || $this->hasVerifiedEmail())
-            && $this->hasPermissionTo(UserPermission::SEE_PANEL);
-        //            && $this->hasRole(UserRole::ADMIN)
+            && ($this->hasPermissionTo(UserPermission::SEE_PANEL) || $this->hasRole(UserRole::ADMIN));
     }
 
     // suspend section
