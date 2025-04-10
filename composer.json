@@ -108,8 +108,8 @@
             "@php artisan migrate --graceful --ansi"
         ],
         "env": [
-            "@php -r \"file_exists('.env') || copy('.env.example', '.env');\"",
-            "@php -r \"file_exists('.env.testing') || copy('.env.testing.example', '.env.testing');\""
+            "sudo php -r \"file_exists('.env') || copy('.env.example', '.env');\"",
+            "sudo php -r \"file_exists('.env.testing') || copy('.env.testing.example', '.env.testing');\""
         ],
         "ide-helper": [
             "@php artisan ide-helper:generate",
