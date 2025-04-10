@@ -31,3 +31,5 @@ public/sitemap.xml
 **/caddy
 frankenphp
 frankenphp-worker.php
+
+converage@tests.xml
