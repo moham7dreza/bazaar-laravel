@@ -10,9 +10,7 @@ use Spatie\Backup\Commands\BackupCommand;
 use Spatie\Health\Commands as SpatieHealthCommands;
 use Spatie\ScheduleMonitor\Models\MonitoredScheduledTaskLogItem;
 
-Artisan::command('inspire', function () {
-    $this->comment(Inspiring::quote());
-})->purpose('Display an inspiring quote')->hourly();
+Artisan::command('inspire', fn () => $this->comment(Inspiring::quote()))->purpose('Display an inspiring quote')->everyMinute();
 
 Schedule::command(SpatieHealthCommands\RunHealthChecksCommand::class)->everyMinute();
 Schedule::command(SpatieHealthCommands\DispatchQueueCheckJobsCommand::class)->everyMinute();
@@ -21,7 +19,7 @@ Schedule::command(BackupCommand::class)->daily();
 
 Schedule::command('telescope:prune --hours=48')->daily();
 Schedule::command('horizon:snapshot')->everyFiveMinutes();
-Schedule::command(CheckDependencyVersions::class)->daily();
+Schedule::command(CheckDependencyVersions::class)->everyFiveMinutes();
 
 Schedule::command('model:prune --pretend', [
     '--model' => [
