@@ -138,7 +138,7 @@
             "npm install && npm run build",
             "@php artisan schedule:run",
             "@php artisan backup:run",
-            "./vendor/bin/pint --test",
+            "@composer pint",
             "@php artisan scramble:analyze",
             "@php artisan up"
         ],
@@ -208,7 +208,7 @@
             "npm install && npm run build",
             "@composer start"
         ],
-        "pint": "./vendor/bin/pint",
+        "pint": "./vendor/bin/pint --test",
         "start": [
             "Composer\\Config::disableProcessTimeout",
             "npx concurrently -k -n \"QUEUE,HORIZON,REVERB,OCTANE,VITE,SCHEDULE,PULSE,NEXT\" -c \"green,blue,magenta,cyan,yellow,red,gray,white\" \"php artisan queue:work\" \"php artisan horizon\" \"php artisan reverb:start --debug\" \"php artisan octane:start --port=9000\" \"npm run dev\" \"php artisan schedule:work\" \"php artisan pulse:work\" \"cd /var/www/bazaar-next && npm run dev\""
