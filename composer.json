@@ -100,16 +100,13 @@
             "@php artisan vendor:publish --tag=laravel-assets --ansi --force"
         ],
         "post-root-package-install": [
-            "@php -r \"file_exists('.env') || copy('.env.example', '.env');\""
+            "@php -r \"file_exists('.env') || copy('.env.example', '.env');\"",
+            "@php -r \"file_exists('.env.testing') || copy('.env.testing.example', '.env.testing');\""
         ],
         "post-create-project-cmd": [
             "@php artisan key:generate --ansi",
             "@php -r \"file_exists('database/database.sqlite') || touch('database/database.sqlite');\"",
-            "@php artisan migrate --graceful --ansi"
-        ],
-        "env": [
-            "sudo php -r \"file_exists('.env') || copy('.env.example', '.env');\"",
-            "sudo php -r \"file_exists('.env.testing') || copy('.env.testing.example', '.env.testing');\""
+            "@php artisan migrate --graceful --ansi --force --seed"
         ],
         "ide-helper": [
             "@php artisan ide-helper:generate",
@@ -124,9 +121,7 @@
         "reload": [
             "Composer\\Config::disableProcessTimeout",
             "git pull",
-            "@composer env",
             "@composer install",
-            "@php artisan key:generate --ansi",
             "@php artisan down",
             "@composer clean",
             "@php artisan modules:sync",
@@ -199,10 +194,8 @@
         "prod": [
             "Composer\\Config::disableProcessTimeout",
             "git pull",
-            "@composer env",
             "@composer install --optimize-autoloader --no-dev",
             "@composer clean",
-            "@php artisan key:generate --ansi",
             "@php artisan migrate --graceful --ansi --force",
             "@composer cache",
             "npm install && npm run build",
