@@ -10,9 +10,9 @@ use function Laravel\Prompts\text;
 
 class ArtisanFinderCommand extends Command
 {
-    protected $signature = 'find:art {--exact}';
+    protected $signature = 'find {--exact}';
 
-    protected $description = 'Find artisan command with given name';
+    protected $description = 'Find artisan commands';
 
     /**
      * @throws \JsonException
