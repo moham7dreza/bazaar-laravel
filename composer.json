@@ -108,6 +108,10 @@
             "@php -r \"file_exists('database/database.sqlite') || touch('database/database.sqlite');\"",
             "@php artisan migrate --graceful --ansi"
         ],
+        "env": [
+            "@php -r \"file_exists('.env') || copy('.env.example', '.env');\"",
+            "@php -r \"file_exists('.env.testing') || copy('.env.testing.example', '.env.testing');\""
+        ],
         "ide-helper": [
             "@php artisan ide-helper:generate",
             "@php artisan ide-helper:models",
@@ -121,7 +125,9 @@
         "reload": [
             "Composer\\Config::disableProcessTimeout",
             "git pull",
+            "@composer env",
             "@composer install",
+            "@php artisan key:generate --ansi",
             "@php artisan down",
             "@composer clean",
             "@php artisan modules:sync",
@@ -147,11 +153,11 @@
         "testp": [
             "Composer\\Config::disableProcessTimeout",
             "@php artisan migrate --force --env=testing",
-            "@php artisan test -p"
+            "@php artisan test --parallel"
         ],
         "testpf": [
             "Composer\\Config::disableProcessTimeout",
-            "@php artisan test -p --recreate-databases"
+            "@php artisan test --parallel --recreate-databases"
         ],
         "clean": [
             "@php artisan clear-compiled",
@@ -186,18 +192,19 @@
             "@php artisan settings:discover"
         ],
         "dev": [
+            "Composer\\Config::disableProcessTimeout",
             "@composer reload",
             "@composer ide-helper",
-            "@php artisan key:generate",
             "@composer start"
         ],
         "prod": [
             "Composer\\Config::disableProcessTimeout",
             "git pull",
+            "@composer env",
             "@composer install --optimize-autoloader --no-dev",
             "@composer clean",
-            "@php artisan migrate --force",
-            "@php artisan key:generate",
+            "@php artisan key:generate --ansi",
+            "@php artisan migrate --graceful --ansi --force",
             "@composer cache",
             "npm install && npm run build",
             "@composer start"
