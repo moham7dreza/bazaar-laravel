@@ -45,7 +45,7 @@ return [
     |
     */
 
-    'include_fluent' => false,
+    'include_fluent' => true,
 
     /*
     |--------------------------------------------------------------------------
@@ -59,7 +59,7 @@ return [
     |
     */
 
-    'include_factory_builders' => false,
+    'include_factory_builders' => true,
 
     /*
     |--------------------------------------------------------------------------
@@ -119,7 +119,7 @@ return [
     |
     */
 
-    'include_helpers' => false,
+    'include_helpers' => true,
 
     'helper_files' => [
         base_path().'/vendor/laravel/framework/src/Illuminate/Support/helpers.php',
@@ -140,7 +140,8 @@ return [
     */
 
     'model_locations' => [
-        'app',
+        'app/Models',
+        'modules/*/src/Models',
     ],
 
     /*
@@ -225,7 +226,7 @@ return [
      | Note, it is currently an all-or-nothing option.
      |
      */
-    'model_camel_case_properties' => false,
+    'model_camel_case_properties' => true,
 
     /*
     |--------------------------------------------------------------------------
@@ -249,7 +250,7 @@ return [
     | magic methods and properties.
     |
     */
-    'include_class_docblocks' => false,
+    'include_class_docblocks' => true,
 
     /*
     |--------------------------------------------------------------------------
@@ -261,7 +262,7 @@ return [
     | or there is an import (use className) of the class.
     |
     */
-    'force_fqn' => false,
+    'force_fqn' => true,
 
     /*
     |--------------------------------------------------------------------------
@@ -346,7 +347,7 @@ return [
     */
     'macroable_traits' => [
         Filament\Support\Concerns\Macroable::class,
-        Spatie\Macroable\Macroable::class,
+        //        Spatie\Macroable\Macroable::class,
     ],
 
 ];
