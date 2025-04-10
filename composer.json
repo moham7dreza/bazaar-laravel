@@ -115,8 +115,9 @@
             "@php artisan ide-helper:meta",
             "@php artisan ide-helper:eloquent"
         ],
-        "fresh": [
-            "@php artisan migrate:fresh --force --seed"
+        "dbfresh": [
+            "@php artisan migrate:fresh --force --seed",
+            "@php artisan migrate:fresh --force --env=testing"
         ],
         "reload": [
             "Composer\\Config::disableProcessTimeout",
@@ -148,9 +149,6 @@
             "Composer\\Config::disableProcessTimeout",
             "@php artisan migrate --force --env=testing",
             "@php artisan test -p"
-        ],
-        "testf": [
-            "@php artisan migrate:fresh --force --env=testing"
         ],
         "testpf": [
             "Composer\\Config::disableProcessTimeout",
