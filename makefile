@@ -83,7 +83,7 @@ php-install: ### (PHP) init project
 
 php-ide: ## (PHP) generate IDE helper files
 	php artisan ide-helper:generate;\
-	php artisan ide-helper:models;\
+	php artisan ide-helper:models --nowrite;\
 	php artisan ide-helper:meta;\
 	php artisan ide-helper:eloquent;\
 
