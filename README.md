@@ -8,7 +8,7 @@
 
 ### Setup
 1. run `sh fix-permissions.sh` for fix prject directory access
-2. run `composer env` to copy env files and apply required changes (`MYSQL`, `REDIS`, `MONGO`, ...)
+2. apply required changes in env files (`MYSQL`, `REDIS`, `MONGO`, ...)
 3. run `composer run dev` to an init project and start servers
 4. for use `OCTANE` with nginx you need to configure it from [doc](https://laravel.com/docs/12.x/octane#serving-your-application-via-nginx)
 5. if you use `herd` goto http://bazaar-laravel.test
@@ -46,7 +46,6 @@
 14. `composer pint` - run PHP code style fixer
 15. `composer stop` - stop all servers
 16. `composer dbfresh` - drop and recreate main and test databases
-17. `composer env` - copy env files from examples
 
 ## Tasks
 1. refactor image upload operations in controllers
