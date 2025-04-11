@@ -76,6 +76,7 @@ test: ## run tests
 
 init-next: ## (NEXT) init next project placed across laravel project in www dir
     cd /var/www/bazaar-next; \
+    git pull; \
     sudo cp .env.example .env; \
     npm install; \
     next info; \
@@ -83,6 +84,7 @@ init-next: ## (NEXT) init next project placed across laravel project in www dir
 
 next-dev: ## (NEXT) run next js development server
     cd /var/www/bazaar-next; \
+    git pull; \
     npm install; \
     next info; \
     npm run lint; \
