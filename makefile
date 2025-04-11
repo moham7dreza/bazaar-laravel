@@ -75,11 +75,11 @@ test: ## run tests
 	docker compose run --rm php php artisan test
 
 php-install: ### (PHP) init project
-	./fix-permissions.sh;\
+	sh ./fix-permissions.sh;\
+	sh ./setup.sh; \
 	sudo cp .env.example .env;\
     sudo cp .env.testing.example .env.testing;\
-    make pint-to-git;\
-    composer run dev;\
+    make php-dev;\
 
 php-ide: ## (PHP) generate IDE helper files
 	php artisan ide-helper:generate;\
