@@ -3,7 +3,9 @@
     "type": "module",
     "scripts": {
         "build": "vite build",
-        "dev": "vite"
+        "dev": "vite",
+        "next-init": "cd /var/www/bazaar-next && ./install.sh",
+        "next-dev": "cd /var/www/bazaar-next && npm run reload"
     },
     "devDependencies": {
         "@tailwindcss/vite": "^4.1.3",
