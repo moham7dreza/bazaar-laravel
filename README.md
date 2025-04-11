@@ -18,8 +18,8 @@
 3. search `laravel document topics` with `php artisan docs`
 
 ### Setup
-1. run `sh fix-permissions.sh` for fix project directory access
-2. run `sh setup.sh` to configure Nginx for http://bazaar.local
+1. run `./fix-permissions.sh` for fix project directory access
+2. run `./setup.sh` to configure Nginx for http://bazaar.local
 3. apply required changes in env files (`MYSQL`, `REDIS`, `MONGO`, ...)
 4. run `make php-dev` to an init project and start servers
 5. if you use `herd` goto http://bazaar-laravel.test
