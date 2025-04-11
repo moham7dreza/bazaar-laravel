@@ -52,7 +52,7 @@ Route::prefix(RouteSection::IMAGES)->name('images.')->group(function () {
     Route::put('update', [ImageController::class, 'update'])->name('destroy');
 });
 
-Route::prefix(RouteSection::ADMIN)->name('admin.')->middleware(['auth', 'admin'])->group(function () {
+Route::prefix(RouteSection::ADMIN)->name('admin.')->middleware([/* 'auth', 'admin' */])->group(function () {
 
     Route::prefix(RouteSection::ADVERTISE)->name('advertise.')->group(function () {
         Route::apiResource('category', CategoryController::class);
