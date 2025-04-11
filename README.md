@@ -6,6 +6,12 @@
     <img style="margin: auto;" src="public/img/filament.png" width="810" height="407" alt="filament">
 </div>
 
+### Requirements for development
+1. `LEMP` STACK (`LINUX`, `NGINX`, `MYSQL`, `PHP-FPM`)
+2. `Composer` and `Git`
+3. `NodeJS` and `NPM`
+4. `REDIS` with php redis ext and `MONGO` (pecl install mongodb)
+
 ### HELP
 1. search `runtime` commands with `make` (if you not use docker see `php` prefix commands)
 2. search `artisan` commands with `php artisan find` and use --exact argument for exact search
@@ -13,9 +19,9 @@
 
 ### Setup
 1. run `sh fix-permissions.sh` for fix project directory access
-2. apply required changes in env files (`MYSQL`, `REDIS`, `MONGO`, ...)
-3. run `composer run dev` to an init project and start servers
-4. for use `OCTANE` with nginx you need to configure it from [doc](https://laravel.com/docs/12.x/octane#serving-your-application-via-nginx)
+2. run `sh setup.sh` to configure Nginx for http://bazaar.local
+3. apply required changes in env files (`MYSQL`, `REDIS`, `MONGO`, ...)
+4. run `make php-dev` to an init project and start servers
 5. if you use `herd` goto http://bazaar-laravel.test
 6. `admin` user credentials: admin@admin.com, password
 7. activate your idea's `laravel pint inspection`
