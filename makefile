@@ -142,10 +142,10 @@ php-pint: ## (PHP) run run PHP code style fixer and show tested files
 	./vendor/bin/pint --test; \
 
 php-start: ## (PHP) fire all servers concurrently (`QUEUE`,`HORIZON`,`REVERB`,`OCTANE`,`VITE`,`SCHEDULE`,`PULSE`,`NEXT`)
-	npx concurrently -k -n "QUEUE,HORIZON,REVERB,OCTANE,VITE,SCHEDULE,PULSE,NEXT" -c "green,blue,magenta,cyan,yellow,red,gray,white" "php artisan queue:work" "php artisan horizon" "php artisan reverb:start --debug" "php artisan octane:start --port=9000" "npm run dev" "php artisan schedule:work" "php artisan pulse:work" "cd /var/www/bazaar-next && npm run dev"; \
+	npx concurrently -k -n "QUEUE,HORIZON,REVERB,OCTANE,VITE,SCHEDULE,PULSE,NEXT" -c "green,blue,magenta,cyan,yellow,red,gray,black" "php artisan queue:work" "php artisan horizon" "php artisan reverb:start --debug" "php artisan octane:start --port=9000" "npm run dev" "php artisan schedule:work" "php artisan pulse:work" "cd /var/www/bazaar-next && npm run dev"; \
 
 php-serve: ## (PHP) fire all servers concurrently (`SERVER`,`QUEUE`,`VITE`,`NEXT`)
-	npx concurrently -k -n "QUEUE,HORIZON,REVERB,SERVER,VITE,SCHEDULE,PULSE,NEXT" -c "green,blue,magenta,cyan,yellow,red,gray,white" "php artisan queue:listen --tries=1" "php artisan horizon" "php artisan reverb:start --debug" "php artisan serve --port=9000" "npm run dev" "php artisan schedule:work" "php artisan pulse:work" "cd /var/www/bazaar-next && npm run dev"; \
+	npx concurrently -k -n "QUEUE,HORIZON,REVERB,SERVER,VITE,SCHEDULE,PULSE,NEXT" -c "green,blue,magenta,cyan,yellow,red,gray,black" "php artisan queue:listen --tries=1" "php artisan horizon" "php artisan reverb:start --debug" "php artisan serve --port=9000" "npm run dev" "php artisan schedule:work" "php artisan pulse:work" "cd /var/www/bazaar-next && npm run dev"; \
 
 php-reload: ## (PHP) `git pull`, install all dependencies, clear all cache, filament asset updates, migrate and npm install and build
 	git pull; \
