@@ -74,25 +74,9 @@ format-all: ## format codes with pint
 test: ## run tests
 	docker compose run --rm php php artisan test
 
-init-next: ## (NEXT) init next project placed across laravel project in www dir
-    cd /var/www/bazaar-next; \
-    git pull; \
-    sudo cp .env.example .env; \
-    npm install; \
-    next info; \
-    npm run dev; \
-
-next-dev: ## (NEXT) run next js development server
-    cd /var/www/bazaar-next; \
-    git pull; \
-    npm install; \
-    next info; \
-    npm run lint; \
-    npm run dev; \
-
 php-install: ## (PHP) init project
-	sh ./fix-permissions.sh;\
-	sh ./setup.sh; \
+	./fix-permissions.sh;\
+	./setup.sh; \
 	sudo cp .env.example .env;\
     sudo cp .env.testing.example .env.testing;\
     make php-dev;\
@@ -158,10 +142,10 @@ php-pint: ## (PHP) run run PHP code style fixer and show tested files
 	./vendor/bin/pint --test; \
 
 php-start: ## (PHP) fire all servers concurrently (`QUEUE`,`HORIZON`,`REVERB`,`OCTANE`,`VITE`,`SCHEDULE`,`PULSE`,`NEXT`)
-	npx concurrently -k -n "QUEUE,HORIZON,REVERB,OCTANE,VITE,SCHEDULE,PULSE,NEXT" -c "green,blue,magenta,cyan,yellow,red,gray,black" "php artisan queue:work" "php artisan horizon" "php artisan reverb:start --debug" "php artisan octane:start --port=9000" "npm run dev" "php artisan schedule:work" "php artisan pulse:work" "make next-dev"; \
+	npx concurrently -k -n "QUEUE,HORIZON,REVERB,OCTANE,VITE,SCHEDULE,PULSE,NEXT" -c "green,blue,magenta,cyan,yellow,red,gray,black" "php artisan queue:work" "php artisan horizon" "php artisan reverb:start --debug" "php artisan octane:start --port=9000" "npm run dev" "php artisan schedule:work" "php artisan pulse:work" "npm run next-dev"; \
 
 php-serve: ## (PHP) fire all servers concurrently (`SERVER`,`QUEUE`,`VITE`,`NEXT`)
-	npx concurrently -k -n "QUEUE,HORIZON,REVERB,SERVER,VITE,SCHEDULE,PULSE,NEXT" -c "green,blue,magenta,cyan,yellow,red,gray,black" "php artisan queue:listen --tries=1" "php artisan horizon" "php artisan reverb:start --debug" "php artisan serve --port=9000" "npm run dev" "php artisan schedule:work" "php artisan pulse:work" "make next-dev"; \
+	npx concurrently -k -n "QUEUE,HORIZON,REVERB,SERVER,VITE,SCHEDULE,PULSE,NEXT" -c "green,blue,magenta,cyan,yellow,red,gray,black" "php artisan queue:listen --tries=1" "php artisan horizon" "php artisan reverb:start --debug" "php artisan serve --port=9000" "npm run dev" "php artisan schedule:work" "php artisan pulse:work" "npm run next-dev"; \
 
 php-reload: ## (PHP) `git pull`, install all dependencies, clear all cache, filament asset updates, migrate and npm install and build
 	git pull; \
