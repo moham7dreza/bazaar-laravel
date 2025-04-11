@@ -2,54 +2,54 @@
 
 default: help
 
-build: ## run docker compose build
+build: ## (DOCKER) run docker compose build
 	docker compose build
 
-ps: ## docker compose ps
+ps: ## (DOCKER) docker compose ps
 	docker compose ps
 
-up: ## docker compose up
+up: ## (DOCKER) docker compose up
 	docker compose up -d
 
-down: ## docker compose down
+down: ## (DOCKER) docker compose down
 	docker compose down
 
-down-volumes: ## docker compose down with volumes
+down-volumes: ## (DOCKER) docker compose down with volumes
 	docker compose down --volumes
 
-restart: ## docker compose restart
+restart: ## (DOCKER) docker compose restart
 	docker compose restart
 
-composer: ## run composer commands
+composer: ## (DOCKER) run composer commands
 	docker compose run --rm -it php composer $(filter-out $@,$(MAKECMDGOALS))
 %:
 
-tinker: ## artisan tinker
+tinker: ## (DOCKER) artisan tinker
 	docker compose run --rm php php artisan tinker
 
 .PHONY: artisan
-artisan: ## run artisan command
+artisan: ## (DOCKER) run artisan command
 	docker compose run --rm php php artisan $(filter-out $@,$(MAKECMDGOALS))
 %:
 	@:
 
-npm: ## run npm command
+npm: ## (DOCKER) run npm command
 	docker compose run --rm php npm $(filter-out $@,$(MAKECMDGOALS))
 %:
 	@:
 
-migration: ## make a new migration
+migration: ## (DOCKER) make a new migration
 	docker compose run --rm php php artisan make:migration $(filter-out $@,$(MAKECMDGOALS))
 %:
 	@:
 
-migrate: ## run artisan migrate
+migrate: ## (DOCKER) run artisan migrate
 	docker compose run --rm php php artisan migrate
 
-horizon: ## run horizon
+horizon: ## (DOCKER) run horizon
 	docker compose run --rm php php artisan horizon
 
-install-laravel: ## Download source Laravel and update .env file
+install-laravel: ## (DOCKER) Download source Laravel and update .env file
 	@if [ -d "./app" ]; then \
 		echo "project already exists."; \
 	else \
@@ -59,19 +59,19 @@ install-laravel: ## Download source Laravel and update .env file
 		rm -rf src;\
 	fi
 
-pint-to-git: ## run pint and add modified files to git
+pint-to-git: ## (DOCKER) run pint and add modified files to git
 	@if [ -d "./.git" ]; then \
 		chmod +x ./docker-repo/scripts/setup.sh;\
 		./docker-repo/scripts/setup.sh;\
 	fi
 
-format: ## format codes with pint
+format: ## (DOCKER) format codes with pint
 	docker compose run -T --rm php ./vendor/bin/pint --dirty
 
-format-all: ## format codes with pint
+format-all: ## (DOCKER) format codes with pint
 	docker compose run -T --rm php ./vendor/bin/pint
 
-test: ## run tests
+test: ## (DOCKER) run tests
 	docker compose run --rm php php artisan test
 
 next-init: ## (NEXT) init project
