@@ -29,6 +29,10 @@ class SuperAdminPanelProvider extends PanelProvider
     public function panel(Panel $panel): Panel
     {
         return $panel
+//            ->brandName('بازار الان دادااش')
+//            ->brandLogo(asset('img/logo.png'))
+//            ->brandLogoHeight('2.5rem')
+            ->favicon(asset('img/logo.png'))
             ->spa()
             ->default()
             ->id('super-admin')
