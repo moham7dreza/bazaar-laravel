@@ -37,7 +37,7 @@ class SuperAdminPanelProvider extends PanelProvider
             ->default()
             ->id('super-admin')
             ->path('super-admin')
-//            ->databaseNotifications()
+            ->databaseNotifications()
             ->sidebarCollapsibleOnDesktop()
             ->topNavigation(false)
             ->globalSearchKeyBindings(['command+i', 'ctrl+i'])
