@@ -10,6 +10,7 @@ use App\Models\Advertise\AdvertisementNote;
 use App\Models\Geo\City;
 use App\Traits\MustVerifyMobile;
 use Filament\Models\Contracts\FilamentUser;
+use Filament\Models\Contracts\HasAvatar;
 use Filament\Panel;
 use Illuminate\Database\Eloquent\Attributes\Scope;
 use Illuminate\Database\Eloquent\Builder;
@@ -24,7 +25,7 @@ use Spatie\Activitylog\LogOptions;
 use Spatie\Activitylog\Traits\LogsActivity;
 use Spatie\Permission\Traits\HasRoles;
 
-class User extends Authenticatable implements FilamentUser, ShouldVerifiedMobile
+class User extends Authenticatable implements FilamentUser, HasAvatar, ShouldVerifiedMobile
 {
     /*** _____________________________________________ use SECTION ________________________________________________ ***/
     use HasFactory;
@@ -47,6 +48,7 @@ class User extends Authenticatable implements FilamentUser, ShouldVerifiedMobile
         'is_active',
         'suspended_at',
         'suspended_until',
+        'avatar_url',
     ];
 
     protected $hidden = [
@@ -86,6 +88,11 @@ class User extends Authenticatable implements FilamentUser, ShouldVerifiedMobile
     public function canAccessPanel(Panel $panel): bool
     {
         return $this->isAdmin();
+    }
+
+    public function getFilamentAvatarUrl(): ?string
+    {
+        return asset($this->avatar_url);
     }
 
     #[Scope]

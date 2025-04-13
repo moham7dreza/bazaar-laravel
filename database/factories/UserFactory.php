@@ -28,6 +28,7 @@ class UserFactory extends Factory
             'mobile' => $this->faker->phoneNumber,
             'mobile_verified_at' => now(),
             'city_id' => City::factory(),
+            'avatar_url' => $this->faker->imageUrl,
         ];
     }
 
@@ -46,6 +47,7 @@ class UserFactory extends Factory
             'email' => 'admin@admin.com',
             'user_type' => 1,
             'mobile' => '09123456789',
+            'avatar_url' => '/img/admin.jpg',
         ]);
     }
 

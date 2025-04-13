@@ -12,13 +12,14 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->string('mobile')->nullable()->after('email')->unique();
-            $table->dateTime('mobile_verified_at')->nullable()->after('email');
-            $table->foreignId('city_id')->after('email')->nullable()->constrained('cities');
-            $table->tinyInteger('is_active')->default(0)->after('email');
-            $table->tinyInteger('user_type')->default(0)->after('email');
-            $table->timestamp('suspended_at')->nullable()->after('email');
+            $table->string('mobile')->nullable()->unique();
+            $table->dateTime('mobile_verified_at')->nullable();
+            $table->foreignId('city_id')->nullable()->constrained('cities');
+            $table->tinyInteger('is_active')->default(0);
+            $table->tinyInteger('user_type')->default(0);
+            $table->timestamp('suspended_at')->nullable();
             $table->timestamp('suspended_until')->nullable();
+            $table->string('avatar_url')->nullable();
             $table->softDeletes();
         });
     }
@@ -29,7 +30,17 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('users', function (Blueprint $table) {
-            //
+            $table->dropColumn([
+                'mobile',
+                'mobile_verified_at',
+                'city_id',
+                'is_active',
+                'user_type',
+                'suspended_at',
+                'suspended_until',
+                'avatar_url',
+            ]);
+            $table->dropSoftDeletes();
         });
     }
 };
