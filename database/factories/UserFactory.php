@@ -2,10 +2,13 @@
 
 namespace Database\Factories;
 
+use App\Enums\StorageDisk;
 use App\Enums\Theme;
 use App\Models\Geo\City;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
 class UserFactory extends Factory
@@ -28,8 +31,19 @@ class UserFactory extends Factory
             'mobile' => $this->faker->phoneNumber,
             'mobile_verified_at' => now(),
             'city_id' => City::factory(),
-            'avatar_url' => $this->faker->imageUrl,
+            'avatar_url' => '/img/admin.jpg',
         ];
+    }
+
+    public function configure(): static
+    {
+        return $this->afterMaking(function (User $user) {
+            // ...
+        })->afterCreating(function (User $user) {
+            if (! isEnvTesting()) {
+                Storage::disk(StorageDisk::PUBLIC->value)->put($user->avatar_url, file_get_contents(asset($user->avatar_url)));
+            }
+        });
     }
 
     public function unverified(): static
@@ -47,7 +61,6 @@ class UserFactory extends Factory
             'email' => 'admin@admin.com',
             'user_type' => 1,
             'mobile' => '09123456789',
-            'avatar_url' => '/img/admin.jpg',
         ]);
     }
 
