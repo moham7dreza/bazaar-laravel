@@ -16,7 +16,13 @@
 1. search `runtime` commands with `make` (if you not use docker see `php` prefix commands)
 2. search `artisan` commands with `php artisan find` and use --exact argument for exact search
 3. search `laravel document topics` with `php artisan docs`
-4. use `ctrl+i` or `cmd+i` for global search modal in `super admin` panel
+
+
+### Super Admin Panel
+1. goto http://bazaar.local/super-admin
+2. use `admin` user credentials: admin@admin.com, password
+3. use `ctrl+i` or `cmd+i` for global search modal
+4. use `ctrl+k` or `cmd+k` for search resources
 
 ### Setup
 1. run `./fix-permissions.sh` for fix project directory access
