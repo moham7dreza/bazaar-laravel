@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enums\StorageDisk;
 use App\Enums\UserPermission;
 use App\Enums\UserRole;
 use App\Http\Interfaces\MustVerifyMobile as ShouldVerifiedMobile;
@@ -21,12 +22,16 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\Storage;
+use Jeffgreco13\FilamentBreezy\Traits\TwoFactorAuthenticatable;
+use Laravel\Sanctum\HasApiTokens;
 use Spatie\Activitylog\LogOptions;
 use Spatie\Activitylog\Traits\LogsActivity;
 use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable implements FilamentUser, HasAvatar, ShouldVerifiedMobile
 {
+    use HasApiTokens;
     /*** _____________________________________________ use SECTION ________________________________________________ ***/
     use HasFactory;
     use HasRoles;
@@ -34,6 +39,7 @@ class User extends Authenticatable implements FilamentUser, HasAvatar, ShouldVer
     use MustVerifyMobile;
     use Notifiable;
     use SoftDeletes;
+    use TwoFactorAuthenticatable;
 
     /*** _____________________________________________ props SECTION ______________________________________________ ***/
 
@@ -92,7 +98,7 @@ class User extends Authenticatable implements FilamentUser, HasAvatar, ShouldVer
 
     public function getFilamentAvatarUrl(): ?string
     {
-        return asset($this->avatar_url);
+        return $this->avatar_url ? Storage::disk(StorageDisk::PUBLIC->value)->url($this->avatar_url) : null;
     }
 
     #[Scope]
@@ -105,7 +111,8 @@ class User extends Authenticatable implements FilamentUser, HasAvatar, ShouldVer
     #[Scope]
     public function suspended(Builder $query): Builder
     {
-        return $query->whereNotNull('suspended_at')->where('suspended_until', '>=', now());
+        return $query->whereNotNull('suspended_at')
+            ->where('suspended_until', '>=', now());
     }
 
     /*** _____________________________________________ relations SECTION __________________________________________ ***/

@@ -4,7 +4,9 @@ namespace App\Providers\Filament;
 
 use App\Enums\Language;
 use App\Enums\Queue;
+use App\Enums\StorageDisk;
 use BezhanSalleh\FilamentLanguageSwitch\LanguageSwitch;
+use Filament\Forms\Components\FileUpload;
 use Filament\Http\Middleware\Authenticate;
 use Filament\Http\Middleware\AuthenticateSession;
 use Filament\Http\Middleware\DisableBladeIconComponents;
@@ -36,6 +38,11 @@ class SuperAdminPanelProvider extends PanelProvider
             ->topNavigation(false)
             ->globalSearchKeyBindings(['command+i', 'ctrl+i'])
             ->login()
+            ->registration()
+            ->passwordReset()
+            ->emailVerification()
+//            ->profile()
+            ->authGuard('web')
             ->colors([
                 'primary' => Color::Amber,
             ])
@@ -79,6 +86,14 @@ class SuperAdminPanelProvider extends PanelProvider
                 \Mvenghaus\FilamentScheduleMonitor\FilamentPlugin::make(),
                 \Vormkracht10\FilamentMails\FilamentMailsPlugin::make(),
                 \TomatoPHP\FilamentPWA\FilamentPWAPlugin::make(),
+                \Jeffgreco13\FilamentBreezy\BreezyCore::make()
+                    ->myProfile(
+                        shouldRegisterNavigation: true,
+                        hasAvatars: true,
+                    )
+                    ->avatarUploadComponent(fn () => FileUpload::make('avatar_url')->disk(StorageDisk::PUBLIC->value))
+                    ->enableTwoFactorAuthentication()
+                    ->enableSanctumTokens(),
             ])
             ->routes(fn () => \Vormkracht10\FilamentMails\Facades\FilamentMails::routes())
             ->navigationItems($this->getNavItems());

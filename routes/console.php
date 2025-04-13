@@ -18,6 +18,7 @@ Schedule::command(SpatieHealthCommands\ScheduleCheckHeartbeatCommand::class)->ev
 Schedule::command(BackupCommand::class)->daily();
 
 Schedule::command('telescope:prune --hours=48')->daily();
+Schedule::command('sanctum:prune-expired --hours=48')->daily();
 Schedule::command('horizon:snapshot')->everyFiveMinutes();
 Schedule::command(CheckDependencyVersions::class)->everyFiveMinutes();
 
