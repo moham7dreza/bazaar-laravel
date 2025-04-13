@@ -16,6 +16,7 @@
 1. search `runtime` commands with `make` (if you not use docker see `php` prefix commands)
 2. search `artisan` commands with `php artisan find` and use --exact argument for exact search
 3. search `laravel document topics` with `php artisan docs`
+4. use `ctrl+i` or `cmd+i` for global search modal in `super admin` panel
 
 ### Setup
 1. run `./fix-permissions.sh` for fix project directory access
