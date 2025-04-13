@@ -94,6 +94,7 @@ class SuperAdminPanelProvider extends PanelProvider
                     ->avatarUploadComponent(fn () => FileUpload::make('avatar_url')->disk(StorageDisk::PUBLIC->value))
                     ->enableTwoFactorAuthentication()
                     ->enableSanctumTokens(),
+                \pxlrbt\FilamentSpotlight\SpotlightPlugin::make(),
             ])
             ->routes(fn () => \Vormkracht10\FilamentMails\Facades\FilamentMails::routes())
             ->navigationItems($this->getNavItems());
