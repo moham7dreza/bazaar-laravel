@@ -33,6 +33,7 @@ class SuperAdminPanelProvider extends PanelProvider
 //            ->brandLogo(asset('img/logo.png'))
 //            ->brandLogoHeight('2.5rem')
             ->favicon(asset('img/logo.png'))
+            ->viteTheme('resources/css/filament/super-admin/theme.css')
             ->spa()
             ->default()
             ->id('super-admin')
@@ -60,6 +61,7 @@ class SuperAdminPanelProvider extends PanelProvider
                 Widgets\AccountWidget::class,
                 Widgets\FilamentInfoWidget::class,
                 \Cmsmaxinc\FilamentSystemVersions\Filament\Widgets\DependencyWidget::make(),
+                \Awcodes\Overlook\Widgets\OverlookWidget::class,
             ])
             ->middleware([
                 EncryptCookies::class,
@@ -99,6 +101,16 @@ class SuperAdminPanelProvider extends PanelProvider
                     ->enableTwoFactorAuthentication()
                     ->enableSanctumTokens(),
                 \pxlrbt\FilamentSpotlight\SpotlightPlugin::make(),
+                \Awcodes\Overlook\OverlookPlugin::make()
+                    ->sort(2)
+                    ->columns([
+                        'default' => 1,
+                        'sm' => 2,
+                        'md' => 3,
+                        'lg' => 4,
+                        'xl' => 5,
+                        '2xl' => null,
+                    ]),
             ])
             ->routes(fn () => \Vormkracht10\FilamentMails\Facades\FilamentMails::routes())
             ->navigationItems($this->getNavItems());
