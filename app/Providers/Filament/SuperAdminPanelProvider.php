@@ -113,6 +113,7 @@ class SuperAdminPanelProvider extends PanelProvider
                     ]),
                 \Leandrocfe\FilamentApexCharts\FilamentApexChartsPlugin::make(),
                 \BezhanSalleh\FilamentExceptions\FilamentExceptionsPlugin::make(),
+                \Kenepa\ResourceLock\ResourceLockPlugin::make(),
             ])
             ->routes(fn () => \Vormkracht10\FilamentMails\Facades\FilamentMails::routes())
             ->navigationItems($this->getNavItems());
