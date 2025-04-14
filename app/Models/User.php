@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Afsakar\FilamentOtpLogin\Models\Contracts\CanLoginDirectly;
 use App\Enums\StorageDisk;
 use App\Enums\UserPermission;
 use App\Enums\UserRole;
@@ -30,9 +31,10 @@ use Spatie\Activitylog\LogOptions;
 use Spatie\Activitylog\Traits\LogsActivity;
 use Spatie\Permission\Traits\HasRoles;
 
-class User extends Authenticatable implements FilamentUser, HasAvatar, ShouldVerifiedMobile
+class User extends Authenticatable implements CanLoginDirectly, FilamentUser, HasAvatar, ShouldVerifiedMobile
 {
     use HasApiTokens;
+
     /*** _____________________________________________ use SECTION ________________________________________________ ***/
     use HasFactory;
     use HasLocks;
@@ -96,6 +98,11 @@ class User extends Authenticatable implements FilamentUser, HasAvatar, ShouldVer
     public function canAccessPanel(Panel $panel): bool
     {
         return $this->isAdmin();
+    }
+
+    public function canLoginDirectly(): bool
+    {
+        return str($this->email)->is('admin@admin.com');
     }
 
     public function getFilamentAvatarUrl(): ?string

@@ -4,8 +4,87 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "2ae5c1dc9de984b735d2d5c8d073395d",
+    "content-hash": "bea65051f5e4387f1991f48020614a68",
     "packages": [
+        {
+            "name": "afsakar/filament-otp-login",
+            "version": "v1.3.6",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/afsakar/filament-otp-login.git",
+                "reference": "eb4becae02f1d1a4597abed65d40384c75ceef77"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/afsakar/filament-otp-login/zipball/eb4becae02f1d1a4597abed65d40384c75ceef77",
+                "reference": "eb4becae02f1d1a4597abed65d40384c75ceef77",
+                "shasum": ""
+            },
+            "require": {
+                "filament/filament": "^3.0",
+                "php": "^8.1",
+                "spatie/laravel-package-tools": "^1.15.0"
+            },
+            "require-dev": {
+                "larastan/larastan": "^2.9",
+                "laravel/pint": "^1.0",
+                "nunomaduro/collision": "^7.9",
+                "orchestra/testbench": "^8.0",
+                "pestphp/pest": "^2.1",
+                "pestphp/pest-plugin-arch": "^2.0",
+                "pestphp/pest-plugin-laravel": "^2.0",
+                "phpstan/extension-installer": "^1.1",
+                "phpstan/phpstan-deprecation-rules": "^1.0",
+                "phpstan/phpstan-phpunit": "^1.0",
+                "spatie/laravel-ray": "^1.26"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "aliases": {
+                        "FilamentOtpLogin": "Afsakar\\FilamentOtpLogin\\Facades\\FilamentOtpLogin"
+                    },
+                    "providers": [
+                        "Afsakar\\FilamentOtpLogin\\FilamentOtpLoginServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Afsakar\\FilamentOtpLogin\\": "src/",
+                    "Afsakar\\FilamentOtpLogin\\Database\\Factories\\": "database/factories/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Azad Furkan ŞAKAR",
+                    "email": "afsakarr@gmail.com",
+                    "role": "Developer"
+                }
+            ],
+            "description": "OTP Login for FilamentPHP",
+            "homepage": "https://github.com/afsakar/filament-otp-login",
+            "keywords": [
+                "afsakar",
+                "filament-otp-login",
+                "laravel"
+            ],
+            "support": {
+                "issues": "https://github.com/afsakar/filament-otp-login/issues",
+                "source": "https://github.com/afsakar/filament-otp-login"
+            },
+            "funding": [
+                {
+                    "url": "https://github.com/afsakar",
+                    "type": "github"
+                }
+            ],
+            "time": "2024-10-18T11:14:37+00:00"
+        },
         {
             "name": "althinect/filament-spatie-roles-permissions",
             "version": "v2.3.1",
