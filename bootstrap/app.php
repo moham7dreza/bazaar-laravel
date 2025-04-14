@@ -1,5 +1,6 @@
 <?php
 
+use BezhanSalleh\FilamentExceptions\FilamentExceptions;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
@@ -36,6 +37,9 @@ return Application::configure(basePath: dirname(__DIR__))
         //
     })
     ->withExceptions(function (Exceptions $exceptions) {
+        $exceptions->reportable(function (Throwable $e) {
+            FilamentExceptions::report($e);
+        });
         $exceptions->renderable(function (NotFoundHttpException $e, $request) {
             if ($request->is('api/*')) {
                 return response()->json([

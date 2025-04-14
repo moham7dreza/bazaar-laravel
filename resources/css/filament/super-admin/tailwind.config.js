@@ -9,5 +9,6 @@ export default {
         './vendor/bezhansalleh/filament-language-switch/resources/views/language-switch.blade.php',
         './vendor/cmsmaxinc/filament-system-versions/resources/**/*.blade.php',
         './vendor/awcodes/overlook/resources/**/*.blade.php',
+        './vendor/bezhansalleh/filament-exceptions/resources/views/**/*.blade.php',
     ],
 }

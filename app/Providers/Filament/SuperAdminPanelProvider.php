@@ -112,6 +112,7 @@ class SuperAdminPanelProvider extends PanelProvider
                         '2xl' => null,
                     ]),
                 \Leandrocfe\FilamentApexCharts\FilamentApexChartsPlugin::make(),
+                \BezhanSalleh\FilamentExceptions\FilamentExceptionsPlugin::make(),
             ])
             ->routes(fn () => \Vormkracht10\FilamentMails\Facades\FilamentMails::routes())
             ->navigationItems($this->getNavItems());
