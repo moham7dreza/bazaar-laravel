@@ -116,6 +116,7 @@ class SuperAdminPanelProvider extends PanelProvider
                 \Kenepa\ResourceLock\ResourceLockPlugin::make(),
                 \Afsakar\FilamentOtpLogin\FilamentOtpLoginPlugin::make(),
                 \Statikbe\FilamentTranslationManager\FilamentChainedTranslationManagerPlugin::make(),
+                \TomatoPHP\FilamentMediaManager\FilamentMediaManagerPlugin::make(),
             ])
             ->routes(fn () => \Vormkracht10\FilamentMails\Facades\FilamentMails::routes())
             ->navigationItems($this->getNavItems());
