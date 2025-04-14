@@ -22,6 +22,7 @@
         "ext-pcntl": "*",
         "althinect/filament-spatie-roles-permissions": "^2.3",
         "amiriun/sms": "dev-master",
+        "awcodes/overlook": "^2.2",
         "bezhansalleh/filament-language-switch": "^3.1",
         "charrafimed/global-search-modal": "^3.7",
         "cmsmaxinc/filament-system-versions": "^1.0",
