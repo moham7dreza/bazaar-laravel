@@ -115,6 +115,7 @@ class SuperAdminPanelProvider extends PanelProvider
                 \BezhanSalleh\FilamentExceptions\FilamentExceptionsPlugin::make(),
                 \Kenepa\ResourceLock\ResourceLockPlugin::make(),
                 \Afsakar\FilamentOtpLogin\FilamentOtpLoginPlugin::make(),
+                \Statikbe\FilamentTranslationManager\FilamentChainedTranslationManagerPlugin::make(),
             ])
             ->routes(fn () => \Vormkracht10\FilamentMails\Facades\FilamentMails::routes())
             ->navigationItems($this->getNavItems());
@@ -126,6 +127,8 @@ class SuperAdminPanelProvider extends PanelProvider
             $switch
                 ->locales(Language::values());
         });
+
+        \Statikbe\FilamentTranslationManager\FilamentTranslationManager::setLocales(Language::values());
     }
 
     private function getNavItems(): array

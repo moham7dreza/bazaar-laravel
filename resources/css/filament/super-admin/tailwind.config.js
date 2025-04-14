@@ -10,5 +10,6 @@ export default {
         './vendor/cmsmaxinc/filament-system-versions/resources/**/*.blade.php',
         './vendor/awcodes/overlook/resources/**/*.blade.php',
         './vendor/bezhansalleh/filament-exceptions/resources/views/**/*.blade.php',
+        './vendor/statikbe/laravel-filament-chained-translation-manager/**/*.blade.php',
     ],
 }
