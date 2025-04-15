@@ -33,6 +33,7 @@
         "doctrine/dbal": "^4.2",
         "dyrynda/laravel-cascade-soft-deletes": "^4.0",
         "filament/filament": "3.3",
+        "geo-sot/filament-env-editor": "^0.0.7",
         "hasnayeen/themes": "^3.0",
         "internachi/modular": "^2.3",
         "intervention/image": "^3.7",

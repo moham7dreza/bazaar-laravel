@@ -117,6 +117,9 @@ class SuperAdminPanelProvider extends PanelProvider
                 \Afsakar\FilamentOtpLogin\FilamentOtpLoginPlugin::make(),
                 \Statikbe\FilamentTranslationManager\FilamentChainedTranslationManagerPlugin::make(),
                 \TomatoPHP\FilamentMediaManager\FilamentMediaManagerPlugin::make(),
+                \GeoSot\FilamentEnvEditor\FilamentEnvEditorPlugin::make()
+                    ->navigationGroup('Settings')
+                    ->navigationIcon('heroicon-o-cog-8-tooth'),
             ])
             ->routes(fn () => \Vormkracht10\FilamentMails\Facades\FilamentMails::routes())
             ->navigationItems($this->getNavItems());
