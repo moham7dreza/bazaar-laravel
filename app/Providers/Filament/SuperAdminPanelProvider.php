@@ -120,6 +120,7 @@ class SuperAdminPanelProvider extends PanelProvider
                 \GeoSot\FilamentEnvEditor\FilamentEnvEditorPlugin::make()
                     ->navigationGroup('Settings')
                     ->navigationIcon('heroicon-o-cog-8-tooth'),
+                \Brickx\MaintenanceSwitch\MaintenanceSwitchPlugin::make(),
             ])
             ->routes(fn () => \Vormkracht10\FilamentMails\Facades\FilamentMails::routes())
             ->navigationItems($this->getNavItems());

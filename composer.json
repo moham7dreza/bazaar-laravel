@@ -26,6 +26,7 @@
         "awcodes/overlook": "^2.2",
         "bezhansalleh/filament-exceptions": "^2.1",
         "bezhansalleh/filament-language-switch": "^3.1",
+        "brickx/maintenance-switch": "^1.0",
         "charrafimed/global-search-modal": "^3.7",
         "cmsmaxinc/filament-system-versions": "^1.0",
         "cviebrock/eloquent-sluggable": "^12.0",
