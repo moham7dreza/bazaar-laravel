@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "bc18fd5c6bc65b4ef306381e04219c0f",
+    "content-hash": "28c79b3322e660303ae04da42cba3ce8",
     "packages": [
         {
             "name": "afsakar/filament-otp-login",
@@ -4957,16 +4957,16 @@
         },
         {
             "name": "laravel/framework",
-            "version": "v12.8.1",
+            "version": "v12.9.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/framework.git",
-                "reference": "d1ea3566f6e0cad34834c6d18db0bf995438eb87"
+                "reference": "d413f9e297b62238c6c633c082f8f45a888e31b6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/framework/zipball/d1ea3566f6e0cad34834c6d18db0bf995438eb87",
-                "reference": "d1ea3566f6e0cad34834c6d18db0bf995438eb87",
+                "url": "https://api.github.com/repos/laravel/framework/zipball/d413f9e297b62238c6c633c082f8f45a888e31b6",
+                "reference": "d413f9e297b62238c6c633c082f8f45a888e31b6",
                 "shasum": ""
             },
             "require": {
@@ -5075,7 +5075,7 @@
                 "league/flysystem-sftp-v3": "^3.25.1",
                 "mockery/mockery": "^1.6.10",
                 "orchestra/testbench-core": "^10.0.0",
-                "pda/pheanstalk": "^5.0.6",
+                "pda/pheanstalk": "^5.0.6|^7.0.0",
                 "php-http/discovery": "^1.15",
                 "phpstan/phpstan": "^2.0",
                 "phpunit/phpunit": "^10.5.35|^11.5.3|^12.0.1",
@@ -5168,7 +5168,7 @@
                 "issues": "https://github.com/laravel/framework/issues",
                 "source": "https://github.com/laravel/framework"
             },
-            "time": "2025-04-08T19:58:59+00:00"
+            "time": "2025-04-15T15:36:35+00:00"
         },
         {
             "name": "laravel/helpers",
@@ -7174,16 +7174,16 @@
         },
         {
             "name": "mongodb/laravel-mongodb",
-            "version": "5.3.0",
+            "version": "5.3.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/mongodb/laravel-mongodb.git",
-                "reference": "8b5ab5989aa7d8c2c2fdf21b4eb78f7bd191f01f"
+                "reference": "af499af30640896d73eef6648f5c6a6634530915"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/mongodb/laravel-mongodb/zipball/8b5ab5989aa7d8c2c2fdf21b4eb78f7bd191f01f",
-                "reference": "8b5ab5989aa7d8c2c2fdf21b4eb78f7bd191f01f",
+                "url": "https://api.github.com/repos/mongodb/laravel-mongodb/zipball/af499af30640896d73eef6648f5c6a6634530915",
+                "reference": "af499af30640896d73eef6648f5c6a6634530915",
                 "shasum": ""
             },
             "require": {
@@ -7272,27 +7272,27 @@
             "support": {
                 "issues": "https://www.mongodb.com/support",
                 "security": "https://www.mongodb.com/security",
-                "source": "https://github.com/mongodb/laravel-mongodb/tree/5.3.0"
+                "source": "https://github.com/mongodb/laravel-mongodb/tree/5.3.1"
             },
-            "time": "2025-04-10T12:24:34+00:00"
+            "time": "2025-04-15T08:48:13+00:00"
         },
         {
             "name": "mongodb/mongodb",
-            "version": "2.0.0",
+            "version": "1.21.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/mongodb/mongo-php-library.git",
-                "reference": "04cd7edc6a28950e3fab6eccb2869d72a0541232"
+                "reference": "37bc8df3a67ddf8380704a5ba5dbd00e92ec1f6a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/mongodb/mongo-php-library/zipball/04cd7edc6a28950e3fab6eccb2869d72a0541232",
-                "reference": "04cd7edc6a28950e3fab6eccb2869d72a0541232",
+                "url": "https://api.github.com/repos/mongodb/mongo-php-library/zipball/37bc8df3a67ddf8380704a5ba5dbd00e92ec1f6a",
+                "reference": "37bc8df3a67ddf8380704a5ba5dbd00e92ec1f6a",
                 "shasum": ""
             },
             "require": {
                 "composer-runtime-api": "^2.0",
-                "ext-mongodb": "^2.0",
+                "ext-mongodb": "^1.21.0",
                 "php": "^8.1",
                 "psr/log": "^1.1.4|^2|^3"
             },
@@ -7348,9 +7348,9 @@
             ],
             "support": {
                 "issues": "https://github.com/mongodb/mongo-php-library/issues",
-                "source": "https://github.com/mongodb/mongo-php-library/tree/2.0.0"
+                "source": "https://github.com/mongodb/mongo-php-library/tree/1.21.1"
             },
-            "time": "2025-04-10T08:34:11+00:00"
+            "time": "2025-02-28T17:24:20+00:00"
         },
         {
             "name": "monolog/monolog",

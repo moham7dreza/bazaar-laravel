@@ -48,7 +48,7 @@
         "laravel/tinker": "^2.0",
         "leandrocfe/filament-apex-charts": "^3.1",
         "modules/demo": "*",
-        "mongodb/laravel-mongodb": "^5.2",
+        "mongodb/laravel-mongodb": "^5.3",
         "morilog/jalali": "^3.4",
         "munafio/chatify": "^1.6",
         "mvenghaus/filament-plugin-schedule-monitor": "3.0",
