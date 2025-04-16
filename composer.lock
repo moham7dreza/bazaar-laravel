@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "e3fffe6be621033fdcbc7d6499a23d3f",
+    "content-hash": "73822bd6504c327292d2eefbc4e7c030",
     "packages": [
         {
             "name": "afsakar/filament-otp-login",
@@ -4474,6 +4474,75 @@
                 }
             ],
             "time": "2025-02-27T05:00:18+00:00"
+        },
+        {
+            "name": "infinityxtech/filament-world-map-widget",
+            "version": "v1.0.3",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/InfinityXTech/filament-world-map-widget.git",
+                "reference": "0c3fc6770a8d0f4025229941eacc294e3d337c93"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/InfinityXTech/filament-world-map-widget/zipball/0c3fc6770a8d0f4025229941eacc294e3d337c93",
+                "reference": "0c3fc6770a8d0f4025229941eacc294e3d337c93",
+                "shasum": ""
+            },
+            "require": {
+                "filament/filament": "^3.0",
+                "php": "^8.1",
+                "spatie/laravel-package-tools": "^1.15.0"
+            },
+            "require-dev": {
+                "nunomaduro/collision": "^7.9",
+                "orchestra/testbench": "^8.0",
+                "pestphp/pest": "^2.1",
+                "pestphp/pest-plugin-arch": "^2.0",
+                "pestphp/pest-plugin-laravel": "^2.0"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "InfinityXTech\\FilamentWorldMapWidget\\FilamentWorldMapWidgetServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "InfinityXTech\\FilamentWorldMapWidget\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "InfinityX Tech",
+                    "email": "developer@infinity-x.tech",
+                    "role": "Developer"
+                }
+            ],
+            "description": "World map stats widget",
+            "homepage": "https://github.com/infinityxtech/filament-world-map-widget",
+            "keywords": [
+                "InfinityXTech",
+                "filament-world-map-widget",
+                "laravel"
+            ],
+            "support": {
+                "issues": "https://github.com/infinityxtech/filament-world-map-widget/issues",
+                "source": "https://github.com/infinityxtech/filament-world-map-widget"
+            },
+            "funding": [
+                {
+                    "url": "https://github.com/InfinityXTech",
+                    "type": "github"
+                }
+            ],
+            "time": "2025-01-18T01:10:17+00:00"
         },
         {
             "name": "internachi/modular",
