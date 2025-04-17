@@ -80,39 +80,39 @@ next-init: ## (NEXT) init project
 next-dev: ## (NEXT) run dev
 	cd /var/www/bazaar-next && npm run reload; \
 
-php-install: ## (PHP) init project
+install: ## (PHP) init project
 	./fix-permissions.sh;\
 	./setup.sh; \
 	sudo cp .env.example .env;\
     sudo cp .env.testing.example .env.testing;\
-    make php-dev;\
+    make dev;\
 
-php-ide: ## (PHP) generate IDE helper files
+ide: ## (PHP) generate IDE helper files
 	php artisan ide-helper:generate;\
 	php artisan ide-helper:models --nowrite;\
 	php artisan ide-helper:meta;\
 	php artisan ide-helper:eloquent;\
 
-php-dbfresh: ## (PHP) drop and recreate main and test databases
+dbfresh: ## (PHP) drop and recreate main and test databases
 	php artisan migrate:fresh --force --seed;\
 	php artisan migrate:fresh --force --env=testing;\
 
-php-stop: ## (PHP) stop servers
+stop: ## (PHP) stop servers
 	php artisan octane:stop;\
 	php artisan reverb:restart;\
 	php artisan queue:restart;\
 	php artisan pulse:restart;\
 	php artisan horizon:terminate;\
 
-php-testp: ## (PHP) run tests parallel
+testp: ## (PHP) run tests parallel
 	php artisan migrate --force --env=testing;\
     php artisan test --parallel;\
 
-php-testpf: ## (PHP) recreact tests databases and run tests parallel
+testpf: ## (PHP) recreact tests databases and run tests parallel
 	php artisan migrate --force --env=testing;\
     php artisan test --parallel --recreate-databases;\
 
-php-clean: ## (PHP) cache all system clear
+clean: ## (PHP) cache all system clear
 	php artisan clear-compiled;\
 	php artisan optimize:clear;\
 	php artisan modules:clear;\
@@ -121,7 +121,7 @@ php-clean: ## (PHP) cache all system clear
 	php artisan permission:cache-reset;\
 	php artisan debugbar:clear;\
 
-php-deepclean: ## (PHP) clear cache and data from database and storage
+deepclean: ## (PHP) clear cache and data from database and storage
 	php artisan activitylog:clean;\
 	php artisan mail:prune;\
 	php artisan telescope:clear;\
@@ -138,26 +138,26 @@ php-deepclean: ## (PHP) clear cache and data from database and storage
 	php artisan filament-excel:prune;\
 	php artisan sanctum:prune-expired;\
 
-php-cache: ## (PHP) cache system views, events, routes, modules and filament assets
+cache: ## (PHP) cache system views, events, routes, modules and filament assets
 	php artisan optimize;\
 	php artisan modules:cache;\
 	php artisan filament:optimize;\
 	php artisan settings:discover;\
 
-php-pint: ## (PHP) run run PHP code style fixer and show tested files
+pint: ## (PHP) run run PHP code style fixer and show tested files
 	./vendor/bin/pint --test; \
 
-php-start: ## (PHP) fire all servers concurrently (`QUEUE`,`HORIZON`,`REVERB`,`OCTANE`,`VITE`,`SCHEDULE`,`PULSE`,`NEXT`)
+start: ## (PHP) fire all servers concurrently (`QUEUE`,`HORIZON`,`REVERB`,`OCTANE`,`VITE`,`SCHEDULE`,`PULSE`,`NEXT`)
 	npx concurrently -k -n "QUEUE,HORIZON,REVERB,OCTANE,VITE,SCHEDULE,PULSE,NEXT" -c "green,blue,magenta,cyan,yellow,red,gray,black" "php artisan queue:work" "php artisan horizon" "php artisan reverb:start --debug" "php artisan octane:start --port=9000" "npm run dev" "php artisan schedule:work" "php artisan pulse:work" "make next-dev"; \
 
-php-serve: ## (PHP) fire all servers concurrently (`SERVER`,`QUEUE`,`VITE`,`NEXT`)
+serve: ## (PHP) fire all servers concurrently (`SERVER`,`QUEUE`,`VITE`,`NEXT`)
 	npx concurrently -k -n "QUEUE,HORIZON,REVERB,SERVER,VITE,SCHEDULE,PULSE,NEXT" -c "green,blue,magenta,cyan,yellow,red,gray,black" "php artisan queue:listen --tries=1" "php artisan horizon" "php artisan reverb:start --debug" "php artisan serve --port=9000" "npm run dev" "php artisan schedule:work" "php artisan pulse:work" "make next-dev"; \
 
-php-reload: ## (PHP) `git pull`, install all dependencies, clear all cache, filament asset updates, migrate and npm install and build
+reload: ## (PHP) `git pull`, install all dependencies, clear all cache, filament asset updates, migrate and npm install and build
 	git pull; \
 	composer install; \
 	php artisan down; \
-	make php-clean; \
+	make clean; \
 	php artisan modules:sync; \
 	php artisan filament:upgrade; \
 	php artisan themes:upgrade; \
@@ -167,23 +167,23 @@ php-reload: ## (PHP) `git pull`, install all dependencies, clear all cache, fila
 	npm install && npm run build; \
 	php artisan schedule:run; \
 	php artisan backup:run; \
-	make php-pint; \
+	make pint; \
 	php artisan scramble:analyze; \
 	php artisan up; \
 
-php-dev: ## (PHP) run `make php-reload`, `make php-ide`, `make php-start`
-	make php-reload; \
-	make php-ide; \
-	make php-start; \
+dev: ## (PHP) run `make reload`, `make ide`, `make start`
+	make reload; \
+	make ide; \
+	make start; \
 
-php-prod: ## (PHP) run `git pull`, install no dev dependencies, clear all cache, run migrations, `make php-cache`, `vite build`, `make php-start`
+prod: ## (PHP) run `git pull`, install no dev dependencies, clear all cache, run migrations, `make cache`, `vite build`, `make start`
 	git pull; \
 	composer install --optimize-autoloader --no-dev; \
-	make php-clean; \
+	make clean; \
 	php artisan migrate --graceful --ansi --force; \
-	make php-cache; \
+	make cache; \
 	npm install && npm run build; \
-	make php-start; \
+	make start; \
 
 # makefile help
 help:
