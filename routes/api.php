@@ -28,7 +28,9 @@ use App\Http\Controllers\ImageController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
-Route::middleware(['auth:sanctum', 'mobileVerified'])->get('/user', fn (Request $request) => $request->user());
+$mobileVerified = ['auth:sanctum', 'mobileVerified'];
+
+Route::get('user', static fn (Request $request) => $request->user())->middleware($mobileVerified)->name('user.info');
 
 Route::get('categories', [HomeCategoryController::class, 'index'])->name('categories.index');
 Route::get('menus', [HomeMenuController::class, 'index'])->name('menus.index');
@@ -39,15 +41,13 @@ Route::get('states', [HomeStateController::class, 'index'])->name('states.index'
 Route::get('cities', [CityController::class, 'index'])->name('cities.index');
 
 Route::prefix(RouteSection::AUTH)
+    ->middleware('guest')
     ->name('auth.')
     ->group(function () {
 
-        Route::post('/register', [RegisteredUserController::class, 'store'])
-            ->middleware('guest')
-            ->name('register');
-
-        Route::post('send-otp', [RegisteredUserWithOTPController::class, 'store'])->middleware('guest')->name('send-otp');
-        Route::post('verify-otp', [VerifyUserWithOTPController::class, 'store'])->middleware('guest')->name('verify-otp');
+        Route::post('register', [RegisteredUserController::class, 'store'])->name('register');
+        Route::post('send-otp', [RegisteredUserWithOTPController::class, 'store'])->name('send-otp');
+        Route::post('verify-otp', [VerifyUserWithOTPController::class, 'store'])->name('verify-otp');
     });
 
 Route::prefix(RouteSection::IMAGES)
@@ -94,7 +94,7 @@ Route::prefix(RouteSection::ADMIN)
 // user panel
 Route::prefix(RouteSection::PANEL)
     ->name('panel.')
-    ->middleware(['auth:sanctum', 'mobileVerified'])
+    ->middleware($mobileVerified)
     ->group(function () {
 
         Route::prefix(RouteSection::ADVERTISE)
