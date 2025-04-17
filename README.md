@@ -23,6 +23,7 @@
 2. use `admin` user credentials: admin@admin.com, password
 3. use `ctrl+i` or `cmd+i` for global search modal
 4. use `ctrl+k` or `cmd+k` for search resources
+5. use `ctrl+shtf+a` or `cmd+shft+a` for quick create resources
 
 ### Setup
 1. run `make fix-permissions` for fix project directory access

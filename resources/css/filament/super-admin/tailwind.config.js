@@ -13,5 +13,6 @@ export default {
         './vendor/statikbe/laravel-filament-chained-translation-manager/**/*.blade.php',
         './vendor/brickx/maintenance-switch/resources/views/**/*.blade.php',
         './vendor/malzariey/filament-daterangepicker-filter/resources/css/filament-daterangepicker.css',
+        './vendor/awcodes/filament-quick-create/resources/**/*.blade.php',
     ],
 }
