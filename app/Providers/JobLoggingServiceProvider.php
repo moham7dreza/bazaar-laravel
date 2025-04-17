@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use App\Events\PackageSent;
+use App\Jobs\MongoLogJob;
 use App\Models\Monitor\JobPerformanceLog;
 use Carbon\Carbon;
 use Exception;
@@ -22,7 +24,8 @@ final class JobLoggingServiceProvider extends ServiceProvider
     private float $totalQueryTime;
 
     private const array EXCLUDED_JOBS = [
-        // example : Job::class
+        MongoLogJob::class,
+        PackageSent::class,
     ];
 
     /**
