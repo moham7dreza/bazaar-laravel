@@ -20,16 +20,12 @@ class CategoryFactory extends Factory
         ];
     }
 
-    public function parent(Category|Factory|null $category = null): static
+    public function configure(): self
     {
-        if ($category instanceof Factory) {
-            $category = $category->create();
-        }
-
-        return $this->state(function (array $attributes) use ($category) {
-            return [
-                'parent_id' => $category?->id,
-            ];
+        return $this->afterMaking(function (Category $category) {
+            //
+        })->afterCreating(function (Category $category) {
+            //
         });
     }
 }

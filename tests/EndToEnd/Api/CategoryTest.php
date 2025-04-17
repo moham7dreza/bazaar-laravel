@@ -4,15 +4,21 @@ use App\Models\Advertise\Category;
 
 it('can get all parent categories', function () {
 
-    Category::factory()->parent(Category::factory())->create();
+    $category = Category::factory()
+        ->for(Category::factory(), 'parent')
+        ->create();
+
+    expect($category->parent_id)->not->toBeNull();
 
     $response = $this->getJson(route('categories.index'))->assertOk();
 
     expect($response->json('data'))->toHaveLength(1);
 
-    Category::factory()->create();
+    $data = $response->json('data.0');
 
-    $response = $this->getJson(route('categories.index'))->assertOk();
-
-    expect($response->json('data'))->toHaveLength(2);
+    expect($data)->toBeArray()
+        ->id->toBe($category->parent_id)
+        ->name->toBeString()
+        ->slug->toBeString()
+        ->icon->toBeString();
 });
