@@ -22,6 +22,8 @@ function asAnAuthenticatedUser(): \Tests\TestCase
 
 function asAdminUser(User $user): \Tests\TestCase
 {
+    \Spatie\Permission\Models\Role::create(['name' => UserRole::ADMIN]);
+    \Spatie\Permission\Models\Permission::create(['name' => \App\Enums\UserPermission::SEE_PANEL]);
     $user->assignRole(UserRole::ADMIN);
 
     return test()->be($user);
