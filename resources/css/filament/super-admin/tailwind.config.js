@@ -14,5 +14,6 @@ export default {
         './vendor/brickx/maintenance-switch/resources/views/**/*.blade.php',
         './vendor/malzariey/filament-daterangepicker-filter/resources/css/filament-daterangepicker.css',
         './vendor/awcodes/filament-quick-create/resources/**/*.blade.php',
+        './vendor/cmsmaxinc/filament-error-pages/resources/**/*.blade.php',
     ],
 }

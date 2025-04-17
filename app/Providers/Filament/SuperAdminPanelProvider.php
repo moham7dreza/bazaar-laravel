@@ -128,6 +128,7 @@ class SuperAdminPanelProvider extends PanelProvider
                     ->includes([
                         \App\Filament\Resources\UserResource::class,
                     ]),
+                \Cmsmaxinc\FilamentErrorPages\FilamentErrorPagesPlugin::make(),
             ])
             ->routes(fn () => \Vormkracht10\FilamentMails\Facades\FilamentMails::routes())
             ->navigationItems($this->getNavItems());
