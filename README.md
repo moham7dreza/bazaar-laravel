@@ -25,10 +25,10 @@
 4. use `ctrl+k` or `cmd+k` for search resources
 
 ### Setup
-1. run `./fix-permissions.sh` for fix project directory access
-2. run `./setup.sh` to configure Nginx for http://bazaar.local
+1. run `make fix-permissions` for fix project directory access
+2. run `make setup` to configure Nginx for http://bazaar.local
 3. apply required changes in env files (`MYSQL`, `REDIS`, `MONGO`, ...)
-4. run `make php-dev` to an init project and start servers
+4. run `make dev` to an init project and start servers
 5. if you use `herd` goto http://bazaar-laravel.test
 6. `admin` user credentials: admin@admin.com, password
 7. activate your idea's `laravel pint inspection`
@@ -43,24 +43,8 @@
 
 ### Testing
 1. apply required changes in .env.testing file
-2. run `composer testpf` for create test databases and run tests parallel
+2. run `make testpf` for create test databases and run tests parallel
 3. if you set up `coverage` engine like Xdebug, you can get coverage report
-
-### Composer Commands
-1. `composer ide-helper` - generate IDE helper files
-2. `composer reload` - `git pull`, install all dependencies, clear all cache, filament asset updates, migrate and npm install and build
-3. `composer cache` - cache system views, events, routes, modules and filament assets
-4. `composer clean` - clear all cache
-5. `composer deep-clean` - clear cache and data from database and storage
-6. `composer testp` - run tests parallel
-7. `composer testpf` - recreate test databases and run tests parallel
-8. `composer dev` - run `composer reload`, `composer ide-helper`, `composer start`
-9. `composer prod` - run `git pull`, install no dev dependencies, clear all cache, run migrations, `composer cache`, `vite build`, `composer start` 
-10. `composer start` - fire all servers concurrently (`QUEUE`,`HORIZON`,`REVERB`,`OCTANE`,`VITE`,`SCHEDULE`,`PULSE`,`NEXT`)
-11. `composer serve` - fire all servers concurrently (`SERVER`,`QUEUE`,`VITE`,`NEXT`)
-12. `composer pint` - run PHP code style fixer
-13. `composer stop` - stop all servers
-14. `composer dbfresh` - drop and recreate main and test databases
 
 ## Tasks
 1. refactor image upload operations in controllers
