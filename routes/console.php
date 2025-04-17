@@ -10,7 +10,7 @@ use Spatie\Backup\Commands\BackupCommand;
 use Spatie\Health\Commands as SpatieHealthCommands;
 use Spatie\ScheduleMonitor\Models\MonitoredScheduledTaskLogItem;
 
-Artisan::command('inspire', fn () => $this->comment(Inspiring::quote()))->purpose('Display an inspiring quote')->everyMinute();
+Artisan::command('inspire', fn () => $this->comment(Inspiring::quote()));
 
 Schedule::command(SpatieHealthCommands\RunHealthChecksCommand::class)->everyMinute();
 Schedule::command(SpatieHealthCommands\DispatchQueueCheckJobsCommand::class)->everyMinute();

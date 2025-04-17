@@ -20,7 +20,12 @@ final class CommandLoggingServiceProvider extends ServiceProvider
         'horizon:snapshot',
         'horizon:status',
         'schedule:run',
+        'schedule:work',
         'schedule:finish',
+        'queue:work',
+        'queue:listen',
+        'inspire',
+        'health:check',
     ];
 
     private float $startTime;
