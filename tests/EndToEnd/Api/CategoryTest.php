@@ -16,7 +16,7 @@ it('can get all parent categories', function () {
 
     $data = $response->json('data.0');
 
-    expect($data)->toBeArray()
+    expect($data)->toHaveCount(4)
         ->id->toBe($category->parent_id)
         ->name->toBeString()
         ->slug->toBeString()
