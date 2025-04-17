@@ -15,8 +15,21 @@ class CategoryFactory extends Factory
             'name' => $this->faker->name,
             'description' => $this->faker->text,
             'icon' => 'fa fa-car',
-            'parent_id' => $this->faker->boolean ? Category::factory() : null,
+            'parent_id' => null,
             'status' => $this->faker->boolean,
         ];
+    }
+
+    public function parent(Category|Factory|null $category = null): static
+    {
+        if ($category instanceof Factory) {
+            $category = $category->create();
+        }
+
+        return $this->state(function (array $attributes) use ($category) {
+            return [
+                'parent_id' => $category?->id,
+            ];
+        });
     }
 }
