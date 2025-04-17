@@ -9,6 +9,8 @@ use InfinityXTech\FilamentWorldMapWidget\Widgets\WorldMapWidget;
 
 class MapWidget extends WorldMapWidget
 {
+    protected static ?int $sort = 0;
+
     public function stats(): array
     {
         return [

@@ -20,7 +20,7 @@ class RevenueChart extends ApexChartWidget
     /**
      * Sort
      */
-    protected static ?int $sort = 5;
+    protected static ?int $sort = 2;
 
     /**
      * Widget content height

@@ -7,7 +7,7 @@ use Filament\Widgets\StatsOverviewWidget\Stat;
 
 class StatsOverviewWidget extends BaseWidget
 {
-    protected static ?int $sort = 0;
+    protected static ?int $sort = 1;
 
     protected function getCards(): array
     {
