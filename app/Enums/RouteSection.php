@@ -14,4 +14,5 @@ enum RouteSection: string
     case FAVORITES = 'favorites';
     case HISTORY = 'history';
     case IMAGES = 'images';
+    case AUTH = 'auth';
 }

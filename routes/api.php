@@ -28,83 +28,117 @@ use App\Http\Controllers\ImageController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
-Route::middleware(['auth:sanctum', 'mobileVerified'])->get('/user', function (Request $request) {
-    return $request->user();
-});
+Route::middleware(['auth:sanctum', 'mobileVerified'])->get('/user', fn (Request $request) => $request->user());
 
-Route::get('categories', [HomeCategoryController::class, 'index'])->name('categories');
-Route::get('menus', [HomeMenuController::class, 'index'])->name('menus');
-Route::get('pages', [HomePageController::class, 'index'])->name('pages');
+Route::get('categories', [HomeCategoryController::class, 'index'])->name('categories.index');
+Route::get('menus', [HomeMenuController::class, 'index'])->name('menus.index');
+Route::get('pages', [HomePageController::class, 'index'])->name('pages.index');
 Route::get('advertisements', [HomeAdvertisementController::class, 'index'])->name('advertisements.index');
 Route::get('advertisements/{advertisement}', [HomeAdvertisementController::class, 'show'])->name('advertisements.show');
-Route::get('states', [HomeStateController::class, 'index'])->name('states');
-Route::get('cities', [CityController::class, 'index'])->name('cities');
+Route::get('states', [HomeStateController::class, 'index'])->name('states.index');
+Route::get('cities', [CityController::class, 'index'])->name('cities.index');
 
-Route::post('/register', [RegisteredUserController::class, 'store'])
-    ->middleware('guest')
-    ->name('api.register');
+Route::prefix(RouteSection::AUTH)
+    ->name('auth.')
+    ->group(function () {
 
-Route::post('send-otp', [RegisteredUserWithOTPController::class, 'store'])->middleware('guest');
-Route::post('verify-otp', [VerifyUserWithOTPController::class, 'store'])->middleware('guest');
+        Route::post('/register', [RegisteredUserController::class, 'store'])
+            ->middleware('guest')
+            ->name('register');
 
-Route::prefix(RouteSection::IMAGES)->name('images.')->group(function () {
-    Route::post('store', [ImageController::class, 'store'])->name('store');
-    Route::put('update', [ImageController::class, 'update'])->name('destroy');
-});
-
-Route::prefix(RouteSection::ADMIN)->name('admin.')->middleware([/* 'auth', 'admin' */])->group(function () {
-
-    Route::prefix(RouteSection::ADVERTISE)->name('advertise.')->group(function () {
-        Route::apiResource('category', CategoryController::class);
-        Route::apiResource('gallery', GalleryController::class);
-        Route::apiResource('state', StateController::class);
-        Route::apiResource('category-attribute', CategoryAttributeController::class);
-        Route::apiResource('category-value', CategoryValueController::class);
-        Route::apiResource('advertisement', AdvertisementController::class);
+        Route::post('send-otp', [RegisteredUserWithOTPController::class, 'store'])->middleware('guest')->name('send-otp');
+        Route::post('verify-otp', [VerifyUserWithOTPController::class, 'store'])->middleware('guest')->name('verify-otp');
     });
 
-    Route::prefix(RouteSection::CONTENT)->name('content.')->group(function () {
-        Route::apiResource('menu', MenuController::class);
-        Route::apiResource('page', PageController::class);
+Route::prefix(RouteSection::IMAGES)
+    ->name('images.')
+    ->group(function () {
+
+        Route::post('store', [ImageController::class, 'store'])->name('store');
+        Route::put('update', [ImageController::class, 'update'])->name('destroy');
     });
 
-    Route::prefix(RouteSection::USERS)->name('users.')->group(function () {
-        Route::apiResource('user', UserController::class);
+Route::prefix(RouteSection::ADMIN)
+    ->name('admin.')
+    ->middleware([/* 'auth', 'admin' */])
+    ->group(function () {
+
+        Route::prefix(RouteSection::ADVERTISE)
+            ->name('advertise.')
+            ->group(function () {
+
+                Route::apiResource('category', CategoryController::class);
+                Route::apiResource('gallery', GalleryController::class);
+                Route::apiResource('state', StateController::class);
+                Route::apiResource('category-attribute', CategoryAttributeController::class);
+                Route::apiResource('category-value', CategoryValueController::class);
+                Route::apiResource('advertisement', AdvertisementController::class);
+            });
+
+        Route::prefix(RouteSection::CONTENT)
+            ->name('content.')
+            ->group(function () {
+
+                Route::apiResource('menu', MenuController::class);
+                Route::apiResource('page', PageController::class);
+            });
+
+        Route::prefix(RouteSection::USERS)
+            ->name('users.')
+            ->group(function () {
+
+                Route::apiResource('user', UserController::class);
+            });
     });
-});
 
 // user panel
-Route::prefix(RouteSection::PANEL)->name('panel.')->middleware(['auth:sanctum', 'mobileVerified'])->group(function () {
-    Route::prefix(RouteSection::ADVERTISE)->name('advertise.')->group(function () {
-        Route::apiResource('advertisement', PanelAdvertisementController::class);
+Route::prefix(RouteSection::PANEL)
+    ->name('panel.')
+    ->middleware(['auth:sanctum', 'mobileVerified'])
+    ->group(function () {
 
-        Route::prefix(RouteSection::GALLERY)->name('gallery.')->group(function () {
-            Route::get('{advertisement}/', [PanelGalleryController::class, 'index'])->name('index');
-            Route::post('{advertisement}/store', [PanelGalleryController::class, 'store'])->name('store');
-            Route::get('show/{gallery}', [PanelGalleryController::class, 'show'])->name('show');
-            Route::put('/{gallery}', [PanelGalleryController::class, 'update'])->name('update');
-            Route::delete('/{gallery}', [PanelGalleryController::class, 'destroy'])->name('destroy');
-        });
+        Route::prefix(RouteSection::ADVERTISE)
+            ->name('advertise.')
+            ->group(function () {
 
-        Route::prefix(RouteSection::NOTES)->name('notes.')->group(function () {
+                Route::apiResource('advertisement', PanelAdvertisementController::class);
 
-            Route::post('{advertisement}/store', [AdvertisementNoteController::class, 'store'])->name('store');
-            Route::get('/', [AdvertisementNoteController::class, 'index'])->name('index');
-            Route::get('{advertisement}/show', [AdvertisementNoteController::class, 'show'])->name('show');
-            Route::delete('{advertisement}/destroy', [AdvertisementNoteController::class, 'destroy'])->name('destroy');
-        });
+                Route::prefix(RouteSection::GALLERY)
+                    ->name('gallery.')
+                    ->group(function () {
+
+                        Route::get('{advertisement}/', [PanelGalleryController::class, 'index'])->name('index');
+                        Route::post('{advertisement}/store', [PanelGalleryController::class, 'store'])->name('store');
+                        Route::get('show/{gallery}', [PanelGalleryController::class, 'show'])->name('show');
+                        Route::put('/{gallery}', [PanelGalleryController::class, 'update'])->name('update');
+                        Route::delete('/{gallery}', [PanelGalleryController::class, 'destroy'])->name('destroy');
+                    });
+
+                Route::prefix(RouteSection::NOTES)
+                    ->name('notes.')
+                    ->group(function () {
+
+                        Route::post('{advertisement}/store', [AdvertisementNoteController::class, 'store'])->name('store');
+                        Route::get('/', [AdvertisementNoteController::class, 'index'])->name('index');
+                        Route::get('{advertisement}/show', [AdvertisementNoteController::class, 'show'])->name('show');
+                        Route::delete('{advertisement}/destroy', [AdvertisementNoteController::class, 'destroy'])->name('destroy');
+                    });
+            });
+
+        Route::prefix(RouteSection::FAVORITES)
+            ->name('favorites.')
+            ->group(function () {
+
+                Route::get('/', [FavoriteAdvertisementController::class, 'index'])->name('index');
+                Route::post('/{advertisement}', [FavoriteAdvertisementController::class, 'store'])->name('store');
+                Route::delete('/{advertisement}', [FavoriteAdvertisementController::class, 'destroy'])->name('destroy');
+            });
+
+        Route::prefix(RouteSection::HISTORY)
+            ->name('history.')
+            ->group(function () {
+
+                Route::get('/', [HistoryAdvertisementController::class, 'index'])->name('index');
+                Route::post('/{advertisement}', [HistoryAdvertisementController::class, 'store'])->name('store');
+            });
     });
-
-    Route::prefix(RouteSection::FAVORITES)->name('favorites.')->group(function () {
-
-        Route::get('/', [FavoriteAdvertisementController::class, 'index'])->name('index');
-        Route::post('/{advertisement}', [FavoriteAdvertisementController::class, 'store'])->name('store');
-        Route::delete('/{advertisement}', [FavoriteAdvertisementController::class, 'destroy'])->name('destroy');
-    });
-
-    Route::prefix(RouteSection::HISTORY)->name('history.')->group(function () {
-
-        Route::get('/', [HistoryAdvertisementController::class, 'index'])->name('index');
-        Route::post('/{advertisement}', [HistoryAdvertisementController::class, 'store'])->name('store');
-    });
-});
