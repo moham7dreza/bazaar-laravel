@@ -23,7 +23,7 @@ class MenuFactory extends Factory
             'url' => $this->faker->url,
             'icon' => 'fa fa-car',
             'position' => MenuPosition::random(),
-            'parent_id' => $this->faker->boolean ? Menu::factory() : null,
+            'parent_id' => null,
             'status' => $this->faker->boolean,
         ];
     }
