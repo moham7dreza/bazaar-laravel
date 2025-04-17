@@ -2,6 +2,21 @@
 
 default: help
 
+fix-permissions: ## (LINUX) fix project directory permissions
+	@echo "Fixing file and directory permissions..."
+	@sudo chown -R $(USER):www-data .
+	@sudo find . -type f -exec chmod 664 {} \;
+	@sudo find . -type d -exec chmod 775 {} \;
+	@echo "✅ Basic permissions set"
+
+	@echo "Setting special permissions for storage and cache..."
+	@sudo chgrp -R www-data storage bootstrap/cache
+	@sudo chmod -R ug+rwx storage bootstrap/cache
+	@echo "✅ Storage and cache permissions set"
+
+	@echo ""
+	@echo "🎉 All permissions fixed successfully!"
+
 setup: ## (LINUX) configure Nginx for bazaar.local
 	@echo "Starting bazaar.local setup..."
 	@echo ""
