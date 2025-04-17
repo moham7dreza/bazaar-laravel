@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Services\Message\Email;
+namespace App\Mail;
 
 use App\Enums\Queue;
 use Illuminate\Bus\Queueable;
@@ -11,7 +11,7 @@ use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
 
-class MailViewProvider extends Mailable implements ShouldQueue
+class UserLandMail extends Mailable implements ShouldQueue
 {
     use Queueable, SerializesModels;
 

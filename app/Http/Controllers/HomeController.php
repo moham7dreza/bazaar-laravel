@@ -5,8 +5,8 @@ namespace App\Http\Controllers;
 use Amiriun\SMS\DataContracts\SentSMSOutputDTO;
 use Amiriun\SMS\Services\SMSService;
 use App\Events\PackageSent;
-use App\Http\Services\Message\Email\EmailService;
-use App\Http\Services\Message\MessageService;
+use App\Mail\UserLandMail;
+use Illuminate\Support\Facades\Mail;
 
 class HomeController extends Controller
 {
@@ -30,18 +30,15 @@ class HomeController extends Controller
 
     private function sendEmail(): void
     {
-        $emailService = new EmailService;
-        $details = [
-            'subject' => 'test',
-            'body' => 'test',
-        ];
-        $emailService->setDetails($details);
-        $emailService->setFrom(getenv('MAIL_FROM_ADDRESS'), getenv('MAIL_FROM_NAME'));
-        $emailService->setSubject('test');
-        $emailService->setTo('test@example.com');
-        $emailService->setEmailFiles([]);
-        $messagesService = new MessageService($emailService);
-        $messagesService->send();
+        Mail::to('test@example.com')->send(new UserLandMail(
+            subject: 'welcome',
+            from: getenv('MAIL_FROM_ADDRESS'),
+            details: [
+                'subject' => 'test',
+                'body' => 'test',
+            ],
+            files: [],
+        ));
     }
 
     private function sendSms(): SentSMSOutputDTO
