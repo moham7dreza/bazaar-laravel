@@ -2,6 +2,52 @@
 
 default: help
 
+setup: ## (LINUX) configure Nginx for bazaar.local
+	@echo "Starting bazaar.local setup..."
+	@echo ""
+
+	# Step 1: Copy nginx.conf
+	@echo "1. Copying nginx.conf to bazaar..."
+	@sudo cp ./nginx.conf /etc/nginx/sites-available/bazaar
+	@echo "✅ Copy completed"
+	@echo ""
+
+	# Step 2: Create symbolic link
+	@echo "2. Creating symbolic link in sites-enabled..."
+	@sudo ln -sf /etc/nginx/sites-available/bazaar /etc/nginx/sites-enabled/
+	@echo "✅ Symbolic link created"
+	@echo ""
+
+	# Step 3: Test Nginx configuration
+	@echo "3. Testing Nginx configuration..."
+	@sudo nginx -t
+	@echo "✅ Nginx configuration test passed"
+	@echo ""
+
+	# Step 4: Reload Nginx
+	@echo "4. Reloading Nginx..."
+	@sudo systemctl reload nginx
+	@echo "✅ Nginx reloaded"
+	@echo ""
+
+	# Step 5: Reload PHP-FPM
+	@echo "5. Reloading PHP 8.3 FPM..."
+	@sudo systemctl reload php8.3-fpm
+	@echo "✅ PHP 8.3 FPM reloaded"
+	@echo ""
+
+	# Step 6: Update /etc/hosts
+	@echo "6. Updating /etc/hosts..."
+	@if ! grep -q "bazaar.local" /etc/hosts; then \
+		sudo sed -i '1s/^/127.0.0.1 bazaar.local\n/' /etc/hosts; \
+		echo "✅ Added bazaar.local to /etc/hosts"; \
+	else \
+		echo "ℹ️ bazaar.local already exists in /etc/hosts"; \
+	fi
+	@echo ""
+
+	@echo "🎉 bazaar.local setup completed successfully!"
+
 build: ## (DOCKER) run docker compose build
 	docker compose build
 
