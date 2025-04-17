@@ -13,6 +13,7 @@ use Filament\Tables\Enums\ActionsPosition;
 use Filament\Tables\Filters\QueryBuilder\Constraints;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
+use Malzariey\FilamentDaterangepickerFilter\Filters\DateRangeFilter;
 use pxlrbt\FilamentExcel\Actions\Tables\ExportBulkAction;
 use Rmsramos\Activitylog\Actions\ActivityLogTimelineTableAction;
 use Rmsramos\Activitylog\RelationManagers\ActivitylogRelationManager;
@@ -62,6 +63,10 @@ class UserResource extends Resource
                             ->required()
                             ->email()
                             ->translateLabel(),
+                        Forms\Components\TextInput::make('mobile')
+                            ->required()
+                            ->string()
+                            ->translateLabel(),
                         Forms\Components\TextInput::make('password')
                             ->password()
                             ->required()
@@ -76,33 +81,45 @@ class UserResource extends Resource
                             ->required(fn (string $context): bool => $context === 'create')
                             ->same('password')
                             ->label('Confirm Password'),
-                        Forms\Components\TextInput::make('mobile')
-                            ->required()
-                            ->string()
-                            ->translateLabel(),
                         Forms\Components\Select::make('city_id')
                             ->translateLabel()
                             ->searchable()
                             ->preload()
                             ->relationship('city', 'name'),
-                        Forms\Components\Select::make('roles')
-                            ->multiple()
-                            ->preload()
-                            ->searchable()
+                        Forms\Components\Section::make('Access')
                             ->translateLabel()
-                            ->relationship('roles', 'name'),
-                        Forms\Components\Toggle::make('user_type')
-                            ->required()
-                            ->translateLabel(),
-                        Forms\Components\Toggle::make('is_active')
-                            ->required()
-                            ->translateLabel(),
-                        Forms\Components\DatePicker::make('suspended_at')
-                            ->nullable()
-                            ->translateLabel(),
-                        Forms\Components\DatePicker::make('suspended_until')
-                            ->nullable()
-                            ->translateLabel(),
+                            ->columns()
+                            ->schema([
+                                Forms\Components\Select::make('roles')
+                                    ->multiple()
+                                    ->columnSpanFull()
+                                    ->preload()
+                                    ->searchable()
+                                    ->translateLabel()
+                                    ->relationship('roles', 'name'),
+                            ]),
+                        Forms\Components\Section::make('Suspension')
+                            ->translateLabel()
+                            ->columns()
+                            ->schema([
+                                Forms\Components\DateTimePicker::make('suspended_at')
+                                    ->nullable()
+                                    ->translateLabel(),
+                                Forms\Components\DateTimePicker::make('suspended_until')
+                                    ->nullable()
+                                    ->translateLabel(),
+                            ]),
+                        Forms\Components\Section::make('Toggles')
+                            ->translateLabel()
+                            ->columns()
+                            ->schema([
+                                Forms\Components\Toggle::make('user_type')
+                                    ->required()
+                                    ->translateLabel(),
+                                Forms\Components\Toggle::make('is_active')
+                                    ->required()
+                                    ->translateLabel(),
+                            ]),
                     ]),
             ]);
     }
@@ -123,6 +140,7 @@ class UserResource extends Resource
                 Tables\Columns\TextColumn::make('email_verified_at')->translateLabel(),
             ])
             ->filters([
+                DateRangeFilter::make('suspended_at'),
                 Tables\Filters\SelectFilter::make('user_type')
                     ->translateLabel()
                     ->options([
@@ -135,10 +153,6 @@ class UserResource extends Resource
                     ->label('not verified mobile')
                     ->translateLabel()
                     ->query(fn (Builder $query): Builder => $query->whereNull('mobile_verified_at')),
-                Tables\Filters\Filter::make('suspended_at')
-                    ->label('suspended users')
-                    ->translateLabel()
-                    ->query(fn (Builder $query): Builder => $query->whereNotNull('suspended_at')),
                 Tables\Filters\QueryBuilder::make()
                     ->constraints([
                         Constraints\TextConstraint::make('name')->translateLabel(),
@@ -150,7 +164,7 @@ class UserResource extends Resource
                         Constraints\TextConstraint::make('suspended_until')->translateLabel(),
                     ])
                     ->constraintPickerColumns(),
-            ], layout: Tables\Enums\FiltersLayout::AboveContentCollapsible)
+            ], layout: Tables\Enums\FiltersLayout::Dropdown)
             ->deferFilters()
             ->actions([
                 \STS\FilamentImpersonate\Tables\Actions\Impersonate::make(),

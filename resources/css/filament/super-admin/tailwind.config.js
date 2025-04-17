@@ -12,5 +12,6 @@ export default {
         './vendor/bezhansalleh/filament-exceptions/resources/views/**/*.blade.php',
         './vendor/statikbe/laravel-filament-chained-translation-manager/**/*.blade.php',
         './vendor/brickx/maintenance-switch/resources/views/**/*.blade.php',
+        './vendor/malzariey/filament-daterangepicker-filter/resources/css/filament-daterangepicker.css',
     ],
 }

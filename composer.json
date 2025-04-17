@@ -50,6 +50,7 @@
         "laravel/telescope": "^5.6",
         "laravel/tinker": "^2.0",
         "leandrocfe/filament-apex-charts": "^3.1",
+        "malzariey/filament-daterangepicker-filter": "^3.3",
         "modules/demo": "*",
         "mongodb/laravel-mongodb": "5.2",
         "morilog/jalali": "^3.4",
