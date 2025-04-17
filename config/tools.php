@@ -4,15 +4,15 @@ return [
     'github' => [
         'title' => 'Github',
         'url' => 'https://github.com/moham7dreza',
-        'heroicon' => 'heroicon-o-home',
+        'heroicon' => 'heroicon-o-code-bracket',
         'icon' => null,
-        'group' => 'Links',
+        'group' => null,
         'sort' => 1,
     ],
     'front-root' => [
         'title' => 'Mainweb',
         'url' => 'http://localhost:3000',
-        'heroicon' => 'heroicon-o-home',
+        'heroicon' => 'heroicon-o-building-storefront',
         'icon' => null,
         'group' => 'Links',
         'sort' => 1,
