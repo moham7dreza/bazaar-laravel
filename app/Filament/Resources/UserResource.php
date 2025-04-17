@@ -103,9 +103,11 @@ class UserResource extends Resource
                             ->columns()
                             ->schema([
                                 Forms\Components\DateTimePicker::make('suspended_at')
+                                    ->jalali()
                                     ->nullable()
                                     ->translateLabel(),
                                 Forms\Components\DateTimePicker::make('suspended_until')
+                                    ->jalali()
                                     ->nullable()
                                     ->translateLabel(),
                             ]),
@@ -133,11 +135,11 @@ class UserResource extends Resource
                 Tables\Columns\TextColumn::make('mobile')->translateLabel()->searchable(),
                 Tables\Columns\TextColumn::make('user_type')->translateLabel()->sortable()->badge(),
                 Tables\Columns\TextColumn::make('is_active')->translateLabel()->sortable()->badge(),
-                Tables\Columns\TextColumn::make('suspended_at')->translateLabel(),
-                Tables\Columns\TextColumn::make('suspended_until')->translateLabel(),
+                Tables\Columns\TextColumn::make('suspended_at')->jalaliDate()->translateLabel(),
+                Tables\Columns\TextColumn::make('suspended_until')->jalaliDate()->translateLabel(),
                 Tables\Columns\TextColumn::make('city.name')->translateLabel(),
-                Tables\Columns\TextColumn::make('mobile_verified_at')->translateLabel(),
-                Tables\Columns\TextColumn::make('email_verified_at')->translateLabel(),
+                Tables\Columns\TextColumn::make('mobile_verified_at')->jalaliDate()->translateLabel(),
+                Tables\Columns\TextColumn::make('email_verified_at')->jalaliDate()->translateLabel(),
             ])
             ->filters([
                 DateRangeFilter::make('suspended_at'),
