@@ -279,7 +279,6 @@ reload: ## Update and refresh application
 	php artisan modules:sync
 	php artisan filament:upgrade
 	php artisan themes:upgrade
-	php artisan storage:link
 	php artisan migrate --force --seed
 	php artisan schedule-monitor:sync
 	npm install && npm run build
