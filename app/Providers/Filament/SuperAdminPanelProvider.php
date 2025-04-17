@@ -30,9 +30,9 @@ class SuperAdminPanelProvider extends PanelProvider
     {
         return $panel
 //            ->brandName('بازار الان دادااش')
-//            ->brandLogo(asset('img/logo.png'))
+//            ->brandLogo(asset('images/logo.png'))
 //            ->brandLogoHeight('2.5rem')
-            ->favicon(asset('img/logo.png'))
+            ->favicon(asset('images/logo.png'))
             ->viteTheme('resources/css/filament/super-admin/theme.css')
             ->spa()
             ->default()

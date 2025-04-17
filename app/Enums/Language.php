@@ -22,16 +22,8 @@ enum Language: string
     public function flag(): string
     {
         return match ($this) {
-            self::FA => asset('img/flags/ir.svg'),
-            self::EN => asset('img/flags/usa.svg'),
+            self::FA => asset('images/flags/ir.svg'),
+            self::EN => asset('images/flags/usa.svg'),
         };
-    }
-
-    public static function flagsList(): array
-    {
-        return [
-            self::FA->value => asset('img/flags/ir.svg'),
-            self::EN->value => asset('img/flags/usa.svg'),
-        ];
     }
 }

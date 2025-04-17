@@ -1,9 +1,9 @@
 # Bazaar App Made With Laravel
 <div style="display:flex;flex-direction: column;gap: 1rem;">
     <div>Root</div>
-    <img style="margin: auto;" src="public/img/backend-services.png" width="810" height="407" alt="backend-services">
+    <img style="margin: auto;" src="public/images/backend-services.png" width="810" height="407" alt="backend-services">
     <div style="margin: 0.3rem;">Admin</div>
-    <img style="margin: auto;" src="public/img/filament.png" width="810" height="407" alt="filament">
+    <img style="margin: auto;" src="public/images/filament.png" width="810" height="407" alt="filament">
 </div>
 
 ### Requirements for development

@@ -31,7 +31,7 @@ class UserFactory extends Factory
             'mobile' => $this->faker->phoneNumber,
             'mobile_verified_at' => now(),
             'city_id' => City::factory(),
-            'avatar_url' => '/img/admin.jpg',
+            'avatar_url' => '/images/admin.jpg',
         ];
     }
 
