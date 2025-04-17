@@ -121,6 +121,7 @@ class SuperAdminPanelProvider extends PanelProvider
                     ->navigationGroup('Settings')
                     ->navigationIcon('heroicon-o-cog-8-tooth'),
                 \Brickx\MaintenanceSwitch\MaintenanceSwitchPlugin::make(),
+                \Swis\Filament\Backgrounds\FilamentBackgroundsPlugin::make(),
             ])
             ->routes(fn () => \Vormkracht10\FilamentMails\Facades\FilamentMails::routes())
             ->navigationItems($this->getNavItems());
