@@ -278,7 +278,7 @@ serve: ## Start basic servers
 reload: ## Update and refresh application
 	git pull
 	composer install
-	php artisan down
+	php artisan down --refresh=15
 	make clean
 	php artisan modules:sync
 	php artisan filament:upgrade
