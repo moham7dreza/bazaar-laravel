@@ -21,4 +21,6 @@ it('can get all parent states', function () {
         ->name->toBeString()
         ->icon->toBeString()
         ->children->toBeArray();
+
+    $this->assertModelExists($state);
 });

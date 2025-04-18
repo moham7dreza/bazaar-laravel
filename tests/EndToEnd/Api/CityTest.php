@@ -16,4 +16,6 @@ it('can get all active cities', function () {
         ->id->toBe($city->id)
         ->name->toBeString()
         ->status->toBeBool();
+
+    $this->assertModelExists($city);
 });

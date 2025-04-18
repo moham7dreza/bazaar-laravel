@@ -18,4 +18,6 @@ it('can get all pages', function () {
         ->slug->toBeString()
         ->status->toBeBool()
         ->body->toBeString();
+
+    $this->assertModelExists($page);
 });

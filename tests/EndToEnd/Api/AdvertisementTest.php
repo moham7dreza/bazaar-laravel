@@ -23,6 +23,11 @@ beforeEach(function () {
 
 });
 
+afterEach(function () {
+
+    $this->assertModelExists($this->advertisement);
+});
+
 it('can get all advertisements', function () {
 
     $response = $this->getJson(route('advertisements.index'))->assertOk();

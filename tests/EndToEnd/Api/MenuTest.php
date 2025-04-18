@@ -25,4 +25,6 @@ it('can get all parent menus', function () {
         ->position->toBeString()
         ->status->toBeBool()
         ->icon->toBeString();
+
+    $this->assertModelExists($menu);
 });

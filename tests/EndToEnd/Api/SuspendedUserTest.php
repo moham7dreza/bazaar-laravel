@@ -18,4 +18,6 @@ it('can not get response from api', function () {
     $response = asUser($user)->getJson(route('cities.index'));
 
     $response->assertOk();
+
+    $this->assertModelExists($user);
 });

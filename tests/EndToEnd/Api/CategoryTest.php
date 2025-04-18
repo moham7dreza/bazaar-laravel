@@ -21,4 +21,6 @@ it('can get all parent categories', function () {
         ->name->toBeString()
         ->slug->toBeString()
         ->icon->toBeString();
+
+    $this->assertModelExists($category);
 });
