@@ -20,6 +20,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -33,8 +34,6 @@ use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable implements CanLoginDirectly, FilamentUser, HasAvatar, ShouldVerifiedMobile
 {
-    use HasApiTokens;
-
     /*** _____________________________________________ use SECTION ________________________________________________ ***/
     use HasFactory;
     use HasLocks;
@@ -44,6 +43,7 @@ class User extends Authenticatable implements CanLoginDirectly, FilamentUser, Ha
     use Notifiable;
     use SoftDeletes;
     use TwoFactorAuthenticatable;
+    use HasApiTokens;
 
     /*** _____________________________________________ props SECTION ______________________________________________ ***/
 
@@ -148,6 +148,32 @@ class User extends Authenticatable implements CanLoginDirectly, FilamentUser, Ha
     public function city(): BelongsTo
     {
         return $this->belongsTo(City::class);
+    }
+
+    public function latestAdvertisement(): HasOne
+    {
+        return $this->hasOne(Advertisement::class)->latestOfMany();
+    }
+
+    public function mostViewedAdvertisement(): HasOne
+    {
+        return $this->hasOne(Advertisement::class)->ofMany('view', 'max');
+    }
+
+    /*
+     * the newest advertisement with likest in last month
+     * **/
+    public function popularRecentAdvertisement(): HasOne
+    {
+        return $this->hasOne(Advertisement::class)->ofMany(
+            [
+                'like' => 'max',
+                'created_at' => 'max',
+            ],
+            function (Builder $query) {
+                $query->where('created_at', '>', now()->subMonth());
+            }
+        );
     }
 
     /*** _____________________________________________ method SECTION __________________________________________ ***/
