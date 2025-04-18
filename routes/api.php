@@ -72,7 +72,7 @@ Route::prefix(RouteSection::ADMIN)
                 Route::apiResource('state', StateController::class);
                 Route::apiResource('category-attribute', CategoryAttributeController::class);
                 Route::apiResource('category-value', CategoryValueController::class);
-                Route::apiResource('advertisement', AdvertisementController::class);
+                Route::apiResource('advertisement', AdvertisementController::class)->withTrashed();
             });
 
         Route::prefix(RouteSection::CONTENT)
