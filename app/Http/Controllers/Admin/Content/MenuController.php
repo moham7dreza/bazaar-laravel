@@ -39,11 +39,6 @@ class MenuController extends Controller
      */
     public function show(Menu $menu)
     {
-        // try {
-        //     $menu = Menu::findOrFail($id);
-        // } catch (Exception $e) {
-        //     return ['messgae' => 'منو پیدا نشد'];
-        // }
         return new MenuResource($menu);
     }
 
@@ -65,7 +60,6 @@ class MenuController extends Controller
     {
         $menu->delete();
 
-        // return ['status' => true, 'msg' => 'منو حذف شد'];
         return $this->success(null, 'منو حذف شد');
     }
 }
