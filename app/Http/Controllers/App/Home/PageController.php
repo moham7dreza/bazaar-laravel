@@ -8,7 +8,7 @@ use App\Models\Content\Page;
 
 class PageController extends Controller
 {
-    public function index()
+    public function index(): PageCollection
     {
         return new PageCollection(Page::all());
     }
