@@ -4,7 +4,10 @@ namespace App\Providers;
 
 use App\Models\User;
 use Illuminate\Auth\Notifications\ResetPassword;
+use Illuminate\Database\Connection;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Events\QueryExecuted;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\ServiceProvider;
 
@@ -30,6 +33,8 @@ class AppServiceProvider extends ServiceProvider
         Model::automaticallyEagerLoadRelationships();
 
         $this->setupGates();
+
+        $this->logSlowQuery();
     }
 
     private function setupGates(): void
@@ -40,6 +45,22 @@ class AppServiceProvider extends ServiceProvider
 
         Gate::define('viewPulse', static function (?User $user) {
             return ! isEnvLocalOrTesting() ? $user?->isAdmin() : true;
+        });
+    }
+
+    private function logSlowQuery(): void
+    {
+        DB::whenQueryingForLongerThan(5000, static function (Connection $connection, QueryExecuted $event) {
+
+            mongo_info('slow-query', [
+                'connection' => $event->connection,
+                'connectionName' => $event->connectionName,
+                'duration' => $event->time,
+                'sql' => $event->sql,
+                'bindings' => str_replace_array('?', $event->bindings, $event->sql),
+                'path' => request()?->path(),
+                'req' => request()?->all(),
+            ]);
         });
     }
 }
