@@ -41,6 +41,7 @@ class AppServiceProvider extends ServiceProvider
         $this->logSlowQuery();
         $this->loadExtraMigrationsPath();
         $this->setupMacros();
+        $this->handleMissingTrans();
     }
 
     private function setupGates(): void
@@ -81,6 +82,13 @@ class AppServiceProvider extends ServiceProvider
     {
         Carbon::macro('toJalali', function ($format = 'Y-m-d') {
             return TimeUtility::dateTimeToJalaliFormat($this, $format);
+        });
+    }
+
+    private function handleMissingTrans(): void
+    {
+        app('translator')->handleMissingKeysUsing(function ($key) {
+            throw new \RuntimeException("translation for key : '$key' not found");
         });
     }
 }
