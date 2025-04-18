@@ -204,6 +204,10 @@ stop: ## Stop all servers
 	php artisan pulse:restart
 	php artisan horizon:terminate
 
+testr: ## Run tests in random order
+	php artisan migrate --force --env=testing
+	php artisan test --order-by random
+
 testp: ## Run tests in parallel
 	php artisan migrate --force --env=testing
 	php artisan test --parallel
