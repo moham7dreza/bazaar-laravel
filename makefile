@@ -205,14 +205,17 @@ stop: ## Stop all servers
 	php artisan horizon:terminate
 
 testr: ## Run tests in random order
+	php artisan config:clear --ansi
 	php artisan migrate --force --env=testing
 	php artisan test --order-by random
 
 testp: ## Run tests in parallel
+	php artisan config:clear --ansi
 	php artisan migrate --force --env=testing
 	php artisan test --parallel
 
 testpf: ## Recreate test DB and run parallel tests
+	php artisan config:clear --ansi
 	php artisan migrate --force --env=testing
 	php artisan test --parallel --recreate-databases
 
@@ -254,10 +257,10 @@ pint: ## Run PHP code style fixer
 start: ## Start all development servers
 	@npx concurrently -k -n "QUEUE,HORIZON,REVERB,OCTANE,VITE,SCHEDULE,PULSE,NEXT" \
 		-c "green,blue,magenta,cyan,yellow,red,gray,black" \
-		"php artisan queue:work" \
+		"php artisan queue:listen" \
 		"php artisan horizon" \
 		"php artisan reverb:start --debug" \
-		"php artisan octane:start --port=9000" \
+		"php artisan octane:start --watch --port=9000" \
 		"npm run dev" \
 		"php artisan schedule:work" \
 		"php artisan pulse:work" \
@@ -266,7 +269,7 @@ start: ## Start all development servers
 serve: ## Start basic servers
 	@npx concurrently -k -n "QUEUE,HORIZON,REVERB,SERVER,VITE,SCHEDULE,PULSE,NEXT" \
 		-c "green,blue,magenta,cyan,yellow,red,gray,black" \
-		"php artisan queue:listen --tries=1" \
+		"php artisan queue:listen" \
 		"php artisan horizon" \
 		"php artisan reverb:start --debug" \
 		"php artisan serve --port=9000" \
