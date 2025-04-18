@@ -19,7 +19,7 @@ class CategoryAttributeFactory extends Factory
             'unit' => Unit::random(),
             'type' => AttributeType::random(),
             'category_id' => Category::factory(),
-            'status' => $this->faker->boolean,
+            'status' => true,
         ];
     }
 }

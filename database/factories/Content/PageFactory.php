@@ -14,7 +14,7 @@ class PageFactory extends Factory
         return [
             'title' => $this->faker->title,
             'body' => $this->faker->randomHtml,
-            'status' => $this->faker->boolean,
+            'status' => true,
         ];
     }
 }

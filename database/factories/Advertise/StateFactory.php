@@ -16,7 +16,7 @@ class StateFactory extends Factory
             'description' => $this->faker->text,
             'icon' => 'fa fa-car',
             'parent_id' => $this->faker->boolean ? State::factory() : null,
-            'status' => $this->faker->boolean,
+            'status' => true,
         ];
     }
 }

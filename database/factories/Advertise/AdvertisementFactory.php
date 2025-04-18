@@ -22,7 +22,7 @@ class AdvertisementFactory extends Factory
             'category_id' => Category::factory(),
             'city_id' => City::factory(),
             'user_id' => User::factory(),
-            'status' => $this->faker->boolean,
+            'status' => true,
             'published_at' => now()->addMonth(),
             'expired_at' => now()->addYear(),
             'view' => $this->faker->randomNumber(),

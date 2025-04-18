@@ -16,7 +16,7 @@ class CategoryFactory extends Factory
             'description' => $this->faker->text,
             'icon' => 'fa fa-car',
             'parent_id' => null,
-            'status' => $this->faker->boolean,
+            'status' => true,
         ];
     }
 

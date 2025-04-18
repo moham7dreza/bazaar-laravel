@@ -17,7 +17,7 @@ class CategoryValueFactory extends Factory
             'category_attribute_id' => CategoryAttribute::factory(),
             'value' => $this->faker->jobTitle,
             'type' => ValueType::random(),
-            'status' => $this->faker->boolean,
+            'status' => true,
         ];
     }
 }

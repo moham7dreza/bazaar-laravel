@@ -24,7 +24,7 @@ class MenuFactory extends Factory
             'icon' => 'fa fa-car',
             'position' => MenuPosition::random(),
             'parent_id' => null,
-            'status' => $this->faker->boolean,
+            'status' => true,
         ];
     }
 }
