@@ -2,6 +2,7 @@
 
 namespace App\Models\Advertise;
 
+use App\Enums\ValueType;
 use App\Models\Scopes\LatestScope;
 use Illuminate\Database\Eloquent\Attributes\ScopedBy;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -26,6 +27,7 @@ class CategoryValue extends Model
     {
         return [
             'status' => 'boolean',
+            'type' => ValueType::class,
         ];
     }
 

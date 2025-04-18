@@ -92,8 +92,4 @@ class Advertisement extends Model
     }
 
     /*** _____________________________________________ method SECTION __________________________________________ ***/
-    public function rate(): float
-    {
-        return 1.1;
-    }
 }

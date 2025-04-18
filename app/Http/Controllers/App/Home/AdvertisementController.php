@@ -24,8 +24,8 @@ class AdvertisementController extends Controller
     public function show(Advertisement $advertisement)
     {
         $advertisement->increment('view');
-        $hisotryController = new HistoryAdvertisementController;
-        $hisotryController->store($advertisement);
+        $historyController = new HistoryAdvertisementController;
+        $historyController->store($advertisement);
         $advertisement = Advertisement::with('category.parent', 'images', 'category.attributes', 'categoryValues')->find($advertisement->id);
 
         return new AdvertisementResource($advertisement);

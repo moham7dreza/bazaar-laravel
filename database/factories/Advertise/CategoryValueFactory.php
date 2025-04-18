@@ -2,7 +2,7 @@
 
 namespace Database\Factories\Advertise;
 
-use App\Enums\AttributeType;
+use App\Enums\ValueType;
 use App\Models\Advertise\CategoryAttribute;
 use App\Models\Advertise\CategoryValue;
 use Illuminate\Database\Eloquent\Factories\Factory;
@@ -16,7 +16,7 @@ class CategoryValueFactory extends Factory
         return [
             'category_attribute_id' => CategoryAttribute::factory(),
             'value' => $this->faker->jobTitle,
-            'type' => AttributeType::random(),
+            'type' => ValueType::random(),
             'status' => $this->faker->boolean,
         ];
     }

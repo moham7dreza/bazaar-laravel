@@ -4,7 +4,7 @@ namespace App\Enums;
 
 use App\Traits\EnumDataListTrait;
 
-enum AttributeType: int
+enum ValueType: int
 {
     use EnumDataListTrait;
 
