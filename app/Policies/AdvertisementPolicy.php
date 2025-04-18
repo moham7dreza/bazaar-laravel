@@ -2,11 +2,28 @@
 
 namespace App\Policies;
 
+use App\Enums\UserPermission;
 use App\Models\Advertise\Advertisement;
 use App\Models\User;
 
 class AdvertisementPolicy
 {
+    /*
+     * run before all other policy checks
+     * **/
+    public function before(User $user, string $ability): bool
+    {
+        if ($user->isAdmin()) {
+            return true;
+        }
+
+        if ($ability !== 'forceDelete' && $user->checkPermissionTo(UserPermission::SEE_PANEL)) {
+            return true;
+        }
+
+        return false;
+    }
+
     /**
      * Determine whether the user can view any models.
      */
