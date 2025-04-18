@@ -9,6 +9,8 @@ use Spatie\Health\Http\Controllers as HeathCheckControllers;
 
 $private = ['admin', 'dev'];
 
+Route::fallback([HomeController::class, 'fallbackHandler']);
+
 Route::get('/', [HomeController::class, 'index'])->name('welcome');
 
 Route::middleware($private)
