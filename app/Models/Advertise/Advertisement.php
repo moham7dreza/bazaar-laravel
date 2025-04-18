@@ -7,6 +7,7 @@ use App\Enums\AdvertisementType;
 use App\Models\Geo\City;
 use App\Models\Scopes\LatestScope;
 use App\Models\User;
+use Cviebrock\EloquentSluggable\Sluggable;
 use Illuminate\Database\Eloquent\Attributes\ScopedBy;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -21,6 +22,7 @@ class Advertisement extends Model
     /*** _____________________________________________ use SECTION ________________________________________________ ***/
     use HasFactory;
     use SoftDeletes;
+    use Sluggable;
 
     /*** _____________________________________________ props SECTION ______________________________________________ ***/
     protected $guarded = ['id'];

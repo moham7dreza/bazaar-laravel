@@ -10,8 +10,7 @@ use App\Http\Resources\Admin\Advertise\AdvertisementResource;
 use App\Http\Responses\ApiJsonResponse;
 use App\Http\Services\Image\ImageService;
 use App\Models\Advertise\Advertisement;
-use Illuminate\Http\Resources\Json\JsonResource;
-use Illuminate\Http\Response;
+use Illuminate\Http\JsonResponse;
 
 class AdvertisementController extends Controller
 {
@@ -35,7 +34,7 @@ class AdvertisementController extends Controller
             if ($result) {
                 $inputs['image'] = $result;
             } else {
-                return ApiJsonResponse::error(trans('response.image.upload failed'), code: Response::HTTP_INTERNAL_SERVER_ERROR);
+                return ApiJsonResponse::error(trans('response.image.upload failed'));
             }
         }
 
@@ -53,7 +52,7 @@ class AdvertisementController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateAdvertisementRequest $request, Advertisement $advertisement, ImageService $imageService): AdvertisementResource|JsonResource
+    public function update(UpdateAdvertisementRequest $request, Advertisement $advertisement, ImageService $imageService): AdvertisementResource|JsonResponse
     {
         $inputs = $request->all();
         if ($request->hasFile('image')) {
@@ -63,7 +62,7 @@ class AdvertisementController extends Controller
             $imageService->setExclusiveDirectory('images'.DIRECTORY_SEPARATOR.'advertisement-images');
             $result = $imageService->createIndexAndSave($request->image);
             if ($result === false) {
-                return ApiJsonResponse::error(trans('response.image.upload failed'), code: Response::HTTP_INTERNAL_SERVER_ERROR);
+                return ApiJsonResponse::error(trans('response.image.upload failed'));
             }
             $inputs['image'] = $result;
         } else {
@@ -81,7 +80,7 @@ class AdvertisementController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Advertisement $advertisement): JsonResource
+    public function destroy(Advertisement $advertisement): JsonResponse
     {
         return ApiJsonResponse::success(trans('response.general.successful'), $advertisement->delete());
     }

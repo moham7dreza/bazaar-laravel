@@ -16,17 +16,22 @@ class AdvertisementController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(): AdvertisementCollection
     {
         return new AdvertisementCollection(Advertisement::all());
     }
 
-    public function show(Advertisement $advertisement)
+    public function show(Advertisement $advertisement): AdvertisementResource
     {
         $advertisement->increment('view');
         $historyController = new HistoryAdvertisementController;
         $historyController->store($advertisement);
-        $advertisement = Advertisement::with('category.parent', 'images', 'category.attributes', 'categoryValues')->find($advertisement->id);
+
+        $advertisement->load([
+            'category.parent', 'images', 'category.attributes', 'categoryValues'
+        ]);
+
+        $advertisement->refresh();
 
         return new AdvertisementResource($advertisement);
     }

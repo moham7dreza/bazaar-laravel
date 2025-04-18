@@ -20,6 +20,7 @@ class EnsureEmailIsVerified
         if (! $request->user() ||
             ($request->user() instanceof MustVerifyEmail &&
             ! $request->user()->hasVerifiedEmail())) {
+
             return ApiJsonResponse::error(trans('response.general.unverified-email'), code: Response::HTTP_CONFLICT);
         }
 

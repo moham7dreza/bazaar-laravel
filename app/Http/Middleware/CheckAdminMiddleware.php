@@ -20,7 +20,7 @@ class CheckAdminMiddleware
             return ApiJsonResponse::error(trans('response.general.unauthorized'), code: Response::HTTP_UNAUTHORIZED);
         }
         $user = auth()->user();
-        if (! $user->isAdmin()) {
+        if (! $user?->isAdmin()) {
             return ApiJsonResponse::error(trans('response.general.forbidden'), code: Response::HTTP_FORBIDDEN);
         }
 
