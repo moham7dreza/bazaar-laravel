@@ -31,4 +31,4 @@ Route::can('viewHealth')
 // Route::get('image', [ImageController::class, 'index']);
 // Route::post('image/store', [ImageController::class, 'store'])->name('image.store');
 
-require __DIR__ . '/auth.php';
+require __DIR__.'/auth.php';
