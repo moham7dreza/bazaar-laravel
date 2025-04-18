@@ -14,8 +14,8 @@ class StateController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(): StateCollection
     {
-        return new StateCollection(State::whereNull('parent_id')->get());
+        return new StateCollection(State::whereNull('parent_id')->lazy());
     }
 }
