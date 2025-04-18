@@ -2,6 +2,8 @@
 
 namespace Database\Factories\Advertise;
 
+use App\Enums\AdvertisementStatus;
+use App\Enums\AdvertisementType;
 use App\Models\Advertise\Advertisement;
 use App\Models\Advertise\Category;
 use App\Models\Geo\City;
@@ -17,8 +19,8 @@ class AdvertisementFactory extends Factory
         return [
             'title' => $this->faker->title,
             'description' => $this->faker->text,
-            'ads_type' => $this->faker->name,
-            'ads_status' => $this->faker->name,
+            'ads_type' => AdvertisementType::random(),
+            'ads_status' => AdvertisementStatus::random(),
             'category_id' => Category::factory(),
             'city_id' => City::factory(),
             'user_id' => User::factory(),
