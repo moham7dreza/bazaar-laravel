@@ -13,6 +13,7 @@ class CityFactory extends Factory
     {
         return [
             'name' => $this->faker->city,
+            'status' => true,
         ];
     }
 }

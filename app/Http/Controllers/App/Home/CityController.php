@@ -11,20 +11,8 @@ class CityController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(): CityCollection
     {
-        return new CityCollection(City::query()->active()->get());
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
+        return new CityCollection(City::query()->active()->lazy());
     }
 }
