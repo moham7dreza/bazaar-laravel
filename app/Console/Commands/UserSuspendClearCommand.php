@@ -6,6 +6,7 @@ use App\Jobs\UserSuspendClearJob;
 use App\Models\User;
 use Illuminate\Console\Command;
 use Illuminate\Support\Collection;
+use Illuminate\Support\LazyCollection;
 
 class UserSuspendClearCommand extends Command
 {
@@ -28,6 +29,21 @@ class UserSuspendClearCommand extends Command
      */
     public function handle(): int
     {
+        /*
+        // lazy collection allow you to process large datasets with minimal memory usage
+        // as they load data only when needed
+        LazyCollection::make(static function () {
+
+            yield from User::cursor()
+                ->whereNotNull('suspended_until')
+                ->where('suspended_until', '<=', now());
+
+        })->each(function (User $user) {
+
+            UserSuspendClearJob::dispatch($user->pluck('id'));
+        });
+        */
+
         User::query()
             ->whereNotNull('suspended_until')
             ->where('suspended_until', '<=', now())
