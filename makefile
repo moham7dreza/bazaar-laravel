@@ -174,15 +174,15 @@ test: ## Run tests
 
 ## Next.js
 next-init: ## Initialize Next.js project
-	cd /var/www/bazaar-next && ./install.sh
+	cd /var/www/bazaar-next && npm run init
 
 next-dev: ## Run Next.js dev server
-	cd /var/www/bazaar-next && npm run reload
+	cd /var/www/bazaar-next && npm run dev
 
 ## PHP
 install: ## Initialize project
-	./fix-permissions.sh
-	./setup.sh
+	make fix-permissions
+	make setup
 	sudo cp .env.example .env
 	sudo cp .env.testing.example .env.testing
 	make dev
@@ -248,7 +248,7 @@ pint: ## Run PHP code style fixer
 	./vendor/bin/pint --test
 
 start: ## Start all development servers
-	npx concurrently -k -n "QUEUE,HORIZON,REVERB,OCTANE,VITE,SCHEDULE,PULSE,NEXT" \
+	@npx concurrently -k -n "QUEUE,HORIZON,REVERB,OCTANE,VITE,SCHEDULE,PULSE,NEXT" \
 		-c "green,blue,magenta,cyan,yellow,red,gray,black" \
 		"php artisan queue:work" \
 		"php artisan horizon" \
@@ -260,7 +260,7 @@ start: ## Start all development servers
 		"make next-dev"
 
 serve: ## Start basic servers
-	npx concurrently -k -n "QUEUE,HORIZON,REVERB,SERVER,VITE,SCHEDULE,PULSE,NEXT" \
+	@npx concurrently -k -n "QUEUE,HORIZON,REVERB,SERVER,VITE,SCHEDULE,PULSE,NEXT" \
 		-c "green,blue,magenta,cyan,yellow,red,gray,black" \
 		"php artisan queue:listen --tries=1" \
 		"php artisan horizon" \
