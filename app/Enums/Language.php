@@ -19,6 +19,14 @@ enum Language: string
         };
     }
 
+    public function country(): string
+    {
+        return match ($this) {
+            self::FA => 'IR',
+            self::EN => 'USD',
+        };
+    }
+
     public function flag(): string
     {
         return match ($this) {

@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use App\Console\Commands\DataMigrationCommand;
+use App\Enums\Language;
 use App\Http\Services\Date\TimeUtility;
 use App\Models\User;
 use Illuminate\Auth\Notifications\ResetPassword;
@@ -12,6 +13,7 @@ use Illuminate\Database\Events\QueryExecuted;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Number;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -36,6 +38,7 @@ class AppServiceProvider extends ServiceProvider
         */
 
         Model::automaticallyEagerLoadRelationships();
+        Number::useCurrency(Language::EN->country());
 
         $this->setupGates();
         $this->logSlowQuery();
