@@ -3,11 +3,13 @@
 namespace App\Providers;
 
 use App\Console\Commands\DataMigrationCommand;
+use App\Http\Services\Date\TimeUtility;
 use App\Models\User;
 use Illuminate\Auth\Notifications\ResetPassword;
 use Illuminate\Database\Connection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Events\QueryExecuted;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\ServiceProvider;
@@ -34,10 +36,9 @@ class AppServiceProvider extends ServiceProvider
         Model::automaticallyEagerLoadRelationships();
 
         $this->setupGates();
-
         $this->logSlowQuery();
-
         $this->loadExtraMigrationsPath();
+        $this->setupMacros();
     }
 
     private function setupGates(): void
@@ -72,5 +73,12 @@ class AppServiceProvider extends ServiceProvider
         if (!isEnvTesting()) {
             $this->loadMigrationsFrom(__DIR__ . "/../.." . DataMigrationCommand::PATH);
         }
+    }
+
+    private function setupMacros(): void
+    {
+        Carbon::macro('toJalali', function ($format = 'Y-m-d') {
+            return TimeUtility::dateTimeToJalaliFormat($this, $format);
+        });
     }
 }
