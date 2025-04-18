@@ -1,10 +1,12 @@
 <?php
 
+use App\Http\Responses\ApiJsonResponse;
 use BezhanSalleh\FilamentExceptions\FilamentExceptions;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Symfony\Component\HttpFoundation\Response;
 
 return Application::configure(basePath: dirname(__DIR__))
     ->withRouting(
@@ -44,15 +46,23 @@ return Application::configure(basePath: dirname(__DIR__))
         //
     })
     ->withExceptions(function (Exceptions $exceptions) {
+
         $exceptions->reportable(function (Throwable $e) {
             FilamentExceptions::report($e);
         });
-        $exceptions->renderable(function (NotFoundHttpException $e, $request) {
-            if ($request->is('api/*')) {
-                return response()->json([
-                    'message' => 'Record Not Found. '.$e->getMessage(),
-                ], 404);
+
+        $exceptions->renderable(function (Throwable $e) {
+
+            $previous = $e->getPrevious();
+
+            if ($previous instanceof ModelNotFoundException) {
+                $fullModel = $previous->getModel();
+
+                $model = str($fullModel)->afterLast('\\');
+
+                return ApiJsonResponse::error("$model Not Found.", ['log' => $e->getMessage()], Response::HTTP_NOT_FOUND);
             }
         });
+
     })
     ->create();
