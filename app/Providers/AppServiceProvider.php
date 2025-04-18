@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Console\Commands\DataMigrationCommand;
 use App\Models\User;
 use Illuminate\Auth\Notifications\ResetPassword;
 use Illuminate\Database\Connection;
@@ -35,6 +36,8 @@ class AppServiceProvider extends ServiceProvider
         $this->setupGates();
 
         $this->logSlowQuery();
+
+        $this->loadExtraMigrationsPath();
     }
 
     private function setupGates(): void
@@ -62,5 +65,12 @@ class AppServiceProvider extends ServiceProvider
                 'req' => request()?->all(),
             ]);
         });
+    }
+
+    private function loadExtraMigrationsPath(): void
+    {
+        if (!isEnvTesting()) {
+            $this->loadMigrationsFrom(__DIR__ . "/../.." . DataMigrationCommand::PATH);
+        }
     }
 }

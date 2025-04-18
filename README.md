@@ -17,6 +17,8 @@
 2. search `artisan` commands with `php artisan find` and use --exact argument for exact search
 3. search `laravel document topics` with `php artisan docs`
 
+### Guide
+1. make data migrations with `php artisan make:data-migration` when changing database states (not running in testing env)
 
 ### Super Admin Panel
 1. goto http://bazaar.local/super-admin
