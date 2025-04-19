@@ -3,69 +3,52 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Auth\VerifyOtpRequest;
+use App\Http\Responses\ApiJsonResponse;
 use App\Models\User;
 use App\Models\User\Otp;
 use Carbon\Carbon;
 use Illuminate\Auth\Events\Registered;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 
 class VerifyUserWithOTPController extends Controller
 {
-    public function store(Request $request)
+    public function store(VerifyOtpRequest $request): JsonResponse
     {
-
-        $request->validate([
-            'mobile' => ['required', 'string', 'max:15'],
-            'otp' => ['required', 'string', 'size:4'],
-            'token' => ['required', 'string'],
+        $otp = Otp::query()->firstWhere([
+            'token' => $request->token,
+            'login_id' => $request->mobile,
+            'used' => 0,
         ]);
 
-        $otp = Otp::where('token', $request->token)->where('login_id', $request->mobile)->where('used', 0)->first();
-
-        if (! $otp) {
-            return response()->json([
-                'message' => 'کد تایید یافت نشد',
-            ], 422);
+        if (!$otp) {
+            return ApiJsonResponse::error('کد تایید یافت نشد', code: Response::HTTP_UNPROCESSABLE_ENTITY);
         }
 
         if ($otp->attempts >= 3) {
-            return response()->json([
-                'message' => 'تعداد دفعات مجاز این کد به پایان رسید',
-            ], status: 429);
+            return ApiJsonResponse::error('تعداد دفعات مجاز این کد به پایان رسید', code: Response::HTTP_TOO_MANY_REQUESTS);
         }
 
         if (Carbon::now()->diffInMinutes($otp->created_at) > 5) {
-            return response()->json([
-                'message' => 'زمان  مجاز این کد به پایان رسید',
-            ], status: 422);
+            return ApiJsonResponse::error('زمان مجاز این کد به پایان رسید', code: Response::HTTP_UNPROCESSABLE_ENTITY);
         }
 
         if ($otp->otp_code !== $request->otp) {
+
             $otp->increment('attempts');
 
-            return response()->json([
-                'message' => 'کد وارد شده صحیح نمیباشد',
-            ], status: 422);
+            return ApiJsonResponse::error('کد وارد شده صحیح نمیباشد', code: Response::HTTP_UNPROCESSABLE_ENTITY);
         }
 
         $otp->update(['used' => 1]);
 
-        $user = User::where('mobile', $request->mobile)->first();
+        $user = User::firstWhere('mobile', $request->mobile);
 
-        // login
-        if ($user) {
-            Auth::login($user);
+        if (!$user) {
 
-            return response()->json([
-                'message' => 'با موفقیت وارد شدید',
-            ], status: 200);
-        }
-
-        // register and login
-        else {
             $user = User::create([
                 'password' => Hash::make(Str::random(10)),
                 'mobile' => $request->mobile,
@@ -73,13 +56,16 @@ class VerifyUserWithOTPController extends Controller
                 'mobile_verified_at' => now(),
             ]);
 
-            event(new Registered($user));
+            $message = 'ثبت نام و ورود با موفقیت انجام شد';
+        } else {
 
-            Auth::login($user);
-
-            return response()->json([
-                'message' => 'ثبت نام و ورود با موفقیت انجام شد',
-            ], status: 200);
+            $message = 'با موفقیت وارد شدید';
         }
+
+        event(new Registered($user));
+
+        auth()->login($user);
+
+        return ApiJsonResponse::success($message);
     }
 }

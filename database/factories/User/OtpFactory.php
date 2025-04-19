@@ -20,8 +20,8 @@ class OtpFactory extends Factory
             'otp_code' => '5678',
             'login_id' => $this->faker->email,
             'type' => NoticeType::EMAIL,
-            'used' => $this->faker->boolean,
-            'attempts' => $this->faker->numberBetween(1, 5),
+            'used' => false,
+            'attempts' => 1,
         ];
     }
 }

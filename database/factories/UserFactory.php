@@ -28,7 +28,7 @@ class UserFactory extends Factory
             'suspended_until' => null,
             'is_active' => true,
             'user_type' => 0,
-            'mobile' => $this->faker->phoneNumber,
+            'mobile' => '0912' . random_int(1000000, 9999999),
             'mobile_verified_at' => now(),
             'city_id' => City::factory(),
             'avatar_url' => '/images/admin.jpg',

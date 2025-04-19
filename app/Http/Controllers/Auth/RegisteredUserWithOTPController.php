@@ -2,48 +2,44 @@
 
 namespace App\Http\Controllers\Auth;
 
+use Amiriun\SMS\DataContracts\SendSMSDTO;
 use Amiriun\SMS\Services\SMSService;
+use App\Enums\NoticeType;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Auth\LoginOtpRequest;
+use App\Http\Responses\ApiJsonResponse;
 use App\Models\User;
 use App\Models\User\Otp;
-use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 
 class RegisteredUserWithOTPController extends Controller
 {
-    public function store(Request $request, SmsService $smsService)
+    public function store(LoginOtpRequest $request, SmsService $smsService): \Illuminate\Http\JsonResponse
     {
-        $request->validate([
-            'mobile' => ['required', 'string', 'max:15'],
-        ]);
-
         $otpCode = random_int(1000, 9999);
         $token = Str::random(60);
 
-        $user = User::where('mobile', $request->mobile)->first();
+        $user = User::firstWhere('mobile', $request->mobile);
 
-        Otp::updateOrCreate(
+        Otp::query()->updateOrCreate(
             ['login_id' => $request->mobile, 'used' => 0],
             [
                 'token' => $token,
                 'otp_code' => $otpCode,
                 'login_id' => $request->mobile,
-                'type' => 0,
+                'type' => NoticeType::SMS,
                 'attempts' => 0,
-                'user_id' => $user ? $user->id : null,
+                'user_id' => $user?->id,
             ]
         );
 
-        $data = new \Amiriun\SMS\DataContracts\SendSMSDTO;
-        $data->setSenderNumber('300024444'); // also this can be set as default in config/sms.php
+        $data = new SendSMSDTO;
+        $data->setSenderNumber('300024444');
         $data->setMessage($otpCode);
         $data->setTo($request->mobile);
 
-        app(SMSService::class)->send($data);
+        $smsService->send($data);
 
-        return response()->json([
-            'message' => 'کد تایید با موفقیت ارسال شد',
-            'token' => $token,
-        ], 200);
+        return ApiJsonResponse::success('کد تایید با موفقیت ارسال شد', ['token' => $token]);
     }
 }
