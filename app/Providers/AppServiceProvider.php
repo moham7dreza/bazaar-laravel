@@ -90,12 +90,45 @@ class AppServiceProvider extends ServiceProvider
 
     private function handleMissingTrans(): void
     {
-        app('translator')->handleMissingKeysUsing(function ($key) {
-
-            if (!empty($key)) {
-                ondemand_info("translation for key : *** ( $key ) *** not found", file: 'translation');
+        app('translator')->handleMissingKeysUsing(function ($key, $replacements, $locale) {
+            if (empty($key)) {
+                return;
             }
-//            throw new \RuntimeException("translation for key : '$key' not found");
+
+            ondemand_info("Missing translation key: *** ( $key ) ***", file: 'translation');
+
+            // Only update JSON translation files (skip PHP array files)
+            if (!str_contains($key, '.')) {
+                $this->addMissingKeyToJsonLangFile($key, $locale);
+            }
         });
+    }
+
+    protected function addMissingKeyToJsonLangFile(string $key, string $locale): void
+    {
+        $path = lang_path("{$locale}.json");
+
+        // Skip if key contains dots (file-based translations)
+        if (str_contains($key, '.')) {
+            return;
+        }
+
+        try {
+            if (!file_exists($path)) {
+                file_put_contents($path, '{}');
+            }
+
+            $translations = json_decode(file_get_contents($path), true) ?? [];
+
+            if (!array_key_exists($key, $translations)) {
+                $translations[$key] = $key;
+                file_put_contents(
+                    $path,
+                    json_encode($translations, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES)
+                );
+            }
+        } catch (\Exception $e) {
+            \Log::error("Failed to update translations key '$key' for '$locale.json': " . $e->getMessage());
+        }
     }
 }
