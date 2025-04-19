@@ -289,15 +289,16 @@ reload: ## Update and refresh application
 	php artisan migrate --force --seed
 	php artisan schedule-monitor:sync
 	npm install && npm run build
-	php artisan schedule:run
+    php artisan schedule:run
 	php artisan backup:run
-	make pint
 	php artisan scramble:analyze
 	php artisan up
 
 dev: ## Full development setup
 	make reload
+	make pint
 	make ide
+	make testr
 	make start
 
 prod: ## Production deployment
