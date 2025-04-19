@@ -91,7 +91,11 @@ class AppServiceProvider extends ServiceProvider
     private function handleMissingTrans(): void
     {
         app('translator')->handleMissingKeysUsing(function ($key) {
-            throw new \RuntimeException("translation for key : '$key' not found");
+
+            if (!empty($key)) {
+                ondemand_info("translation for key : *** ( $key ) *** not found", file: 'translation');
+            }
+//            throw new \RuntimeException("translation for key : '$key' not found");
         });
     }
 }
