@@ -289,7 +289,7 @@ reload: ## Update and refresh application
 	php artisan migrate --force --seed
 	php artisan schedule-monitor:sync
 	npm install && npm run build
-    php artisan schedule:run
+	php artisan schedule:run
 	php artisan backup:run
 	php artisan scramble:analyze
 	php artisan up
