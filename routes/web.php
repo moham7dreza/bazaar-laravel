@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\HealthCheckController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ImageController;
 use App\Http\Responses\ApiJsonResponse;
@@ -28,6 +29,7 @@ Route::can('viewHealth')
 
         Route::get('health', HeathCheckControllers\HealthCheckResultsController::class);
         Route::get('health-json', HeathCheckControllers\HealthCheckJsonResultsController::class);
+        Route::get('health-custom', [HealthCheckController::class, 'check']);
     });
 
 // Route::get('image', [ImageController::class, 'index']);
