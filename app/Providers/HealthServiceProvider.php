@@ -17,6 +17,25 @@ class HealthServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
+        $this->runHealthChecks();
+    }
+
+    /**
+     * Bootstrap services.
+     */
+    public function boot(): void
+    {
+        Gate::define('viewHealth', static function (?User $user) {
+            return ! isEnvLocalOrTesting() ? $user?->isAdmin() : true;
+        });
+    }
+
+    private function runHealthChecks(): void
+    {
+        if ($this->app->runningUnitTests()) {
+            return;
+        }
+
         Health::checks([
             Checks\DatabaseCheck::new(),
             Checks\CacheCheck::new(),
@@ -47,15 +66,5 @@ class HealthServiceProvider extends ServiceProvider
                 ->warnWhenAboveMb(900)
                 ->failWhenAboveMb(1000),
         ]);
-    }
-
-    /**
-     * Bootstrap services.
-     */
-    public function boot(): void
-    {
-        Gate::define('viewHealth', static function (?User $user) {
-            return ! isEnvLocalOrTesting() ? $user?->isAdmin() : true;
-        });
     }
 }
