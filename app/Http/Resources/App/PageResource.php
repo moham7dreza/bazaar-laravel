@@ -19,7 +19,7 @@ class PageResource extends JsonResource
             'title' => $this->title,
             'slug' => $this->slug,
             'status' => $this->status,
-            'body' => $this->body,
+            'body' => $this->body->toHtml(),
         ];
     }
 

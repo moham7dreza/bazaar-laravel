@@ -5,6 +5,7 @@ namespace App\Models\Content;
 use App\Models\Scopes\LatestScope;
 use Cviebrock\EloquentSluggable\Sluggable;
 use Illuminate\Database\Eloquent\Attributes\ScopedBy;
+use Illuminate\Database\Eloquent\Casts\AsHtmlString;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -34,6 +35,7 @@ class Page extends Model
     {
         return [
             'status' => 'boolean',
+            'body' => AsHtmlString::class,
         ];
     }
 
