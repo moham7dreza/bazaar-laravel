@@ -31,5 +31,5 @@ public/sitemap.xml
 frankenphp
 frankenphp-worker.php
 
-converage@tests.xml
-type-converage@tests.json
+coverage@tests.xml
+type-coverage@tests.json
