@@ -91,7 +91,8 @@
         "pestphp/pest-plugin-laravel": "^3.1",
         "pestphp/pest-plugin-type-coverage": "^3.5",
         "roave/security-advisories": "dev-latest",
-        "spatie/laravel-ignition": "^2.4"
+        "spatie/laravel-ignition": "^2.4",
+        "spatie/laravel-web-tinker": "^1.10"
     },
     "autoload": {
         "psr-4": {

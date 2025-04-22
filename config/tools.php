@@ -105,4 +105,12 @@ return [
         'group' => 'Tools',
         'sort' => 8,
     ],
+    'tinker' => [
+        'title' => 'Tinker',
+        'url' => '/tinker',
+        'heroicon' => 'heroicon-o-command-line',
+        'icon' => null,
+        'group' => 'Tools',
+        'sort' => 9,
+    ],
 ];

@@ -56,6 +56,10 @@ class AppServiceProvider extends ServiceProvider
         Gate::define('viewPulse', static function (?User $user) {
             return ! isEnvLocalOrTesting() ? $user?->isAdmin() : true;
         });
+
+        Gate::define('viewWebTinker', static function (?User $user) {
+            return ! isEnvLocalOrTesting() ? $user?->isAdmin() : true;
+        });
     }
 
     private function logSlowQuery(): void
