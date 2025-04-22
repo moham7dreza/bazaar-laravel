@@ -17,7 +17,7 @@ class PageResource extends JsonResource
         return [
             'id' => $this->id,
             'title' => $this->title,
-            'body' => $this->body,
+            'body' => $this->body->toHtml(),
             'slug' => $this->slug,
             'status' => $this->status,
             'created_at' => $this->created_at,
