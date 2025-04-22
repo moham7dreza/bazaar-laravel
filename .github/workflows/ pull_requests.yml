@@ -1,0 +1,42 @@
+name: Check Pull Request
+
+on:
+  pull_request:
+    branches:
+      - master
+
+jobs:
+  CI:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.3'
+
+      - name: Install Composer Dependencies
+        run: composer install --no-progress --prefer-dist --optimize-autoloader
+
+      - name: Copy .env
+        run: cp .env.example .env
+
+      - name: Set Application Key
+        run: php artisan key:generate
+
+      - name: Install Front Dependencies
+        run: npm ci
+
+      - name: Build Front Dependencies
+        run: npm run build
+
+      - name: Init Sqlite
+        run: touch database/database.sqlite
+
+      - name: Migrate Database
+        run: php artisan migrate --force
+
+      - name: Run Laravel Tests
+        run: php artisan test
