@@ -32,3 +32,4 @@ frankenphp
 frankenphp-worker.php
 
 converage@tests.xml
+type-converage@tests.json

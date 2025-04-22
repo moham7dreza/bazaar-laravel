@@ -185,6 +185,7 @@ install: ## Initialize project
 	make setup
 	sudo cp .env.example .env
 	sudo cp .env.testing.example .env.testing
+	make githooks
 	make dev
 
 ide: ## Generate IDE helper files
@@ -218,6 +219,9 @@ testpf: ## Recreate test DB and run parallel tests
 	php artisan config:clear --ansi
 	php artisan migrate --force --env=testing
 	php artisan test --parallel --recreate-databases
+
+typecov: ## Generate type coverage report
+	php artisan test --type-coverage --min=100 --type-coverage-json=type-converage@tests.json
 
 clean: ## Clear all caches
 	php artisan clear-compiled
