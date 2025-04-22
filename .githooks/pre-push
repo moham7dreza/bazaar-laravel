@@ -1,0 +1,18 @@
+#!/bin/bash
+
+# Get the branch being pushed
+current_branch=$(git symbolic-ref --short HEAD)
+
+# Define allowed branch patterns
+allowed_patterns=("^feature/" "^bugfix/" "^hotfix/" "^improve/" "^staging/" "^master$")
+
+# Check if the branch name matches any of the allowed patterns
+for pattern in "${allowed_patterns[@]}"; do
+  if [[ "$current_branch" =~ $pattern ]]; then
+    exit 0
+  fi
+done
+
+# If no match, block the push
+echo "Error: Branch '$current_branch' is not allowed to push. Allowed patterns are: ${allowed_patterns[*]}"
+exit 1

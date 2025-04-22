@@ -309,3 +309,9 @@ prod: ## Production deployment
 	make cache
 	npm install && npm run build
 	make start
+
+githooks: ## Install git hooks
+	cp .githooks/pre-commit .git/hooks/pre-commit
+	cp .githooks/pre-push .git/hooks/pre-push
+	chmod +x .git/hooks/pre-commit
+	chmod +x .git/hooks/pre-push

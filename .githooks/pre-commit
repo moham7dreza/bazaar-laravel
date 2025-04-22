@@ -1,0 +1,24 @@
+#!/bin/bash
+
+# Define your whitelist of allowed author names and emails
+allowed_names=("Mohamadreza Rezaei")
+allowed_emails=("me.moham6dreza@gmail.com")
+
+# Get the current commit author name and email
+author_name=$(git config user.name)
+author_email=$(git config user.email)
+
+# Check if the author name is in the allowed list
+if [[ ! " ${allowed_names[@]} " =~ " ${author_name} " ]]; then
+  echo "Error: Author name '${author_name}' is not allowed."
+  exit 1
+fi
+
+# Check if the author email is in the allowed list
+if [[ ! " ${allowed_emails[@]} " =~ " ${author_email} " ]]; then
+  echo "Error: Author email '${author_email}' is not allowed."
+  exit 1
+fi
+
+# If both checks pass, allow the commit
+exit 0
