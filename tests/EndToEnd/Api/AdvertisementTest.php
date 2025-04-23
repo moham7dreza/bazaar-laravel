@@ -17,7 +17,9 @@ beforeEach(function () {
         ->hasAttached(User::factory(2)->create(), relationship: 'favoritedByUsers')
         ->hasAttached(User::factory(2)->create(), relationship: 'viewedByUsers')
         ->hasAttached(CategoryValue::factory(2)->create(), relationship: 'categoryValues')
-        ->create();
+        ->create([
+            'title' => 'test-adv'
+        ]);
 
     CategoryAttribute::factory()->for($this->advertisement->category)->create();
 
@@ -30,7 +32,9 @@ afterEach(function () {
 
 it('can get all advertisements', function () {
 
-    $response = $this->getJson(route('advertisements.index'))->assertOk();
+    $response = $this->getJson(route('advertisements.index', [
+        'title' => 'adv',
+    ]))->assertOk();
 
     expect($response->json('data'))->toHaveLength(1);
 
