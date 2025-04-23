@@ -28,9 +28,7 @@ use App\Http\Controllers\ImageController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
-$mobileVerified = ['auth:sanctum', 'mobileVerified'];
-
-Route::get('user', static fn (Request $request) => $request->user())->middleware($mobileVerified)->name('user.info');
+Route::get('user', static fn (Request $request) => $request->user())->middleware(['auth:sanctum', 'mobileVerified'])->name('user.info');
 
 Route::get('categories', [HomeCategoryController::class, 'index'])->name('categories.index');
 Route::get('menus', [HomeMenuController::class, 'index'])->name('menus.index');
@@ -94,7 +92,10 @@ Route::prefix(RouteSection::ADMIN)
 // user panel
 Route::prefix(RouteSection::PANEL)
     ->name('panel.')
-    ->middleware($mobileVerified)
+    ->middleware([
+        'auth:sanctum',
+        \App\Http\Middleware\EnsureMobileIsVerified::class,
+    ])
     ->group(function () {
 
         Route::prefix(RouteSection::ADVERTISE)
