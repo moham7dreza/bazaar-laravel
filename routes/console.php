@@ -20,6 +20,7 @@ Schedule::command(BackupCommand::class)->daily();
 Schedule::command('telescope:prune --hours=48')->daily();
 Schedule::command('sanctum:prune-expired --hours=48')->daily();
 Schedule::command('horizon:snapshot')->everyFiveMinutes();
+Schedule::command('cache:prune-stale-tags ')->weekly();
 Schedule::command(CheckDependencyVersions::class)->everyFiveMinutes();
 
 Schedule::command('model:prune --pretend', [
