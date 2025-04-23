@@ -1,6 +1,6 @@
 <?php
 
-use App\Console\Commands\UserSuspendClearCommand;
+use App\Console\Commands\User\UserSuspendClearCommand;
 use App\Jobs\UserSuspendClearJob;
 use App\Models\User;
 

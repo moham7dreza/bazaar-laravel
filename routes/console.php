@@ -30,4 +30,4 @@ Schedule::command('model:prune --pretend', [
     ],
 ])->daily();
 
-Schedule::command(Commands\UserSuspendClearCommand::class)->everyFiveMinutes();
+Schedule::command(Commands\User\UserSuspendClearCommand::class)->everyFiveMinutes();

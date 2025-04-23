@@ -2,7 +2,7 @@
 
 namespace App\Providers;
 
-use App\Console\Commands\DataMigrationCommand;
+use App\Console\Commands\System\DataMigrationCommand;
 use App\Enums\Language;
 use App\Http\Services\Date\TimeUtility;
 use App\Models\User;

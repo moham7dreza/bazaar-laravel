@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Console\Commands;
+namespace App\Console\Commands\System;
 
 use Illuminate\Database\Console\Migrations\MigrateMakeCommand;
 

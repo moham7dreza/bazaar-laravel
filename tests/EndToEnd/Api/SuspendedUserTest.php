@@ -1,6 +1,6 @@
 <?php
 
-use App\Console\Commands\UserSuspendClearCommand;
+use App\Console\Commands\User\UserSuspendClearCommand;
 use App\Models\User;
 
 it('can not get response from api', function () {
