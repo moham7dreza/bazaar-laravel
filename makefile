@@ -333,3 +333,23 @@ gitclean: ## prune unused files and compress files to reduce repo size
 git-core-hooks: ## set git hooks path to custom .githooks dir
 	sudo chmod +x .githooks
 	git config core.hooksPath .githooks
+
+servelocal: find-ip
+	@echo "Starting Laravel development server on http://$(IP):8080"
+	@php -S $(IP):8080 -t public
+
+# Find local IP address
+find-ip:
+	$(eval IP := $(shell \
+		if command -v ip >/dev/null; then \
+			ip route get 1 | awk '{print $$7}' | head -1; \
+		elif command -v ifconfig >/dev/null; then \
+			ifconfig | grep -Eo 'inet (addr:)?([0-9]*\.){3}[0-9]*' | grep -Eo '([0-9]*\.){3}[0-9]*' | grep -v '127.0.0.1' | head -1; \
+		else \
+			echo "127.0.0.1"; \
+		fi \
+	))
+	@if [ -z "$(IP)" ]; then \
+		echo "Could not detect IP address, falling back to 127.0.0.1"; \
+		$(eval IP := 127.0.0.1) \
+	fi
