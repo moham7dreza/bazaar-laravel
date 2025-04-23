@@ -168,10 +168,10 @@ class AddChangelogEntryCommand extends Command
         }
 
         // Append to changelog file
-        $changelogPath = base_path('CHANGELOG.md');
+        $changelogPath = base_path('__CHANGELOG.md');
 
         if (!File::exists($changelogPath)) {
-            error('CHANGELOG.md file not found in project root!');
+            error('__CHANGELOG.md file not found in project root!');
             return;
         }
 
