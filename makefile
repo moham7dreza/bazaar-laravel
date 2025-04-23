@@ -326,3 +326,10 @@ githooks: ## Install git hooks
 	cp .githooks/pre-push .git/hooks/pre-push
 	chmod +x .git/hooks/pre-commit
 	chmod +x .git/hooks/pre-push
+
+gitclean: ## prune unused files and compress files to reduce repo size
+	git gc --prune=now --aggressive
+
+git-core-hooks: ## set git hooks path to custom .githooks dir
+	sudo chmod +x .githooks
+	git config core.hooksPath .githooks
