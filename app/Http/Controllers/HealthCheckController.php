@@ -23,11 +23,11 @@ class HealthCheckController extends Controller
     {
     }
 
-    public function check(): JsonResponse
+    public function __invoke(): JsonResponse
     {
         $this->registerChecks();
 
-        return ApiJsonResponse::success(
+        return ApiJsonResponse::success(trans('response.general.successful'),
             array_map(function ($check) {
                 return $this->newHealthStatusDto($check->run(), $check->getName())->toArray();
             }, $this->healthChecker->registeredChecks()->toArray())
