@@ -16,6 +16,7 @@
 1. search `runtime` commands with `make` (if you not use docker see `php` prefix commands)
 2. search `artisan` commands with `php artisan find` and use --exact argument for exact search
 3. search `laravel document topics` with `php artisan docs`
+4. add new change log entry with `php artisan changelog` to CHANGELOG.md file
 
 ### Guide
 1. make data migrations with `php artisan make:data-migration` when changing database states (not running in testing env)
