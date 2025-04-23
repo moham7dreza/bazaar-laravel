@@ -60,7 +60,7 @@ class UserFactory extends Factory
             'name' => 'admin',
             'email' => 'admin@admin.com',
             'user_type' => 1,
-            'mobile' => '09123456789',
+            'mobile' => $this->faker->randomElement(config('developer.backends')),
         ]);
     }
 
