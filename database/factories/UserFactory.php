@@ -27,7 +27,7 @@ class UserFactory extends Factory
             'suspended_at' => null,
             'suspended_until' => null,
             'is_active' => true,
-            'user_type' => 0,
+            'user_type' => User::TYPE_USER,
             'mobile' => '0912' . random_int(1000000, 9999999),
             'mobile_verified_at' => now(),
             'city_id' => City::factory(),
@@ -59,7 +59,7 @@ class UserFactory extends Factory
         return $this->state(fn (array $attributes) => [
             'name' => 'admin',
             'email' => 'admin@admin.com',
-            'user_type' => 1,
+            'user_type' => User::TYPE_ADMIN,
             'mobile' => $this->faker->randomElement(config('developer.backends')),
         ]);
     }

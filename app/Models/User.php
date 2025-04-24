@@ -47,6 +47,9 @@ class User extends Authenticatable implements CanLoginDirectly, FilamentUser, Ha
 
     /*** _____________________________________________ props SECTION ______________________________________________ ***/
 
+    const int TYPE_USER = 0;
+    const int TYPE_ADMIN = 1;
+
     protected $fillable = [
         'name',
         'email',
@@ -113,7 +116,7 @@ class User extends Authenticatable implements CanLoginDirectly, FilamentUser, Ha
     #[Scope]
     public function admin(Builder $query): Builder
     {
-        return $query->where('user_type', 1)
+        return $query->ofType(self::TYPE_ADMIN)
             ->whereNotNull('mobile_verified_at');
     }
 
@@ -122,6 +125,12 @@ class User extends Authenticatable implements CanLoginDirectly, FilamentUser, Ha
     {
         return $query->whereNotNull('suspended_at')
             ->where('suspended_until', '>=', now());
+    }
+
+    #[Scope]
+    protected function ofType(Builder $query, int $type): void
+    {
+        $query->where('user_type', $type);
     }
 
     /*** _____________________________________________ relations SECTION __________________________________________ ***/
@@ -180,7 +189,7 @@ class User extends Authenticatable implements CanLoginDirectly, FilamentUser, Ha
 
     public function isAdmin(): bool
     {
-        return $this->user_type === 1
+        return $this->user_type === self::TYPE_ADMIN
             && ($this->hasVerifiedMobile() || $this->hasVerifiedEmail())
             && ($this->checkPermissionTo(UserPermission::SEE_PANEL) || $this->hasRole(UserRole::ADMIN));
     }
