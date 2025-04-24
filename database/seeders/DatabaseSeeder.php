@@ -12,6 +12,7 @@ use App\Models\Advertise\Gallery;
 use App\Models\Advertise\State;
 use App\Models\Content\Menu;
 use App\Models\Content\Page;
+use App\Models\PaymentGateway;
 use App\Models\SmsLog;
 use App\Models\User;
 use App\Models\User\Otp;
@@ -35,6 +36,7 @@ class DatabaseSeeder extends Seeder
             ->has(AdvertisementNote::factory(2))
             ->has(Gallery::factory(2), 'images')
             ->create();
+        PaymentGateway::factory(5)->create();
         $this->command->alert('Relations seeded');
 
         $this->call([
