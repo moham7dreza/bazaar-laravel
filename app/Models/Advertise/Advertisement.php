@@ -4,6 +4,7 @@ namespace App\Models\Advertise;
 
 use App\Enums\Advertisement\AdvertisementStatus;
 use App\Enums\Advertisement\AdvertisementType;
+use App\Enums\Advertisement\Sort;
 use App\Models\Geo\City;
 use App\Models\Scopes\LatestScope;
 use App\Models\User;
@@ -61,15 +62,15 @@ class Advertisement extends Model
     }
 
     #[Scope]
-    public function inCategory($categoryId): Builder
+    public function inCategory(Builder $builder, $categoryId): Builder
     {
-        return $this->where('category_id', $categoryId);
+        return $builder->where('category_id', $categoryId);
     }
 
     #[Scope]
-    public function priceRange($min = null, $max = null): Builder
+    public function priceRange(Builder $builder, $min = null, $max = null): Builder
     {
-        return $this->when($min, function ($query) use ($min) {
+        return $builder->when($min, function ($query) use ($min) {
             return $query->where('price', '>=', $min);
         })
             ->when($max, function ($query) use ($max) {
@@ -78,17 +79,34 @@ class Advertisement extends Model
     }
 
     #[Scope]
-    public function sortBy($sort): Builder
+    public function sortBy(Builder $builder, Sort $sort): Builder
     {
-        return $this->when($sort === 'price_asc', function ($query) {
-            return $query->orderBy('price', 'asc');
-        })
-            ->when($sort === 'price_desc', function ($query) {
-                return $query->orderBy('price', 'desc');
-            })
-            ->when($sort === 'newest', function ($query) {
-                return $query->orderBy('created_at', 'desc');
-            });
+        return match ($sort) {
+
+            Sort::PRICE_ASC => $builder->orderBy('price'),
+            Sort::PRICE_DESC => $builder->orderBy('price', 'desc'),
+            Sort::NEWEST => $builder->orderBy('created_at', 'desc'),
+        };
+    }
+
+    #[Scope]
+    public function published(): Builder
+    {
+        return $this->where('published_at', '>', now());
+    }
+
+    #[Scope]
+    public function popular(): Builder
+    {
+        return $this->where('views', '>', 1000);
+    }
+
+    #[Scope]
+    public function withHighEngagement(): Builder
+    {
+        return $this->popular()
+            ->orWhere('is_special', true)
+            ->orWhere('is_ladder', true);
     }
 
     /*** _____________________________________________ relations SECTION __________________________________________ ***/
