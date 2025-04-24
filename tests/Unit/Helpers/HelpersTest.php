@@ -27,3 +27,51 @@ it('can easily handle plural of english word', function () {
 
     expect($comment->value())->toBe('comments');
 });
+
+it('can use fluent and collect to process data', function () {
+    $data = [
+        'user' => [
+            'name' => 'admin',
+            'address' => [
+                'city' => 'urmia',
+                'country' => 'iran',
+            ]
+        ],
+        'posts' => [
+            ['title' => 'post 1'],
+            ['title' => 'post 2'],
+        ]
+    ];
+
+    /*
+     * من توی پروژه‌های اخیرم دیدم که Fluent با lazy loading می‌تونه برای کوئری‌های کوچک و روابط پیچیده خیلی بهینه باشه
+     *  و کد رو خواناتر کنه. ولی برای داده‌های خیلی بزرگ یا پردازش‌های سنگین،
+     *  Collection معمولاً بازدهی بهتری داره، چون متدهای مثل chunk() یا lazy() رو می‌تونم راحت‌تر کنترل کنم.
+     * **/
+
+    // Collection -> good to process data lists
+    $userName = collect($data)->get('user')['name'];
+    $postTitles = array_column(collect($data)->get('posts'), 'title');
+    $addressJson = json_encode(collect($data)->get('user')['address'], JSON_THROW_ON_ERROR);
+
+    expect($userName)->toBe('admin')
+        ->and($postTitles)->toBe(['post 1', 'post 2'])
+        ->and($addressJson)->toBe('{"city":"urmia","country":"iran"}');
+
+    // Fluent -> good to fast access to data
+    $user = fluent($data)->user;
+    $city = fluent($data)->get('user.address.city');
+    $postTitles = fluent($data)->collect('posts')->pluck('title')->toArray();
+    $addressJson = fluent($data)->scope('user.address')->toJson();
+
+    expect($user)->toBe([
+        'name' => 'admin',
+        'address' => [
+            'city' => 'urmia',
+            'country' => 'iran',
+        ]
+    ])
+        ->and($city)->toBe('urmia')
+        ->and($postTitles)->toBe(['post 1', 'post 2'])
+        ->and($addressJson)->toBe('{"city":"urmia","country":"iran"}');
+});
