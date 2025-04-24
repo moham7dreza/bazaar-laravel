@@ -1,6 +1,6 @@
 #!make
 
-.DEFAULT_GOAL := help
+.DEFAULT_GOAL := search
 .PHONY: help fix-permissions setup build ps up down down-volumes restart \
         composer tinker artisan npm migration migrate horizon install-laravel \
         pint-to-git format format-all test next-init next-dev install ide \
@@ -22,6 +22,9 @@ PHP_NPM = $(DOCKER_COMPOSE) run --rm php npm
 PHP_PINT = $(DOCKER_COMPOSE) run -T --rm php ./vendor/bin/pint
 
 ## Project Management
+search: ## Search for a command
+	php artisan make:run
+
 help: ## Show this help menu
 	@printf "${COLOR_CYAN}Usage:${COLOR_RESET}\n  make [command]\n\n${COLOR_CYAN}Available commands:${COLOR_RESET}\n"
 	@awk -F ':.*##' '/^[a-zA-Z0-9_%-]+:.*##/ {printf "  ${COLOR_GREEN}%-25s${COLOR_RESET}%s\n", $$1, $$2}' $(MAKEFILE_LIST) | sort
@@ -339,12 +342,11 @@ git-core-hooks: ## set git hooks path to custom .githooks dir
 	sudo chmod +x .githooks
 	git config core.hooksPath .githooks
 
-servelocal: find-ip
+serve-ip: find-ip ## serve project in local network
 	@echo "Starting Laravel development server on http://$(IP):8080"
 	@php -S $(IP):8080 -t public
 
-# Find local IP address
-find-ip:
+find-ip: ## Find local IP address
 	$(eval IP := $(shell \
 		if command -v ip >/dev/null; then \
 			ip route get 1 | awk '{print $$7}' | head -1; \
