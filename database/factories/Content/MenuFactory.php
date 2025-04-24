@@ -2,7 +2,7 @@
 
 namespace Database\Factories\Content;
 
-use App\Enums\MenuPosition;
+use App\Enums\Content\MenuPosition;
 use App\Models\Content\Menu;
 use Illuminate\Database\Eloquent\Factories\Factory;
 

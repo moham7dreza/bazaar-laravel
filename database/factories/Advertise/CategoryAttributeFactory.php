@@ -2,8 +2,8 @@
 
 namespace Database\Factories\Advertise;
 
-use App\Enums\AttributeType;
-use App\Enums\Unit;
+use App\Enums\Advertisement\AttributeType;
+use App\Enums\Advertisement\Unit;
 use App\Models\Advertise\Category;
 use App\Models\Advertise\CategoryAttribute;
 use Illuminate\Database\Eloquent\Factories\Factory;

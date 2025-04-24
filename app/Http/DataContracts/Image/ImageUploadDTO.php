@@ -2,8 +2,8 @@
 
 namespace App\Http\DataContracts\Image;
 
-use App\Enums\ImageSize;
-use App\Enums\ImageUploadMethod;
+use App\Enums\Content\ImageSize;
+use App\Enums\Content\ImageUploadMethod;
 use Illuminate\Http\File;
 use Illuminate\Http\UploadedFile;
 

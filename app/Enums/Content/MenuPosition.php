@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Enums;
+namespace App\Enums\Content;
 
 use App\Traits\EnumDataListTrait;
 

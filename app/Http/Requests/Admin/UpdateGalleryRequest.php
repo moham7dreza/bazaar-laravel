@@ -2,8 +2,8 @@
 
 namespace App\Http\Requests\Admin;
 
-use App\Enums\ImageSize;
-use App\Enums\ImageUploadMethod;
+use App\Enums\Content\ImageSize;
+use App\Enums\Content\ImageUploadMethod;
 use App\Http\DataContracts\Image\ImageUploadDTO;
 use App\Models\Advertise\Advertisement;
 use Illuminate\Foundation\Http\FormRequest;

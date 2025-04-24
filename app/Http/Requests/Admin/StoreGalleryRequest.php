@@ -2,7 +2,7 @@
 
 namespace App\Http\Requests\Admin;
 
-use App\Enums\ImageUploadMethod;
+use App\Enums\Content\ImageUploadMethod;
 use App\Http\DataContracts\Image\ImageUploadDTO;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;

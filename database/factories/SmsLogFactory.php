@@ -2,11 +2,11 @@
 
 namespace Database\Factories;
 
-use App\Enums\SmsMessageType;
-use App\Enums\SmsProvider;
-use App\Enums\SmsSenderNumber;
-use App\Enums\SmsStatus;
-use App\Enums\SmsType;
+use App\Enums\Sms\SmsMessageType;
+use App\Enums\Sms\SmsProvider;
+use App\Enums\Sms\SmsSenderNumber;
+use App\Enums\Sms\SmsStatus;
+use App\Enums\Sms\SmsType;
 use App\Models\SmsLog;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;

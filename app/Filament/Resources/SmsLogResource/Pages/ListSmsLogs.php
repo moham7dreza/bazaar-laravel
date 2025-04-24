@@ -2,7 +2,7 @@
 
 namespace App\Filament\Resources\SmsLogResource\Pages;
 
-use App\Enums\SmsStatus;
+use App\Enums\Sms\SmsStatus;
 use App\Filament\Resources\SmsLogResource;
 use Filament\Pages\Concerns\ExposesTableToWidgets;
 use Filament\Resources\Components\Tab;

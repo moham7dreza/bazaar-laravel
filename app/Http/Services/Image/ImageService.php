@@ -2,7 +2,7 @@
 
 namespace App\Http\Services\Image;
 
-use App\Enums\ImageUploadMethod;
+use App\Enums\Content\ImageUploadMethod;
 use App\Http\DataContracts\Image\ImageUploadDTO;
 use Intervention\Image\Drivers\Gd\Driver;
 use Intervention\Image\ImageManager;

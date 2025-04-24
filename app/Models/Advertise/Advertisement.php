@@ -2,8 +2,8 @@
 
 namespace App\Models\Advertise;
 
-use App\Enums\AdvertisementStatus;
-use App\Enums\AdvertisementType;
+use App\Enums\Advertisement\AdvertisementStatus;
+use App\Enums\Advertisement\AdvertisementType;
 use App\Models\Geo\City;
 use App\Models\Scopes\LatestScope;
 use App\Models\User;

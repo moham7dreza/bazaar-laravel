@@ -2,7 +2,7 @@
 
 namespace App\Faker;
 
-use App\Enums\ImageSize;
+use App\Enums\Content\ImageSize;
 use Faker\Provider\Base;
 
 class ImageFakesProvider extends Base

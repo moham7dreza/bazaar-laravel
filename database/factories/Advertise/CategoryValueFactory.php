@@ -2,7 +2,7 @@
 
 namespace Database\Factories\Advertise;
 
-use App\Enums\ValueType;
+use App\Enums\Advertisement\ValueType;
 use App\Models\Advertise\CategoryAttribute;
 use App\Models\Advertise\CategoryValue;
 use Illuminate\Database\Eloquent\Factories\Factory;

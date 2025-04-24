@@ -2,8 +2,8 @@
 
 namespace Database\Factories\Advertise;
 
-use App\Enums\AdvertisementStatus;
-use App\Enums\AdvertisementType;
+use App\Enums\Advertisement\AdvertisementStatus;
+use App\Enums\Advertisement\AdvertisementType;
 use App\Models\Advertise\Advertisement;
 use App\Models\Advertise\Category;
 use App\Models\Geo\City;

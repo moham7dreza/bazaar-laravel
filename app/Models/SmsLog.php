@@ -2,11 +2,11 @@
 
 namespace App\Models;
 
-use App\Enums\SmsMessageType;
-use App\Enums\SmsProvider;
-use App\Enums\SmsSenderNumber;
-use App\Enums\SmsStatus;
-use App\Enums\SmsType;
+use App\Enums\Sms\SmsMessageType;
+use App\Enums\Sms\SmsProvider;
+use App\Enums\Sms\SmsSenderNumber;
+use App\Enums\Sms\SmsStatus;
+use App\Enums\Sms\SmsType;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;

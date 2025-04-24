@@ -1,6 +1,6 @@
 <?php
 
-use App\Enums\ImageSize;
+use App\Enums\Content\ImageSize;
 
 return [
 

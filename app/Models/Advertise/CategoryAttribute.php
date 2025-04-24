@@ -2,7 +2,7 @@
 
 namespace App\Models\Advertise;
 
-use App\Enums\Unit;
+use App\Enums\Advertisement\Unit;
 use App\Models\Scopes\LatestScope;
 use Illuminate\Database\Eloquent\Attributes\ScopedBy;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
