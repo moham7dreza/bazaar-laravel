@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Dtos;
+namespace App\Data\DTOs;
 
 readonly class HealthChecksDto
 {

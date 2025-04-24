@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Dtos\HealthChecksDto;
+use App\Data\DTOs\HealthChecksDto;
 use App\Http\Responses\ApiJsonResponse;
 use Illuminate\Http\JsonResponse;
 use Spatie\CpuLoadHealthCheck\CpuLoadCheck;
