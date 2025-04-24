@@ -55,7 +55,7 @@
         "malzariey/filament-daterangepicker-filter": "^3.3",
         "modules/demo": "*",
         "mokhosh/filament-jalali": "^4.9",
-        "mongodb/laravel-mongodb": "5.2",
+        "mongodb/laravel-mongodb": "^5.4",
         "morilog/jalali": "^3.4",
         "munafio/chatify": "^1.6",
         "mvenghaus/filament-plugin-schedule-monitor": "3.0",
