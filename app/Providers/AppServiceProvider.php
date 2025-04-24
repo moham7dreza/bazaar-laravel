@@ -39,7 +39,7 @@ class AppServiceProvider extends ServiceProvider
         */
 
         Model::automaticallyEagerLoadRelationships();
-        Number::useCurrency(Language::EN->country());
+        Number::useCurrency(Language::default()['currency']);
         URL::forceHttps(isEnvProduction());
 
         $this->setupGates();
