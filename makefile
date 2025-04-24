@@ -274,8 +274,8 @@ pint: ## Run PHP code style fixer
 	./vendor/bin/pint --test
 
 start: ## Start all development servers
-	@npx concurrently -k -n "QUEUE,HORIZON,REVERB,OCTANE,VITE,SCHEDULE,PULSE,NEXT" \
-		-c "green,blue,magenta,cyan,yellow,red,gray,black" \
+	@npx concurrently -k -n "QUEUE,HORIZON,REVERB,OCTANE,VITE,SCHEDULE,PULSE,NEXT,LOGGING" \
+		-c "green,blue,magenta,cyan,yellow,red,gray,black,white" \
 		"php artisan queue:listen" \
 		"php artisan horizon" \
 		"php artisan reverb:start --debug" \
@@ -283,11 +283,12 @@ start: ## Start all development servers
 		"npm run dev" \
 		"php artisan schedule:work" \
 		"php artisan pulse:work" \
-		"make next-dev"
+		"make next-dev" \
+        "php artisan pail"
 
 serve: ## Start basic servers
-	@npx concurrently -k -n "QUEUE,HORIZON,REVERB,SERVER,VITE,SCHEDULE,PULSE,NEXT" \
-		-c "green,blue,magenta,cyan,yellow,red,gray,black" \
+	@npx concurrently -k -n "QUEUE,HORIZON,REVERB,SERVER,VITE,SCHEDULE,PULSE,NEXT,LOGGING" \
+		-c "green,blue,magenta,cyan,yellow,red,gray,black,white" \
 		"php artisan queue:listen" \
 		"php artisan horizon" \
 		"php artisan reverb:start --debug" \
@@ -295,7 +296,8 @@ serve: ## Start basic servers
 		"npm run dev" \
 		"php artisan schedule:work" \
 		"php artisan pulse:work" \
-		"make next-dev"
+		"make next-dev" \
+		"php artisan pail"
 
 reload: ## Update and refresh application
 	git pull
