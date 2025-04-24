@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Support\Collection;
 use Illuminate\Support\Uri;
 
 it('can make uri with options', function () {
@@ -57,6 +58,10 @@ it('can use fluent and collect to process data', function () {
     expect($userName)->toBe('admin')
         ->and($postTitles)->toBe(['post 1', 'post 2'])
         ->and($addressJson)->toBe('{"city":"urmia","country":"iran"}');
+
+    $addressCollectionFromJson = Collection::fromJson($addressJson);
+
+    expect($addressCollectionFromJson->get('city'))->toBe('urmia');
 
     // Fluent -> good to fast access to data
     $user = fluent($data)->user;
