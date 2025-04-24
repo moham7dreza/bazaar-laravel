@@ -14,3 +14,16 @@ it('can make uri with options', function () {
 
     expect($uri->value())->toBe('http://test.com:8000/users?page=2#section-1');
 });
+
+it('can easily handle plural of english word', function () {
+
+    $commentsCount = 1;
+    $comment = str('comment')->plural($commentsCount);
+
+    expect($comment->value())->toBe('comment');
+
+    $commentsCount = 10;
+    $comment = str('comment')->plural($commentsCount);
+
+    expect($comment->value())->toBe('comments');
+});
