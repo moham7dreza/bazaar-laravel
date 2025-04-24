@@ -14,39 +14,37 @@ use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\URL;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Number;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
 {
-    /**
-     * Register any application services.
-     */
     public function register(): void
-    {
-        //
-    }
+    {}
 
-    /**
-     * Bootstrap any application services.
-     */
     public function boot(): void
     {
-        /*
-        ResetPassword::createUrlUsing(static function (User $notifiable, string $token) {
-            return config('app.frontend_url')."/password-reset/$token?email={$notifiable->getEmailForPasswordReset()}";
-        });
-        */
-
-        Model::automaticallyEagerLoadRelationships();
-        Number::useCurrency(Language::default()['currency']);
-        URL::forceHttps(isEnvProduction());
-
+        $this->setupGlobalConfigurations();
         $this->setupGates();
         $this->logSlowQuery();
         $this->loadExtraMigrationsPath();
         $this->setupMacros();
         $this->handleMissingTrans();
+        $this->setUpValidators();
+    }
+
+    private function setupGlobalConfigurations(): void
+    {
+        /*
+       ResetPassword::createUrlUsing(static function (User $notifiable, string $token) {
+           return config('app.frontend_url')."/password-reset/$token?email={$notifiable->getEmailForPasswordReset()}";
+       });
+       */
+
+        Model::automaticallyEagerLoadRelationships();
+        Number::useCurrency(Language::default()['currency']);
+        URL::forceHttps(isEnvProduction());
     }
 
     private function setupGates(): void
@@ -136,5 +134,19 @@ class AppServiceProvider extends ServiceProvider
         } catch (\Exception $e) {
             \Log::error("Failed to update translations key '$key' for '$locale.json': " . $e->getMessage());
         }
+    }
+
+    private function setUpValidators(): void
+    {
+        Validator::extend('mobile', static function ($attribute, $value, $parameters, $validator) {
+
+            if (Validator::make(['password' => $value], [
+                'password' => 'numeric|digits:11|regex:/^09[0-9]{9}$/'
+            ])->fails()) {
+                return false;
+            }
+
+            return true;
+        });
     }
 }
