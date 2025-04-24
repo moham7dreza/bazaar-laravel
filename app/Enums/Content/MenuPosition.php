@@ -2,7 +2,7 @@
 
 namespace App\Enums\Content;
 
-use App\Traits\EnumDataListTrait;
+use App\Enums\Concerns\EnumDataListTrait;
 
 enum MenuPosition: string
 {

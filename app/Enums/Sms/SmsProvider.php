@@ -2,7 +2,7 @@
 
 namespace App\Enums\Sms;
 
-use App\Traits\EnumDataListTrait;
+use App\Enums\Concerns\EnumDataListTrait;
 
 enum SmsProvider: string
 {

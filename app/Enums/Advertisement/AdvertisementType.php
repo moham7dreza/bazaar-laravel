@@ -2,7 +2,7 @@
 
 namespace App\Enums\Advertisement;
 
-use App\Traits\EnumDataListTrait;
+use App\Enums\Concerns\EnumDataListTrait;
 
 enum AdvertisementType: string
 {

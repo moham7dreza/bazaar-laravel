@@ -2,7 +2,7 @@
 
 namespace App\Enums;
 
-use App\Traits\EnumDataListTrait;
+use App\Enums\Concerns\EnumDataListTrait;
 use Filament\Forms\Components\TextInput;
 use Filament\Support\Contracts\HasLabel;
 

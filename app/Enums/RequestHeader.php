@@ -2,7 +2,7 @@
 
 namespace App\Enums;
 
-use App\Traits\EnumDataListTrait;
+use App\Enums\Concerns\EnumDataListTrait;
 
 enum RequestHeader: string
 {
