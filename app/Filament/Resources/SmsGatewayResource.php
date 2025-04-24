@@ -2,9 +2,9 @@
 
 namespace App\Filament\Resources;
 
-use App\Enums\PaymentGateways;
-use App\Filament\Resources\PaymentGatewayResource\Pages;
-use App\Models\PaymentGateway;
+use App\Enums\SMSGateways;
+use App\Filament\Resources\SmsGatewayResource\Pages;
+use App\Models\SmsGateway;
 use Filament\Forms\Get;
 use Filament\Forms;
 use Filament\Forms\Form;
@@ -14,26 +14,25 @@ use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 
-class PaymentGatewayResource extends Resource
+class SmsGatewayResource extends Resource
 {
-    protected static ?string $model = PaymentGateway::class;
+    protected static ?string $model = SmsGateway::class;
     protected static ?string $navigationGroup = 'Sale';
-    protected static ?string $navigationIcon = 'heroicon-o-shopping-bag';
+    protected static ?string $navigationIcon = 'heroicon-o-chat-bubble-bottom-center-text';
     protected static ?string $recordTitleAttribute = 'gateway';
-    protected static ?int $navigationSort = 1;
-
+    protected static ?int $navigationSort = 2;
     public static function getNavigationLabel(): string
     {
-        return __('Payment Gateways');
+        return __('SMS Gateways');
     }
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
                 ...self::getConfigInputs(),
-
                 Forms\Components\Toggle::make('status')
                     ->required(),
+
             ]);
     }
 
@@ -42,7 +41,7 @@ class PaymentGatewayResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('gateway')
-                    ->formatStateUsing(fn ($state): string => __('payment-gateways.' . $state)),
+                    ->formatStateUsing(fn ($state): string => __('sms-gateways.' . $state)),
 
                 Tables\Columns\IconColumn::make('status')
                     ->boolean(),
@@ -63,7 +62,6 @@ class PaymentGatewayResource extends Resource
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
-
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
@@ -75,9 +73,9 @@ class PaymentGatewayResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListPaymentGateways::route('/'),
-            'create' => Pages\CreatePaymentGateway::route('/create'),
-            'edit' => Pages\EditPaymentGateway::route('/{record}/edit'),
+            'index' => Pages\ListSmsGateways::route('/'),
+            'create' => Pages\CreateSmsGateway::route('/create'),
+            'edit' => Pages\EditSmsGateway::route('/{record}/edit'),
         ];
     }
 
@@ -86,17 +84,18 @@ class PaymentGatewayResource extends Resource
         return [
 
             Forms\Components\Select::make('gateway')
-                ->options(PaymentGateways::class)
+                ->options(SMSGateways::class)
                 ->required()
                 ->live(),
 
             Forms\Components\Section::make('gateway config')
                 ->schema(fn (Get $get) =>
                 $get('gateway') > 0
-                    ? PaymentGateways::from($get('gateway'))->configInputs()
+                    ? SMSGateways::from($get('gateway'))->configInputs()
                     : []
                 ),
 
         ];
     }
+
 }
