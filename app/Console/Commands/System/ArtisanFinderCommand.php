@@ -5,8 +5,12 @@ namespace App\Console\Commands\System;
 use Illuminate\Console\Command;
 use Illuminate\Support\Collection;
 
-use function Laravel\Prompts\suggest;
 use function Laravel\Prompts\text;
+use function Laravel\Prompts\suggest;
+use function Laravel\Prompts\info;
+use function Laravel\Prompts\error;
+use function Laravel\Prompts\warning;
+use function Laravel\Prompts\confirm;
 
 class ArtisanFinderCommand extends Command
 {
@@ -23,40 +27,40 @@ class ArtisanFinderCommand extends Command
         $commandName = $this->getSuggestedCommandName($commands);
 
         if (! $this->isCommandValid($commands, $commandName)) {
-            $this->error('Command not found.');
+            error('Command not found.');
 
-            return Command::FAILURE;
+            return self::FAILURE;
         }
 
         $command = $commands->get($commandName);
         if (! $command) {
-            $this->error('Command definition not found.');
+            error('Command definition not found.');
 
-            return Command::FAILURE;
+            return self::FAILURE;
         }
 
         if (! $this->confirmCommandClassPath($command)) {
-            return Command::FAILURE;
+            return self::FAILURE;
         }
 
         $commandParameters = $this->getCommandParameters($command);
-        $this->info('Command parameters: '.json_encode($commandParameters, JSON_THROW_ON_ERROR));
+        info('Command parameters: '.json_encode($commandParameters, JSON_THROW_ON_ERROR));
 
-        if (! $this->confirm('Do you want to continue?', true)) {
+        if (! confirm('Do you want to continue?', true)) {
             $this->warn('Command execution cancelled.');
 
-            return Command::FAILURE;
+            return self::FAILURE;
         }
 
         try {
             $this->call($commandName, $commandParameters);
 
-            $this->warn('Command execution successfully.');
+            warning('Command execution successfully.');
         } catch (\Exception $exception) {
             report($exception);
         }
 
-        return Command::SUCCESS;
+        return self::SUCCESS;
     }
 
     private function getSuggestedCommandName(Collection $commands): string
@@ -98,9 +102,9 @@ class ArtisanFinderCommand extends Command
     private function confirmCommandClassPath($command): bool
     {
         $commandClass = get_class($command);
-        $this->warn("Command Class Path: $commandClass");
+        warning("Command Class Path: $commandClass");
 
-        return $this->confirm('Do you want to continue?', true);
+        return confirm('Do you want to continue?', true);
     }
 
     private function getCommandParameters($command): array
