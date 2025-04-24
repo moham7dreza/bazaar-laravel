@@ -5,6 +5,7 @@ namespace App\Console\Commands\System;
 use Illuminate\Console\Command;
 use Illuminate\Support\Collection;
 
+use function Laravel\Prompts\select;
 use function Laravel\Prompts\text;
 use function Laravel\Prompts\suggest;
 use function Laravel\Prompts\info;
@@ -23,8 +24,17 @@ class ArtisanFinderCommand extends Command
      */
     public function handle(): int
     {
+        $method = select(
+            label: 'Method',
+            options: [
+                'Search',
+                'Exact Match',
+            ],
+            default: 'Search'
+        );
+
         $commands = collect($this->getApplication()?->all());
-        $commandName = $this->getSuggestedCommandName($commands);
+        $commandName = $this->getSuggestedCommandName($method, $commands);
 
         if (! $this->isCommandValid($commands, $commandName)) {
             error('Command not found.');
@@ -46,8 +56,8 @@ class ArtisanFinderCommand extends Command
         $commandParameters = $this->getCommandParameters($command);
         info('Command parameters: '.json_encode($commandParameters, JSON_THROW_ON_ERROR));
 
-        if (! confirm('Do you want to continue?', true)) {
-            $this->warn('Command execution cancelled.');
+        if (! confirm('Do you want to continue?')) {
+            warning('Command execution cancelled.');
 
             return self::FAILURE;
         }
@@ -63,9 +73,9 @@ class ArtisanFinderCommand extends Command
         return self::SUCCESS;
     }
 
-    private function getSuggestedCommandName(Collection $commands): string
+    private function getSuggestedCommandName(string $method, Collection $commands): string
     {
-        $input = $this->option('exact') ? $this->ask('Search part of command') : null;
+        $input = $method === 'Exact Match' ? text('Search part of command') : null;
 
         $commandsTitles = $commands->keys()
             ->reject(fn (string $command) => $command === $this->signature)
@@ -102,9 +112,14 @@ class ArtisanFinderCommand extends Command
     private function confirmCommandClassPath($command): bool
     {
         $commandClass = get_class($command);
-        warning("Command Class Path: $commandClass");
+        info("Command: {$command->getName()}");
+        warning("Class: $commandClass");
 
-        return confirm('Do you want to continue?', true);
+        if ($command->getDescription()) {
+            info("Description: {$command->getDescription()}");
+        }
+
+        return confirm('Do you want to continue?');
     }
 
     private function getCommandParameters($command): array
