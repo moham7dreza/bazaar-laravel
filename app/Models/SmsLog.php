@@ -7,11 +7,14 @@ use App\Enums\Sms\SmsProvider;
 use App\Enums\Sms\SmsSenderNumber;
 use App\Enums\Sms\SmsStatus;
 use App\Enums\Sms\SmsType;
+use App\Models\Scopes\LatestScope;
+use Illuminate\Database\Eloquent\Attributes\ScopedBy;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
+#[ScopedBy([LatestScope::class])]
 class SmsLog extends Model
 {
     /*** _____________________________________________ use SECTION ________________________________________________ ***/
