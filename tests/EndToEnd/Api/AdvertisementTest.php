@@ -2,6 +2,7 @@
 
 namespace Tests\EndToEnd\Api;
 
+use App\Enums\Advertisement\Sort;
 use App\Models\Advertise\Advertisement;
 use App\Models\Advertise\AdvertisementNote;
 use App\Models\Advertise\CategoryAttribute;
@@ -34,6 +35,7 @@ it('can get all advertisements', function () {
 
     $response = $this->getJson(route('advertisements.index', [
         'title' => 'adv',
+        'sort' => Sort::NEWEST,
     ]))->assertOk();
 
     expect($response->json('data'))->toHaveLength(1);

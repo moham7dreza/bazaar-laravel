@@ -25,7 +25,7 @@ class AdvertisementFactory extends Factory
             'city_id' => City::factory(),
             'user_id' => User::factory(),
             'status' => true,
-            'published_at' => now()->addMonth(),
+            'published_at' => now()->subMonth(),
             'expired_at' => now()->addYear(),
             'view' => $this->faker->randomNumber(),
             'contact' => $this->faker->phoneNumber,

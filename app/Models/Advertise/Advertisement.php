@@ -92,7 +92,7 @@ class Advertisement extends Model
     #[Scope]
     public function published(): Builder
     {
-        return $this->where('published_at', '>', now());
+        return $this->where('published_at', '<', now());
     }
 
     #[Scope]

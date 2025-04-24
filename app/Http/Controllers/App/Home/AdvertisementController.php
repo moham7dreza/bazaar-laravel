@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\App\Home;
 
+use App\Enums\Advertisement\Sort;
 use App\Http\Controllers\App\Panel\HistoryAdvertisementController;
 use App\Http\Controllers\Controller;
 use App\Pipelines\Advertisements\FilterAdvertisementsByTitle;
@@ -23,6 +24,7 @@ class AdvertisementController extends Controller
     public function index(AdvertisementGridViewRequest $request): AdvertisementCollection
     {
         $query = Advertisement::query();
+        $sort = $request->enum('sort', Sort::class);
         $filters = [
             FilterAdvertisementsByTitle::class,
         ];
@@ -30,10 +32,11 @@ class AdvertisementController extends Controller
         $advertisements = app(Pipeline::class)
             ->send($query)
             ->through($filters)
-            ->then(function (Builder $query) {
+            ->then(function (Builder $query) use ($sort) {
                 return $query
                     ->active()
-                    ->sortBy('price_desc')
+                    ->published()
+                    ->sortBy($sort)
                     ->get();
             });
 
