@@ -8,7 +8,9 @@ use App\Models\Geo\City;
 use App\Models\Scopes\LatestScope;
 use App\Models\User;
 use Cviebrock\EloquentSluggable\Sluggable;
+use Illuminate\Database\Eloquent\Attributes\Scope;
 use Illuminate\Database\Eloquent\Attributes\ScopedBy;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -50,6 +52,43 @@ class Advertisement extends Model
                 'source' => 'title',
             ],
         ];
+    }
+
+    #[Scope]
+    public function active(): Builder
+    {
+        return $this->where('status', true);
+    }
+
+    #[Scope]
+    public function inCategory($categoryId): Builder
+    {
+        return $this->where('category_id', $categoryId);
+    }
+
+    #[Scope]
+    public function priceRange($min = null, $max = null): Builder
+    {
+        return $this->when($min, function ($query) use ($min) {
+            return $query->where('price', '>=', $min);
+        })
+            ->when($max, function ($query) use ($max) {
+                return $query->where('price', '<=', $max);
+            });
+    }
+
+    #[Scope]
+    public function sortBy($sort): Builder
+    {
+        return $this->when($sort === 'price_asc', function ($query) {
+            return $query->orderBy('price', 'asc');
+        })
+            ->when($sort === 'price_desc', function ($query) {
+                return $query->orderBy('price', 'desc');
+            })
+            ->when($sort === 'newest', function ($query) {
+                return $query->orderBy('created_at', 'desc');
+            });
     }
 
     /*** _____________________________________________ relations SECTION __________________________________________ ***/

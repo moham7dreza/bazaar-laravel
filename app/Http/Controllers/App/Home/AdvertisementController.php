@@ -30,7 +30,12 @@ class AdvertisementController extends Controller
         $advertisements = app(Pipeline::class)
             ->send($query)
             ->through($filters)
-            ->then(fn(Builder $query) => $query->get());
+            ->then(function (Builder $query) {
+                return $query
+                    ->active()
+                    ->sortBy('price_desc')
+                    ->get();
+            });
 
         return new AdvertisementCollection($advertisements);
     }
