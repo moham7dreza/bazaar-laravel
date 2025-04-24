@@ -210,6 +210,11 @@ testr: ## Run tests in random order
 	php artisan migrate --force --env=testing
 	php artisan test --profile --compact --order-by random
 
+testfr: ## Recreate test db and run tests in random order
+	php artisan config:clear --ansi
+	php artisan migrate:fresh --force --env=testing
+	php artisan test --profile --compact --order-by random
+
 testp: ## Run tests in parallel
 	php artisan config:clear --ansi
 	php artisan migrate --force --env=testing
