@@ -320,6 +320,7 @@ dev: ## Full development setup
 	make pint
 	make ide
 	make checks
+	make phpstan
 	make testr
 	make start
 
@@ -387,3 +388,6 @@ checks: ## Run fearless refactoring, it does a lot of smart checks to find certa
 	#php artisan check:generic_docblocks
 	php artisan enforce:helper_functions
 	#php artisan list:models
+
+phpstan: ## Run phpstan analysis
+	./vendor/bin/phpstan analyse --memory-limit=2G --generate-baseline

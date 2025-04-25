@@ -33,3 +33,5 @@ frankenphp-worker.php
 
 coverage@tests.xml
 type-coverage@tests.json
+
+phpstan-baseline.neon
