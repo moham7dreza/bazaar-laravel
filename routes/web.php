@@ -1,13 +1,14 @@
 <?php
 
 use App\Http\Controllers\DomainRouterController;
+use App\Http\Controllers\FallbackController;
 use App\Http\Controllers\HealthCheckController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ImageController;
 use Illuminate\Support\Facades\Route;
 use Spatie\Health\Http\Controllers as HeathCheckControllers;
 
-Route::fallback([HomeController::class, 'fallbackHandler']);
+Route::fallback(FallbackController::class);
 
 Route::get('/', [HomeController::class, 'index'])->name('web.welcome');
 
