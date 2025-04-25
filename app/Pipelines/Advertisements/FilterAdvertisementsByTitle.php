@@ -10,7 +10,7 @@ final readonly class FilterAdvertisementsByTitle
     {
         $field = 'title';
         if (request()->has($field)) {
-            $query->where($field, 'like', '%'.request($field).'%');
+            $query->whereLike($field, '%'.request($field).'%');
         }
 
         return $next($query);
