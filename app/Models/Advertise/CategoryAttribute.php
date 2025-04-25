@@ -14,14 +14,14 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 #[ScopedBy([LatestScope::class])]
 class CategoryAttribute extends Model
 {
-    /*** _____________________________________________ use SECTION ________________________________________________ ***/
+    // _____________________________________________ use SECTION ________________________________________________
     use HasFactory;
     use SoftDeletes;
 
-    /*** _____________________________________________ props SECTION ______________________________________________ ***/
+    // _____________________________________________ props SECTION ______________________________________________
     protected $guarded = ['id'];
 
-    /*** _____________________________________________ model related methods SECTION ______________________________ ***/
+    // _____________________________________________ model related methods SECTION ______________________________
 
     protected function casts(): array
     {
@@ -31,7 +31,7 @@ class CategoryAttribute extends Model
         ];
     }
 
-    /*** _____________________________________________ relations SECTION __________________________________________ ***/
+    // _____________________________________________ relations SECTION __________________________________________
 
     public function category(): BelongsTo
     {
@@ -43,6 +43,6 @@ class CategoryAttribute extends Model
         return $this->hasMany(CategoryValue::class);
     }
 
-    /*** _____________________________________________ method SECTION __________________________________________ ***/
+    // _____________________________________________ method SECTION __________________________________________
 
 }

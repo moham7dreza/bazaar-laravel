@@ -6,21 +6,19 @@ use App\Data\DTOs\HealthChecksDto;
 use App\Http\Responses\ApiJsonResponse;
 use Illuminate\Http\JsonResponse;
 use Spatie\CpuLoadHealthCheck\CpuLoadCheck;
+use Spatie\Health\Checks\Checks\CacheCheck;
+use Spatie\Health\Checks\Checks\DatabaseCheck;
+use Spatie\Health\Checks\Checks\EnvironmentCheck;
+use Spatie\Health\Checks\Checks\PingCheck;
 use Spatie\Health\Checks\Checks\UsedDiskSpaceCheck;
 use Spatie\Health\Checks\Result;
 use Spatie\Health\Health;
-use Spatie\Health\Checks\Checks\PingCheck;
-use Spatie\Health\Checks\Checks\DatabaseCheck;
-use Spatie\Health\Checks\Checks\EnvironmentCheck;
-use Spatie\Health\Checks\Checks\CacheCheck;
 
 class HealthCheckController extends Controller
 {
-
     public function __construct(
         private readonly Health $healthChecker,
-    )
-    {
+    ) {
     }
 
     public function __invoke(): JsonResponse
@@ -80,8 +78,9 @@ class HealthCheckController extends Controller
     {
         return array_map(static function ($url) use ($method) {
             $basePath = getenv('APP_URL');
+
             return PingCheck::new()
-                ->url($basePath . $url)
+                ->url($basePath.$url)
                 ->name($url)
                 ->method($method);
         }, $urls);

@@ -8,9 +8,7 @@ use App\Models\User;
 
 class AdvertisementPolicy
 {
-    /*
-     * run before all other policy checks
-     * **/
+    // run before all other policy checks
     public function before(User $user, string $ability): bool
     {
         if ($user->isAdmin()) {

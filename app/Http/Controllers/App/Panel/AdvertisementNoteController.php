@@ -14,7 +14,7 @@ class AdvertisementNoteController extends Controller
 
     public function index()
     {
-        
+
     }
 
     public function store(Advertisement $advertisement, Request $request)

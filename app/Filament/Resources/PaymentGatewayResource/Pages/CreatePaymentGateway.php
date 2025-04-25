@@ -15,6 +15,7 @@ class CreatePaymentGateway extends CreateRecord
     {
         $data['owner_id'] = auth()->id();
         $data['owner_type'] = User::class;
+
         return parent::handleRecordCreation($data);
     }
 }

@@ -14,14 +14,14 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 #[ScopedBy([LatestScope::class])]
 class CategoryValue extends Model
 {
-    /*** _____________________________________________ use SECTION ________________________________________________ ***/
+    // _____________________________________________ use SECTION ________________________________________________
     use HasFactory;
     use SoftDeletes;
 
-    /*** _____________________________________________ props SECTION ______________________________________________ ***/
+    // _____________________________________________ props SECTION ______________________________________________
     protected $guarded = ['id'];
 
-    /*** _____________________________________________ model related methods SECTION ______________________________ ***/
+    // _____________________________________________ model related methods SECTION ______________________________
 
     protected function casts(): array
     {
@@ -31,7 +31,7 @@ class CategoryValue extends Model
         ];
     }
 
-    /*** _____________________________________________ relations SECTION __________________________________________ ***/
+    // _____________________________________________ relations SECTION __________________________________________
 
     public function categoryAttribute(): BelongsTo
     {
@@ -42,6 +42,6 @@ class CategoryValue extends Model
     {
         return $this->belongsToMany(Advertisement::class, 'advertisement_category_values')->withTimestamps();
     }
-    /*** _____________________________________________ method SECTION __________________________________________ ***/
+    // _____________________________________________ method SECTION __________________________________________
 
 }

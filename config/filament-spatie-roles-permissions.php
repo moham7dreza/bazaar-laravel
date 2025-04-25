@@ -22,9 +22,7 @@ return [
 
     'super_admin_role_name' => \App\Enums\UserRole::ADMIN->value,
 
-    /*
-     * Set as false to remove from navigation.
-     */
+    // Set as false to remove from navigation.
     'should_register_on_navigation' => [
         'permissions' => true,
         'roles' => true,
@@ -32,24 +30,20 @@ return [
 
     'should_show_permissions_for_roles' => true,
 
-    /*
-     * Set as true to use simple modal resource.
-     */
+    // Set as true to use simple modal resource.
     'should_use_simple_modal_resource' => [
         'permissions' => false,
         'roles' => false,
     ],
 
-    /*
-     * Set as true to remove empty state actions.
-     */
+    // Set as true to remove empty state actions.
     'should_remove_empty_state_actions' => [
         'permissions' => false,
         'roles' => false,
     ],
 
     /**
-     * Set to true to redirect to the resource index instead of the view
+     * Set to true to redirect to the resource index instead of the view.
      */
     'should_redirect_to_index' => [
         'permissions' => [
@@ -63,7 +57,7 @@ return [
     ],
 
     /**
-     * Set to true to display relation managers in the resources
+     * Set to true to display relation managers in the resources.
      */
     'should_display_relation_managers' => [
         'permissions' => true,
@@ -120,17 +114,13 @@ return [
      */
     'user_name_searchable_columns' => ['name'],
 
-    /*
-     * Icons to use for navigation
-     */
+    // Icons to use for navigation
     'icons' => [
         'role_navigation' => 'heroicon-o-lock-closed',
         'permission_navigation' => 'heroicon-o-lock-closed',
     ],
 
-    /*
-     *  Navigation items order - int value, false  restores the default position
-     */
+    // Navigation items order - int value, false  restores the default position
 
     'sort' => [
         'role_navigation' => false,
@@ -176,29 +166,21 @@ return [
          */
         'permission_name' => 'return $permissionAffix . \' \' . $modelName;',
 
-        /*
-         * Permissions will be generated for the models associated with the respective Filament Resources
-         */
+        // Permissions will be generated for the models associated with the respective Filament Resources
         'discover_models_through_filament_resources' => false,
 
-        /*
-         * Include directories which consists of models.
-         */
+        // Include directories which consists of models.
         'model_directories' => [
             app_path('Models'),
             // app_path('Domains/Forum')
         ],
 
-        /*
-         * Define custom_models
-         */
+        // Define custom_models
         'custom_models' => [
             //
         ],
 
-        /*
-         * Define excluded_models
-         */
+        // Define excluded_models
         'excluded_models' => [
             //
         ],
@@ -207,9 +189,7 @@ return [
             \App\Models\User::class,
         ],
 
-        /*
-         * Define any other permission that should be synced with the DB
-         */
+        // Define any other permission that should be synced with the DB
         'custom_permissions' => [
             // 'view-log'
         ],

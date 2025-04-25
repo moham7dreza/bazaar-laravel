@@ -19,17 +19,17 @@ class Menu extends Model
 {
     use CascadeSoftDeletes;
 
-    /*** _____________________________________________ use SECTION ______________________________________________ ***/
+    // _____________________________________________ use SECTION ______________________________________________
     use HasFactory;
     use Sluggable;
     use SoftDeletes;
 
-    /*** _____________________________________________ props SECTION ______________________________________________ ***/
+    // _____________________________________________ props SECTION ______________________________________________
     protected array $cascadeDeletes = ['children'];
 
     protected $guarded = ['id', 'slug'];
 
-    /*** _____________________________________________ model related methods SECTION ______________________________ ***/
+    // _____________________________________________ model related methods SECTION ______________________________
 
     public function sluggable(): array
     {
@@ -48,7 +48,8 @@ class Menu extends Model
     }
 
     #[Scope]
-    public function loadChildren(Builder $query, int $levels = 4): Builder {
+    public function loadChildren(Builder $query, int $levels = 4): Builder
+    {
         $constraintsCallback = static function ($query) {
             $query->where('status', true);
         };
@@ -57,7 +58,8 @@ class Menu extends Model
         $relations = collect(range(1, $levels))
             ->mapWithKeys(function ($level) use ($constraintsCallback) {
                 // Build the relationship path string
-                $relationPath = 'children'. str_repeat('.children', $level - 1);
+                $relationPath = 'children'.str_repeat('.children', $level - 1);
+
                 return [$relationPath => $constraintsCallback];
             })
             ->all();
@@ -65,7 +67,7 @@ class Menu extends Model
         return $query->with($relations);
     }
 
-    /*** _____________________________________________ relations SECTION __________________________________________ ***/
+    // _____________________________________________ relations SECTION __________________________________________
 
     public function children(): HasMany
     {
@@ -77,5 +79,5 @@ class Menu extends Model
         return $this->belongsTo(__CLASS__, 'parent_id');
     }
 
-    /*** _____________________________________________ methods SECTION ____________________________________________ ***/
+    // _____________________________________________ methods SECTION ____________________________________________
 }

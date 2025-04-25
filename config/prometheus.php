@@ -3,9 +3,7 @@
 return [
     'enabled' => true,
 
-    /*
-     * The urls that will return metrics.
-     */
+    // The urls that will return metrics.
     'urls' => [
         'default' => 'metrics',
     ],
@@ -24,9 +22,7 @@ return [
      */
     'default_namespace' => 'app',
 
-    /*
-     * The middleware that will be applied to the urls above
-     */
+    // The middleware that will be applied to the urls above
     'middleware' => [
         Spatie\Prometheus\Http\Middleware\AllowIps::class,
     ],

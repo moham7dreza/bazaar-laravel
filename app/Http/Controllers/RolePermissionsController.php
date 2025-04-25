@@ -30,7 +30,7 @@ class RolePermissionsController extends Controller
             ->filter(fn (UserPermission $permission) => $permission->isAdminLevel())
             ->isNotEmpty();
 
-        if ($requiresAdminPrivileges && !$request->user()->isAdmin()) {
+        if ($requiresAdminPrivileges && ! $request->user()->isAdmin()) {
 
             return ApiJsonResponse::error('Admin privileges required for selected permissions');
         }

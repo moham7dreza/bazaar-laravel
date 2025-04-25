@@ -8,28 +8,28 @@ use Leandrocfe\FilamentApexCharts\Widgets\ApexChartWidget;
 class RevenueChart extends ApexChartWidget
 {
     /**
-     * Chart Id
+     * Chart Id.
      */
     protected static ?string $chartId = 'revenueChart';
 
     /**
-     * Widget Title
+     * Widget Title.
      */
     protected static ?string $heading = 'Revenue per month';
 
     /**
-     * Sort
+     * Sort.
      */
     protected static ?int $sort = 2;
 
     /**
-     * Widget content height
+     * Widget content height.
      */
     protected static ?int $contentHeight = 275;
 
     /**
      * Chart options (series, labels, types, size, animations...)
-     * https://apexcharts.com/docs/options
+     * https://apexcharts.com/docs/options.
      */
     protected function getOptions(): array
     {

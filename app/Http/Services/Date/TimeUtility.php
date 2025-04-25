@@ -6,18 +6,16 @@ use Carbon\Carbon;
 use DateTime;
 use DateTimeInterface;
 use Illuminate\Support\Facades\Facade;
-use Morilog\Jalali\Jalalian;
 use MongoDB\BSON\ObjectId;
 use MongoDB\BSON\UTCDateTime;
 use Morilog\Jalali\CalendarUtils;
+use Morilog\Jalali\Jalalian;
 
 class TimeUtility extends Facade
 {
     public static string $timezone = 'Asia/Tehran';
 
-    /*
-     * Return the service name or the class being resolved from the service container
-     * **/
+    // Return the service name or the class being resolved from the service container
     protected static function getFacadeAccessor(): string
     {
         return 'timeUtil';
@@ -488,9 +486,7 @@ class TimeUtility extends Facade
         return $timestamp > time();
     }
 
-    /*
-    * Mongo Section
-    ***/
+    // Mongo Section
 
     // *** ------------------------------ Mongo DateTime To Carbon ------------------------------ ***//
 

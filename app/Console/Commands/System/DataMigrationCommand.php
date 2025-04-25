@@ -6,7 +6,6 @@ use Illuminate\Database\Console\Migrations\MigrateMakeCommand;
 
 class DataMigrationCommand extends MigrateMakeCommand
 {
-
     public const string PATH = '/database/migrations/data-migrations';
 
     protected $signature = 'make:data-migration
@@ -23,7 +22,7 @@ class DataMigrationCommand extends MigrateMakeCommand
     public function handle(): int
     {
         $this->getDefinition()
-            ->getOption("path")
+            ->getOption('path')
             ->setDefault(self::PATH);
 
         parent::handle();

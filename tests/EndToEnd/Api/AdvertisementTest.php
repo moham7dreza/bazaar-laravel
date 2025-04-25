@@ -19,7 +19,7 @@ beforeEach(function () {
         ->hasAttached(User::factory(2)->create(), relationship: 'viewedByUsers')
         ->hasAttached(CategoryValue::factory(2)->create(), relationship: 'categoryValues')
         ->create([
-            'title' => 'test-adv'
+            'title' => 'test-adv',
         ]);
 
     CategoryAttribute::factory()->for($this->advertisement->category)->create();

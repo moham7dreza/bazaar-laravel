@@ -20,4 +20,3 @@ it('can get memoized cache value', function () {
     expect(cache()->memo()->get('foo'))->toBe('bar')
         ->and(cache()->memo('database')->get('foo'))->toBe('bar111');
 });
-

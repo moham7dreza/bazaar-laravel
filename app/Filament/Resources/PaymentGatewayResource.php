@@ -5,9 +5,9 @@ namespace App\Filament\Resources;
 use App\Enums\PaymentGateways;
 use App\Filament\Resources\PaymentGatewayResource\Pages;
 use App\Models\PaymentGateway;
-use Filament\Forms\Get;
 use Filament\Forms;
 use Filament\Forms\Form;
+use Filament\Forms\Get;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
@@ -40,7 +40,7 @@ class PaymentGatewayResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('gateway')
-                    ->formatStateUsing(fn ($state): string => __('payment-gateways.' . $state)),
+                    ->formatStateUsing(fn ($state): string => __('payment-gateways.'.$state)),
 
                 Tables\Columns\IconColumn::make('status')
                     ->boolean(),
@@ -79,7 +79,7 @@ class PaymentGatewayResource extends Resource
         ];
     }
 
-    protected static function getConfigInputs():array
+    protected static function getConfigInputs(): array
     {
         return [
 
@@ -89,8 +89,7 @@ class PaymentGatewayResource extends Resource
                 ->live(),
 
             Forms\Components\Section::make('gateway config')
-                ->schema(fn (Get $get) =>
-                $get('gateway') > 0
+                ->schema(fn (Get $get) => $get('gateway') > 0
                     ? PaymentGateways::from($get('gateway'))->configInputs()
                     : []
                 ),

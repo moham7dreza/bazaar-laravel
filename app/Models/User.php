@@ -37,7 +37,7 @@ use Spatie\Permission\Traits\HasRoles;
 #[ScopedBy([LatestScope::class])]
 class User extends Authenticatable implements CanLoginDirectly, FilamentUser, HasAvatar, ShouldVerifiedMobile
 {
-    /*** _____________________________________________ use SECTION ________________________________________________ ***/
+    // _____________________________________________ use SECTION ________________________________________________
     use HasFactory;
     use HasLocks;
     use HasRoles;
@@ -48,7 +48,7 @@ class User extends Authenticatable implements CanLoginDirectly, FilamentUser, Ha
     use TwoFactorAuthenticatable;
     use HasApiTokens;
 
-    /*** _____________________________________________ props SECTION ______________________________________________ ***/
+    // _____________________________________________ props SECTION ______________________________________________
 
     const int TYPE_USER = 0;
     const int TYPE_ADMIN = 1;
@@ -74,7 +74,7 @@ class User extends Authenticatable implements CanLoginDirectly, FilamentUser, Ha
 
     protected static array $recordEvents = ['deleted', 'updated'];
 
-    /*** _____________________________________________ model related methods SECTION ______________________________ ***/
+    // _____________________________________________ model related methods SECTION ______________________________
 
     protected function casts(): array
     {
@@ -136,7 +136,7 @@ class User extends Authenticatable implements CanLoginDirectly, FilamentUser, Ha
         $query->where('user_type', $type);
     }
 
-    /*** _____________________________________________ relations SECTION __________________________________________ ***/
+    // _____________________________________________ relations SECTION __________________________________________
     public function advertisements(): HasMany
     {
         return $this->hasMany(Advertisement::class);
@@ -172,9 +172,7 @@ class User extends Authenticatable implements CanLoginDirectly, FilamentUser, Ha
         return $this->hasOne(Advertisement::class)->ofMany('view', 'max');
     }
 
-    /*
-     * the newest advertisement with likest in last month
-     * **/
+    // the newest advertisement with likest in last month
     public function popularRecentAdvertisement(): HasOne
     {
         return $this->hasOne(Advertisement::class)->ofMany(
@@ -188,7 +186,7 @@ class User extends Authenticatable implements CanLoginDirectly, FilamentUser, Ha
         );
     }
 
-    /*** _____________________________________________ method SECTION __________________________________________ ***/
+    // _____________________________________________ method SECTION __________________________________________
 
     public function isAdmin(): bool
     {

@@ -2,18 +2,18 @@
 
 namespace App\Console\Commands\System;
 
-use Illuminate\Console\Command;
-use Illuminate\Support\Facades\File;
 use Carbon\Carbon;
 use Exception;
+use Illuminate\Console\Command;
+use Illuminate\Support\Facades\File;
 
-use function Laravel\Prompts\text;
+use function Laravel\Prompts\confirm;
+use function Laravel\Prompts\error;
+use function Laravel\Prompts\info;
 use function Laravel\Prompts\select;
 use function Laravel\Prompts\suggest;
-use function Laravel\Prompts\info;
-use function Laravel\Prompts\error;
+use function Laravel\Prompts\text;
 use function Laravel\Prompts\warning;
-use function Laravel\Prompts\confirm;
 
 class AddChangelogEntryCommand extends Command
 {
@@ -30,14 +30,14 @@ class AddChangelogEntryCommand extends Command
         'Updated',
         'Fixed',
         'Deprecated',
-        'Removed'
+        'Removed',
     ];
 
     protected array $impacts = [
         'High',
         'Medium',
         'Low',
-        'None'
+        'None',
     ];
 
     public function handle(): void
@@ -60,8 +60,7 @@ class AddChangelogEntryCommand extends Command
                 label: 'Date and time [YYYY-MM-DD HH:MM]',
                 default: $currentDatetime,
                 validate: fn ($value) => match (true) {
-                    !empty($value) && !Carbon::canBeCreatedFromFormat($value, 'Y-m-d H:i') =>
-                    'Invalid format. Please use YYYY-MM-DD HH:MM format (e.g. 2023-12-31 14:30)',
+                    ! empty($value) && ! Carbon::canBeCreatedFromFormat($value, 'Y-m-d H:i') => 'Invalid format. Please use YYYY-MM-DD HH:MM format (e.g. 2023-12-31 14:30)',
                     default => null
                 }
             );
@@ -110,8 +109,7 @@ class AddChangelogEntryCommand extends Command
             label: 'Jira Ticket',
             placeholder: 'PROJ-123 or full URL (leave empty if none)',
             validate: fn ($value) => match (true) {
-                !empty($value) && !$this->isValidJiraTicket($value) =>
-                'Invalid Jira ticket format. Use PROJ-123 or full Jira URL',
+                ! empty($value) && ! $this->isValidJiraTicket($value) => 'Invalid Jira ticket format. Use PROJ-123 or full Jira URL',
                 default => null
             }
         );
@@ -120,8 +118,7 @@ class AddChangelogEntryCommand extends Command
             label: 'Merge Request URL or number',
             placeholder: '5072 or full URL (leave empty if none)',
             validate: fn ($value) => match (true) {
-                !empty($value) && !$this->isValidMergeRequest($value) =>
-                'Invalid format. Use MR number or full GitLab MR URL',
+                ! empty($value) && ! $this->isValidMergeRequest($value) => 'Invalid format. Use MR number or full GitLab MR URL',
                 default => null
             }
         );
@@ -147,8 +144,8 @@ class AddChangelogEntryCommand extends Command
         $entry .= "- **Author**: $author\n";
         $entry .= "- **Category**: $category\n";
         $entry .= "- **Impact**: $impact\n";
-        $entry .= "- **Jira Ticket**: " . $this->formatJiraTicket($jiraTicket) . "\n";
-        $entry .= "- **Merge Request**: " . $this->formatMergeRequest($mergeRequest) . "\n";
+        $entry .= '- **Jira Ticket**: '.$this->formatJiraTicket($jiraTicket)."\n";
+        $entry .= '- **Merge Request**: '.$this->formatMergeRequest($mergeRequest)."\n";
         $entry .= "\n$description\n";
         $entry .= "\n---";
 
@@ -162,16 +159,18 @@ class AddChangelogEntryCommand extends Command
             no: 'No, discard it'
         );
 
-        if (!$confirmed) {
+        if (! $confirmed) {
             warning('Changelog entry was NOT saved.');
+
             return;
         }
 
         // Append to changelog file
         $changelogPath = base_path('__CHANGELOG.md');
 
-        if (!File::exists($changelogPath)) {
+        if (! File::exists($changelogPath)) {
             error('__CHANGELOG.md file not found in project root!');
+
             return;
         }
 
@@ -224,6 +223,7 @@ class AddChangelogEntryCommand extends Command
         if (preg_match('/^([A-Za-z]+)-(\d+)$/', $input, $matches)) {
             $project = $matches[1];
             $ticket = $matches[2];
+
             return "https://your-jira-domain.com/browse/{$project}-{$ticket}";
         }
 
@@ -239,6 +239,7 @@ class AddChangelogEntryCommand extends Command
         // Extract MR number if URL provided
         if (preg_match('/merge_requests\/(\d+)/', $input, $matches)) {
             $mrNumber = $matches[1];
+
             return "[!$mrNumber](https://github.com/moham7dreza/bazaar-laravel/pull/$mrNumber)";
         }
 

@@ -22,7 +22,7 @@ class OrderContext
 
     public function getState(): OrderState
     {
-        return OrderState::from((string)$this->state);
+        return OrderState::from((string) $this->state);
     }
 
     public function proceedToNext(): void

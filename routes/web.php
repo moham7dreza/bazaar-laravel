@@ -14,9 +14,9 @@ Route::fallback(FallbackController::class);
 Route::get('/', [HomeController::class, 'index'])->name('web.welcome');
 
 Route::middleware([
-        \App\Http\Middleware\OnlyAllowDevelopersMiddleware::class,
-        \App\Http\Middleware\CheckAdminMiddleware::class,
-    ])
+    \App\Http\Middleware\OnlyAllowDevelopersMiddleware::class,
+    \App\Http\Middleware\CheckAdminMiddleware::class,
+])
     ->group(function () {
 
         Route::put('permissions/update', [RolePermissionsController::class, 'update'])->name('web.permissions.update');

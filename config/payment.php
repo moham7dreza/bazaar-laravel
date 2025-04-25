@@ -103,12 +103,12 @@ return [
             'description' => 'payment using etebarino',
         ],
         'irandargah' => [
-            /* Normal api */
+            // Normal api
             'apiPurchaseUrl' => 'https://dargaah.com/payment',
             'apiPaymentUrl' => 'https://dargaah.com/ird/startpay/',
             'apiVerificationUrl' => 'https://dargaah.com/verification',
 
-            /* Sandbox api */
+            // Sandbox api
             'sandboxApiPurchaseUrl' => ' https://dargaah.com/sandbox/payment',
             'sandboxApiPaymentUrl' => 'https://dargaah.com/sandbox/ird/startpay/',
             'sandboxApiVerificationUrl' => 'https://dargaah.com/sandbox/verification',
@@ -171,11 +171,11 @@ return [
             'currency' => 'T', // Can be R, T (Rial, Toman)
         ],
         'parspal' => [
-            /* Normal api */
+            // Normal api
             'apiPurchaseUrl' => 'https://api.parspal.com/v1/payment/request',
             'apiVerificationUrl' => 'https://api.parspal.com/v1/payment/verify',
 
-            /* Sandbox api */
+            // Sandbox api
             'sandboxApiPurchaseUrl' => ' https://sandbox.api.parspal.com/v1/payment/request',
             'sandboxApiVerificationUrl' => 'https://sandbox.api.parspal.com/v1/payment/verify',
 
@@ -199,13 +199,13 @@ return [
             'currency' => 'T', // Can be R, T (Rial, Toman)
         ],
         'paypal' => [
-            /* normal api */
+            // normal api
             'accessTokenUrl' => 'https://api-m.paypal.com/v1/oauth2/token',
             'purchaseUrl' => 'https://api-m.paypal.com/v2/checkout/orders',
             'paymentUrl' => 'https://www.paypal.com/checkoutnow?token=',
             'verificationUrl' => 'https://api-m.paypal.com/v2/checkout/orders/{order_id}/capture', // {order_id} will be replaced automatically
 
-            /* sandbox api */
+            // sandbox api
             'sandboxAccessTokenUrl' => 'https://api-m.sandbox.paypal.com/v1/oauth2/token',
             'sandboxPurchaseUrl' => 'https://api-m.sandbox.paypal.com/v2/checkout/orders',
             'sandboxPaymentUrl' => 'https://www.sandbox.paypal.com/checkoutnow?token=',
@@ -315,17 +315,17 @@ return [
             'description' => 'payment using yekpay',
         ],
         'zarinpal' => [
-            /* normal api */
+            // normal api
             'apiPurchaseUrl' => 'https://api.zarinpal.com/pg/v4/payment/request.json',
             'apiPaymentUrl' => 'https://www.zarinpal.com/pg/StartPay/',
             'apiVerificationUrl' => 'https://api.zarinpal.com/pg/v4/payment/verify.json',
 
-            /* sandbox api */
+            // sandbox api
             'sandboxApiPurchaseUrl' => 'https://sandbox.zarinpal.com/pg/v4/payment/request.json',
             'sandboxApiPaymentUrl' => 'https://sandbox.zarinpal.com/pg/StartPay/',
             'sandboxApiVerificationUrl' => 'https://sandbox.zarinpal.com/pg/v4/payment/verify.json',
 
-            /* zarinGate api */
+            // zarinGate api
             'zaringateApiPurchaseUrl' => 'https://ir.zarinpal.com/pg/services/WebGate/wsdl',
             'zaringateApiPaymentUrl' => 'https://www.zarinpal.com/pg/StartPay/:authority/ZarinGate',
             'zaringateApiVerificationUrl' => 'https://ir.zarinpal.com/pg/services/WebGate/wsdl',
@@ -337,7 +337,7 @@ return [
             'currency' => 'T', // Can be R, T (Rial, Toman)
         ],
         'zibal' => [
-            /* normal api */
+            // normal api
             'apiPurchaseUrl' => 'https://gateway.zibal.ir/v1/request',
             'apiPaymentUrl' => 'https://gateway.zibal.ir/start/',
             'apiVerificationUrl' => 'https://gateway.zibal.ir/v1/verify',
@@ -372,12 +372,12 @@ return [
             'currency' => 'R', // Can be R, T (Rial, Toman)
         ],
         'shepa' => [
-            /* Normal api */
+            // Normal api
             'apiPurchaseUrl' => 'https://merchant.shepa.com/api/v1/token',
             'apiPaymentUrl' => 'https://merchant.shepa.com/v1/',
             'apiVerificationUrl' => 'https://merchant.shepa.com/api/v1/verify',
 
-            /* Sandbox api */
+            // Sandbox api
             'sandboxApiPurchaseUrl' => 'https://sandbox.shepa.com/api/v1/token',
             'sandboxApiPaymentUrl' => 'https://sandbox.shepa.com/v1/',
             'sandboxApiVerificationUrl' => 'https://sandbox.shepa.com/api/v1/verify',

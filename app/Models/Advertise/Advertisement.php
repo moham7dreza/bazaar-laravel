@@ -22,15 +22,15 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 #[ScopedBy([LatestScope::class])]
 class Advertisement extends Model
 {
-    /*** _____________________________________________ use SECTION ________________________________________________ ***/
+    // _____________________________________________ use SECTION ________________________________________________
     use HasFactory;
     use SoftDeletes;
     use Sluggable;
 
-    /*** _____________________________________________ props SECTION ______________________________________________ ***/
+    // _____________________________________________ props SECTION ______________________________________________
     protected $guarded = ['id'];
 
-    /*** _____________________________________________ model related methods SECTION ______________________________ ***/
+    // _____________________________________________ model related methods SECTION ______________________________
     protected function casts(): array
     {
         return [
@@ -109,7 +109,7 @@ class Advertisement extends Model
             ->orWhere('is_ladder', true);
     }
 
-    /*** _____________________________________________ relations SECTION __________________________________________ ***/
+    // _____________________________________________ relations SECTION __________________________________________
     public function category(): BelongsTo
     {
         return $this->belongsTo(Category::class);
@@ -150,5 +150,5 @@ class Advertisement extends Model
         return $this->belongsToMany(User::class, 'advertisement_view_history')->withTimestamps();
     }
 
-    /*** _____________________________________________ method SECTION __________________________________________ ***/
+    // _____________________________________________ method SECTION __________________________________________
 }

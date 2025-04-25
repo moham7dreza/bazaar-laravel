@@ -4,8 +4,9 @@ namespace App\Console\Commands\System;
 
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\File;
-use function Laravel\Prompts\select;
+
 use function Laravel\Prompts\search;
+use function Laravel\Prompts\select;
 
 class MakefileRunnerCommand extends Command
 {
@@ -16,8 +17,9 @@ class MakefileRunnerCommand extends Command
     {
         $makefilePath = base_path('makefile');
 
-        if (!File::exists($makefilePath)) {
+        if (! File::exists($makefilePath)) {
             $this->error('makefile not found in project root!');
+
             return 1;
         }
 
@@ -25,6 +27,7 @@ class MakefileRunnerCommand extends Command
 
         if (empty($scripts)) {
             $this->error('No scripts found in makefile!');
+
             return 1;
         }
 
@@ -75,7 +78,7 @@ class MakefileRunnerCommand extends Command
             }
             // Found a comment line
             elseif (str_starts_with($trimmed, '#')) {
-                $currentDescription .= ' ' . substr($trimmed, 1);
+                $currentDescription .= ' '.substr($trimmed, 1);
             }
         }
 

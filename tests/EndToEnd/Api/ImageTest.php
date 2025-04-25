@@ -1,7 +1,7 @@
 <?php
 
-use Illuminate\Http\UploadedFile;
 use App\Enums\Content\ImageUploadMethod;
+use Illuminate\Http\UploadedFile;
 
 it('can upload an image', function () {
     $file = UploadedFile::fake()->image('test.jpg', 100, 100);

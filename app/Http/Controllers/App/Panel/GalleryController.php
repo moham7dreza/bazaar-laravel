@@ -16,7 +16,7 @@ class GalleryController extends Controller
     use HttpResponses;
 
     /**
-     * نمایش لیست گالری‌های یک آگهی
+     * نمایش لیست گالری‌های یک آگهی.
      */
     public function index($advertisementId)
     {
@@ -31,7 +31,7 @@ class GalleryController extends Controller
     }
 
     /**
-     * افزودن تصویر به گالری
+     * افزودن تصویر به گالری.
      */
     public function store(StoreGalleryRequest $request, ImageService $imageService, $advertisementId)
     {
@@ -60,7 +60,7 @@ class GalleryController extends Controller
     }
 
     /**
-     * مشاهده جزئیات یک تصویر گالری
+     * مشاهده جزئیات یک تصویر گالری.
      */
     public function show(Gallery $gallery)
     {
@@ -73,7 +73,7 @@ class GalleryController extends Controller
     }
 
     /**
-     * بروزرسانی تصویر گالری
+     * بروزرسانی تصویر گالری.
      */
     public function update(UpdateGalleryRequest $request, Gallery $gallery, ImageService $imageService)
     {
@@ -107,7 +107,7 @@ class GalleryController extends Controller
     }
 
     /**
-     * حذف تصویر گالری
+     * حذف تصویر گالری.
      */
     public function destroy(Gallery $gallery)
     {

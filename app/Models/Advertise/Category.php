@@ -15,18 +15,18 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 #[ScopedBy([LatestScope::class])]
 class Category extends Model
 {
-    /*** _____________________________________________ use SECTION ________________________________________________ ***/
+    // _____________________________________________ use SECTION ________________________________________________
     use CascadeSoftDeletes;
     use HasFactory;
     use Sluggable;
     use SoftDeletes;
 
-    /*** _____________________________________________ props SECTION ______________________________________________ ***/
+    // _____________________________________________ props SECTION ______________________________________________
     protected $guarded = ['id', 'slug'];
 
     protected array $cascadeDeletes = ['children'];
 
-    /*** _____________________________________________ model related methods SECTION ______________________________ ***/
+    // _____________________________________________ model related methods SECTION ______________________________
 
     public function sluggable(): array
     {
@@ -44,7 +44,7 @@ class Category extends Model
         ];
     }
 
-    /*** _____________________________________________ relations SECTION __________________________________________ ***/
+    // _____________________________________________ relations SECTION __________________________________________
     public function children(): HasMany
     {
         return $this->hasMany($this, 'parent_id');
@@ -65,6 +65,6 @@ class Category extends Model
         return $this->hasMany(CategoryAttribute::class);
     }
 
-    /*** _____________________________________________ method SECTION __________________________________________ ***/
+    // _____________________________________________ method SECTION __________________________________________
 
 }

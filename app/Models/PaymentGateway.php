@@ -14,11 +14,11 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 #[ScopedBy([LatestScope::class])]
 class PaymentGateway extends Model
 {
-    /*** _____________________________________________ use SECTION ________________________________________________ ***/
+    // _____________________________________________ use SECTION ________________________________________________
     use HasFactory;
     use SoftDeletes;
 
-    /*** _____________________________________________ props SECTION ______________________________________________ ***/
+    // _____________________________________________ props SECTION ______________________________________________
     protected $fillable = [
         'gateway',
         'owner',
@@ -29,14 +29,14 @@ class PaymentGateway extends Model
         'owner_type',
     ];
 
-    /*** _____________________________________________ model related methods SECTION ______________________________ ***/
+    // _____________________________________________ model related methods SECTION ______________________________
 
     protected function casts(): array
     {
         return [
             'config' => 'array',
             'status' => 'bool',
-//        'gateway' => \App\Enums\PaymentGateways::class,
+            //        'gateway' => \App\Enums\PaymentGateways::class,
         ];
     }
 
@@ -46,12 +46,12 @@ class PaymentGateway extends Model
         return $this->where('status', true);
     }
 
-    /*** _____________________________________________ relations SECTION __________________________________________ ***/
+    // _____________________________________________ relations SECTION __________________________________________
 
     public function ownerable(): MorphTo
     {
         return $this->morphTo();
     }
 
-    /*** _____________________________________________ method SECTION __________________________________________ ***/
+    // _____________________________________________ method SECTION __________________________________________
 }

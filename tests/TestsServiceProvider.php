@@ -7,12 +7,15 @@ use Illuminate\Support\ServiceProvider;
 
 class TestsServiceProvider extends ServiceProvider
 {
-    public function register(): void {}
+    public function register(): void
+    {
+    }
 
     public function boot(): void
     {
         if ($this->isRunningTestsInParallel()) {
-            ParallelTesting::setUpTestCase(function ($testCase, int $token) {});
+            ParallelTesting::setUpTestCase(function ($testCase, int $token) {
+            });
         }
     }
 

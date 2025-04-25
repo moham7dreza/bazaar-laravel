@@ -5,13 +5,13 @@ namespace App\Console\Commands\System;
 use Illuminate\Console\Command;
 use Illuminate\Support\Collection;
 
-use function Laravel\Prompts\select;
-use function Laravel\Prompts\text;
-use function Laravel\Prompts\suggest;
-use function Laravel\Prompts\info;
-use function Laravel\Prompts\error;
-use function Laravel\Prompts\warning;
 use function Laravel\Prompts\confirm;
+use function Laravel\Prompts\error;
+use function Laravel\Prompts\info;
+use function Laravel\Prompts\select;
+use function Laravel\Prompts\suggest;
+use function Laravel\Prompts\text;
+use function Laravel\Prompts\warning;
 
 class ArtisanFinderCommand extends Command
 {

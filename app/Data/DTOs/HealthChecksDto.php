@@ -12,7 +12,8 @@ readonly class HealthChecksDto
         private string $status,
         private string $notificationMessage,
         private string $shortSummary
-    ) {}
+    ) {
+    }
 
     public function get(string|array $property): string|array|null
     {
@@ -26,7 +27,7 @@ readonly class HealthChecksDto
             'meta' => $this->meta,
             'status' => $this->status,
             'notificationMessage' => $this->notificationMessage,
-            'shortSummary' => $this->shortSummary
+            'shortSummary' => $this->shortSummary,
         ];
     }
 }

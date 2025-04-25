@@ -24,7 +24,7 @@ class VerifyUserWithOTPController extends Controller
             'used' => 0,
         ]);
 
-        if (!$otp) {
+        if (! $otp) {
             return ApiJsonResponse::error('کد تایید یافت نشد', code: Response::HTTP_UNPROCESSABLE_ENTITY);
         }
 
@@ -47,7 +47,7 @@ class VerifyUserWithOTPController extends Controller
 
         $user = User::firstWhere('mobile', $request->mobile);
 
-        if (!$user) {
+        if (! $user) {
 
             $user = User::create([
                 'password' => Hash::make(Str::random(10)),

@@ -16,7 +16,7 @@ it('can assign permissions to specific role', function () {
         'role' => $role = UserRole::ADMIN,
         'permissions' => [
             UserPermission::MANAGE_USERS,
-        ]
+        ],
     ]);
 
     $response->assertOk();

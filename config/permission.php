@@ -72,9 +72,7 @@ return [
     ],
 
     'column_names' => [
-        /*
-         * Change this if you want to name the related pivots other than defaults
-         */
+        // Change this if you want to name the related pivots other than defaults
         'role_pivot_key' => null, // default 'role_id',
         'permission_pivot_key' => null, // default 'permission_id',
 
@@ -133,9 +131,7 @@ return [
 
     'teams' => false,
 
-    /*
-     * The class to use to resolve the permissions team id
-     */
+    // The class to use to resolve the permissions team id
     'team_resolver' => \Spatie\Permission\DefaultTeamResolver::class,
 
     /*
@@ -174,7 +170,7 @@ return [
      */
     // 'permission.wildcard_permission' => Spatie\Permission\WildcardPermission::class,
 
-    /* Cache-specific settings */
+    // Cache-specific settings
 
     'cache' => [
 
@@ -185,9 +181,7 @@ return [
 
         'expiration_time' => \DateInterval::createFromDateString('24 hours'),
 
-        /*
-         * The cache key used to store all permissions.
-         */
+        // The cache key used to store all permissions.
 
         'key' => 'spatie.permission.cache',
 

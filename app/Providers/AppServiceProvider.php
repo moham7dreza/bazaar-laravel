@@ -20,7 +20,8 @@ use Illuminate\Support\ServiceProvider;
 class AppServiceProvider extends ServiceProvider
 {
     public function register(): void
-    {}
+    {
+    }
 
     public function boot(): void
     {
@@ -79,8 +80,8 @@ class AppServiceProvider extends ServiceProvider
 
     private function loadExtraMigrationsPath(): void
     {
-        if (!isEnvTesting()) {
-            $this->loadMigrationsFrom(__DIR__ . "/../.." . DataMigrationCommand::PATH);
+        if (! isEnvTesting()) {
+            $this->loadMigrationsFrom(__DIR__.'/../..'.DataMigrationCommand::PATH);
         }
     }
 
@@ -101,7 +102,7 @@ class AppServiceProvider extends ServiceProvider
             ondemand_info("Missing translation key: *** ( $key ) ***", file: 'translation');
 
             // Only update JSON translation files (skip PHP array files)
-            if (!str_contains($key, '.')) {
+            if (! str_contains($key, '.')) {
                 $this->addMissingKeyToJsonLangFile($key, $locale);
             }
         });
@@ -117,13 +118,13 @@ class AppServiceProvider extends ServiceProvider
         }
 
         try {
-            if (!file_exists($path)) {
+            if (! file_exists($path)) {
                 file_put_contents($path, '{}');
             }
 
             $translations = json_decode(file_get_contents($path), true) ?? [];
 
-            if (!array_key_exists($key, $translations)) {
+            if (! array_key_exists($key, $translations)) {
                 $translations[$key] = $key;
                 file_put_contents(
                     $path,
@@ -131,7 +132,7 @@ class AppServiceProvider extends ServiceProvider
                 );
             }
         } catch (\Exception $e) {
-            \Log::error("Failed to update translations key '$key' for '$locale.json': " . $e->getMessage());
+            \Log::error("Failed to update translations key '$key' for '$locale.json': ".$e->getMessage());
         }
     }
 
@@ -140,7 +141,7 @@ class AppServiceProvider extends ServiceProvider
         Validator::extend('mobile', static function ($attribute, $value, $parameters, $validator) {
 
             if (Validator::make(['password' => $value], [
-                'password' => 'numeric|digits:11|regex:/^09[0-9]{9}$/'
+                'password' => 'numeric|digits:11|regex:/^09[0-9]{9}$/',
             ])->fails()) {
                 return false;
             }

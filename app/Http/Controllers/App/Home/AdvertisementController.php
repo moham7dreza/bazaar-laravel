@@ -5,11 +5,11 @@ namespace App\Http\Controllers\App\Home;
 use App\Enums\Advertisement\Sort;
 use App\Http\Controllers\App\Panel\HistoryAdvertisementController;
 use App\Http\Controllers\Controller;
-use App\Pipelines\Advertisements\FilterAdvertisementsByTitle;
 use App\Http\Requests\App\AdvertisementGridViewRequest;
 use App\Http\Resources\App\AdvertisementCollection;
 use App\Http\Resources\App\AdvertisementResource;
 use App\Models\Advertise\Advertisement;
+use App\Pipelines\Advertisements\FilterAdvertisementsByTitle;
 use App\Traits\HttpResponses;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Pipeline\Pipeline;
@@ -50,7 +50,7 @@ class AdvertisementController extends Controller
         $historyController->store($advertisement);
 
         $advertisement->load([
-            'category.parent', 'images', 'category.attributes', 'categoryValues'
+            'category.parent', 'images', 'category.attributes', 'categoryValues',
         ]);
 
         $advertisement->refresh();

@@ -7,28 +7,28 @@ use Leandrocfe\FilamentApexCharts\Widgets\ApexChartWidget;
 class UsersChart extends ApexChartWidget
 {
     /**
-     * Chart Id
+     * Chart Id.
      */
     protected static ?string $chartId = 'usersChart';
 
     /**
-     * Widget Title
+     * Widget Title.
      */
     protected static ?string $heading = 'Total users';
 
     /**
-     * Sort
+     * Sort.
      */
     protected static ?int $sort = 2;
 
     /**
-     * Widget content height
+     * Widget content height.
      */
     protected static ?int $contentHeight = 270;
 
     /**
      * Chart options (series, labels, types, size, animations...)
-     * https://apexcharts.com/docs/options
+     * https://apexcharts.com/docs/options.
      */
     protected function getOptions(): array
     {

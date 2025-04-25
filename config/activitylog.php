@@ -2,9 +2,7 @@
 
 return [
 
-    /*
-     * If set to false, no activities will be saved to the database.
-     */
+    // If set to false, no activities will be saved to the database.
     'enabled' => env('ACTIVITY_LOGGER_ENABLED', true),
 
     /*
@@ -25,9 +23,7 @@ return [
      */
     'default_auth_driver' => null,
 
-    /*
-     * If set to true, the subject returns soft deleted models.
-     */
+    // If set to true, the subject returns soft deleted models.
     'subject_returns_soft_deleted_models' => false,
 
     /*

@@ -36,12 +36,12 @@ it('can use fluent and collect to process data', function () {
             'address' => [
                 'city' => 'urmia',
                 'country' => 'iran',
-            ]
+            ],
         ],
         'posts' => [
             ['title' => 'post 1'],
             ['title' => 'post 2'],
-        ]
+        ],
     ];
 
     /*
@@ -74,7 +74,7 @@ it('can use fluent and collect to process data', function () {
         'address' => [
             'city' => 'urmia',
             'country' => 'iran',
-        ]
+        ],
     ])
         ->and($city)->toBe('urmia')
         ->and($postTitles)->toBe(['post 1', 'post 2'])

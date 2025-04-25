@@ -24,7 +24,7 @@ class ImageFakesProvider extends Base
     }
 
     /**
-     * Generate image directory
+     * Generate image directory.
      */
     public function directory(): string
     {

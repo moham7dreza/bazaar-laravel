@@ -32,9 +32,7 @@ return [
      * For Slack you need to install laravel/slack-notification-channel.
      */
     'notifications' => [
-        /*
-         * Notifications will only get sent if this option is set to `true`.
-         */
+        // Notifications will only get sent if this option is set to `true`.
         'enabled' => true,
 
         'notifications' => [
@@ -69,9 +67,7 @@ return [
         'slack' => [
             'webhook_url' => env('HEALTH_SLACK_WEBHOOK_URL', ''),
 
-            /*
-             * If this is set to null the default channel of the webhook will be used.
-             */
+            // If this is set to null the default channel of the webhook will be used.
             'channel' => null,
 
             'username' => null,
@@ -94,14 +90,10 @@ return [
          */
         'always_send_fresh_results' => true,
 
-        /*
-         * The secret that is displayed at the Application Health settings at Oh Dear.
-         */
+        // The secret that is displayed at the Application Health settings at Oh Dear.
         'secret' => env('OH_DEAR_HEALTH_CHECK_SECRET'),
 
-        /*
-         * The URL that should be configured in the Application health settings at Oh Dear.
-         */
+        // The URL that should be configured in the Application health settings at Oh Dear.
         'url' => '/oh-dear-health-check-results',
     ],
 

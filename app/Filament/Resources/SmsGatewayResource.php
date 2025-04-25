@@ -5,9 +5,9 @@ namespace App\Filament\Resources;
 use App\Enums\SMSGateways;
 use App\Filament\Resources\SmsGatewayResource\Pages;
 use App\Models\SmsGateway;
-use Filament\Forms\Get;
 use Filament\Forms;
 use Filament\Forms\Form;
+use Filament\Forms\Get;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
@@ -39,7 +39,7 @@ class SmsGatewayResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('gateway')
-                    ->formatStateUsing(fn ($state): string => __('sms-gateways.' . $state)),
+                    ->formatStateUsing(fn ($state): string => __('sms-gateways.'.$state)),
 
                 Tables\Columns\IconColumn::make('status')
                     ->boolean(),
@@ -77,7 +77,7 @@ class SmsGatewayResource extends Resource
         ];
     }
 
-    protected static function getConfigInputs():array
+    protected static function getConfigInputs(): array
     {
         return [
 
@@ -87,8 +87,7 @@ class SmsGatewayResource extends Resource
                 ->live(),
 
             Forms\Components\Section::make('gateway config')
-                ->schema(fn (Get $get) =>
-                $get('gateway') > 0
+                ->schema(fn (Get $get) => $get('gateway') > 0
                     ? SMSGateways::from($get('gateway'))->configInputs()
                     : []
                 ),
