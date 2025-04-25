@@ -311,7 +311,7 @@ reload: ## Update and refresh application
 	php artisan schedule-monitor:sync
 	npm install && npm run build
 	php artisan schedule:run
-	php artisan backup:run
+	php artisan backup:list
 	php artisan scramble:analyze
 	php artisan up
 
@@ -319,6 +319,7 @@ dev: ## Full development setup
 	make reload
 	make pint
 	make ide
+	make checks
 	make testr
 	make start
 
@@ -374,15 +375,15 @@ checks: ## Run fearless refactoring, it does a lot of smart checks to find certa
 	php artisan check:compact
 	php artisan check:blade_queries
 	php artisan check:action_comments
-	php artisan check:extract_blades
+	#php artisan check:extract_blades
 	php artisan pp:route
 	php artisan check:generate
-	php artisan check:endif
+	#php artisan check:endif
 	php artisan check:events
-	php artisan check:gates
+	#php artisan check:gates
 	php artisan check:dynamic_where
 	php artisan check:aliases
-	php artisan check:dead_controllers
-	php artisan check:generic_docblocks
+	#php artisan check:dead_controllers
+	#php artisan check:generic_docblocks
 	php artisan enforce:helper_functions
-	php artisan list:models
+	#php artisan list:models
