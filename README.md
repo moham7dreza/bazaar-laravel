@@ -13,14 +13,14 @@
 4. `REDIS` with php redis ext and `MONGO` (pecl install mongodb)
 
 ### HELP
-1. search `runtime` commands with `make` (if you not use docker see `php` prefix commands)
-2. search `artisan` commands with `php artisan find` and use --exact argument for exact search
-3. search `schdule` commands with `php artisan schedule:test`
-4. search `laravel document topics` with `php artisan docs`
-5. add new change log entry with `php artisan changelog` to CHANGELOG.md file
+1. use `make` to search useful `runtime` commands
+2. use `php artisan find` to search `artisan` commands
+3. use `php artisan schedule:test` to search `schdule` commands
+4. use `php artisan docs` to search `laravel` document topics
+5. use `php artisan changelog` to add new change log entry to __CHANGELOG.md file
 
 ### Guide
-1. make data migrations with `php artisan make:data-migration` when changing database states (not running in testing env)
+1. use `php artisan make:data-migration` to make data migrations when changing database states (not running in testing env)
 
 ### Super Admin Panel
 1. goto http://bazaar.local/super-admin
@@ -35,8 +35,8 @@
 3. apply required changes in env files (`MYSQL`, `REDIS`, `MONGO`, ...)
 4. run `make dev` to an init project and start servers
 5. if you use `herd` goto http://bazaar-laravel.test
-6. `admin` user credentials: admin@admin.com, password
-7. activate your idea's `laravel pint inspection`
+6. for `admin` user use these credentials: admin@admin.com, password
+7. activate your idea's `laravel pint` inspection
 8. fill pusher credentials in .env for use `chatify`
 9. you are up, `explore` and have `fun`
 
