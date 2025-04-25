@@ -85,7 +85,7 @@ class User extends Authenticatable implements CanLoginDirectly, FilamentUser, Ha
             'is_active' => 'bool',
             'suspended_at' => 'datetime',
             'suspended_until' => 'datetime',
-//            'addresses' => \Illuminate\Database\Eloquent\Casts\AsCollection::of(\App\Data\ValueObjects\Address::class)
+            //            'addresses' => \Illuminate\Database\Eloquent\Casts\AsCollection::of(\App\Data\ValueObjects\Address::class)
         ];
     }
 

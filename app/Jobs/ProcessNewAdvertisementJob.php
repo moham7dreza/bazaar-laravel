@@ -20,8 +20,7 @@ class ProcessNewAdvertisementJob implements ShouldQueue
 
     public function __construct(
         public readonly int $id,
-    )
-    {
+    ) {
         $this->advertisement = Advertisement::find($this->id);
     }
 
@@ -29,7 +28,7 @@ class ProcessNewAdvertisementJob implements ShouldQueue
     {
         return [
             new WithoutOverlapping("ad-processing-{$this->id}"),
-            new RateLimited("ad-notifications"),
+            new RateLimited('ad-notifications'),
             (new ThrottlesExceptions(3, 60))->backoff(30),
         ];
     }

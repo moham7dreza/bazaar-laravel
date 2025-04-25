@@ -12,8 +12,7 @@ class Address implements Castable, Arrayable, JsonSerializable
     public function __construct(
         public string $lineOne,
         public string $lineTwo,
-    )
-    {
+    ) {
     }
 
     public static function castUsing(array $arguments): string

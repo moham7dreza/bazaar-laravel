@@ -1,6 +1,5 @@
 <?php
 
-use App\Enums\UserPermission;
 use App\Enums\UserRole;
 use App\Models\User;
 use Illuminate\Support\Fluent;
