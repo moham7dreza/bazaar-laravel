@@ -1,5 +1,10 @@
 <?php
 
+use App\Enums\UserPermission;
+use App\Enums\UserRole;
+use App\Models\User;
+use Illuminate\Support\Fluent;
+
 it('can get memoized cache value', function () {
 
     /*
@@ -19,4 +24,34 @@ it('can get memoized cache value', function () {
 
     expect(cache()->memo()->get('foo'))->toBe('bar')
         ->and(cache()->memo('database')->get('foo'))->toBe('bar111');
+});
+
+it('can conditionally modify values in a fluent instance', function () {
+
+    $user = User::factory()->admin()->create();
+
+    asAdminUser($user);
+
+    expect($user->isAdmin())->toBeTrue();
+
+    $data = Fluent::make([
+        'name' => 'admin',
+        'developer' => true,
+        'posts' => 25,
+    ])
+        ->when($user->isAdmin(), function (Fluent $input) {
+
+            return $input->set('role', UserRole::ADMIN->value);
+        })
+        ->unless($user->isAdmin(), function (Fluent $input) {
+
+            return $input->except('posts');
+        });
+
+    expect($data->toArray())->toBe([
+        'name' => 'admin',
+        'developer' => true,
+        'posts' => 25,
+        'role' => UserRole::ADMIN->value,
+    ]);
 });
