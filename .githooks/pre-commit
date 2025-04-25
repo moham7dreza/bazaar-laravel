@@ -20,5 +20,11 @@ if [[ ! " ${allowed_emails[@]} " =~ " ${author_email} " ]]; then
   exit 1
 fi
 
+echo "Check php code style and issues..."
+echo "Running Php cs-fixer"
+make pintd
+#git add .
+echo "Done!"
+
 # If both checks pass, allow the commit
 exit 0
