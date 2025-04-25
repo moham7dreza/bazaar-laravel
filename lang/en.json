@@ -36,5 +36,9 @@
     "Super Admin Panel": "Super Admin Panel",
     "The CPU load of the last 5 minutes is 4 which is higher than the allowed 2": "The CPU load of the last 5 minutes is 4 which is higher than the allowed 2",
     "Payment Gateways": "Payment Gateways",
-    "SMS Gateways": "SMS Gateways"
+    "SMS Gateways": "SMS Gateways",
+    "Not Found": "Not Found",
+    "Forbidden": "Forbidden",
+    "Hello!": "Hello!",
+    "Regards,": "Regards,"
 }
