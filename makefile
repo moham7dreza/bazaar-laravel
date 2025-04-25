@@ -160,12 +160,6 @@ install-laravel: ## Download Laravel and update .env
 		rm -rf src; \
 	fi
 
-pint-to-git: ## Run pint and add modified files to git
-	@if [ -d "./.git" ]; then \
-		chmod +x ./docker-repo/scripts/setup.sh; \
-		./docker-repo/scripts/setup.sh; \
-	fi
-
 format: ## Format changed files with pint
 	$(PHP_PINT) --dirty
 
@@ -270,8 +264,14 @@ cache: ## Cache system files
 	php artisan filament:optimize
 	php artisan settings:discover
 
-pint: ## Run PHP code style fixer
+pintd: ## Run PHP code style fixer to only modify the files that have uncommitted changes
+	./vendor/bin/pint --dirty
+
+pintt: ## Run PHP code style fixer to simply inspect your code for style errors
 	./vendor/bin/pint --test
+
+pint: ## Run PHP code style fixer
+	./vendor/bin/pint --repair
 
 start: ## Start all development servers
 	@npx concurrently -k -n "QUEUE,HORIZON,REVERB,OCTANE,VITE,SCHEDULE,PULSE,NEXT,LOGGING" \
@@ -317,7 +317,7 @@ reload: ## Update and refresh application
 
 dev: ## Full development setup
 	make reload
-	make pint
+	make pintd
 	make ide
 	make checks
 	make phpstan
@@ -333,16 +333,10 @@ prod: ## Production deployment
 	npm install && npm run build
 	make start
 
-githooks: ## Install git hooks
-	cp .githooks/pre-commit .git/hooks/pre-commit
-	cp .githooks/pre-push .git/hooks/pre-push
-	chmod +x .git/hooks/pre-commit
-	chmod +x .git/hooks/pre-push
-
 gitclean: ## prune unused files and compress files to reduce repo size
 	git gc --prune=now --aggressive
 
-git-core-hooks: ## set git hooks path to custom .githooks dir
+githooks: ## set git hooks path to custom .githooks dir
 	sudo chmod +x .githooks
 	git config core.hooksPath .githooks
 
