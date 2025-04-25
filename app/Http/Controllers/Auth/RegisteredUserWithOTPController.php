@@ -10,11 +10,12 @@ use App\Http\Requests\Auth\LoginOtpRequest;
 use App\Http\Responses\ApiJsonResponse;
 use App\Models\User;
 use App\Models\User\Otp;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Str;
 
 class RegisteredUserWithOTPController extends Controller
 {
-    public function store(LoginOtpRequest $request, SmsService $smsService): \Illuminate\Http\JsonResponse
+    public function store(LoginOtpRequest $request, SmsService $smsService): JsonResponse
     {
         $otpCode = random_int(1000, 9999);
         $token = Str::random(60);

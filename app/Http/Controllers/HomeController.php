@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use Amiriun\SMS\DataContracts\SentSMSOutputDTO;
 use Amiriun\SMS\Services\SMSService;
 use App\Events\PackageSent;
 use App\Mail\UserLandMail;

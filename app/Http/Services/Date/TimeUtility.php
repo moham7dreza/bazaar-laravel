@@ -6,7 +6,7 @@ use Carbon\Carbon;
 use DateTime;
 use DateTimeInterface;
 use Illuminate\Support\Facades\Facade;
-use Jalalian;
+use Morilog\Jalali\Jalalian;
 use MongoDB\BSON\ObjectId;
 use MongoDB\BSON\UTCDateTime;
 use Morilog\Jalali\CalendarUtils;
@@ -395,7 +395,7 @@ class TimeUtility extends Facade
      */
     public static function jalaliFormat(DateTimeInterface|string|int $timestamp, string $format = 'Y-m-d'): string
     {
-        return \Jalalian::forge($timestamp)->format($format);
+        return Jalalian::forge($timestamp)->format($format);
     }
 
     /**
@@ -441,7 +441,7 @@ class TimeUtility extends Facade
      */
     public static function jalaliAddDays(string $date, int $days = 1, string $format = 'Y-m-d'): string
     {
-        return \Jalalian::fromFormat($format, $date)->addDays($days)->format($format);
+        return Jalalian::fromFormat($format, $date)->addDays($days)->format($format);
     }
 
     /**
@@ -454,7 +454,7 @@ class TimeUtility extends Facade
      */
     public static function jalaliAddMonths(string $date, int $months = 1, string $format = 'Y-m-d'): string
     {
-        return \Jalalian::fromFormat($format, $date)->addMonths($months)->format($format);
+        return Jalalian::fromFormat($format, $date)->addMonths($months)->format($format);
     }
 
     /**
@@ -467,7 +467,7 @@ class TimeUtility extends Facade
      */
     public static function jalaliAddYears(string $date, int $years = 1, string $format = 'Y-m-d'): string
     {
-        return \Jalalian::fromFormat($format, $date)->addYears($years)->format($format);
+        return Jalalian::fromFormat($format, $date)->addYears($years)->format($format);
     }
 
     // *** ------------------------------ helpers ------------------------------ ***//

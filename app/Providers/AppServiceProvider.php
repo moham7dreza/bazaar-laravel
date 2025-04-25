@@ -6,7 +6,6 @@ use App\Console\Commands\System\DataMigrationCommand;
 use App\Enums\Language;
 use App\Http\Services\Date\TimeUtility;
 use App\Models\User;
-use Illuminate\Auth\Notifications\ResetPassword;
 use Illuminate\Database\Connection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Events\QueryExecuted;

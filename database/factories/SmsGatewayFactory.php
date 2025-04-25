@@ -2,7 +2,6 @@
 
 namespace Database\Factories;
 
-use App\Enums\PaymentGateways;
 use App\Enums\SMSGateways;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;

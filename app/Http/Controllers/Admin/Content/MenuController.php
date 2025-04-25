@@ -9,7 +9,6 @@ use App\Http\Resources\Admin\Content\MenuCollection;
 use App\Http\Resources\Admin\Content\MenuResource;
 use App\Models\Content\Menu;
 use App\Traits\HttpResponses;
-use Exception;
 
 class MenuController extends Controller
 {

@@ -10,7 +10,6 @@ use Exception;
 use Illuminate\Queue\Events;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Event;
-use Illuminate\Support\Lottery;
 use Illuminate\Support\ServiceProvider;
 
 final class JobLoggingServiceProvider extends ServiceProvider

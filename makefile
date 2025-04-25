@@ -362,3 +362,27 @@ find-ip: ## Find local IP address
 		echo "Could not detect IP address, falling back to 127.0.0.1"; \
 		$(eval IP := 127.0.0.1) \
 	fi
+
+checks: ## Run fearless refactoring, it does a lot of smart checks to find certain errors.
+	php artisan check:views
+	php artisan check:routes
+	#php artisan check:psr4
+	#php artisan check:imports
+	php artisan check:stringy_classes
+	php artisan check:dd
+	php artisan check:bad_practices
+	php artisan check:compact
+	php artisan check:blade_queries
+	php artisan check:action_comments
+	php artisan check:extract_blades
+	php artisan pp:route
+	php artisan check:generate
+	php artisan check:endif
+	php artisan check:events
+	php artisan check:gates
+	php artisan check:dynamic_where
+	php artisan check:aliases
+	php artisan check:dead_controllers
+	php artisan check:generic_docblocks
+	php artisan enforce:helper_functions
+	php artisan list:models

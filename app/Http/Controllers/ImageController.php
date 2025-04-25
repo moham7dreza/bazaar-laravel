@@ -7,7 +7,6 @@ use App\Http\Requests\ImageUpdateRequest;
 use App\Http\Responses\ApiJsonResponse;
 use App\Http\Services\Image\ImageService;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Response;
 
 class ImageController extends Controller
 {

@@ -12,6 +12,11 @@ class AdvertisementNoteController extends Controller
 {
     use HttpResponses;
 
+    public function index()
+    {
+        
+    }
+
     public function store(Advertisement $advertisement, Request $request)
     {
 

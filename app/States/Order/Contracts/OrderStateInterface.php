@@ -2,7 +2,6 @@
 
 namespace App\States\Order\Contracts;
 
-use App\Enums\OrderState;
 use App\States\Order\Handler\OrderContext;
 
 interface OrderStateInterface

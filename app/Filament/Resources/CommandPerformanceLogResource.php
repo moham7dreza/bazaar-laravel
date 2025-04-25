@@ -13,7 +13,6 @@ use Filament\Tables\Enums\ActionsPosition;
 use Filament\Tables\Filters\QueryBuilder\Constraints;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class CommandPerformanceLogResource extends Resource
 {
