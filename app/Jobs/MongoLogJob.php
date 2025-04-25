@@ -21,9 +21,6 @@ class MongoLogJob implements ShouldQueue
         $this->onQueue(isEnvLocal() ? Queue::DEFAULT : Queue::MONGO_LOG);
     }
 
-    /**
-     * Execute the job.
-     */
     public function handle(): void
     {
         DevLog::query()->create(array_merge($this->data, ['log_key' => $this->logKey]));

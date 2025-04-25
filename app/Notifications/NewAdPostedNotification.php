@@ -8,13 +8,15 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 
-class VerifyMobileNotification extends Notification implements ShouldQueue
+class NewAdPostedNotification extends Notification implements ShouldQueue
 {
     use Queueable;
 
-    public function __construct()
+    public function __construct(
+        public $id,
+    )
     {
-        $this->onQueue(Queue::HIGH);
+        $this->onQueue(Queue::LOW);
     }
 
     public function via(object $notifiable): array

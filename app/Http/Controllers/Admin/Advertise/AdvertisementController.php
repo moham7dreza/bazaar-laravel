@@ -9,6 +9,7 @@ use App\Http\Resources\Admin\Advertise\AdvertisementCollection;
 use App\Http\Resources\Admin\Advertise\AdvertisementResource;
 use App\Http\Responses\ApiJsonResponse;
 use App\Http\Services\Image\ImageService;
+use App\Jobs\ProcessNewAdvertisementJob;
 use App\Models\Advertise\Advertisement;
 use Illuminate\Http\JsonResponse;
 
@@ -38,7 +39,11 @@ class AdvertisementController extends Controller
             }
         }
 
-        return new AdvertisementResource(Advertisement::create($inputs));
+        $ad = Advertisement::create($inputs);
+
+        ProcessNewAdvertisementJob::dispatch($ad->id);
+
+        return new AdvertisementResource($ad);
     }
 
     /**
