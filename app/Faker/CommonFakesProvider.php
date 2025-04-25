@@ -15,4 +15,12 @@ class CommonFakesProvider extends Base
             ->map(fn () => $this->generator->jobTitle)
             ->implode(',');
     }
+
+    public function random_array(int $count = 5): array
+    {
+        return collect()
+            ->times($count)
+            ->map(fn () => fake()->name)
+            ->all();
+    }
 }
