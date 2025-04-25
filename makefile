@@ -317,7 +317,7 @@ reload: ## Update and refresh application
 
 dev: ## Full development setup
 	make reload
-	make pintd
+	make pintt
 	make ide
 	make checks
 	make phpstan
