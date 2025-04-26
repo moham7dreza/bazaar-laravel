@@ -10,17 +10,12 @@ use Symfony\Component\HttpFoundation\Response;
 
 class EnsureEmailIsVerified
 {
-    /**
-     * Handle an incoming request.
-     *
-     * @param  \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response)  $next
-     */
     public function handle(Request $request, Closure $next): Response
     {
-        if (! $request->user() ||
-            ($request->user() instanceof MustVerifyEmail &&
-            ! $request->user()->hasVerifiedEmail())) {
-
+        $user = getUser();
+        if (! $user ||
+            ($user instanceof MustVerifyEmail && ! $user->hasVerifiedEmail())
+        ) {
             return ApiJsonResponse::error(trans('response.general.unverified-email'), code: Response::HTTP_CONFLICT);
         }
 

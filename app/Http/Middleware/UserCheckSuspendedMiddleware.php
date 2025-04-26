@@ -9,14 +9,10 @@ use Symfony\Component\HttpFoundation\Response;
 
 class UserCheckSuspendedMiddleware
 {
-    /**
-     * Handle an incoming request.
-     *
-     * @param  Closure(Request): (Response)  $next
-     */
     public function handle(Request $request, Closure $next)
     {
-        if (auth()->check() && auth()->user()->isSuspended()) {
+        $user = getUser();
+        if ($user?->isSuspended()) {
             auth()->logout();
 
             return ApiJsonResponse::error(trans('response.general.suspended'), code: Response::HTTP_FORBIDDEN);

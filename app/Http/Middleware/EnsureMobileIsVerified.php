@@ -10,16 +10,11 @@ use Symfony\Component\HttpFoundation\Response;
 
 class EnsureMobileIsVerified
 {
-    /**
-     * Handle an incoming request.
-     *
-     * @param  \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response)  $next
-     */
     public function handle(Request $request, Closure $next): Response
     {
-        if (! $request->user() ||
-            ($request->user() instanceof MustVerifyMobile &&
-                ! $request->user()->hasVerifiedMobile())) {
+        $user = getUser();
+        if (! $user ||
+            ($user instanceof MustVerifyMobile && ! $user->hasVerifiedMobile())) {
             return ApiJsonResponse::error(trans('response.general.unverified-mobile'), code: Response::HTTP_CONFLICT);
         }
 

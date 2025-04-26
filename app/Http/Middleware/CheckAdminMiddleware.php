@@ -9,17 +9,9 @@ use Symfony\Component\HttpFoundation\Response;
 
 class CheckAdminMiddleware
 {
-    /**
-     * Handle an incoming request.
-     *
-     * @param  \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response)  $next
-     */
     public function handle(Request $request, Closure $next): Response
     {
-        if (! auth()->check()) {
-            return ApiJsonResponse::error(trans('response.general.unauthorized'), code: Response::HTTP_UNAUTHORIZED);
-        }
-        $user = auth()->user();
+        $user = getUser();
         if (! $user?->isAdmin()) {
             return ApiJsonResponse::error(trans('response.general.forbidden'), code: Response::HTTP_FORBIDDEN);
         }

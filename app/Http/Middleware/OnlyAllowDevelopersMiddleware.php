@@ -9,15 +9,10 @@ use Symfony\Component\HttpFoundation\Response;
 
 class OnlyAllowDevelopersMiddleware
 {
-    /**
-     * Handle an incoming request.
-     *
-     * @param  Closure(Request): (Response)  $next
-     */
     public function handle(Request $request, Closure $next): Response
     {
-        $mobile = getUser()?->mobile;
-        if ($mobile && in_array($mobile, config('developer.backends'), true)) {
+        $user = getUser();
+        if ($user && in_array($user->mobile, config('developer.backends'), true)) {
             return $next($request);
         }
 
