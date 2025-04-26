@@ -2,11 +2,15 @@
 
 use App\Http\Responses\ApiJsonResponse;
 use BezhanSalleh\FilamentExceptions\FilamentExceptions;
+use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Database\QueryException;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
+use Illuminate\Validation\ValidationException;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 
 return Application::configure(basePath: dirname(__DIR__))
     ->withRouting(
@@ -53,14 +57,32 @@ return Application::configure(basePath: dirname(__DIR__))
 
         $exceptions->renderable(function (Throwable $e) {
 
+            // Authorization
+            if ($e instanceof AuthorizationException) {
+                return ApiJsonResponse::error($e->getMessage(), ['log' => $e->getMessage()], Response::HTTP_FORBIDDEN);
+            }
+
+            // Access Denied
+            if ($e instanceof AccessDeniedHttpException) {
+                return ApiJsonResponse::error($e->getMessage(), ['log' => $e->getMessage()], Response::HTTP_FORBIDDEN);
+            }
+
+            // Model Not Found
             $previous = $e->getPrevious();
-
             if ($previous instanceof ModelNotFoundException) {
-                $fullModel = $previous->getModel();
-
-                $model = str($fullModel)->afterLast('\\');
+                $model = str($previous->getModel())->afterLast('\\');
 
                 return ApiJsonResponse::error("$model Not Found.", ['log' => $e->getMessage()], Response::HTTP_NOT_FOUND);
+            }
+
+            // Database
+            if ($e instanceof QueryException) {
+                return ApiJsonResponse::error($e->getMessage(), ['log' => $e->getMessage()]);
+            }
+
+            // for other exceptions
+            if (! $e instanceof ValidationException) {
+                return ApiJsonResponse::error($e->getMessage(), ['log' => $e->getMessage()]);
             }
         });
 
