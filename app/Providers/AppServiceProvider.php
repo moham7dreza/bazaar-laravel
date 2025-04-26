@@ -45,6 +45,7 @@ class AppServiceProvider extends ServiceProvider
         Model::automaticallyEagerLoadRelationships();
         Number::useCurrency(Language::default()['currency']);
         URL::forceHttps(isEnvProduction());
+        DB::prohibitDestructiveCommands(isEnvProduction());
     }
 
     private function setupGates(): void
