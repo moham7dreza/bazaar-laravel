@@ -26,5 +26,9 @@ make pintd
 #git add .
 echo "Done!"
 
+echo "Run tests..."
+make testr
+echo "Done!"
+
 # If both checks pass, allow the commit
 exit 0
