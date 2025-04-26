@@ -1,0 +1,24 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="Main" type="PestRunConfigurationType" singleton="false">
+    <CommandLine>
+      <envFiles>
+        <find>$PROJECT_DIR$/.env.testing</find>
+      </envFiles>
+      <PhpTestInterpreterSettings>
+        <option name="interpreterName" value="/usr/bin/php" />
+      </PhpTestInterpreterSettings>
+    </CommandLine>
+    <option name="envFilePaths">
+      <list>
+        <option value="$PROJECT_DIR$/.env.testing" />
+      </list>
+    </option>
+    <option name="pestRunnerSettings">
+      <PestRunner configuration_file="$PROJECT_DIR$/phpunit.xml" method="" scope="ConfigurationFile" use_alternative_configuration_file="true" />
+    </option>
+    <option name="runnerSettings">
+      <PhpTestRunnerSettings configuration_file="$PROJECT_DIR$/phpunit.xml" method="" scope="ConfigurationFile" use_alternative_configuration_file="true" />
+    </option>
+    <method v="2" />
+  </configuration>
+</component>
