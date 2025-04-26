@@ -21,9 +21,9 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
         //        then: function () {
         //            Route::middleware('api')
-        //                ->prefix('api')
-        //                ->name('api.')
-        //                ->group(base_path('routes/api.php'));
+        //                ->prefix('api/v1')
+        //                ->name('api.v1.')
+        //                ->group(base_path('routes/api_v1.php'));
         //        },
     )
     ->withMiddleware(function (Middleware $middleware) {
@@ -36,6 +36,7 @@ return Application::configure(basePath: dirname(__DIR__))
 
         $middleware->api(prepend: [
             \Laravel\Sanctum\Http\Middleware\EnsureFrontendRequestsAreStateful::class,
+            \App\Http\Middleware\RequireJsonMiddleware::class,
         ]);
 
         $middleware->alias([
