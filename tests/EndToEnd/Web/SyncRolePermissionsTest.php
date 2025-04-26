@@ -12,7 +12,7 @@ it('can assign permissions to specific role', function () {
         'mobile' => '09123324343',
     ]);
 
-    $response = asAdminUser($user)->putJson(route('web.permissions.update'), [
+    $response = asAdminUser($user)->putJson(route('web.permissions.sync'), [
         'role' => $role = UserRole::ADMIN,
         'permissions' => [
             UserPermission::MANAGE_USERS,

@@ -5,7 +5,7 @@ use App\Http\Controllers\FallbackController;
 use App\Http\Controllers\HealthCheckController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ImageController;
-use App\Http\Controllers\RolePermissionsController;
+use App\Http\Controllers\SyncRolePermissionsController;
 use Illuminate\Support\Facades\Route;
 use Spatie\Health\Http\Controllers as HeathCheckControllers;
 
@@ -19,7 +19,7 @@ Route::middleware([
 ])
     ->group(function () {
 
-        Route::put('permissions/update', [RolePermissionsController::class, 'update'])->name('web.permissions.update');
+        Route::put('role-permissions-sync', SyncRolePermissionsController::class)->name('web.permissions.sync');
 
         Route::get('domain-router', DomainRouterController::class)->name('web.domain-router');
 

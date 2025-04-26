@@ -10,9 +10,9 @@ use Illuminate\Http\Request;
 use Illuminate\Validation\Rules\Enum;
 use Spatie\Permission\Models\Role;
 
-class RolePermissionsController extends Controller
+class SyncRolePermissionsController extends Controller
 {
-    public function update(Request $request): JsonResponse
+    public function __invoke(Request $request): JsonResponse
     {
         $request->validate([
             'role' => [new Enum(UserRole::class)],
