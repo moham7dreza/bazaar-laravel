@@ -11,7 +11,7 @@ use Spatie\Health\Http\Controllers as HeathCheckControllers;
 
 Route::fallback(FallbackController::class);
 
-Route::get('/', [HomeController::class, 'index'])->name('web.welcome');
+Route::get('/', HomeController::class)->name('web.welcome');
 
 Route::middleware([
     \App\Http\Middleware\OnlyAllowDevelopersMiddleware::class,
