@@ -13,7 +13,7 @@ class BearerTokenMiddleware
     {
         $bearerToken = $request->bearerToken();
 
-        if ($bearerToken !== config('')) {
+        if ($bearerToken !== getenv('BEARER_TOKEN')) {
             return ApiJsonResponse::error(trans('response.general.unauthorized'), code: Response::HTTP_UNAUTHORIZED);
         }
 
