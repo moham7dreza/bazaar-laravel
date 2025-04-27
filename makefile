@@ -321,6 +321,7 @@ dev: ## Full development setup
 	make ide
 	make checks
 	make phpstan
+	make rectort
 	make testr
 	make start
 
