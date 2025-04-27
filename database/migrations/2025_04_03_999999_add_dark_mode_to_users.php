@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AddDarkModeToUsers extends Migration
+return new class extends Migration
 {
     /**
      * Run the migrations.
@@ -20,7 +20,6 @@ class AddDarkModeToUsers extends Migration
             }
         });
     }
-
     /**
      * Reverse the migrations.
      *
@@ -32,4 +31,4 @@ class AddDarkModeToUsers extends Migration
             $table->dropColumn('dark_mode');
         });
     }
-}
+};

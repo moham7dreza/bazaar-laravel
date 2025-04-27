@@ -3,6 +3,7 @@
 declare(strict_types=1);
 
 use Rector\Config\RectorConfig;
+use RectorLaravel\Rector\Class_\AnonymousMigrationsRector;
 use RectorLaravel\Set\LaravelLevelSetList;
 use RectorLaravel\Set\LaravelSetList;
 
@@ -19,12 +20,18 @@ return RectorConfig::configure()
     ->withTypeCoverageLevel(0)
     ->withDeadCodeLevel(0)
     ->withCodeQualityLevel(0)
+//    ->withImportNames()
     ->withPreparedSets(
         privatization: true,
+//        earlyReturn: true,
+//        strictBooleans: true,
     )
     ->withSets([
         LaravelLevelSetList::UP_TO_LARAVEL_120,
         LaravelSetList::LARAVEL_120,
         LaravelSetList::LARAVEL_COLLECTION,
         LaravelSetList::LARAVEL_CODE_QUALITY,
+    ])
+    ->withRules([
+        AnonymousMigrationsRector::class,
     ]);

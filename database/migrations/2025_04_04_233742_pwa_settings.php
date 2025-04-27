@@ -2,7 +2,7 @@
 
 use Spatie\LaravelSettings\Migrations\SettingsMigration;
 
-class PWASettings extends SettingsMigration
+return new class extends SettingsMigration
 {
     public function up(): void
     {
@@ -34,4 +34,4 @@ class PWASettings extends SettingsMigration
         $this->migrator->add('pwa.pwa_splash_2048x2732', '');
         $this->migrator->add('pwa.pwa_shortcuts', []);
     }
-}
+};
