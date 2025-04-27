@@ -136,7 +136,7 @@ class SuperAdminPanelProvider extends PanelProvider
 
     public function boot(): void
     {
-        LanguageSwitch::configureUsing(static function (LanguageSwitch $switch) {
+        LanguageSwitch::configureUsing(static function (LanguageSwitch $switch): void {
             $switch
                 ->locales(Language::values());
         });

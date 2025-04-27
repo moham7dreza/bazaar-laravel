@@ -2,7 +2,7 @@
 
 use App\Models\Advertise\State;
 
-it('can get all parent states', function () {
+it('can get all parent states', function (): void {
 
     $state = State::factory()
         ->for(State::factory(), 'parent')

@@ -65,7 +65,7 @@ class AppServiceProvider extends ServiceProvider
 
     private function logSlowQuery(): void
     {
-        DB::whenQueryingForLongerThan(5000, static function (Connection $connection, QueryExecuted $event) {
+        DB::whenQueryingForLongerThan(5000, static function (Connection $connection, QueryExecuted $event): void {
 
             mongo_info('slow-query', [
                 'connection' => $event->connection,
@@ -95,7 +95,7 @@ class AppServiceProvider extends ServiceProvider
 
     private function handleMissingTrans(): void
     {
-        app('translator')->handleMissingKeysUsing(function ($key, $replacements, $locale) {
+        app('translator')->handleMissingKeysUsing(function ($key, $replacements, $locale): void {
             if (empty($key)) {
                 return;
             }

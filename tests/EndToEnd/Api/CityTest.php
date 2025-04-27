@@ -2,7 +2,7 @@
 
 use App\Models\Geo\City;
 
-it('can get all active cities', function () {
+it('can get all active cities', function (): void {
 
     $city = City::factory()->create();
 

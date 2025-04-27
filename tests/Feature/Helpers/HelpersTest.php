@@ -4,7 +4,7 @@ use App\Enums\UserRole;
 use App\Models\User;
 use Illuminate\Support\Fluent;
 
-it('can get memoized cache value', function () {
+it('can get memoized cache value', function (): void {
 
     /*
      * When you memoize a value, it is stored in memory for the duration of the request.
@@ -26,7 +26,7 @@ it('can get memoized cache value', function () {
 })
     ->skip();
 
-it('can conditionally modify values in a fluent instance', function () {
+it('can conditionally modify values in a fluent instance', function (): void {
 
     $user = User::factory()->admin()->create();
 

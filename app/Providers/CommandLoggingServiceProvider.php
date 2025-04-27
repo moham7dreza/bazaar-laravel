@@ -48,7 +48,7 @@ final class CommandLoggingServiceProvider extends ServiceProvider
             return;
         }
 
-        Event::listen(Events\CommandStarting::class, function (Events\CommandStarting $event) {
+        Event::listen(Events\CommandStarting::class, function (Events\CommandStarting $event): void {
             try {
                 if (self::isExcluded($event->command)) {
                     return;
@@ -59,7 +59,7 @@ final class CommandLoggingServiceProvider extends ServiceProvider
                 $this->queryCount = 0;
                 $this->totalQueryTime = 0;
 
-                DB::listen(function ($query) {
+                DB::listen(function ($query): void {
                     $this->queryCount++;
                     $this->totalQueryTime += $query->time;
                 });
@@ -68,7 +68,7 @@ final class CommandLoggingServiceProvider extends ServiceProvider
             }
         });
 
-        Event::listen(Events\CommandFinished::class, function (Events\CommandFinished $event) {
+        Event::listen(Events\CommandFinished::class, function (Events\CommandFinished $event): void {
             try {
                 if (self::isExcluded($event->command)) {
                     return;

@@ -2,7 +2,7 @@
 
 use App\Models\User;
 
-it('can see user info', function () {
+it('can see user info', function (): void {
 
     $user = User::factory()->admin()->create();
 

@@ -5,7 +5,7 @@ use App\Enums\UserRole;
 use App\Models\User;
 use Spatie\Permission\Models\Role;
 
-it('can assign permissions to specific role', function () {
+it('can assign permissions to specific role', function (): void {
 
     $user = User::factory()->admin()->create([
         'email' => fake()->email,

@@ -10,7 +10,7 @@ use App\Models\Advertise\CategoryValue;
 use App\Models\Advertise\Gallery;
 use App\Models\User;
 
-beforeEach(function () {
+beforeEach(function (): void {
 
     $this->advertisement = Advertisement::factory()
         ->has(AdvertisementNote::factory(), 'advertisementNotes')
@@ -26,12 +26,12 @@ beforeEach(function () {
 
 });
 
-afterEach(function () {
+afterEach(function (): void {
 
     $this->assertModelExists($this->advertisement);
 });
 
-it('can get all advertisements', function () {
+it('can get all advertisements', function (): void {
 
     $response = $this->getJson(route('advertisements.index', [
         'title' => 'adv',
@@ -45,7 +45,7 @@ it('can get all advertisements', function () {
     assertAdv($data, $this->advertisement->id);
 });
 
-it('can show a single advertisement', function () {
+it('can show a single advertisement', function (): void {
 
     $response = $this->getJson(route('advertisements.show', $this->advertisement->id))->assertOk();
 

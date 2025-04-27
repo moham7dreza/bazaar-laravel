@@ -41,7 +41,7 @@ Route::get('cities', [CityController::class, 'index'])->name('cities.index');
 Route::prefix(RouteSection::AUTH)
     ->middleware('guest')
     ->name('auth.')
-    ->group(function () {
+    ->group(function (): void {
 
         Route::post('register', [RegisteredUserController::class, 'store'])->name('register');
         Route::post('send-otp', [RegisteredUserWithOTPController::class, 'store'])->name('send-otp');
@@ -50,7 +50,7 @@ Route::prefix(RouteSection::AUTH)
 
 Route::prefix(RouteSection::IMAGES)
     ->name('images.')
-    ->group(function () {
+    ->group(function (): void {
 
         Route::post('store', [ImageController::class, 'store'])->name('store');
         Route::put('update', [ImageController::class, 'update'])->name('destroy');
@@ -59,11 +59,11 @@ Route::prefix(RouteSection::IMAGES)
 Route::prefix(RouteSection::ADMIN)
     ->name('admin.')
     ->middleware([/* 'auth', 'admin' */])
-    ->group(function () {
+    ->group(function (): void {
 
         Route::prefix(RouteSection::ADVERTISE)
             ->name('advertise.')
-            ->group(function () {
+            ->group(function (): void {
 
                 Route::apiResource('category', CategoryController::class);
                 Route::apiResource('gallery', GalleryController::class);
@@ -75,7 +75,7 @@ Route::prefix(RouteSection::ADMIN)
 
         Route::prefix(RouteSection::CONTENT)
             ->name('content.')
-            ->group(function () {
+            ->group(function (): void {
 
                 Route::apiResource('menu', MenuController::class);
                 Route::apiResource('page', PageController::class);
@@ -83,7 +83,7 @@ Route::prefix(RouteSection::ADMIN)
 
         Route::prefix(RouteSection::USERS)
             ->name('users.')
-            ->group(function () {
+            ->group(function (): void {
 
                 Route::apiResource('user', UserController::class);
             });
@@ -96,17 +96,17 @@ Route::prefix(RouteSection::PANEL)
         'auth:sanctum',
         \App\Http\Middleware\EnsureMobileIsVerified::class,
     ])
-    ->group(function () {
+    ->group(function (): void {
 
         Route::prefix(RouteSection::ADVERTISE)
             ->name('advertise.')
-            ->group(function () {
+            ->group(function (): void {
 
                 Route::apiResource('advertisement', PanelAdvertisementController::class);
 
                 Route::prefix(RouteSection::GALLERY)
                     ->name('gallery.')
-                    ->group(function () {
+                    ->group(function (): void {
 
                         Route::get('{advertisement}/', [PanelGalleryController::class, 'index'])->name('index');
                         Route::post('{advertisement}/store', [PanelGalleryController::class, 'store'])->name('store');
@@ -117,7 +117,7 @@ Route::prefix(RouteSection::PANEL)
 
                 Route::prefix(RouteSection::NOTES)
                     ->name('notes.')
-                    ->group(function () {
+                    ->group(function (): void {
 
                         Route::post('{advertisement}/store', [AdvertisementNoteController::class, 'store'])->name('store');
                         Route::get('/', [AdvertisementNoteController::class, 'index'])->name('index');
@@ -128,7 +128,7 @@ Route::prefix(RouteSection::PANEL)
 
         Route::prefix(RouteSection::FAVORITES)
             ->name('favorites.')
-            ->group(function () {
+            ->group(function (): void {
 
                 Route::get('/', [FavoriteAdvertisementController::class, 'index'])->name('index');
                 Route::post('/{advertisement}', [FavoriteAdvertisementController::class, 'store'])->name('store');
@@ -137,7 +137,7 @@ Route::prefix(RouteSection::PANEL)
 
         Route::prefix(RouteSection::HISTORY)
             ->name('history.')
-            ->group(function () {
+            ->group(function (): void {
 
                 Route::get('/', [HistoryAdvertisementController::class, 'index'])->name('index');
                 Route::post('/{advertisement}', [HistoryAdvertisementController::class, 'store'])->name('store');

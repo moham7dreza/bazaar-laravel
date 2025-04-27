@@ -2,7 +2,7 @@
 
 use App\Models\Advertise\Category;
 
-it('can get all parent categories', function () {
+it('can get all parent categories', function (): void {
 
     $category = Category::factory()
         ->for(Category::factory(), 'parent')

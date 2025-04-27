@@ -17,13 +17,13 @@ Route::middleware([
     \App\Http\Middleware\OnlyAllowDevelopersMiddleware::class,
     \App\Http\Middleware\CheckAdminMiddleware::class,
 ])
-    ->group(function () {
+    ->group(function (): void {
 
         Route::put('role-permissions-sync', SyncRolePermissionsController::class)->name('web.permissions.sync');
 
         Route::get('domain-router', DomainRouterController::class)->name('web.domain-router');
 
-        Route::can('viewHealth')->group(function () {
+        Route::can('viewHealth')->group(function (): void {
 
             Route::get('health', HeathCheckControllers\HealthCheckResultsController::class);
             Route::get('health-json', HeathCheckControllers\HealthCheckJsonResultsController::class);

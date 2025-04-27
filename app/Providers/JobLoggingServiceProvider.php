@@ -39,7 +39,7 @@ final class JobLoggingServiceProvider extends ServiceProvider
         ) {
             return;
         }
-        Event::listen(Events\JobProcessing::class, function (Events\JobProcessing $event) {
+        Event::listen(Events\JobProcessing::class, function (Events\JobProcessing $event): void {
             try {
                 if (self::isExcluded($event->job->resolveName())) {
                     return;
@@ -49,7 +49,7 @@ final class JobLoggingServiceProvider extends ServiceProvider
                 $this->queryCount = 0;
                 $this->totalQueryTime = 0;
 
-                DB::listen(function ($query) {
+                DB::listen(function ($query): void {
                     $this->queryCount++;
                     $this->totalQueryTime += $query->time;
                 });
@@ -58,7 +58,7 @@ final class JobLoggingServiceProvider extends ServiceProvider
             }
         });
 
-        Event::listen(Events\JobProcessed::class, function (Events\JobProcessed $event) {
+        Event::listen(Events\JobProcessed::class, function (Events\JobProcessed $event): void {
             try {
                 if (self::isExcluded($event->job->resolveName())) {
                     return;

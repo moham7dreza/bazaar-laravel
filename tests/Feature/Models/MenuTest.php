@@ -2,7 +2,7 @@
 
 use App\Models\Content\Menu;
 
-it('can load all child menus', function () {
+it('can load all child menus', function (): void {
 
     $menu = Menu::factory()
         ->for(Menu::factory()

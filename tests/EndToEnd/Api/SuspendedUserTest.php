@@ -3,7 +3,7 @@
 use App\Console\Commands\User\UserSuspendClearCommand;
 use App\Models\User;
 
-it('can not get response from api', function () {
+it('can not get response from api', function (): void {
 
     $user = User::factory()->suspended()->create();
 

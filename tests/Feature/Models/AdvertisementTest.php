@@ -4,7 +4,7 @@ use App\Models\Advertise\Advertisement;
 use App\Models\Advertise\CategoryAttribute;
 use App\Models\User;
 
-it('can get advertisements viewed by users', function () {
+it('can get advertisements viewed by users', function (): void {
 
     $ads = Advertisement::factory(2)
         ->hasAttached($users = User::factory(2)->create(), relationship: 'viewedByUsers')
@@ -18,7 +18,7 @@ it('can get advertisements viewed by users', function () {
 })
     ->skip();
 
-it('can check for ad nested relations loaded', function () {
+it('can check for ad nested relations loaded', function (): void {
     $ad = Advertisement::factory()->create();
 
     CategoryAttribute::factory()->for($ad->category)->create();

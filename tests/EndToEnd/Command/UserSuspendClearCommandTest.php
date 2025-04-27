@@ -4,7 +4,7 @@ use App\Console\Commands\User\UserSuspendClearCommand;
 use App\Jobs\UserSuspendClearJob;
 use App\Models\User;
 
-test('schedule user suspend clear job pushed', function () {
+test('schedule user suspend clear job pushed', function (): void {
 
     Queue::fake();
 

@@ -3,7 +3,7 @@
 use App\Enums\Content\ImageUploadMethod;
 use Illuminate\Http\UploadedFile;
 
-it('can upload an image', function () {
+it('can upload an image', function (): void {
     $file = UploadedFile::fake()->image('test.jpg', 100, 100);
 
     $payload = [
@@ -20,7 +20,7 @@ it('can upload an image', function () {
 })
     ->skip();
 
-it('fails to upload without image', function () {
+it('fails to upload without image', function (): void {
     $payload = [
         'directory' => 'test-images',
         'upload_method' => ImageUploadMethod::METHOD_FIT_AND_SAVE->value,

@@ -4,7 +4,7 @@ namespace Tests\EndToEnd;
 
 use Illuminate\Http\Response;
 
-it('can get csrf cookie', function () {
+it('can get csrf cookie', function (): void {
 
     $response = $this->get(route('sanctum.csrf-cookie'));
 

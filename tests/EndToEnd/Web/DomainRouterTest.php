@@ -3,7 +3,7 @@
 use App\Enums\Environment;
 use App\Models\User;
 
-it('can generate routes', function () {
+it('can generate routes', function (): void {
 
     $user = User::factory()->admin()->create();
 

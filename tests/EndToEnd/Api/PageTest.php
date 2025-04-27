@@ -2,7 +2,7 @@
 
 use App\Models\Content\Page;
 
-it('can get all pages', function () {
+it('can get all pages', function (): void {
 
     $page = Page::factory()->create();
 

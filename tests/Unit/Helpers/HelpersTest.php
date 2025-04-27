@@ -3,7 +3,7 @@
 use Illuminate\Support\Collection;
 use Illuminate\Support\Uri;
 
-it('can make uri with options', function () {
+it('can make uri with options', function (): void {
 
     $uri = Uri::of('https://example.com')
         ->withScheme('http')
@@ -16,7 +16,7 @@ it('can make uri with options', function () {
     expect($uri->value())->toBe('http://test.com:8000/users?page=2#section-1');
 });
 
-it('can easily handle plural of english word', function () {
+it('can easily handle plural of english word', function (): void {
 
     $commentsCount = 1;
     $comment = str('comment')->plural($commentsCount);
@@ -29,7 +29,7 @@ it('can easily handle plural of english word', function () {
     expect($comment->value())->toBe('comments');
 });
 
-it('can use fluent and collect to process data', function () {
+it('can use fluent and collect to process data', function (): void {
     $data = [
         'user' => [
             'name' => 'admin',

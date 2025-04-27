@@ -181,7 +181,7 @@ class User extends Authenticatable implements CanLoginDirectly, FilamentUser, Ha
                 'like' => 'max',
                 'created_at' => 'max',
             ],
-            function (Builder $query) {
+            function (Builder $query): void {
                 $query->where('created_at', '>', now()->subMonth());
             }
         );

@@ -3,7 +3,7 @@
 use App\Enums\OrderState;
 use App\States\Order\Handler\OrderContext;
 
-it('can change order states', function () {
+it('can change order states', function (): void {
 
     $this->sut = new OrderContext();
 

@@ -1,6 +1,6 @@
 <?php
 
-it('can view metrics', function () {
+it('can view metrics', function (): void {
 
     $response = $this->get(route('prometheus.default'), [
         'Authorization' => 'Bearer '.getenv('BEARER_TOKEN'),

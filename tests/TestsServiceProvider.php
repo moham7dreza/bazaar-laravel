@@ -14,7 +14,7 @@ class TestsServiceProvider extends ServiceProvider
     public function boot(): void
     {
         if ($this->isRunningTestsInParallel()) {
-            ParallelTesting::setUpTestCase(function ($testCase, int $token) {
+            ParallelTesting::setUpTestCase(function ($testCase, int $token): void {
             });
         }
     }

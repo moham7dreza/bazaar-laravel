@@ -5,7 +5,7 @@ use App\Models\User;
 use App\Models\User\Otp;
 use Illuminate\Auth\Events\Registered;
 
-it('can register a user', function () {
+it('can register a user', function (): void {
 
     Event::fake();
 
@@ -32,7 +32,7 @@ it('can register a user', function () {
     Event::assertDispatchedTimes(Registered::class);
 });
 
-it('can send otp with user', function () {
+it('can send otp with user', function (): void {
 
     $user = User::factory()->create();
 
@@ -52,7 +52,7 @@ it('can send otp with user', function () {
         ->and($otp?->token)->toBe($response->json('data.token'));
 });
 
-it('can send otp without user', function () {
+it('can send otp without user', function (): void {
 
     $response = $this->postJson(route('auth.send-otp'), [
         'mobile' => $mobile = '09120000001',
@@ -70,7 +70,7 @@ it('can send otp without user', function () {
         ->and($otp?->token)->toBe($response->json('data.token'));
 });
 
-it('can verify otp without user', function () {
+it('can verify otp without user', function (): void {
 
     Event::fake();
 
@@ -104,7 +104,7 @@ it('can verify otp without user', function () {
     Event::assertDispatchedTimes(Registered::class);
 });
 
-it('can verify otp with user', function () {
+it('can verify otp with user', function (): void {
 
     Event::fake();
 

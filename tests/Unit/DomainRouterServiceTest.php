@@ -4,14 +4,14 @@ use App\Enums\Environment;
 use App\Http\Services\DomainRouter;
 use Illuminate\Http\Request;
 
-beforeEach(function () {
+beforeEach(function (): void {
     $this->request = mock(Request::class);
 
     // define system under test
     $this->sut = new DomainRouter;
 });
 
-it('generates routes for production environment', function () {
+it('generates routes for production environment', function (): void {
 
     $this->request->shouldReceive('host')->andReturn('example.ir');
     $this->request->shouldReceive('schemeAndHttpHost')->andReturn('https://example.ir');
@@ -27,7 +27,7 @@ it('generates routes for production environment', function () {
     ]);
 });
 
-it('generates routes for staging environment', function () {
+it('generates routes for staging environment', function (): void {
 
     $this->request->shouldReceive('host')->andReturn('api.dev.example.com');
     $this->request->shouldReceive('schemeAndHttpHost')->andReturn('https://api.dev.example.com');
@@ -43,7 +43,7 @@ it('generates routes for staging environment', function () {
     ]);
 });
 
-it('generates routes for local environment', function () {
+it('generates routes for local environment', function (): void {
 
     $this->request->shouldReceive('host')->andReturn('localhost');
     $this->request->shouldReceive('schemeAndHttpHost')->andReturn('http://localhost:9000');

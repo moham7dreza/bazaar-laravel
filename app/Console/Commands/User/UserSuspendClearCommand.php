@@ -46,7 +46,7 @@ class UserSuspendClearCommand extends Command
         User::query()
             ->whereNotNull('suspended_until')
             ->where('suspended_until', '<=', now())
-            ->chunkById(100, function (Collection $users) {
+            ->chunkById(100, function (Collection $users): void {
                 UserSuspendClearJob::dispatch($users->pluck('id'));
             });
 

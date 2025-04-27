@@ -50,7 +50,7 @@ class Menu extends Model
     #[Scope]
     public function loadChildren(Builder $query, int $levels = 4): Builder
     {
-        $constraintsCallback = static function ($query) {
+        $constraintsCallback = static function ($query): void {
             $query->where('status', true);
         };
 

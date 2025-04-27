@@ -2,7 +2,7 @@
 
 use App\Models\Content\Menu;
 
-it('can get all parent menus', function () {
+it('can get all parent menus', function (): void {
 
     $menu = Menu::factory()
         ->for(Menu::factory(), 'parent')
