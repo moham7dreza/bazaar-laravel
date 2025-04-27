@@ -16,6 +16,7 @@ use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Number;
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Support\Str;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -72,7 +73,7 @@ class AppServiceProvider extends ServiceProvider
                 'connectionName' => $event->connectionName,
                 'duration' => $event->time,
                 'sql' => $event->sql,
-                'bindings' => str_replace_array('?', $event->bindings, $event->sql),
+                'bindings' => Str::replaceArray('?', $event->bindings, $event->sql),
                 'path' => request()?->path(),
                 'req' => request()?->all(),
             ]);

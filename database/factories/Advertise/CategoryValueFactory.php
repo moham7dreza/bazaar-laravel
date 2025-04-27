@@ -7,6 +7,9 @@ use App\Models\Advertise\CategoryAttribute;
 use App\Models\Advertise\CategoryValue;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
+/**
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Advertise\CategoryValue>
+ */
 class CategoryValueFactory extends Factory
 {
     protected $model = CategoryValue::class;
@@ -15,7 +18,7 @@ class CategoryValueFactory extends Factory
     {
         return [
             'category_attribute_id' => CategoryAttribute::factory(),
-            'value' => $this->faker->jobTitle,
+            'value' => fake()->jobTitle,
             'type' => ValueType::random(),
             'status' => true,
         ];

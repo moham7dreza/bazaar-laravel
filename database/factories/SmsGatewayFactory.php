@@ -7,6 +7,9 @@ use App\Models\SmsGateway;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
+/**
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\SmsGateway>
+ */
 class SmsGatewayFactory extends Factory
 {
     protected $model = SmsGateway::class;
@@ -15,18 +18,18 @@ class SmsGatewayFactory extends Factory
     {
         return [
             'gateway' => SMSGateways::random(),
-            'owner_type' => $this->faker->randomElement([User::class]),
+            'owner_type' => fake()->randomElement([User::class]),
             'owner_id' => function (array $attributes) {
                 return match ($attributes['owner_type']) {
                     User::class => UserFactory::new()->create()->id,
                 };
             },
             'config' => [
-                'merchant_id' => $this->faker->uuid,
-                'callback_url' => $this->faker->url,
+                'merchant_id' => fake()->uuid,
+                'callback_url' => fake()->url,
             ],
-            'status' => $this->faker->boolean,
-            'sort_order' => $this->faker->numberBetween(1, 10),
+            'status' => fake()->boolean,
+            'sort_order' => fake()->numberBetween(1, 10),
         ];
     }
 

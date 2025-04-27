@@ -10,6 +10,9 @@ use App\Models\Geo\City;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
+/**
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Advertise\Advertisement>
+ */
 class AdvertisementFactory extends Factory
 {
     protected $model = Advertisement::class;
@@ -17,8 +20,8 @@ class AdvertisementFactory extends Factory
     public function definition(): array
     {
         return [
-            'title' => $this->faker->title,
-            'description' => $this->faker->text,
+            'title' => fake()->title,
+            'description' => fake()->text,
             'ads_type' => AdvertisementType::random(),
             'ads_status' => AdvertisementStatus::random(),
             'category_id' => Category::factory(),
@@ -27,16 +30,16 @@ class AdvertisementFactory extends Factory
             'status' => true,
             'published_at' => now()->subMonth(),
             'expired_at' => now()->addYear(),
-            'view' => $this->faker->randomNumber(),
-            'contact' => $this->faker->phoneNumber,
-            'is_special' => $this->faker->boolean,
-            'is_ladder' => $this->faker->boolean,
-            'image' => $this->faker->imageIndexArray,
-            'price' => $this->faker->randomNumber(),
-            'tags' => $this->faker->tags,
-            'lat' => $this->faker->latitude,
-            'lng' => $this->faker->longitude,
-            'willing_to_trade' => $this->faker->boolean,
+            'view' => fake()->randomNumber(),
+            'contact' => fake()->phoneNumber,
+            'is_special' => fake()->boolean,
+            'is_ladder' => fake()->boolean,
+            'image' => fake()->imageIndexArray,
+            'price' => fake()->randomNumber(),
+            'tags' => fake()->tags,
+            'lat' => fake()->latitude,
+            'lng' => fake()->longitude,
+            'willing_to_trade' => fake()->boolean,
         ];
     }
 }

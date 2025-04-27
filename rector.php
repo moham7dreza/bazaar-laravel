@@ -3,6 +3,7 @@
 declare(strict_types=1);
 
 use Rector\Config\RectorConfig;
+use RectorLaravel\Set\LaravelLevelSetList;
 use RectorLaravel\Set\LaravelSetList;
 
 return RectorConfig::configure()
@@ -19,6 +20,7 @@ return RectorConfig::configure()
     ->withDeadCodeLevel(0)
     ->withCodeQualityLevel(0)
     ->withSets([
+        LaravelLevelSetList::UP_TO_LARAVEL_120,
         LaravelSetList::LARAVEL_120,
         LaravelSetList::LARAVEL_COLLECTION,
         LaravelSetList::LARAVEL_CODE_QUALITY,

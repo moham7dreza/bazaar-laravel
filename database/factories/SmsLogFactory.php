@@ -11,6 +11,9 @@ use App\Models\SmsLog;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
+/**
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\SmsLog>
+ */
 class SmsLogFactory extends Factory
 {
     protected $model = SmsLog::class;
@@ -18,7 +21,7 @@ class SmsLogFactory extends Factory
     public function definition(): array
     {
         return [
-            'message_id' => $this->faker->numberBetween(10000, 9999),
+            'message_id' => fake()->numberBetween(10000, 9999),
             'user_id' => User::factory(),
             'connector' => SmsProvider::random(),
             'type' => SmsType::random(),
@@ -28,7 +31,7 @@ class SmsLogFactory extends Factory
             'to' => '09121234567',
             'sent_at' => now(),
             'delivered_at' => null,
-            'message' => $this->faker->text,
+            'message' => fake()->text,
         ];
     }
 }

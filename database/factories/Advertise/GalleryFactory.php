@@ -6,6 +6,9 @@ use App\Models\Advertise\Advertisement;
 use App\Models\Advertise\Gallery;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
+/**
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Advertise\Gallery>
+ */
 class GalleryFactory extends Factory
 {
     protected $model = Gallery::class;
@@ -14,7 +17,7 @@ class GalleryFactory extends Factory
     {
         return [
             'advertisement_id' => Advertisement::factory(),
-            'url' => $this->faker->imageIndexArray,
+            'url' => fake()->imageIndexArray,
         ];
     }
 }

@@ -8,6 +8,9 @@ use App\Models\Advertise\Category;
 use App\Models\Advertise\CategoryAttribute;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
+/**
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Advertise\CategoryAttribute>
+ */
 class CategoryAttributeFactory extends Factory
 {
     protected $model = CategoryAttribute::class;
@@ -15,7 +18,7 @@ class CategoryAttributeFactory extends Factory
     public function definition(): array
     {
         return [
-            'name' => $this->faker->name,
+            'name' => fake()->name,
             'unit' => Unit::random(),
             'type' => AttributeType::random(),
             'category_id' => Category::factory(),

@@ -8,6 +8,9 @@ use App\Models\User\Otp;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
 
+/**
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\User\Otp>
+ */
 class OtpFactory extends Factory
 {
     protected $model = Otp::class;
@@ -18,7 +21,7 @@ class OtpFactory extends Factory
             'token' => Str::random(10),
             'user_id' => User::factory(),
             'otp_code' => '5678',
-            'login_id' => $this->faker->email,
+            'login_id' => fake()->email,
             'type' => NoticeType::EMAIL,
             'used' => false,
             'attempts' => 1,

@@ -5,6 +5,9 @@ namespace Database\Factories\Content;
 use App\Models\Content\Page;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
+/**
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Content\Page>
+ */
 class PageFactory extends Factory
 {
     protected $model = Page::class;
@@ -12,8 +15,8 @@ class PageFactory extends Factory
     public function definition(): array
     {
         return [
-            'title' => $this->faker->title,
-            'body' => $this->faker->randomHtml,
+            'title' => fake()->title,
+            'body' => fake()->randomHtml,
             'status' => true,
         ];
     }

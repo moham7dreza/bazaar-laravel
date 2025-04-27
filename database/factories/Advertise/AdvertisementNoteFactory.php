@@ -7,6 +7,9 @@ use App\Models\Advertise\AdvertisementNote;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
+/**
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Advertise\AdvertisementNote>
+ */
 class AdvertisementNoteFactory extends Factory
 {
     protected $model = AdvertisementNote::class;
@@ -16,7 +19,7 @@ class AdvertisementNoteFactory extends Factory
         return [
             'user_id' => User::factory(),
             'advertisement_id' => Advertisement::factory(),
-            'note' => $this->faker->text,
+            'note' => fake()->text,
         ];
     }
 }
