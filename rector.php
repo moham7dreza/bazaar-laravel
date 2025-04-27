@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 use Rector\Config\RectorConfig;
 use RectorLaravel\Rector\Class_\AnonymousMigrationsRector;
+use RectorLaravel\Rector\MethodCall\EloquentOrderByToLatestOrOldestRector;
+use RectorLaravel\Rector\StaticCall\EloquentMagicMethodToQueryBuilderRector;
 use RectorLaravel\Set\LaravelLevelSetList;
 use RectorLaravel\Set\LaravelSetList;
 
@@ -34,4 +36,6 @@ return RectorConfig::configure()
     ])
     ->withRules([
         AnonymousMigrationsRector::class,
+        //        EloquentMagicMethodToQueryBuilderRector::class,
+        EloquentOrderByToLatestOrOldestRector::class,
     ]);

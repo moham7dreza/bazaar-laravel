@@ -83,9 +83,9 @@ class Advertisement extends Model
     {
         return match ($sort) {
 
-            Sort::PRICE_ASC => $builder->orderBy('price'),
-            Sort::PRICE_DESC => $builder->orderBy('price', 'desc'),
-            Sort::NEWEST => $builder->orderBy('created_at', 'desc'),
+            Sort::PRICE_ASC => $builder->oldest('price'),
+            Sort::PRICE_DESC => $builder->latest('price'),
+            Sort::NEWEST => $builder->latest(),
         };
     }
 
