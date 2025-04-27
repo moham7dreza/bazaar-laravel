@@ -26,7 +26,7 @@ return Application::configure(basePath: dirname(__DIR__))
         //                ->group(base_path('routes/api_v1.php'));
         //        },
     )
-    ->withMiddleware(function (Middleware $middleware) {
+    ->withMiddleware(function (Middleware $middleware): void {
 
         $middleware->append([
             \App\Http\Middleware\UserCheckSuspendedMiddleware::class,
@@ -50,9 +50,9 @@ return Application::configure(basePath: dirname(__DIR__))
 
         //
     })
-    ->withExceptions(function (Exceptions $exceptions) {
+    ->withExceptions(function (Exceptions $exceptions): void {
 
-        $exceptions->reportable(function (Throwable $e) {
+        $exceptions->reportable(function (Throwable $e): void {
             FilamentExceptions::report($e);
         });
 
@@ -60,12 +60,12 @@ return Application::configure(basePath: dirname(__DIR__))
 
             // Authorization
             if ($e instanceof AuthorizationException) {
-                return ApiJsonResponse::error($e->getMessage(), ['log' => $e->getMessage()], Response::HTTP_FORBIDDEN);
+                return ApiJsonResponse::error('AuthorizationException', ['log' => $e->getMessage()], Response::HTTP_FORBIDDEN);
             }
 
             // Access Denied
             if ($e instanceof AccessDeniedHttpException) {
-                return ApiJsonResponse::error($e->getMessage(), ['log' => $e->getMessage()], Response::HTTP_FORBIDDEN);
+                return ApiJsonResponse::error('AccessDeniedHttpException', ['log' => $e->getMessage()], Response::HTTP_FORBIDDEN);
             }
 
             // Model Not Found
@@ -78,12 +78,12 @@ return Application::configure(basePath: dirname(__DIR__))
 
             // Database
             if ($e instanceof QueryException) {
-                return ApiJsonResponse::error($e->getMessage(), ['log' => $e->getMessage()]);
+                return ApiJsonResponse::error('QueryException', ['log' => $e->getMessage()]);
             }
 
             // for other exceptions
             if (! $e instanceof ValidationException) {
-                return ApiJsonResponse::error($e->getMessage(), ['log' => $e->getMessage()]);
+                return ApiJsonResponse::error('Server Error', ['log' => $e->getMessage()]);
             }
         });
 
