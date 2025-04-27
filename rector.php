@@ -19,6 +19,9 @@ return RectorConfig::configure()
     ->withTypeCoverageLevel(0)
     ->withDeadCodeLevel(0)
     ->withCodeQualityLevel(0)
+    ->withPreparedSets(
+        privatization: true,
+    )
     ->withSets([
         LaravelLevelSetList::UP_TO_LARAVEL_120,
         LaravelSetList::LARAVEL_120,
