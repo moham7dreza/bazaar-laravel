@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('advertisement_category_values', function (Blueprint $table) {
+        Schema::create('advertisement_category_values', function (Blueprint $table): void {
             $table->id();
             $table->foreignId('advertisement_id')->constrained('advertisements')->onDelete('cascade')->onUpdate('cascade');
             $table->foreignId('category_value_id')->constrained('category_values')->onDelete('cascade')->onUpdate('cascade');

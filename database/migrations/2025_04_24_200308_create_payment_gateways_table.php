@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('payment_gateways', function (Blueprint $table) {
+        Schema::create('payment_gateways', function (Blueprint $table): void {
             $table->id();
             $table->unsignedInteger('gateway');
             $table->morphs('owner');

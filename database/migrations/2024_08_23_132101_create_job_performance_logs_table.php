@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('job_performance_logs', function (Blueprint $table) {
+        Schema::create('job_performance_logs', function (Blueprint $table): void {
             $table->id();
             $table->string('job');
             $table->string('connection', 99);

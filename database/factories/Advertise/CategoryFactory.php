@@ -22,9 +22,9 @@ class CategoryFactory extends Factory
 
     public function configure(): self
     {
-        return $this->afterMaking(function (Category $category) {
+        return $this->afterMaking(function (Category $category): void {
             //
-        })->afterCreating(function (Category $category) {
+        })->afterCreating(function (Category $category): void {
             //
         });
     }

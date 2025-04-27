@@ -8,7 +8,7 @@ return new class extends Migration
 {
     public function up(): void
     {
-        Schema::create(config('system-versions.database.table_name', 'composer_versions'), function (Blueprint $table) {
+        Schema::create(config('system-versions.database.table_name', 'composer_versions'), function (Blueprint $table): void {
             $table->id();
             $table->string('name');
             $table->string('current_version');

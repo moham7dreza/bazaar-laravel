@@ -8,7 +8,7 @@ return new class extends Migration
 {
     public function up()
     {
-        Schema::create('filament_exceptions_table', function (Blueprint $table) {
+        Schema::create('filament_exceptions_table', function (Blueprint $table): void {
             $table->id();
             $table->string('type', 255);
             $table->string('code');

@@ -37,9 +37,9 @@ class UserFactory extends Factory
 
     public function configure(): static
     {
-        return $this->afterMaking(function (User $user) {
+        return $this->afterMaking(function (User $user): void {
             // ...
-        })->afterCreating(function (User $user) {
+        })->afterCreating(function (User $user): void {
             if (! isEnvTesting()) {
                 Storage::disk(StorageDisk::PUBLIC->value)->put($user->avatar_url, file_get_contents(asset($user->avatar_url)));
             }

@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('command_performance_logs', function (Blueprint $table) {
+        Schema::create('command_performance_logs', function (Blueprint $table): void {
             $table->id();
             $table->string('command');
             $table->unsignedInteger('query_count');

@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('sms_gateways', function (Blueprint $table) {
+        Schema::create('sms_gateways', function (Blueprint $table): void {
             $table->id();
             $table->unsignedInteger('gateway');
             $table->morphs('owner');

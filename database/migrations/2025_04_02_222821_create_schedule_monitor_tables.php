@@ -8,7 +8,7 @@ class CreateScheduleMonitorTables extends Migration
 {
     public function up()
     {
-        Schema::create('monitored_scheduled_tasks', function (Blueprint $table) {
+        Schema::create('monitored_scheduled_tasks', function (Blueprint $table): void {
             $table->bigIncrements('id');
 
             $table->string('name');
@@ -29,7 +29,7 @@ class CreateScheduleMonitorTables extends Migration
             $table->timestamps();
         });
 
-        Schema::create('monitored_scheduled_task_log_items', function (Blueprint $table) {
+        Schema::create('monitored_scheduled_task_log_items', function (Blueprint $table): void {
             $table->bigIncrements('id');
 
             $table->unsignedBigInteger('monitored_scheduled_task_id');
