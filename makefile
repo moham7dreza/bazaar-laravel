@@ -385,3 +385,9 @@ checks: ## Run fearless refactoring, it does a lot of smart checks to find certa
 
 phpstan: ## Run phpstan analysis
 	./vendor/bin/phpstan analyse --memory-limit=2G --generate-baseline
+
+rectort: ## Run rector analysis
+	./vendor/bin/rector process --dry-run
+
+rector: ## Run rector analysis and change files
+	./vendor/bin/rector process
