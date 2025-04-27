@@ -82,9 +82,11 @@ return Application::configure(basePath: dirname(__DIR__))
             }
 
             // for other exceptions
+            /*
             if (! $e instanceof ValidationException) {
                 return ApiJsonResponse::error('Server Error', ['log' => $e->getMessage()]);
             }
+            */
         });
 
     })
