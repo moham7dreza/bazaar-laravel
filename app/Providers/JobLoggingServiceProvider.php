@@ -39,7 +39,7 @@ final class JobLoggingServiceProvider extends ServiceProvider
         ) {
             return;
         }
-        Event::listen(Events\JobProcessing::class, function (Events\JobProcessing $event): void {
+        Event::listen(function (Events\JobProcessing $event): void {
             try {
                 if (self::isExcluded($event->job->resolveName())) {
                     return;
@@ -58,7 +58,7 @@ final class JobLoggingServiceProvider extends ServiceProvider
             }
         });
 
-        Event::listen(Events\JobProcessed::class, function (Events\JobProcessed $event): void {
+        Event::listen(function (Events\JobProcessed $event): void {
             try {
                 if (self::isExcluded($event->job->resolveName())) {
                     return;
@@ -87,14 +87,10 @@ final class JobLoggingServiceProvider extends ServiceProvider
                 report($e);
             }
         });
-    }
 
-    /**
-     * Register any application services.
-     */
-    public function register(): void
-    {
-        //
+        Event::listen(static function (Events\JobQueued $event) {
+            context()->push('queued_job_history', "Job queued: {$event->job->displayName()}");
+        });
     }
 
     private static function isExcluded(?string $job): bool
