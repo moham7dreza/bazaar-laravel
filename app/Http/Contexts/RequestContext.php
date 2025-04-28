@@ -18,6 +18,9 @@ class RequestContext
     {
         context()->add('path', request()->path());
         context()->add('host', request()->host());
+        context()->add('ip', request()->ip());
+        context()->add('url', request()->url());
+        context()->add('hostname', gethostname());
         context()->add('method', request()->method());
     }
 
