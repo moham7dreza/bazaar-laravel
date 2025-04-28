@@ -48,7 +48,7 @@ final class CommandLoggingServiceProvider extends ServiceProvider
             return;
         }
 
-        Event::listen(Events\CommandStarting::class, function (Events\CommandStarting $event): void {
+        Event::listen(function (Events\CommandStarting $event): void {
             try {
                 if (self::isExcluded($event->command)) {
                     return;
@@ -68,7 +68,7 @@ final class CommandLoggingServiceProvider extends ServiceProvider
             }
         });
 
-        Event::listen(Events\CommandFinished::class, function (Events\CommandFinished $event): void {
+        Event::listen(function (Events\CommandFinished $event): void {
             try {
                 if (self::isExcluded($event->command)) {
                     return;
@@ -94,14 +94,6 @@ final class CommandLoggingServiceProvider extends ServiceProvider
                 report($e);
             }
         });
-    }
-
-    /**
-     * Register any application services.
-     */
-    public function register(): void
-    {
-        //
     }
 
     private static function isExcluded(?string $command): bool
