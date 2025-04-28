@@ -43,6 +43,8 @@ class HomeController extends Controller
             Log::error($e->getMessage());
         }
 
+        Log::warning('this is sample log to view queued jobs [{date}]', ['date' => now()->toJalali()]);
+
         return view('welcome');
     }
 }

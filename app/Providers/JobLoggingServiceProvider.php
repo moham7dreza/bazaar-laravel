@@ -89,7 +89,8 @@ final class JobLoggingServiceProvider extends ServiceProvider
         });
 
         Event::listen(static function (Events\JobQueued $event) {
-            context()->push('queued_job_history', "Job queued: {$event->job->displayName()}");
+            $job = get_class($event->job);
+            context()->push('queued_job_history', "Job queued: $job");
         });
     }
 
