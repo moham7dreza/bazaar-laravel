@@ -23,6 +23,8 @@ class AdvertisementController extends Controller
      */
     public function index(AdvertisementGridViewRequest $request): AdvertisementCollection
     {
+        info('search log [{date}].', ['date' => now()->toJalali()]);
+
         $query = Advertisement::query();
         $sort = $request->enum('sort', Sort::class);
         $filters = [
@@ -36,7 +38,7 @@ class AdvertisementController extends Controller
                 return $query
                     ->active()
                     ->published()
-                    ->sortBy($sort)
+                    ->when($sort, fn (Builder $builder) => $builder->sortBy($sort))
                     ->get();
             });
 
@@ -45,13 +47,18 @@ class AdvertisementController extends Controller
 
     public function show(Advertisement $advertisement): AdvertisementResource
     {
+        info('pdp page log [{date}].', ['date' => now()->toJalali()]);
+
         $advertisement->increment('view');
         $historyController = new HistoryAdvertisementController;
         $historyController->store($advertisement);
 
+        $advertisement->withRelationshipAutoloading();
+        /*
         $advertisement->load([
             'category.parent', 'images', 'category.attributes', 'categoryValues',
         ]);
+        */
 
         $advertisement->refresh();
 
