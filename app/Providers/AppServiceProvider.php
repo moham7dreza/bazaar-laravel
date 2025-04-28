@@ -4,7 +4,6 @@ namespace App\Providers;
 
 use App\Console\Commands\System\DataMigrationCommand;
 use App\Enums\Language;
-use App\Http\Services\Date\TimeUtility;
 use App\Models\User;
 use Illuminate\Database\Connection;
 use Illuminate\Database\Eloquent\Model;
@@ -17,6 +16,7 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Number;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Str;
+use Morilog\Jalali\Jalalian;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -89,8 +89,8 @@ class AppServiceProvider extends ServiceProvider
 
     private function setupMacros(): void
     {
-        Carbon::macro('toJalali', function ($format = 'Y-m-d') {
-            return TimeUtility::dateTimeToJalaliFormat($this, $format);
+        Carbon::macro('toJalali', function ($format = 'Y-m-d H:i:s') {
+            return Jalalian::forge($this)->format($format);
         });
     }
 
