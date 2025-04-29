@@ -11,6 +11,7 @@ use Illuminate\Database\Events\QueryExecuted;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Number;
@@ -47,6 +48,21 @@ class AppServiceProvider extends ServiceProvider
         Number::useCurrency(Language::default()['currency']);
         URL::forceHttps(isEnvProduction());
         DB::prohibitDestructiveCommands(isEnvProduction());
+        Http::globalOptions([
+            // Set reasonable timeouts
+            'timeout' => 8,
+            'connect_timeout' => 3,
+
+            // Add default headers
+            'headers' => [
+                'User-Agent' => 'ShoppingPortal/2.1',
+                'Accept' => 'application/json',
+            ],
+
+            // Configure default retry behavior
+            'retry' => 2,
+            'retry_delay' => 150,
+        ]);
     }
 
     private function setupGates(): void
