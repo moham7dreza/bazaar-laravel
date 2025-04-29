@@ -40,7 +40,7 @@
         "hasnayeen/themes": "^3.0",
         "infinityxtech/filament-world-map-widget": "^1.0",
         "internachi/modular": "^2.3",
-        "intervention/image": "^3.7",
+        "intervention/image-laravel": "^1.5",
         "jeffgreco13/filament-breezy": "^2.6",
         "kenepa/resource-lock": "^2.1",
         "laravel/framework": "^12.0",
