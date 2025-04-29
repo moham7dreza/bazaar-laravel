@@ -34,7 +34,23 @@ Route::get('categories', [HomeCategoryController::class, 'index'])->name('catego
 Route::get('menus', [HomeMenuController::class, 'index'])->name('menus.index');
 Route::get('pages', [HomePageController::class, 'index'])->name('pages.index');
 Route::get('advertisements', [HomeAdvertisementController::class, 'index'])->name('advertisements.index');
-Route::get('advertisements/{advertisement}', [HomeAdvertisementController::class, 'show'])->name('advertisements.show');
+
+Route::get('advertisements/{advertisement}', [HomeAdvertisementController::class, 'show'])
+    ->name('advertisements.show');
+/*
+->missing(function (Request $request) {
+
+    Log::error('missing advertisement access attempt', [
+        'advertisement_id' => $id = $request->route('advertisement'),
+    ]);
+
+
+    return to_route('advertisements.index', [
+        'sort' => \App\Enums\Advertisement\Sort::NEWEST,
+    ]);
+});
+    */
+
 Route::get('states', [HomeStateController::class, 'index'])->name('states.index');
 Route::get('cities', [CityController::class, 'index'])->name('cities.index');
 
