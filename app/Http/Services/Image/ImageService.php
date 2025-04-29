@@ -15,7 +15,7 @@ class ImageService extends ImageToolsService
         try {
 
             $this->setExclusiveDirectory(
-                config('image.default-parent-upload-directory').DIRECTORY_SEPARATOR.$DTO->uploadDirectory,
+                config('image-index.default-parent-upload-directory').DIRECTORY_SEPARATOR.$DTO->uploadDirectory,
             );
 
             return match ($DTO->uploadMethod) {
@@ -54,7 +54,7 @@ class ImageService extends ImageToolsService
             }
 
             $this->setExclusiveDirectory(
-                config('image.default-parent-upload-directory').DIRECTORY_SEPARATOR.$DTO->uploadDirectory,
+                config('image-index.default-parent-upload-directory').DIRECTORY_SEPARATOR.$DTO->uploadDirectory,
             );
 
             return match ($DTO->uploadMethod) {
@@ -113,7 +113,7 @@ class ImageService extends ImageToolsService
     public function createIndexAndSave($image): ?array
     {
         try {
-            $imageSizes = config('image.index-image-sizes');
+            $imageSizes = config('image-index.index-image-sizes');
 
             $this->setImage($image);
 
@@ -145,7 +145,7 @@ class ImageService extends ImageToolsService
 
             $images['indexArray'] = $indexArray;
             $images['directory'] = $this->getFinalImageDirectory();
-            $images['currentImage'] = config('image.default-current-index-image');
+            $images['currentImage'] = config('image-index.default-current-index-image');
 
             return $images;
 
