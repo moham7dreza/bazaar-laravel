@@ -22,6 +22,16 @@ class UserReadRepository extends BaseRepository
         return $this->freshQuery()->getQuery()->where('mobile', $mobile)->first();
     }
 
+    public function bulkInsert(array $data): bool
+    {
+        return $this->freshQuery()->getQuery()->insert($data);
+    }
+
+    public function count(): int
+    {
+        return $this->freshQuery()->getQuery()->count();
+    }
+
     public function getUsersWithLatestAdvertisementPostedDate(): Collection
     {
         return $this->freshQuery()->getQuery()
