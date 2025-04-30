@@ -13,6 +13,10 @@ for pattern in "${allowed_patterns[@]}"; do
   fi
 done
 
+echo "Run tests..."
+make testr
+echo "Done!"
+
 # If no match, block the push
 echo "Error: Branch '$current_branch' is not allowed to push. Allowed patterns are: ${allowed_patterns[*]}"
 exit 1
