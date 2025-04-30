@@ -60,6 +60,7 @@ return [
         'array' => 'گزینه :attribute باید :value آیتم یا بیشتر داشته باشد',
     ],
     'image' => 'گزینه :attribute باید از نوع تصویر باشد',
+    'image_aspect_ratio' => 'گزینه :attribute باید طول و عرض مناسبی داشته باشد',
     'in' => 'گزینه انتخابی :attribute صحیح نمی باشد',
     'in_array' => 'گزینه :attribute در :other وجود ندارد',
     'integer' => 'گزینه :attribute باید از نوع عددی باشد',

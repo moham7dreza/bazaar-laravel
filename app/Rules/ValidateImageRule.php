@@ -19,7 +19,20 @@ class ValidateImageRule implements ValidationRule
         }
 
         try {
-            Image::read($value->getRealPath());
+            $image = Image::read($value->getRealPath());
+
+            $originalWidth = $image->width();
+            $originalHeight = $image->height();
+
+            $maxAspectRatio = 2;
+            $aspectRatio = $originalWidth / $originalHeight;
+
+            //              Too Wide                           Too Tall
+            if ($aspectRatio > $maxAspectRatio || $aspectRatio < (1 / $maxAspectRatio)) {
+                $fail(trans('validation.image_aspect_ratio', ['attribute' => $attribute]));
+
+                return;
+            }
         } catch (NotSupportedException) {
             $fail(trans('validation.image', ['attribute' => $attribute]));
         }
