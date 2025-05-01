@@ -385,6 +385,9 @@ checks: ## Run fearless refactoring, it does a lot of smart checks to find certa
 	#php artisan list:models
 
 phpstan: ## Run phpstan analysis
+	./vendor/bin/phpstan analyse --memory-limit=2G
+
+phpstang: ## Run phpstan analysis and generate baseline
 	./vendor/bin/phpstan analyse --memory-limit=2G --generate-baseline
 
 rectort: ## Run rector analysis
