@@ -331,12 +331,18 @@ prod: ## Production deployment
 	npm install && npm run build
 	make start
 
-gitclean: ## prune unused files and compress files to reduce repo size
+git-clean: ## prune unused files and compress files to reduce repo size
 	git gc --prune=now --aggressive
 
-githooks: ## set git hooks path to custom .githooks dir
+git-hooks: ## set git hooks path to custom .githooks dir
 	sudo chmod +x .githooks
 	git config core.hooksPath .githooks
+
+git-alias: ## add aliases to git
+	git config --global alias.st status
+	git config --global alias.co checkout
+	git config --global alias.br branch
+	git config --global alias.lg "log --oneline --graph --all --decorate"
 
 serve-ip: find-ip ## serve project in local network
 	@echo "Starting Laravel development server on http://$(IP):8080"
