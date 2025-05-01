@@ -3,7 +3,7 @@
 .DEFAULT_GOAL := search
 .PHONY: help fix-permissions setup build ps up down down-volumes restart \
         composer tinker artisan npm migration migrate horizon install-laravel \
-        pint-to-git format format-all test next-init next-dev install ide \
+        format format-all test next-init next-dev install ide \
         dbfresh stop testp testpf clean deepclean cache pint start serve \
         reload dev prod
 
