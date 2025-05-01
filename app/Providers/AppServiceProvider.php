@@ -5,6 +5,8 @@ namespace App\Providers;
 use App\Console\Commands\System\DataMigrationCommand;
 use App\Enums\Language;
 use App\Models\User;
+use App\Rules\ValidateImageRule;
+use App\Rules\ValidateNationalCodeRule;
 use Illuminate\Database\Connection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Events\QueryExecuted;
@@ -17,6 +19,8 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Number;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Str;
+use Illuminate\Validation\InvokableValidationRule;
+use Illuminate\Validation\Validator as ValidationValidator;
 use Morilog\Jalali\Jalalian;
 
 class AppServiceProvider extends ServiceProvider
@@ -165,6 +169,18 @@ class AppServiceProvider extends ServiceProvider
             }
 
             return true;
+        });
+
+        Validator::extend('national_code', static function (string $attribute, mixed $value, array $parameters, ValidationValidator $validator) {
+            return InvokableValidationRule::make(new ValidateNationalCodeRule())
+                ->setValidator($validator)
+                ->passes($attribute, $value);
+        });
+
+        Validator::extend('picture', static function (string $attribute, mixed $value, array $parameters, ValidationValidator $validator) {
+            return InvokableValidationRule::make(new ValidateImageRule())
+                ->setValidator($validator)
+                ->passes($attribute, $value);
         });
     }
 }
