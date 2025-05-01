@@ -232,6 +232,9 @@ typecov: ## Generate type coverage report
 	php artisan migrate --force --env=testing
 	php artisan test --type-coverage --compact --min=94 --type-coverage-json=type-coverage@tests.json
 
+testls: ## list tests
+	php artisan test --list-tests
+
 clean: ## Clear all caches
 	php artisan clear-compiled
 	php artisan optimize:clear
