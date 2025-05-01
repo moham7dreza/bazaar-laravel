@@ -22,6 +22,11 @@
 ### Guide
 1. use `php artisan make:data-migration` to make data migrations when changing database states (not running in testing env)
 
+### Phpstorm
+1. goto Setting -> PHP -> Quality Tools
+2. activate your idea's `Laravel Pint` inspection
+3. activate your idea's `PHPStan` inspection
+
 ### Super Admin Panel
 1. goto http://bazaar.local/super-admin
 2. use `admin` user credentials: admin@admin.com, password
@@ -36,9 +41,8 @@
 4. run `make dev` to an init project and start servers
 5. if you use `herd` goto http://bazaar-laravel.test
 6. for `admin` user use these credentials: admin@admin.com, password
-7. activate your idea's `laravel pint` inspection
-8. fill pusher credentials in .env for use `chatify`
-9. you are up, `explore` and have `fun`
+7. fill pusher credentials in .env for use `chatify`
+8. you are up, `explore` and have `fun`
 
 ### Docker
 1. run `make build` to build docker images
