@@ -21,22 +21,22 @@ jobs:
         run: composer install --no-progress --prefer-dist --optimize-autoloader
 
       - name: Copy .env
-        run: cp .env.example .env
+        run: cp .env.testing.example .env.testing
 
-      - name: Set Application Key
-        run: php artisan key:generate
-
-      - name: Install Front Dependencies
-        run: npm ci
-
-      - name: Build Front Dependencies
-        run: npm run build
+#      - name: Set Application Key
+#        run: php artisan key:generate
+#
+#      - name: Install Front Dependencies
+#        run: npm ci
+#
+#      - name: Build Front Dependencies
+#        run: npm run build
 
       - name: Init Sqlite
         run: touch database/database.sqlite
 
-      - name: Migrate Database
-        run: php artisan migrate --force
+#      - name: Migrate Database
+#        run: php artisan migrate --force --env=testing
 
       - name: Run Laravel Tests
-        run: php artisan test
+        run: make testr
