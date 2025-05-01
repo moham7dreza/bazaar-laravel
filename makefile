@@ -317,11 +317,8 @@ reload: ## Update and refresh application
 
 dev: ## Full development setup
 	make reload
-	make pintt
 	make ide
-	make checks
-	make phpstan
-	make rectort
+	make checkup
 	make testr
 	make start
 
@@ -395,3 +392,9 @@ rectort: ## Run rector analysis
 
 rector: ## Run rector analysis and change files
 	./vendor/bin/rector process
+
+checkup: ## Run necessary tools to check code and typesense
+	make pintt
+	make checks
+	make rectort
+	make phpstan
