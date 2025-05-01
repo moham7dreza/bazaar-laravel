@@ -50,13 +50,13 @@ class Menu extends Model
     #[Scope]
     public function loadChildren(Builder $query, int $levels = 4): Builder
     {
-        $constraintsCallback = static function ($query): void {
+        $constraintsCallback = static function (Builder $query): void {
             $query->where('status', true);
         };
 
         // Build the relationship array with nested constraints
         $relations = collect(range(1, $levels))
-            ->mapWithKeys(function ($level) use ($constraintsCallback) {
+            ->mapWithKeys(function (int $level) use ($constraintsCallback) {
                 // Build the relationship path string
                 $relationPath = 'children'.str_repeat('.children', $level - 1);
 

@@ -7,6 +7,7 @@ use App\Jobs\MongoLogJob;
 use App\Models\Monitor\JobPerformanceLog;
 use Carbon\Carbon;
 use Exception;
+use Illuminate\Database\Events\QueryExecuted;
 use Illuminate\Queue\Events;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Event;
@@ -49,7 +50,7 @@ final class JobLoggingServiceProvider extends ServiceProvider
                 $this->queryCount = 0;
                 $this->totalQueryTime = 0;
 
-                DB::listen(function ($query): void {
+                DB::listen(function (QueryExecuted $query): void {
                     $this->queryCount++;
                     $this->totalQueryTime += $query->time;
                 });

@@ -105,14 +105,14 @@ class AppServiceProvider extends ServiceProvider
 
     private function setupMacros(): void
     {
-        Carbon::macro('toJalali', function ($format = 'Y-m-d H:i:s') {
+        Carbon::macro('toJalali', function (string $format = 'Y-m-d H:i:s') {
             return Jalalian::forge($this)->format($format);
         });
     }
 
     private function handleMissingTrans(): void
     {
-        app('translator')->handleMissingKeysUsing(function ($key, $replacements, $locale): void {
+        app('translator')->handleMissingKeysUsing(function (string $key, array $replacements, ?string $locale): void {
             if (empty($key)) {
                 return;
             }
@@ -156,9 +156,9 @@ class AppServiceProvider extends ServiceProvider
 
     private function setUpValidators(): void
     {
-        Validator::extend('mobile', static function ($attribute, $value, $parameters, $validator) {
+        Validator::extend('mobile', static function (string $attribute, mixed $value, array $parameters, Validator $validator) {
 
-            if (Validator::make(['password' => $value], [
+            if ($validator->make(['password' => $value], [
                 'password' => 'numeric|digits:11|regex:/^09[0-9]{9}$/',
             ])->fails()) {
                 return false;

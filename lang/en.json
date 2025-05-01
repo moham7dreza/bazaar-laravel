@@ -40,5 +40,6 @@
     "Not Found": "Not Found",
     "Forbidden": "Forbidden",
     "Hello!": "Hello!",
-    "Regards,": "Regards,"
+    "Regards,": "Regards,",
+    "The CPU load of the last 5 minutes is 3 which is higher than the allowed 2": "The CPU load of the last 5 minutes is 3 which is higher than the allowed 2"
 }

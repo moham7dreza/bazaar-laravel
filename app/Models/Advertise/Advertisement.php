@@ -62,18 +62,18 @@ class Advertisement extends Model
     }
 
     #[Scope]
-    public function inCategory(Builder $builder, $categoryId): Builder
+    public function inCategory(Builder $builder, int $categoryId): Builder
     {
         return $builder->where('category_id', $categoryId);
     }
 
     #[Scope]
-    public function priceRange(Builder $builder, $min = null, $max = null): Builder
+    public function priceRange(Builder $builder, ?float $min = null, ?float $max = null): Builder
     {
-        return $builder->when($min, function ($query) use ($min) {
+        return $builder->when($min, function (Builder $query) use ($min) {
             return $query->where('price', '>=', $min);
         })
-            ->when($max, function ($query) use ($max) {
+            ->when($max, function (Builder $query) use ($max) {
                 return $query->where('price', '<=', $max);
             });
     }

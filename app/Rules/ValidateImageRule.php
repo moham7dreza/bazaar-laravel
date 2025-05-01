@@ -10,7 +10,7 @@ use Intervention\Image\Laravel\Facades\Image;
 
 class ValidateImageRule implements ValidationRule
 {
-    public function validate($attribute, $value, Closure $fail): void
+    public function validate(string $attribute, mixed $value, Closure $fail): void
     {
         if (! ($value instanceof UploadedFile)) {
             $fail(trans('validation.file', ['attribute' => $attribute]));

@@ -230,7 +230,7 @@ testcov: ## Generate code coverage report
 typecov: ## Generate type coverage report
 	php artisan config:clear --ansi
 	php artisan migrate --force --env=testing
-	php artisan test --type-coverage --compact --min=30 --type-coverage-json=type-coverage@tests.json
+	php artisan test --type-coverage --compact --min=94 --type-coverage-json=type-coverage@tests.json
 
 clean: ## Clear all caches
 	php artisan clear-compiled

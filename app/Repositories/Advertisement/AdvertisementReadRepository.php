@@ -10,7 +10,7 @@ use Illuminate\Support\Carbon;
 
 class AdvertisementReadRepository extends BaseRepository
 {
-    public function getAdsOfUsersRegisteredWithinDate($date, $perPage): PaginatedListViewDTO
+    public function getAdsOfUsersRegisteredWithinDate(\DateTimeInterface $date, int $perPage): PaginatedListViewDTO
     {
         $items = $this->freshQuery()->getQuery()
             ->with('user:created_at')

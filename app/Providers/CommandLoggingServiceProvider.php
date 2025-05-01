@@ -6,6 +6,7 @@ use App\Models\Monitor\CommandPerformanceLog;
 use Carbon\Carbon;
 use Exception;
 use Illuminate\Console\Events;
+use Illuminate\Database\Events\QueryExecuted;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\ServiceProvider;
@@ -59,7 +60,7 @@ final class CommandLoggingServiceProvider extends ServiceProvider
                 $this->queryCount = 0;
                 $this->totalQueryTime = 0;
 
-                DB::listen(function ($query): void {
+                DB::listen(function (QueryExecuted $query): void {
                     $this->queryCount++;
                     $this->totalQueryTime += $query->time;
                 });
