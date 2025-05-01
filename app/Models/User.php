@@ -187,7 +187,7 @@ class User extends Authenticatable implements CanLoginDirectly, FilamentUser, Ha
         );
     }
 
-    public function specialAdvertisements(): HasOne
+    public function specialAdvertisements(): HasMany
     {
         return $this->hasMany(Advertisement::class)->withAttributes(['is_special' => true]);
     }
