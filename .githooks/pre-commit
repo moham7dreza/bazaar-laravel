@@ -1,5 +1,9 @@
 #!/bin/bash
 
+echo "Run Pint on uncommited files..."
+make pintd
+echo "Done!"
+
 # Define your whitelist of allowed author names and emails
 allowed_names=("Mohamadreza Rezaei")
 allowed_emails=("me.moham6dreza@gmail.com")
@@ -19,12 +23,6 @@ if [[ ! " ${allowed_emails[@]} " =~ " ${author_email} " ]]; then
   echo "Error: Author email '${author_email}' is not allowed."
   exit 1
 fi
-
-echo "Check php code style and issues..."
-echo "Running Php cs-fixer"
-make pintd
-#git add .
-echo "Done!"
 
 # If both checks pass, allow the commit
 exit 0
