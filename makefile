@@ -265,13 +265,13 @@ cache: ## Cache system files
 	php artisan settings:discover
 
 pintd: ## Run PHP code style fixer to only modify the files that have uncommitted changes
-	./vendor/bin/pint --dirty
+	vendor/bin/pint --dirty
 
 pintt: ## Run PHP code style fixer to simply inspect your code for style errors
-	./vendor/bin/pint --test
+	vendor/bin/pint --test
 
 pint: ## Run PHP code style fixer
-	./vendor/bin/pint --repair
+	vendor/bin/pint --repair
 
 start: ## Start all development servers
 	@npx concurrently -k -n "QUEUE,HORIZON,REVERB,OCTANE,VITE,SCHEDULE,PULSE,NEXT,LOGGING" \
@@ -382,16 +382,16 @@ checks: ## Run fearless refactoring, it does a lot of smart checks to find certa
 	#php artisan list:models
 
 phpstan: ## Run phpstan analysis
-	./vendor/bin/phpstan analyse --memory-limit=2G
+	vendor/bin/phpstan analyse --memory-limit=2G
 
 phpstang: ## Run phpstan analysis and generate baseline
-	./vendor/bin/phpstan analyse --memory-limit=2G --generate-baseline
+	vendor/bin/phpstan analyse --memory-limit=2G --generate-baseline
 
 rectort: ## Run rector analysis
-	./vendor/bin/rector process --dry-run
+	vendor/bin/rector process --dry-run
 
 rector: ## Run rector analysis and change files
-	./vendor/bin/rector process
+	vendor/bin/rector process
 
 checkup: ## Run necessary tools to check code and typesense
 	make pintt
