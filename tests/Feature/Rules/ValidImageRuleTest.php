@@ -4,7 +4,7 @@ use App\Rules\ValidateImageRule;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Validator;
 
-it('passes with a valid image and valid aspect ratio', function () {
+it('passes with a valid image and valid aspect ratio', function (): void {
 
     $file = UploadedFile::fake()->image('valid_image.jpg', 100, 100);
 
@@ -16,7 +16,7 @@ it('passes with a valid image and valid aspect ratio', function () {
     expect($validator->passes())->toBeTrue();
 });
 
-it('passes with a valid image but invalid aspect ratio', function ($width, $height) {
+it('passes with a valid image but invalid aspect ratio', function ($width, $height): void {
 
     $file = UploadedFile::fake()->image('valid_image.jpg', $width, $height);
 
