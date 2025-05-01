@@ -55,9 +55,12 @@ class ImageToolsService
         $this->imageName = $imageName;
     }
 
-    public function setCurrentImageName(): ?false
+    public function setCurrentImageName(): void
     {
-        return ! empty($this->image) ? $this->setImageName(pathinfo($this->image->getClientOriginalName(), PATHINFO_FILENAME)) : false;
+        if (! empty($this->image)) {
+
+            $this->setImageName(pathinfo($this->image->getClientOriginalName(), PATHINFO_FILENAME));
+        }
     }
 
     public function getImageFormat()
@@ -105,16 +108,25 @@ class ImageToolsService
 
     protected function provider(): void
     {
-
         // set properties
-        $this->getImageDirectory() ?? $this->setImageDirectory(
-            CalendarUtils::strftime('Y').DIRECTORY_SEPARATOR.
-            CalendarUtils::strftime('m').DIRECTORY_SEPARATOR.
-            CalendarUtils::strftime('d')
-        );
+        if (! $this->getImageDirectory()) {
 
-        $this->getImageName() ?? $this->setImageName(CalendarUtils::strftime('Y_m_d_H_i_s'));
-        $this->getImageFormat() ?? $this->setImageFormat($this->image->extension());
+            $this->setImageDirectory(
+                CalendarUtils::strftime('Y').DIRECTORY_SEPARATOR.
+                CalendarUtils::strftime('m').DIRECTORY_SEPARATOR.
+                CalendarUtils::strftime('d')
+            );
+        }
+
+        if (! $this->getImageName()) {
+
+            $this->setImageName(CalendarUtils::strftime('Y_m_d_H_i_s'));
+        }
+
+        if (! $this->getImageFormat()) {
+
+            $this->setImageFormat($this->image->extension());
+        }
 
         // set final image Directory
         $finalImageDirectory = empty($this->getExclusiveDirectory()) ? $this->getImageDirectory() : $this->getExclusiveDirectory().DIRECTORY_SEPARATOR.$this->getImageDirectory();
