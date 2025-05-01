@@ -20,7 +20,6 @@ use Illuminate\Support\Number;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Str;
 use Illuminate\Validation\InvokableValidationRule;
-use Illuminate\Validation\Validator as ValidationValidator;
 use Morilog\Jalali\Jalalian;
 
 class AppServiceProvider extends ServiceProvider
@@ -171,13 +170,13 @@ class AppServiceProvider extends ServiceProvider
             return true;
         });
 
-        Validator::extend('national_code', static function (string $attribute, mixed $value, array $parameters, ValidationValidator $validator) {
+        Validator::extend('national_code', static function (string $attribute, mixed $value, array $parameters, \Illuminate\Contracts\Validation\Validator $validator) {
             return InvokableValidationRule::make(new ValidateNationalCodeRule())
                 ->setValidator($validator)
                 ->passes($attribute, $value);
         });
 
-        Validator::extend('picture', static function (string $attribute, mixed $value, array $parameters, ValidationValidator $validator) {
+        Validator::extend('picture', static function (string $attribute, mixed $value, array $parameters, \Illuminate\Contracts\Validation\Validator $validator) {
             return InvokableValidationRule::make(new ValidateImageRule())
                 ->setValidator($validator)
                 ->passes($attribute, $value);
