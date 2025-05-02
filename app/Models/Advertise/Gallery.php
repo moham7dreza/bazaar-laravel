@@ -32,7 +32,7 @@ class Gallery extends Model
 
     public function advertisement(): BelongsTo
     {
-        return $this->belongsTo(Advertisement::class);
+        return $this->belongsTo(Advertisement::class)->withDefault(['name' => __('Unknown advertisement')]);
     }
 
     // _____________________________________________ method SECTION __________________________________________

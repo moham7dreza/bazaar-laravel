@@ -26,7 +26,7 @@ class CategoryAttribute extends Model
     protected function casts(): array
     {
         return [
-            'unit' => Unit::class,
+            'unit'   => Unit::class,
             'status' => 'boolean',
         ];
     }
@@ -35,7 +35,7 @@ class CategoryAttribute extends Model
 
     public function category(): BelongsTo
     {
-        return $this->belongsTo(Category::class);
+        return $this->belongsTo(Category::class)->withDefault(['name' => __('Unknown category')]);
     }
 
     public function categoryValues(): HasMany

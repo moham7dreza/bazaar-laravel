@@ -34,15 +34,15 @@ class Advertisement extends Model
     protected function casts(): array
     {
         return [
-            'image' => 'array',
-            'status' => 'bool',
-            'is_special' => 'bool',
-            'is_ladder' => 'bool',
+            'image'            => 'array',
+            'status'           => 'bool',
+            'is_special'       => 'bool',
+            'is_ladder'        => 'bool',
             'willing_to_trade' => 'bool',
-            'published_at' => 'datetime',
-            'expired_at' => 'datetime',
-            'ads_type' => AdvertisementType::class,
-            'ads_status' => AdvertisementStatus::class,
+            'published_at'     => 'datetime',
+            'expired_at'       => 'datetime',
+            'ads_type'         => AdvertisementType::class,
+            'ads_status'       => AdvertisementStatus::class,
         ];
     }
 
@@ -83,9 +83,9 @@ class Advertisement extends Model
     {
         return match ($sort) {
 
-            Sort::PRICE_ASC => $builder->oldest('price'),
+            Sort::PRICE_ASC  => $builder->oldest('price'),
             Sort::PRICE_DESC => $builder->latest('price'),
-            Sort::NEWEST => $builder->latest(),
+            Sort::NEWEST     => $builder->latest(),
         };
     }
 
@@ -112,17 +112,17 @@ class Advertisement extends Model
     // _____________________________________________ relations SECTION __________________________________________
     public function category(): BelongsTo
     {
-        return $this->belongsTo(Category::class);
+        return $this->belongsTo(Category::class)->withDefault(['name' => __('Unknown category')]);
     }
 
     public function city(): BelongsTo
     {
-        return $this->belongsTo(City::class);
+        return $this->belongsTo(City::class)->withDefault(['name' => __('Unknown city')]);
     }
 
     public function user(): BelongsTo
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class)->withDefault(['name' => trans('Guest author')]);
     }
 
     public function favoritedByUsers(): BelongsToMany

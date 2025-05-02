@@ -27,7 +27,7 @@ class CategoryValue extends Model
     {
         return [
             'status' => 'boolean',
-            'type' => ValueType::class,
+            'type'   => ValueType::class,
         ];
     }
 
@@ -35,7 +35,7 @@ class CategoryValue extends Model
 
     public function categoryAttribute(): BelongsTo
     {
-        return $this->belongsTo(CategoryAttribute::class);
+        return $this->belongsTo(CategoryAttribute::class)->withDefault(['name' => __('Unknown attribute')]);
     }
 
     public function advertisements(): BelongsToMany

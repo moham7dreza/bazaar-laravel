@@ -52,7 +52,7 @@ class Category extends Model
 
     public function parent(): BelongsTo
     {
-        return $this->belongsTo($this, 'parent_id');
+        return $this->belongsTo($this, 'parent_id')->withDefault(['name' => __('Unknown parent')]);
     }
 
     public function advertisements(): HasMany

@@ -161,7 +161,7 @@ class User extends Authenticatable implements CanLoginDirectly, FilamentUser, Ha
 
     public function city(): BelongsTo
     {
-        return $this->belongsTo(City::class);
+        return $this->belongsTo(City::class)->withDefault(['name' => __('Unknown city')]);
     }
 
     public function latestAdvertisement(): HasOne

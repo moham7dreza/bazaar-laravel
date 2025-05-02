@@ -34,13 +34,13 @@ class SmsLog extends Model
     protected function casts(): array
     {
         return [
-            'connector' => SmsProvider::class,
-            'status' => SmsStatus::class,
-            'type' => SmsType::class,
-            'message_type' => SmsMessageType::class,
+            'connector'     => SmsProvider::class,
+            'status'        => SmsStatus::class,
+            'type'          => SmsType::class,
+            'message_type'  => SmsMessageType::class,
             'sender_number' => SmsSenderNumber::class,
-            'sent_at' => 'datetime',
-            'delivered_at' => 'datetime',
+            'sent_at'       => 'datetime',
+            'delivered_at'  => 'datetime',
         ];
     }
 
@@ -48,7 +48,7 @@ class SmsLog extends Model
 
     public function user(): BelongsTo
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class)->withDefault(['name' => __('Unknown user')]);
     }
 
     // _____________________________________________ methods SECTION __________________________________________

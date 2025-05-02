@@ -43,7 +43,7 @@ class State extends Model
 
     public function parent(): BelongsTo
     {
-        return $this->belongsTo($this, 'parent_id');
+        return $this->belongsTo($this, 'parent_id')->withDefault(['name' => __('Unknown state')]);
     }
 
     // _____________________________________________ method SECTION __________________________________________

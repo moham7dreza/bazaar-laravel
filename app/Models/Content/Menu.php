@@ -76,7 +76,7 @@ class Menu extends Model
 
     public function parent(): BelongsTo
     {
-        return $this->belongsTo(__CLASS__, 'parent_id');
+        return $this->belongsTo(__CLASS__, 'parent_id')->withDefault(['name' => __('Unknown parent')]);
     }
 
     // _____________________________________________ methods SECTION ____________________________________________
