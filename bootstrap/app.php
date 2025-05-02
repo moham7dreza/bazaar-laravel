@@ -41,17 +41,25 @@ return Application::configure(basePath: dirname(__DIR__))
         ]);
 
         $middleware->alias([
-            'verified' => \App\Http\Middleware\EnsureEmailIsVerified::class,
+            'verified'       => \App\Http\Middleware\EnsureEmailIsVerified::class,
             'mobileVerified' => \App\Http\Middleware\EnsureMobileIsVerified::class,
-            'admin' => \App\Http\Middleware\CheckAdminMiddleware::class,
-            'dev' => \App\Http\Middleware\OnlyAllowDevelopersMiddleware::class,
-            'abilities' => \Laravel\Sanctum\Http\Middleware\CheckAbilities::class,
-            'ability' => \Laravel\Sanctum\Http\Middleware\CheckForAnyAbility::class,
+            'admin'          => \App\Http\Middleware\CheckAdminMiddleware::class,
+            'dev'            => \App\Http\Middleware\OnlyAllowDevelopersMiddleware::class,
+            'abilities'      => \Laravel\Sanctum\Http\Middleware\CheckAbilities::class,
+            'ability'        => \Laravel\Sanctum\Http\Middleware\CheckForAnyAbility::class,
         ]);
 
         //
     })
     ->withExceptions(function (Exceptions $exceptions): void {
+
+        /**
+         * to avoid redirect user to login when user:
+         * 1. did not set `Accept: application/json` header
+         * 2. user was unauthenticated.
+         * solution: enforce json response
+         */
+        $exceptions->shouldRenderJsonWhen(fn () => request()->is('api/*') || request()->expectsJson());
 
         $exceptions->reportable(function (Throwable $e): void {
             FilamentExceptions::report($e);
