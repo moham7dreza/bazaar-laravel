@@ -7,11 +7,10 @@ use App\Data\DTOs\PaginatedListViewDTO;
 use App\Models\Advertise\Advertisement;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Support\Collection;
 
 class UserReadRepository extends BaseRepository
 {
-    public function getUsersWithLatestAdvertisementPostedDate(int $limit = 1000, int $perPage = 20): Collection
+    public function getUsersWithLatestAdvertisementPostedDate(int $limit = 1000, int $perPage = 20): PaginatedListViewDTO
     {
         $items = $this->freshQuery()->getQuery()
             ->select('*') // only get required fields

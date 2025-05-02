@@ -16,6 +16,7 @@ it('can load all users with latest advertisement posted dates', function (): voi
         ->create();
 
     $users = $this->sut->getUsersWithLatestAdvertisementPostedDate()
+        ->items
         ->pluck('latest_advertisement_posted_at', 'id')
         ->toArray();
 
