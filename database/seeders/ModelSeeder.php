@@ -24,7 +24,9 @@ class ModelSeeder extends Seeder
 {
     public function run(): void
     {
+        // User
         User::factory(5)->suspended()->create();
+        $users = User::factory(5)->create();
         /*
         User::factory(5)->admin()
             ->sequence(fn (Sequence $sequence) => [
@@ -34,24 +36,53 @@ class ModelSeeder extends Seeder
             ->create();
         */
         Otp::factory(2)
+            ->for($users->random()->first())
             ->sequence(
                 ['type' => NoticeType::EMAIL],
                 ['type' => NoticeType::SMS],
             )->create();
-        Menu::factory(5)->create();
+
+        SmsLog::factory(5)
+            ->for($users->random()->first())
+            ->create();
+
+        // Menu
+        $parentMenus = Menu::factory(5)->create();
+        Menu::factory(5)
+            ->for($parentMenus->random()->first(), 'parent')
+            ->create();
+
+        // Page
         Page::factory(5)->create();
-        SmsLog::factory(5)->create();
-        State::factory(5)->create();
+
+        // State
+        $parentStates = State::factory(5)->create();
+        State::factory(5)
+            ->for($parentStates->random()->first(), 'parent')
+            ->create();
+
+        // Ad
+        $parentCategories = Category::factory(5)
+            ->has(CategoryAttribute::factory(2)->has(CategoryValue::factory(2)), 'attributes')
+            ->create();
+
         Category::factory()
-            ->has(CategoryAttribute::factory(2)
-                ->has(CategoryValue::factory(2))
-            );
+            ->for($parentCategories->random()->first(), 'parent')
+            ->create();
+
         Advertisement::factory(5)
+            ->for($parentCategories->random()->first())
             ->has(AdvertisementNote::factory(2))
             ->has(Gallery::factory(2), 'images')
+            ->hasAttached($users->random(2), relationship: 'favoritedByUsers')
+            ->hasAttached($users->random(2), relationship: 'viewedByUsers')
+            ->hasAttached(CategoryValue::factory(2)->create(), relationship: 'categoryValues')
             ->create();
+
+        // Gateway
         PaymentGateway::factory(5)->create();
         SmsGateway::factory(5)->create();
+
         $this->command->alert('Relations seeded');
     }
 }
