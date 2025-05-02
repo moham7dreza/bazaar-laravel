@@ -3,6 +3,7 @@
 namespace App\Repositories\User;
 
 use App\Abstracts\BaseRepository;
+use App\Data\DTOs\PaginatedListViewDTO;
 use App\Models\Advertise\Advertisement;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Builder;
@@ -10,31 +11,9 @@ use Illuminate\Support\Collection;
 
 class UserReadRepository extends BaseRepository
 {
-    public function findById(int $id): ?User
+    public function getUsersWithLatestAdvertisementPostedDate(int $limit, int $perPage = 20): Collection
     {
-        return $this->baseQuery()
-            ->where('id', $id)
-            ->first();
-    }
-
-    public function getUserByMobile(string $mobile): ?User
-    {
-        return $this->freshQuery()->getQuery()->where('mobile', $mobile)->first();
-    }
-
-    public function bulkInsert(array $data): bool
-    {
-        return $this->freshQuery()->getQuery()->insert($data);
-    }
-
-    public function count(): int
-    {
-        return $this->freshQuery()->getQuery()->count();
-    }
-
-    public function getUsersWithLatestAdvertisementPostedDate(): Collection
-    {
-        return $this->freshQuery()->getQuery()
+        $items = $this->freshQuery()->getQuery()
             ->select('*') // only get required fields
             ->addSelect([
                 'latest_advertisement_posted_at' => Advertisement::query()
@@ -43,8 +22,11 @@ class UserReadRepository extends BaseRepository
                     ->latest()
                     ->limit(1),
             ])
-            ->take(1000)
-            ->get();
+            ->take($limit)
+            ->latest()
+            ->paginate($perPage);
+
+        return new PaginatedListViewDTO($items);
     }
 
     protected function baseQuery(): Builder

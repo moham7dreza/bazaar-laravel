@@ -10,11 +10,12 @@ use Illuminate\Support\Carbon;
 
 class AdvertisementReadRepository extends BaseRepository
 {
-    public function getAdsOfUsersRegisteredWithinDate(\DateTimeInterface $date, int $perPage): PaginatedListViewDTO
+    public function getAdsOfUsersRegisteredWithinDate(int $limit, \DateTimeInterface $date, int $perPage = 20): PaginatedListViewDTO
     {
         $items = $this->freshQuery()->getQuery()
             ->with('user:created_at')
             ->whereHas('user', fn (Builder $query) => $query->whereDate('created_at', '>=', Carbon::parse($date)))
+            ->take($limit)
             ->latest()
             ->paginate($perPage);
 
