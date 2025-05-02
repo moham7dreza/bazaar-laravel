@@ -2,7 +2,7 @@
 
 namespace App\Http\Middleware;
 
-use App\Http\Interfaces\MustVerifyMobile;
+use App\Contracts\MustVerifyMobile;
 use App\Http\Responses\ApiJsonResponse;
 use Closure;
 use Illuminate\Http\Request;

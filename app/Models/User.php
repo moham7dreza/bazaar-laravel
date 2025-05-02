@@ -3,10 +3,10 @@
 namespace App\Models;
 
 use Afsakar\FilamentOtpLogin\Models\Contracts\CanLoginDirectly;
+use App\Contracts\MustVerifyMobile as ShouldVerifiedMobile;
 use App\Enums\StorageDisk;
 use App\Enums\UserPermission;
 use App\Enums\UserRole;
-use App\Http\Interfaces\MustVerifyMobile as ShouldVerifiedMobile;
 use App\Models\Advertise\Advertisement;
 use App\Models\Advertise\AdvertisementNote;
 use App\Models\Geo\City;
