@@ -2,7 +2,7 @@
 
 use Illuminate\Support\Fluent;
 
-it('can get backend url details from front api', function () {
+it('can get backend url details from front api', function (): void {
 
     Http::record();
 
@@ -15,7 +15,7 @@ it('can get backend url details from front api', function () {
     $apiCallCount             = 0;
     $allStatusCodesSuccessful = true;
 
-    Http::recorded(static function ($request, $response) use (&$apiCallCount, &$allStatusCodesSuccessful) {
+    Http::recorded(static function ($request, $response) use (&$apiCallCount, &$allStatusCodesSuccessful): void {
         $apiCallCount++;
 
         // Check response status
