@@ -36,7 +36,7 @@ class AdvertisementPolicy
      */
     public function view(User $user, Advertisement $advertisement): Response
     {
-        return $user->id === $advertisement->user_id
+        return $user->owns($advertisement)
             ? Response::allow()
             : Response::denyAsNotFound();
     }
@@ -54,7 +54,7 @@ class AdvertisementPolicy
      */
     public function update(User $user, Advertisement $advertisement): Response
     {
-        return $user->id === $advertisement->user_id
+        return $user->owns($advertisement)
             ? Response::allow()
             : Response::denyAsNotFound();
     }
@@ -64,7 +64,7 @@ class AdvertisementPolicy
      */
     public function delete(User $user, Advertisement $advertisement): Response
     {
-        return $user->id === $advertisement->user_id
+        return $user->owns($advertisement)
             ? Response::allow()
             : Response::denyAsNotFound();
     }

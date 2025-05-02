@@ -19,6 +19,7 @@ use Illuminate\Database\Eloquent\Attributes\Scope;
 use Illuminate\Database\Eloquent\Attributes\ScopedBy;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -50,7 +51,7 @@ class User extends Authenticatable implements CanLoginDirectly, FilamentUser, Ha
 
     // _____________________________________________ props SECTION ______________________________________________
 
-    const int TYPE_USER = 0;
+    const int TYPE_USER  = 0;
     const int TYPE_ADMIN = 1;
 
     protected $fillable = [
@@ -79,12 +80,12 @@ class User extends Authenticatable implements CanLoginDirectly, FilamentUser, Ha
     protected function casts(): array
     {
         return [
-            'email_verified_at' => 'datetime',
+            'email_verified_at'  => 'datetime',
             'mobile_verified_at' => 'datetime',
-            'password' => 'hashed',
-            'is_active' => 'bool',
-            'suspended_at' => 'datetime',
-            'suspended_until' => 'datetime',
+            'password'           => 'hashed',
+            'is_active'          => 'bool',
+            'suspended_at'       => 'datetime',
+            'suspended_until'    => 'datetime',
             //            'addresses' => \Illuminate\Database\Eloquent\Casts\AsCollection::of(\App\Data\ValueObjects\Address::class)
         ];
     }
@@ -178,7 +179,7 @@ class User extends Authenticatable implements CanLoginDirectly, FilamentUser, Ha
     {
         return $this->hasOne(Advertisement::class)->ofMany(
             [
-                'like' => 'max',
+                'like'       => 'max',
                 'created_at' => 'max',
             ],
             function (Builder $query): void {
@@ -211,7 +212,7 @@ class User extends Authenticatable implements CanLoginDirectly, FilamentUser, Ha
     public function suspend(): bool
     {
         return $this->update([
-            'suspend_at' => now(),
+            'suspend_at'      => now(),
             'suspended_until' => now()->addWeek(),
         ]);
     }
@@ -224,4 +225,12 @@ class User extends Authenticatable implements CanLoginDirectly, FilamentUser, Ha
     }
 
     // end suspend section
+
+    /**
+     * determine if the user owns the given model.
+     */
+    public function owns(Model $model, string $relation = 'user')
+    {
+        return $model->{$relation}()->is($this);
+    }
 }
