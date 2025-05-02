@@ -410,3 +410,30 @@ checkup: ## Run necessary tools to check code and typesense
 
 route-ls-v: ## Show list of routes that are registered by packages
 	php artisan route:list --only-vendor
+
+setup-worker: ## Configure Supervisor for Laravel queue worker
+	@printf "${COLOR_BLUE}▶ Starting Laravel worker setup...${COLOR_RESET}\n"
+	@printf '%s\n' '[program:laravel-worker]' \
+	'process_name=%(program_name)s_%(process_num)02d' \
+	'command=php /var/www/bazaar-laravel/artisan queue:work redis --sleep=3 --tries=3 --max-time=3600' \
+	'autostart=true' \
+	'autorestart=true' \
+	'stopasgroup=true' \
+	'killasgroup=true' \
+	'user=www-data' \
+	'numprocs=8' \
+	'redirect_stderr=true' \
+	'stdout_logfile=/var/www/bazaar-laravel/storage/logs/worker.log' \
+	'stopwaitsecs=3600' | sudo tee /etc/supervisor/conf.d/laravel-worker.conf >/dev/null
+
+	@sudo supervisorctl reread >/dev/null
+	@sudo supervisorctl update >/dev/null
+	@if sudo supervisorctl status laravel-worker:* | grep -q RUNNING; then \
+		printf "${COLOR_YELLOW}✓ Laravel worker is already running${COLOR_RESET}\n"; \
+		sudo supervisorctl restart laravel-worker:* >/dev/null; \
+		printf "${COLOR_GREEN}✓ Laravel worker restarted${COLOR_RESET}\n"; \
+	else \
+		sudo supervisorctl start laravel-worker:* >/dev/null; \
+		printf "${COLOR_GREEN}✓ Laravel worker started${COLOR_RESET}\n"; \
+	fi
+	@printf "${COLOR_GREEN}✓ Laravel worker setup completed!${COLOR_RESET}\n"
