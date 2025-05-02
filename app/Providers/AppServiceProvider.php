@@ -16,6 +16,7 @@ use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Vite;
 use Illuminate\Support\Number;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Str;
@@ -30,8 +31,13 @@ class AppServiceProvider extends ServiceProvider
 
     public function boot(): void
     {
-        $this->setupGlobalConfigurations();
-        $this->setupGates();
+        $this->configureCommands();
+        $this->configureModels();
+        $this->configureUrl();
+        $this->configureVite();
+        $this->configureHttp();
+        $this->configureCurrency();
+        $this->configureGates();
         $this->logSlowQuery();
         $this->loadExtraMigrationsPath();
         $this->setupMacros();
@@ -39,18 +45,25 @@ class AppServiceProvider extends ServiceProvider
         $this->setUpValidators();
     }
 
-    private function setupGlobalConfigurations(): void
+    private function configureCommands(): void
     {
-        /*
-       ResetPassword::createUrlUsing(static function (User $notifiable, string $token) {
-           return config('app.frontend_url')."/password-reset/$token?email={$notifiable->getEmailForPasswordReset()}";
-       });
-       */
-
-        Model::automaticallyEagerLoadRelationships();
-        Number::useCurrency(Language::default()['currency']);
-        URL::forceHttps(isEnvProduction());
         DB::prohibitDestructiveCommands(isEnvProduction());
+    }
+
+    private function configureModels(): void
+    {
+        Model::automaticallyEagerLoadRelationships();
+        Model::shouldBeStrict(); // throw exception if any property of model does not exists when trying to get it
+        Model::unguard();
+    }
+
+    private function configureUrl(): void
+    {
+        URL::forceHttps(isEnvProduction());
+    }
+
+    private function configureHttp(): void
+    {
         Http::globalOptions([
             // Set reasonable timeouts
             'timeout' => 8,
@@ -68,7 +81,17 @@ class AppServiceProvider extends ServiceProvider
         ]);
     }
 
-    private function setupGates(): void
+    private function configureVite(): void
+    {
+        Vite::useAggressivePrefetching();
+    }
+
+    private function configureCurrency(): void
+    {
+        Number::useCurrency(Language::default()['currency']);
+    }
+
+    private function configureGates(): void
     {
         Gate::before(static function (?User $user) {
             return $user?->isAdmin();
