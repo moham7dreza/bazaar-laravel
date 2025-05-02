@@ -74,7 +74,9 @@ return Application::configure(basePath: dirname(__DIR__))
             if ($previous instanceof ModelNotFoundException) {
                 $model = str($previous->getModel())->afterLast('\\');
 
-                return ApiJsonResponse::error("$model Not Found.", ['log' => $e->getMessage()], Response::HTTP_NOT_FOUND);
+                $message = isEnvProduction() ? 'Record Not Found.' : "$model Not Found.";
+
+                return ApiJsonResponse::error($message, ['log' => $e->getMessage()], Response::HTTP_NOT_FOUND);
             }
 
             // Database
