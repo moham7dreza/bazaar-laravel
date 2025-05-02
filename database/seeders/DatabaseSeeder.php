@@ -9,8 +9,14 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
         $this->call([
-            ModelSeeder::class,
-            PermissionSeeder::class,
+            //
         ]);
+
+        if (! isEnvProduction()) {
+            $this->call([
+                ModelSeeder::class,
+                PermissionSeeder::class,
+            ]);
+        }
     }
 }
