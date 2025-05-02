@@ -15,7 +15,7 @@ use function Laravel\Prompts\warning;
 
 class ArtisanFinderCommand extends Command
 {
-    protected $signature = 'find {--exact}';
+    protected $signature = 'find';
 
     protected $description = 'Find artisan commands';
 
@@ -33,7 +33,7 @@ class ArtisanFinderCommand extends Command
             default: 'Search'
         );
 
-        $commands = collect($this->getApplication()?->all());
+        $commands    = collect($this->getApplication()?->all());
         $commandName = $this->getSuggestedCommandName($method, $commands);
 
         if (! $this->isCommandValid($commands, $commandName)) {
@@ -125,18 +125,18 @@ class ArtisanFinderCommand extends Command
     private function getCommandParameters($command): array
     {
         $definition = $command->getDefinition();
-        $arguments = $definition->getArguments();
-        $options = $definition->getOptions();
+        $arguments  = $definition->getArguments();
+        $options    = $definition->getOptions();
 
         $placeholderText = $this->buildPlaceholderText($arguments, $options);
-        $userValues = $this->getUserInput($placeholderText);
+        $userValues      = $this->getUserInput($placeholderText);
 
         return $this->mapUserInputToCommandParameters($userValues, $arguments, $options);
     }
 
     private function buildPlaceholderText($arguments, $options): string
     {
-        $argsList = implode(' ', array_map(static fn ($arg) => $arg->getName().($arg->isRequired() ? '*' : ''), $arguments));
+        $argsList    = implode(' ', array_map(static fn ($arg) => $arg->getName().($arg->isRequired() ? '*' : ''), $arguments));
         $optionsList = implode(' ', array_map(static fn ($opt) => '--'.$opt->getName().($opt->isValueRequired() ? '*' : ''), $options));
 
         return trim("$argsList $optionsList");
