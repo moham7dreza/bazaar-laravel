@@ -27,6 +27,7 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Storage;
 use Jeffgreco13\FilamentBreezy\Traits\TwoFactorAuthenticatable;
 use Kenepa\ResourceLock\Models\Concerns\HasLocks;
@@ -136,6 +137,12 @@ class User extends Authenticatable implements CanLoginDirectly, FilamentUser, Ha
     protected function ofType(Builder $query, int $type): void
     {
         $query->where('user_type', $type);
+    }
+
+    #[Scope]
+    protected function createdAfter(Builder $query, \DateTimeInterface|string|int $date): void
+    {
+        $query->where('created_at', '>=', Carbon::parse($date));
     }
 
     // _____________________________________________ relations SECTION __________________________________________

@@ -6,7 +6,6 @@ use App\Abstracts\BaseRepository;
 use App\Data\DTOs\PaginatedListViewDTO;
 use App\Models\Advertise\Advertisement;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Support\Carbon;
 
 class AdvertisementReadRepository extends BaseRepository
 {
@@ -14,7 +13,7 @@ class AdvertisementReadRepository extends BaseRepository
     {
         $items = $this->freshQuery()->getQuery()
             ->with('user:created_at')
-            ->whereHas('user', fn (Builder $query) => $query->whereDate('created_at', '>=', Carbon::parse($date)))
+            ->whereHas('user', fn (Builder $query) => $query->createdAfter($date))
             ->take($limit)
             ->latest()
             ->paginate($perPage);
