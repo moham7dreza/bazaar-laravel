@@ -11,7 +11,7 @@ use Illuminate\Support\Collection;
 
 class UserReadRepository extends BaseRepository
 {
-    public function getUsersWithLatestAdvertisementPostedDate(int $limit, int $perPage = 20): Collection
+    public function getUsersWithLatestAdvertisementPostedDate(int $limit = 1000, int $perPage = 20): Collection
     {
         $items = $this->freshQuery()->getQuery()
             ->select('*') // only get required fields
