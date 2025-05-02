@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Services\Date;
+namespace App\Utilities\Date;
 
 use Carbon\Carbon;
 use DateTime;
