@@ -407,3 +407,6 @@ checkup: ## Run necessary tools to check code and typesense
 	make checks
 	make rectort
 	make phpstan
+
+route-ls-v: ## Show list of routes that are registered by packages
+	php artisan route:list --only-vendor
