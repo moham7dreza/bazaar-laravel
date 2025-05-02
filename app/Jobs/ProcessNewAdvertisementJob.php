@@ -2,6 +2,7 @@
 
 namespace App\Jobs;
 
+use App\Jobs\Contracts\ShouldNotifyOnFailures;
 use App\Models\Advertise\Advertisement;
 use App\Models\User;
 use App\Notifications\NewAdPostedNotification;
@@ -12,7 +13,7 @@ use Illuminate\Queue\Middleware\ThrottlesExceptions;
 use Illuminate\Queue\Middleware\WithoutOverlapping;
 use Illuminate\Support\Facades\Notification;
 
-class ProcessNewAdvertisementJob implements ShouldQueue
+class ProcessNewAdvertisementJob implements ShouldQueue, ShouldNotifyOnFailures
 {
     use Queueable;
 

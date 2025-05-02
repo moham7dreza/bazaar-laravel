@@ -3,8 +3,11 @@
 namespace App\Providers;
 
 use App\Events\PackageSent;
+use App\Jobs\Contracts\ShouldNotifyOnFailures;
 use App\Jobs\MongoLogJob;
 use App\Models\Monitor\JobPerformanceLog;
+use App\Models\User;
+use App\Notifications\FailedJobNotification;
 use Carbon\Carbon;
 use Exception;
 use Illuminate\Database\Events\QueryExecuted;
@@ -33,13 +36,29 @@ final class JobLoggingServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        if (
-            $this->app->runningUnitTests()
-            || config('performance-log.job_log_disabled')
-            //            || !Lottery::odds(config('performance-log.job_log_sampling_rate'))->choose()
-        ) {
+        if ($this->shouldSkipLogging()) {
             return;
         }
+        $this->handleJobProcessing();
+        $this->handleJobProcessed();
+        $this->handleJobQueued();
+        $this->handleJobFailed();
+    }
+
+    private static function isExcluded(?string $job): bool
+    {
+        return in_array($job, self::EXCLUDED_JOBS, true);
+    }
+
+    private function shouldSkipLogging(): bool
+    {
+        return $this->app->runningUnitTests()
+            || config('performance-log.job_log_disabled');
+        //            || !Lottery::odds(config('performance-log.job_log_sampling_rate'))->choose()
+    }
+
+    private function handleJobProcessing(): void
+    {
         Event::listen(function (Events\JobProcessing $event): void {
             try {
                 if (self::isExcluded($event->job->resolveName())) {
@@ -58,7 +77,10 @@ final class JobLoggingServiceProvider extends ServiceProvider
                 report($e);
             }
         });
+    }
 
+    private function handleJobProcessed(): void
+    {
         Event::listen(function (Events\JobProcessed $event): void {
             try {
                 if (self::isExcluded($event->job->resolveName())) {
@@ -88,15 +110,38 @@ final class JobLoggingServiceProvider extends ServiceProvider
                 report($e);
             }
         });
+    }
 
+    private function handleJobQueued(): void
+    {
         Event::listen(static function (Events\JobQueued $event): void {
             $job = get_class($event->job);
             context()->push('queued_job_history', "Job queued: $job");
         });
     }
 
-    private static function isExcluded(?string $job): bool
+    private function handleJobFailed(): void
     {
-        return in_array($job, self::EXCLUDED_JOBS, true);
+        Event::listen(static function (Events\JobFailed $event): void {
+            $job = get_class($event->job);
+            context()->push('failed_job_history', "Job failed: $job");
+
+            $payload = [
+                'exception' => $event->exception->getMessage(),
+                'job-class' => $event->job->getName(),
+                'job-body' => $event->job->getRawBody(),
+                'job-trace' => $event->exception->getTraceAsString(),
+            ];
+
+            mongo_info('failed-job', $payload);
+
+            if ($event->job instanceof ShouldNotifyOnFailures) {
+
+                /** @var User $admin */
+                $admin = User::query()->admin()->first();
+
+                $admin->notify(new FailedJobNotification($payload));
+            }
+        });
     }
 }
