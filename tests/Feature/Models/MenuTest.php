@@ -15,4 +15,8 @@ it('can load all child menus', function (): void {
     $menus = Menu::query()->loadChildren()->count();
 
     expect($menus)->toBe(4);
+
+    $menu->update(['title' => 'test menu']);
+
+    expect($menu->getChanges())->toBe(['title' => 'test menu']);
 });
