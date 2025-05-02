@@ -10,7 +10,7 @@
         <testsuite name="EndToEnd">
             <directory>tests/EndToEnd</directory>
         </testsuite>
-    <testsuite name="Modules"><directory suffix="Test.php">./modules/*/tests</directory></testsuite></testsuites>
+    <testsuite name="Modules"><directory>./modules/*/tests</directory></testsuite></testsuites>
     <source>
         <include>
             <directory>app</directory>
@@ -22,6 +22,11 @@
             <clover outputFile="coverage@tests.xml"/>
         </report>
     </coverage>
+    <groups>
+        <exclude>
+            <group>manual</group> <!-- These tests are not required to be run automatically -->
+        </exclude>
+    </groups>
     <php>
         <env name="APP_ENV" value="testing"/>
         <env name="APP_MAINTENANCE_DRIVER" value="file"/>

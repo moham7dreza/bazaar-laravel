@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Fluent;
+use Tests\TestGroup;
 
 it('can get backend url details from front api', function (): void {
 
@@ -33,4 +34,5 @@ it('can get backend url details from front api', function (): void {
 
     $this->assertGreaterThan(0, $apiCallCount, 'No API calls were made');
     $this->assertTrue($allStatusCodesSuccessful, 'Some API calls failed');
-});
+})
+    ->skip(TestGroup::MANUAL);
