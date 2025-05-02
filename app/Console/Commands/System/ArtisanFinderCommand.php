@@ -79,7 +79,7 @@ class ArtisanFinderCommand extends Command
 
         $commandsTitles = $commands->keys()
             ->reject(fn (string $command) => $command === $this->signature)
-            ->when($this->option('exact') && $input, function (Collection $commands) use ($input) {
+            ->when($input, function (Collection $commands) use ($input) {
                 return $commands->filter(fn ($command) => $this->matchesSearchTerms($command, $input));
             })
             ->values()
