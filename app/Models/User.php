@@ -11,7 +11,7 @@ use App\Models\Advertise\Advertisement;
 use App\Models\Advertise\AdvertisementNote;
 use App\Models\Geo\City;
 use App\Models\Scopes\LatestScope;
-use App\Traits\MustVerifyMobile;
+use App\Concerns\MustVerifyMobile;
 use Filament\Models\Contracts\FilamentUser;
 use Filament\Models\Contracts\HasAvatar;
 use Filament\Panel;
