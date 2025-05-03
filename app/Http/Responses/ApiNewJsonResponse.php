@@ -12,7 +12,7 @@ final class ApiNewJsonResponse
     public static function success(
         array|Arrayable|null $data = null,
         int $metaStatus = 200,
-        array|string $messages = []
+        array|string $message = []
     ): JsonResponse {
 
         if ($data instanceof Arrayable) {
@@ -23,13 +23,13 @@ final class ApiNewJsonResponse
             data: $data,
             httpStatus: 200,
             metaStatus: $metaStatus,
-            messages: $messages,
+            message: $message,
         );
     }
 
     public static function error(
         int $httpStatus,
-        array|string $messages = [],
+        array|string $message = [],
         ?int $metaStatus = null,
     ): JsonResponse {
 
@@ -37,7 +37,7 @@ final class ApiNewJsonResponse
             data: null,
             httpStatus: $httpStatus,
             metaStatus: $metaStatus ?? $httpStatus,
-            messages: $messages,
+            message: $message,
         );
     }
 
@@ -53,7 +53,7 @@ final class ApiNewJsonResponse
             data: null,
             httpStatus: Response::HTTP_UNPROCESSABLE_ENTITY,
             metaStatus: Response::HTTP_UNPROCESSABLE_ENTITY,
-            messages: [$fieldName => [$message]],
+            message: [$fieldName => [$message]],
         );
     }
 
@@ -64,32 +64,32 @@ final class ApiNewJsonResponse
      */
     public static function throwException(
         int $status,
-        array|string $messages = [],
+        array|string $message = [],
     ): never {
 
-        if (is_string($messages)) {
-            $messages = [$messages];
+        if (is_string($message)) {
+            $message = [$message];
         }
 
-        throw new ApiJsonResponseException($status, $messages);
+        throw new ApiJsonResponseException($status, $message);
     }
 
     private static function base(
         ?array $data,
         int $httpStatus,
         int $metaStatus,
-        array|string $messages = [],
+        array|string $message = [],
     ): JsonResponse {
 
-        if (is_string($messages)) {
-            $messages = [$messages];
+        if (is_string($message)) {
+            $message = [$message];
         }
 
         return response()->json([
             'data' => $data,
             'meta' => [
-                'status' => $metaStatus,
-                'messages' => $messages,
+                'status'   => $metaStatus,
+                'messages' => $message,
             ],
         ], $httpStatus);
     }
