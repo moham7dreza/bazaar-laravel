@@ -3,23 +3,27 @@
 namespace App\Http\Controllers\App\Panel;
 
 use App\Http\Controllers\Controller;
-use App\Http\Resources\App\AdvertisementResource;
+use App\Http\Resources\App\AdvertisementCollection;
 use App\Http\Responses\ApiJsonResponse;
 use App\Models\Advertise\Advertisement;
-use App\Traits\HttpResponses;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Resources\Json\ResourceCollection;
 use Symfony\Component\HttpFoundation\Response;
 
 class HistoryAdvertisementController extends Controller
 {
-    use AuthorizesRequests, HttpResponses;
+    use AuthorizesRequests;
 
-    public function index()
+    public function index(): ResourceCollection
     {
-        $history = auth()->user()->viewedAdvertisements()->with('category', 'city')->latest('pivot_updated_at')->get();
+        $history = auth()->user()
+            ?->viewedAdvertisements()
+            ->with('category', 'city')
+            ->latest('pivot_updated_at')
+            ->get();
 
-        return $this->success(AdvertisementResource::collection($history), 'لیست تاریخچه بازدید دریافت شد');
+        return $history->toResourceCollection(AdvertisementCollection::class);
     }
 
     public function store(Advertisement $advertisement): JsonResponse

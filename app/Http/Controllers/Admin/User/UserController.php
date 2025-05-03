@@ -5,14 +5,12 @@ namespace App\Http\Controllers\Admin\User;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\Admin\User\UserCollection;
 use App\Http\Resources\Admin\User\UserResource;
+use App\Http\Responses\ApiNewJsonResponse;
 use App\Models\User;
-use App\Traits\HttpResponses;
 use Illuminate\Http\Request;
 
 class UserController extends Controller
 {
-    use HttpResponses;
-
     /**
      * Display a listing of the resource.
      */
@@ -47,6 +45,7 @@ class UserController extends Controller
     {
         $user->delete();
 
-        return $this->success(null, 'کاربر حذف شد');
+
+        return ApiNewJsonResponse::success(message: 'کاربر حذف شد');
     }
 }
