@@ -12,15 +12,17 @@ use App\Http\Services\Image\ImageService;
 use App\Jobs\ProcessNewAdvertisementJob;
 use App\Models\Advertise\Advertisement;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Http\Resources\Json\ResourceCollection;
 
 class AdvertisementController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index(): AdvertisementCollection
+    public function index(): ResourceCollection
     {
-        return new AdvertisementCollection(Advertisement::all());
+        return Advertisement::all()->toResourceCollection(AdvertisementCollection::class);
     }
 
     /**
@@ -43,21 +45,21 @@ class AdvertisementController extends Controller
 
         ProcessNewAdvertisementJob::dispatch($ad->id);
 
-        return new AdvertisementResource($ad);
+        return $ad->toResource(AdvertisementResource::class);
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(Advertisement $advertisement): AdvertisementResource
+    public function show(Advertisement $advertisement): JsonResource
     {
-        return new AdvertisementResource($advertisement);
+        return $advertisement->toResource(AdvertisementResource::class);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateAdvertisementRequest $request, Advertisement $advertisement, ImageService $imageService): AdvertisementResource|JsonResponse
+    public function update(UpdateAdvertisementRequest $request, Advertisement $advertisement, ImageService $imageService): JsonResource|JsonResponse
     {
         $inputs = $request->all();
         if ($request->hasFile('image')) {
@@ -72,14 +74,14 @@ class AdvertisementController extends Controller
             $inputs['image'] = $result;
         } else {
             if (isset($inputs['currentImage']) && ! empty($advertisement->image)) {
-                $image = $advertisement->image;
+                $image                 = $advertisement->image;
                 $image['currentImage'] = $inputs['currentImage'];
-                $inputs['image'] = $image;
+                $inputs['image']       = $image;
             }
         }
         $advertisement->update($inputs);
 
-        return new AdvertisementResource($advertisement);
+        return $advertisement->toResource(AdvertisementResource::class);
     }
 
     /**
