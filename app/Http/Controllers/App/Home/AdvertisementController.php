@@ -10,27 +10,28 @@ use App\Http\Resources\App\AdvertisementCollection;
 use App\Http\Resources\App\AdvertisementResource;
 use App\Models\Advertise\Advertisement;
 use App\Pipelines\Advertisements\FilterAdvertisementsByTitle;
-use App\Traits\HttpResponses;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Http\Resources\Json\ResourceCollection;
 use Illuminate\Pipeline\Pipeline;
+use Illuminate\Support\Collection;
 
 class AdvertisementController extends Controller
 {
-    use HttpResponses;
-
     /**
      * Display a listing of the resource.
      */
-    public function index(AdvertisementGridViewRequest $request): AdvertisementCollection
+    public function index(AdvertisementGridViewRequest $request): ResourceCollection
     {
         info('search log [{date}].', ['date' => now()->toJalali()]);
 
-        $query = Advertisement::query();
-        $sort = $request->enum('sort', Sort::class);
+        $query   = Advertisement::query();
+        $sort    = $request->enum('sort', Sort::class);
         $filters = [
             FilterAdvertisementsByTitle::class,
         ];
 
+        /** @var Collection $advertisements */
         $advertisements = app(Pipeline::class)
             ->send($query)
             ->through($filters)
@@ -42,10 +43,10 @@ class AdvertisementController extends Controller
                     ->get();
             });
 
-        return new AdvertisementCollection($advertisements);
+        return $advertisements->toResourceCollection(AdvertisementCollection::class);
     }
 
-    public function show(Advertisement $advertisement): AdvertisementResource
+    public function show(Advertisement $advertisement): JsonResource
     {
         info('pdp page log [{date}].', ['date' => now()->toJalali()]);
 
@@ -62,6 +63,6 @@ class AdvertisementController extends Controller
 
         $advertisement->refresh();
 
-        return new AdvertisementResource($advertisement);
+        return $advertisement->toResource(AdvertisementResource::class);
     }
 }
