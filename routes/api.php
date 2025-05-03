@@ -101,7 +101,7 @@ Route::prefix(RouteSection::ADMIN)
             ->name('users.')
             ->group(function (): void {
 
-                Route::apiResource('user', UserController::class);
+                Route::apiResource('user', UserController::class)->except('store');
             });
     });
 
