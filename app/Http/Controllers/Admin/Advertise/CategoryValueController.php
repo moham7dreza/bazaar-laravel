@@ -7,13 +7,11 @@ use App\Http\Requests\Admin\StoreCategoryValueRequest;
 use App\Http\Requests\Admin\UpdateCategoryValueRequest;
 use App\Http\Resources\Admin\Advertise\CategoryValueCollection;
 use App\Http\Resources\Admin\Advertise\CategoryValueResource;
+use App\Http\Responses\ApiNewJsonResponse;
 use App\Models\Advertise\CategoryValue;
-use App\Traits\HttpResponses;
 
 class CategoryValueController extends Controller
 {
-    use HttpResponses;
-
     /**
      * Display a listing of the resource.
      */
@@ -27,7 +25,7 @@ class CategoryValueController extends Controller
      */
     public function store(StoreCategoryValueRequest $request)
     {
-        $inputs = $request->all();
+        $inputs        = $request->all();
         $categoryValue = CategoryValue::create($inputs);
 
         return new CategoryValueResource($categoryValue);
@@ -59,7 +57,6 @@ class CategoryValueController extends Controller
     {
         $categoryValue->delete();
 
-        // return ['status' => true, 'msg' => 'دسته بندی حذف شد'];
-        return $this->success(null, 'مقدار ویژگی دسته بندی حذف شد');
+        return ApiNewJsonResponse::success(message: 'مقدار ویژگی دسته بندی حذف شد');
     }
 }

@@ -7,23 +7,21 @@ use App\Http\Requests\App\StoreGalleryRequest;
 use App\Http\Requests\App\UpdateGalleryRequest;
 use App\Http\Resources\App\GalleryCollection;
 use App\Http\Resources\App\GalleryResource;
+use App\Http\Responses\ApiNewJsonResponse;
 use App\Http\Services\Image\ImageService;
 use App\Models\Advertise\Gallery;
-use App\Traits\HttpResponses;
 
 class GalleryController extends Controller
 {
-    use HttpResponses;
-
     /**
      * نمایش لیست گالری‌های یک آگهی.
      */
     public function index($advertisementId)
     {
         // بررسی اینکه آگهی متعلق به کاربر است
-        $advertisement = auth()->user()->advertisements()->find($advertisementId);
+        $advertisement = auth()->user()?->advertisements()->find($advertisementId);
         if (! $advertisement) {
-            return $this->error(null, 'آگهی مورد نظر یافت نشد یا متعلق به شما نیست', 403);
+            return ApiNewJsonResponse::error(403, message: 'آگهی مورد نظر یافت نشد یا متعلق به شما نیست');
         }
         $galleries = Gallery::where('advertisement_id', $advertisementId)->get();
 
@@ -38,10 +36,10 @@ class GalleryController extends Controller
         // بررسی اینکه آگهی متعلق به کاربر است
         $advertisement = auth()->user()->advertisements()->find($advertisementId);
         if (! $advertisement) {
-            return $this->error(null, 'آگهی مورد نظر یافت نشد یا متعلق به شما نیست', 403);
+            return ApiNewJsonResponse::error(403, message: 'آگهی مورد نظر یافت نشد یا متعلق به شما نیست');
         }
 
-        $inputs = $request->all();
+        $inputs                     = $request->all();
         $inputs['advertisement_id'] = $advertisementId;
 
         if ($request->hasFile('url')) {
@@ -50,7 +48,7 @@ class GalleryController extends Controller
             if ($result) {
                 $inputs['url'] = $result;
             } else {
-                return $this->error(null, 'خطا در اپلود تصویر', 500);
+                return ApiNewJsonResponse::error(500, message: 'خطا در اپلود تصویر');
             }
         }
 
@@ -66,7 +64,7 @@ class GalleryController extends Controller
     {
         // بررسی اینکه گالری متعلق به آگهی کاربر است
         if ($gallery->advertisement->user_id !== auth()->id()) {
-            return $this->error(null, 'دسترسی غیرمجاز', 403);
+            return ApiNewJsonResponse::error(403, message: 'دسترسی غیرمجاز');
         }
 
         return new GalleryResource($gallery);
@@ -79,7 +77,7 @@ class GalleryController extends Controller
     {
         // بررسی اینکه گالری متعلق به آگهی کاربر است
         if ($gallery->advertisement->user_id !== auth()->id()) {
-            return $this->error(null, 'دسترسی غیرمجاز', 403);
+            return ApiNewJsonResponse::error(403, 'دسترسی غیرمجاز');
         }
 
         $inputs = $request->all();
@@ -90,14 +88,14 @@ class GalleryController extends Controller
             $imageService->setExclusiveDirectory('images'.DIRECTORY_SEPARATOR.'user-advertisement-images-gallery');
             $result = $imageService->createIndexAndSave($request->url);
             if ($result === false) {
-                return $this->error(null, 'خطا در فرایند اپلود', 500);
+                return ApiNewJsonResponse::error(500, message: 'خطا در فرایند اپلود');
             }
             $inputs['url'] = $result;
         } else {
             if (isset($inputs['currentImage']) && ! empty($gallery->url)) {
-                $image = $gallery->url;
+                $image                 = $gallery->url;
                 $image['currentImage'] = $inputs['currentImage'];
-                $inputs['url'] = $image;
+                $inputs['url']         = $image;
             }
         }
 
@@ -113,11 +111,11 @@ class GalleryController extends Controller
     {
         // بررسی اینکه گالری متعلق به آگهی کاربر است
         if ($gallery->advertisement->user_id !== auth()->id()) {
-            return $this->error(null, 'دسترسی غیرمجاز', 403);
+            return ApiNewJsonResponse::error(403, message: 'دسترسی غیرمجاز');
         }
 
         $gallery->delete();
 
-        return $this->success(null, 'گالری حذف شد');
+        return ApiNewJsonResponse::success(message: 'گالری حذف شد');
     }
 }

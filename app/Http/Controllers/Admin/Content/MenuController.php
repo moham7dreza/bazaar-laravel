@@ -7,13 +7,11 @@ use App\Http\Requests\Admin\StoreMenuRequest;
 use App\Http\Requests\Admin\UpdateMenuRequest;
 use App\Http\Resources\Admin\Content\MenuCollection;
 use App\Http\Resources\Admin\Content\MenuResource;
+use App\Http\Responses\ApiNewJsonResponse;
 use App\Models\Content\Menu;
-use App\Traits\HttpResponses;
 
 class MenuController extends Controller
 {
-    use HttpResponses;
-
     /**
      * Display a listing of the resource.
      */
@@ -28,7 +26,7 @@ class MenuController extends Controller
     public function store(StoreMenuRequest $request)
     {
         $inputs = $request->all();
-        $menu = Menu::create($inputs);
+        $menu   = Menu::create($inputs);
 
         return new MenuResource($menu);
     }
@@ -59,6 +57,6 @@ class MenuController extends Controller
     {
         $menu->delete();
 
-        return $this->success(null, 'منو حذف شد');
+        return ApiNewJsonResponse::success(message: 'منو حذف شد');
     }
 }

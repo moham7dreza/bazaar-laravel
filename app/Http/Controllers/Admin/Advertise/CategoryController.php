@@ -6,14 +6,12 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\StoreCategoryRequest;
 use App\Http\Resources\Admin\Advertise\CategoryCollection;
 use App\Http\Resources\Admin\Advertise\CategoryResource;
+use App\Http\Responses\ApiNewJsonResponse;
 use App\Models\Advertise\Category;
-use App\Traits\HttpResponses;
 use Illuminate\Http\Request;
 
 class CategoryController extends Controller
 {
-    use HttpResponses;
-
     /**
      * Display a listing of the resource.
      */
@@ -27,7 +25,7 @@ class CategoryController extends Controller
      */
     public function store(StoreCategoryRequest $request)
     {
-        $inputs = $request->all();
+        $inputs   = $request->all();
         $category = Category::create($inputs);
 
         return new CategoryResource($category);
@@ -59,7 +57,6 @@ class CategoryController extends Controller
     {
         $category->delete();
 
-        // return ['status' => true, 'msg' => 'دسته بندی حذف شد'];
-        return $this->success(null, 'دسته بندی حذف شد');
+        return ApiNewJsonResponse::success(message: 'دسته بندی حذف شد');
     }
 }

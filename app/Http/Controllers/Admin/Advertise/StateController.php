@@ -7,13 +7,11 @@ use App\Http\Requests\Admin\StoreStateRequest;
 use App\Http\Requests\Admin\UpdateStateRequest;
 use App\Http\Resources\Admin\Advertise\StateCollection;
 use App\Http\Resources\Admin\Advertise\StateResource;
+use App\Http\Responses\ApiNewJsonResponse;
 use App\Models\Advertise\State;
-use App\Traits\HttpResponses;
 
 class StateController extends Controller
 {
-    use HttpResponses;
-
     /**
      * Display a listing of the resource.
      */
@@ -28,7 +26,7 @@ class StateController extends Controller
     public function store(StoreStateRequest $request)
     {
         $inputs = $request->all();
-        $state = State::create($inputs);
+        $state  = State::create($inputs);
 
         return new StateResource($state);
     }
@@ -59,6 +57,6 @@ class StateController extends Controller
     {
         $state->delete();
 
-        return $this->success(null, 'محل حذف شد');
+        return ApiNewJsonResponse::success(message:  'محل حذف شد');
     }
 }

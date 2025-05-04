@@ -6,15 +6,15 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\App\StoreAdvertisementRequest;
 use App\Http\Resources\App\AdvertisementCollection;
 use App\Http\Resources\App\AdvertisementResource;
+use App\Http\Responses\ApiNewJsonResponse;
 use App\Http\Services\Image\ImageService;
 use App\Models\Advertise\Advertisement;
-use App\Traits\HttpResponses;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Http\Request;
 
 class AdvertisementController extends Controller
 {
-    use AuthorizesRequests, HttpResponses;
+    use AuthorizesRequests;
 
     /**
      * Display a listing of the resource.
@@ -30,21 +30,21 @@ class AdvertisementController extends Controller
     public function store(StoreAdvertisementRequest $request, ImageService $imageService)
     {
         $inputs = [
-            'title' => $request->title,
-            'description' => $request->description,
-            'ads_type' => $request->ads_type,
-            'ads_status' => $request->ads_status,
-            'category_id' => $request->category_id,
-            'city_id' => $request->city_id,
-            'contact' => $request->contact,
-            'image' => $request->image,
-            'price' => $request->price,
-            'tags' => $request->tags,
-            'lng' => $request->lng,
-            'lat' => $request->lat,
-            'willing_to_trade' => $request->willing_to_trade ? $request->willing_to_trade : 0,
-            'user_id' => auth()->user()->id,
-            'status' => 3,
+            'title'            => $request->title,
+            'description'      => $request->description,
+            'ads_type'         => $request->ads_type,
+            'ads_status'       => $request->ads_status,
+            'category_id'      => $request->category_id,
+            'city_id'          => $request->city_id,
+            'contact'          => $request->contact,
+            'image'            => $request->image,
+            'price'            => $request->price,
+            'tags'             => $request->tags,
+            'lng'              => $request->lng,
+            'lat'              => $request->lat,
+            'willing_to_trade' => $request->willing_to_trade ?: 0,
+            'user_id'          => auth()->user()->id,
+            'status'           => 3,
         ];
         if ($request->hasFile('image')) {
             $imageService->setExclusiveDirectory('images'.DIRECTORY_SEPARATOR.'user-advertisement-images');
@@ -52,7 +52,7 @@ class AdvertisementController extends Controller
             if ($result) {
                 $inputs['image'] = $result;
             } else {
-                return $this->error(null, 'خطا در اپلود عکس', 500);
+                return ApiNewJsonResponse::error(500, message: 'خطا در اپلود عکس');
             }
         }
         $ads = Advertisement::create($inputs);
@@ -78,19 +78,19 @@ class AdvertisementController extends Controller
         $this->authorize('update', $advertisement);
 
         $inputs = [
-            'title' => $request->title,
-            'description' => $request->description,
-            'ads_type' => $request->ads_type,
-            'ads_status' => $request->ads_status,
-            'city_id' => $request->city_id,
-            'contact' => $request->contact,
-            'image' => $request->image,
-            'price' => $request->price,
-            'tags' => $request->tags,
-            'lng' => $request->lng,
-            'lat' => $request->lat,
-            'willing_to_trade' => $request->willing_to_trade ? $request->willing_to_trade : 0,
-            'status' => 3,
+            'title'            => $request->title,
+            'description'      => $request->description,
+            'ads_type'         => $request->ads_type,
+            'ads_status'       => $request->ads_status,
+            'city_id'          => $request->city_id,
+            'contact'          => $request->contact,
+            'image'            => $request->image,
+            'price'            => $request->price,
+            'tags'             => $request->tags,
+            'lng'              => $request->lng,
+            'lat'              => $request->lat,
+            'willing_to_trade' => $request->willing_to_trade ?: 0,
+            'status'           => 3,
         ];
 
         if ($request->hasFile('image')) {
@@ -100,14 +100,14 @@ class AdvertisementController extends Controller
             $imageService->setExclusiveDirectory('images'.DIRECTORY_SEPARATOR.'user-advertisement-images');
             $result = $imageService->createIndexAndSave($request->image);
             if ($result === false) {
-                return $this->error(null, 'خطا در فرایند اپلود', 500);
+                return ApiNewJsonResponse::error(500, message:  'خطا در فرایند اپلود');
             }
             $inputs['image'] = $result;
         } else {
             if (isset($inputs['currentImage']) && ! empty($advertisement->image)) {
-                $image = $advertisement->image;
+                $image                 = $advertisement->image;
                 $image['currentImage'] = $inputs['currentImage'];
-                $inputs['image'] = $image;
+                $inputs['image']       = $image;
             }
         }
         $advertisement->update($inputs);
@@ -124,6 +124,6 @@ class AdvertisementController extends Controller
 
         $advertisement->delete();
 
-        return $this->success(null, 'آگهی حذف شد');
+        return ApiNewJsonResponse::success(message: 'آگهی حذف شد');
     }
 }

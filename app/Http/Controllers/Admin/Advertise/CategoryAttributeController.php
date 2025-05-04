@@ -7,13 +7,11 @@ use App\Http\Requests\Admin\StoreCategoryAttributeRequest;
 use App\Http\Requests\Admin\UpdateCategoryAttributeRequest;
 use App\Http\Resources\Admin\Advertise\CategoryAttributeCollection;
 use App\Http\Resources\Admin\Advertise\CategoryAttributeResource;
+use App\Http\Responses\ApiNewJsonResponse;
 use App\Models\Advertise\CategoryAttribute;
-use App\Traits\HttpResponses;
 
 class CategoryAttributeController extends Controller
 {
-    use HttpResponses;
-
     /**
      * Display a listing of the resource.
      */
@@ -27,7 +25,7 @@ class CategoryAttributeController extends Controller
      */
     public function store(StoreCategoryAttributeRequest $request)
     {
-        $inputs = $request->all();
+        $inputs            = $request->all();
         $categoryAttribute = CategoryAttribute::create($inputs);
 
         return new CategoryAttributeResource($categoryAttribute);
@@ -59,7 +57,6 @@ class CategoryAttributeController extends Controller
     {
         $categoryAttribute->delete();
 
-        // return ['status' => true, 'msg' => 'دسته بندی حذف شد'];
-        return $this->success(null, 'ویژگی دسته بندی حذف شد');
+        return ApiNewJsonResponse::success(message: 'ویژگی دسته بندی حذف شد');
     }
 }

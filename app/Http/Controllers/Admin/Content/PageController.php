@@ -7,13 +7,11 @@ use App\Http\Requests\Admin\StorePageRequest;
 use App\Http\Requests\Admin\UpdatePageRequest;
 use App\Http\Resources\Admin\Content\PageCollection;
 use App\Http\Resources\Admin\Content\PageResource;
+use App\Http\Responses\ApiNewJsonResponse;
 use App\Models\Content\Page;
-use App\Traits\HttpResponses;
 
 class PageController extends Controller
 {
-    use HttpResponses;
-
     /**
      * Display a listing of the resource.
      */
@@ -28,7 +26,7 @@ class PageController extends Controller
     public function store(StorePageRequest $request)
     {
         $inputs = $request->all();
-        $page = Page::create($inputs);
+        $page   = Page::create($inputs);
 
         return new PageResource($page);
     }
@@ -59,7 +57,6 @@ class PageController extends Controller
     {
         $page->delete();
 
-        // return ['status' => true, 'msg' => 'منو حذف شد'];
-        return $this->success(null, 'منو حذف شد');
+        return ApiNewJsonResponse::success(message: 'منو حذف شد');
     }
 }
