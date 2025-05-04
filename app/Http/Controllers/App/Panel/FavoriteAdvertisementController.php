@@ -4,7 +4,7 @@ namespace App\Http\Controllers\App\Panel;
 
 use App\Http\Controllers\Controller;
 use App\Http\Resources\App\AdvertisementResource;
-use App\Http\Responses\ApiNewJsonResponse;
+use App\Http\Responses\ApiJsonResponse;
 use App\Models\Advertise\Advertisement;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Http\JsonResponse;
@@ -31,7 +31,7 @@ class FavoriteAdvertisementController extends Controller
         $user = auth()->user();
 
         if ($user?->favoriteAdvertisements()->where('advertisement_id', $advertisement->id)->exists()) {
-            return ApiNewJsonResponse::error(400, 'این آگهی قبلا نشان شده است');
+            return ApiJsonResponse::error(400, 'این آگهی قبلا نشان شده است');
         }
 
         $user?->favoriteAdvertisements()->attach($advertisement->id);
@@ -44,11 +44,11 @@ class FavoriteAdvertisementController extends Controller
         $user = auth()->user();
 
         if (! $user?->favoriteAdvertisements()->where('advertisement_id', $advertisement->id)->exists()) {
-            return ApiNewJsonResponse::error(400, 'این آگهی در لیست نشان شده ها نیست');
+            return ApiJsonResponse::error(400, 'این آگهی در لیست نشان شده ها نیست');
         }
 
         $user?->favoriteAdvertisements()->detach($advertisement->id);
 
-        return ApiNewJsonResponse::success(message: 'آگهی با موفقیت از نشان شده ها حذف شد');
+        return ApiJsonResponse::success(message: 'آگهی با موفقیت از نشان شده ها حذف شد');
     }
 }

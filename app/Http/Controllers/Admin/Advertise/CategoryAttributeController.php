@@ -7,7 +7,7 @@ use App\Http\Requests\Admin\StoreCategoryAttributeRequest;
 use App\Http\Requests\Admin\UpdateCategoryAttributeRequest;
 use App\Http\Resources\Admin\Advertise\CategoryAttributeCollection;
 use App\Http\Resources\Admin\Advertise\CategoryAttributeResource;
-use App\Http\Responses\ApiNewJsonResponse;
+use App\Http\Responses\ApiJsonResponse;
 use App\Models\Advertise\CategoryAttribute;
 
 class CategoryAttributeController extends Controller
@@ -57,6 +57,6 @@ class CategoryAttributeController extends Controller
     {
         $categoryAttribute->delete();
 
-        return ApiNewJsonResponse::success(message: 'ویژگی دسته بندی حذف شد');
+        return ApiJsonResponse::success(message: 'ویژگی دسته بندی حذف شد');
     }
 }

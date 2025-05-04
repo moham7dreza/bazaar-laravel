@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\VerifyOtpRequest;
-use App\Http\Responses\ApiNewJsonResponse;
+use App\Http\Responses\ApiJsonResponse;
 use App\Models\User;
 use App\Models\User\Otp;
 use Carbon\Carbon;
@@ -25,22 +25,22 @@ class VerifyUserWithOTPController extends Controller
         ]);
 
         if (! $otp) {
-            return ApiNewJsonResponse::error(Response::HTTP_UNPROCESSABLE_ENTITY, 'کد تایید یافت نشد');
+            return ApiJsonResponse::error(Response::HTTP_UNPROCESSABLE_ENTITY, 'کد تایید یافت نشد');
         }
 
         if ($otp->attempts >= 3) {
-            return ApiNewJsonResponse::error(Response::HTTP_TOO_MANY_REQUESTS, 'تعداد دفعات مجاز این کد به پایان رسید');
+            return ApiJsonResponse::error(Response::HTTP_TOO_MANY_REQUESTS, 'تعداد دفعات مجاز این کد به پایان رسید');
         }
 
         if (Carbon::now()->diffInMinutes($otp->created_at) > 5) {
-            return ApiNewJsonResponse::error(Response::HTTP_UNPROCESSABLE_ENTITY, 'زمان مجاز این کد به پایان رسید');
+            return ApiJsonResponse::error(Response::HTTP_UNPROCESSABLE_ENTITY, 'زمان مجاز این کد به پایان رسید');
         }
 
         if ($otp->otp_code !== $request->otp) {
 
             $otp->increment('attempts');
 
-            return ApiNewJsonResponse::error(Response::HTTP_UNPROCESSABLE_ENTITY, 'کد وارد شده صحیح نمیباشد');
+            return ApiJsonResponse::error(Response::HTTP_UNPROCESSABLE_ENTITY, 'کد وارد شده صحیح نمیباشد');
         }
 
         $otp->update(['used' => 1]);
@@ -66,6 +66,6 @@ class VerifyUserWithOTPController extends Controller
 
         auth()->login($user);
 
-        return ApiNewJsonResponse::success(message: $message);
+        return ApiJsonResponse::success(message: $message);
     }
 }

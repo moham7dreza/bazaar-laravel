@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Admin\User;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\Admin\User\UserCollection;
 use App\Http\Resources\Admin\User\UserResource;
-use App\Http\Responses\ApiNewJsonResponse;
+use App\Http\Responses\ApiJsonResponse;
 use App\Models\User;
 use Illuminate\Http\Request;
 
@@ -45,7 +45,6 @@ class UserController extends Controller
     {
         $user->delete();
 
-
-        return ApiNewJsonResponse::success(message: 'کاربر حذف شد');
+        return ApiJsonResponse::success(message: 'کاربر حذف شد');
     }
 }

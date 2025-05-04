@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Responses\ApiNewJsonResponse;
+use App\Http\Responses\ApiJsonResponse;
 use App\Http\Services\DomainRouter;
 use Illuminate\Http\Request;
 
@@ -12,6 +12,6 @@ class DomainRouterController
     {
         $routes = app(DomainRouter::class)->generateRoutes($request);
 
-        return ApiNewJsonResponse::success($routes);
+        return ApiJsonResponse::success($routes);
     }
 }

@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\StoreCategoryRequest;
 use App\Http\Resources\Admin\Advertise\CategoryCollection;
 use App\Http\Resources\Admin\Advertise\CategoryResource;
-use App\Http\Responses\ApiNewJsonResponse;
+use App\Http\Responses\ApiJsonResponse;
 use App\Models\Advertise\Category;
 use Illuminate\Http\Request;
 
@@ -57,6 +57,6 @@ class CategoryController extends Controller
     {
         $category->delete();
 
-        return ApiNewJsonResponse::success(message: 'دسته بندی حذف شد');
+        return ApiJsonResponse::success(message: 'دسته بندی حذف شد');
     }
 }

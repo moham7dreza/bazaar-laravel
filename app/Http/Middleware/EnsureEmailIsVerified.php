@@ -2,7 +2,7 @@
 
 namespace App\Http\Middleware;
 
-use App\Http\Responses\ApiNewJsonResponse;
+use App\Http\Responses\ApiJsonResponse;
 use Closure;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Http\Request;
@@ -16,7 +16,7 @@ class EnsureEmailIsVerified
         if (! $user ||
             ($user instanceof MustVerifyEmail && ! $user->hasVerifiedEmail())
         ) {
-            return ApiNewJsonResponse::error(Response::HTTP_CONFLICT, __('response.general.unverified-email'));
+            return ApiJsonResponse::error(Response::HTTP_CONFLICT, __('response.general.unverified-email'));
         }
 
         return $next($request);

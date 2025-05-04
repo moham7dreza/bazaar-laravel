@@ -7,7 +7,7 @@ use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Response;
 
-final class ApiNewJsonResponse
+final class ApiJsonResponse
 {
     public static function success(
         array|Arrayable|null $data = null,

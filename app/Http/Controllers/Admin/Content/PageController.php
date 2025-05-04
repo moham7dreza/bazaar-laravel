@@ -7,7 +7,7 @@ use App\Http\Requests\Admin\StorePageRequest;
 use App\Http\Requests\Admin\UpdatePageRequest;
 use App\Http\Resources\Admin\Content\PageCollection;
 use App\Http\Resources\Admin\Content\PageResource;
-use App\Http\Responses\ApiNewJsonResponse;
+use App\Http\Responses\ApiJsonResponse;
 use App\Models\Content\Page;
 
 class PageController extends Controller
@@ -57,6 +57,6 @@ class PageController extends Controller
     {
         $page->delete();
 
-        return ApiNewJsonResponse::success(message: 'منو حذف شد');
+        return ApiJsonResponse::success(message: 'منو حذف شد');
     }
 }

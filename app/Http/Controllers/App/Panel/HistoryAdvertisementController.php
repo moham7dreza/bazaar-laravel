@@ -4,7 +4,7 @@ namespace App\Http\Controllers\App\Panel;
 
 use App\Http\Controllers\Controller;
 use App\Http\Resources\App\AdvertisementCollection;
-use App\Http\Responses\ApiNewJsonResponse;
+use App\Http\Responses\ApiJsonResponse;
 use App\Models\Advertise\Advertisement;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Http\JsonResponse;
@@ -28,7 +28,7 @@ class HistoryAdvertisementController extends Controller
     public function store(Advertisement $advertisement): JsonResponse
     {
         if (! auth()->check()) {
-            return ApiNewJsonResponse::error(403, __('response.general.forbidden'));
+            return ApiJsonResponse::error(403, __('response.general.forbidden'));
         }
         $user = auth()->user();
 
@@ -38,6 +38,6 @@ class HistoryAdvertisementController extends Controller
             $user?->viewedAdvertisements()->attach($advertisement->id);
         }
 
-        return ApiNewJsonResponse::success(message: 'لیست تاریخچه بازدید بروز شد');
+        return ApiJsonResponse::success(message: 'لیست تاریخچه بازدید بروز شد');
     }
 }

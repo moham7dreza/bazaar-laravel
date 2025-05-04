@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\App\StoreAdvertisementRequest;
 use App\Http\Resources\App\AdvertisementCollection;
 use App\Http\Resources\App\AdvertisementResource;
-use App\Http\Responses\ApiNewJsonResponse;
+use App\Http\Responses\ApiJsonResponse;
 use App\Http\Services\Image\ImageService;
 use App\Models\Advertise\Advertisement;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
@@ -52,7 +52,7 @@ class AdvertisementController extends Controller
             if ($result) {
                 $inputs['image'] = $result;
             } else {
-                return ApiNewJsonResponse::error(500, message: 'خطا در اپلود عکس');
+                return ApiJsonResponse::error(500, message: 'خطا در اپلود عکس');
             }
         }
         $ads = Advertisement::create($inputs);
@@ -100,7 +100,7 @@ class AdvertisementController extends Controller
             $imageService->setExclusiveDirectory('images'.DIRECTORY_SEPARATOR.'user-advertisement-images');
             $result = $imageService->createIndexAndSave($request->image);
             if ($result === false) {
-                return ApiNewJsonResponse::error(500, message:  'خطا در فرایند اپلود');
+                return ApiJsonResponse::error(500, message:  'خطا در فرایند اپلود');
             }
             $inputs['image'] = $result;
         } else {
@@ -124,6 +124,6 @@ class AdvertisementController extends Controller
 
         $advertisement->delete();
 
-        return ApiNewJsonResponse::success(message: 'آگهی حذف شد');
+        return ApiJsonResponse::success(message: 'آگهی حذف شد');
     }
 }

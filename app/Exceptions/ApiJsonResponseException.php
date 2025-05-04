@@ -2,7 +2,7 @@
 
 namespace App\Exceptions;
 
-use App\Http\Responses\ApiNewJsonResponse;
+use App\Http\Responses\ApiJsonResponse;
 use Exception;
 use Illuminate\Contracts\Support\Responsable;
 use Illuminate\Http\JsonResponse;
@@ -27,7 +27,7 @@ final class ApiJsonResponseException extends Exception implements Responsable
 
     public function toResponse($request): JsonResponse
     {
-        return ApiNewJsonResponse::error($this->status, $this->messages);
+        return ApiJsonResponse::error($this->status, $this->messages);
     }
 
     private function getDefaultMessageForStatus(int $status): array

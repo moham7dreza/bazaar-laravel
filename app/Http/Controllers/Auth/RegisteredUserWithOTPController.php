@@ -7,7 +7,7 @@ use Amiriun\SMS\Services\SMSService;
 use App\Enums\NoticeType;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\LoginOtpRequest;
-use App\Http\Responses\ApiNewJsonResponse;
+use App\Http\Responses\ApiJsonResponse;
 use App\Models\User;
 use App\Models\User\Otp;
 use Illuminate\Http\JsonResponse;
@@ -41,6 +41,6 @@ class RegisteredUserWithOTPController extends Controller
 
         $smsService->send($data);
 
-        return ApiNewJsonResponse::success(['token' => $token], message: 'کد تایید با موفقیت ارسال شد');
+        return ApiJsonResponse::success(['token' => $token], message: 'کد تایید با موفقیت ارسال شد');
     }
 }

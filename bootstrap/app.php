@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Responses\ApiNewJsonResponse;
+use App\Http\Responses\ApiJsonResponse;
 use BezhanSalleh\FilamentExceptions\FilamentExceptions;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
@@ -69,12 +69,12 @@ return Application::configure(basePath: dirname(__DIR__))
 
             // Authorization
             if ($e instanceof AuthorizationException) {
-                return ApiNewJsonResponse::error(Response::HTTP_FORBIDDEN, 'AuthorizationException');
+                return ApiJsonResponse::error(Response::HTTP_FORBIDDEN, 'AuthorizationException');
             }
 
             // Access Denied
             if ($e instanceof AccessDeniedHttpException) {
-                return ApiNewJsonResponse::error(Response::HTTP_FORBIDDEN, 'AccessDeniedHttpException');
+                return ApiJsonResponse::error(Response::HTTP_FORBIDDEN, 'AccessDeniedHttpException');
             }
 
             // Model Not Found
@@ -84,19 +84,19 @@ return Application::configure(basePath: dirname(__DIR__))
 
                 $message = isEnvProduction() ? 'Record Not Found.' : "$model Not Found.";
 
-                return ApiNewJsonResponse::error(Response::HTTP_NOT_FOUND, $message);
+                return ApiJsonResponse::error(Response::HTTP_NOT_FOUND, $message);
             }
 
             // Database
             if ($e instanceof QueryException) {
 
-                return ApiNewJsonResponse::error(Response::HTTP_INTERNAL_SERVER_ERROR, 'QueryException');
+                return ApiJsonResponse::error(Response::HTTP_INTERNAL_SERVER_ERROR, 'QueryException');
             }
 
             // for other exceptions
             /*
             if (! $e instanceof ValidationException) {
-                return ApiNewJsonResponse::error(Response::HTTP_INTERNAL_SERVER_ERROR, 'Server Error');
+                return ApiJsonResponse::error(Response::HTTP_INTERNAL_SERVER_ERROR, 'Server Error');
             }
             */
         });

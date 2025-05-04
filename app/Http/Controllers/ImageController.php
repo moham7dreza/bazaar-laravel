@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\ImageStoreRequest;
 use App\Http\Requests\ImageUpdateRequest;
-use App\Http\Responses\ApiNewJsonResponse;
+use App\Http\Responses\ApiJsonResponse;
 use App\Http\Services\Image\ImageService;
 use Illuminate\Http\JsonResponse;
 
@@ -20,7 +20,7 @@ class ImageController extends Controller
         $result = $imageService->upload($request->getDTO());
 
         if (! $result) {
-            return ApiNewJsonResponse::error(500, message: __('response.image.upload failed'));
+            return ApiJsonResponse::error(500, message: __('response.image.upload failed'));
         }
 
         return $result;
@@ -40,7 +40,7 @@ class ImageController extends Controller
         $result = $imageService->update($request->getDTO(), $image);
 
         if (! $result) {
-            return ApiNewJsonResponse::error(500, message: __('response.image.upload failed'));
+            return ApiJsonResponse::error(500, message: __('response.image.upload failed'));
         }
 
         return $result;

@@ -7,7 +7,7 @@ use App\Http\Requests\App\StoreGalleryRequest;
 use App\Http\Requests\App\UpdateGalleryRequest;
 use App\Http\Resources\App\GalleryCollection;
 use App\Http\Resources\App\GalleryResource;
-use App\Http\Responses\ApiNewJsonResponse;
+use App\Http\Responses\ApiJsonResponse;
 use App\Http\Services\Image\ImageService;
 use App\Models\Advertise\Gallery;
 
@@ -21,7 +21,7 @@ class GalleryController extends Controller
         // بررسی اینکه آگهی متعلق به کاربر است
         $advertisement = auth()->user()?->advertisements()->find($advertisementId);
         if (! $advertisement) {
-            return ApiNewJsonResponse::error(403, message: 'آگهی مورد نظر یافت نشد یا متعلق به شما نیست');
+            return ApiJsonResponse::error(403, message: 'آگهی مورد نظر یافت نشد یا متعلق به شما نیست');
         }
         $galleries = Gallery::where('advertisement_id', $advertisementId)->get();
 
@@ -36,7 +36,7 @@ class GalleryController extends Controller
         // بررسی اینکه آگهی متعلق به کاربر است
         $advertisement = auth()->user()->advertisements()->find($advertisementId);
         if (! $advertisement) {
-            return ApiNewJsonResponse::error(403, message: 'آگهی مورد نظر یافت نشد یا متعلق به شما نیست');
+            return ApiJsonResponse::error(403, message: 'آگهی مورد نظر یافت نشد یا متعلق به شما نیست');
         }
 
         $inputs                     = $request->all();
@@ -48,7 +48,7 @@ class GalleryController extends Controller
             if ($result) {
                 $inputs['url'] = $result;
             } else {
-                return ApiNewJsonResponse::error(500, message: 'خطا در اپلود تصویر');
+                return ApiJsonResponse::error(500, message: 'خطا در اپلود تصویر');
             }
         }
 
@@ -64,7 +64,7 @@ class GalleryController extends Controller
     {
         // بررسی اینکه گالری متعلق به آگهی کاربر است
         if ($gallery->advertisement->user_id !== auth()->id()) {
-            return ApiNewJsonResponse::error(403, message: 'دسترسی غیرمجاز');
+            return ApiJsonResponse::error(403, message: 'دسترسی غیرمجاز');
         }
 
         return new GalleryResource($gallery);
@@ -77,7 +77,7 @@ class GalleryController extends Controller
     {
         // بررسی اینکه گالری متعلق به آگهی کاربر است
         if ($gallery->advertisement->user_id !== auth()->id()) {
-            return ApiNewJsonResponse::error(403, 'دسترسی غیرمجاز');
+            return ApiJsonResponse::error(403, 'دسترسی غیرمجاز');
         }
 
         $inputs = $request->all();
@@ -88,7 +88,7 @@ class GalleryController extends Controller
             $imageService->setExclusiveDirectory('images'.DIRECTORY_SEPARATOR.'user-advertisement-images-gallery');
             $result = $imageService->createIndexAndSave($request->url);
             if ($result === false) {
-                return ApiNewJsonResponse::error(500, message: 'خطا در فرایند اپلود');
+                return ApiJsonResponse::error(500, message: 'خطا در فرایند اپلود');
             }
             $inputs['url'] = $result;
         } else {
@@ -111,11 +111,11 @@ class GalleryController extends Controller
     {
         // بررسی اینکه گالری متعلق به آگهی کاربر است
         if ($gallery->advertisement->user_id !== auth()->id()) {
-            return ApiNewJsonResponse::error(403, message: 'دسترسی غیرمجاز');
+            return ApiJsonResponse::error(403, message: 'دسترسی غیرمجاز');
         }
 
         $gallery->delete();
 
-        return ApiNewJsonResponse::success(message: 'گالری حذف شد');
+        return ApiJsonResponse::success(message: 'گالری حذف شد');
     }
 }

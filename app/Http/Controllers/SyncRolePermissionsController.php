@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Enums\UserPermission;
 use App\Enums\UserRole;
-use App\Http\Responses\ApiNewJsonResponse;
+use App\Http\Responses\ApiJsonResponse;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rules\Enum;
@@ -32,7 +32,7 @@ class SyncRolePermissionsController extends Controller
 
         if ($requiresAdminPrivileges && ! $request->user()->isAdmin()) {
 
-            return ApiNewJsonResponse::error(422, 'Admin privileges required for selected permissions');
+            return ApiJsonResponse::error(422, 'Admin privileges required for selected permissions');
         }
 
         // Assign permissions to role
@@ -41,6 +41,6 @@ class SyncRolePermissionsController extends Controller
             $permissions->map->value->toArray()
         );
 
-        return ApiNewJsonResponse::success(message: 'Permissions updated successfully');
+        return ApiJsonResponse::success(message: 'Permissions updated successfully');
     }
 }

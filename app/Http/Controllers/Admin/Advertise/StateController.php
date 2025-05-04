@@ -7,7 +7,7 @@ use App\Http\Requests\Admin\StoreStateRequest;
 use App\Http\Requests\Admin\UpdateStateRequest;
 use App\Http\Resources\Admin\Advertise\StateCollection;
 use App\Http\Resources\Admin\Advertise\StateResource;
-use App\Http\Responses\ApiNewJsonResponse;
+use App\Http\Responses\ApiJsonResponse;
 use App\Models\Advertise\State;
 
 class StateController extends Controller
@@ -57,6 +57,6 @@ class StateController extends Controller
     {
         $state->delete();
 
-        return ApiNewJsonResponse::success(message:  'محل حذف شد');
+        return ApiJsonResponse::success(message:  'محل حذف شد');
     }
 }
