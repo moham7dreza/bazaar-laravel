@@ -8,10 +8,12 @@ use App\Http\Services\TranslationService;
 use App\Models\User;
 use App\Rules\ValidateImageRule;
 use App\Rules\ValidateNationalCodeRule;
+use Carbon\CarbonImmutable;
 use Illuminate\Database\Connection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Events\QueryExecuted;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Date;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Http;
@@ -44,6 +46,7 @@ class AppServiceProvider extends ServiceProvider
         $this->setupMacros();
         $this->handleMissingTrans();
         $this->setUpValidators();
+        $this->configureDate();
     }
 
     private function configureCommands(): void
@@ -54,7 +57,7 @@ class AppServiceProvider extends ServiceProvider
     private function configureModels(): void
     {
         Model::automaticallyEagerLoadRelationships();
-        Model::shouldBeStrict(); // throw exception if any property of model does not exists when trying to get it
+        Model::shouldBeStrict(! isEnvProduction()); // throw exception if any property of model does not exists when trying to get it
         Model::unguard();
     }
 
@@ -67,17 +70,17 @@ class AppServiceProvider extends ServiceProvider
     {
         Http::globalOptions([
             // Set reasonable timeouts
-            'timeout' => 8,
+            'timeout'         => 8,
             'connect_timeout' => 3,
 
             // Add default headers
             'headers' => [
                 'User-Agent' => 'ShoppingPortal/2.1',
-                'Accept' => 'application/json',
+                'Accept'     => 'application/json',
             ],
 
             // Configure default retry behavior
-            'retry' => 2,
+            'retry'       => 2,
             'retry_delay' => 150,
         ]);
     }
@@ -112,13 +115,13 @@ class AppServiceProvider extends ServiceProvider
         DB::whenQueryingForLongerThan(5000, static function (Connection $connection, QueryExecuted $event): void {
 
             mongo_info('slow-query', [
-                'connection' => $event->connection,
+                'connection'     => $event->connection,
                 'connectionName' => $event->connectionName,
-                'duration' => $event->time,
-                'sql' => $event->sql,
-                'bindings' => Str::replaceArray('?', $event->bindings, $event->sql),
-                'path' => request()?->path(),
-                'req' => request()?->all(),
+                'duration'       => $event->time,
+                'sql'            => $event->sql,
+                'bindings'       => Str::replaceArray('?', $event->bindings, $event->sql),
+                'path'           => request()?->path(),
+                'req'            => request()?->all(),
             ]);
         });
     }
@@ -177,5 +180,10 @@ class AppServiceProvider extends ServiceProvider
                 ->setValidator($validator)
                 ->passes($attribute, $value);
         });
+    }
+
+    private function configureDate(): void
+    {
+        Date::use(CarbonImmutable::class);
     }
 }
