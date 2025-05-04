@@ -29,7 +29,7 @@ class AdvertisementReadRepository extends BaseRepository
         $items = $this->freshQuery()->getQuery()
             ->select('user_id')
             ->distinct('user_id')
-            ->whereRelation('user', function (Builder $query) {
+            ->whereRelation('user', function (Builder $query): void {
                 $query
                     ->whereNotIn('id', [
                         UserId::Admin->value,
