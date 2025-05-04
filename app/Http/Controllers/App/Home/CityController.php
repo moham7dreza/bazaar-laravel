@@ -14,7 +14,7 @@ class CityController extends Controller
      */
     public function index(): ResourceCollection
     {
-        $cities = City::query()->active()->lazy();
+        $cities = City::query()->active()->get();
 
         return $cities->toResourceCollection(CityCollection::class);
     }
