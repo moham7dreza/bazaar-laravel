@@ -57,7 +57,7 @@ class AppServiceProvider extends ServiceProvider
     private function configureModels(): void
     {
         Model::automaticallyEagerLoadRelationships();
-        Model::shouldBeStrict(! isEnvProduction()); // throw exception if any property of model does not exists when trying to get it
+        Model::shouldBeStrict(! isEnvProduction());
         Model::unguard();
     }
 
