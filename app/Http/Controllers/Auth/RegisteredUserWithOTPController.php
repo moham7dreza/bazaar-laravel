@@ -7,7 +7,7 @@ use Amiriun\SMS\Services\SMSService;
 use App\Enums\NoticeType;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\LoginOtpRequest;
-use App\Http\Responses\ApiJsonResponse;
+use App\Http\Responses\ApiNewJsonResponse;
 use App\Models\User;
 use App\Models\User\Otp;
 use Illuminate\Http\JsonResponse;
@@ -18,19 +18,19 @@ class RegisteredUserWithOTPController extends Controller
     public function store(LoginOtpRequest $request, SmsService $smsService): JsonResponse
     {
         $otpCode = random_int(1000, 9999);
-        $token = Str::random(60);
+        $token   = Str::random(60);
 
         $user = User::firstWhere('mobile', $request->mobile);
 
         Otp::query()->updateOrCreate(
             ['login_id' => $request->mobile, 'used' => 0],
             [
-                'token' => $token,
+                'token'    => $token,
                 'otp_code' => $otpCode,
                 'login_id' => $request->mobile,
-                'type' => NoticeType::SMS,
+                'type'     => NoticeType::SMS,
                 'attempts' => 0,
-                'user_id' => $user?->id,
+                'user_id'  => $user?->id,
             ]
         );
 
@@ -41,6 +41,6 @@ class RegisteredUserWithOTPController extends Controller
 
         $smsService->send($data);
 
-        return ApiJsonResponse::success('کد تایید با موفقیت ارسال شد', ['token' => $token]);
+        return ApiNewJsonResponse::success(['token' => $token], message: 'کد تایید با موفقیت ارسال شد');
     }
 }

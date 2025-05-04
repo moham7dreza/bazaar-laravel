@@ -2,7 +2,7 @@
 
 namespace App\Http\Middleware;
 
-use App\Http\Responses\ApiJsonResponse;
+use App\Http\Responses\ApiNewJsonResponse;
 use Closure;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -13,7 +13,7 @@ class CheckAdminMiddleware
     {
         $user = getUser();
         if (! $user?->isAdmin()) {
-            return ApiJsonResponse::error(trans('response.general.forbidden'), code: Response::HTTP_FORBIDDEN);
+            return ApiNewJsonResponse::error(Response::HTTP_FORBIDDEN, __('response.general.forbidden'));
         }
 
         return $next($request);

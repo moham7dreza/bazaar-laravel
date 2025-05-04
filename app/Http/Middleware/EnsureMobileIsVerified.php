@@ -3,7 +3,7 @@
 namespace App\Http\Middleware;
 
 use App\Contracts\MustVerifyMobile;
-use App\Http\Responses\ApiJsonResponse;
+use App\Http\Responses\ApiNewJsonResponse;
 use Closure;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -15,7 +15,8 @@ class EnsureMobileIsVerified
         $user = getUser();
         if (! $user ||
             ($user instanceof MustVerifyMobile && ! $user->hasVerifiedMobile())) {
-            return ApiJsonResponse::error(trans('response.general.unverified-mobile'), code: Response::HTTP_CONFLICT);
+
+            return ApiNewJsonResponse::error(Response::HTTP_CONFLICT, __('response.general.unverified-mobile'));
         }
 
         return $next($request);

@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Responses\ApiJsonResponse;
+use App\Http\Responses\ApiNewJsonResponse;
 use BezhanSalleh\FilamentExceptions\FilamentExceptions;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
@@ -19,12 +19,12 @@ return Application::configure(basePath: dirname(__DIR__))
         commands: __DIR__.'/../routes/console.php',
         channels: __DIR__.'/../routes/channels.php',
         health: '/up',
-        //        then: function () {
-        //            Route::middleware('api')
-        //                ->prefix('api/v1')
-        //                ->name('api.v1.')
-        //                ->group(base_path('routes/api_v1.php'));
-        //        },
+    //        then: function () {
+    //            Route::middleware('api')
+    //                ->prefix('api/v1')
+    //                ->name('api.v1.')
+    //                ->group(base_path('routes/api_v1.php'));
+    //        },
     )
     ->withMiddleware(function (Middleware $middleware): void {
 
@@ -69,12 +69,12 @@ return Application::configure(basePath: dirname(__DIR__))
 
             // Authorization
             if ($e instanceof AuthorizationException) {
-                return ApiJsonResponse::error('AuthorizationException', ['log' => $e->getMessage()], Response::HTTP_FORBIDDEN);
+                return ApiNewJsonResponse::error(Response::HTTP_FORBIDDEN, 'AuthorizationException');
             }
 
             // Access Denied
             if ($e instanceof AccessDeniedHttpException) {
-                return ApiJsonResponse::error('AccessDeniedHttpException', ['log' => $e->getMessage()], Response::HTTP_FORBIDDEN);
+                return ApiNewJsonResponse::error(Response::HTTP_FORBIDDEN, 'AccessDeniedHttpException');
             }
 
             // Model Not Found
@@ -84,18 +84,19 @@ return Application::configure(basePath: dirname(__DIR__))
 
                 $message = isEnvProduction() ? 'Record Not Found.' : "$model Not Found.";
 
-                return ApiJsonResponse::error($message, ['log' => $e->getMessage()], Response::HTTP_NOT_FOUND);
+                return ApiNewJsonResponse::error(Response::HTTP_NOT_FOUND, $message);
             }
 
             // Database
             if ($e instanceof QueryException) {
-                return ApiJsonResponse::error('QueryException', ['log' => $e->getMessage()]);
+
+                return ApiNewJsonResponse::error(Response::HTTP_INTERNAL_SERVER_ERROR, 'QueryException');
             }
 
             // for other exceptions
             /*
             if (! $e instanceof ValidationException) {
-                return ApiJsonResponse::error('Server Error', ['log' => $e->getMessage()]);
+                return ApiNewJsonResponse::error(Response::HTTP_INTERNAL_SERVER_ERROR, 'Server Error');
             }
             */
         });

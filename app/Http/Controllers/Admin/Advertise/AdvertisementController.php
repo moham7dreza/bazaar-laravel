@@ -7,7 +7,7 @@ use App\Http\Requests\Admin\StoreAdvertisementRequest;
 use App\Http\Requests\Admin\UpdateAdvertisementRequest;
 use App\Http\Resources\Admin\Advertise\AdvertisementCollection;
 use App\Http\Resources\Admin\Advertise\AdvertisementResource;
-use App\Http\Responses\ApiJsonResponse;
+use App\Http\Responses\ApiNewJsonResponse;
 use App\Http\Services\Image\ImageService;
 use App\Jobs\ProcessNewAdvertisementJob;
 use App\Models\Advertise\Advertisement;
@@ -37,7 +37,7 @@ class AdvertisementController extends Controller
             if ($result) {
                 $inputs['image'] = $result;
             } else {
-                return ApiJsonResponse::error(trans('response.image.upload failed'));
+                return ApiNewJsonResponse::error(500, message: __('response.image.upload failed'));
             }
         }
 
@@ -69,7 +69,7 @@ class AdvertisementController extends Controller
             $imageService->setExclusiveDirectory('images'.DIRECTORY_SEPARATOR.'advertisement-images');
             $result = $imageService->createIndexAndSave($request->image);
             if ($result === false) {
-                return ApiJsonResponse::error(trans('response.image.upload failed'));
+                return ApiNewJsonResponse::error(500, message: __('response.image.upload failed'));
             }
             $inputs['image'] = $result;
         } else {
@@ -89,6 +89,8 @@ class AdvertisementController extends Controller
      */
     public function destroy(Advertisement $advertisement): JsonResponse
     {
-        return ApiJsonResponse::success(trans('response.general.successful'), $advertisement->delete());
+        $advertisement->delete();
+
+        return ApiNewJsonResponse::success(message: __('response.general.successful'));
     }
 }

@@ -4,12 +4,11 @@ namespace App\Http\Controllers\App\Panel;
 
 use App\Http\Controllers\Controller;
 use App\Http\Resources\App\AdvertisementCollection;
-use App\Http\Responses\ApiJsonResponse;
+use App\Http\Responses\ApiNewJsonResponse;
 use App\Models\Advertise\Advertisement;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Resources\Json\ResourceCollection;
-use Symfony\Component\HttpFoundation\Response;
 
 class HistoryAdvertisementController extends Controller
 {
@@ -29,7 +28,7 @@ class HistoryAdvertisementController extends Controller
     public function store(Advertisement $advertisement): JsonResponse
     {
         if (! auth()->check()) {
-            return ApiJsonResponse::error(trans('response.general.forbidden'), code: Response::HTTP_FORBIDDEN);
+            return ApiNewJsonResponse::error(403, __('response.general.forbidden'));
         }
         $user = auth()->user();
 
@@ -39,6 +38,6 @@ class HistoryAdvertisementController extends Controller
             $user?->viewedAdvertisements()->attach($advertisement->id);
         }
 
-        return ApiJsonResponse::success('لیست تاریخچه بازدید بروز شد');
+        return ApiNewJsonResponse::success(message: 'لیست تاریخچه بازدید بروز شد');
     }
 }

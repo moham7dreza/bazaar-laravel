@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Data\DTOs\HealthChecksDto;
-use App\Http\Responses\ApiJsonResponse;
+use App\Http\Responses\ApiNewJsonResponse;
 use Illuminate\Http\JsonResponse;
 use Spatie\CpuLoadHealthCheck\CpuLoadCheck;
 use Spatie\Health\Checks\Checks\CacheCheck;
@@ -25,11 +25,11 @@ class HealthCheckController extends Controller
     {
         $this->registerChecks();
 
-        return ApiJsonResponse::success(trans('response.general.successful'),
-            array_map(function ($check) {
-                return $this->newHealthStatusDto($check->run(), $check->getName())->toArray();
-            }, $this->healthChecker->registeredChecks()->toArray())
-        );
+        $result = array_map(function ($check) {
+            return $this->newHealthStatusDto($check->run(), $check->getName())->toArray();
+        }, $this->healthChecker->registeredChecks()->toArray());
+
+        return ApiNewJsonResponse::success($result, message: __('response.general.successful'));
     }
 
     private function registerChecks(): void

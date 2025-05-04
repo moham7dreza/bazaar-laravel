@@ -2,7 +2,7 @@
 
 namespace App\Http\Middleware;
 
-use App\Http\Responses\ApiJsonResponse;
+use App\Http\Responses\ApiNewJsonResponse;
 use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -14,7 +14,7 @@ class BearerTokenMiddleware
         $bearerToken = $request->bearerToken();
 
         if ($bearerToken !== getenv('BEARER_TOKEN')) {
-            return ApiJsonResponse::error(trans('response.general.unauthorized'), code: Response::HTTP_UNAUTHORIZED);
+            return ApiNewJsonResponse::error(Response::HTTP_UNAUTHORIZED, __('response.general.unauthorized'));
         }
 
         return $next($request);

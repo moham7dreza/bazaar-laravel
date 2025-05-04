@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\VerifyOtpRequest;
-use App\Http\Responses\ApiJsonResponse;
+use App\Http\Responses\ApiNewJsonResponse;
 use App\Models\User;
 use App\Models\User\Otp;
 use Carbon\Carbon;
@@ -19,28 +19,28 @@ class VerifyUserWithOTPController extends Controller
     public function store(VerifyOtpRequest $request): JsonResponse
     {
         $otp = Otp::query()->firstWhere([
-            'token' => $request->token,
+            'token'    => $request->token,
             'login_id' => $request->mobile,
-            'used' => 0,
+            'used'     => 0,
         ]);
 
         if (! $otp) {
-            return ApiJsonResponse::error('کد تایید یافت نشد', code: Response::HTTP_UNPROCESSABLE_ENTITY);
+            return ApiNewJsonResponse::error(Response::HTTP_UNPROCESSABLE_ENTITY, 'کد تایید یافت نشد');
         }
 
         if ($otp->attempts >= 3) {
-            return ApiJsonResponse::error('تعداد دفعات مجاز این کد به پایان رسید', code: Response::HTTP_TOO_MANY_REQUESTS);
+            return ApiNewJsonResponse::error(Response::HTTP_TOO_MANY_REQUESTS, 'تعداد دفعات مجاز این کد به پایان رسید');
         }
 
         if (Carbon::now()->diffInMinutes($otp->created_at) > 5) {
-            return ApiJsonResponse::error('زمان مجاز این کد به پایان رسید', code: Response::HTTP_UNPROCESSABLE_ENTITY);
+            return ApiNewJsonResponse::error(Response::HTTP_UNPROCESSABLE_ENTITY, 'زمان مجاز این کد به پایان رسید');
         }
 
         if ($otp->otp_code !== $request->otp) {
 
             $otp->increment('attempts');
 
-            return ApiJsonResponse::error('کد وارد شده صحیح نمیباشد', code: Response::HTTP_UNPROCESSABLE_ENTITY);
+            return ApiNewJsonResponse::error(Response::HTTP_UNPROCESSABLE_ENTITY, 'کد وارد شده صحیح نمیباشد');
         }
 
         $otp->update(['used' => 1]);
@@ -50,9 +50,9 @@ class VerifyUserWithOTPController extends Controller
         if (! $user) {
 
             $user = User::create([
-                'password' => Hash::make(Str::random(10)),
-                'mobile' => $request->mobile,
-                'city_id' => $request->city_id,
+                'password'           => Hash::make(Str::random(10)),
+                'mobile'             => $request->mobile,
+                'city_id'            => $request->city_id,
                 'mobile_verified_at' => now(),
             ]);
 
@@ -66,6 +66,6 @@ class VerifyUserWithOTPController extends Controller
 
         auth()->login($user);
 
-        return ApiJsonResponse::success($message);
+        return ApiNewJsonResponse::success(message: $message);
     }
 }

@@ -2,7 +2,7 @@
 
 namespace App\Http\Middleware;
 
-use App\Http\Responses\ApiJsonResponse;
+use App\Http\Responses\ApiNewJsonResponse;
 use Closure;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -13,9 +13,10 @@ class OnlyAllowDevelopersMiddleware
     {
         $user = getUser();
         if ($user && in_array($user->mobile, config('developer.backends'), true)) {
+
             return $next($request);
         }
 
-        return ApiJsonResponse::error(trans('response.general.not-found'), code: Response::HTTP_NOT_FOUND);
+        return ApiNewJsonResponse::error(Response::HTTP_NOT_FOUND, __('response.general.not-found'));
     }
 }

@@ -2,7 +2,7 @@
 
 namespace App\Http\Middleware;
 
-use App\Http\Responses\ApiJsonResponse;
+use App\Http\Responses\ApiNewJsonResponse;
 use Closure;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -15,7 +15,7 @@ class UserCheckSuspendedMiddleware
         if ($user?->isSuspended()) {
             auth()->logout();
 
-            return ApiJsonResponse::error(trans('response.general.suspended'), code: Response::HTTP_FORBIDDEN);
+            return ApiNewJsonResponse::error(Response::HTTP_FORBIDDEN, __('response.general.suspended'));
         }
 
         return $next($request);
