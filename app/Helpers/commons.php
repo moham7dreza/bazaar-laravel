@@ -1,6 +1,7 @@
 <?php
 
 use App\Enums\Environment;
+use App\Enums\UserId;
 use App\Jobs\MongoLogJob;
 use Illuminate\Database\Eloquent\Builder;
 
@@ -39,8 +40,8 @@ if (! function_exists('ondemand_info')) {
     {
         Log::build([
             'driver' => 'single',
-            'path' => storage_path('logs/'.$file.'.log'),
-            'level' => 'info',
+            'path'   => storage_path('logs/'.$file.'.log'),
+            'level'  => 'info',
         ])->info($message, $context);
     }
 }
@@ -100,5 +101,15 @@ if (! function_exists('getSqlWithBindings')) {
     function getSqlWithBindings(Builder $query): array
     {
         return str_replace('?', $query->getBindings(), $query->toSql());
+    }
+}
+
+if (! function_exists('userIdIs')) {
+    function userIdIs(UserId ...$Ids): bool
+    {
+        $currentUserId = getUser()?->id;
+        $resolvedCase  = is_int($currentUserId) ? UserId::tryFrom($currentUserId) : null;
+
+        return $resolvedCase && in_array($resolvedCase, $Ids);
     }
 }
