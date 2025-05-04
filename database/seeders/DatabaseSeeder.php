@@ -14,7 +14,7 @@ class DatabaseSeeder extends Seeder
 
         if (! isEnvProduction()) {
             $this->call([
-                ModelSeeder::class,
+                TopToDownSeeder::class,
                 PermissionSeeder::class,
             ]);
         }

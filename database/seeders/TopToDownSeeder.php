@@ -20,7 +20,7 @@ use App\Models\User\Otp;
 use Illuminate\Database\Eloquent\Factories\Sequence;
 use Illuminate\Database\Seeder;
 
-class ModelSeeder extends Seeder
+class TopToDownSeeder extends Seeder
 {
     public function run(): void
     {
