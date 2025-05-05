@@ -4,6 +4,7 @@ use App\Enums\Environment;
 use App\Enums\UserId;
 use App\Jobs\MongoLogJob;
 use Illuminate\Database\Eloquent\Builder;
+use Morilog\Jalali\Jalalian;
 
 if (! function_exists('getUser')) {
     function getUser($request = null)
@@ -111,5 +112,12 @@ if (! function_exists('userIdIs')) {
         $resolvedCase  = is_int($currentUserId) ? UserId::tryFrom($currentUserId) : null;
 
         return $resolvedCase && in_array($resolvedCase, $Ids);
+    }
+}
+
+if (! function_exists('jalali_date')) {
+    function jalali_date(DateTimeInterface|string|int|null $date = null): ?Jalalian
+    {
+        return ! is_null($date) ? jdate($date) : null;
     }
 }

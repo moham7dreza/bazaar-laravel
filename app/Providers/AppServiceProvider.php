@@ -25,7 +25,6 @@ use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Str;
 use Illuminate\Validation\InvokableValidationRule;
 use Illuminate\Validation\Rules\Password;
-use Morilog\Jalali\Jalalian;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -138,7 +137,7 @@ class AppServiceProvider extends ServiceProvider
     private function setupMacros(): void
     {
         Carbon::macro('toJalali', function (string $format = 'Y-m-d H:i:s') {
-            return Jalalian::forge($this)->format($format);
+            return jalali_date($this)?->format($format);
         });
     }
 

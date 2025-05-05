@@ -12,18 +12,14 @@ final class TimeUtility
 {
     public static function isFirstDayOfJalaliMonth(DateTimeInterface|string|int|null $date): bool
     {
-        return ! is_null($date) && jdate($date)->format('d') === '01';
+        return jalali_date($date)?->format('d') === '01';
     }
 
     public static function isLastDayOfJalaliMonth(DateTimeInterface|string|int|null $date): bool
     {
-        if (is_null($date)) {
-            return false;
-        }
-
         $clonedDate = clone $date;
 
-        return jdate($clonedDate->addDay())->format('d') === '01';
+        return jalali_date($clonedDate->addDay())?->format('d') === '01';
     }
 
     public static function jalaliSeasonNumber(DateTimeInterface|string|int|null $date): ?int
@@ -33,17 +29,17 @@ final class TimeUtility
 
     public static function jalaliWeekdayName(DateTimeInterface|string|int|null $date): ?string
     {
-        return is_null($date) ? null : jdate($date)->format('%A');
+        return jalali_date($date)?->format('%A');
     }
 
     public static function jalaliMonthName(DateTimeInterface|string|int|null $date): ?string
     {
-        return is_null($date) ? null : jdate($date)->format('%B');
+        return jalali_date($date)?->format('%B');
     }
 
     public static function jalaliDayMonthName(DateTimeInterface|string|int|null $date): ?string
     {
-        return is_null($date) ? null : jdate($date)->format('%d %B');
+        return jalali_date($date)?->format('%d %B');
     }
 
     public static function jalaliCurrentYearNumber(): int
