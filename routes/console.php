@@ -1,6 +1,7 @@
 <?php
 
 use App\Console\Commands;
+use App\Console\Commands\System\CheckVulnerabilitiesCommand;
 use App\Models\Monitor\CommandPerformanceLog;
 use App\Models\Monitor\JobPerformanceLog;
 use Cmsmaxinc\FilamentSystemVersions\Commands\CheckDependencyVersions;
@@ -22,6 +23,7 @@ Schedule::command('sanctum:prune-expired --hours=48')->daily();
 Schedule::command('horizon:snapshot')->everyFiveMinutes();
 Schedule::command('cache:prune-stale-tags ')->weekly();
 Schedule::command(CheckDependencyVersions::class)->everyFiveMinutes();
+Schedule::command(CheckVulnerabilitiesCommand::class)->everySixHours();
 
 Schedule::command('model:prune --pretend', [
     '--model' => [
