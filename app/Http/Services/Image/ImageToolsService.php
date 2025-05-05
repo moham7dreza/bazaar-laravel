@@ -2,6 +2,7 @@
 
 namespace App\Http\Services\Image;
 
+use App\Utilities\Date\TimeUtility;
 use Morilog\Jalali\CalendarUtils;
 
 class ImageToolsService
@@ -120,7 +121,7 @@ class ImageToolsService
 
         if (! $this->getImageName()) {
 
-            $this->setImageName(CalendarUtils::strftime('Y_m_d_H_i_s'));
+            $this->setImageName(TimeUtility::jalaliCurrentTimeAsFileName());
         }
 
         if (! $this->getImageFormat()) {
