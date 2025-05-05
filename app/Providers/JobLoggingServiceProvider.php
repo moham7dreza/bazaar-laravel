@@ -6,7 +6,6 @@ use App\Events\PackageSent;
 use App\Jobs\Contracts\ShouldNotifyOnFailures;
 use App\Jobs\MongoLogJob;
 use App\Models\Monitor\JobPerformanceLog;
-use App\Models\User;
 use App\Notifications\FailedJobNotification;
 use Carbon\Carbon;
 use Exception;
@@ -64,9 +63,9 @@ final class JobLoggingServiceProvider extends ServiceProvider
                 if (self::isExcluded($event->job->resolveName())) {
                     return;
                 }
-                $this->startTime = microtime(true);
-                $this->startMemory = memory_get_usage();
-                $this->queryCount = 0;
+                $this->startTime      = microtime(true);
+                $this->startMemory    = memory_get_usage();
+                $this->queryCount     = 0;
                 $this->totalQueryTime = 0;
 
                 DB::listen(function (QueryExecuted $query): void {
@@ -87,22 +86,22 @@ final class JobLoggingServiceProvider extends ServiceProvider
                     return;
                 }
 
-                $endTime = microtime(true);
+                $endTime   = microtime(true);
                 $endMemory = memory_get_usage();
 
-                $duration = $endTime - $this->startTime;
+                $duration    = $endTime   - $this->startTime;
                 $memoryUsage = $endMemory - $this->startMemory;
 
                 $data = [
-                    'job' => $event->job->resolveName(),
-                    'connection' => $event->job->getConnectionName(),
-                    'queue' => $event->job->getQueue(),
-                    'attempts' => $event->job->attempts(),
-                    'started_at' => Carbon::createFromTimestamp($this->startTime)->toDateTimeString(),
-                    'runtime' => round($duration * 1000), // milliseconds
+                    'job'          => $event->job->resolveName(),
+                    'connection'   => $event->job->getConnectionName(),
+                    'queue'        => $event->job->getQueue(),
+                    'attempts'     => $event->job->attempts(),
+                    'started_at'   => Carbon::createFromTimestamp($this->startTime)->toDateTimeString(),
+                    'runtime'      => round($duration * 1000), // milliseconds
                     'memory_usage' => $memoryUsage,
-                    'query_count' => $this->queryCount,
-                    'query_time' => round($this->totalQueryTime), // milliseconds
+                    'query_count'  => $this->queryCount,
+                    'query_time'   => round($this->totalQueryTime), // milliseconds
                 ];
 
                 JobPerformanceLog::query()->create($data);
@@ -129,7 +128,7 @@ final class JobLoggingServiceProvider extends ServiceProvider
             $payload = [
                 'exception' => $event->exception->getMessage(),
                 'job-class' => $event->job->getName(),
-                'job-body' => $event->job->getRawBody(),
+                'job-body'  => $event->job->getRawBody(),
                 'job-trace' => $event->exception->getTraceAsString(),
             ];
 
@@ -137,10 +136,7 @@ final class JobLoggingServiceProvider extends ServiceProvider
 
             if ($event->job instanceof ShouldNotifyOnFailures) {
 
-                /** @var User $admin */
-                $admin = User::query()->admin()->first();
-
-                $admin->notify(new FailedJobNotification($payload));
+                admin()?->notify(new FailedJobNotification($payload));
             }
         });
     }

@@ -3,6 +3,7 @@
 use App\Enums\Environment;
 use App\Enums\UserId;
 use App\Jobs\MongoLogJob;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Builder;
 use Morilog\Jalali\Jalalian;
 
@@ -119,5 +120,13 @@ if (! function_exists('jalali_date')) {
     function jalali_date(DateTimeInterface|string|int|null $date = null): ?Jalalian
     {
         return ! is_null($date) ? jdate($date) : null;
+    }
+}
+
+if (! function_exists('admin')) {
+    function admin(): ?User
+    {
+        return User::query()->find(UserId::Admin)
+            ?? User::query()->admin()->first();
     }
 }
