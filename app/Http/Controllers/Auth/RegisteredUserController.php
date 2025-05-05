@@ -24,9 +24,9 @@ class RegisteredUserController extends Controller
 
         $request->validate([
             'name'     => ['required', 'string', 'max:255'],
-            'email'    => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:'.User::class],
+            'email'    => ['required', 'string', 'lowercase', 'email', 'max:255', Rule::unique('users', 'email')->withoutTrashed()],
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
-            'mobile'   => ['required', 'string', 'max:15', 'unique:'.User::class],
+            'mobile'   => ['required', 'string', 'max:15', Rule::unique('users', 'mobile')->withoutTrashed()],
             'city_id'  => ['nullable', Rule::exists('cities', 'id')->whereNull('deleted_at')],
         ]);
 
