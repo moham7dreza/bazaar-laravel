@@ -51,7 +51,7 @@ class AppServiceProvider extends ServiceProvider
         $this->setUpValidators();
         $this->configureDate();
         $this->configurePassword();
-        $this->configurePipelines();
+//        $this->configurePipelines();
     }
 
     private function configureCommands(): void
