@@ -10,6 +10,7 @@ use Morilog\Jalali\CalendarUtils;
 
 class ImageService extends ImageToolsService
 {
+    // TODO implement factory pattern
     public function upload(ImageUploadDTO $DTO): array|string|null
     {
         try {
@@ -19,10 +20,10 @@ class ImageService extends ImageToolsService
             );
 
             return match ($DTO->uploadMethod) {
-                ImageUploadMethod::METHOD_SAVE => $this->save($DTO->image),
+                ImageUploadMethod::METHOD_SAVE                  => $this->save($DTO->image),
                 ImageUploadMethod::METHOD_CREATE_INDEX_AND_SAVE => $this->createIndexAndSave($DTO->image),
-                ImageUploadMethod::METHOD_FIT_AND_SAVE => $this->fitAndSave($DTO->image, $DTO->width, $DTO->height),
-                default => null,
+                ImageUploadMethod::METHOD_FIT_AND_SAVE          => $this->fitAndSave($DTO->image, $DTO->width, $DTO->height),
+                default                                         => null,
             };
 
         } catch (\Exception $e) {
@@ -58,10 +59,10 @@ class ImageService extends ImageToolsService
             );
 
             return match ($DTO->uploadMethod) {
-                ImageUploadMethod::METHOD_SAVE => $this->save($DTO->image),
+                ImageUploadMethod::METHOD_SAVE                  => $this->save($DTO->image),
                 ImageUploadMethod::METHOD_CREATE_INDEX_AND_SAVE => $this->createIndexAndSave($DTO->image),
-                ImageUploadMethod::METHOD_FIT_AND_SAVE => $this->fitAndSave($DTO->image, $DTO->width, $DTO->height),
-                default => null,
+                ImageUploadMethod::METHOD_FIT_AND_SAVE          => $this->fitAndSave($DTO->image, $DTO->width, $DTO->height),
+                default                                         => null,
             };
 
         } catch (\Exception $e) {
@@ -149,8 +150,8 @@ class ImageService extends ImageToolsService
                 $indexArray[$sizeAlias] = $this->getImageAddress();
             }
 
-            $images['indexArray'] = $indexArray;
-            $images['directory'] = $this->getFinalImageDirectory();
+            $images['indexArray']   = $indexArray;
+            $images['directory']    = $this->getFinalImageDirectory();
             $images['currentImage'] = config('image-index.default-current-index-image');
 
             return $images;
