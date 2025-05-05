@@ -10,31 +10,32 @@ use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rule;
 use Illuminate\Validation\Rules;
+use Illuminate\Validation\ValidationException;
 
 class RegisteredUserController extends Controller
 {
     /**
      * Handle an incoming registration request.
      *
-     * @throws \Illuminate\Validation\ValidationException
+     * @throws ValidationException
      */
-    public function store(Request $request): Response
+    public function __invoke(Request $request): Response
     {
 
         $request->validate([
-            'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:'.User::class],
+            'name'     => ['required', 'string', 'max:255'],
+            'email'    => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:'.User::class],
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
-            'mobile' => ['required', 'string', 'max:15', 'unique:'.User::class],
-            'city_id' => ['nullable', Rule::exists('cities', 'id')->whereNull('deleted_at')],
+            'mobile'   => ['required', 'string', 'max:15', 'unique:'.User::class],
+            'city_id'  => ['nullable', Rule::exists('cities', 'id')->whereNull('deleted_at')],
         ]);
 
         $user = User::create([
-            'name' => $request->name,
-            'email' => $request->email,
+            'name'     => $request->name,
+            'email'    => $request->email,
             'password' => Hash::make($request->password),
-            'mobile' => $request->mobile,
-            'city_id' => $request->city_id,
+            'mobile'   => $request->mobile,
+            'city_id'  => $request->city_id,
         ]);
 
         event(new Registered($user));

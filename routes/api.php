@@ -59,9 +59,9 @@ Route::prefix(RouteSection::AUTH)
     ->name('auth.')
     ->group(function (): void {
 
-        Route::post('register', [RegisteredUserController::class, 'store'])->middleware('throttle:5,1')->name('register');
-        Route::post('send-otp', [RegisteredUserWithOTPController::class, 'store'])->middleware('throttle:10,1')->name('send-otp');
-        Route::post('verify-otp', [VerifyUserWithOTPController::class, 'store'])->middleware('throttle:5,1')->name('verify-otp');
+        Route::post('register', RegisteredUserController::class)->middleware('throttle:5,1')->name('register');
+        Route::post('send-otp', RegisteredUserWithOTPController::class)->middleware('throttle:10,1')->name('send-otp');
+        Route::post('verify-otp', VerifyUserWithOTPController::class)->middleware('throttle:5,1')->name('verify-otp');
     });
 
 Route::prefix(RouteSection::IMAGES)

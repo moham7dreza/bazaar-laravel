@@ -15,7 +15,7 @@ use Illuminate\Support\Str;
 
 class RegisteredUserWithOTPController extends Controller
 {
-    public function store(LoginOtpRequest $request, SmsService $smsService): JsonResponse
+    public function __invoke(LoginOtpRequest $request, SmsService $smsService): JsonResponse
     {
         $otpCode = random_int(1000, 9999);
         $token   = Str::random(60);

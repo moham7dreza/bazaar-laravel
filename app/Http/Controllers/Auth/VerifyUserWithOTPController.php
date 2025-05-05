@@ -16,7 +16,7 @@ use Illuminate\Support\Str;
 
 class VerifyUserWithOTPController extends Controller
 {
-    public function store(VerifyOtpRequest $request): JsonResponse
+    public function __invoke(VerifyOtpRequest $request): JsonResponse
     {
         $otp = Otp::query()->firstWhere([
             'token'    => $request->token,
