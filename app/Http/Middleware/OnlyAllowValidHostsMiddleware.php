@@ -16,7 +16,7 @@ class OnlyAllowValidHostsMiddleware
             'http://localhost:3000',
         ];
 
-        if (! in_array($request->getHost(), $trustedHosts, true)) {
+        if (! in_array($request->getSchemeAndHttpHost(), $trustedHosts, true)) {
 
             return ApiJsonResponse::error(Response::HTTP_NOT_FOUND, __('response.general.not-found'));
         }
