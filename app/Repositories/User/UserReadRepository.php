@@ -28,6 +28,18 @@ class UserReadRepository extends BaseRepository
         return new PaginatedListViewDTO($items);
     }
 
+    public function getUsersWithSpecialAdvertisements(int $limit = 1000, int $perPage = 20): PaginatedListViewDTO
+    {
+        $items = $this->freshQuery()->getQuery()
+            ->select('*') // only get required fields
+            ->withWhereHas('advertisements', fn (Builder $builder) => $builder->where('is_special', true))
+            ->take($limit)
+            ->latest()
+            ->paginate($perPage);
+
+        return new PaginatedListViewDTO($items);
+    }
+
     protected function baseQuery(): Builder
     {
         return User::query();
