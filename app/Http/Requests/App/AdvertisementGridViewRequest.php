@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\App;
 
+use App\Data\DTOs\Advertisement\SearchDTO;
 use App\Enums\Advertisement\Sort;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
@@ -16,8 +17,16 @@ class AdvertisementGridViewRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'title' => ['string'],
-            'sort' => [Rule::enum(Sort::class)],
+            'phrase' => ['string'],
+            'sort'   => [Rule::enum(Sort::class)],
         ];
+    }
+
+    public function getDTO(): SearchDTO
+    {
+        return new SearchDTO(
+            phrase: $this->str('phrase'),
+            sort: $this->enum('sort', Sort::class),
+        );
     }
 }

@@ -4,13 +4,13 @@ namespace App\Pipelines\Advertisements;
 
 use Illuminate\Database\Eloquent\Builder;
 
-final readonly class FilterAdvertisementsByTitle
+final readonly class FilterAdvertisementsByPhrase
 {
     public function __invoke(Builder $query, \Closure $next)
     {
-        $field = 'title';
-        if (request()->has($field)) {
-            $query->whereLike($field, '%'.request($field).'%');
+        if (request()->has('phrase')) {
+
+            $query->whereLike('title', '%'.request('phrase').'%');
         }
 
         return $next($query);
