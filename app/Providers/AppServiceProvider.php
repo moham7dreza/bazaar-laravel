@@ -24,6 +24,7 @@ use Illuminate\Support\Number;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Str;
 use Illuminate\Validation\InvokableValidationRule;
+use Illuminate\Validation\Rules\Password;
 use Morilog\Jalali\Jalalian;
 
 class AppServiceProvider extends ServiceProvider
@@ -47,6 +48,7 @@ class AppServiceProvider extends ServiceProvider
         $this->handleMissingTrans();
         $this->setUpValidators();
         $this->configureDate();
+        $this->configurePassword();
     }
 
     private function configureCommands(): void
@@ -185,5 +187,15 @@ class AppServiceProvider extends ServiceProvider
     private function configureDate(): void
     {
         Date::use(CarbonImmutable::class);
+    }
+
+    private function configurePassword(): void
+    {
+        Password::defaults(static function () {
+            return Password::min(10)
+                ->letters()
+                ->mixedCase()
+                ->numbers();
+        });
     }
 }
