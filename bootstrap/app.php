@@ -38,6 +38,7 @@ return Application::configure(basePath: dirname(__DIR__))
             \Laravel\Sanctum\Http\Middleware\EnsureFrontendRequestsAreStateful::class,
             \App\Http\Middleware\RequireJsonMiddleware::class,
             \App\Http\Middleware\ApiRequestLoggerMiddleware::class,
+            \App\Http\Middleware\OnlyAllowValidHostsMiddleware::class,
         ]);
 
         $middleware->alias([
