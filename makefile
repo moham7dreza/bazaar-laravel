@@ -437,3 +437,27 @@ setup-worker: ## Configure Supervisor for Laravel queue worker
 		printf "${COLOR_GREEN}✓ Laravel worker started${COLOR_RESET}\n"; \
 	fi
 	@printf "${COLOR_GREEN}✓ Laravel worker setup completed!${COLOR_RESET}\n"
+
+setup-horizon: ## Configure Supervisor for Laravel horizon
+	@printf "${COLOR_BLUE}▶ Starting Laravel horizon setup...${COLOR_RESET}\n"
+	@printf '%s\n' '[program:horizon]' \
+	'process_name=%(program_name)s_%(process_num)02d' \
+	'command=php /var/www/bazaar-laravel/artisan horizon' \
+	'autostart=true' \
+	'autorestart=true' \
+	'user=www-data' \
+	'redirect_stderr=true' \
+	'stdout_logfile=/var/www/bazaar-laravel/storage/logs/horizon.log' \
+	'stopwaitsecs=3600' | sudo tee /etc/supervisor/conf.d/horizon.conf >/dev/null
+
+	@sudo supervisorctl reread >/dev/null
+	@sudo supervisorctl update >/dev/null
+	@if sudo supervisorctl status horizon | grep -q RUNNING; then \
+		printf "${COLOR_YELLOW}✓ Laravel horizon is already running${COLOR_RESET}\n"; \
+		sudo supervisorctl restart horizon >/dev/null; \
+		printf "${COLOR_GREEN}✓ Laravel horizon restarted${COLOR_RESET}\n"; \
+	else \
+		sudo supervisorctl start horizon >/dev/null; \
+		printf "${COLOR_GREEN}✓ Laravel horizon started${COLOR_RESET}\n"; \
+	fi
+	@printf "${COLOR_GREEN}✓ Laravel horizon setup completed!${COLOR_RESET}\n"
