@@ -21,7 +21,7 @@ class UserLandMail extends Mailable implements ShouldQueue
         public $details,
         public $files = [],
     ) {
-        $this->onQueue(isEnvLocalOrTesting() ? Queue::DEFAULT : Queue::MAIL);
+        $this->onQueue(Queue::MAIL);
     }
 
     public function envelope(): Envelope
@@ -38,7 +38,7 @@ class UserLandMail extends Mailable implements ShouldQueue
             view: 'mail',
             with: [
                 'subject' => $this->details['subject'],
-                'body' => $this->details['body'],
+                'body'    => $this->details['body'],
             ]
         );
     }

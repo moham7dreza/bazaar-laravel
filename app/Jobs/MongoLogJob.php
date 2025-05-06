@@ -18,7 +18,7 @@ class MongoLogJob implements ShouldQueue
         public readonly string $logKey,
     ) {
         $this->delay(now()->addSeconds(5));
-        $this->onQueue(isEnvLocal() ? Queue::DEFAULT : Queue::MONGO_LOG);
+        $this->onQueue(Queue::MONGO_LOG);
     }
 
     public function handle(): void

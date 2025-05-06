@@ -100,12 +100,12 @@ return [
     */
 
     'trim' => [
-        'recent' => 60,
-        'pending' => 60,
-        'completed' => 60,
+        'recent'        => 60,
+        'pending'       => 60,
+        'completed'     => 60,
         'recent_failed' => 10080,
-        'failed' => 10080,
-        'monitored' => 10080,
+        'failed'        => 10080,
+        'monitored'     => 10080,
     ],
 
     /*
@@ -136,7 +136,7 @@ return [
 
     'metrics' => [
         'trim_snapshots' => [
-            'job' => 24,
+            'job'   => 24,
             'queue' => 24,
         ],
     ],
@@ -183,18 +183,18 @@ return [
     'defaults' => [
         'supervisor-1' => [
             'connection' => 'redis',
-            'queue' => [
+            'queue'      => [
                 QUEUE::DEFAULT->value,
             ],
-            'balance' => 'auto',
+            'balance'             => 'auto',
             'autoScalingStrategy' => 'time',
-            'maxProcesses' => 1,
-            'maxTime' => 0,
-            'maxJobs' => 0,
-            'memory' => 128,
-            'tries' => 1,
-            'timeout' => 60,
-            'nice' => 0,
+            'maxProcesses'        => 1,
+            'maxTime'             => 0,
+            'maxJobs'             => 0,
+            'memory'              => 128,
+            'tries'               => 1,
+            'timeout'             => 60,
+            'nice'                => 0,
         ],
     ],
 
@@ -202,76 +202,79 @@ return [
         'production' => [
             'laravel' => [
                 'connection' => 'redis',
-                'queue' => [
+                'queue'      => [
                     QUEUE::HIGH->value,
                     QUEUE::MAIL->value,
                     QUEUE::DEFAULT->value,
                     QUEUE::MONGO_LOG->value,
                 ],
-                'balance' => 'false',
+                'balance'   => 'false',
                 'processes' => 16,
-                'tries' => 3,
-                'timeout' => 60,
+                'tries'     => 3,
+                'timeout'   => 60,
             ],
             'long' => [
                 'connection' => 'redis',
-                'queue' => [
+                'queue'      => [
                     QUEUE::BACKUP->value,
                 ],
-                'balance' => 'false',
+                'balance'   => 'false',
                 'processes' => 1,
-                'tries' => 3,
-                'timeout' => 86400,
+                'tries'     => 3,
+                'timeout'   => 86400,
             ],
             'mongo' => [
                 'connection' => 'redis',
-                'queue' => [
+                'queue'      => [
                     //
                 ],
-                'balance' => 'false',
+                'balance'   => 'false',
                 'processes' => 1,
-                'tries' => 1,
-                'timeout' => 30,
+                'tries'     => 1,
+                'timeout'   => 30,
             ],
             'sms' => [
                 'connection' => 'redis',
-                'queue' => [
+                'queue'      => [
                     //
                 ],
-                'balance' => 'auto',
-                'minProcesses' => 1,
-                'maxProcesses' => 7,
+                'balance'         => 'auto',
+                'minProcesses'    => 1,
+                'maxProcesses'    => 7,
                 'balanceMaxShift' => 1,
                 'balanceCooldown' => 3,
-                'tries' => 3,
-                'timeout' => 60,
+                'tries'           => 3,
+                'timeout'         => 60,
             ],
             'sms-otp' => [
                 'connection' => 'redis',
-                'queue' => [
+                'queue'      => [
                     //
                 ],
-                'balance' => 'auto',
-                'minProcesses' => 1,
-                'maxProcesses' => 5,
+                'balance'         => 'auto',
+                'minProcesses'    => 1,
+                'maxProcesses'    => 5,
                 'balanceMaxShift' => 1,
                 'balanceCooldown' => 3,
-                'tries' => 3,
-                'timeout' => 60,
+                'tries'           => 3,
+                'timeout'         => 60,
             ],
         ],
 
         'local' => [
             'supervisor-1' => [
                 'connection' => 'redis',
-                'queue' => [
+                'queue'      => [
                     QUEUE::HIGH->value,
                     QUEUE::DEFAULT->value,
                     QUEUE::LOW->value,
+                    QUEUE::MAIL->value,
+                    QUEUE::MONGO_LOG->value,
+                    QUEUE::BACKUP->value,
                 ],
-                'balance' => 'simple',
+                'balance'   => 'simple',
                 'processes' => 3,
-                'tries' => 3,
+                'tries'     => 3,
             ],
         ],
     ],
