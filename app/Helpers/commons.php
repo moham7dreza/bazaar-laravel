@@ -126,7 +126,9 @@ if (! function_exists('jalali_date')) {
 if (! function_exists('admin')) {
     function admin(): ?User
     {
-        return User::query()->find(UserId::Admin)
+        $user = User::query()->find(UserId::Admin)
             ?? User::query()->admin()->first();
+
+        return $user?->isAdmin() ? $user : null;
     }
 }
