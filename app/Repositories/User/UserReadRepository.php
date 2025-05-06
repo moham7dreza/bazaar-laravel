@@ -4,6 +4,8 @@ namespace App\Repositories\User;
 
 use App\Abstracts\BaseRepository;
 use App\Data\DTOs\PaginatedListViewDTO;
+use App\Enums\UserPermission;
+use App\Enums\UserRole;
 use App\Models\Advertise\Advertisement;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Builder;
@@ -38,6 +40,24 @@ class UserReadRepository extends BaseRepository
             ->paginate($perPage);
 
         return new PaginatedListViewDTO($items);
+    }
+
+    public function getCountOfUsersRole(UserRole $role): int
+    {
+        return $this->freshQuery()->getQuery()
+            ->with('roles')
+            ->get()
+            ->filter(fn (User $user) => $user->roles->where('name', $role)->toArray())
+            ->count();
+    }
+
+    public function getCountOfUsersPermission(UserPermission $permission): int
+    {
+        return $this->freshQuery()->getQuery()
+            ->with('permissions')
+            ->get()
+            ->filter(fn (User $user) => $user->permissions->where('name', $permission)->toArray())
+            ->count();
     }
 
     protected function baseQuery(): Builder
