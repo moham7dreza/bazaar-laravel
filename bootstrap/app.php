@@ -42,12 +42,15 @@ return Application::configure(basePath: dirname(__DIR__))
         ]);
 
         $middleware->alias([
-            'verified'       => \App\Http\Middleware\EnsureEmailIsVerified::class,
-            'mobileVerified' => \App\Http\Middleware\EnsureMobileIsVerified::class,
-            'admin'          => \App\Http\Middleware\CheckAdminMiddleware::class,
-            'dev'            => \App\Http\Middleware\OnlyAllowDevelopersMiddleware::class,
-            'abilities'      => \Laravel\Sanctum\Http\Middleware\CheckAbilities::class,
-            'ability'        => \Laravel\Sanctum\Http\Middleware\CheckForAnyAbility::class,
+            'verified'           => \App\Http\Middleware\EnsureEmailIsVerified::class,
+            'mobileVerified'     => \App\Http\Middleware\EnsureMobileIsVerified::class,
+            'admin'              => \App\Http\Middleware\CheckAdminMiddleware::class,
+            'dev'                => \App\Http\Middleware\OnlyAllowDevelopersMiddleware::class,
+            'abilities'          => \Laravel\Sanctum\Http\Middleware\CheckAbilities::class,
+            'ability'            => \Laravel\Sanctum\Http\Middleware\CheckForAnyAbility::class,
+            'role'               => \Spatie\Permission\Middleware\RoleMiddleware::class,
+            'permission'         => \Spatie\Permission\Middleware\PermissionMiddleware::class,
+            'role_or_permission' => \Spatie\Permission\Middleware\RoleOrPermissionMiddleware::class,
         ]);
 
         //
