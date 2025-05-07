@@ -6,31 +6,34 @@ use App\Http\Controllers\Controller;
 use App\Http\Resources\App\AdvertisementResource;
 use App\Http\Responses\ApiJsonResponse;
 use App\Models\Advertise\Advertisement;
-use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Http\Resources\Json\ResourceCollection;
 
 class FavoriteAdvertisementController extends Controller
 {
-    use AuthorizesRequests;
-
     /**
      * @throws \Throwable
      */
     public function index(): ResourceCollection
     {
-        $favorites = auth()->user()?->favoriteAdvertisements()->with('category', 'city')->get();
+        $favorites = getUser()
+            ?->favoriteAdvertisements()
+            ->with('category', 'city')
+            ->get();
 
         return $favorites->toResourceCollection(AdvertisementResource::class);
     }
 
+    /**
+     * @throws \Throwable
+     */
     public function store(Advertisement $advertisement): JsonResource|JsonResponse
     {
 
-        $user = auth()->user();
+        $user = getUser();
 
-        if ($user?->favoriteAdvertisements()->where('advertisement_id', $advertisement->id)->exists()) {
+        if ($user?->favoriteAdvertisements()->whereBelongsTo($advertisement)->exists()) {
             return ApiJsonResponse::error(400, 'این آگهی قبلا نشان شده است');
         }
 
@@ -39,11 +42,11 @@ class FavoriteAdvertisementController extends Controller
         return $advertisement->toResource(AdvertisementResource::class);
     }
 
-    public function destroy(Advertisement $advertisement)
+    public function destroy(Advertisement $advertisement): JsonResponse
     {
-        $user = auth()->user();
+        $user = getUser();
 
-        if (! $user?->favoriteAdvertisements()->where('advertisement_id', $advertisement->id)->exists()) {
+        if (! $user?->favoriteAdvertisements()->whereBelongsTo($advertisement)->exists()) {
             return ApiJsonResponse::error(400, 'این آگهی در لیست نشان شده ها نیست');
         }
 

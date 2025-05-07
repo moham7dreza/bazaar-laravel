@@ -9,25 +9,30 @@ use App\Http\Resources\App\AdvertisementResource;
 use App\Http\Responses\ApiJsonResponse;
 use App\Http\Services\Image\ImageService;
 use App\Models\Advertise\Advertisement;
-use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
+use Gate;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Http\Resources\Json\ResourceCollection;
 
 class AdvertisementController extends Controller
 {
-    use AuthorizesRequests;
-
     /**
      * Display a listing of the resource.
+     *
+     * @throws \Throwable
      */
-    public function index()
+    public function index(): ResourceCollection
     {
-        return new AdvertisementCollection(auth()->user()->advertisements);
+        return getUser()->advertisements->toResourceCollection(AdvertisementCollection::class);
     }
 
     /**
      * Store a newly created resource in storage.
+     *
+     * @throws \Throwable
      */
-    public function store(StoreAdvertisementRequest $request, ImageService $imageService)
+    public function store(StoreAdvertisementRequest $request, ImageService $imageService): JsonResource|JsonResponse
     {
         $inputs = [
             'title'            => $request->title,
@@ -55,27 +60,31 @@ class AdvertisementController extends Controller
                 return ApiJsonResponse::error(500, message: 'خطا در اپلود عکس');
             }
         }
-        $ads = Advertisement::create($inputs);
+        $ad = Advertisement::create($inputs);
 
-        return new AdvertisementResource($ads);
+        return $ad->toResource(AdvertisementResource::class);
     }
 
     /**
      * Display the specified resource.
+     *
+     * @throws \Throwable
      */
-    public function show(Advertisement $advertisement)
+    public function show(Advertisement $advertisement): JsonResource
     {
-        $this->authorize('view', $advertisement);
+        Gate::authorize('view', $advertisement);
 
-        return new AdvertisementResource($advertisement);
+        return $advertisement->toResource(AdvertisementResource::class);
     }
 
     /**
      * Update the specified resource in storage.
+     *
+     * @throws \Throwable
      */
-    public function update(Request $request, Advertisement $advertisement, ImageService $imageService)
+    public function update(Request $request, Advertisement $advertisement, ImageService $imageService): JsonResource|JsonResponse
     {
-        $this->authorize('update', $advertisement);
+        Gate::authorize('update', $advertisement);
 
         $inputs = [
             'title'            => $request->title,
@@ -112,15 +121,15 @@ class AdvertisementController extends Controller
         }
         $advertisement->update($inputs);
 
-        return new AdvertisementResource($advertisement);
+        return $advertisement->toResource(AdvertisementResource::class);
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Advertisement $advertisement)
+    public function destroy(Advertisement $advertisement): JsonResponse
     {
-        $this->authorize('delete', $advertisement);
+        Gate::authorize('delete', $advertisement);
 
         $advertisement->delete();
 

@@ -9,38 +9,35 @@ use App\Http\Resources\App\GalleryCollection;
 use App\Http\Resources\App\GalleryResource;
 use App\Http\Responses\ApiJsonResponse;
 use App\Http\Services\Image\ImageService;
+use App\Models\Advertise\Advertisement;
 use App\Models\Advertise\Gallery;
+use Gate;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Resources\Json\JsonResource;
 
 class GalleryController extends Controller
 {
     /**
-     * نمایش لیست گالری‌های یک آگهی.
+     * @throws \Throwable
      */
-    public function index($advertisementId)
+    public function index(Advertisement $advertisement): JsonResource
     {
-        // بررسی اینکه آگهی متعلق به کاربر است
-        $advertisement = auth()->user()?->advertisements()->find($advertisementId);
-        if (! $advertisement) {
-            return ApiJsonResponse::error(403, message: 'آگهی مورد نظر یافت نشد یا متعلق به شما نیست');
-        }
-        $galleries = Gallery::where('advertisement_id', $advertisementId)->get();
+        Gate::authorize('view', $advertisement);
 
-        return new GalleryCollection($galleries);
+        $galleries = Gallery::query()->whereBelongsTo($advertisement)->get();
+
+        return $galleries->toResourceCollection(GalleryCollection::class);
     }
 
     /**
-     * افزودن تصویر به گالری.
+     * @throws \Throwable
      */
-    public function store(StoreGalleryRequest $request, ImageService $imageService, $advertisementId)
+    public function store(StoreGalleryRequest $request, ImageService $imageService, Advertisement $advertisement): JsonResource|JsonResponse
     {
-        // بررسی اینکه آگهی متعلق به کاربر است
-        $advertisement = auth()->user()->advertisements()->find($advertisementId);
-        if (! $advertisement) {
-            return ApiJsonResponse::error(403, message: 'آگهی مورد نظر یافت نشد یا متعلق به شما نیست');
-        }
+        Gate::authorize('view', $advertisement);
 
         $inputs                     = $request->all();
-        $inputs['advertisement_id'] = $advertisementId;
+        $inputs['advertisement_id'] = $advertisement->id;
 
         if ($request->hasFile('url')) {
             $imageService->setExclusiveDirectory('images'.DIRECTORY_SEPARATOR.'user-advertisement-images-gallery');
@@ -54,31 +51,25 @@ class GalleryController extends Controller
 
         $gallery = Gallery::create($inputs);
 
-        return new GalleryResource($gallery);
+        return $gallery->toResource(GalleryResource::class);
     }
 
     /**
-     * مشاهده جزئیات یک تصویر گالری.
+     * @throws \Throwable
      */
-    public function show(Gallery $gallery)
+    public function show(Gallery $gallery): JsonResource
     {
-        // بررسی اینکه گالری متعلق به آگهی کاربر است
-        if ($gallery->advertisement->user_id !== auth()->id()) {
-            return ApiJsonResponse::error(403, message: 'دسترسی غیرمجاز');
-        }
+        Gate::authorize('view', $gallery->advertisement);
 
-        return new GalleryResource($gallery);
+        return $gallery->toResource(GalleryResource::class);
     }
 
     /**
-     * بروزرسانی تصویر گالری.
+     * @throws \Throwable
      */
     public function update(UpdateGalleryRequest $request, Gallery $gallery, ImageService $imageService)
     {
-        // بررسی اینکه گالری متعلق به آگهی کاربر است
-        if ($gallery->advertisement->user_id !== auth()->id()) {
-            return ApiJsonResponse::error(403, 'دسترسی غیرمجاز');
-        }
+        Gate::authorize('view', $gallery->advertisement);
 
         $inputs = $request->all();
         if ($request->hasFile('url')) {
@@ -101,18 +92,12 @@ class GalleryController extends Controller
 
         $gallery->update($inputs);
 
-        return new GalleryResource($gallery);
+        return $gallery->toResource(GalleryResource::class);
     }
 
-    /**
-     * حذف تصویر گالری.
-     */
-    public function destroy(Gallery $gallery)
+    public function destroy(Gallery $gallery): JsonResponse
     {
-        // بررسی اینکه گالری متعلق به آگهی کاربر است
-        if ($gallery->advertisement->user_id !== auth()->id()) {
-            return ApiJsonResponse::error(403, message: 'دسترسی غیرمجاز');
-        }
+        Gate::authorize('view', $gallery->advertisement);
 
         $gallery->delete();
 

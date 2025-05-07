@@ -6,30 +6,46 @@ use App\Http\Controllers\Controller;
 use App\Http\Responses\ApiJsonResponse;
 use App\Models\Advertise\Advertisement;
 use App\Models\Advertise\AdvertisementNote;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use Illuminate\Http\Resources\Json\ResourceCollection;
 
 class AdvertisementNoteController extends Controller
 {
-    public function index(): ResourceCollection
+    /**
+     * @throws \Throwable
+     */
+    public function index(): JsonResponse
     {
-        return AdvertisementNote::all()->toResourceCollection(AdvertisementNoteCollection::class);
+//        return AdvertisementNote::all()->toResourceCollection(AdvertisementNoteCollection::class);
+        return ApiJsonResponse::success(AdvertisementNote::paginate(), message: 'یادداشت با موفقیت ذخیره شد');
     }
 
-    public function store(Advertisement $advertisement, Request $request)
+    public function store(Advertisement $advertisement, Request $request): JsonResponse
     {
         $request->validate([
             'note' => 'required|string|max:500',
         ]);
 
-        $note = AdvertisementNote::updateOrCreate(['user_id' => auth()->id(), 'advertisement_id' => $advertisement->id], ['note' => $request->note]);
+        $note = AdvertisementNote::query()
+            ->updateOrCreate(
+                [
+                    'user_id'          => auth()->id(),
+                    'advertisement_id' => $advertisement->id,
+                ],
+                [
+                    'note' => $request->note,
+                ]
+            );
 
         return ApiJsonResponse::success($note, message: 'یادداشت با موفقیت ذخیره شد');
     }
 
-    public function show(Advertisement $advertisement)
+    public function show(Advertisement $advertisement): JsonResponse
     {
-        $note = AdvertisementNote::where('user_id', auth()->id())->where('advertisement_id', $advertisement->id)->first();
+        $note = AdvertisementNote::query()->firstWhere([
+            'user_id'          => auth()->id(),
+            'advertisement_id' => $advertisement->id,
+        ]);
 
         if (! $note) {
             return ApiJsonResponse::error(404, message: 'یادداشتی برای این آگهی پیدا نشد');
@@ -38,9 +54,12 @@ class AdvertisementNoteController extends Controller
         return ApiJsonResponse::success($note, message: 'یادداشت دریافت شد');
     }
 
-    public function destroy(Advertisement $advertisement)
+    public function destroy(Advertisement $advertisement): JsonResponse
     {
-        $note = AdvertisementNote::where('user_id', auth()->id())->where('advertisement_id', $advertisement->id)->first();
+        $note = AdvertisementNote::query()->firstWhere([
+            'user_id'          => auth()->id(),
+            'advertisement_id' => $advertisement->id,
+        ]);
 
         if (! $note) {
             return ApiJsonResponse::error(404, message: 'یادداشتی برای این آگهی پیدا نشد');

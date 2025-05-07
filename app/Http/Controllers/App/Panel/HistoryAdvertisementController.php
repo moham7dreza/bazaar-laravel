@@ -6,17 +6,14 @@ use App\Http\Controllers\Controller;
 use App\Http\Resources\App\AdvertisementCollection;
 use App\Http\Responses\ApiJsonResponse;
 use App\Models\Advertise\Advertisement;
-use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Resources\Json\ResourceCollection;
 
 class HistoryAdvertisementController extends Controller
 {
-    use AuthorizesRequests;
-
     public function index(): ResourceCollection
     {
-        $history = auth()->user()
+        $history = getUser()
             ?->viewedAdvertisements()
             ->with('category', 'city')
             ->latest('pivot_updated_at')
@@ -27,12 +24,9 @@ class HistoryAdvertisementController extends Controller
 
     public function store(Advertisement $advertisement): JsonResponse
     {
-        if (! auth()->check()) {
-            return ApiJsonResponse::error(403, __('response.general.forbidden'));
-        }
-        $user = auth()->user();
+        $user = getUser();
 
-        if ($user?->viewedAdvertisements()->where('advertisement_id', $advertisement->id)->exists()) {
+        if ($user?->viewedAdvertisements()->whereBelongsTo($advertisement)->exists()) {
             $user?->viewedAdvertisements()->updateExistingPivot($advertisement->id, ['updated_at' => now()]);
         } else {
             $user?->viewedAdvertisements()->attach($advertisement->id);
