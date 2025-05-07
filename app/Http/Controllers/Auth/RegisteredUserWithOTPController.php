@@ -12,35 +12,44 @@ use App\Models\User;
 use App\Models\User\Otp;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Str;
+use Illuminate\Support\Timebox;
+use Random\RandomException;
 
 class RegisteredUserWithOTPController extends Controller
 {
+    /**
+     * @throws \Throwable
+     * @throws RandomException
+     */
     public function __invoke(LoginOtpRequest $request, SmsService $smsService): JsonResponse
     {
-        $otpCode = random_int(1000, 9999);
-        $token   = Str::random(60);
-
         $user = User::firstWhere('mobile', $request->mobile);
 
-        Otp::query()->updateOrCreate(
-            ['login_id' => $request->mobile, 'used' => 0],
-            [
-                'token'    => $token,
-                'otp_code' => $otpCode,
-                'login_id' => $request->mobile,
-                'type'     => NoticeType::SMS,
-                'attempts' => 0,
-                'user_id'  => $user?->id,
-            ]
-        );
+        return (new Timebox)->call(function () use ($user, $request, $smsService) {
 
-        $data = new SendSMSDTO;
-        $data->setSenderNumber('300024444');
-        $data->setMessage($otpCode);
-        $data->setTo($request->mobile);
+            $otpCode = random_int(1000, 9999);
+            $token   = Str::random(60);
 
-        $smsService->send($data);
+            Otp::query()->updateOrCreate(
+                ['login_id' => $request->mobile, 'used' => 0],
+                [
+                    'token'    => $token,
+                    'otp_code' => $otpCode,
+                    'login_id' => $request->mobile,
+                    'type'     => NoticeType::SMS,
+                    'attempts' => 0,
+                    'user_id'  => $user?->id,
+                ]
+            );
 
-        return ApiJsonResponse::success(['token' => $token], message: 'کد تایید با موفقیت ارسال شد');
+            $data = new SendSMSDTO;
+            $data->setSenderNumber('300024444');
+            $data->setMessage($otpCode);
+            $data->setTo($request->mobile);
+
+            $smsService->send($data);
+
+            return ApiJsonResponse::success(['token' => $token], message: 'کد تایید با موفقیت ارسال شد');
+        }, 200000);
     }
 }
