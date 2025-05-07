@@ -2,14 +2,11 @@
 
 use App\Console\Commands;
 use App\Console\Commands\System\CheckVulnerabilitiesCommand;
-use App\Models\Monitor\CommandPerformanceLog;
-use App\Models\Monitor\JobPerformanceLog;
 use Cmsmaxinc\FilamentSystemVersions\Commands\CheckDependencyVersions;
 use Illuminate\Foundation\Inspiring;
 use Illuminate\Support\Facades\Artisan;
 use Spatie\Backup\Commands\BackupCommand;
 use Spatie\Health\Commands as SpatieHealthCommands;
-use Spatie\ScheduleMonitor\Models\MonitoredScheduledTaskLogItem;
 
 Artisan::command('inspire', fn () => $this->comment(Inspiring::quote()));
 
@@ -25,12 +22,6 @@ Schedule::command('cache:prune-stale-tags ')->weekly();
 Schedule::command(CheckDependencyVersions::class)->everyFiveMinutes();
 Schedule::command(CheckVulnerabilitiesCommand::class)->everySixHours();
 
-Schedule::command('model:prune --pretend', [
-    '--model' => [
-        JobPerformanceLog::class,
-        CommandPerformanceLog::class,
-        MonitoredScheduledTaskLogItem::class,
-    ],
-])->daily();
+Schedule::command('model:prune')->daily();
 
 Schedule::command(Commands\User\UserSuspendClearCommand::class)->everyFiveMinutes();
