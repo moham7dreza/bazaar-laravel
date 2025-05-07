@@ -20,6 +20,7 @@ use Illuminate\Support\Facades\Date;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Vite;
@@ -46,12 +47,13 @@ class AppServiceProvider extends ServiceProvider
         $this->configureGates();
         $this->logSlowQuery();
         $this->loadExtraMigrationsPath();
-        $this->setupMacros();
+        $this->configureMacros();
         $this->handleMissingTrans();
-        $this->setUpValidators();
+        $this->configureValidator();
         $this->configureDate();
         $this->configurePassword();
 //        $this->configurePipelines();
+//        $this->configureNotification();
     }
 
     private function configureCommands(): void
@@ -138,7 +140,7 @@ class AppServiceProvider extends ServiceProvider
         }
     }
 
-    private function setupMacros(): void
+    private function configureMacros(): void
     {
         Carbon::macro('toJalali', function (string $format = 'Y-m-d H:i:s') {
             return jalali_date($this)?->format($format);
@@ -161,7 +163,7 @@ class AppServiceProvider extends ServiceProvider
         });
     }
 
-    private function setUpValidators(): void
+    private function configureValidator(): void
     {
         Validator::extend('mobile', static function (string $attribute, mixed $value, array $parameters, Validator $validator) {
 
@@ -214,5 +216,10 @@ class AppServiceProvider extends ServiceProvider
                     ])
                     ->thenReturn();
             });
+    }
+
+    private function configureNotification(): void
+    {
+        Notification::extend('whatsapp', static fn ($app) => $app->make(WhatsappChannel::class));
     }
 }
