@@ -14,12 +14,12 @@ class PermissionSeeder extends Seeder
 {
     public function run(): void
     {
-        app()[PermissionRegistrar::class]->forgetCachedPermissions();
+        app(PermissionRegistrar::class)->forgetCachedPermissions();
 
-        UserPermission::totalCases()->each(static fn ($permission) => Permission::query()->updateOrCreate(['name' => $permission]));
+        UserPermission::totalCases()->each(static fn ($permission) => Permission::query()->firstOrCreate(['name' => $permission]));
         $this->command->info('permissions created.');
 
-        UserRole::totalCases()->each(static fn ($role) => Role::query()->updateOrCreate(['name' => $role]));
+        UserRole::totalCases()->each(static fn ($role) => Role::query()->firstOrCreate(['name' => $role]));
         $this->command->info('roles created.');
 
         $this->assignRoleToAdmin();
