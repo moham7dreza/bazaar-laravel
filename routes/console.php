@@ -25,3 +25,5 @@ Schedule::command(CheckVulnerabilitiesCommand::class)->everySixHours();
 Schedule::command('model:prune')->daily();
 
 Schedule::command(Commands\User\UserSuspendClearCommand::class)->everyFiveMinutes();
+
+//Schedule::command('queue:work --stop-when-empty')->everyMinute();
