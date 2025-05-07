@@ -9,6 +9,7 @@ use App\Http\Resources\App\AdvertisementCollection;
 use App\Http\Resources\App\AdvertisementResource;
 use App\Http\Services\Advertisement\SearchService;
 use App\Models\Advertise\Advertisement;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Http\Resources\Json\ResourceCollection;
 
@@ -31,7 +32,8 @@ class AdvertisementController extends Controller
     {
         info('pdp page log [{date}].', ['date' => now()->toJalali()]);
 
-        $advertisement->increment('view');
+        Model::withoutTimestamps(static fn () => $advertisement->increment('view'));
+
         $historyController = new HistoryAdvertisementController;
         $historyController->store($advertisement);
 
