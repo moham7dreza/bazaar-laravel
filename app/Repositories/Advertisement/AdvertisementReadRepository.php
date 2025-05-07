@@ -46,6 +46,24 @@ class AdvertisementReadRepository extends BaseRepository
         return new PaginatedListViewDTO($items);
     }
 
+    public function getAdsWithCounts(int $limit, int $perPage = 20): PaginatedListViewDTO
+    {
+        $items = $this->freshQuery()->getQuery()
+            ->select('*')
+            ->withCount([
+                'images',
+                'viewedByUsers',
+                'favoritedByUsers',
+            ])
+            ->inRandomOrder()
+            ->active()
+            ->published()
+            ->take($limit)
+            ->paginate($perPage);
+
+        return new PaginatedListViewDTO($items);
+    }
+
     protected function baseQuery(): Builder
     {
         return Advertisement::query()->active();
