@@ -76,17 +76,12 @@ class AppServiceProvider extends ServiceProvider
     private function configureHttp(): void
     {
         Http::globalOptions([
-            // Set reasonable timeouts
-            'timeout'         => 8,
-            'connect_timeout' => 3,
-
-            // Add default headers
-            'headers' => [
+            'timeout'         => 5,
+            'connect_timeout' => 2,
+            'headers'         => [
                 'User-Agent' => 'ShoppingPortal/2.1',
                 'Accept'     => 'application/json',
             ],
-
-            // Configure default retry behavior
             'retry'       => 2,
             'retry_delay' => 150,
         ]);
