@@ -9,6 +9,7 @@ use App\Models\User;
 use App\Rules\ValidateImageRule;
 use App\Rules\ValidateNationalCodeRule;
 use Carbon\CarbonImmutable;
+use Illuminate\Console\Scheduling\Event;
 use Illuminate\Contracts\Pipeline\Hub;
 use Illuminate\Database\Connection;
 use Illuminate\Database\Eloquent\Model;
@@ -54,6 +55,7 @@ class AppServiceProvider extends ServiceProvider
         $this->configurePassword();
 //        $this->configurePipelines();
 //        $this->configureNotification();
+//        $this->configureSchedule();
     }
 
     private function configureCommands(): void
@@ -187,6 +189,7 @@ class AppServiceProvider extends ServiceProvider
     private function configureDate(): void
     {
         Date::use(CarbonImmutable::class);
+//        Date::macro('isHoliday', static fn () => Holiday::where('date', $this)->exists()); // today()->isHoliday()
     }
 
     private function configurePassword(): void
@@ -216,5 +219,10 @@ class AppServiceProvider extends ServiceProvider
     private function configureNotification(): void
     {
         Notification::extend('whatsapp', static fn ($app) => $app->make(WhatsappChannel::class));
+    }
+
+    private function configureSchedule(): void
+    {
+        Event::macro('exceptOnHolidays', static fn () => $this->skip(today()->isHoliday()));
     }
 }
