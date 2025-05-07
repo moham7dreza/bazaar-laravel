@@ -81,7 +81,7 @@ it('can use fluent and collect to process data', function (): void {
         ->and($addressJson)->toBe('{"city":"urmia","country":"iran"}');
 });
 
-it('can get path segments', function () {
+it('can get path segments', function (): void {
     $uri = Uri::of('https://laravel.com/docs/12.x/validation');
 
     $segments      = $uri->pathSegments();
