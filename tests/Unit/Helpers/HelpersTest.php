@@ -19,12 +19,12 @@ it('can make uri with options', function (): void {
 it('can easily handle plural of english word', function (): void {
 
     $commentsCount = 1;
-    $comment = str('comment')->plural($commentsCount);
+    $comment       = str('comment')->plural($commentsCount);
 
     expect($comment->value())->toBe('comment');
 
     $commentsCount = 10;
-    $comment = str('comment')->plural($commentsCount);
+    $comment       = str('comment')->plural($commentsCount);
 
     expect($comment->value())->toBe('comments');
 });
@@ -32,9 +32,9 @@ it('can easily handle plural of english word', function (): void {
 it('can use fluent and collect to process data', function (): void {
     $data = [
         'user' => [
-            'name' => 'admin',
+            'name'    => 'admin',
             'address' => [
-                'city' => 'urmia',
+                'city'    => 'urmia',
                 'country' => 'iran',
             ],
         ],
@@ -51,8 +51,8 @@ it('can use fluent and collect to process data', function (): void {
      * **/
 
     // Collection -> good to process data lists
-    $userName = collect($data)->get('user')['name'];
-    $postTitles = array_column(collect($data)->get('posts'), 'title');
+    $userName    = collect($data)->get('user')['name'];
+    $postTitles  = array_column(collect($data)->get('posts'), 'title');
     $addressJson = json_encode(collect($data)->get('user')['address'], JSON_THROW_ON_ERROR);
 
     expect($userName)->toBe('admin')
@@ -64,19 +64,32 @@ it('can use fluent and collect to process data', function (): void {
     expect($addressCollectionFromJson->get('city'))->toBe('urmia');
 
     // Fluent -> good to fast access to data
-    $user = fluent($data)->user;
-    $city = fluent($data)->get('user.address.city');
-    $postTitles = fluent($data)->collect('posts')->pluck('title')->toArray();
+    $user        = fluent($data)->user;
+    $city        = fluent($data)->get('user.address.city');
+    $postTitles  = fluent($data)->collect('posts')->pluck('title')->toArray();
     $addressJson = fluent($data)->scope('user.address')->toJson();
 
     expect($user)->toBe([
-        'name' => 'admin',
+        'name'    => 'admin',
         'address' => [
-            'city' => 'urmia',
+            'city'    => 'urmia',
             'country' => 'iran',
         ],
     ])
         ->and($city)->toBe('urmia')
         ->and($postTitles)->toBe(['post 1', 'post 2'])
         ->and($addressJson)->toBe('{"city":"urmia","country":"iran"}');
+});
+
+it('can get path segments', function () {
+    $uri = Uri::of('https://laravel.com/docs/12.x/validation');
+
+    $segments      = $uri->pathSegments();
+    $firstSegment  = $segments->first();
+    $lastSegment   = $segments->last();
+    $secondSegment = $segments->get(1);
+
+    expect($firstSegment)->toBe('docs')
+        ->and($secondSegment)->toBe('12.x')
+        ->and($lastSegment)->toBe('validation');
 });
