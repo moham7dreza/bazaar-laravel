@@ -26,4 +26,7 @@ Schedule::command('model:prune')->daily();
 
 Schedule::command(Commands\User\UserSuspendClearCommand::class)->everyFiveMinutes();
 
-//Schedule::command('queue:work --stop-when-empty')->everyMinute();
+Schedule::command('queue:work --tries=2 --stop-when-empty')
+    ->before(fn () => cache()->increment('queue:work'))
+    ->after(fn () => cache()->decrement('queue:work'))
+    ->when(fn () => cache('queue:work') <= 20);
