@@ -24,6 +24,8 @@ class AdvertisementController extends Controller
      */
     public function index(): ResourceCollection
     {
+        Gate::authorize('viewAny', Advertisement::class);
+
         return getUser()->advertisements->toResourceCollection(AdvertisementCollection::class);
     }
 
@@ -34,6 +36,8 @@ class AdvertisementController extends Controller
      */
     public function store(StoreAdvertisementRequest $request, ImageService $imageService): JsonResource|JsonResponse
     {
+        Gate::authorize('create', Advertisement::class);
+
         $inputs = [
             'title'            => $request->title,
             'description'      => $request->description,

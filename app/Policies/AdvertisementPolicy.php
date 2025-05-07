@@ -3,6 +3,7 @@
 namespace App\Policies;
 
 use App\Enums\UserPermission;
+use App\Enums\UserRole;
 use App\Models\Advertise\Advertisement;
 use App\Models\User;
 use Illuminate\Auth\Access\Response;
@@ -16,7 +17,7 @@ class AdvertisementPolicy
             return Response::allow();
         }
 
-        if ($ability !== 'forceDelete' && $user->checkPermissionTo(UserPermission::SEE_PANEL)) {
+        if ($ability !== 'forceDelete' && $user->can(UserPermission::SEE_PANEL)) {
             return Response::allow();
         }
 
@@ -26,9 +27,11 @@ class AdvertisementPolicy
     /**
      * Determine whether the user can view any models.
      */
-    public function viewAny(User $user)
+    public function viewAny(User $user): Response
     {
-        //
+        return $user->can(UserRole::WRITER) || $user->can(UserRole::EDITOR)
+            ? Response::allow()
+            : Response::denyAsNotFound();
     }
 
     /**
@@ -44,9 +47,11 @@ class AdvertisementPolicy
     /**
      * Determine whether the user can create models.
      */
-    public function create(User $user)
+    public function create(User $user): Response
     {
-        //
+        return $user->can(UserPermission::CREATE_AD)
+            ? Response::allow()
+            : Response::denyAsNotFound();
     }
 
     /**
@@ -54,7 +59,7 @@ class AdvertisementPolicy
      */
     public function update(User $user, Advertisement $advertisement): Response
     {
-        return $user->owns($advertisement)
+        return $user->owns($advertisement) && $user->can(UserPermission::EDIT_AD)
             ? Response::allow()
             : Response::denyAsNotFound();
     }
@@ -64,7 +69,11 @@ class AdvertisementPolicy
      */
     public function delete(User $user, Advertisement $advertisement): Response
     {
-        return $user->owns($advertisement)
+        $check = $user->owns($advertisement)
+            && $user->can(UserPermission::DESTROY_AD)
+            && (is_null($advertisement->published_at) || now()->gt($advertisement->published_at));
+
+        return $check
             ? Response::allow()
             : Response::denyAsNotFound();
     }
@@ -83,5 +92,12 @@ class AdvertisementPolicy
     public function forceDelete(User $user, Advertisement $advertisement)
     {
         //
+    }
+
+    public function publish(User $user, Advertisement $advertisement)
+    {
+        return $user->can(UserPermission::PUBLISH_AD)
+            ? Response::allow()
+            : Response::denyAsNotFound();
     }
 }
