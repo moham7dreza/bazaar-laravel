@@ -18,12 +18,9 @@ class CommandPerformanceLog extends Model
 
     protected $guarded = [];
 
-    /**
-     * Get the prunable model query.
-     */
     public function prunable(): Builder
     {
-        return static::where('created_at', '<=', now()->subDays(14));
+        return static::query()->where('created_at', '<=', now()->subWeeks(2));
     }
 
     #[Scope]
