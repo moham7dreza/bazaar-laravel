@@ -7,12 +7,13 @@ use App\Http\Services\Image\ImageService;
 use App\Utilities\Date\TimeUtility;
 use Intervention\Image\Laravel\Facades\Image;
 
-class CreateIndexAndSaveImageUploaderService implements ImageUploader
+readonly class CreateIndexAndSaveImageUploaderService implements ImageUploader
 {
     public function __construct(
-        private readonly TimeUtility $timeUtility,
-        private readonly ImageService $imageService,
-    ) {}
+        private TimeUtility $timeUtility,
+        private ImageService $imageService,
+    ) {
+    }
 
     public function handle(ImageUploadDTO $DTO): array|string|null
     {

@@ -6,13 +6,14 @@ use App\Http\DataContracts\Image\ImageUploadDTO;
 use App\Http\Services\Image\ImageService;
 use Intervention\Image\Laravel\Facades\Image;
 
-class FitAndSaveImageUploaderService implements ImageUploader
+readonly class FitAndSaveImageUploaderService implements ImageUploader
 {
     public function __construct(
-        private readonly ImageService $imageService,
-    ) {}
+        private ImageService $imageService,
+    ) {
+    }
 
-    public function handle(ImageUploadDTO $DTO)
+    public function handle(ImageUploadDTO $DTO): array|string|null
     {
         try {
             $this->imageService->setImage($DTO->image);
