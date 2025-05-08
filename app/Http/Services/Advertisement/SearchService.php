@@ -17,12 +17,12 @@ class SearchService
             ->through([
                 FilterAdvertisementsByPhrase::class,
             ])
-            ->then(function (Builder $query) {
+            ->then(function (Builder $query) use ($searchDTO) {
                 return $query
-//                    ->active()
-//                    ->published()
-//                    ->when($searchDTO->sort, fn (Builder $builder) => $builder->sortBy($searchDTO->sort))
-                    ->get();
+                    ->active()
+                    ->published()
+                    ->when($searchDTO->sort, fn (Builder $builder) => $builder->sortBy($searchDTO->sort))
+                    ->paginate($searchDTO->perPage);
             });
     }
 }
