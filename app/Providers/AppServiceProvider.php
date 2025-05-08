@@ -12,12 +12,9 @@ use App\Rules\ValidateImageRule;
 use App\Rules\ValidateNationalCodeRule;
 use Carbon\CarbonImmutable;
 use Illuminate\Console\Scheduling\Event;
-use Illuminate\Contracts\Pipeline\Hub;
 use Illuminate\Database\Connection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Events\QueryExecuted;
-use Illuminate\Http\UploadedFile;
-use Illuminate\Pipeline\Pipeline;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Date;
 use Illuminate\Support\Facades\DB;
@@ -56,7 +53,6 @@ class AppServiceProvider extends ServiceProvider
         $this->configureValidator();
         $this->configureDate();
         $this->configurePassword();
-//        $this->configurePipelines();
         $this->configureNotification();
         $this->configureSchedule();
     }
@@ -203,20 +199,6 @@ class AppServiceProvider extends ServiceProvider
                 ->mixedCase()
                 ->numbers();
         });
-    }
-
-    private function configurePipelines(): void
-    {
-        $this->app
-            ->get(Hub::class)
-            ->pipe('process-uploaded-image', function (Pipeline $pipeline, UploadedFile $image) {
-                return $pipeline
-                    ->send($image)
-                    ->through([
-                        //
-                    ])
-                    ->thenReturn();
-            });
     }
 
     private function configureNotification(): void
