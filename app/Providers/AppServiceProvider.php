@@ -198,7 +198,7 @@ class AppServiceProvider extends ServiceProvider
     private function configurePassword(): void
     {
         Password::defaults(static function () {
-            return Password::min(10)
+            return Password::min(8)
                 ->letters()
                 ->mixedCase()
                 ->numbers();
