@@ -173,6 +173,9 @@ test: ## Run tests
 next-init: ## Initialize Next.js project
 	cd /var/www/bazaar-next && npm run init
 
+next-reload: ## pull, install and run Next.js dev server
+	cd /var/www/bazaar-next && npm run reload
+
 next-dev: ## Run Next.js dev server
 	cd /var/www/bazaar-next && npm run dev
 
@@ -331,6 +334,7 @@ dev: ## Full development setup
 	make ide
 	make checkup
 	make testr
+	make next-reload
 	make start
 
 prod: ## Production deployment
