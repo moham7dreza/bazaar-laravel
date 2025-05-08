@@ -7,9 +7,11 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\App\AdvertisementGridViewRequest;
 use App\Http\Resources\App\AdvertisementCollection;
 use App\Http\Resources\App\AdvertisementResource;
+use App\Http\Responses\ApiJsonResponse;
 use App\Http\Services\Advertisement\SearchService;
 use App\Models\Advertise\Advertisement;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Http\Resources\Json\ResourceCollection;
 
@@ -28,17 +30,21 @@ class AdvertisementController extends Controller
 //        return $advertisements->toResourceCollection(AdvertisementCollection::class);
     }
 
-    public function show(Advertisement $advertisement): JsonResource
+    public function show(Advertisement $advertisement): JsonResource|JsonResponse
     {
         info('pdp page log [{date}].', ['date' => now()->jdate()->format('Y-m-d H:i:s')]);
+
+        if ($advertisement->trashed()) {
+            return ApiJsonResponse::error(404, message: 'این آگهی حذف شده است');
+        }
 
         Model::withoutTimestamps(static fn () => $advertisement->increment('view'));
 
         $historyController = new HistoryAdvertisementController;
         $historyController->store($advertisement);
 
-        $advertisement->withRelationshipAutoloading();
         /*
+        $advertisement->withRelationshipAutoloading();
         $advertisement->load([
             'category.parent', 'images', 'category.attributes', 'categoryValues',
         ]);

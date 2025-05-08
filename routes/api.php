@@ -36,6 +36,7 @@ Route::get('pages', [HomePageController::class, 'index'])->name('pages.index');
 Route::get('advertisements', [HomeAdvertisementController::class, 'index'])->name('advertisements.index');
 
 Route::get('advertisements/{advertisement}', [HomeAdvertisementController::class, 'show'])
+    ->withTrashed()
     ->name('advertisements.show');
 /*
 ->missing(function (Request $request) {
