@@ -89,7 +89,8 @@ class AdvertisementResource extends JsonResource
     {
         return [
             'extra' => [
-                'status' => true,
+                'status' => 200,
+                'messages' => [],
             ],
         ];
     }

@@ -16,7 +16,10 @@ class AdvertisementCollection extends ResourceCollection
     {
         return [
             'data' => $this->collection,
-            'status' => true,
+            'meta' => [
+                'status' => 200,
+                'messages' => [],
+            ]
         ];
     }
 }
