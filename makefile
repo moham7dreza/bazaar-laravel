@@ -191,6 +191,10 @@ ide: ## Generate IDE helper files
 	php artisan ide-helper:meta
 	php artisan ide-helper:eloquent
 
+dbgrate: ## migrate databases
+	php artisan migrate --force
+	php artisan migrate --force --env=testing
+
 dbfresh: ## Recreate databases
 	php artisan migrate:fresh --force --seed
 	php artisan migrate:fresh --force --env=testing
