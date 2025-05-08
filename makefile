@@ -195,6 +195,10 @@ dbgrate: ## migrate databases
 	php artisan migrate --force
 	php artisan migrate --force --env=testing
 
+dbback: ## migrate:rollback databases
+	php artisan migrate:rollback --force
+	php artisan migrate:rollback --force --env=testing
+
 dbfresh: ## Recreate databases
 	php artisan migrate:fresh --force --seed
 	php artisan migrate:fresh --force --env=testing
