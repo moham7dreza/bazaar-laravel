@@ -10,7 +10,6 @@ use Intervention\Image\Laravel\Facades\Image;
 readonly class CreateIndexAndSaveImageUploaderService implements ImageUploader
 {
     public function __construct(
-        private TimeUtility $timeUtility,
         private ImageService $imageService,
     ) {
     }
@@ -25,9 +24,9 @@ readonly class CreateIndexAndSaveImageUploaderService implements ImageUploader
             if (! $this->imageService->getImageDirectory()) {
 
                 $this->imageService->setImageDirectory(
-                    $this->timeUtility::jalaliCurrentYearNumber().DIRECTORY_SEPARATOR.
-                    $this->timeUtility::jalaliCurrentMonthNumber().DIRECTORY_SEPARATOR.
-                    $this->timeUtility::jalaliCurrentDayNumber()
+                    TimeUtility::jalaliCurrentYearNumber().DIRECTORY_SEPARATOR.
+                    TimeUtility::jalaliCurrentMonthNumber().DIRECTORY_SEPARATOR.
+                    TimeUtility::jalaliCurrentDayNumber()
                 );
             }
 
@@ -35,7 +34,7 @@ readonly class CreateIndexAndSaveImageUploaderService implements ImageUploader
 
             if (! $this->imageService->getImageName()) {
 
-                $this->imageService->setImageName($this->timeUtility::jalaliCurrentTimeAsFileName());
+                $this->imageService->setImageName(TimeUtility::jalaliCurrentTimeAsFileName());
             }
 
             $imageName = $this->imageService->getImageName();
