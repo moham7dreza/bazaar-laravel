@@ -3,7 +3,11 @@
 namespace App\Models\Advertise;
 
 use App\Models\Scopes\LatestScope;
+use App\Observers\GalleryObserver;
+use Database\Factories\Advertise\GalleryFactory;
+use Illuminate\Database\Eloquent\Attributes\ObservedBy;
 use Illuminate\Database\Eloquent\Attributes\ScopedBy;
+use Illuminate\Database\Eloquent\Attributes\UseFactory;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -12,6 +16,8 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 #[ScopedBy([LatestScope::class])]
+#[ObservedBy([GalleryObserver::class])]
+#[UseFactory(GalleryFactory::class)]
 class Gallery extends Model
 {
     // _____________________________________________ use SECTION ________________________________________________
