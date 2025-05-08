@@ -3,7 +3,7 @@
 use App\Models\User;
 use Illuminate\Support\Collection;
 
-it('can get sensitive data columns', function () {
+it('can get sensitive data columns', function (): void {
 
     $user = User::factory()->make();
 
