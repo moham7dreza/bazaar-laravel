@@ -2,6 +2,7 @@
 
 namespace App\Models\Advertise;
 
+use App\Enums\Advertisement\AttributeType;
 use App\Models\Scopes\LatestScope;
 use Cviebrock\EloquentSluggable\Sluggable;
 use Dyrynda\Database\Support\CascadeSoftDeletes;
@@ -11,6 +12,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasManyThrough;
+use Illuminate\Database\Eloquent\Relations\HasOneThrough;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 #[ScopedBy([LatestScope::class])]
@@ -66,13 +68,35 @@ class Category extends Model
         return $this->hasMany(CategoryAttribute::class);
     }
 
-    public function categoryValues(): HasManyThrough
+    // Category values
+    public function values(): HasManyThrough
     {
         return $this->hasManyThrough(
             CategoryValue::class,
             CategoryAttribute::class,
+            'category_id',
+            'category_attribute_id'
         );
     }
+
+    public function latestValue(): HasOneThrough
+    {
+        return $this->values()->one()->latestOfMany();
+    }
+
+    public function firstValue(): HasOneThrough
+    {
+        return $this->values()->one()->oldestOfMany();
+    }
+
+    public function highestValue(): HasOneThrough
+    {
+        return $this->values()->one()->where('type', AttributeType::NUMBER)->ofMany([
+            'value'=> 'max'
+        ]);
+    }
+
+    // end Category values
 
     // _____________________________________________ method SECTION __________________________________________
 
