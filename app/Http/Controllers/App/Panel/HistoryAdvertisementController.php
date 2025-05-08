@@ -11,13 +11,16 @@ use Illuminate\Http\Resources\Json\ResourceCollection;
 
 class HistoryAdvertisementController extends Controller
 {
+    /**
+     * @throws \Throwable
+     */
     public function index(): ResourceCollection
     {
         $history = getUser()
             ?->viewedAdvertisements()
             ->with('category', 'city')
             ->latest('pivot_updated_at')
-            ->get();
+            ->paginate(10);
 
         return $history->toResourceCollection(AdvertisementCollection::class);
     }

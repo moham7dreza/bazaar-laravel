@@ -26,7 +26,10 @@ class AdvertisementController extends Controller
     {
         Gate::authorize('viewAny', Advertisement::class);
 
-        return getUser()->advertisements->toResourceCollection(AdvertisementCollection::class);
+        return getUser()
+            ->advertisements()
+            ->paginate(10)
+            ->toResourceCollection(AdvertisementCollection::class);
     }
 
     /**

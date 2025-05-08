@@ -24,9 +24,10 @@ class GalleryController extends Controller
     {
         Gate::authorize('view', $advertisement);
 
-        $galleries = Gallery::query()->whereBelongsTo($advertisement)->get();
-
-        return $galleries->toResourceCollection(GalleryCollection::class);
+        return Gallery::query()
+            ->whereBelongsTo($advertisement)
+            ->paginate(10)
+            ->toResourceCollection(GalleryCollection::class);
     }
 
     /**

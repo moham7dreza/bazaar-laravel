@@ -20,7 +20,7 @@ class FavoriteAdvertisementController extends Controller
         $favorites = getUser()
             ?->favoriteAdvertisements()
             ->with('category', 'city')
-            ->get();
+            ->paginate(10);
 
         return $favorites->toResourceCollection(AdvertisementResource::class);
     }

@@ -11,13 +11,13 @@ use Illuminate\Http\Request;
 
 class AdvertisementNoteController extends Controller
 {
-    /**
-     * @throws \Throwable
-     */
     public function index(): JsonResponse
     {
-//        return AdvertisementNote::all()->toResourceCollection(AdvertisementNoteCollection::class);
-        return ApiJsonResponse::success(AdvertisementNote::paginate(), message: 'یادداشت با موفقیت ذخیره شد');
+        $notes = getUser()
+            ->advertisementNotes()
+            ->paginate(10);
+
+        return ApiJsonResponse::success($notes);
     }
 
     public function store(Advertisement $advertisement, Request $request): JsonResponse
