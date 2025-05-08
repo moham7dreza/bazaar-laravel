@@ -14,6 +14,7 @@ use Illuminate\Database\Eloquent\Attributes\ScopedBy;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Prunable;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -26,6 +27,7 @@ class Advertisement extends Model
     use HasFactory;
     use SoftDeletes;
     use Sluggable;
+    use Prunable;
 
     // _____________________________________________ props SECTION ______________________________________________
     protected $guarded = ['id'];
@@ -44,6 +46,11 @@ class Advertisement extends Model
             'ads_type'         => AdvertisementType::class,
             'ads_status'       => AdvertisementStatus::class,
         ];
+    }
+
+    public function prunable(): Builder
+    {
+        return static::query()->whereDate('created_at', '<=', now()->subMonths(6));
     }
 
     public function sluggable(): array
