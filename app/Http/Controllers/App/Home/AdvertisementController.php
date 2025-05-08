@@ -8,8 +8,8 @@ use App\Http\Requests\App\AdvertisementGridViewRequest;
 use App\Http\Resources\App\AdvertisementCollection;
 use App\Http\Resources\App\AdvertisementResource;
 use App\Http\Responses\ApiJsonResponse;
-use App\Http\Services\Advertisement\SearchService;
 use App\Models\Advertise\Advertisement;
+use App\Repositories\Advertisement\AdvertisementReadRepository;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Resources\Json\JsonResource;
@@ -19,15 +19,16 @@ class AdvertisementController extends Controller
 {
     /**
      * Display a listing of the resource.
+     * @throws \Throwable
      */
     public function index(AdvertisementGridViewRequest $request): ResourceCollection
     {
         info('search log [{date}].', ['date' => now()->jdate()->format('Y-m-d H:i:s')]);
 
-        $advertisements = app(SearchService::class)->getAdvertisements($request->getDTO());
+        $advertisements = app(AdvertisementReadRepository::class)->search($request->getDTO());
 
-        return new AdvertisementCollection($advertisements);
-//        return $advertisements->toResourceCollection(AdvertisementCollection::class);
+        return new AdvertisementCollection($advertisements->items);
+//        return $advertisements->items->toResourceCollection(AdvertisementCollection::class);
     }
 
     public function show(Advertisement $advertisement): JsonResource|JsonResponse

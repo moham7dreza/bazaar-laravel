@@ -9,7 +9,7 @@ final readonly class SearchDTO
     public function __construct(
         public ?string $phrase,
         public ?Sort $sort,
-        public int $perPage = 24,
+        public int $perPage,
     ) {
         //
     }

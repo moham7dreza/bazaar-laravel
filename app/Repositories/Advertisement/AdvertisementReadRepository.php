@@ -3,13 +3,22 @@
 namespace App\Repositories\Advertisement;
 
 use App\Abstracts\BaseRepository;
+use App\Data\DTOs\Advertisement\SearchDTO;
 use App\Data\DTOs\PaginatedListViewDTO;
 use App\Enums\UserId;
+use App\Http\Services\Advertisement\SearchService;
 use App\Models\Advertise\Advertisement;
 use Illuminate\Database\Eloquent\Builder;
 
 class AdvertisementReadRepository extends BaseRepository
 {
+    public function search(SearchDTO $searchDTO): PaginatedListViewDTO
+    {
+        $items = app(SearchService::class)->getAdvertisements($searchDTO);
+
+        return new PaginatedListViewDTO($items);
+    }
+
     public function getAdsOfUsersRegisteredWithinDate(int $limit, \DateTimeInterface $date, int $perPage = 20): PaginatedListViewDTO
     {
         $items = $this->freshQuery()->getQuery()

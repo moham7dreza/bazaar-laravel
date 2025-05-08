@@ -19,6 +19,7 @@ class AdvertisementGridViewRequest extends FormRequest
         return [
             'phrase' => ['string'],
             'sort'   => [Rule::enum(Sort::class)],
+            'per_page' => ['integer'],
         ];
     }
 
@@ -27,6 +28,7 @@ class AdvertisementGridViewRequest extends FormRequest
         return new SearchDTO(
             phrase: $this->str('phrase'),
             sort: $this->enum('sort', Sort::class),
+            perPage: $this->integer('per_page', 24),
         );
     }
 }
