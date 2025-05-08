@@ -5,6 +5,7 @@ namespace App\Providers;
 use App\Console\Commands\System\DataMigrationCommand;
 use App\Enums\Language;
 use App\Http\Services\TranslationService;
+use App\Models\Holiday;
 use App\Models\User;
 use App\Rules\ValidateImageRule;
 use App\Rules\ValidateNationalCodeRule;
@@ -56,7 +57,7 @@ class AppServiceProvider extends ServiceProvider
         $this->configurePassword();
 //        $this->configurePipelines();
 //        $this->configureNotification();
-//        $this->configureSchedule();
+        $this->configureSchedule();
     }
 
     private function configureCommands(): void
@@ -190,7 +191,7 @@ class AppServiceProvider extends ServiceProvider
     private function configureDate(): void
     {
         Date::use(CarbonImmutable::class);
-//        Date::macro('isHoliday', static fn () => Holiday::where('date', $this)->exists()); // today()->isHoliday()
+        Date::macro('isHoliday', fn () => Holiday::query()->where('date', $this)->exists()); // today()->isHoliday()
     }
 
     private function configurePassword(): void
