@@ -19,7 +19,7 @@ final readonly class ImageThumbnailResizePipeline
             $ratio > 1   => [null, 300],
         };
 
-        $image = $image->resize($width, $height, function (Constraint $constraint) {
+        $image = $image->resize($width, $height, function (Constraint $constraint): void {
             $constraint->aspectRatio();
         })
             ->crop(400, 300);
