@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Afsakar\FilamentOtpLogin\Models\Contracts\CanLoginDirectly;
+use App\Concerns\InteractWithSensitiveColumns;
 use App\Contracts\MustVerifyMobile as ShouldVerifiedMobile;
 use App\Enums\StorageDisk;
 use App\Enums\UserPermission;
@@ -49,6 +50,7 @@ class User extends Authenticatable implements CanLoginDirectly, FilamentUser, Ha
     use SoftDeletes;
     use TwoFactorAuthenticatable;
     use HasApiTokens;
+    use InteractWithSensitiveColumns;
 
     // _____________________________________________ props SECTION ______________________________________________
 
