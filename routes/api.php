@@ -118,17 +118,18 @@ Route::prefix(RouteSection::PANEL)
             ->name('advertise.')
             ->group(function (): void {
 
-                Route::apiResource('advertisement', PanelAdvertisementController::class);
+                Route::apiResource('advertisement', PanelAdvertisementController::class)
+                    ->withTrashed(['show', 'update']);
 
                 Route::prefix(RouteSection::GALLERY)
                     ->name('gallery.')
                     ->group(function (): void {
 
-                        Route::get('{advertisement}/', [PanelGalleryController::class, 'index'])->name('index');
+                        Route::get('{advertisement}', [PanelGalleryController::class, 'index'])->name('index');
                         Route::post('{advertisement}/store', [PanelGalleryController::class, 'store'])->name('store');
-                        Route::get('show/{gallery}', [PanelGalleryController::class, 'show'])->name('show');
-                        Route::put('/{gallery}', [PanelGalleryController::class, 'update'])->name('update');
-                        Route::delete('/{gallery}', [PanelGalleryController::class, 'destroy'])->name('destroy');
+                        Route::get('show/{gallery}', [PanelGalleryController::class, 'show'])->name('show')->withTrashed();
+                        Route::put('{gallery}', [PanelGalleryController::class, 'update'])->name('update')->withTrashed();
+                        Route::delete('{gallery}', [PanelGalleryController::class, 'destroy'])->name('destroy');
                     });
 
                 Route::prefix(RouteSection::NOTES)
@@ -137,7 +138,7 @@ Route::prefix(RouteSection::PANEL)
 
                         Route::post('{advertisement}/store', [AdvertisementNoteController::class, 'store'])->name('store');
                         Route::get('/', [AdvertisementNoteController::class, 'index'])->name('index');
-                        Route::get('{advertisement}/show', [AdvertisementNoteController::class, 'show'])->name('show');
+                        Route::get('{advertisement}/show', [AdvertisementNoteController::class, 'show'])->name('show')->withTrashed();
                         Route::delete('{advertisement}/destroy', [AdvertisementNoteController::class, 'destroy'])->name('destroy');
                     });
             });
@@ -147,8 +148,8 @@ Route::prefix(RouteSection::PANEL)
             ->group(function (): void {
 
                 Route::get('/', [FavoriteAdvertisementController::class, 'index'])->name('index');
-                Route::post('/{advertisement}', [FavoriteAdvertisementController::class, 'store'])->name('store');
-                Route::delete('/{advertisement}', [FavoriteAdvertisementController::class, 'destroy'])->name('destroy');
+                Route::post('{advertisement}', [FavoriteAdvertisementController::class, 'store'])->name('store');
+                Route::delete('{advertisement}', [FavoriteAdvertisementController::class, 'destroy'])->name('destroy');
             });
 
         Route::prefix(RouteSection::HISTORY)
@@ -156,6 +157,6 @@ Route::prefix(RouteSection::PANEL)
             ->group(function (): void {
 
                 Route::get('/', [HistoryAdvertisementController::class, 'index'])->name('index');
-                Route::post('/{advertisement}', [HistoryAdvertisementController::class, 'store'])->name('store');
+                Route::post('{advertisement}', [HistoryAdvertisementController::class, 'store'])->name('store');
             });
     });
