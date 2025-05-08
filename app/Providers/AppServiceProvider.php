@@ -8,6 +8,8 @@ use App\Enums\Language;
 use App\Http\Services\TranslationService;
 use App\Models\Holiday;
 use App\Models\User;
+use App\Pipelines\Image\ImageThumbnailResizePipeline;
+use App\Pipelines\Pipelines;
 use App\Rules\ValidateImageRule;
 use App\Rules\ValidateNationalCodeRule;
 use Carbon\CarbonImmutable;
@@ -15,6 +17,9 @@ use Illuminate\Console\Scheduling\Event;
 use Illuminate\Database\Connection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Events\QueryExecuted;
+use Illuminate\Http\UploadedFile;
+use Illuminate\Pipeline\Hub;
+use Illuminate\Pipeline\Pipeline;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Date;
 use Illuminate\Support\Facades\DB;
@@ -53,6 +58,7 @@ class AppServiceProvider extends ServiceProvider
         $this->configureValidator();
         $this->configureDate();
         $this->configurePassword();
+        $this->configurePipelines();
         $this->configureNotification();
         $this->configureSchedule();
     }
@@ -199,6 +205,20 @@ class AppServiceProvider extends ServiceProvider
                 ->mixedCase()
                 ->numbers();
         });
+    }
+
+    private function configurePipelines(): void
+    {
+        $this->app
+            ->get(Hub::class)
+            ->pipeline(Pipelines::PROCESS_UPLOADED_IMAGE, function (Pipeline $pipeline, UploadedFile $image) {
+                return $pipeline
+                    ->send($image)
+                    ->through([
+                        ImageThumbnailResizePipeline::class,
+                    ])
+                    ->thenReturn();
+            });
     }
 
     private function configureNotification(): void
