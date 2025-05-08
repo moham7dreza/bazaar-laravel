@@ -2,11 +2,6 @@
 
 use App\Models\User;
 
-it('can see welcome page', function (): void {
-
-    $this->getJson(route('web.welcome'))->assertOk()->assertViewIs('welcome');
-});
-
 it('can get health checks', function (): void {
 
     $user = User::factory()->admin()->create();

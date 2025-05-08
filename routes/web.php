@@ -19,6 +19,8 @@ Route::middleware([
 ])
     ->group(function (): void {
 
+        Route::view('tool', 'tool')->name('web.tool');
+
         Route::put('role-permissions-sync', SyncRolePermissionsController::class)->name('web.permissions.sync');
 
         Route::get('domain-router', DomainRouterController::class)->name('web.domain-router');
