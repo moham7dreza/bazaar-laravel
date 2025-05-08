@@ -14,7 +14,10 @@ class AdvertisementReadRepository extends BaseRepository
 {
     public function search(SearchDTO $searchDTO): PaginatedListViewDTO
     {
-        $items = app(SearchService::class)->getAdvertisements($searchDTO);
+        $items = app(SearchService::class)->getAdvertisements(
+            builder: $this->freshQuery()->getQuery(),
+            searchDTO: $searchDTO,
+        );
 
         return new PaginatedListViewDTO($items);
     }

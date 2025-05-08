@@ -10,7 +10,11 @@ final readonly class FilterAdvertisementsByPhrase
     {
         if (request()->has('phrase')) {
 
-            $query->whereLike('title', '%'.request('phrase').'%');
+            $query->whereAny([
+                'title',
+                'description',
+                'tags',
+            ], 'like', '%'.request('phrase').'%');
         }
 
         return $next($query);

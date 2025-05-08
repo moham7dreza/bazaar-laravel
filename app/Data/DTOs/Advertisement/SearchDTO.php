@@ -10,6 +10,7 @@ final readonly class SearchDTO
         public ?string $phrase,
         public ?Sort $sort,
         public int $perPage,
+        public array $ids,
     ) {
         //
     }

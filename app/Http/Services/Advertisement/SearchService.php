@@ -10,10 +10,10 @@ use Illuminate\Pipeline\Pipeline;
 
 class SearchService
 {
-    public function getAdvertisements(SearchDTO $searchDTO)
+    public function getAdvertisements(Builder $builder, SearchDTO $searchDTO)
     {
         return app(Pipeline::class)
-            ->send(Advertisement::query())
+            ->send($builder)
             ->through([
                 FilterAdvertisementsByPhrase::class,
             ])
@@ -21,8 +21,10 @@ class SearchService
                 return $query
                     ->active()
                     ->published()
+                    ->when($searchDTO->ids, fn (Builder $builder) => $builder->whereIn('id', $searchDTO->ids))
                     ->when($searchDTO->sort, fn (Builder $builder) => $builder->sortBy($searchDTO->sort))
-                    ->paginate($searchDTO->perPage);
+                    ->paginate($searchDTO->perPage)
+                    ->withQueryString();
             });
     }
 }

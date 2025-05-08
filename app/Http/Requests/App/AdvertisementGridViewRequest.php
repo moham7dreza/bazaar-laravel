@@ -20,6 +20,7 @@ class AdvertisementGridViewRequest extends FormRequest
             'phrase' => ['string'],
             'sort'   => [Rule::enum(Sort::class)],
             'per_page' => ['integer'],
+            'ids' => ['array', Rule::exists('advertisements', 'id')->whereNull('deleted_at')],
         ];
     }
 
@@ -29,6 +30,7 @@ class AdvertisementGridViewRequest extends FormRequest
             phrase: $this->str('phrase'),
             sort: $this->enum('sort', Sort::class),
             perPage: $this->integer('per_page', 24),
+            ids: $this->array('ids'),
         );
     }
 }
