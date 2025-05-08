@@ -3,6 +3,7 @@
 namespace App\Http\Services\Image;
 
 use App\Enums\Content\ImageUploadMethod;
+use App\Exceptions\ImageUplodeMethodNotFoundException;
 use App\Http\DataContracts\Image\ImageUploadDTO;
 use Intervention\Image\Drivers\Gd\Driver;
 use Intervention\Image\ImageManager;
@@ -10,7 +11,6 @@ use Morilog\Jalali\CalendarUtils;
 
 class ImageService extends ImageToolsService
 {
-    // TODO implement factory pattern
     public function upload(ImageUploadDTO $DTO): array|string|null
     {
         try {
@@ -19,12 +19,13 @@ class ImageService extends ImageToolsService
                 config('image-index.default-parent-upload-directory').DIRECTORY_SEPARATOR.$DTO->uploadDirectory,
             );
 
-            return match ($DTO->uploadMethod) {
-                ImageUploadMethod::METHOD_SAVE                  => $this->save($DTO->image),
-                ImageUploadMethod::METHOD_CREATE_INDEX_AND_SAVE => $this->createIndexAndSave($DTO->image),
-                ImageUploadMethod::METHOD_FIT_AND_SAVE          => $this->fitAndSave($DTO->image, $DTO->width, $DTO->height),
-                default                                         => null,
-            };
+            $method = $DTO->uploadMethod;
+
+            if ($imageUploader = ImageUploadFactory::make($method)) {
+                return $imageUploader->handle($DTO);
+            } else {
+                throw new ImageUplodeMethodNotFoundException($method);
+            }
 
         } catch (\Exception $e) {
             \Log::error($e->getMessage());
@@ -58,51 +59,13 @@ class ImageService extends ImageToolsService
                 config('image-index.default-parent-upload-directory').DIRECTORY_SEPARATOR.$DTO->uploadDirectory,
             );
 
-            return match ($DTO->uploadMethod) {
-                ImageUploadMethod::METHOD_SAVE                  => $this->save($DTO->image),
-                ImageUploadMethod::METHOD_CREATE_INDEX_AND_SAVE => $this->createIndexAndSave($DTO->image),
-                ImageUploadMethod::METHOD_FIT_AND_SAVE          => $this->fitAndSave($DTO->image, $DTO->width, $DTO->height),
-                default                                         => null,
-            };
+            $method = $DTO->uploadMethod;
 
-        } catch (\Exception $e) {
-            \Log::error($e->getMessage());
-
-            return null;
-        }
-    }
-
-    public function save($image): ?string
-    {
-        try {
-            $this->setImage($image);
-            $this->provider();
-
-            (new ImageManager(new Driver))
-                ->read($image->getRealPath())
-                ->save(public_path($this->getImageAddress()), null, $this->getImageFormat());
-
-            return $this->getImageAddress();
-
-        } catch (\Exception $e) {
-            \Log::error($e->getMessage());
-
-            return null;
-        }
-    }
-
-    public function fitAndSave($image, $width, $height): ?string
-    {
-        try {
-            $this->setImage($image);
-            $this->provider();
-
-            (new ImageManager(new Driver))
-                ->read($image->getRealPath())
-                ->resizeDown($width, $height)
-                ->save(public_path($this->getImageAddress()), null, $this->getImageFormat());
-
-            return $this->getImageAddress();
+            if ($imageUploader = ImageUploadFactory::make($method)) {
+                return $imageUploader->handle($DTO);
+            } else {
+                throw new ImageUplodeMethodNotFoundException($method);
+            }
 
         } catch (\Exception $e) {
             \Log::error($e->getMessage());
