@@ -38,19 +38,6 @@ Route::get('advertisements', [HomeAdvertisementController::class, 'index'])->nam
 Route::get('advertisements/{advertisement}', [HomeAdvertisementController::class, 'show'])
     ->withTrashed()
     ->name('advertisements.show');
-/*
-->missing(function (Request $request) {
-
-    Log::error('missing advertisement access attempt', [
-        'advertisement_id' => $id = $request->route('advertisement'),
-    ]);
-
-
-    return to_route('advertisements.index', [
-        'sort' => \App\Enums\Advertisement\Sort::NEWEST,
-    ]);
-});
-    */
 
 Route::get('states', [HomeStateController::class, 'index'])->name('states.index');
 Route::get('cities', [CityController::class, 'index'])->name('cities.index');

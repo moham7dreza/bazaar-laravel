@@ -14,6 +14,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Http\Resources\Json\ResourceCollection;
+use Log;
 
 class AdvertisementController extends Controller
 {
@@ -36,6 +37,11 @@ class AdvertisementController extends Controller
         info('pdp page log [{date}].', ['date' => now()->jdate()->format('Y-m-d H:i:s')]);
 
         if ($advertisement->trashed()) {
+
+            Log::error('missing advertisement access attempt', [
+                'advertisement_id' => $advertisement->id,
+            ]);
+
             return ApiJsonResponse::error(404, message: 'این آگهی حذف شده است');
         }
 

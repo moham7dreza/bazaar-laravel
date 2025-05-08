@@ -11,4 +11,5 @@ enum Sort: string
     case PRICE_ASC = 'price_asc';
     case PRICE_DESC = 'price_desc';
     case NEWEST = 'newest';
+    case OLDEST = 'oldest';
 }

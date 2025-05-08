@@ -21,8 +21,8 @@ class SearchService
                 return $query
                     ->active()
                     ->published()
-                    ->when($searchDTO->ids, fn (Builder $builder) => $builder->whereIn('id', $searchDTO->ids))
-                    ->when($searchDTO->sort, fn (Builder $builder) => $builder->sortBy($searchDTO->sort))
+                    ->when($searchDTO->ids, fn (Builder|Advertisement $builder) => $builder->whereIn('id', $searchDTO->ids))
+                    ->when($searchDTO->sort, fn (Builder|Advertisement $builder) => $builder->sortBy($searchDTO->sort))
                     ->paginate($searchDTO->perPage)
                     ->withQueryString();
             });

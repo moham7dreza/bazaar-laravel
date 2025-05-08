@@ -93,6 +93,7 @@ class Advertisement extends Model
             Sort::PRICE_ASC  => $builder->oldest('price'),
             Sort::PRICE_DESC => $builder->latest('price'),
             Sort::NEWEST     => $builder->latest(),
+            Sort::OLDEST     => $builder->oldest(),
         };
     }
 
