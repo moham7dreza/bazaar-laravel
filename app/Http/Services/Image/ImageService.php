@@ -19,13 +19,7 @@ class ImageService extends ImageToolsService
                 config('image-index.default-parent-upload-directory').DIRECTORY_SEPARATOR.$DTO->uploadDirectory,
             );
 
-            $method = $DTO->uploadMethod;
-
-            if ($imageUploader = ImageUploadFactory::make($method)) {
-                return $imageUploader->handle($DTO);
-            } else {
-                throw new ImageUplodeMethodNotFoundException($method);
-            }
+            return ImageUploadFactory::make($DTO->uploadMethod)->handle($DTO);
 
         } catch (\Exception $e) {
             \Log::error($e->getMessage());

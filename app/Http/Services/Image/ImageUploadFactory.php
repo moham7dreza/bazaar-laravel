@@ -16,7 +16,6 @@ final class ImageUploadFactory
             ImageUploadMethod::METHOD_SAVE                  => SimpleImageUploaderService::class,
             ImageUploadMethod::METHOD_FIT_AND_SAVE          => FitAndSaveImageUploaderService::class,
             ImageUploadMethod::METHOD_CREATE_INDEX_AND_SAVE => CreateIndexAndSaveImageUploaderService::class,
-            default                                         => null,
         };
 
         return self::resolve($className);
