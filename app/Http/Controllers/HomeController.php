@@ -7,6 +7,7 @@ use App\Events\PackageSent;
 use App\Mail\UserLandMail;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
+use function Pest\Laravel\json;
 
 class HomeController extends Controller
 {
@@ -45,6 +46,12 @@ class HomeController extends Controller
 
         Log::warning('this is sample log to view queued jobs [{date}]', ['date' => now()->jdate()->format('Y-m-d H:i:s')]);
 
-        return view('welcome');
+        return response()->json([
+            'ServiceName' => 'api',
+            'ServiceVersion' => 'v1.0',
+            'HostName' => \request()?->getHost(),
+            'Time' => time(),
+            'Status' => 'healthy'
+        ]);
     }
 }
