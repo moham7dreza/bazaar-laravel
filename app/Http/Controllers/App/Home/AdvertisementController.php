@@ -20,7 +20,7 @@ class AdvertisementController extends Controller
      */
     public function index(AdvertisementGridViewRequest $request): ResourceCollection
     {
-        info('search log [{date}].', ['date' => now()->toJalali()]);
+        info('search log [{date}].', ['date' => now()->jdate()->format('Y-m-d H:i:s')]);
 
         $advertisements = app(SearchService::class)->getAdvertisements($request->getDTO());
 
@@ -30,7 +30,7 @@ class AdvertisementController extends Controller
 
     public function show(Advertisement $advertisement): JsonResource
     {
-        info('pdp page log [{date}].', ['date' => now()->toJalali()]);
+        info('pdp page log [{date}].', ['date' => now()->jdate()->format('Y-m-d H:i:s')]);
 
         Model::withoutTimestamps(static fn () => $advertisement->increment('view'));
 
