@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Broadcasting\WhatsappChannel;
 use App\Console\Commands\System\DataMigrationCommand;
 use App\Enums\Language;
 use App\Http\Services\TranslationService;
@@ -56,7 +57,7 @@ class AppServiceProvider extends ServiceProvider
         $this->configureDate();
         $this->configurePassword();
 //        $this->configurePipelines();
-//        $this->configureNotification();
+        $this->configureNotification();
         $this->configureSchedule();
     }
 
