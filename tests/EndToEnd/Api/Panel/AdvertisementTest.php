@@ -43,5 +43,5 @@ test('writer can access to advertisements', function (): void {
 
     $writer = createUserWithRoleAndPermissions(UserRole::WRITER);
 
-    asUser($writer)->getJson(route('panel.advertise.advertisement.index'))->ddJson()->assertOk();
+    asUser($writer)->getJson(route('panel.advertise.advertisement.index'))->assertOk();
 });

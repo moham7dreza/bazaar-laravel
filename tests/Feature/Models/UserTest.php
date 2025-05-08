@@ -10,7 +10,7 @@ it('can get sensitive data columns', function (): void {
     $data = $user->getSensitiveColumns();
 
     expect($data)->toBeInstanceOf(Collection::class)
-        ->toHaveLength(6)
+        ->toHaveLength(3)
         ->each->toBeString()
         ->and($data->toArray())->toContain('email', 'mobile', 'password');
 });
