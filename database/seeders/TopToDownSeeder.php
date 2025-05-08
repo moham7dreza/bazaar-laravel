@@ -12,6 +12,7 @@ use App\Models\Advertise\Gallery;
 use App\Models\Advertise\State;
 use App\Models\Content\Menu;
 use App\Models\Content\Page;
+use App\Models\Holiday;
 use App\Models\PaymentGateway;
 use App\Models\SmsGateway;
 use App\Models\SmsLog;
@@ -82,6 +83,9 @@ class TopToDownSeeder extends Seeder
         // Gateway
         PaymentGateway::factory(5)->create();
         SmsGateway::factory(5)->create();
+
+        // days
+        Holiday::factory(5)->create();
 
         $this->command->alert('Relations seeded');
     }
