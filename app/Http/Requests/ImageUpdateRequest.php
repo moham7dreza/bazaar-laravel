@@ -10,41 +10,33 @@ use Illuminate\Validation\Rule;
 
 class ImageUpdateRequest extends FormRequest
 {
-    /**
-     * Determine if the user is authorized to make this request.
-     */
     public function authorize(): bool
     {
         return true;
     }
 
-    /**
-     * Get the validation rules that apply to the request.
-     *
-     * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
-     */
     public function rules(): array
     {
         return [
             // image
-            'image' => ['nullable', 'max:2000', 'image', 'mimes:png,jpg,jpeg,gif'],
+            'image'              => ['nullable', 'max:2000', 'image', 'mimes:png,jpg,jpeg,gif'],
             'current_image_size' => ['string', Rule::enum(ImageSize::class)],
-            'directory' => ['required', 'string'],
-            'upload_method' => ['required', Rule::enum(ImageUploadMethod::class)],
-            'width' => ['required_if:upload_method,fit', 'integer'],
-            'height' => ['required_if:upload_method,fit', 'integer'],
+            'directory'          => ['required', 'string'],
+            'upload_method'      => ['required', Rule::enum(ImageUploadMethod::class)],
+            'width'              => ['required_if:upload_method,fit', 'integer'],
+            'height'             => ['required_if:upload_method,fit', 'integer'],
         ];
     }
 
     public function getDTO(): ImageUploadDTO
     {
         return new ImageUploadDTO(
-            image: $this->file('image'),
-            uploadMethod: ImageUploadMethod::tryFrom($this->get('upload_method')),
-            uploadDirectory: $this->get('directory'),
-            currentImageSize: ImageSize::tryFrom($this->get('current_image_size')),
-            width: $this->get('width'),
-            height: $this->get('height'),
+            image:              $this->file('image'),
+            uploadMethod:       $this->enum('upload_method', ImageUploadMethod::class),
+            uploadDirectory:    $this->get('directory'),
+            currentImageSize:   $this->enum('current_image_size', ImageSize::class),
+            width:              $this->get('width'),
+            height:             $this->get('height'),
         );
     }
 }

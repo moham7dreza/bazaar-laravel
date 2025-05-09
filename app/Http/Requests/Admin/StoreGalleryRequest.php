@@ -4,34 +4,27 @@ namespace App\Http\Requests\Admin;
 
 use App\Enums\Content\ImageUploadMethod;
 use App\Http\DataContracts\Image\ImageUploadDTO;
+use App\Rules\ValidateImageRule;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
 class StoreGalleryRequest extends FormRequest
 {
-    /**
-     * Determine if the user is authorized to make this request.
-     */
     public function authorize(): bool
     {
         return true;
     }
 
-    /**
-     * Get the validation rules that apply to the request.
-     *
-     * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
-     */
     public function rules(): array
     {
         return [
-            'advertisement_id' => 'required|min:1|max:100000000|regex:/^[0-9]+$/u|exists:advertisements,id',
+            'advertisement_id' => ['required', 'min:1', 'max:100000000', 'regex:/^[0-9]+$/u', 'exists:advertisements,id'],
             // image
-            'image' => 'nullable|max:2000|image|mimes:png,jpg,jpeg,gif',
-            'directory' => ['required', 'string'],
+            'image'         => ['nullable', 'max:2000', 'image', 'mimes:png,jpg,jpeg,gif', new ValidateImageRule()],
+            'directory'     => ['required', 'string'],
             'upload_method' => ['required', Rule::enum(ImageUploadMethod::class)],
-            'width' => ['required_if:upload_method,fit', 'integer'],
-            'height' => ['required_if:upload_method,fit', 'integer'],
+            'width'         => ['required_if:upload_method,fit', 'integer'],
+            'height'        => ['required_if:upload_method,fit', 'integer'],
         ];
     }
 
@@ -39,7 +32,7 @@ class StoreGalleryRequest extends FormRequest
     {
         return new ImageUploadDTO(
             image: $this->file('image'),
-            uploadMethod: ImageUploadMethod::tryFrom($this->get('upload_method')),
+            uploadMethod: $this->enum('upload_method', ImageUploadMethod::class),
             uploadDirectory: $this->get('directory'),
             width: $this->get('width'),
             height: $this->get('height'),
