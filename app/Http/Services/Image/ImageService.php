@@ -27,7 +27,7 @@ class ImageService extends ImageToolsService
         }
     }
 
-    public function update(ImageUploadDTO $DTO, ?array $image): array|string|null
+    public function update(ImageUploadDTO $DTO, array|string|null $image): array|string|null
     {
         try {
 
@@ -52,7 +52,7 @@ class ImageService extends ImageToolsService
                 config('image-index.default-parent-upload-directory').DIRECTORY_SEPARATOR.$DTO->uploadDirectory,
             );
 
-            return ImageUploadFactory::make($DTO->uploadMethod)->handle($DTO);
+            return ImageUploadFactory::make($DTO->uploadMethod)?->handle($DTO);
 
         } catch (\Exception $e) {
             \Log::error($e->getMessage());
