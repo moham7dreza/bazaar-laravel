@@ -13,10 +13,10 @@ class HolidayFactory extends Factory
     public function definition(): array
     {
         return [
-            'title' => $this->faker->title,
-            'date' => $this->faker->dateTime,
-            'started_at' => $this->faker->dateTime,
-            'ended_at' => $this->faker->dateTime,
+            'title'      => fake()->title,
+            'date'       => fake()->dateTime,
+            'started_at' => fake()->dateTime,
+            'ended_at'   => fake()->dateTime,
         ];
     }
 }
