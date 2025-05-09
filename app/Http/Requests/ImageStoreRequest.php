@@ -4,6 +4,7 @@ namespace App\Http\Requests;
 
 use App\Enums\Content\ImageUploadMethod;
 use App\Http\DataContracts\Image\ImageUploadDTO;
+use App\Rules\ValidateImageRule;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
@@ -17,7 +18,7 @@ class ImageStoreRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'image'         => ['required', 'image', 'mimes:png,jpg,jpeg'],
+            'image'         => ['required', 'image', 'mimes:png,jpg,jpeg', new ValidateImageRule()],
             'directory'     => ['required', 'string'],
             'upload_method' => ['required', Rule::enum(ImageUploadMethod::class)],
             'width'         => ['required_if:upload_method,fit', 'integer'],

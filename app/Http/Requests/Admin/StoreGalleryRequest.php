@@ -20,7 +20,7 @@ class StoreGalleryRequest extends FormRequest
         return [
             'advertisement_id' => ['required', 'min:1', 'max:100000000', 'regex:/^[0-9]+$/u', 'exists:advertisements,id'],
             // image
-            'image'         => ['nullable', 'max:2000', 'image', 'mimes:png,jpg,jpeg,gif', new ValidateImageRule()],
+            'image'         => ['required', 'max:2000', 'image', 'mimes:png,jpg,jpeg,gif', new ValidateImageRule()],
             'directory'     => ['required', 'string'],
             'upload_method' => ['required', Rule::enum(ImageUploadMethod::class)],
             'width'         => ['required_if:upload_method,fit', 'integer'],
