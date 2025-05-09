@@ -4,7 +4,7 @@ namespace App\Enums\Content;
 
 enum ImageUploadMethod: string
 {
-    case METHOD_SAVE = 'save';
+    case METHOD_SAVE                  = 'save';
     case METHOD_CREATE_INDEX_AND_SAVE = 'index';
-    case METHOD_FIT_AND_SAVE = 'fit';
+    case METHOD_FIT_AND_SAVE          = 'fit';
 }

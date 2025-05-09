@@ -107,7 +107,7 @@ class ImageToolsService
         return $this->finalImageDirectory.DIRECTORY_SEPARATOR.$this->finalImageName;
     }
 
-    protected function provider(): void
+    public function provider(): void
     {
         // set properties
         if (! $this->getImageDirectory()) {
