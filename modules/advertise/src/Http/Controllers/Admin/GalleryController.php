@@ -5,12 +5,12 @@ declare(strict_types=1);
 namespace Modules\Advertise\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Http\Resources\Admin\Advertise\GalleryCollection;
-use App\Http\Resources\Admin\Advertise\GalleryResource;
 use App\Http\Responses\ApiJsonResponse;
 use App\Http\Services\Image\ImageService;
 use Modules\Advertise\Http\Requests\Admin\StoreGalleryRequest;
 use Modules\Advertise\Http\Requests\Admin\UpdateGalleryRequest;
+use Modules\Advertise\Http\Resources\Admin\GalleryCollection;
+use Modules\Advertise\Http\Resources\Admin\GalleryResource;
 use Modules\Advertise\Models\Gallery;
 
 final class GalleryController extends Controller

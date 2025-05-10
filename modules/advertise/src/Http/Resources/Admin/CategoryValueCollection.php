@@ -1,11 +1,13 @@
 <?php
 
-namespace App\Http\Resources\Admin\Advertise;
+declare(strict_types=1);
+
+namespace Modules\Advertise\Http\Resources\Admin;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\ResourceCollection;
 
-class CategoryAttributeCollection extends ResourceCollection
+final class CategoryValueCollection extends ResourceCollection
 {
     /**
      * Transform the resource collection into an array.
@@ -15,17 +17,8 @@ class CategoryAttributeCollection extends ResourceCollection
     public function toArray(Request $request): array
     {
         return [
-            'data' => $this->collection,
+            'data'   => $this->collection,
             'status' => true,
-        ];
-    }
-
-    public function with($request)
-    {
-        return [
-            'extra' => [
-                'status' => true,
-            ],
         ];
     }
 }

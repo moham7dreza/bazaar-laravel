@@ -5,11 +5,11 @@ declare(strict_types=1);
 namespace Modules\Advertise\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Http\Resources\Admin\Advertise\CategoryValueCollection;
-use App\Http\Resources\Admin\Advertise\CategoryValueResource;
 use App\Http\Responses\ApiJsonResponse;
 use Modules\Advertise\Http\Requests\Admin\StoreCategoryValueRequest;
 use Modules\Advertise\Http\Requests\Admin\UpdateCategoryValueRequest;
+use Modules\Advertise\Http\Resources\Admin\CategoryValueCollection;
+use Modules\Advertise\Http\Resources\Admin\CategoryValueResource;
 use Modules\Advertise\Models\CategoryValue;
 
 final class CategoryValueController extends Controller

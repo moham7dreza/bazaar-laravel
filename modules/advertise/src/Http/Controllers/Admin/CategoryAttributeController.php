@@ -5,11 +5,11 @@ declare(strict_types=1);
 namespace Modules\Advertise\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Http\Resources\Admin\Advertise\CategoryAttributeCollection;
-use App\Http\Resources\Admin\Advertise\CategoryAttributeResource;
 use App\Http\Responses\ApiJsonResponse;
 use Modules\Advertise\Http\Requests\Admin\StoreCategoryAttributeRequest;
 use Modules\Advertise\Http\Requests\Admin\UpdateCategoryAttributeRequest;
+use Modules\Advertise\Http\Resources\Admin\CategoryAttributeCollection;
+use Modules\Advertise\Http\Resources\Admin\CategoryAttributeResource;
 use Modules\Advertise\Models\CategoryAttribute;
 
 final class CategoryAttributeController extends Controller

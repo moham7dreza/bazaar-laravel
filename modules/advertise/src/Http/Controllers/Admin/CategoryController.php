@@ -5,11 +5,11 @@ declare(strict_types=1);
 namespace Modules\Advertise\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Http\Resources\Admin\Advertise\CategoryCollection;
-use App\Http\Resources\Admin\Advertise\CategoryResource;
 use App\Http\Responses\ApiJsonResponse;
 use Illuminate\Http\Request;
 use Modules\Advertise\Http\Requests\Admin\StoreCategoryRequest;
+use Modules\Advertise\Http\Resources\Admin\CategoryCollection;
+use Modules\Advertise\Http\Resources\Admin\CategoryResource;
 use Modules\Advertise\Models\Category;
 
 final class CategoryController extends Controller
