@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests\EndToEnd\Api\Panel;
 
 use App\Enums\UserPermission;
@@ -18,7 +20,8 @@ function createUserWithRoleAndPermissions(UserRole $userRole): User
     $user = User::factory()->create();
     $user->assignRole($role);
 
-    match ($userRole) {
+    match ($userRole)
+    {
         UserRole::WRITER => $role->givePermissionTo([UserPermission::CREATE_AD, UserPermission::EDIT_AD]),
         UserRole::EDITOR => $role->givePermissionTo(UserPermission::ads()),
         default          => null,
