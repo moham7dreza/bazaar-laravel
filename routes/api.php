@@ -3,12 +3,6 @@
 declare(strict_types=1);
 
 use App\Enums\RouteSection;
-use App\Http\Controllers\Admin\Advertise\AdvertisementController;
-use App\Http\Controllers\Admin\Advertise\CategoryAttributeController;
-use App\Http\Controllers\Admin\Advertise\CategoryController;
-use App\Http\Controllers\Admin\Advertise\CategoryValueController;
-use App\Http\Controllers\Admin\Advertise\GalleryController;
-use App\Http\Controllers\Admin\Advertise\StateController;
 use App\Http\Controllers\Admin\Content\MenuController;
 use App\Http\Controllers\Admin\Content\PageController;
 use App\Http\Controllers\Admin\User\UserController;
@@ -31,6 +25,12 @@ use App\Http\Middleware\EnsureMobileIsVerified;
 use App\Http\Middleware\MetricsLoggerMiddleware;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use Modules\Advertise\Http\Controllers\Admin\AdvertisementController;
+use Modules\Advertise\Http\Controllers\Admin\CategoryAttributeController;
+use Modules\Advertise\Http\Controllers\Admin\CategoryController;
+use Modules\Advertise\Http\Controllers\Admin\CategoryValueController;
+use Modules\Advertise\Http\Controllers\Admin\GalleryController;
+use Modules\Advertise\Http\Controllers\Admin\StateController;
 
 Route::get('user', static fn (Request $request) => $request->user())->middleware(['auth:sanctum', 'mobileVerified'])->name('user.info');
 
