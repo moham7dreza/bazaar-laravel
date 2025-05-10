@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Policies;
+namespace Modules\Advertise\Policies;
 
 use App\Enums\UserPermission;
 use App\Enums\UserRole;

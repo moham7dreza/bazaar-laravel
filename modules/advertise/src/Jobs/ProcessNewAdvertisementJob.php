@@ -2,11 +2,10 @@
 
 declare(strict_types=1);
 
-namespace App\Jobs;
+namespace Modules\Advertise\Jobs;
 
 use App\Jobs\Contracts\ShouldNotifyOnFailures;
 use App\Models\User;
-use App\Notifications\NewAdPostedNotification;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Queue\Queueable;
 use Illuminate\Queue\Middleware\RateLimited;
@@ -14,6 +13,7 @@ use Illuminate\Queue\Middleware\ThrottlesExceptions;
 use Illuminate\Queue\Middleware\WithoutOverlapping;
 use Illuminate\Support\Facades\Notification;
 use Modules\Advertise\Models\Advertisement;
+use Modules\Advertise\Notifications\NewAdPostedNotification;
 
 final class ProcessNewAdvertisementJob implements ShouldQueue, ShouldNotifyOnFailures
 {

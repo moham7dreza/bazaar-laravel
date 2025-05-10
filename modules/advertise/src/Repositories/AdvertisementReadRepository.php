@@ -2,20 +2,20 @@
 
 declare(strict_types=1);
 
-namespace App\Repositories\Advertisement;
+namespace Modules\Advertise\Repositories;
 
 use App\Abstracts\BaseRepository;
-use App\Data\DTOs\Advertisement\SearchDTO;
 use App\Data\DTOs\PaginatedListViewDTO;
 use App\Enums\UserId;
 use App\Http\Services\Advertisement\SearchService;
 use DateTimeInterface;
 use Illuminate\Database\Eloquent\Builder;
+use Modules\Advertise\DataContracts\AdvertisementSearchDTO;
 use Modules\Advertise\Models\Advertisement;
 
 final class AdvertisementReadRepository extends BaseRepository
 {
-    public function search(SearchDTO $searchDTO): PaginatedListViewDTO
+    public function search(AdvertisementSearchDTO $searchDTO): PaginatedListViewDTO
     {
         $items = app(SearchService::class)->getAdvertisements(
             builder: $this->freshQuery()->getQuery(),

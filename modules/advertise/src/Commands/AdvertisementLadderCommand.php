@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Console\Commands\Advertisement;
+namespace Modules\Advertise\Commands;
 
 use Carbon\Carbon;
 use Illuminate\Console\Command;

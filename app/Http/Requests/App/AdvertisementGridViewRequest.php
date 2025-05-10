@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace App\Http\Requests\App;
 
-use App\Data\DTOs\Advertisement\SearchDTO;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
+use Modules\Advertise\DataContracts\AdvertisementSearchDTO;
 use Modules\Advertise\Enums\Sort;
 
 final class AdvertisementGridViewRequest extends FormRequest
@@ -26,9 +26,9 @@ final class AdvertisementGridViewRequest extends FormRequest
         ];
     }
 
-    public function getDTO(): SearchDTO
+    public function getDTO(): AdvertisementSearchDTO
     {
-        return new SearchDTO(
+        return new AdvertisementSearchDTO(
             phrase: $this->str('phrase'),
             sort: $this->enum('sort', Sort::class),
             perPage: $this->integer('per_page', 24),

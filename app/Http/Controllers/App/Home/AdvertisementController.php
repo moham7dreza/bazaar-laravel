@@ -10,13 +10,13 @@ use App\Http\Requests\App\AdvertisementGridViewRequest;
 use App\Http\Resources\App\AdvertisementCollection;
 use App\Http\Resources\App\AdvertisementResource;
 use App\Http\Responses\ApiJsonResponse;
-use App\Repositories\Advertisement\AdvertisementReadRepository;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Http\Resources\Json\ResourceCollection;
 use Log;
 use Modules\Advertise\Models\Advertisement;
+use Modules\Advertise\Repositories\AdvertisementReadRepository;
 use Throwable;
 
 final class AdvertisementController extends Controller

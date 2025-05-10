@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Observers;
+namespace Modules\Advertise\Observers;
 
 use App\Http\Services\Image\ImageService;
 use Modules\Advertise\Models\Gallery;

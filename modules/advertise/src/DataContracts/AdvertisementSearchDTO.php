@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace App\Data\DTOs\Advertisement;
+namespace Modules\Advertise\DataContracts;
 
 use Modules\Advertise\Enums\Sort;
 
-final readonly class SearchDTO
+final readonly class AdvertisementSearchDTO
 {
     public function __construct(
         public ?string $phrase,

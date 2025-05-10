@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Modules\Advertise\Models;
 
 use App\Models\Scopes\LatestScope;
-use App\Observers\GalleryObserver;
 use Database\Factories\Advertise\GalleryFactory;
 use Illuminate\Database\Eloquent\Attributes\ObservedBy;
 use Illuminate\Database\Eloquent\Attributes\ScopedBy;
@@ -16,6 +15,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Prunable;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Modules\Advertise\Observers\GalleryObserver;
 
 #[ScopedBy([LatestScope::class])]
 #[ObservedBy([GalleryObserver::class])]

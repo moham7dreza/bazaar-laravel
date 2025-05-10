@@ -4,15 +4,15 @@ declare(strict_types=1);
 
 namespace App\Http\Services\Advertisement;
 
-use App\Data\DTOs\Advertisement\SearchDTO;
-use App\Pipelines\Advertisements\FilterAdvertisementsByPhrase;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Pipeline\Pipeline;
+use Modules\Advertise\DataContracts\AdvertisementSearchDTO;
 use Modules\Advertise\Models\Advertisement;
+use Modules\Advertise\Pipelines\FilterAdvertisementsByPhrase;
 
 final class SearchService
 {
-    public function getAdvertisements(Builder $builder, SearchDTO $searchDTO)
+    public function getAdvertisements(Builder $builder, AdvertisementSearchDTO $searchDTO)
     {
         return app(Pipeline::class)
             ->send($builder)
