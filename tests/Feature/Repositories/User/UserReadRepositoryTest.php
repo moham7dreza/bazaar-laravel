@@ -1,8 +1,10 @@
 <?php
 
-use App\Models\Advertise\Advertisement;
+declare(strict_types=1);
+
 use App\Models\User;
 use App\Repositories\User\UserReadRepository;
+use Modules\Advertise\Models\Advertisement;
 
 beforeEach(function (): void {
 

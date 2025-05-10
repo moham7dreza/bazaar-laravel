@@ -1,16 +1,18 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Repositories\User;
 
 use App\Abstracts\BaseRepository;
 use App\Data\DTOs\PaginatedListViewDTO;
 use App\Enums\UserPermission;
 use App\Enums\UserRole;
-use App\Models\Advertise\Advertisement;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Builder;
+use Modules\Advertise\Models\Advertisement;
 
-class UserReadRepository extends BaseRepository
+final class UserReadRepository extends BaseRepository
 {
     public function getUsersWithLatestAdvertisementPostedDate(int $limit = 1000, int $perPage = 20): PaginatedListViewDTO
     {
