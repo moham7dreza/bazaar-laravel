@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Http\Services\Advertisement;
+namespace Modules\Advertise\Services;
 
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Pipeline\Pipeline;
@@ -10,7 +10,7 @@ use Modules\Advertise\DataContracts\AdvertisementSearchDTO;
 use Modules\Advertise\Models\Advertisement;
 use Modules\Advertise\Pipelines\FilterAdvertisementsByPhrase;
 
-final class SearchService
+final class AdvertisementSearchService
 {
     public function getAdvertisements(Builder $builder, AdvertisementSearchDTO $searchDTO)
     {
