@@ -6,12 +6,9 @@ use App\Enums\RouteSection;
 use App\Http\Controllers\Admin\Content\MenuController;
 use App\Http\Controllers\Admin\Content\PageController;
 use App\Http\Controllers\Admin\User\UserController;
-use App\Http\Controllers\App\Home\AdvertisementController as HomeAdvertisementController;
-use App\Http\Controllers\App\Home\CategoryController as HomeCategoryController;
 use App\Http\Controllers\App\Home\CityController;
 use App\Http\Controllers\App\Home\MenuController as HomeMenuController;
 use App\Http\Controllers\App\Home\PageController as HomePageController;
-use App\Http\Controllers\App\Home\StateController as HomeStateController;
 use App\Http\Controllers\App\Panel\AdvertisementController as PanelAdvertisementController;
 use App\Http\Controllers\App\Panel\AdvertisementNoteController;
 use App\Http\Controllers\App\Panel\FavoriteAdvertisementController;
@@ -31,6 +28,9 @@ use Modules\Advertise\Http\Controllers\Admin\CategoryController;
 use Modules\Advertise\Http\Controllers\Admin\CategoryValueController;
 use Modules\Advertise\Http\Controllers\Admin\GalleryController;
 use Modules\Advertise\Http\Controllers\Admin\StateController;
+use Modules\Advertise\Http\Controllers\Home\AdvertisementController as HomeAdvertisementController;
+use Modules\Advertise\Http\Controllers\Home\CategoryController as HomeCategoryController;
+use Modules\Advertise\Http\Controllers\Home\StateController as HomeStateController;
 
 Route::get('user', static fn (Request $request) => $request->user())->middleware(['auth:sanctum', 'mobileVerified'])->name('user.info');
 

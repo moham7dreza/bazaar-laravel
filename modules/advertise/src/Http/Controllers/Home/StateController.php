@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Http\Controllers\App\Home;
+namespace Modules\Advertise\Http\Controllers\Home;
 
 use App\Http\Controllers\Controller;
 use App\Http\Resources\App\StateCollection;
