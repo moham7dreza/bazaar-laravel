@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace Database\Factories\Advertise;
 
-use App\Enums\Advertisement\AdvertisementStatus;
-use App\Enums\Advertisement\AdvertisementType;
 use App\Models\Geo\City;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Modules\Advertise\Enums\AdvertisementStatus;
+use Modules\Advertise\Enums\AdvertisementType;
 use Modules\Advertise\Models\Advertisement;
 use Modules\Advertise\Models\Category;
 

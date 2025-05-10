@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Modules\Advertise\Models;
 
-use App\Enums\Advertisement\AttributeType;
 use App\Models\Scopes\LatestScope;
 use Cviebrock\EloquentSluggable\Sluggable;
 use Dyrynda\Database\Support\CascadeSoftDeletes;
@@ -16,6 +15,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 use Illuminate\Database\Eloquent\Relations\HasOneThrough;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Modules\Advertise\Enums\AttributeType;
 
 #[ScopedBy([LatestScope::class])]
 final class Category extends Model

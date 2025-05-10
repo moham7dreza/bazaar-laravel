@@ -1,13 +1,15 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Requests\App;
 
 use App\Data\DTOs\Advertisement\SearchDTO;
-use App\Enums\Advertisement\Sort;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
+use Modules\Advertise\Enums\Sort;
 
-class AdvertisementGridViewRequest extends FormRequest
+final class AdvertisementGridViewRequest extends FormRequest
 {
     public function authorize(): bool
     {
@@ -17,10 +19,10 @@ class AdvertisementGridViewRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'phrase' => ['string'],
-            'sort'   => [Rule::enum(Sort::class)],
+            'phrase'   => ['string'],
+            'sort'     => [Rule::enum(Sort::class)],
             'per_page' => ['integer'],
-            'ids' => ['array', Rule::exists('advertisements', 'id')->whereNull('deleted_at')],
+            'ids'      => ['array', Rule::exists('advertisements', 'id')->whereNull('deleted_at')],
         ];
     }
 

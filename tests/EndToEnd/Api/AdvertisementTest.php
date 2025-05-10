@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Tests\EndToEnd\Api;
 
-use App\Enums\Advertisement\Sort;
 use App\Models\User;
+use Modules\Advertise\Enums\Sort;
 use Modules\Advertise\Models\Advertisement;
 use Modules\Advertise\Models\AdvertisementNote;
 use Modules\Advertise\Models\CategoryAttribute;

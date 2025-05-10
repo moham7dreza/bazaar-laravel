@@ -1,8 +1,10 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Data\DTOs\Advertisement;
 
-use App\Enums\Advertisement\Sort;
+use Modules\Advertise\Enums\Sort;
 
 final readonly class SearchDTO
 {
@@ -12,6 +14,6 @@ final readonly class SearchDTO
         public int $perPage,
         public array $ids,
     ) {
-        //
+
     }
 }

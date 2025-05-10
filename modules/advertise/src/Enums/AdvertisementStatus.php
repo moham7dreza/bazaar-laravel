@@ -1,6 +1,8 @@
 <?php
 
-namespace App\Enums\Advertisement;
+declare(strict_types=1);
+
+namespace Modules\Advertise\Enums;
 
 use App\Enums\Concerns\EnumDataListTrait;
 

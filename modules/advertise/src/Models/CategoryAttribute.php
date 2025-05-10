@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Modules\Advertise\Models;
 
-use App\Enums\Advertisement\Unit;
 use App\Models\Scopes\LatestScope;
 use Illuminate\Database\Eloquent\Attributes\ScopedBy;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -12,6 +11,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Modules\Advertise\Enums\Unit;
 
 #[ScopedBy([LatestScope::class])]
 final class CategoryAttribute extends Model

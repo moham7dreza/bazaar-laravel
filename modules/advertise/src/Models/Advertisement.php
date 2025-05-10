@@ -4,9 +4,6 @@ declare(strict_types=1);
 
 namespace Modules\Advertise\Models;
 
-use App\Enums\Advertisement\AdvertisementStatus;
-use App\Enums\Advertisement\AdvertisementType;
-use App\Enums\Advertisement\Sort;
 use App\Models\Geo\City;
 use App\Models\Scopes\LatestScope;
 use App\Models\User;
@@ -21,6 +18,9 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Modules\Advertise\Enums\AdvertisementStatus;
+use Modules\Advertise\Enums\AdvertisementType;
+use Modules\Advertise\Enums\Sort;
 
 #[ScopedBy([LatestScope::class])]
 final class Advertisement extends Model

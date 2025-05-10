@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Database\Factories\Advertise;
 
-use App\Enums\Advertisement\ValueType;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Modules\Advertise\Enums\ValueType;
 use Modules\Advertise\Models\CategoryAttribute;
 use Modules\Advertise\Models\CategoryValue;
 

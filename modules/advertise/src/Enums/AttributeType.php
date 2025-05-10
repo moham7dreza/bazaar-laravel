@@ -1,6 +1,8 @@
 <?php
 
-namespace App\Enums\Advertisement;
+declare(strict_types=1);
+
+namespace Modules\Advertise\Enums;
 
 use App\Enums\Concerns\EnumDataListTrait;
 
@@ -8,6 +10,6 @@ enum AttributeType: int
 {
     use EnumDataListTrait;
 
-    case TEXT = 1;
+    case TEXT   = 1;
     case NUMBER = 2;
 }
