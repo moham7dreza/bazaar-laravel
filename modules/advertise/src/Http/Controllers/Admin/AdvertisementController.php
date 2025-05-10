@@ -5,8 +5,6 @@ declare(strict_types=1);
 namespace Modules\Advertise\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Admin\StoreAdvertisementRequest;
-use App\Http\Requests\Admin\UpdateAdvertisementRequest;
 use App\Http\Resources\Admin\Advertise\AdvertisementCollection;
 use App\Http\Resources\Admin\Advertise\AdvertisementResource;
 use App\Http\Responses\ApiJsonResponse;
@@ -14,6 +12,8 @@ use App\Http\Services\Image\ImageService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Http\Resources\Json\ResourceCollection;
+use Modules\Advertise\Http\Requests\Admin\StoreAdvertisementRequest;
+use Modules\Advertise\Http\Requests\Admin\UpdateAdvertisementRequest;
 use Modules\Advertise\Jobs\ProcessNewAdvertisementJob;
 use Modules\Advertise\Models\Advertisement;
 

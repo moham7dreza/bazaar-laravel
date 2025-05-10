@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Http\Requests\Admin;
+namespace Modules\Advertise\Http\Requests\Admin;
 
 use App\Enums\Content\ImageSize;
 use App\Enums\Content\ImageUploadMethod;

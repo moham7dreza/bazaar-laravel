@@ -1,6 +1,8 @@
 <?php
 
-namespace App\Http\Requests\Admin;
+declare(strict_types=1);
+
+namespace Modules\Advertise\Http\Requests\Admin;
 
 use App\Enums\Content\ImageUploadMethod;
 use App\Http\DataContracts\Image\ImageUploadDTO;
@@ -8,7 +10,7 @@ use App\Rules\ValidateImageRule;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
-class StoreGalleryRequest extends FormRequest
+final class StoreGalleryRequest extends FormRequest
 {
     public function authorize(): bool
     {

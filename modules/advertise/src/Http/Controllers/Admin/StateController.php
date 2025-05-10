@@ -5,11 +5,11 @@ declare(strict_types=1);
 namespace Modules\Advertise\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Admin\StoreStateRequest;
-use App\Http\Requests\Admin\UpdateStateRequest;
 use App\Http\Resources\Admin\Advertise\StateCollection;
 use App\Http\Resources\Admin\Advertise\StateResource;
 use App\Http\Responses\ApiJsonResponse;
+use Modules\Advertise\Http\Requests\Admin\StoreStateRequest;
+use Modules\Advertise\Http\Requests\Admin\UpdateStateRequest;
 use Modules\Advertise\Models\State;
 
 final class StateController extends Controller
