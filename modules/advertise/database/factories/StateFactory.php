@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Database\Factories\Advertise;
+namespace Modules\Advertise\Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Modules\Advertise\Models\State;
