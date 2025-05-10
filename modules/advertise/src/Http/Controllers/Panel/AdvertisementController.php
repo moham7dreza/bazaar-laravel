@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Modules\Advertise\Http\Controllers\Panel;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\App\StoreAdvertisementRequest;
 use App\Http\Resources\App\AdvertisementCollection;
 use App\Http\Resources\App\AdvertisementResource;
 use App\Http\Responses\ApiJsonResponse;
@@ -15,6 +14,7 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Http\Resources\Json\ResourceCollection;
+use Modules\Advertise\Http\Requests\App\StoreAdvertisementRequest;
 use Modules\Advertise\Models\Advertisement;
 use Throwable;
 

@@ -5,8 +5,6 @@ declare(strict_types=1);
 namespace Modules\Advertise\Http\Controllers\Panel;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\App\StoreGalleryRequest;
-use App\Http\Requests\App\UpdateGalleryRequest;
 use App\Http\Resources\App\GalleryCollection;
 use App\Http\Resources\App\GalleryResource;
 use App\Http\Responses\ApiJsonResponse;
@@ -14,6 +12,8 @@ use App\Http\Services\Image\ImageService;
 use Gate;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Resources\Json\JsonResource;
+use Modules\Advertise\Http\Requests\App\StoreGalleryRequest;
+use Modules\Advertise\Http\Requests\App\UpdateGalleryRequest;
 use Modules\Advertise\Models\Advertisement;
 use Modules\Advertise\Models\Gallery;
 use Throwable;

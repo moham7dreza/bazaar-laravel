@@ -1,10 +1,12 @@
 <?php
 
-namespace App\Http\Requests\App;
+declare(strict_types=1);
+
+namespace Modules\Advertise\Http\Requests\App;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class StoreGalleryRequest extends FormRequest
+final class StoreGalleryRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
