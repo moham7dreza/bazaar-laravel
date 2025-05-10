@@ -1,24 +1,22 @@
 <?php
 
+declare(strict_types=1);
+
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
-{
+return new class() extends Migration {
     /**
      * Run the migrations.
      */
     public function up(): void
     {
-        Schema::create('advertisement_notes', function (Blueprint $table): void {
+        Schema::create('advertisement_category_values', function (Blueprint $table): void {
             $table->id();
-            $table->foreignId('user_id')->constrained('users')->onDelete('cascade')->onUpdate('cascade');
             $table->foreignId('advertisement_id')->constrained('advertisements')->onDelete('cascade')->onUpdate('cascade');
-            $table->text('note');
+            $table->foreignId('category_value_id')->constrained('category_values')->onDelete('cascade')->onUpdate('cascade');
             $table->timestamps();
-            $table->unique(['user_id', 'advertisement_id']);
-            $table->softDeletes();
         });
     }
 
@@ -27,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        //
+        Schema::dropIfExists('advertisement_category_values');
     }
 };
