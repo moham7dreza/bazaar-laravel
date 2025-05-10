@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Controllers\Admin\Advertise;
 
 use App\Http\Controllers\Controller;
@@ -8,9 +10,9 @@ use App\Http\Requests\Admin\UpdateCategoryValueRequest;
 use App\Http\Resources\Admin\Advertise\CategoryValueCollection;
 use App\Http\Resources\Admin\Advertise\CategoryValueResource;
 use App\Http\Responses\ApiJsonResponse;
-use App\Models\Advertise\CategoryValue;
+use Modules\Advertise\Models\CategoryValue;
 
-class CategoryValueController extends Controller
+final class CategoryValueController extends Controller
 {
     /**
      * Display a listing of the resource.

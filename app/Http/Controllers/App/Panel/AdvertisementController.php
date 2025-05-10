@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Controllers\App\Panel;
 
 use App\Http\Controllers\Controller;
@@ -8,19 +10,20 @@ use App\Http\Resources\App\AdvertisementCollection;
 use App\Http\Resources\App\AdvertisementResource;
 use App\Http\Responses\ApiJsonResponse;
 use App\Http\Services\Image\ImageService;
-use App\Models\Advertise\Advertisement;
 use Gate;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Http\Resources\Json\ResourceCollection;
+use Modules\Advertise\Models\Advertisement;
+use Throwable;
 
-class AdvertisementController extends Controller
+final class AdvertisementController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
-     * @throws \Throwable
+     * @throws Throwable
      */
     public function index(): ResourceCollection
     {
@@ -35,7 +38,7 @@ class AdvertisementController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @throws \Throwable
+     * @throws Throwable
      */
     public function store(StoreAdvertisementRequest $request, ImageService $imageService): JsonResource|JsonResponse
     {
@@ -58,12 +61,15 @@ class AdvertisementController extends Controller
             'user_id'          => auth()->user()->id,
             'status'           => 3,
         ];
-        if ($request->hasFile('image')) {
-            $imageService->setExclusiveDirectory('images'.DIRECTORY_SEPARATOR.'user-advertisement-images');
+        if ($request->hasFile('image'))
+        {
+            $imageService->setExclusiveDirectory('images' . DIRECTORY_SEPARATOR . 'user-advertisement-images');
             $result = $imageService->createIndexAndSave($request->image);
-            if ($result) {
+            if ($result)
+            {
                 $inputs['image'] = $result;
-            } else {
+            } else
+            {
                 return ApiJsonResponse::error(500, message: 'خطا در اپلود عکس');
             }
         }
@@ -75,7 +81,7 @@ class AdvertisementController extends Controller
     /**
      * Display the specified resource.
      *
-     * @throws \Throwable
+     * @throws Throwable
      */
     public function show(Advertisement $advertisement): JsonResource
     {
@@ -87,7 +93,7 @@ class AdvertisementController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @throws \Throwable
+     * @throws Throwable
      */
     public function update(Request $request, Advertisement $advertisement, ImageService $imageService): JsonResource|JsonResponse
     {
@@ -109,18 +115,23 @@ class AdvertisementController extends Controller
             'status'           => 3,
         ];
 
-        if ($request->hasFile('image')) {
-            if (! empty(($advertisement->image))) {
+        if ($request->hasFile('image'))
+        {
+            if ( ! empty(($advertisement->image)))
+            {
                 $imageService->deleteDirectoryAndFiles($advertisement->image['directory']);
             }
-            $imageService->setExclusiveDirectory('images'.DIRECTORY_SEPARATOR.'user-advertisement-images');
+            $imageService->setExclusiveDirectory('images' . DIRECTORY_SEPARATOR . 'user-advertisement-images');
             $result = $imageService->createIndexAndSave($request->image);
-            if ($result === false) {
+            if (false === $result)
+            {
                 return ApiJsonResponse::error(500, message:  'خطا در فرایند اپلود');
             }
             $inputs['image'] = $result;
-        } else {
-            if (isset($inputs['currentImage']) && ! empty($advertisement->image)) {
+        } else
+        {
+            if (isset($inputs['currentImage']) && ! empty($advertisement->image))
+            {
                 $image                 = $advertisement->image;
                 $image['currentImage'] = $inputs['currentImage'];
                 $inputs['image']       = $image;

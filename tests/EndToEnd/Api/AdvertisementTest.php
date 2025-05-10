@@ -1,14 +1,16 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests\EndToEnd\Api;
 
 use App\Enums\Advertisement\Sort;
-use App\Models\Advertise\Advertisement;
-use App\Models\Advertise\AdvertisementNote;
-use App\Models\Advertise\CategoryAttribute;
-use App\Models\Advertise\CategoryValue;
-use App\Models\Advertise\Gallery;
 use App\Models\User;
+use Modules\Advertise\Models\Advertisement;
+use Modules\Advertise\Models\AdvertisementNote;
+use Modules\Advertise\Models\CategoryAttribute;
+use Modules\Advertise\Models\CategoryValue;
+use Modules\Advertise\Models\Gallery;
 
 beforeEach(function (): void {
 

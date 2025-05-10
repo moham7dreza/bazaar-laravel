@@ -1,6 +1,8 @@
 <?php
 
-namespace App\Models\Advertise;
+declare(strict_types=1);
+
+namespace Modules\Advertise\Models;
 
 use App\Enums\Advertisement\AttributeType;
 use App\Models\Scopes\LatestScope;
@@ -16,7 +18,7 @@ use Illuminate\Database\Eloquent\Relations\HasOneThrough;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 #[ScopedBy([LatestScope::class])]
-class Category extends Model
+final class Category extends Model
 {
     // _____________________________________________ use SECTION ________________________________________________
     use CascadeSoftDeletes;
@@ -37,13 +39,6 @@ class Category extends Model
             'slug' => [
                 'source' => 'name',
             ],
-        ];
-    }
-
-    protected function casts(): array
-    {
-        return [
-            'status' => 'boolean',
         ];
     }
 
@@ -92,8 +87,15 @@ class Category extends Model
     public function highestValue(): HasOneThrough
     {
         return $this->values()->one()->where('type', AttributeType::NUMBER)->ofMany([
-            'value'=> 'max'
+            'value' => 'max',
         ]);
+    }
+
+    protected function casts(): array
+    {
+        return [
+            'status' => 'boolean',
+        ];
     }
 
     // end Category values

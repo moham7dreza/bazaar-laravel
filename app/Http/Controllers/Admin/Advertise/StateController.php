@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Controllers\Admin\Advertise;
 
 use App\Http\Controllers\Controller;
@@ -8,9 +10,9 @@ use App\Http\Requests\Admin\UpdateStateRequest;
 use App\Http\Resources\Admin\Advertise\StateCollection;
 use App\Http\Resources\Admin\Advertise\StateResource;
 use App\Http\Responses\ApiJsonResponse;
-use App\Models\Advertise\State;
+use Modules\Advertise\Models\State;
 
-class StateController extends Controller
+final class StateController extends Controller
 {
     /**
      * Display a listing of the resource.

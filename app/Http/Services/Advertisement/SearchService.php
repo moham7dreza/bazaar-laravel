@@ -1,14 +1,16 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Services\Advertisement;
 
 use App\Data\DTOs\Advertisement\SearchDTO;
-use App\Models\Advertise\Advertisement;
 use App\Pipelines\Advertisements\FilterAdvertisementsByPhrase;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Pipeline\Pipeline;
+use Modules\Advertise\Models\Advertisement;
 
-class SearchService
+final class SearchService
 {
     public function getAdvertisements(Builder $builder, SearchDTO $searchDTO)
     {
@@ -17,14 +19,12 @@ class SearchService
             ->through([
                 FilterAdvertisementsByPhrase::class,
             ])
-            ->then(function (Builder $query) use ($searchDTO) {
-                return $query
-                    ->active()
-                    ->published()
-                    ->when($searchDTO->ids, fn (Builder|Advertisement $builder) => $builder->whereIn('id', $searchDTO->ids))
-                    ->when($searchDTO->sort, fn (Builder|Advertisement $builder) => $builder->sortBy($searchDTO->sort))
-                    ->paginate($searchDTO->perPage)
-                    ->withQueryString();
-            });
+            ->then(fn (Builder $query) => $query
+                ->active()
+                ->published()
+                ->when($searchDTO->ids, fn (Builder|Advertisement $builder) => $builder->whereIn('id', $searchDTO->ids))
+                ->when($searchDTO->sort, fn (Builder|Advertisement $builder) => $builder->sortBy($searchDTO->sort))
+                ->paginate($searchDTO->perPage)
+                ->withQueryString());
     }
 }

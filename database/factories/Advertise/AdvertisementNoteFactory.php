@@ -1,25 +1,27 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Database\Factories\Advertise;
 
-use App\Models\Advertise\Advertisement;
-use App\Models\Advertise\AdvertisementNote;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Modules\Advertise\Models\Advertisement;
+use Modules\Advertise\Models\AdvertisementNote;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Advertise\AdvertisementNote>
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\Modules\Advertise\Models\AdvertisementNote>
  */
-class AdvertisementNoteFactory extends Factory
+final class AdvertisementNoteFactory extends Factory
 {
     protected $model = AdvertisementNote::class;
 
     public function definition(): array
     {
         return [
-            'user_id' => User::factory(),
+            'user_id'          => User::factory(),
             'advertisement_id' => Advertisement::factory(),
-            'note' => fake()->text,
+            'note'             => fake()->text,
         ];
     }
 }

@@ -1,6 +1,8 @@
 <?php
 
-namespace App\Models\Advertise;
+declare(strict_types=1);
+
+namespace Modules\Advertise\Models;
 
 use App\Models\Scopes\LatestScope;
 use Dyrynda\Database\Support\CascadeSoftDeletes;
@@ -12,7 +14,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 #[ScopedBy([LatestScope::class])]
-class State extends Model
+final class State extends Model
 {
     use CascadeSoftDeletes;
 
@@ -25,15 +27,6 @@ class State extends Model
 
     protected array $cascadeDeletes = ['children'];
 
-    // _____________________________________________ model related methods SECTION ______________________________
-
-    protected function casts(): array
-    {
-        return [
-            'status' => 'boolean',
-        ];
-    }
-
     // _____________________________________________ relations SECTION __________________________________________
 
     public function children(): HasMany
@@ -44,6 +37,15 @@ class State extends Model
     public function parent(): BelongsTo
     {
         return $this->belongsTo($this, 'parent_id')->withDefault(['name' => __('Unknown state')]);
+    }
+
+    // _____________________________________________ model related methods SECTION ______________________________
+
+    protected function casts(): array
+    {
+        return [
+            'status' => 'boolean',
+        ];
     }
 
     // _____________________________________________ method SECTION __________________________________________

@@ -1,6 +1,8 @@
 <?php
 
-namespace App\Models\Advertise;
+declare(strict_types=1);
+
+namespace Modules\Advertise\Models;
 
 use App\Enums\Advertisement\AdvertisementStatus;
 use App\Enums\Advertisement\AdvertisementType;
@@ -21,32 +23,16 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 #[ScopedBy([LatestScope::class])]
-class Advertisement extends Model
+final class Advertisement extends Model
 {
     // _____________________________________________ use SECTION ________________________________________________
     use HasFactory;
-    use SoftDeletes;
-    use Sluggable;
     use Prunable;
+    use Sluggable;
+    use SoftDeletes;
 
     // _____________________________________________ props SECTION ______________________________________________
     protected $guarded = ['id'];
-
-    // _____________________________________________ model related methods SECTION ______________________________
-    protected function casts(): array
-    {
-        return [
-            'image'            => 'array',
-            'status'           => 'bool',
-            'is_special'       => 'bool',
-            'is_ladder'        => 'bool',
-            'willing_to_trade' => 'bool',
-            'published_at'     => 'datetime',
-            'expired_at'       => 'datetime',
-            'ads_type'         => AdvertisementType::class,
-            'ads_status'       => AdvertisementStatus::class,
-        ];
-    }
 
     public function prunable(): Builder
     {
@@ -77,18 +63,15 @@ class Advertisement extends Model
     #[Scope]
     public function priceRange(Builder $builder, ?float $min = null, ?float $max = null): Builder
     {
-        return $builder->when($min, function (Builder $query) use ($min) {
-            return $query->where('price', '>=', $min);
-        })
-            ->when($max, function (Builder $query) use ($max) {
-                return $query->where('price', '<=', $max);
-            });
+        return $builder->when($min, fn (Builder $query) => $query->where('price', '>=', $min))
+            ->when($max, fn (Builder $query) => $query->where('price', '<=', $max));
     }
 
     #[Scope]
     public function sortBy(Builder $builder, Sort $sort): Builder
     {
-        return match ($sort) {
+        return match ($sort)
+        {
 
             Sort::PRICE_ASC  => $builder->oldest('price'),
             Sort::PRICE_DESC => $builder->latest('price'),
@@ -156,6 +139,22 @@ class Advertisement extends Model
     public function viewedByUsers(): BelongsToMany
     {
         return $this->belongsToMany(User::class, 'advertisement_view_history')->withTimestamps();
+    }
+
+    // _____________________________________________ model related methods SECTION ______________________________
+    protected function casts(): array
+    {
+        return [
+            'image'            => 'array',
+            'status'           => 'bool',
+            'is_special'       => 'bool',
+            'is_ladder'        => 'bool',
+            'willing_to_trade' => 'bool',
+            'published_at'     => 'datetime',
+            'expired_at'       => 'datetime',
+            'ads_type'         => AdvertisementType::class,
+            'ads_status'       => AdvertisementStatus::class,
+        ];
     }
 
     // _____________________________________________ method SECTION __________________________________________

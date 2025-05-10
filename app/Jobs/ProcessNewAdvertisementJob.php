@@ -1,9 +1,10 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Jobs;
 
 use App\Jobs\Contracts\ShouldNotifyOnFailures;
-use App\Models\Advertise\Advertisement;
 use App\Models\User;
 use App\Notifications\NewAdPostedNotification;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -12,8 +13,9 @@ use Illuminate\Queue\Middleware\RateLimited;
 use Illuminate\Queue\Middleware\ThrottlesExceptions;
 use Illuminate\Queue\Middleware\WithoutOverlapping;
 use Illuminate\Support\Facades\Notification;
+use Modules\Advertise\Models\Advertisement;
 
-class ProcessNewAdvertisementJob implements ShouldQueue, ShouldNotifyOnFailures
+final class ProcessNewAdvertisementJob implements ShouldQueue, ShouldNotifyOnFailures
 {
     use Queueable;
 

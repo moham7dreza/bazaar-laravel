@@ -1,15 +1,17 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Database\Factories\Advertise;
 
-use App\Models\Advertise\Advertisement;
-use App\Models\Advertise\Gallery;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Modules\Advertise\Models\Advertisement;
+use Modules\Advertise\Models\Gallery;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Advertise\Gallery>
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\Modules\Advertise\Models\Gallery>
  */
-class GalleryFactory extends Factory
+final class GalleryFactory extends Factory
 {
     protected $model = Gallery::class;
 
@@ -17,7 +19,7 @@ class GalleryFactory extends Factory
     {
         return [
             'advertisement_id' => Advertisement::factory(),
-            'url' => fake()->imageIndexArray,
+            'url'              => fake()->imageIndexArray,
         ];
     }
 }

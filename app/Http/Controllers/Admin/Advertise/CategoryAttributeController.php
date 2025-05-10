@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Controllers\Admin\Advertise;
 
 use App\Http\Controllers\Controller;
@@ -8,9 +10,9 @@ use App\Http\Requests\Admin\UpdateCategoryAttributeRequest;
 use App\Http\Resources\Admin\Advertise\CategoryAttributeCollection;
 use App\Http\Resources\Admin\Advertise\CategoryAttributeResource;
 use App\Http\Responses\ApiJsonResponse;
-use App\Models\Advertise\CategoryAttribute;
+use Modules\Advertise\Models\CategoryAttribute;
 
-class CategoryAttributeController extends Controller
+final class CategoryAttributeController extends Controller
 {
     /**
      * Display a listing of the resource.

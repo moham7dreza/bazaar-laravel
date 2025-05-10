@@ -1,6 +1,8 @@
 <?php
 
-use App\Models\Advertise\State;
+declare(strict_types=1);
+
+use Modules\Advertise\Models\State;
 
 it('can get all parent states', function (): void {
 

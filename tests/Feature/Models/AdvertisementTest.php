@@ -1,8 +1,10 @@
 <?php
 
-use App\Models\Advertise\Advertisement;
-use App\Models\Advertise\CategoryAttribute;
+declare(strict_types=1);
+
 use App\Models\User;
+use Modules\Advertise\Models\Advertisement;
+use Modules\Advertise\Models\CategoryAttribute;
 
 it('can get advertisements viewed by users', function (): void {
 

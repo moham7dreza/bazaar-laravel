@@ -1,6 +1,8 @@
 <?php
 
-namespace App\Models\Advertise;
+declare(strict_types=1);
+
+namespace Modules\Advertise\Models;
 
 use App\Enums\Advertisement\Unit;
 use App\Models\Scopes\LatestScope;
@@ -12,7 +14,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 #[ScopedBy([LatestScope::class])]
-class CategoryAttribute extends Model
+final class CategoryAttribute extends Model
 {
     // _____________________________________________ use SECTION ________________________________________________
     use HasFactory;
@@ -20,16 +22,6 @@ class CategoryAttribute extends Model
 
     // _____________________________________________ props SECTION ______________________________________________
     protected $guarded = ['id'];
-
-    // _____________________________________________ model related methods SECTION ______________________________
-
-    protected function casts(): array
-    {
-        return [
-            'unit'   => Unit::class,
-            'status' => 'boolean',
-        ];
-    }
 
     // _____________________________________________ relations SECTION __________________________________________
 
@@ -41,6 +33,16 @@ class CategoryAttribute extends Model
     public function categoryValues(): HasMany
     {
         return $this->hasMany(CategoryValue::class);
+    }
+
+    // _____________________________________________ model related methods SECTION ______________________________
+
+    protected function casts(): array
+    {
+        return [
+            'unit'   => Unit::class,
+            'status' => 'boolean',
+        ];
     }
 
     // _____________________________________________ method SECTION __________________________________________

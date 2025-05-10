@@ -1,21 +1,24 @@
 <?php
 
-namespace App\Models\Advertise;
+declare(strict_types=1);
 
-use App\Enums\Advertisement\ValueType;
+namespace Modules\Advertise\Models;
+
 use App\Models\Scopes\LatestScope;
 use Illuminate\Database\Eloquent\Attributes\ScopedBy;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Prunable;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 #[ScopedBy([LatestScope::class])]
-class CategoryValue extends Model
+final class AdvertisementNote extends Model
 {
     // _____________________________________________ use SECTION ________________________________________________
     use HasFactory;
+    use Prunable;
     use SoftDeletes;
 
     // _____________________________________________ props SECTION ______________________________________________
@@ -23,25 +26,18 @@ class CategoryValue extends Model
 
     // _____________________________________________ model related methods SECTION ______________________________
 
-    protected function casts(): array
+    public function prunable(): Builder
     {
-        return [
-            'status' => 'boolean',
-            'type'   => ValueType::class,
-        ];
+        return static::query()->where('created_at', '<=', now()->subMonths(6));
     }
 
     // _____________________________________________ relations SECTION __________________________________________
 
-    public function categoryAttribute(): BelongsTo
+    public function advertisement(): BelongsTo
     {
-        return $this->belongsTo(CategoryAttribute::class)->withDefault(['name' => __('Unknown attribute')]);
+        return $this->belongsTo(Advertisement::class)->withDefault(['title' => __('Unknown advertisement')]);
     }
 
-    public function advertisements(): BelongsToMany
-    {
-        return $this->belongsToMany(Advertisement::class, 'advertisement_category_values')->withTimestamps();
-    }
     // _____________________________________________ method SECTION __________________________________________
 
 }

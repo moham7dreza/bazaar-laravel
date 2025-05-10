@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Controllers\Admin\Advertise;
 
 use App\Http\Controllers\Controller;
@@ -9,9 +11,9 @@ use App\Http\Resources\Admin\Advertise\GalleryCollection;
 use App\Http\Resources\Admin\Advertise\GalleryResource;
 use App\Http\Responses\ApiJsonResponse;
 use App\Http\Services\Image\ImageService;
-use App\Models\Advertise\Gallery;
+use Modules\Advertise\Models\Gallery;
 
-class GalleryController extends Controller
+final class GalleryController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -28,9 +30,11 @@ class GalleryController extends Controller
     {
         $inputs = $request->all();
 
-        if ($result = $imageService->upload($request->getDTO())) {
+        if ($result = $imageService->upload($request->getDTO()))
+        {
             $inputs['url'] = $result;
-        } else {
+        } else
+        {
             return ApiJsonResponse::error(500, message: __('response.image.upload failed'));
         }
         $gallery = Gallery::create($inputs);
@@ -52,9 +56,11 @@ class GalleryController extends Controller
     public function update(UpdateGalleryRequest $request, Gallery $gallery, ImageService $imageService)
     {
         $inputs = $request->all();
-        if ($result = $imageService->update($request->getDTO(), $gallery->url)) {
+        if ($result = $imageService->update($request->getDTO(), $gallery->url))
+        {
             $inputs['url'] = $result;
-        } else {
+        } else
+        {
             return ApiJsonResponse::error(500, message: __('response.image.upload failed'));
         }
         $gallery->update($inputs);

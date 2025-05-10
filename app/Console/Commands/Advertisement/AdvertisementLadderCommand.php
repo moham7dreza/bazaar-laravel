@@ -1,13 +1,15 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Console\Commands\Advertisement;
 
-use App\Models\Advertise\Advertisement;
 use Carbon\Carbon;
 use Illuminate\Console\Command;
 use Illuminate\Contracts\Console\PromptsForMissingInput;
+use Modules\Advertise\Models\Advertisement;
 
-class AdvertisementLadderCommand extends Command implements PromptsForMissingInput
+final class AdvertisementLadderCommand extends Command implements PromptsForMissingInput
 {
     /**
      * The name and signature of the console command.

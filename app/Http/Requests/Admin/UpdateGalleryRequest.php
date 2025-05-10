@@ -1,16 +1,18 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Requests\Admin;
 
 use App\Enums\Content\ImageSize;
 use App\Enums\Content\ImageUploadMethod;
 use App\Http\DataContracts\Image\ImageUploadDTO;
-use App\Models\Advertise\Advertisement;
 use App\Rules\ValidateImageRule;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
+use Modules\Advertise\Models\Advertisement;
 
-class UpdateGalleryRequest extends FormRequest
+final class UpdateGalleryRequest extends FormRequest
 {
     public function authorize(): bool
     {

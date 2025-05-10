@@ -1,25 +1,27 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Database\Factories\Advertise;
 
-use App\Models\Advertise\State;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Modules\Advertise\Models\State;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Advertise\State>
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\Modules\Advertise\Models\State>
  */
-class StateFactory extends Factory
+final class StateFactory extends Factory
 {
     protected $model = State::class;
 
     public function definition(): array
     {
         return [
-            'name' => fake()->name,
+            'name'        => fake()->name,
             'description' => fake()->text,
-            'icon' => 'fa fa-car',
-            'parent_id' => null,
-            'status' => true,
+            'icon'        => 'fa fa-car',
+            'parent_id'   => null,
+            'status'      => true,
         ];
     }
 }

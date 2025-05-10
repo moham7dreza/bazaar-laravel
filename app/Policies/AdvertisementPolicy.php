@@ -1,23 +1,27 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Policies;
 
 use App\Enums\UserPermission;
 use App\Enums\UserRole;
-use App\Models\Advertise\Advertisement;
 use App\Models\User;
 use Illuminate\Auth\Access\Response;
+use Modules\Advertise\Models\Advertisement;
 
-class AdvertisementPolicy
+final class AdvertisementPolicy
 {
     // run before all other policy checks
     public function before(User $user, string $ability): Response
     {
-        if ($user->isAdmin()) {
+        if ($user->isAdmin())
+        {
             return Response::allow();
         }
 
-        if ($ability !== 'forceDelete' && $user->can(UserPermission::SEE_PANEL)) {
+        if ('forceDelete' !== $ability && $user->can(UserPermission::SEE_PANEL))
+        {
             return Response::allow();
         }
 
@@ -71,7 +75,7 @@ class AdvertisementPolicy
     {
         $check = $user->owns($advertisement)
             && $user->can(UserPermission::DESTROY_AD)
-            && (is_null($advertisement->published_at) || now()->gt($advertisement->published_at));
+            && (null === $advertisement->published_at || now()->gt($advertisement->published_at));
 
         return $check
             ? Response::allow()
@@ -81,17 +85,17 @@ class AdvertisementPolicy
     /**
      * Determine whether the user can restore the model.
      */
-    public function restore(User $user, Advertisement $advertisement)
+    public function restore(User $user, Advertisement $advertisement): void
     {
-        //
+
     }
 
     /**
      * Determine whether the user can permanently delete the model.
      */
-    public function forceDelete(User $user, Advertisement $advertisement)
+    public function forceDelete(User $user, Advertisement $advertisement): void
     {
-        //
+
     }
 
     public function publish(User $user, Advertisement $advertisement)

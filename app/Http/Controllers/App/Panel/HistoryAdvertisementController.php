@@ -1,18 +1,21 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Controllers\App\Panel;
 
 use App\Http\Controllers\Controller;
 use App\Http\Resources\App\AdvertisementCollection;
 use App\Http\Responses\ApiJsonResponse;
-use App\Models\Advertise\Advertisement;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Resources\Json\ResourceCollection;
+use Modules\Advertise\Models\Advertisement;
+use Throwable;
 
-class HistoryAdvertisementController extends Controller
+final class HistoryAdvertisementController extends Controller
 {
     /**
-     * @throws \Throwable
+     * @throws Throwable
      */
     public function index(): ResourceCollection
     {
@@ -29,9 +32,11 @@ class HistoryAdvertisementController extends Controller
     {
         $user = getUser();
 
-        if ($user?->viewedAdvertisements()->whereBelongsTo($advertisement)->exists()) {
+        if ($user?->viewedAdvertisements()->whereBelongsTo($advertisement)->exists())
+        {
             $user?->viewedAdvertisements()->updateExistingPivot($advertisement->id, ['updated_at' => now()]);
-        } else {
+        } else
+        {
             $user?->viewedAdvertisements()->attach($advertisement->id);
         }
 

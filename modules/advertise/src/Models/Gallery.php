@@ -1,6 +1,8 @@
 <?php
 
-namespace App\Models\Advertise;
+declare(strict_types=1);
+
+namespace Modules\Advertise\Models;
 
 use App\Models\Scopes\LatestScope;
 use App\Observers\GalleryObserver;
@@ -18,24 +20,15 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 #[ScopedBy([LatestScope::class])]
 #[ObservedBy([GalleryObserver::class])]
 #[UseFactory(GalleryFactory::class)]
-class Gallery extends Model
+final class Gallery extends Model
 {
     // _____________________________________________ use SECTION ________________________________________________
     use HasFactory;
-    use SoftDeletes;
     use Prunable;
+    use SoftDeletes;
 
     // _____________________________________________ props SECTION ______________________________________________
     protected $guarded = ['id'];
-
-    // _____________________________________________ model related methods SECTION ______________________________
-
-    protected function casts(): array
-    {
-        return [
-            'url' => 'array',
-        ];
-    }
 
     public function prunable(): Builder
     {
@@ -47,6 +40,15 @@ class Gallery extends Model
     public function advertisement(): BelongsTo
     {
         return $this->belongsTo(Advertisement::class)->withDefault(['name' => __('Unknown advertisement')]);
+    }
+
+    // _____________________________________________ model related methods SECTION ______________________________
+
+    protected function casts(): array
+    {
+        return [
+            'url' => 'array',
+        ];
     }
 
     // _____________________________________________ method SECTION __________________________________________

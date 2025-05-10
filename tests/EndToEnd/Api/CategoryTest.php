@@ -1,6 +1,8 @@
 <?php
 
-use App\Models\Advertise\Category;
+declare(strict_types=1);
+
+use Modules\Advertise\Models\Category;
 
 it('can get all parent categories', function (): void {
 

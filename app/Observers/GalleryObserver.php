@@ -1,36 +1,38 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Observers;
 
-
 use App\Http\Services\Image\ImageService;
-use App\Models\Advertise\Gallery;
+use Modules\Advertise\Models\Gallery;
 
-class GalleryObserver
+final class GalleryObserver
 {
     public function created(Gallery $gallery): void
     {
-        //
+
     }
 
     public function updated(Gallery $gallery): void
     {
-        //
+
     }
 
     public function deleted(Gallery $gallery): void
     {
-        //
+
     }
 
     public function restored(Gallery $gallery): void
     {
-        //
+
     }
 
     public function forceDeleted(Gallery $gallery): void
     {
-        if (! app()->runningUnitTests() && ! empty($images = $gallery->url)) {
+        if ( ! app()->runningUnitTests() && ! empty($images = $gallery->url))
+        {
 
             app(ImageService::class)->deleteIndex($images);
         }

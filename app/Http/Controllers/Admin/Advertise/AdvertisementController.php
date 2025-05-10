@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Controllers\Admin\Advertise;
 
 use App\Http\Controllers\Controller;
@@ -10,12 +12,12 @@ use App\Http\Resources\Admin\Advertise\AdvertisementResource;
 use App\Http\Responses\ApiJsonResponse;
 use App\Http\Services\Image\ImageService;
 use App\Jobs\ProcessNewAdvertisementJob;
-use App\Models\Advertise\Advertisement;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Http\Resources\Json\ResourceCollection;
+use Modules\Advertise\Models\Advertisement;
 
-class AdvertisementController extends Controller
+final class AdvertisementController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -31,12 +33,15 @@ class AdvertisementController extends Controller
     public function store(StoreAdvertisementRequest $request, ImageService $imageService)
     {
         $inputs = $request->all();
-        if ($request->hasFile('image')) {
-            $imageService->setExclusiveDirectory('images'.DIRECTORY_SEPARATOR.'advertisement-images');
+        if ($request->hasFile('image'))
+        {
+            $imageService->setExclusiveDirectory('images' . DIRECTORY_SEPARATOR . 'advertisement-images');
             $result = $imageService->createIndexAndSave($request->image);
-            if ($result) {
+            if ($result)
+            {
                 $inputs['image'] = $result;
-            } else {
+            } else
+            {
                 return ApiJsonResponse::error(500, message: __('response.image.upload failed'));
             }
         }
@@ -62,18 +67,23 @@ class AdvertisementController extends Controller
     public function update(UpdateAdvertisementRequest $request, Advertisement $advertisement, ImageService $imageService): JsonResource|JsonResponse
     {
         $inputs = $request->all();
-        if ($request->hasFile('image')) {
-            if (! empty(($advertisement->image))) {
+        if ($request->hasFile('image'))
+        {
+            if ( ! empty(($advertisement->image)))
+            {
                 $imageService->deleteDirectoryAndFiles($advertisement->image['directory']);
             }
-            $imageService->setExclusiveDirectory('images'.DIRECTORY_SEPARATOR.'advertisement-images');
+            $imageService->setExclusiveDirectory('images' . DIRECTORY_SEPARATOR . 'advertisement-images');
             $result = $imageService->createIndexAndSave($request->image);
-            if ($result === false) {
+            if (false === $result)
+            {
                 return ApiJsonResponse::error(500, message: __('response.image.upload failed'));
             }
             $inputs['image'] = $result;
-        } else {
-            if (isset($inputs['currentImage']) && ! empty($advertisement->image)) {
+        } else
+        {
+            if (isset($inputs['currentImage']) && ! empty($advertisement->image))
+            {
                 $image                 = $advertisement->image;
                 $image['currentImage'] = $inputs['currentImage'];
                 $inputs['image']       = $image;

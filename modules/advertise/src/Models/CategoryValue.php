@@ -2,37 +2,37 @@
 
 declare(strict_types=1);
 
-namespace App\Models\Geo;
+namespace Modules\Advertise\Models;
 
-use Illuminate\Database\Eloquent\Attributes\Scope;
-use Illuminate\Database\Eloquent\Builder;
+use App\Enums\Advertisement\ValueType;
+use App\Models\Scopes\LatestScope;
+use Illuminate\Database\Eloquent\Attributes\ScopedBy;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Modules\Advertise\Models\Advertisement;
 
-final class City extends Model
+#[ScopedBy([LatestScope::class])]
+final class CategoryValue extends Model
 {
     // _____________________________________________ use SECTION ________________________________________________
     use HasFactory;
     use SoftDeletes;
 
     // _____________________________________________ props SECTION ______________________________________________
-
     protected $guarded = ['id'];
-
-    #[Scope]
-    public function active(Builder $query): Builder
-    {
-        return $query->where('status', true);
-    }
 
     // _____________________________________________ relations SECTION __________________________________________
 
-    public function advertisements(): HasMany
+    public function categoryAttribute(): BelongsTo
     {
-        return $this->hasMany(Advertisement::class);
+        return $this->belongsTo(CategoryAttribute::class)->withDefault(['name' => __('Unknown attribute')]);
+    }
+
+    public function advertisements(): BelongsToMany
+    {
+        return $this->belongsToMany(Advertisement::class, 'advertisement_category_values')->withTimestamps();
     }
 
     // _____________________________________________ model related methods SECTION ______________________________
@@ -41,9 +41,9 @@ final class City extends Model
     {
         return [
             'status' => 'boolean',
+            'type'   => ValueType::class,
         ];
     }
-
     // _____________________________________________ method SECTION __________________________________________
 
 }

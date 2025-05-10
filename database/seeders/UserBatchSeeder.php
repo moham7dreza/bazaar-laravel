@@ -6,13 +6,13 @@ namespace Database\Seeders;
 
 use App\Enums\Advertisement\AdvertisementStatus;
 use App\Enums\Advertisement\AdvertisementType;
-use App\Models\Advertise\Advertisement;
-use App\Models\Advertise\Category;
 use App\Models\Geo\City;
 use App\Models\User;
 use DB;
 use Hash;
 use Illuminate\Database\Seeder;
+use Modules\Advertise\Models\Advertisement;
+use Modules\Advertise\Models\Category;
 use Schema;
 
 final class UserBatchSeeder extends Seeder

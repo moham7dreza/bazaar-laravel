@@ -1,19 +1,22 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Controllers\App\Panel;
 
 use App\Http\Controllers\Controller;
 use App\Http\Resources\App\AdvertisementResource;
 use App\Http\Responses\ApiJsonResponse;
-use App\Models\Advertise\Advertisement;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Http\Resources\Json\ResourceCollection;
+use Modules\Advertise\Models\Advertisement;
+use Throwable;
 
-class FavoriteAdvertisementController extends Controller
+final class FavoriteAdvertisementController extends Controller
 {
     /**
-     * @throws \Throwable
+     * @throws Throwable
      */
     public function index(): ResourceCollection
     {
@@ -26,14 +29,15 @@ class FavoriteAdvertisementController extends Controller
     }
 
     /**
-     * @throws \Throwable
+     * @throws Throwable
      */
     public function store(Advertisement $advertisement): JsonResource|JsonResponse
     {
 
         $user = getUser();
 
-        if ($user?->favoriteAdvertisements()->whereBelongsTo($advertisement)->exists()) {
+        if ($user?->favoriteAdvertisements()->whereBelongsTo($advertisement)->exists())
+        {
             return ApiJsonResponse::error(400, 'این آگهی قبلا نشان شده است');
         }
 
@@ -46,7 +50,8 @@ class FavoriteAdvertisementController extends Controller
     {
         $user = getUser();
 
-        if (! $user?->favoriteAdvertisements()->whereBelongsTo($advertisement)->exists()) {
+        if ( ! $user?->favoriteAdvertisements()->whereBelongsTo($advertisement)->exists())
+        {
             return ApiJsonResponse::error(400, 'این آگهی در لیست نشان شده ها نیست');
         }
 

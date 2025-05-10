@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Controllers\App\Home;
 
 use App\Http\Controllers\App\Panel\HistoryAdvertisementController;
@@ -8,19 +10,21 @@ use App\Http\Requests\App\AdvertisementGridViewRequest;
 use App\Http\Resources\App\AdvertisementCollection;
 use App\Http\Resources\App\AdvertisementResource;
 use App\Http\Responses\ApiJsonResponse;
-use App\Models\Advertise\Advertisement;
 use App\Repositories\Advertisement\AdvertisementReadRepository;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Http\Resources\Json\ResourceCollection;
 use Log;
+use Modules\Advertise\Models\Advertisement;
+use Throwable;
 
-class AdvertisementController extends Controller
+final class AdvertisementController extends Controller
 {
     /**
      * Display a listing of the resource.
-     * @throws \Throwable
+     *
+     * @throws Throwable
      */
     public function index(AdvertisementGridViewRequest $request): ResourceCollection
     {
@@ -36,7 +40,8 @@ class AdvertisementController extends Controller
     {
         info('pdp page log [{date}].', ['date' => now()->jdate()->format('Y-m-d H:i:s')]);
 
-        if ($advertisement->trashed()) {
+        if ($advertisement->trashed())
+        {
 
             Log::error('missing advertisement access attempt', [
                 'advertisement_id' => $advertisement->id,
@@ -47,7 +52,7 @@ class AdvertisementController extends Controller
 
         Model::withoutTimestamps(static fn () => $advertisement->increment('view'));
 
-        $historyController = new HistoryAdvertisementController;
+        $historyController = new HistoryAdvertisementController();
         $historyController->store($advertisement);
 
         /*

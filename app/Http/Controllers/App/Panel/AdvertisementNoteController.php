@@ -1,15 +1,17 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Controllers\App\Panel;
 
 use App\Http\Controllers\Controller;
 use App\Http\Responses\ApiJsonResponse;
-use App\Models\Advertise\Advertisement;
-use App\Models\Advertise\AdvertisementNote;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Modules\Advertise\Models\Advertisement;
+use Modules\Advertise\Models\AdvertisementNote;
 
-class AdvertisementNoteController extends Controller
+final class AdvertisementNoteController extends Controller
 {
     public function index(): JsonResponse
     {
@@ -47,7 +49,8 @@ class AdvertisementNoteController extends Controller
             'advertisement_id' => $advertisement->id,
         ]);
 
-        if (! $note) {
+        if ( ! $note)
+        {
             return ApiJsonResponse::error(404, message: 'یادداشتی برای این آگهی پیدا نشد');
         }
 
@@ -61,7 +64,8 @@ class AdvertisementNoteController extends Controller
             'advertisement_id' => $advertisement->id,
         ]);
 
-        if (! $note) {
+        if ( ! $note)
+        {
             return ApiJsonResponse::error(404, message: 'یادداشتی برای این آگهی پیدا نشد');
         }
 

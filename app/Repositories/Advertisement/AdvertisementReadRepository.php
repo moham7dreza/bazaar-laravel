@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Repositories\Advertisement;
 
 use App\Abstracts\BaseRepository;
@@ -7,10 +9,11 @@ use App\Data\DTOs\Advertisement\SearchDTO;
 use App\Data\DTOs\PaginatedListViewDTO;
 use App\Enums\UserId;
 use App\Http\Services\Advertisement\SearchService;
-use App\Models\Advertise\Advertisement;
+use DateTimeInterface;
 use Illuminate\Database\Eloquent\Builder;
+use Modules\Advertise\Models\Advertisement;
 
-class AdvertisementReadRepository extends BaseRepository
+final class AdvertisementReadRepository extends BaseRepository
 {
     public function search(SearchDTO $searchDTO): PaginatedListViewDTO
     {
@@ -22,7 +25,7 @@ class AdvertisementReadRepository extends BaseRepository
         return new PaginatedListViewDTO($items);
     }
 
-    public function getAdsOfUsersRegisteredWithinDate(int $limit, \DateTimeInterface $date, int $perPage = 20): PaginatedListViewDTO
+    public function getAdsOfUsersRegisteredWithinDate(int $limit, DateTimeInterface $date, int $perPage = 20): PaginatedListViewDTO
     {
         $items = $this->freshQuery()->getQuery()
             ->with('user:created_at')

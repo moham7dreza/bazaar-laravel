@@ -1,16 +1,18 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Database\Factories\Advertise;
 
 use App\Enums\Advertisement\ValueType;
-use App\Models\Advertise\CategoryAttribute;
-use App\Models\Advertise\CategoryValue;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Modules\Advertise\Models\CategoryAttribute;
+use Modules\Advertise\Models\CategoryValue;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Advertise\CategoryValue>
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\Modules\Advertise\Models\CategoryValue>
  */
-class CategoryValueFactory extends Factory
+final class CategoryValueFactory extends Factory
 {
     protected $model = CategoryValue::class;
 
@@ -18,9 +20,9 @@ class CategoryValueFactory extends Factory
     {
         return [
             'category_attribute_id' => CategoryAttribute::factory(),
-            'value' => fake()->jobTitle,
-            'type' => ValueType::random(),
-            'status' => true,
+            'value'                 => fake()->jobTitle,
+            'type'                  => ValueType::random(),
+            'status'                => true,
         ];
     }
 }
