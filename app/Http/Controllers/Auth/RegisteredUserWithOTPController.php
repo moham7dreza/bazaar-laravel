@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Controllers\Auth;
 
 use Amiriun\SMS\DataContracts\SendSMSDTO;
@@ -10,22 +12,26 @@ use App\Http\Requests\Auth\LoginOtpRequest;
 use App\Http\Responses\ApiJsonResponse;
 use App\Models\User;
 use App\Models\User\Otp;
+use Context;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Str;
 use Illuminate\Support\Timebox;
 use Random\RandomException;
+use Throwable;
 
-class RegisteredUserWithOTPController extends Controller
+final class RegisteredUserWithOTPController extends Controller
 {
     /**
-     * @throws \Throwable
+     * @throws Throwable
      * @throws RandomException
      */
-    public function __invoke(LoginOtpRequest $request, SmsService $smsService): JsonResponse
+    public function __invoke(LoginOtpRequest $request, SMSService $smsService): JsonResponse
     {
+        Context::increment('metrics.login_otp_attempts');
+
         $user = User::firstWhere('mobile', $request->mobile);
 
-        return (new Timebox)->call(function () use ($user, $request, $smsService) {
+        return (new Timebox())->call(function () use ($user, $request, $smsService) {
 
             $otpCode = random_int(1000, 9999);
             $token   = Str::random(60);
@@ -42,7 +48,7 @@ class RegisteredUserWithOTPController extends Controller
                 ]
             );
 
-            $data = new SendSMSDTO;
+            $data = new SendSMSDTO();
             $data->setSenderNumber('300024444');
             $data->setMessage($otpCode);
             $data->setTo($request->mobile);

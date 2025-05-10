@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 use App\Enums\RouteSection;
 use App\Http\Controllers\Admin\Advertise\AdvertisementController;
 use App\Http\Controllers\Admin\Advertise\CategoryAttributeController;
@@ -25,6 +27,8 @@ use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\Auth\RegisteredUserWithOTPController;
 use App\Http\Controllers\Auth\VerifyUserWithOTPController;
 use App\Http\Controllers\ImageController;
+use App\Http\Middleware\EnsureMobileIsVerified;
+use App\Http\Middleware\MetricsLoggerMiddleware;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -48,7 +52,9 @@ Route::prefix(RouteSection::AUTH)
     ->group(function (): void {
 
         Route::post('register', RegisteredUserController::class)->middleware('throttle:5,1')->name('register');
-        Route::post('send-otp', RegisteredUserWithOTPController::class)->middleware('throttle:10,1')->name('send-otp');
+        Route::post('send-otp', RegisteredUserWithOTPController::class)
+            ->middleware(['throttle:10,1', MetricsLoggerMiddleware::class])
+            ->name('send-otp');
         Route::post('verify-otp', VerifyUserWithOTPController::class)->middleware('throttle:5,1')->name('verify-otp');
     });
 
@@ -98,7 +104,7 @@ Route::prefix(RouteSection::PANEL)
     ->name('panel.')
     ->middleware([
         'auth:sanctum',
-        \App\Http\Middleware\EnsureMobileIsVerified::class,
+        EnsureMobileIsVerified::class,
     ])
     ->group(function (): void {
 
