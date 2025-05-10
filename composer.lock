@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "f6c9862991e8e65d808a565947bc9ac8",
+    "content-hash": "ee367a1bcb6f96f9969a7c65d9173bac",
     "packages": [
         {
             "name": "afsakar/filament-otp-login",
@@ -7894,6 +7894,38 @@
                 }
             ],
             "time": "2023-11-07T21:57:25+00:00"
+        },
+        {
+            "name": "modules/auth",
+            "version": "1.0",
+            "dist": {
+                "type": "path",
+                "url": "modules/auth",
+                "reference": "e35a53503cf5517f4f4ab86c0269876058412493"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Modules\\Auth\\Providers\\AuthServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Modules\\Auth\\": "src/",
+                    "Modules\\Auth\\Tests\\": "tests/",
+                    "Modules\\Auth\\Database\\Factories\\": "database/factories/",
+                    "Modules\\Auth\\Database\\Seeders\\": "database/seeders/"
+                }
+            },
+            "license": [
+                "proprietary"
+            ],
+            "transport-options": {
+                "symlink": true,
+                "relative": true
+            }
         },
         {
             "name": "modules/demo",
