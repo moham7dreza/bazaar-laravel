@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace Modules\Advertise\Http\Controllers\App;
 
 use App\Http\Controllers\Controller;
-use App\Http\Resources\App\StateCollection;
 use Illuminate\Http\Resources\Json\ResourceCollection;
+use Modules\Advertise\Http\Resources\App\StateCollection;
 use Modules\Advertise\Models\State;
 
 final class StateController extends Controller

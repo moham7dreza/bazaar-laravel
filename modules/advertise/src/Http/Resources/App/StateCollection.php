@@ -1,11 +1,13 @@
 <?php
 
-namespace App\Http\Resources\App;
+declare(strict_types=1);
+
+namespace Modules\Advertise\Http\Resources\App;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\ResourceCollection;
 
-class StateCollection extends ResourceCollection
+final class StateCollection extends ResourceCollection
 {
     /**
      * Transform the resource collection into an array.
@@ -15,7 +17,7 @@ class StateCollection extends ResourceCollection
     public function toArray(Request $request): array
     {
         return [
-            'data' => $this->collection,
+            'data'   => $this->collection,
             'status' => true,
         ];
     }

@@ -1,11 +1,13 @@
 <?php
 
-namespace App\Http\Resources\App;
+declare(strict_types=1);
+
+namespace Modules\Advertise\Http\Resources\App;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\ResourceCollection;
 
-class AdvertisementCollection extends ResourceCollection
+final class AdvertisementCollection extends ResourceCollection
 {
     /**
      * Transform the resource collection into an array.
@@ -17,9 +19,9 @@ class AdvertisementCollection extends ResourceCollection
         return [
             'data' => $this->collection,
             'meta' => [
-                'status' => 200,
+                'status'   => 200,
                 'messages' => [],
-            ]
+            ],
         ];
     }
 }

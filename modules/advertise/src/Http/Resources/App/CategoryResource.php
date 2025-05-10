@@ -1,11 +1,13 @@
 <?php
 
-namespace App\Http\Resources\App;
+declare(strict_types=1);
+
+namespace Modules\Advertise\Http\Resources\App;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class GalleryResource extends JsonResource
+final class CategoryResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -15,12 +17,10 @@ class GalleryResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
-            'id' => $this->id,
-            'url' => $this->url,
-            // 'advertisement' => $this->advertisement,
-            'advertisement_id' => $this->advertisement_id,
-            'created_at' => $this->created_at,
-            'updated_at' => $this->updated_at,
+            'id'   => $this->id,
+            'name' => $this->name,
+            'slug' => $this->slug,
+            'icon' => $this->icon,
         ];
     }
 
