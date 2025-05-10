@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Modules\Advertise\Http\Controllers\Home;
 
-use App\Http\Controllers\App\Panel\HistoryAdvertisementController;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\App\AdvertisementGridViewRequest;
 use App\Http\Resources\App\AdvertisementCollection;
@@ -15,6 +14,7 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Http\Resources\Json\ResourceCollection;
 use Log;
+use Modules\Advertise\Http\Controllers\Panel\HistoryAdvertisementController;
 use Modules\Advertise\Models\Advertisement;
 use Modules\Advertise\Repositories\AdvertisementReadRepository;
 use Throwable;

@@ -9,11 +9,6 @@ use App\Http\Controllers\Admin\User\UserController;
 use App\Http\Controllers\App\Home\CityController;
 use App\Http\Controllers\App\Home\MenuController as HomeMenuController;
 use App\Http\Controllers\App\Home\PageController as HomePageController;
-use App\Http\Controllers\App\Panel\AdvertisementController as PanelAdvertisementController;
-use App\Http\Controllers\App\Panel\AdvertisementNoteController;
-use App\Http\Controllers\App\Panel\FavoriteAdvertisementController;
-use App\Http\Controllers\App\Panel\GalleryController as PanelGalleryController;
-use App\Http\Controllers\App\Panel\HistoryAdvertisementController;
 use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\Auth\RegisteredUserWithOTPController;
 use App\Http\Controllers\Auth\VerifyUserWithOTPController;
@@ -31,6 +26,11 @@ use Modules\Advertise\Http\Controllers\Admin\StateController;
 use Modules\Advertise\Http\Controllers\Home\AdvertisementController as HomeAdvertisementController;
 use Modules\Advertise\Http\Controllers\Home\CategoryController as HomeCategoryController;
 use Modules\Advertise\Http\Controllers\Home\StateController as HomeStateController;
+use Modules\Advertise\Http\Controllers\Panel\AdvertisementController as PanelAdvertisementController;
+use Modules\Advertise\Http\Controllers\Panel\AdvertisementNoteController;
+use Modules\Advertise\Http\Controllers\Panel\FavoriteAdvertisementController;
+use Modules\Advertise\Http\Controllers\Panel\GalleryController as PanelGalleryController;
+use Modules\Advertise\Http\Controllers\Panel\HistoryAdvertisementController;
 
 Route::get('user', static fn (Request $request) => $request->user())->middleware(['auth:sanctum', 'mobileVerified'])->name('user.info');
 

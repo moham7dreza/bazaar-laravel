@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Http\Controllers\App\Panel;
+namespace Modules\Advertise\Http\Controllers\Panel;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\App\StoreGalleryRequest;
