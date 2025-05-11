@@ -1,6 +1,8 @@
 <?php
 
-namespace App\Http\DataContracts\Image;
+declare(strict_types=1);
+
+namespace App\Data\DTOs\Image;
 
 use App\Enums\Content\ImageSize;
 use App\Enums\Content\ImageUploadMethod;
@@ -18,6 +20,6 @@ final readonly class ImageUploadDTO
         public ?int $width = null,
         public ?int $height = null,
     ) {
-        //
+
     }
 }

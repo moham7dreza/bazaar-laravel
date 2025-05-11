@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Data\DTOs;
 
-readonly class HealthChecksDto
+final readonly class HealthChecksDto
 {
     public function __construct(
         private string $name,
@@ -17,17 +17,17 @@ readonly class HealthChecksDto
 
     public function get(string|array $property): string|array|null
     {
-        return $this->$property ?? null;
+        return $this->{$property} ?? null;
     }
 
     public function toArray(): array
     {
         return [
-            'name' => $this->name,
-            'meta' => $this->meta,
-            'status' => $this->status,
+            'name'                => $this->name,
+            'meta'                => $this->meta,
+            'status'              => $this->status,
             'notificationMessage' => $this->notificationMessage,
-            'shortSummary' => $this->shortSummary,
+            'shortSummary'        => $this->shortSummary,
         ];
     }
 }

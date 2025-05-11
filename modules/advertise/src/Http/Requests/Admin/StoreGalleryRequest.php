@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Modules\Advertise\Http\Requests\Admin;
 
+use App\Data\DTOs\Image\ImageUploadDTO;
 use App\Enums\Content\ImageUploadMethod;
-use App\Http\DataContracts\Image\ImageUploadDTO;
 use App\Rules\ValidateImageRule;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;

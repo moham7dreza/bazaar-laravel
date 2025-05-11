@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Services\Image\Upload;
 
-use App\Http\DataContracts\Image\ImageUploadDTO;
+use App\Data\DTOs\Image\ImageUploadDTO;
 
 interface ImageUploader
 {

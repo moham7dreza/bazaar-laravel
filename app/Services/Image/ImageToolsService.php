@@ -105,7 +105,7 @@ final class ImageToolsService
     public function provider(): void
     {
         // set properties
-        if ( ! $this->getImageDirectory())
+        if ( ! $this->imageDirectory)
         {
 
             $this->setImageDirectory(
@@ -115,26 +115,26 @@ final class ImageToolsService
             );
         }
 
-        if ( ! $this->getImageName())
+        if ( ! $this->imageName)
         {
 
             $this->setImageName(TimeUtility::jalaliCurrentTimeAsFileName());
         }
 
-        if ( ! $this->getImageFormat())
+        if ( ! $this->imageFormat)
         {
 
             $this->setImageFormat($this->image->extension());
         }
 
         // set final image Directory
-        $finalImageDirectory = empty($this->getExclusiveDirectory()) ? $this->getImageDirectory() : $this->getExclusiveDirectory() . DIRECTORY_SEPARATOR . $this->getImageDirectory();
+        $finalImageDirectory = empty($this->exclusiveDirectory) ? $this->imageDirectory : $this->exclusiveDirectory . DIRECTORY_SEPARATOR . $this->imageDirectory;
         $this->setFinalImageDirectory($finalImageDirectory);
 
         // set final image name
-        $this->setFinalImageName($this->getImageName() . '.' . $this->getImageFormat());
+        $this->setFinalImageName($this->imageName . '.' . $this->imageFormat);
 
-        $this->checkDirectory($this->getFinalImageDirectory());
+        $this->checkDirectory($this->finalImageDirectory);
     }
 
     private function checkDirectory($imageDirectory): void
