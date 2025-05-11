@@ -164,12 +164,9 @@ final class AppServiceProvider extends ServiceProvider
 
     private function configureValidator(): void
     {
-        Validator::extend('mobile', static function (string $attribute, mixed $value, array $parameters, Validator $validator) {
-
-            return ! ($validator->make(['password' => $value], [
-                'password' => 'numeric|digits:11|regex:/^09[0-9]{9}$/',
-            ])->fails());
-        });
+        Validator::extend('mobile', static fn (string $attribute, mixed $value, array $parameters, Validator $validator) => ! ($validator->make(['password' => $value], [
+            'password' => 'numeric|digits:11|regex:/^09[0-9]{9}$/',
+        ])->fails()));
 
         Validator::extend('national_code', static fn (string $attribute, mixed $value, array $parameters, \Illuminate\Contracts\Validation\Validator $validator) => InvokableValidationRule::make(new ValidateNationalCodeRule())
             ->setValidator($validator)
