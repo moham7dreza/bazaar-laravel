@@ -3,7 +3,10 @@
     "type": "project",
     "description": "advertise shopping site",
     "homepage": "https://github.com/moham7dreza/bazaar-laravel",
-    "keywords": ["laravel", "framework"],
+    "keywords": [
+        "laravel",
+        "framework"
+    ],
     "authors": [
         {
             "name": "Mohamadreza Rezaei",
@@ -54,6 +57,7 @@
         "leandrocfe/filament-apex-charts": "^3.1",
         "malzariey/filament-daterangepicker-filter": "^3.3",
         "modules/advertise": "*",
+        "modules/content": "*",
         "mokhosh/filament-jalali": "^4.9",
         "mongodb/laravel-mongodb": "^5.4",
         "morilog/jalali": "^3.4",
