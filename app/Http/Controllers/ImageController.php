@@ -1,14 +1,16 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Controllers;
 
 use App\Http\Requests\ImageStoreRequest;
 use App\Http\Requests\ImageUpdateRequest;
 use App\Http\Responses\ApiJsonResponse;
-use App\Http\Services\Image\ImageService;
+use App\Services\Image\ImageService;
 use Illuminate\Http\JsonResponse;
 
-class ImageController extends Controller
+final class ImageController extends Controller
 {
     public function index()
     {
@@ -19,7 +21,8 @@ class ImageController extends Controller
     {
         $result = $imageService->upload($request->getDTO());
 
-        if (! $result) {
+        if ( ! $result)
+        {
             return ApiJsonResponse::error(500, message: __('response.image.upload failed'));
         }
 
@@ -39,7 +42,8 @@ class ImageController extends Controller
         ];
         $result = $imageService->update($request->getDTO(), $image);
 
-        if (! $result) {
+        if ( ! $result)
+        {
             return ApiJsonResponse::error(500, message: __('response.image.upload failed'));
         }
 
