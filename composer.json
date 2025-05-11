@@ -53,7 +53,6 @@
         "laravel/tinker": "^2.0",
         "leandrocfe/filament-apex-charts": "^3.1",
         "malzariey/filament-daterangepicker-filter": "^3.3",
-        "modules/demo": "*",
         "modules/advertise": "*",
         "mokhosh/filament-jalali": "^4.9",
         "mongodb/laravel-mongodb": "^5.4",
