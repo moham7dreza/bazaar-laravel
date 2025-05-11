@@ -57,6 +57,7 @@
         "leandrocfe/filament-apex-charts": "^3.1",
         "malzariey/filament-daterangepicker-filter": "^3.3",
         "modules/advertise": "*",
+        "modules/auth": "*",
         "modules/content": "*",
         "mokhosh/filament-jalali": "^4.9",
         "mongodb/laravel-mongodb": "^5.4",
