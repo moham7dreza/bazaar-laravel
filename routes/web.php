@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 use App\Http\Controllers\DomainRouterController;
 use App\Http\Controllers\FallbackController;
 use App\Http\Controllers\HealthCheckController;
@@ -14,8 +16,8 @@ Route::fallback(FallbackController::class);
 Route::get('/', HomeController::class)->name('web.welcome');
 
 Route::middleware([
-    \App\Http\Middleware\OnlyAllowDevelopersMiddleware::class,
-    \App\Http\Middleware\CheckAdminMiddleware::class,
+    App\Http\Middleware\OnlyAllowDevelopersMiddleware::class,
+    App\Http\Middleware\CheckAdminMiddleware::class,
 ])
     ->group(function (): void {
 
@@ -35,5 +37,3 @@ Route::middleware([
 
 Route::get('image', [ImageController::class, 'index']);
 Route::post('image/store', [ImageController::class, 'store'])->name('image.store');
-
-require __DIR__.'/auth.php';

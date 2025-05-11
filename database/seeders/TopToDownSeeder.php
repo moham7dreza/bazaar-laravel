@@ -4,15 +4,15 @@ declare(strict_types=1);
 
 namespace Database\Seeders;
 
-use App\Enums\NoticeType;
 use App\Models\Holiday;
 use App\Models\PaymentGateway;
 use App\Models\SmsGateway;
 use App\Models\SmsLog;
 use App\Models\User;
-use App\Models\User\Otp;
 use Illuminate\Database\Eloquent\Factories\Sequence;
 use Illuminate\Database\Seeder;
+use Modules\Auth\Enums\NoticeType;
+use Modules\Auth\Models\Otp;
 
 final class TopToDownSeeder extends Seeder
 {
