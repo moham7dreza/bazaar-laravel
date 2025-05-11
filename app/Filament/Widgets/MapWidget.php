@@ -1,13 +1,15 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Filament\Widgets;
 
-use App\Models\Advertise\Advertisement;
 use Illuminate\Contracts\Support\Htmlable;
 use InfinityXTech\FilamentWorldMapWidget\Enums\Map;
 use InfinityXTech\FilamentWorldMapWidget\Widgets\WorldMapWidget;
+use Modules\Advertise\Models\Advertisement;
 
-class MapWidget extends WorldMapWidget
+final class MapWidget extends WorldMapWidget
 {
     protected static ?int $sort = 0;
 
