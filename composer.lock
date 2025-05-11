@@ -7896,6 +7896,38 @@
             "time": "2023-11-07T21:57:25+00:00"
         },
         {
+            "name": "modules/advertise",
+            "version": "1.0",
+            "dist": {
+                "type": "path",
+                "url": "modules/advertise",
+                "reference": "9177010d944ee3247e02e4739459cc5845e8eec2"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Modules\\Advertise\\Providers\\AdvertiseServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Modules\\Advertise\\": "src/",
+                    "Modules\\Advertise\\Tests\\": "tests/",
+                    "Modules\\Advertise\\Database\\Factories\\": "database/factories/",
+                    "Modules\\Advertise\\Database\\Seeders\\": "database/seeders/"
+                }
+            },
+            "license": [
+                "proprietary"
+            ],
+            "transport-options": {
+                "symlink": true,
+                "relative": true
+            }
+        },
+        {
             "name": "modules/content",
             "version": "1.0",
             "dist": {
@@ -7917,38 +7949,6 @@
                     "Modules\\Content\\Tests\\": "tests/",
                     "Modules\\Content\\Database\\Factories\\": "database/factories/",
                     "Modules\\Content\\Database\\Seeders\\": "database/seeders/"
-                }
-            },
-            "license": [
-                "proprietary"
-            ],
-            "transport-options": {
-                "symlink": true,
-                "relative": true
-            }
-        },
-        {
-            "name": "modules/demo",
-            "version": "1.0",
-            "dist": {
-                "type": "path",
-                "url": "modules/demo",
-                "reference": "5f9f0edda7cac5ffd74dc3a1ab54e35ec9e3ae81"
-            },
-            "type": "library",
-            "extra": {
-                "laravel": {
-                    "providers": [
-                        "Modules\\Demo\\Providers\\DemoServiceProvider"
-                    ]
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "Modules\\Demo\\": "src/",
-                    "Modules\\Demo\\Tests\\": "tests/",
-                    "Modules\\Demo\\Database\\Factories\\": "database/factories/",
-                    "Modules\\Demo\\Database\\Seeders\\": "database/seeders/"
                 }
             },
             "license": [

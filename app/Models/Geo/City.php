@@ -1,16 +1,18 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Models\Geo;
 
-use App\Models\Advertise\Advertisement;
 use Illuminate\Database\Eloquent\Attributes\Scope;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Modules\Advertise\Models\Advertisement;
 
-class City extends Model
+final class City extends Model
 {
     // _____________________________________________ use SECTION ________________________________________________
     use HasFactory;
@@ -19,15 +21,6 @@ class City extends Model
     // _____________________________________________ props SECTION ______________________________________________
 
     protected $guarded = ['id'];
-
-    // _____________________________________________ model related methods SECTION ______________________________
-
-    protected function casts(): array
-    {
-        return [
-            'status' => 'boolean',
-        ];
-    }
 
     #[Scope]
     public function active(Builder $query): Builder
@@ -40,6 +33,15 @@ class City extends Model
     public function advertisements(): HasMany
     {
         return $this->hasMany(Advertisement::class);
+    }
+
+    // _____________________________________________ model related methods SECTION ______________________________
+
+    protected function casts(): array
+    {
+        return [
+            'status' => 'boolean',
+        ];
     }
 
     // _____________________________________________ method SECTION __________________________________________

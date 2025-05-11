@@ -1,18 +1,19 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Models;
 
 use Afsakar\FilamentOtpLogin\Models\Contracts\CanLoginDirectly;
 use App\Concerns\InteractWithSensitiveColumns;
+use App\Concerns\MustVerifyMobile;
 use App\Contracts\MustVerifyMobile as ShouldVerifiedMobile;
 use App\Enums\StorageDisk;
 use App\Enums\UserPermission;
 use App\Enums\UserRole;
-use App\Models\Advertise\Advertisement;
-use App\Models\Advertise\AdvertisementNote;
 use App\Models\Geo\City;
 use App\Models\Scopes\LatestScope;
-use App\Concerns\MustVerifyMobile;
+use DateTimeInterface;
 use Filament\Models\Contracts\FilamentUser;
 use Filament\Models\Contracts\HasAvatar;
 use Filament\Panel;
@@ -33,24 +34,26 @@ use Illuminate\Support\Facades\Storage;
 use Jeffgreco13\FilamentBreezy\Traits\TwoFactorAuthenticatable;
 use Kenepa\ResourceLock\Models\Concerns\HasLocks;
 use Laravel\Sanctum\HasApiTokens;
+use Modules\Advertise\Models\Advertisement;
+use Modules\Advertise\Models\AdvertisementNote;
 use Spatie\Activitylog\LogOptions;
 use Spatie\Activitylog\Traits\LogsActivity;
 use Spatie\Permission\Traits\HasRoles;
 
 #[ScopedBy([LatestScope::class])]
-class User extends Authenticatable implements CanLoginDirectly, FilamentUser, HasAvatar, ShouldVerifiedMobile
+final class User extends Authenticatable implements CanLoginDirectly, FilamentUser, HasAvatar, ShouldVerifiedMobile
 {
+    use HasApiTokens;
     // _____________________________________________ use SECTION ________________________________________________
     use HasFactory;
     use HasLocks;
     use HasRoles;
+    use InteractWithSensitiveColumns;
     use LogsActivity;
     use MustVerifyMobile;
     use Notifiable;
     use SoftDeletes;
     use TwoFactorAuthenticatable;
-    use HasApiTokens;
-    use InteractWithSensitiveColumns;
 
     // _____________________________________________ props SECTION ______________________________________________
 
@@ -77,21 +80,6 @@ class User extends Authenticatable implements CanLoginDirectly, FilamentUser, Ha
     ];
 
     protected static array $recordEvents = ['deleted', 'updated'];
-
-    // _____________________________________________ model related methods SECTION ______________________________
-
-    protected function casts(): array
-    {
-        return [
-            'email_verified_at'  => 'datetime',
-            'mobile_verified_at' => 'datetime',
-            'password'           => 'hashed',
-            'is_active'          => 'bool',
-            'suspended_at'       => 'datetime',
-            'suspended_until'    => 'datetime',
-            //            'addresses' => \Illuminate\Database\Eloquent\Casts\AsCollection::of(\App\Data\ValueObjects\Address::class)
-        ];
-    }
 
     public function getActivitylogOptions(): LogOptions
     {
@@ -136,13 +124,13 @@ class User extends Authenticatable implements CanLoginDirectly, FilamentUser, Ha
     }
 
     #[Scope]
-    protected function ofType(Builder $query, int $type): void
+    public function ofType(Builder $query, int $type): void
     {
         $query->where('user_type', $type);
     }
 
     #[Scope]
-    protected function createdAfter(Builder $query, \DateTimeInterface|string|int $date): void
+    public function createdAfter(Builder $query, DateTimeInterface|string|int $date): void
     {
         $query->where('created_at', '>=', Carbon::parse($date));
     }
@@ -206,7 +194,7 @@ class User extends Authenticatable implements CanLoginDirectly, FilamentUser, Ha
 
     public function isAdmin(): bool
     {
-        return $this->user_type === self::TYPE_ADMIN
+        return self::TYPE_ADMIN === $this->user_type
             && ($this->hasVerifiedMobile() || $this->hasVerifiedEmail())
             && ($this->checkPermissionTo(UserPermission::SEE_PANEL) || $this->hasRole(UserRole::ADMIN));
     }
@@ -215,7 +203,7 @@ class User extends Authenticatable implements CanLoginDirectly, FilamentUser, Ha
 
     public function isSuspended(): bool
     {
-        return ! is_null($this->suspended_at) && now()->lte($this->suspended_until);
+        return null !== $this->suspended_at && now()->lte($this->suspended_until);
     }
 
     public function suspend(): bool
@@ -241,5 +229,20 @@ class User extends Authenticatable implements CanLoginDirectly, FilamentUser, Ha
     public function owns(Model $model, string $relation = 'user')
     {
         return $model->{$relation}()->is($this);
+    }
+
+    // _____________________________________________ model related methods SECTION ______________________________
+
+    protected function casts(): array
+    {
+        return [
+            'email_verified_at'  => 'datetime',
+            'mobile_verified_at' => 'datetime',
+            'password'           => 'hashed',
+            'is_active'          => 'bool',
+            'suspended_at'       => 'datetime',
+            'suspended_until'    => 'datetime',
+            //            'addresses' => \Illuminate\Database\Eloquent\Casts\AsCollection::of(\App\Data\ValueObjects\Address::class)
+        ];
     }
 }
