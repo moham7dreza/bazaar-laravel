@@ -5,12 +5,11 @@ declare(strict_types=1);
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
-use Modules\Advertise\Database\Seeders\AdvertiseSeeder;
-use Modules\Auth\Database\Seeders\AuthSeeder;
-use Modules\Content\Database\Seeders\ContentSeeder;
 
 final class DatabaseSeeder extends Seeder
 {
+    public static array $seeders;
+
     public function run(): void
     {
         $this->call([
@@ -19,11 +18,10 @@ final class DatabaseSeeder extends Seeder
 
         if ( ! isEnvProduction())
         {
+            collect(self::$seeders)->each(fn ($seeder) => $this->call($seeder));
+
             $this->call([
                 TopToDownSeeder::class,
-                AdvertiseSeeder::class,
-                AuthSeeder::class,
-                ContentSeeder::class,
                 PermissionSeeder::class,
             ]);
         }
