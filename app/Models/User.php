@@ -123,6 +123,18 @@ final class User extends Authenticatable implements CanLoginDirectly, FilamentUs
             ->where('suspended_until', '>=', now());
     }
 
+    #[Scope]
+    public function ofType(Builder $query, int $type): void
+    {
+        $query->where('user_type', $type);
+    }
+
+    #[Scope]
+    public function createdAfter(Builder $query, DateTimeInterface|string|int $date): void
+    {
+        $query->where('created_at', '>=', Carbon::parse($date));
+    }
+
     // _____________________________________________ relations SECTION __________________________________________
     public function advertisements(): HasMany
     {
@@ -232,17 +244,5 @@ final class User extends Authenticatable implements CanLoginDirectly, FilamentUs
             'suspended_until'    => 'datetime',
             //            'addresses' => \Illuminate\Database\Eloquent\Casts\AsCollection::of(\App\Data\ValueObjects\Address::class)
         ];
-    }
-
-    #[Scope]
-    protected function ofType(Builder $query, int $type): void
-    {
-        $query->where('user_type', $type);
-    }
-
-    #[Scope]
-    protected function createdAfter(Builder $query, DateTimeInterface|string|int $date): void
-    {
-        $query->where('created_at', '>=', Carbon::parse($date));
     }
 }
