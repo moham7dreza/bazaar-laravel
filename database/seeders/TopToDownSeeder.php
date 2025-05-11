@@ -11,8 +11,6 @@ use App\Models\SmsLog;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Sequence;
 use Illuminate\Database\Seeder;
-use Modules\Auth\Enums\NoticeType;
-use Modules\Auth\Models\Otp;
 
 final class TopToDownSeeder extends Seeder
 {
@@ -29,12 +27,6 @@ final class TopToDownSeeder extends Seeder
             ])
             ->create();
         */
-        Otp::factory(2)
-            ->for($users->random()->first())
-            ->sequence(
-                ['type' => NoticeType::EMAIL],
-                ['type' => NoticeType::SMS],
-            )->create();
 
         SmsLog::factory(5)
             ->for($users->random()->first())
