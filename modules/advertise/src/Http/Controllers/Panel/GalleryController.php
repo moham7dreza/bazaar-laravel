@@ -6,7 +6,7 @@ namespace Modules\Advertise\Http\Controllers\Panel;
 
 use App\Http\Controllers\Controller;
 use App\Http\Responses\ApiJsonResponse;
-use App\Http\Services\Image\ImageService;
+use App\Services\Image\ImageService;
 use Gate;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Resources\Json\JsonResource;

@@ -1,13 +1,15 @@
 <?php
 
-namespace App\Http\Contexts;
+declare(strict_types=1);
+
+namespace App\Services\Contexts;
 
 use Illuminate\Support\Str;
 
 /**
  * add persistent metadata throughout request lifecycle.
  */
-class RequestContext
+final class RequestContext
 {
     public function __construct()
     {
@@ -26,7 +28,8 @@ class RequestContext
 
     public function addUserContext(): void
     {
-        if (! $user = getUser()) {
+        if ( ! $user = getUser())
+        {
             return;
         }
 

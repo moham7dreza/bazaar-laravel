@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Modules\Advertise\Observers;
 
-use App\Http\Services\Image\ImageService;
+use App\Services\Image\ImageService;
 use Modules\Advertise\Models\Gallery;
 
 final class GalleryObserver

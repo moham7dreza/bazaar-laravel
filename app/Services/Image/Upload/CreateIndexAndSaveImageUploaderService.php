@@ -1,13 +1,17 @@
 <?php
 
-namespace App\Http\Services\Image\Upload;
+declare(strict_types=1);
+
+namespace App\Services\Image\Upload;
 
 use App\Http\DataContracts\Image\ImageUploadDTO;
-use App\Http\Services\Image\ImageService;
+use App\Services\Image\ImageService;
 use App\Utilities\Date\TimeUtility;
+use Exception;
 use Intervention\Image\Laravel\Facades\Image;
+use Log;
 
-readonly class CreateIndexAndSaveImageUploaderService implements ImageUploader
+final readonly class CreateIndexAndSaveImageUploaderService implements ImageUploader
 {
     public function __construct(
         private ImageService $imageService,
@@ -16,23 +20,26 @@ readonly class CreateIndexAndSaveImageUploaderService implements ImageUploader
 
     public function handle(ImageUploadDTO $DTO): array|string|null
     {
-        try {
+        try
+        {
             $imageSizes = config('image-index.index-image-sizes');
 
             $this->imageService->setImage($DTO->image);
 
-            if (! $this->imageService->getImageDirectory()) {
+            if ( ! $this->imageService->getImageDirectory())
+            {
 
                 $this->imageService->setImageDirectory(
-                    TimeUtility::jalaliCurrentYearNumber().DIRECTORY_SEPARATOR.
-                    TimeUtility::jalaliCurrentMonthNumber().DIRECTORY_SEPARATOR.
+                    TimeUtility::jalaliCurrentYearNumber() . DIRECTORY_SEPARATOR .
+                    TimeUtility::jalaliCurrentMonthNumber() . DIRECTORY_SEPARATOR .
                     TimeUtility::jalaliCurrentDayNumber()
                 );
             }
 
-            $this->imageService->setImageDirectory($this->imageService->getImageDirectory().DIRECTORY_SEPARATOR.time());
+            $this->imageService->setImageDirectory($this->imageService->getImageDirectory() . DIRECTORY_SEPARATOR . time());
 
-            if (! $this->imageService->getImageName()) {
+            if ( ! $this->imageService->getImageName())
+            {
 
                 $this->imageService->setImageName(TimeUtility::jalaliCurrentTimeAsFileName());
             }
@@ -40,8 +47,9 @@ readonly class CreateIndexAndSaveImageUploaderService implements ImageUploader
             $imageName = $this->imageService->getImageName();
 
             $indexArray = [];
-            foreach ($imageSizes as $sizeAlias => $imageSize) {
-                $currentImageName = $imageName.'_'.$sizeAlias;
+            foreach ($imageSizes as $sizeAlias => $imageSize)
+            {
+                $currentImageName = $imageName . '_' . $sizeAlias;
                 $this->imageService->setImageName($currentImageName);
                 $this->imageService->provider();
 
@@ -58,8 +66,9 @@ readonly class CreateIndexAndSaveImageUploaderService implements ImageUploader
 
             return $images;
 
-        } catch (\Exception $e) {
-            \Log::error($e->getMessage());
+        } catch (Exception $e)
+        {
+            Log::error($e->getMessage());
 
             return null;
         }

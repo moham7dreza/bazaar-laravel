@@ -1,25 +1,27 @@
 <?php
 
-namespace App\Http\Services\Image;
+declare(strict_types=1);
+
+namespace App\Services\Image;
 
 use App\Utilities\Date\TimeUtility;
 use Morilog\Jalali\CalendarUtils;
 
-class ImageToolsService
+final class ImageToolsService
 {
-    protected $image;
+    private $image;
 
-    protected $exclusiveDirectory;
+    private $exclusiveDirectory;
 
-    protected $imageDirectory;
+    private $imageDirectory;
 
-    protected $imageName;
+    private $imageName;
 
-    protected $imageFormat;
+    private $imageFormat;
 
-    protected $finalImageDirectory;
+    private $finalImageDirectory;
 
-    protected $finalImageName;
+    private $finalImageName;
 
     public function setImage($image): void
     {
@@ -58,7 +60,8 @@ class ImageToolsService
 
     public function setCurrentImageName(): void
     {
-        if (! empty($this->image)) {
+        if ( ! empty($this->image))
+        {
 
             $this->setImageName(pathinfo($this->image->getClientOriginalName(), PATHINFO_FILENAME));
         }
@@ -94,48 +97,52 @@ class ImageToolsService
         $this->finalImageName = $finalImageName;
     }
 
-    protected function checkDirectory($imageDirectory): void
-    {
-
-        if (! file_exists($imageDirectory)) {
-            mkdir($imageDirectory, 0777, true);
-        }
-    }
-
     public function getImageAddress(): string
     {
-        return $this->finalImageDirectory.DIRECTORY_SEPARATOR.$this->finalImageName;
+        return $this->finalImageDirectory . DIRECTORY_SEPARATOR . $this->finalImageName;
     }
 
     public function provider(): void
     {
         // set properties
-        if (! $this->getImageDirectory()) {
+        if ( ! $this->getImageDirectory())
+        {
 
             $this->setImageDirectory(
-                CalendarUtils::strftime('Y').DIRECTORY_SEPARATOR.
-                CalendarUtils::strftime('m').DIRECTORY_SEPARATOR.
+                CalendarUtils::strftime('Y') . DIRECTORY_SEPARATOR .
+                CalendarUtils::strftime('m') . DIRECTORY_SEPARATOR .
                 CalendarUtils::strftime('d')
             );
         }
 
-        if (! $this->getImageName()) {
+        if ( ! $this->getImageName())
+        {
 
             $this->setImageName(TimeUtility::jalaliCurrentTimeAsFileName());
         }
 
-        if (! $this->getImageFormat()) {
+        if ( ! $this->getImageFormat())
+        {
 
             $this->setImageFormat($this->image->extension());
         }
 
         // set final image Directory
-        $finalImageDirectory = empty($this->getExclusiveDirectory()) ? $this->getImageDirectory() : $this->getExclusiveDirectory().DIRECTORY_SEPARATOR.$this->getImageDirectory();
+        $finalImageDirectory = empty($this->getExclusiveDirectory()) ? $this->getImageDirectory() : $this->getExclusiveDirectory() . DIRECTORY_SEPARATOR . $this->getImageDirectory();
         $this->setFinalImageDirectory($finalImageDirectory);
 
         // set final image name
-        $this->setFinalImageName($this->getImageName().'.'.$this->getImageFormat());
+        $this->setFinalImageName($this->getImageName() . '.' . $this->getImageFormat());
 
         $this->checkDirectory($this->getFinalImageDirectory());
+    }
+
+    private function checkDirectory($imageDirectory): void
+    {
+
+        if ( ! file_exists($imageDirectory))
+        {
+            mkdir($imageDirectory, 0777, true);
+        }
     }
 }

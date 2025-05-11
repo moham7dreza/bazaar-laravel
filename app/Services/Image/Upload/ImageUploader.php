@@ -1,6 +1,8 @@
 <?php
 
-namespace App\Http\Services\Image\Upload;
+declare(strict_types=1);
+
+namespace App\Services\Image\Upload;
 
 use App\Http\DataContracts\Image\ImageUploadDTO;
 

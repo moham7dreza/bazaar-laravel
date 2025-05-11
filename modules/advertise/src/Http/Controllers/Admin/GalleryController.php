@@ -6,7 +6,7 @@ namespace Modules\Advertise\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Http\Responses\ApiJsonResponse;
-use App\Http\Services\Image\ImageService;
+use App\Services\Image\ImageService;
 use Modules\Advertise\Http\Requests\Admin\StoreGalleryRequest;
 use Modules\Advertise\Http\Requests\Admin\UpdateGalleryRequest;
 use Modules\Advertise\Http\Resources\Admin\GalleryCollection;

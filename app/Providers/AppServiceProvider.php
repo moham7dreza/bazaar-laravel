@@ -1,17 +1,19 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Providers;
 
 use App\Broadcasting\WhatsappChannel;
 use App\Console\Commands\System\DataMigrationCommand;
 use App\Enums\Language;
-use App\Http\Services\TranslationService;
 use App\Models\Holiday;
 use App\Models\User;
 use App\Pipelines\Image\ImageThumbnailResizePipeline;
 use App\Pipelines\Pipelines;
 use App\Rules\ValidateImageRule;
 use App\Rules\ValidateNationalCodeRule;
+use App\Services\TranslationService;
 use Carbon\CarbonImmutable;
 use Illuminate\Console\Scheduling\Event;
 use Illuminate\Database\Connection;
@@ -36,7 +38,7 @@ use Illuminate\Validation\InvokableValidationRule;
 use Illuminate\Validation\Rules\Password;
 use Morilog\Jalali\Jalalian;
 
-class AppServiceProvider extends ServiceProvider
+final class AppServiceProvider extends ServiceProvider
 {
     public function register(): void
     {
@@ -71,7 +73,7 @@ class AppServiceProvider extends ServiceProvider
     private function configureModels(): void
     {
         Model::automaticallyEagerLoadRelationships();
-        Model::shouldBeStrict(! isEnvProduction());
+        Model::shouldBeStrict( ! isEnvProduction());
         Model::unguard();
     }
 
@@ -106,17 +108,11 @@ class AppServiceProvider extends ServiceProvider
 
     private function configureGates(): void
     {
-        Gate::before(static function (?User $user) {
-            return $user?->isAdmin();
-        });
+        Gate::before(static fn (?User $user) => $user?->isAdmin());
 
-        Gate::define('viewPulse', static function (?User $user) {
-            return ! isEnvLocalOrTesting() ? $user?->isAdmin() : true;
-        });
+        Gate::define('viewPulse', static fn (?User $user) => ! isEnvLocalOrTesting() ? $user?->isAdmin() : true);
 
-        Gate::define('viewWebTinker', static function (?User $user) {
-            return ! isEnvLocalOrTesting() ? $user?->isAdmin() : true;
-        });
+        Gate::define('viewWebTinker', static fn (?User $user) => ! isEnvLocalOrTesting() ? $user?->isAdmin() : true);
     }
 
     private function logSlowQuery(): void
@@ -137,29 +133,30 @@ class AppServiceProvider extends ServiceProvider
 
     private function loadExtraMigrationsPath(): void
     {
-        if (! isEnvTesting()) {
-            $this->loadMigrationsFrom(__DIR__.'/../..'.DataMigrationCommand::PATH);
+        if ( ! isEnvTesting())
+        {
+            $this->loadMigrationsFrom(__DIR__ . '/../..' . DataMigrationCommand::PATH);
         }
     }
 
     private function configureMacros(): void
     {
-        Carbon::macro('jdate', function (): ?Jalalian {
-            return jalali_date($this);
-        });
+        Carbon::macro('jdate', fn (): ?Jalalian => jalali_date($this));
     }
 
     private function handleMissingTrans(): void
     {
         app('translator')->handleMissingKeysUsing(function (string $key, array $replacements, ?string $locale): void {
-            if (empty($key)) {
+            if (empty($key))
+            {
                 return;
             }
 
-            ondemand_info("Missing translation key: *** ( $key ) ***", file: 'translation');
+            ondemand_info("Missing translation key: *** ( {$key} ) ***", file: 'translation');
 
             // Only update JSON translation files (skip PHP array files)
-            if (! str_contains($key, '.')) {
+            if ( ! str_contains($key, '.'))
+            {
                 app(TranslationService::class)->addMissingKeyToJsonLangFile($key, $locale);
             }
         });
@@ -169,26 +166,18 @@ class AppServiceProvider extends ServiceProvider
     {
         Validator::extend('mobile', static function (string $attribute, mixed $value, array $parameters, Validator $validator) {
 
-            if ($validator->make(['password' => $value], [
+            return ! ($validator->make(['password' => $value], [
                 'password' => 'numeric|digits:11|regex:/^09[0-9]{9}$/',
-            ])->fails()) {
-                return false;
-            }
-
-            return true;
+            ])->fails());
         });
 
-        Validator::extend('national_code', static function (string $attribute, mixed $value, array $parameters, \Illuminate\Contracts\Validation\Validator $validator) {
-            return InvokableValidationRule::make(new ValidateNationalCodeRule())
-                ->setValidator($validator)
-                ->passes($attribute, $value);
-        });
+        Validator::extend('national_code', static fn (string $attribute, mixed $value, array $parameters, \Illuminate\Contracts\Validation\Validator $validator) => InvokableValidationRule::make(new ValidateNationalCodeRule())
+            ->setValidator($validator)
+            ->passes($attribute, $value));
 
-        Validator::extend('picture', static function (string $attribute, mixed $value, array $parameters, \Illuminate\Contracts\Validation\Validator $validator) {
-            return InvokableValidationRule::make(new ValidateImageRule())
-                ->setValidator($validator)
-                ->passes($attribute, $value);
-        });
+        Validator::extend('picture', static fn (string $attribute, mixed $value, array $parameters, \Illuminate\Contracts\Validation\Validator $validator) => InvokableValidationRule::make(new ValidateImageRule())
+            ->setValidator($validator)
+            ->passes($attribute, $value));
     }
 
     private function configureDate(): void
@@ -199,26 +188,22 @@ class AppServiceProvider extends ServiceProvider
 
     private function configurePassword(): void
     {
-        Password::defaults(static function () {
-            return Password::min(8)
-                ->letters()
-                ->mixedCase()
-                ->numbers();
-        });
+        Password::defaults(static fn () => Password::min(8)
+            ->letters()
+            ->mixedCase()
+            ->numbers());
     }
 
     private function configurePipelines(): void
     {
         $this->app
             ->get(Hub::class)
-            ->pipeline(Pipelines::PROCESS_UPLOADED_IMAGE, function (Pipeline $pipeline, UploadedFile $image) {
-                return $pipeline
-                    ->send($image)
-                    ->through([
-                        ImageThumbnailResizePipeline::class,
-                    ])
-                    ->thenReturn();
-            });
+            ->pipeline(Pipelines::PROCESS_UPLOADED_IMAGE, fn (Pipeline $pipeline, UploadedFile $image) => $pipeline
+                ->send($image)
+                ->through([
+                    ImageThumbnailResizePipeline::class,
+                ])
+                ->thenReturn());
     }
 
     private function configureNotification(): void

@@ -1,12 +1,16 @@
 <?php
 
-namespace App\Http\Services\Image\Upload;
+declare(strict_types=1);
+
+namespace App\Services\Image\Upload;
 
 use App\Http\DataContracts\Image\ImageUploadDTO;
-use App\Http\Services\Image\ImageService;
+use App\Services\Image\ImageService;
+use Exception;
 use Intervention\Image\Laravel\Facades\Image;
+use Log;
 
-readonly class FitAndSaveImageUploaderService implements ImageUploader
+final readonly class SimpleImageUploaderService implements ImageUploader
 {
     public function __construct(
         private ImageService $imageService,
@@ -15,18 +19,19 @@ readonly class FitAndSaveImageUploaderService implements ImageUploader
 
     public function handle(ImageUploadDTO $DTO): array|string|null
     {
-        try {
+        try
+        {
             $this->imageService->setImage($DTO->image);
             $this->imageService->provider();
 
             Image::read($DTO->image->getRealPath())
-                ->resizeDown($DTO->width, $DTO->height)
                 ->save(public_path($this->imageService->getImageAddress()), null, $this->imageService->getImageFormat());
 
             return $this->imageService->getImageAddress();
 
-        } catch (\Exception $e) {
-            \Log::error($e->getMessage());
+        } catch (Exception $e)
+        {
+            Log::error($e->getMessage());
 
             return null;
         }
