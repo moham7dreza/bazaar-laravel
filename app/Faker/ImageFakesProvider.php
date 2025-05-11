@@ -1,11 +1,13 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Faker;
 
-use App\Enums\Content\ImageSize;
+use App\Enums\Image\ImageSize;
 use Faker\Provider\Base;
 
-class ImageFakesProvider extends Base
+final class ImageFakesProvider extends Base
 {
     /**
      * Generate index array with custom format.
@@ -14,11 +16,11 @@ class ImageFakesProvider extends Base
     {
         return [
             'indexArray' => [
-                ImageSize::LARGE->value => $this->generator->imageUrl,
+                ImageSize::LARGE->value  => $this->generator->imageUrl,
                 ImageSize::MEDIUM->value => $this->generator->imageUrl,
-                ImageSize::SMALL->value => $this->generator->imageUrl,
+                ImageSize::SMALL->value  => $this->generator->imageUrl,
             ],
-            'directory' => $this->generator->directory,
+            'directory'    => $this->generator->directory,
             'currentImage' => ImageSize::MEDIUM->value,
         ];
     }

@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Services\Image;
 
 use App\Data\DTOs\Image\ImageUploadDTO;
-use App\Enums\Content\ImageUploadMethod;
+use App\Enums\Image\ImageUploadMethod;
 use Exception;
 use Intervention\Image\Drivers\Gd\Driver;
 use Intervention\Image\ImageManager;

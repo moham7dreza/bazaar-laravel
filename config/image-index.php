@@ -1,20 +1,22 @@
 <?php
 
-use App\Enums\Content\ImageSize;
+declare(strict_types=1);
+
+use App\Enums\Image\ImageSize;
 
 return [
 
     'index-image-sizes' => [
         ImageSize::LARGE->value => [
-            'width' => 800,
+            'width'  => 800,
             'height' => 600,
         ],
         ImageSize::MEDIUM->value => [
-            'width' => 350,
+            'width'  => 350,
             'height' => 350,
         ],
         ImageSize::SMALL->value => [
-            'width' => 80,
+            'width'  => 80,
             'height' => 80,
         ],
     ],

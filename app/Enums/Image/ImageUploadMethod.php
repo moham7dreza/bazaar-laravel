@@ -1,6 +1,8 @@
 <?php
 
-namespace App\Enums\Content;
+declare(strict_types=1);
+
+namespace App\Enums\Image;
 
 enum ImageUploadMethod: string
 {

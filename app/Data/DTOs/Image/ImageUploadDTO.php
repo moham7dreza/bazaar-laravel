@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Data\DTOs\Image;
 
-use App\Enums\Content\ImageSize;
-use App\Enums\Content\ImageUploadMethod;
+use App\Enums\Image\ImageSize;
+use App\Enums\Image\ImageUploadMethod;
 use Illuminate\Http\File;
 use Illuminate\Http\UploadedFile;
 

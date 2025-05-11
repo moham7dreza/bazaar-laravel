@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Services\Image;
 
-use App\Enums\Content\ImageUploadMethod;
+use App\Enums\Image\ImageUploadMethod;
 use App\Services\Image\Upload\CreateIndexAndSaveImageUploaderService;
 use App\Services\Image\Upload\FitAndSaveImageUploaderService;
 use App\Services\Image\Upload\ImageUploader;

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Modules\Advertise\Http\Requests\Admin;
 
-use App\Enums\Content\ImageSize;
+use App\Enums\Image\ImageSize;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 

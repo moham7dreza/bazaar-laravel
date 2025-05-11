@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Http\Requests;
 
 use App\Data\DTOs\Image\ImageUploadDTO;
-use App\Enums\Content\ImageUploadMethod;
+use App\Enums\Image\ImageUploadMethod;
 use App\Rules\ValidateImageRule;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
