@@ -3,12 +3,8 @@
 declare(strict_types=1);
 
 use App\Enums\RouteSection;
-use App\Http\Controllers\Admin\Content\MenuController;
-use App\Http\Controllers\Admin\Content\PageController;
 use App\Http\Controllers\Admin\User\UserController;
 use App\Http\Controllers\App\Home\CityController;
-use App\Http\Controllers\App\Home\MenuController as HomeMenuController;
-use App\Http\Controllers\App\Home\PageController as HomePageController;
 use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\Auth\RegisteredUserWithOTPController;
 use App\Http\Controllers\Auth\VerifyUserWithOTPController;
@@ -31,6 +27,10 @@ use Modules\Advertise\Http\Controllers\Panel\AdvertisementNoteController;
 use Modules\Advertise\Http\Controllers\Panel\FavoriteAdvertisementController;
 use Modules\Advertise\Http\Controllers\Panel\GalleryController as PanelGalleryController;
 use Modules\Advertise\Http\Controllers\Panel\HistoryAdvertisementController;
+use Modules\Content\Http\Controllers\Admin\MenuController;
+use Modules\Content\Http\Controllers\Admin\PageController;
+use Modules\Content\Http\Controllers\App\MenuController as HomeMenuController;
+use Modules\Content\Http\Controllers\App\PageController as HomePageController;
 
 Route::get('user', static fn (Request $request) => $request->user())->middleware(['auth:sanctum', 'mobileVerified'])->name('user.info');
 

@@ -1,11 +1,13 @@
 <?php
 
-namespace App\Http\Resources\Admin\Content;
+declare(strict_types=1);
+
+namespace Modules\Content\Http\Resources\Admin;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\ResourceCollection;
 
-class MenuCollection extends ResourceCollection
+final class MenuCollection extends ResourceCollection
 {
     /**
      * Transform the resource collection into an array.
@@ -15,7 +17,7 @@ class MenuCollection extends ResourceCollection
     public function toArray(Request $request): array
     {
         return [
-            'data' => $this->collection,
+            'data'   => $this->collection,
             'status' => true,
         ];
     }

@@ -1,16 +1,18 @@
 <?php
 
-namespace App\Http\Controllers\Admin\Content;
+declare(strict_types=1);
+
+namespace Modules\Content\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Admin\StoreMenuRequest;
-use App\Http\Requests\Admin\UpdateMenuRequest;
-use App\Http\Resources\Admin\Content\MenuCollection;
-use App\Http\Resources\Admin\Content\MenuResource;
 use App\Http\Responses\ApiJsonResponse;
 use App\Models\Content\Menu;
+use MenuCollection;
+use MenuResource;
+use StoreMenuRequest;
+use UpdateMenuRequest;
 
-class MenuController extends Controller
+final class MenuController extends Controller
 {
     /**
      * Display a listing of the resource.

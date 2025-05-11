@@ -1,16 +1,18 @@
 <?php
 
-namespace App\Http\Controllers\Admin\Content;
+declare(strict_types=1);
+
+namespace Modules\Content\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Admin\StorePageRequest;
-use App\Http\Requests\Admin\UpdatePageRequest;
-use App\Http\Resources\Admin\Content\PageCollection;
-use App\Http\Resources\Admin\Content\PageResource;
 use App\Http\Responses\ApiJsonResponse;
 use App\Models\Content\Page;
+use PageCollection;
+use PageResource;
+use StorePageRequest;
+use UpdatePageRequest;
 
-class PageController extends Controller
+final class PageController extends Controller
 {
     /**
      * Display a listing of the resource.
