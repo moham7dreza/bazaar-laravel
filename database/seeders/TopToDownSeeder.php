@@ -5,8 +5,6 @@ declare(strict_types=1);
 namespace Database\Seeders;
 
 use App\Enums\NoticeType;
-use App\Models\Content\Menu;
-use App\Models\Content\Page;
 use App\Models\Holiday;
 use App\Models\PaymentGateway;
 use App\Models\SmsGateway;
@@ -41,15 +39,6 @@ final class TopToDownSeeder extends Seeder
         SmsLog::factory(5)
             ->for($users->random()->first())
             ->create();
-
-        // Menu
-        $parentMenus = Menu::factory(5)->create();
-        Menu::factory(5)
-            ->for($parentMenus->random()->first(), 'parent')
-            ->create();
-
-        // Page
-        Page::factory(5)->create();
 
         // Gateway
         PaymentGateway::factory(5)->create();

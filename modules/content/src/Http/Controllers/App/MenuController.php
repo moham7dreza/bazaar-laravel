@@ -6,8 +6,8 @@ namespace Modules\Content\Http\Controllers\App;
 
 use App\Http\Controllers\Controller;
 use App\Http\Resources\App\MenuCollection;
-use App\Models\Content\Menu;
 use Illuminate\Http\Resources\Json\ResourceCollection;
+use Modules\Content\Models\Menu;
 
 final class MenuController extends Controller
 {

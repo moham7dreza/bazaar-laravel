@@ -6,8 +6,8 @@ namespace Modules\Content\Http\Controllers\App;
 
 use App\Http\Controllers\Controller;
 use App\Http\Resources\App\PageCollection;
-use App\Models\Content\Page;
 use Illuminate\Http\Resources\Json\ResourceCollection;
+use Modules\Content\Models\Page;
 
 final class PageController extends Controller
 {

@@ -1,6 +1,8 @@
 <?php
 
-use App\Models\Content\Page;
+declare(strict_types=1);
+
+use Modules\Content\Models\Page;
 
 it('can get all pages', function (): void {
 

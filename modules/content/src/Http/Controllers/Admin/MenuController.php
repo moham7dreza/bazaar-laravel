@@ -6,9 +6,9 @@ namespace Modules\Content\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Http\Responses\ApiJsonResponse;
-use App\Models\Content\Menu;
 use MenuCollection;
 use MenuResource;
+use Modules\Content\Models\Menu;
 use StoreMenuRequest;
 use UpdateMenuRequest;
 

@@ -1,6 +1,8 @@
 <?php
 
-namespace App\Models\Content;
+declare(strict_types=1);
+
+namespace Modules\Content\Models;
 
 use App\Models\Scopes\LatestScope;
 use Cviebrock\EloquentSluggable\Sluggable;
@@ -11,7 +13,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 #[ScopedBy([LatestScope::class])]
-class Page extends Model
+final class Page extends Model
 {
     // _____________________________________________ use SECTION ________________________________________________
     use HasFactory;
@@ -35,7 +37,7 @@ class Page extends Model
     {
         return [
             'status' => 'boolean',
-            'body' => AsHtmlString::class,
+            'body'   => AsHtmlString::class,
         ];
     }
 

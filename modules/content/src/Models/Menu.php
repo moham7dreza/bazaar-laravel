@@ -1,6 +1,8 @@
 <?php
 
-namespace App\Models\Content;
+declare(strict_types=1);
+
+namespace Modules\Content\Models;
 
 use App\Models\Scopes\LatestScope;
 use Cviebrock\EloquentSluggable\Sluggable;
@@ -15,7 +17,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 #[ScopedBy([LatestScope::class])]
-class Menu extends Model
+final class Menu extends Model
 {
     use CascadeSoftDeletes;
 
@@ -40,13 +42,6 @@ class Menu extends Model
         ];
     }
 
-    protected function casts(): array
-    {
-        return [
-            'status' => 'boolean',
-        ];
-    }
-
     #[Scope]
     public function loadChildren(Builder $query, int $levels = 4): Builder
     {
@@ -58,7 +53,7 @@ class Menu extends Model
         $relations = collect(range(1, $levels))
             ->mapWithKeys(function (int $level) use ($constraintsCallback) {
                 // Build the relationship path string
-                $relationPath = 'children'.str_repeat('.children', $level - 1);
+                $relationPath = 'children' . str_repeat('.children', $level - 1);
 
                 return [$relationPath => $constraintsCallback];
             })
@@ -77,6 +72,13 @@ class Menu extends Model
     public function parent(): BelongsTo
     {
         return $this->belongsTo(__CLASS__, 'parent_id')->withDefault(['name' => __('Unknown parent')]);
+    }
+
+    protected function casts(): array
+    {
+        return [
+            'status' => 'boolean',
+        ];
     }
 
     // _____________________________________________ methods SECTION ____________________________________________

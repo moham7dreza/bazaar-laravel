@@ -6,7 +6,7 @@ namespace Modules\Content\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Http\Responses\ApiJsonResponse;
-use App\Models\Content\Page;
+use Modules\Content\Models\Page;
 use PageCollection;
 use PageResource;
 use StorePageRequest;

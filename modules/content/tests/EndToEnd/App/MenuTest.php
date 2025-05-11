@@ -1,6 +1,8 @@
 <?php
 
-use App\Models\Content\Menu;
+declare(strict_types=1);
+
+use Modules\Content\Models\Menu;
 
 it('can get all parent menus', function (): void {
 

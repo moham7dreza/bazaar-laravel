@@ -1,15 +1,21 @@
 <?php
 
-use App\Models\Content\Menu;
+declare(strict_types=1);
+
+use Modules\Content\Models\Menu;
 
 it('can load all child menus', function (): void {
 
     $menu = Menu::factory()
-        ->for(Menu::factory()
-            ->for(Menu::factory()
-                ->for(Menu::factory(), 'parent'),
-                'parent'),
-            'parent')
+        ->for(
+            Menu::factory()
+                ->for(
+                    Menu::factory()
+                        ->for(Menu::factory(), 'parent'),
+                    'parent'
+                ),
+            'parent'
+        )
         ->create();
 
     $menus = Menu::query()->loadChildren()->count();
