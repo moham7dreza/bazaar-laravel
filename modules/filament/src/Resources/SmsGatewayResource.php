@@ -78,7 +78,7 @@ final class SmsGatewayResource extends Resource
         ];
     }
 
-    protected static function getConfigInputs(): array
+    private static function getConfigInputs(): array
     {
         return [
 
