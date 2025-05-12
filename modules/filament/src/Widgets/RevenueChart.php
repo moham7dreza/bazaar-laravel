@@ -1,11 +1,13 @@
 <?php
 
-namespace App\Filament\Widgets;
+declare(strict_types=1);
+
+namespace Modules\Filament\Widgets;
 
 use Filament\Support\RawJs;
 use Leandrocfe\FilamentApexCharts\Widgets\ApexChartWidget;
 
-class RevenueChart extends ApexChartWidget
+final class RevenueChart extends ApexChartWidget
 {
     /**
      * Chart Id.
@@ -35,11 +37,11 @@ class RevenueChart extends ApexChartWidget
     {
         return [
             'chart' => [
-                'type' => 'bar',
-                'height' => 260,
+                'type'               => 'bar',
+                'height'             => 260,
                 'parentHeightOffset' => 2,
-                'stacked' => true,
-                'toolbar' => [
+                'stacked'            => true,
+                'toolbar'            => [
                     'show' => false,
                 ],
             ],
@@ -55,7 +57,7 @@ class RevenueChart extends ApexChartWidget
             ],
             'plotOptions' => [
                 'bar' => [
-                    'horizontal' => false,
+                    'horizontal'  => false,
                     'columnWidth' => '50%',
                 ],
             ],
@@ -63,14 +65,14 @@ class RevenueChart extends ApexChartWidget
                 'enabled' => false,
             ],
             'legend' => [
-                'show' => true,
+                'show'            => true,
                 'horizontalAlign' => 'right',
-                'position' => 'top',
-                'fontFamily' => 'inherit',
-                'markers' => [
-                    'height' => 12,
-                    'width' => 12,
-                    'radius' => 12,
+                'position'        => 'top',
+                'fontFamily'      => 'inherit',
+                'markers'         => [
+                    'height'  => 12,
+                    'width'   => 12,
+                    'radius'  => 12,
                     'offsetX' => -3,
                     'offsetY' => 2,
                 ],
@@ -100,30 +102,30 @@ class RevenueChart extends ApexChartWidget
             ],
             'yaxis' => [
                 'offsetX' => -16,
-                'labels' => [
+                'labels'  => [
                     'style' => [
                         'fontFamily' => 'inherit',
                     ],
                 ],
-                'min' => -200,
-                'max' => 300,
+                'min'        => -200,
+                'max'        => 300,
                 'tickAmount' => 5,
             ],
             'fill' => [
-                'type' => 'gradient',
+                'type'     => 'gradient',
                 'gradient' => [
-                    'shade' => 'dark',
-                    'type' => 'vertical',
-                    'shadeIntensity' => 0.5,
+                    'shade'            => 'dark',
+                    'type'             => 'vertical',
+                    'shadeIntensity'   => 0.5,
                     'gradientToColors' => ['#d97706', '#c2410c'],
-                    'opacityFrom' => 1,
-                    'opacityTo' => 1,
-                    'stops' => [0, 100],
+                    'opacityFrom'      => 1,
+                    'opacityTo'        => 1,
+                    'stops'            => [0, 100],
                 ],
             ],
             'stroke' => [
-                'curve' => 'smooth',
-                'width' => 1,
+                'curve'   => 'smooth',
+                'width'   => 1,
                 'lineCap' => 'round',
             ],
             'colors' => ['#f59e0b', '#ea580c'],

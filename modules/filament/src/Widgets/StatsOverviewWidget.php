@@ -1,11 +1,13 @@
 <?php
 
-namespace App\Filament\Widgets;
+declare(strict_types=1);
+
+namespace Modules\Filament\Widgets;
 
 use Filament\Widgets\StatsOverviewWidget as BaseWidget;
 use Filament\Widgets\StatsOverviewWidget\Stat;
 
-class StatsOverviewWidget extends BaseWidget
+final class StatsOverviewWidget extends BaseWidget
 {
     protected static ?int $sort = 1;
 

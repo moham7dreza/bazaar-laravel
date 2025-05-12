@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Filament\Widgets;
+namespace Modules\Filament\Widgets;
 
 use Illuminate\Contracts\Support\Htmlable;
 use InfinityXTech\FilamentWorldMapWidget\Enums\Map;

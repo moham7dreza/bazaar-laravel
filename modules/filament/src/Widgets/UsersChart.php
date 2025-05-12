@@ -1,10 +1,12 @@
 <?php
 
-namespace App\Filament\Widgets;
+declare(strict_types=1);
+
+namespace Modules\Filament\Widgets;
 
 use Leandrocfe\FilamentApexCharts\Widgets\ApexChartWidget;
 
-class UsersChart extends ApexChartWidget
+final class UsersChart extends ApexChartWidget
 {
     /**
      * Chart Id.
@@ -34,8 +36,8 @@ class UsersChart extends ApexChartWidget
     {
         return [
             'chart' => [
-                'type' => 'line',
-                'height' => 250,
+                'type'    => 'line',
+                'height'  => 250,
                 'toolbar' => [
                     'show' => false,
                 ],
@@ -48,7 +50,7 @@ class UsersChart extends ApexChartWidget
             ],
             'xaxis' => [
                 'categories' => ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
-                'labels' => [
+                'labels'     => [
                     'style' => [
                         'fontWeight' => 400,
                         'fontFamily' => 'inherit',
@@ -64,16 +66,16 @@ class UsersChart extends ApexChartWidget
                 ],
             ],
             'fill' => [
-                'type' => 'gradient',
+                'type'     => 'gradient',
                 'gradient' => [
-                    'shade' => 'dark',
-                    'type' => 'horizontal',
-                    'shadeIntensity' => 1,
+                    'shade'            => 'dark',
+                    'type'             => 'horizontal',
+                    'shadeIntensity'   => 1,
                     'gradientToColors' => ['#ea580c'],
-                    'inverseColors' => true,
-                    'opacityFrom' => 1,
-                    'opacityTo' => 1,
-                    'stops' => [0, 100, 100, 100],
+                    'inverseColors'    => true,
+                    'opacityFrom'      => 1,
+                    'opacityTo'        => 1,
+                    'stops'            => [0, 100, 100, 100],
                 ],
             ],
 

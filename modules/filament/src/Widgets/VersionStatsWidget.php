@@ -1,11 +1,13 @@
 <?php
 
-namespace App\Filament\Widgets;
+declare(strict_types=1);
+
+namespace Modules\Filament\Widgets;
 
 use Cmsmaxinc\FilamentSystemVersions\Filament\Widgets\DependencyStat;
 use Filament\Widgets\StatsOverviewWidget as BaseWidget;
 
-class VersionStatsWidget extends BaseWidget
+final class VersionStatsWidget extends BaseWidget
 {
     protected static ?int $sort = 0;
 
