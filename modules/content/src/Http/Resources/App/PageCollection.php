@@ -1,11 +1,13 @@
 <?php
 
-namespace App\Http\Resources\App;
+declare(strict_types=1);
+
+namespace Modules\Content\Http\Resources\App;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\ResourceCollection;
 
-class PageCollection extends ResourceCollection
+final class PageCollection extends ResourceCollection
 {
     /**
      * Transform the resource collection into an array.
@@ -15,7 +17,7 @@ class PageCollection extends ResourceCollection
     public function toArray(Request $request): array
     {
         return [
-            'data' => $this->collection,
+            'data'   => $this->collection,
             'status' => true,
         ];
     }
