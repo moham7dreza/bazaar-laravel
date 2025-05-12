@@ -1,12 +1,14 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Filament\Resources\UserResource\Pages;
 
 use App\Filament\Resources\UserResource;
-use App\Filament\Traits\FilamentRedirect;
 use Filament\Resources\Pages\CreateRecord;
+use Modules\Filament\Traits\FilamentRedirect;
 
-class CreateUser extends CreateRecord
+final class CreateUser extends CreateRecord
 {
     use FilamentRedirect;
 

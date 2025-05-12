@@ -1,15 +1,17 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Filament\Resources\UserResource\Pages;
 
 use App\Filament\Resources\UserResource;
-use App\Filament\Traits\FilamentRedirect;
 use Filament\Actions;
 use Filament\Resources\Pages\EditRecord;
 use Kenepa\ResourceLock\Resources\Pages\Concerns\UsesResourceLock;
+use Modules\Filament\Traits\FilamentRedirect;
 use STS\FilamentImpersonate\Pages\Actions\Impersonate;
 
-class EditUser extends EditRecord
+final class EditUser extends EditRecord
 {
     use FilamentRedirect;
     use UsesResourceLock;
