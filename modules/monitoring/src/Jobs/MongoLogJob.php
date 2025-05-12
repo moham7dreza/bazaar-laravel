@@ -1,13 +1,15 @@
 <?php
 
-namespace App\Jobs;
+declare(strict_types=1);
+
+namespace Modules\Monitoring\Jobs;
 
 use App\Enums\Queue;
-use App\Models\Monitor\DevLog;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Queue\Queueable;
+use Modules\Monitoring\Models\DevLog;
 
-class MongoLogJob implements ShouldQueue
+final class MongoLogJob implements ShouldQueue
 {
     use Queueable;
 

@@ -1,13 +1,15 @@
 <?php
 
-namespace App\Providers;
+declare(strict_types=1);
+
+namespace Modules\Monitoring\Providers;
 
 use App\Models\User;
 use Illuminate\Support\Facades\Gate;
 use Laravel\Horizon\Horizon;
 use Laravel\Horizon\HorizonApplicationServiceProvider;
 
-class HorizonServiceProvider extends HorizonApplicationServiceProvider
+final class HorizonServiceProvider extends HorizonApplicationServiceProvider
 {
     /**
      * Bootstrap any application services.
@@ -30,8 +32,6 @@ class HorizonServiceProvider extends HorizonApplicationServiceProvider
      */
     protected function gate(): void
     {
-        Gate::define('viewHorizon', static function (?User $user) {
-            return ! isEnvLocalOrTesting() ? $user?->isAdmin() : true;
-        });
+        Gate::define('viewHorizon', static fn (?User $user) => ! isEnvLocalOrTesting() ? $user?->isAdmin() : true);
     }
 }

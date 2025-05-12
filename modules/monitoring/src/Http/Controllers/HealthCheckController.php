@@ -1,10 +1,13 @@
 <?php
 
-namespace App\Http\Controllers;
+declare(strict_types=1);
 
-use App\Data\DTOs\HealthChecksDto;
+namespace Modules\Monitoring\Http\Controllers;
+
+use App\Http\Controllers\Controller;
 use App\Http\Responses\ApiJsonResponse;
 use Illuminate\Http\JsonResponse;
+use Modules\Monitoring\DataContracts\HealthChecksDto;
 use Spatie\CpuLoadHealthCheck\CpuLoadCheck;
 use Spatie\Health\Checks\Checks\CacheCheck;
 use Spatie\Health\Checks\Checks\DatabaseCheck;
@@ -14,7 +17,7 @@ use Spatie\Health\Checks\Checks\UsedDiskSpaceCheck;
 use Spatie\Health\Checks\Result;
 use Spatie\Health\Health;
 
-class HealthCheckController extends Controller
+final class HealthCheckController extends Controller
 {
     public function __construct(
         private readonly Health $healthChecker,
@@ -25,9 +28,7 @@ class HealthCheckController extends Controller
     {
         $this->registerChecks();
 
-        $result = array_map(function ($check) {
-            return $this->newHealthStatusDto($check->run(), $check->getName())->toArray();
-        }, $this->healthChecker->registeredChecks()->toArray());
+        $result = array_map(fn ($check) => $this->newHealthStatusDto($check->run(), $check->getName())->toArray(), $this->healthChecker->registeredChecks()->toArray());
 
         return ApiJsonResponse::success($result, message: __('response.general.successful'));
     }
@@ -80,7 +81,7 @@ class HealthCheckController extends Controller
             $basePath = getenv('APP_URL');
 
             return PingCheck::new()
-                ->url($basePath.$url)
+                ->url($basePath . $url)
                 ->name($url)
                 ->method($method);
         }, $urls);

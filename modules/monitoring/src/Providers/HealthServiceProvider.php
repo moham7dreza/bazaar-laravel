@@ -1,6 +1,8 @@
 <?php
 
-namespace App\Providers;
+declare(strict_types=1);
+
+namespace Modules\Monitoring\Providers;
 
 use App\Models\User;
 use Illuminate\Support\Facades\Gate;
@@ -10,7 +12,7 @@ use Spatie\Health\Checks\Checks;
 use Spatie\Health\Facades\Health;
 use Spatie\SecurityAdvisoriesHealthCheck\SecurityAdvisoriesCheck;
 
-class HealthServiceProvider extends ServiceProvider
+final class HealthServiceProvider extends ServiceProvider
 {
     /**
      * Register services.
@@ -25,14 +27,13 @@ class HealthServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        Gate::define('viewHealth', static function (?User $user) {
-            return ! isEnvLocalOrTesting() ? $user?->isAdmin() : true;
-        });
+        Gate::define('viewHealth', static fn (?User $user) => ! isEnvLocalOrTesting() ? $user?->isAdmin() : true);
     }
 
     private function runHealthChecks(): void
     {
-        if ($this->app->runningUnitTests()) {
+        if ($this->app->runningUnitTests())
+        {
             return;
         }
 

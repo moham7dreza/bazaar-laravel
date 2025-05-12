@@ -1,16 +1,20 @@
 <?php
 
+declare(strict_types=1);
+
 use App\Enums\Environment;
 use App\Enums\UserId;
-use App\Jobs\MongoLogJob;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Builder;
+use Modules\Monitoring\Jobs\MongoLogJob;
 use Morilog\Jalali\Jalalian;
 
-if (! function_exists('getUser')) {
+if ( ! function_exists('getUser'))
+{
     function getUser($request = null)
     {
-        if (is_null($request)) {
+        if (null === $request)
+        {
             $request = request();
         }
 
@@ -18,14 +22,16 @@ if (! function_exists('getUser')) {
     }
 }
 
-if (! function_exists('is_array_filled')) {
+if ( ! function_exists('is_array_filled'))
+{
     function is_array_filled(array $array): bool
     {
         return collect(array_values($array))->filter()->count() > 0;
     }
 }
 
-if (! function_exists('getImageList')) {
+if ( ! function_exists('getImageList'))
+{
     function getImageList($image): array|string
     {
         $images = is_string($image) ? [$image] : $image;
@@ -37,76 +43,88 @@ if (! function_exists('getImageList')) {
 
 }
 
-if (! function_exists('ondemand_info')) {
+if ( ! function_exists('ondemand_info'))
+{
     function ondemand_info(string $message, array $context = [], string $file = 'custom'): void
     {
         Log::build([
             'driver' => 'single',
-            'path'   => storage_path('logs/'.$file.'.log'),
+            'path'   => storage_path('logs/' . $file . '.log'),
             'level'  => 'info',
         ])->info($message, $context);
     }
 }
 
-if (! function_exists('mongo_info')) {
+if ( ! function_exists('mongo_info'))
+{
     function mongo_info($log_key, $data, $queueable = false): void
     {
-        if (! $data || isEnvTesting()) {
+        if ( ! $data || isEnvTesting())
+        {
             return;
         }
-        try {
+        try
+        {
             $dispatch = $queueable ? 'dispatch' : 'dispatchSync';
 
             MongoLogJob::$dispatch($data, $log_key);
-        } catch (\Exception $exception) {
-            //
+        } catch (Exception $exception)
+        {
+
         }
     }
 }
 
-if (! function_exists('isEnvTesting')) {
+if ( ! function_exists('isEnvTesting'))
+{
     function isEnvTesting(): bool
     {
         return app()->environment(Environment::TESTING->value);
     }
 }
 
-if (! function_exists('isEnvLocal')) {
+if ( ! function_exists('isEnvLocal'))
+{
     function isEnvLocal(): bool
     {
         return app()->environment(Environment::local());
     }
 }
 
-if (! function_exists('isEnvStaging')) {
+if ( ! function_exists('isEnvStaging'))
+{
     function isEnvStaging(): bool
     {
         return app()->environment(Environment::STAGING->value);
     }
 }
 
-if (! function_exists('isEnvProduction')) {
+if ( ! function_exists('isEnvProduction'))
+{
     function isEnvProduction(): bool
     {
         return app()->environment(Environment::PRODUCTION->value);
     }
 }
 
-if (! function_exists('isEnvLocalOrTesting')) {
+if ( ! function_exists('isEnvLocalOrTesting'))
+{
     function isEnvLocalOrTesting(): bool
     {
         return app()->environment(Environment::localOrTesting());
     }
 }
 
-if (! function_exists('getSqlWithBindings')) {
+if ( ! function_exists('getSqlWithBindings'))
+{
     function getSqlWithBindings(Builder $query): array
     {
         return str_replace('?', $query->getBindings(), $query->toSql());
     }
 }
 
-if (! function_exists('userIdIs')) {
+if ( ! function_exists('userIdIs'))
+{
     function userIdIs(UserId ...$Ids): bool
     {
         $currentUserId = getUser()?->id;
@@ -116,14 +134,16 @@ if (! function_exists('userIdIs')) {
     }
 }
 
-if (! function_exists('jalali_date')) {
+if ( ! function_exists('jalali_date'))
+{
     function jalali_date(DateTimeInterface|string|int|null $date = null): ?Jalalian
     {
-        return ! is_null($date) ? jdate($date) : null;
+        return null !== $date ? jdate($date) : null;
     }
 }
 
-if (! function_exists('admin')) {
+if ( ! function_exists('admin'))
+{
     function admin(): ?User
     {
         $user = User::query()->find(UserId::Admin)

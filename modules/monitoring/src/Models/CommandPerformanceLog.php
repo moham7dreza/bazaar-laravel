@@ -1,6 +1,8 @@
 <?php
 
-namespace App\Models\Monitor;
+declare(strict_types=1);
+
+namespace Modules\Monitoring\Models;
 
 use App\Models\Scopes\LatestScope;
 use Illuminate\Database\Eloquent\Attributes\Scope;
@@ -10,7 +12,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Prunable;
 
 #[ScopedBy([LatestScope::class])]
-class CommandPerformanceLog extends Model
+final class CommandPerformanceLog extends Model
 {
     use Prunable;
 

@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Providers;
+declare(strict_types=1);
+
+namespace Modules\Monitoring\Providers;
 
 use App\Events\PackageSent;
 use App\Jobs\Contracts\ShouldNotifyOnFailures;
-use App\Jobs\MongoLogJob;
-use App\Models\Monitor\JobPerformanceLog;
 use App\Notifications\FailedJobNotification;
 use Carbon\Carbon;
 use Exception;
@@ -14,9 +14,15 @@ use Illuminate\Queue\Events;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\ServiceProvider;
+use Modules\Monitoring\Jobs\MongoLogJob;
+use Modules\Monitoring\Models\JobPerformanceLog;
 
 final class JobLoggingServiceProvider extends ServiceProvider
 {
+    private const array EXCLUDED_JOBS = [
+        MongoLogJob::class,
+        PackageSent::class,
+    ];
     private float $startTime;
 
     private int $startMemory;
@@ -25,17 +31,13 @@ final class JobLoggingServiceProvider extends ServiceProvider
 
     private float $totalQueryTime;
 
-    private const array EXCLUDED_JOBS = [
-        MongoLogJob::class,
-        PackageSent::class,
-    ];
-
     /**
      * Bootstrap any application services.
      */
     public function boot(): void
     {
-        if ($this->shouldSkipLogging()) {
+        if ($this->shouldSkipLogging())
+        {
             return;
         }
         $this->handleJobProcessing();
@@ -59,8 +61,10 @@ final class JobLoggingServiceProvider extends ServiceProvider
     private function handleJobProcessing(): void
     {
         Event::listen(function (Events\JobProcessing $event): void {
-            try {
-                if (self::isExcluded($event->job->resolveName())) {
+            try
+            {
+                if (self::isExcluded($event->job->resolveName()))
+                {
                     return;
                 }
                 $this->startTime      = microtime(true);
@@ -72,7 +76,8 @@ final class JobLoggingServiceProvider extends ServiceProvider
                     $this->queryCount++;
                     $this->totalQueryTime += $query->time;
                 });
-            } catch (Exception $e) {
+            } catch (Exception $e)
+            {
                 report($e);
             }
         });
@@ -81,8 +86,10 @@ final class JobLoggingServiceProvider extends ServiceProvider
     private function handleJobProcessed(): void
     {
         Event::listen(function (Events\JobProcessed $event): void {
-            try {
-                if (self::isExcluded($event->job->resolveName())) {
+            try
+            {
+                if (self::isExcluded($event->job->resolveName()))
+                {
                     return;
                 }
 
@@ -105,7 +112,8 @@ final class JobLoggingServiceProvider extends ServiceProvider
                 ];
 
                 JobPerformanceLog::query()->create($data);
-            } catch (Exception $e) {
+            } catch (Exception $e)
+            {
                 report($e);
             }
         });
@@ -115,7 +123,7 @@ final class JobLoggingServiceProvider extends ServiceProvider
     {
         Event::listen(static function (Events\JobQueued $event): void {
             $job = get_class($event->job);
-            context()->push('queued_job_history', "Job queued: $job");
+            context()->push('queued_job_history', "Job queued: {$job}");
         });
     }
 
@@ -123,7 +131,7 @@ final class JobLoggingServiceProvider extends ServiceProvider
     {
         Event::listen(static function (Events\JobFailed $event): void {
             $job = get_class($event->job);
-            context()->push('failed_job_history', "Job failed: $job");
+            context()->push('failed_job_history', "Job failed: {$job}");
 
             $payload = [
                 'exception' => $event->exception->getMessage(),
@@ -134,7 +142,8 @@ final class JobLoggingServiceProvider extends ServiceProvider
 
             mongo_info('failed-job', $payload);
 
-            if ($event->job instanceof ShouldNotifyOnFailures) {
+            if ($event->job instanceof ShouldNotifyOnFailures)
+            {
 
                 admin()?->notify(new FailedJobNotification($payload));
             }

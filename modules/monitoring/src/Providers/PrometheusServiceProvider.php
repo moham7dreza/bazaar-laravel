@@ -1,6 +1,8 @@
 <?php
 
-namespace App\Providers;
+declare(strict_types=1);
+
+namespace Modules\Monitoring\Providers;
 
 use App\Models\User;
 use Illuminate\Support\ServiceProvider;
@@ -13,7 +15,7 @@ use Spatie\Prometheus\Collectors\Horizon\JobsPerMinuteCollector;
 use Spatie\Prometheus\Collectors\Horizon\RecentJobsCollector;
 use Spatie\Prometheus\Facades\Prometheus;
 
-class PrometheusServiceProvider extends ServiceProvider
+final class PrometheusServiceProvider extends ServiceProvider
 {
     public function register(): void
     {
@@ -21,12 +23,10 @@ class PrometheusServiceProvider extends ServiceProvider
             ->label('status')
             ->helpText('This is the number of users in our app')
             ->namespace('app')
-            ->value(function () {
-                return [
-                    [User::where('is_active', 1)->count(), ['active']],
-                    [User::where('is_active', 0)->count(), ['inactive']],
-                ];
-            });
+            ->value(fn () => [
+                [User::where('is_active', 1)->count(), ['active']],
+                [User::where('is_active', 0)->count(), ['inactive']],
+            ]);
 
         $this->registerHorizonCollectors();
     }

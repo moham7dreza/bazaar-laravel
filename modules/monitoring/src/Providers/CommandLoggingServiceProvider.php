@@ -1,8 +1,9 @@
 <?php
 
-namespace App\Providers;
+declare(strict_types=1);
 
-use App\Models\Monitor\CommandPerformanceLog;
+namespace Modules\Monitoring\Providers;
+
 use Carbon\Carbon;
 use Exception;
 use Illuminate\Console\Events;
@@ -10,6 +11,7 @@ use Illuminate\Database\Events\QueryExecuted;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\ServiceProvider;
+use Modules\Monitoring\Models\CommandPerformanceLog;
 
 final class CommandLoggingServiceProvider extends ServiceProvider
 {
@@ -50,48 +52,54 @@ final class CommandLoggingServiceProvider extends ServiceProvider
         }
 
         Event::listen(function (Events\CommandStarting $event): void {
-            try {
-                if (self::isExcluded($event->command)) {
+            try
+            {
+                if (self::isExcluded($event->command))
+                {
                     return;
                 }
 
-                $this->startTime = microtime(true);
-                $this->startMemory = memory_get_usage();
-                $this->queryCount = 0;
+                $this->startTime      = microtime(true);
+                $this->startMemory    = memory_get_usage();
+                $this->queryCount     = 0;
                 $this->totalQueryTime = 0;
 
                 DB::listen(function (QueryExecuted $query): void {
                     $this->queryCount++;
                     $this->totalQueryTime += $query->time;
                 });
-            } catch (Exception $e) {
+            } catch (Exception $e)
+            {
                 report($e);
             }
         });
 
         Event::listen(function (Events\CommandFinished $event): void {
-            try {
-                if (self::isExcluded($event->command)) {
+            try
+            {
+                if (self::isExcluded($event->command))
+                {
                     return;
                 }
 
-                $endTime = microtime(true);
+                $endTime   = microtime(true);
                 $endMemory = memory_get_usage();
 
-                $duration = $endTime - $this->startTime;
+                $duration    = $endTime   - $this->startTime;
                 $memoryUsage = $endMemory - $this->startMemory;
 
                 $data = [
-                    'command' => $event->command ?? 'unknown',
-                    'started_at' => Carbon::createFromTimestamp($this->startTime)->toDateTimeString(),
-                    'runtime' => round($duration * 1000), // milliseconds
+                    'command'      => $event->command ?? 'unknown',
+                    'started_at'   => Carbon::createFromTimestamp($this->startTime)->toDateTimeString(),
+                    'runtime'      => round($duration * 1000), // milliseconds
                     'memory_usage' => $memoryUsage,
-                    'query_count' => $this->queryCount,
-                    'query_time' => round($this->totalQueryTime), // milliseconds
+                    'query_count'  => $this->queryCount,
+                    'query_time'   => round($this->totalQueryTime), // milliseconds
                 ];
 
                 CommandPerformanceLog::query()->create($data);
-            } catch (Exception $e) {
+            } catch (Exception $e)
+            {
                 report($e);
             }
         });

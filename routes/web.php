@@ -4,12 +4,10 @@ declare(strict_types=1);
 
 use App\Http\Controllers\DomainRouterController;
 use App\Http\Controllers\FallbackController;
-use App\Http\Controllers\HealthCheckController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ImageController;
 use App\Http\Controllers\SyncRolePermissionsController;
 use Illuminate\Support\Facades\Route;
-use Spatie\Health\Http\Controllers as HeathCheckControllers;
 
 Route::fallback(FallbackController::class);
 
@@ -26,13 +24,6 @@ Route::middleware([
         Route::put('role-permissions-sync', SyncRolePermissionsController::class)->name('web.permissions.sync');
 
         Route::get('domain-router', DomainRouterController::class)->name('web.domain-router');
-
-        Route::can('viewHealth')->group(function (): void {
-
-            Route::get('health', HeathCheckControllers\HealthCheckResultsController::class);
-            Route::get('health-json', HeathCheckControllers\HealthCheckJsonResultsController::class);
-            Route::get('health-custom', HealthCheckController::class)->name('web.health-custom');
-        });
     });
 
 Route::get('image', [ImageController::class, 'index']);

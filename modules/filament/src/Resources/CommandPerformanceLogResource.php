@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Modules\Filament\Resources;
 
-use App\Models\Monitor\CommandPerformanceLog;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
@@ -13,6 +12,7 @@ use Filament\Tables\Enums\ActionsPosition;
 use Filament\Tables\Filters\QueryBuilder\Constraints;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
+use Modules\Monitoring\Models\CommandPerformanceLog;
 
 final class CommandPerformanceLogResource extends Resource
 {

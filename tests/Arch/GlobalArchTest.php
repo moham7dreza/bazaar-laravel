@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 arch()
     ->expect('App')
     ->toUseStrictTypes()
@@ -64,9 +66,9 @@ arch()
     ->expect('App\Models')
     ->toUseTrait('Illuminate\Database\Eloquent\SoftDeletes')
     ->ignoring([
-        'App\Models\Monitor\CommandPerformanceLog',
-        'App\Models\Monitor\JobPerformanceLog',
-        'App\Models\Monitor\DevLog',
+        'Modules\Monitoring\Models\CommandPerformanceLog',
+        'Modules\Monitoring\Models\JobPerformanceLog',
+        'Modules\Monitoring\Models\DevLog',
         'App\Models\Monitor\SmsLog',
         'App\Models\Monitor\NotificationLog',
         'App\Models\User',

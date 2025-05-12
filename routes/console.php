@@ -1,10 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 use App\Console\Commands;
-use App\Console\Commands\System\CheckVulnerabilitiesCommand;
 use Cmsmaxinc\FilamentSystemVersions\Commands\CheckDependencyVersions;
 use Illuminate\Foundation\Inspiring;
 use Illuminate\Support\Facades\Artisan;
+use Modules\Monitoring\Commands\CheckVulnerabilitiesCommand;
 use Spatie\Backup\Commands\BackupCommand;
 use Spatie\Health\Commands as SpatieHealthCommands;
 

@@ -1,6 +1,8 @@
 <?php
 
-namespace App\Providers;
+declare(strict_types=1);
+
+namespace Modules\Monitoring\Providers;
 
 use App\Models\User;
 use Illuminate\Support\Facades\Gate;
@@ -8,7 +10,7 @@ use Laravel\Telescope\IncomingEntry;
 use Laravel\Telescope\Telescope;
 use Laravel\Telescope\TelescopeApplicationServiceProvider;
 
-class TelescopeServiceProvider extends TelescopeApplicationServiceProvider
+final class TelescopeServiceProvider extends TelescopeApplicationServiceProvider
 {
     /**
      * Register any application services.
@@ -19,14 +21,12 @@ class TelescopeServiceProvider extends TelescopeApplicationServiceProvider
 
         $this->hideSensitiveRequestDetails();
 
-        Telescope::filter(function (IncomingEntry $entry) {
-            return isEnvLocal() ||
-                   $entry->isReportableException() ||
-                   $entry->isFailedRequest() ||
-                   $entry->isFailedJob() ||
-                   $entry->isScheduledTask() ||
-                   $entry->hasMonitoredTag();
-        });
+        Telescope::filter(fn (IncomingEntry $entry) => isEnvLocal() ||
+                   $entry->isReportableException()                  ||
+                   $entry->isFailedRequest()                        ||
+                   $entry->isFailedJob()                            ||
+                   $entry->isScheduledTask()                        ||
+                   $entry->hasMonitoredTag());
     }
 
     /**
@@ -34,7 +34,8 @@ class TelescopeServiceProvider extends TelescopeApplicationServiceProvider
      */
     protected function hideSensitiveRequestDetails(): void
     {
-        if (isEnvLocal()) {
+        if (isEnvLocal())
+        {
             return;
         }
 
@@ -54,8 +55,6 @@ class TelescopeServiceProvider extends TelescopeApplicationServiceProvider
      */
     protected function gate(): void
     {
-        Gate::define('viewTelescope', static function (?User $user) {
-            return ! isEnvLocalOrTesting() ? $user?->isAdmin() : true;
-        });
+        Gate::define('viewTelescope', static fn (?User $user) => ! isEnvLocalOrTesting() ? $user?->isAdmin() : true);
     }
 }

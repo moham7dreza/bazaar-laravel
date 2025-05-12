@@ -1,0 +1,40 @@
+{
+	"name": "modules/monitoring",
+	"description": "",
+	"type": "library",
+	"version": "1.0",
+	"license": "proprietary",
+	"require": {
+        "laravel/horizon": "^5.31",
+        "laravel/pulse": "^1.4",
+        "laravel/telescope": "^5.6",
+        "opcodesio/log-viewer": "^3.15",
+        "spatie/cpu-load-health-check": "^1.0",
+        "spatie/laravel-health": "^1.33",
+        "spatie/laravel-prometheus": "^1.2",
+        "spatie/laravel-schedule-monitor": "^3.10",
+        "spatie/security-advisories-health-check": "^1.2"
+    },
+	"autoload": {
+		"psr-4": {
+			"Modules\\Monitoring\\": "src/",
+			"Modules\\Monitoring\\Tests\\": "tests/",
+			"Modules\\Monitoring\\Database\\Factories\\": "database/factories/",
+			"Modules\\Monitoring\\Database\\Seeders\\": "database/seeders/"
+		}
+	},
+	"minimum-stability": "stable",
+	"extra": {
+		"laravel": {
+			"providers": [
+				"Modules\\Monitoring\\Providers\\MonitoringServiceProvider",
+				"Modules\\Monitoring\\Providers\\CommandLoggingServiceProvider",
+				"Modules\\Monitoring\\Providers\\HealthServiceProvider",
+				"Modules\\Monitoring\\Providers\\HorizonServiceProvider",
+				"Modules\\Monitoring\\Providers\\JobLoggingServiceProvider",
+				"Modules\\Monitoring\\Providers\\PrometheusServiceProvider",
+				"Modules\\Monitoring\\Providers\\TelescopeServiceProvider"
+			]
+		}
+	}
+}
