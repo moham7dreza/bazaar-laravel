@@ -53,8 +53,8 @@ final class SuperAdminPanelProvider extends PanelProvider
             ->colors([
                 'primary' => Color::Amber,
             ])
-            ->discoverResources(in: app_path('Filament/Resources'), for: 'App\\Filament\\Resources')
-            ->discoverPages(in: app_path('Filament/Pages'), for: 'App\\Filament\\Pages')
+            ->discoverResources(in: base_path('modules/filament/src/Resources'), for: 'Modules\\Filament\\Resources')
+            ->discoverPages(in: base_path('modules/filament/src/Pages'), for: 'Modules\\Filament\\Pages')
             ->pages([
                 Pages\Dashboard::class,
             ])
@@ -128,7 +128,7 @@ final class SuperAdminPanelProvider extends PanelProvider
                     ->slideOver()
                     ->keyBindings(['command+shift+a', 'ctrl+shift+a'])
                     ->includes([
-                        \App\Filament\Resources\UserResource::class,
+                        \Modules\Filament\Resources\UserResource::class,
                     ]),
                 \Cmsmaxinc\FilamentErrorPages\FilamentErrorPagesPlugin::make(),
             ])
