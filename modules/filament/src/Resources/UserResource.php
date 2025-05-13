@@ -31,10 +31,10 @@ final class UserResource extends Resource
 
     protected static ?int $navigationSort = 0;
 
-    public static function getNavigationBadge(): ?string
-    {
-        return static::getModel()::count();
-    }
+//    public static function getNavigationBadge(): ?string
+//    {
+//        return static::getModel()::count();
+//    }
 
     public static function getNavigationLabel(): string
     {

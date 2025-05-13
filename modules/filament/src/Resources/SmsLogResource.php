@@ -23,10 +23,10 @@ final class SmsLogResource extends Resource
 
     protected static ?int $navigationSort = 4;
 
-    public static function getNavigationBadge(): ?string
-    {
-        return static::getModel()::count();
-    }
+//    public static function getNavigationBadge(): ?string
+//    {
+//        return static::getModel()::count();
+//    }
 
     public static function getNavigationLabel(): string
     {
