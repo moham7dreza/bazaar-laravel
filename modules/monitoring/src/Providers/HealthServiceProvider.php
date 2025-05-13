@@ -19,7 +19,7 @@ final class HealthServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        $this->runHealthChecks();
+//        $this->runHealthChecks();
     }
 
     /**
