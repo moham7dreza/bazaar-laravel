@@ -6,6 +6,10 @@ namespace Modules\Monitoring\Providers;
 
 use App\Models\User;
 use Illuminate\Support\ServiceProvider;
+use Modules\Monitoring\Collectors\Horizon\CustomCurrentProcessesPerQueueCollector;
+use Modules\Monitoring\Collectors\Horizon\CustomCurrentQueueWaitCollector;
+use Modules\Monitoring\Collectors\Horizon\CustomCurrentQueueWorkloadCollector;
+use Modules\Monitoring\Repositories\RedisQueueWorkloadRepository;
 use Spatie\Prometheus\Collectors\Horizon\CurrentMasterSupervisorCollector;
 use Spatie\Prometheus\Collectors\Horizon\CurrentProcessesPerQueueCollector;
 use Spatie\Prometheus\Collectors\Horizon\CurrentWorkloadCollector;
@@ -19,6 +23,18 @@ final class PrometheusServiceProvider extends ServiceProvider
 {
     public function register(): void
     {
+        $this->registerGauges();
+        $this->registerHorizonCollectors();
+        $this->registerCustomHorizonCollectors();
+    }
+
+    public function boot(): void
+    {
+//        $metrics = app(RedisQueueWorkloadRepository::class)->get();
+    }
+
+    private function registerGauges(): void
+    {
         Prometheus::addGauge('User count')
             ->label('status')
             ->helpText('This is the number of users in our app')
@@ -27,11 +43,9 @@ final class PrometheusServiceProvider extends ServiceProvider
                 [User::where('is_active', 1)->count(), ['active']],
                 [User::where('is_active', 0)->count(), ['inactive']],
             ]);
-
-        $this->registerHorizonCollectors();
     }
 
-    public function registerHorizonCollectors(): self
+    private function registerHorizonCollectors(): void
     {
         Prometheus::registerCollectorClasses([
             CurrentMasterSupervisorCollector::class,
@@ -42,7 +56,14 @@ final class PrometheusServiceProvider extends ServiceProvider
             JobsPerMinuteCollector::class,
             RecentJobsCollector::class,
         ]);
+    }
 
-        return $this;
+    private function registerCustomHorizonCollectors(): void
+    {
+        Prometheus::registerCollectorClasses([
+            CustomCurrentQueueWorkloadCollector::class,
+            CustomCurrentProcessesPerQueueCollector::class,
+            CustomCurrentQueueWaitCollector::class,
+        ]);
     }
 }
