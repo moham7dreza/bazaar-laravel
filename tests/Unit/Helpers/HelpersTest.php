@@ -1,5 +1,8 @@
 <?php
 
+declare(strict_types=1);
+
+use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Uri;
 
@@ -92,4 +95,18 @@ it('can get path segments', function (): void {
     expect($firstSegment)->toBe('docs')
         ->and($secondSegment)->toBe('12.x')
         ->and($lastSegment)->toBe('validation');
+});
+
+it('can get solo item from array', function (): void {
+
+    $employees = [
+        ['id' => 1, 'name' => 'Sarah', 'department' => 'Engineering'],
+        ['id' => 2, 'name' => 'Mike', 'department' => 'Marketing'],
+        ['id' => 3, 'name' => 'Alex', 'department' => 'Sales'],
+    ];
+
+    // Get the sole engineering employee
+    $engineer = Arr::sole($employees, static fn ($employee) => 'Engineering' === $employee['department']);
+
+    expect($engineer)->toBe($employees[0]);
 });
