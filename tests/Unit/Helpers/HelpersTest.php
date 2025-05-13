@@ -106,7 +106,7 @@ it('can get solo item from array', function (): void {
     ];
 
     // Get the sole engineering employee
-    $engineer = Arr::sole($employees, static fn ($employee) => 'Engineering' === $employee['department']);
+    $engineer = Arr::sole($employees, fn ($employee) => 'Engineering' === $employee['department']);
 
     expect($engineer)->toBe($employees[0]);
 });
