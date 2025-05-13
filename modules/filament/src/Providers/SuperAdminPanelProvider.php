@@ -18,6 +18,7 @@ use Filament\Pages;
 use Filament\Panel;
 use Filament\PanelProvider;
 use Filament\Support\Colors\Color;
+use Filament\Tables\Table;
 use Filament\Widgets;
 use Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse;
 use Illuminate\Cookie\Middleware\EncryptCookies;
@@ -138,12 +139,28 @@ final class SuperAdminPanelProvider extends PanelProvider
 
     public function boot(): void
     {
+        $this->configureLanguageSwitch();
+
+        \Statikbe\FilamentTranslationManager\FilamentTranslationManager::setLocales(Language::values());
+
+        $this->configureTable();
+    }
+
+    private function configureTable(): void
+    {
+        Table::configureUsing(static fn (Table $table) => $table
+            ->striped()
+            ->persistFiltersInSession()
+            ->persistSearchInSession()
+            ->persistsSortInSession());
+    }
+
+    private function configureLanguageSwitch(): void
+    {
         LanguageSwitch::configureUsing(static function (LanguageSwitch $switch): void {
             $switch
                 ->locales(Language::values());
         });
-
-        \Statikbe\FilamentTranslationManager\FilamentTranslationManager::setLocales(Language::values());
     }
 
     private function getNavItems(): array
