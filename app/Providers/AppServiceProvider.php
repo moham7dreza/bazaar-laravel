@@ -34,6 +34,7 @@ use Illuminate\Support\Facades\Vite;
 use Illuminate\Support\Number;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Str;
+use Illuminate\Support\Uri;
 use Illuminate\Validation\InvokableValidationRule;
 use Illuminate\Validation\Rules\Password;
 use Morilog\Jalali\Jalalian;
@@ -63,6 +64,7 @@ final class AppServiceProvider extends ServiceProvider
         $this->configurePipelines();
         $this->configureNotification();
         $this->configureSchedule();
+        $this->configureUri();
     }
 
     private function configureCommands(): void
@@ -211,5 +213,18 @@ final class AppServiceProvider extends ServiceProvider
     private function configureSchedule(): void
     {
         Event::macro('exceptOnHolidays', static fn () => $this->skip(today()->isHoliday()));
+    }
+
+    private function configureUri(): void
+    {
+        Uri::macro('docs', fn () => $this->withPath('docs'));
+        Uri::macro('inCategory', fn ($category) => $this->withPath('shop/' . $category . '/' . trim($this->path(), '/')));
+        Uri::macro('mobile', function () {
+            $path = trim($this->path(), '/');
+
+            return $this->withHost('m.' . $this->host())
+                ->withPath($path);
+        });
+        Uri::macro('tracking', fn ($campaign) => $this->withQuery(['utm_campaign' => $campaign, 'utm_source' => 'website']));
     }
 }

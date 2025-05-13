@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 use App\Enums\UserRole;
 use App\Models\User;
 use Illuminate\Support\Fluent;
@@ -35,23 +37,34 @@ it('can conditionally modify values in a fluent instance', function (): void {
     expect($user->isAdmin())->toBeTrue();
 
     $data = Fluent::make([
-        'name' => 'admin',
+        'name'      => 'admin',
         'developer' => true,
-        'posts' => 25,
+        'posts'     => 25,
     ])
-        ->when($user->isAdmin(), function (Fluent $input) {
-
-            return $input->set('role', UserRole::ADMIN->value);
-        })
-        ->unless($user->isAdmin(), function (Fluent $input) {
-
-            return $input->except('posts');
-        });
+        ->when($user->isAdmin(), fn (Fluent $input) => $input->set('role', UserRole::ADMIN->value))
+        ->unless($user->isAdmin(), fn (Fluent $input) => $input->except('posts'));
 
     expect($data->toArray())->toBe([
-        'name' => 'admin',
+        'name'      => 'admin',
         'developer' => true,
-        'posts' => 25,
-        'role' => UserRole::ADMIN->value,
+        'posts'     => 25,
+        'role'      => UserRole::ADMIN->value,
     ]);
+});
+
+it('can use macros with uri', function (): void {
+
+    $baseUri = Uri::of('https://shopexample.com/products/winter-jacket');
+
+    $categoryUri = $baseUri->inCategory('clothing');
+
+    expect($categoryUri->value())->toBe('https://shopexample.com/shop/clothing/products/winter-jacket');
+
+    $mobileUri = $baseUri->mobile();
+
+    expect($mobileUri->value())->toBe('https://m.shopexample.com/products/winter-jacket');
+
+    $trackingUri = $baseUri->tracking('winter-sale');
+
+    expect($trackingUri->value())->toBe('https://shopexample.com/products/winter-jacket?utm_campaign=winter-sale&utm_source=website');
 });
