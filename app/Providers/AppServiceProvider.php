@@ -112,8 +112,6 @@ final class AppServiceProvider extends ServiceProvider
     {
         Gate::before(static fn (?User $user) => $user?->isAdmin());
 
-        Gate::define('viewPulse', static fn (?User $user) => ! isEnvLocalOrTesting() ? $user?->isAdmin() : true);
-
         Gate::define('viewWebTinker', static fn (?User $user) => ! isEnvLocalOrTesting() ? $user?->isAdmin() : true);
     }
 
