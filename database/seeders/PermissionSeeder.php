@@ -1,7 +1,10 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Database\Seeders;
 
+use App\Enums\UserId;
 use App\Enums\UserPermission;
 use App\Enums\UserRole;
 use App\Models\User;
@@ -32,7 +35,9 @@ class PermissionSeeder extends Seeder
         $role_super_admin->givePermissionTo(UserPermission::cases());
         $this->command->info('permissions assigned to admin role.');
 
-        $super_admin = admin() ?? User::factory()->admin()->create();
+        $super_admin = User::query()->find(UserId::Admin)
+            ?? User::query()->admin()->first()
+            ?? User::factory()->admin()->create();
         $this->command->info('admin user ok.');
 
         auth()->loginUsingId($super_admin->id);
