@@ -16,7 +16,7 @@ return [
         'url'      => '/tool',
         'heroicon' => 'heroicon-o-cube',
         'icon'     => null,
-        'group'    => 'Links',
+        'group'    => null,
         'sort'     => 1,
     ],
     'front-root' => [
