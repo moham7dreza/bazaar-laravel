@@ -17,8 +17,7 @@ it('can get advertisements viewed by users', function (): void {
     $intersect = $viewedAdvertisements->pluck('id')->intersect($ads->pluck('id'))->count();
 
     expect($intersect)->toBe(2);
-})
-    ->skip();
+});
 
 it('can check for ad nested relations loaded', function (): void {
     $ad = Advertisement::factory()->create();

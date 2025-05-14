@@ -19,8 +19,7 @@ it('can upload an image', function (): void {
     $response = $this->postJson(route('images.store'), $payload);
     $response->assertOk();
     expect($response->json())->not->toBeEmpty();
-})
-    ->skip();
+});
 
 it('fails to upload without image', function (): void {
     $payload = [

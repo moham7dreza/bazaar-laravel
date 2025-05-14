@@ -25,8 +25,7 @@ it('can get memoized cache value', function (): void {
 
     expect(cache()->memo()->get('foo'))->toBe('bar')
         ->and(cache()->memo('database')->get('foo'))->toBe('bar111');
-})
-    ->skip();
+});
 
 it('can conditionally modify values in a fluent instance', function (): void {
 

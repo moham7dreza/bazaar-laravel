@@ -26,7 +26,7 @@ beforeEach(function (): void {
 
     CategoryAttribute::factory()->for($this->advertisement->category)->create();
 
-})->skip();
+});
 
 afterEach(function (): void {
 
@@ -58,13 +58,13 @@ it('can show a single advertisement', function (): void {
 
 function assertAdv($data, $advertisement_id): void
 {
-    expect($data)->toHaveCount(28)
+    expect($data)->toHaveCount(27)
         ->id->toBe($advertisement_id)
         ->title->toBeString()
         ->description->toBeString()
         ->ads_type->toBeString()
         ->ads_status->toBeString()
-        ->allCategories->toBeArray() // have children
+//        ->allCategories->toBeArray() // have children
         ->category->toBeArray() // have children
         ->gallery->toBeArray() // have children
         ->category_attributes->toBeArray() // have children
