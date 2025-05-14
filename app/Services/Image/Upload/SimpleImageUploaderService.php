@@ -21,11 +21,15 @@ final readonly class SimpleImageUploaderService implements ImageUploader
     {
         try
         {
+            $this->imageService->setExclusiveDirectory(
+                config('image-index.default-parent-upload-directory') . DIRECTORY_SEPARATOR . $DTO->uploadDirectory,
+            );
+
             $this->imageService->setImage($DTO->image);
             $this->imageService->provider();
 
             Image::read($DTO->image->getRealPath())
-                ->save(public_path($this->imageService->getImageAddress()), null, $this->imageService->getImageFormat());
+                ->save(public_path($this->imageService->getImageAddress()), $this->imageService->getImageFormat());
 
             return $this->imageService->getImageAddress();
 

@@ -22,6 +22,10 @@ final readonly class CreateIndexAndSaveImageUploaderService implements ImageUplo
     {
         try
         {
+            $this->imageService->setExclusiveDirectory(
+                config('image-index.default-parent-upload-directory') . DIRECTORY_SEPARATOR . $DTO->uploadDirectory,
+            );
+
             $imageSizes = config('image-index.index-image-sizes');
 
             $this->imageService->setImage($DTO->image);
@@ -40,7 +44,6 @@ final readonly class CreateIndexAndSaveImageUploaderService implements ImageUplo
 
             if ( ! $this->imageService->getImageName())
             {
-
                 $this->imageService->setImageName(TimeUtility::jalaliCurrentTimeAsFileName());
             }
 
@@ -55,7 +58,7 @@ final readonly class CreateIndexAndSaveImageUploaderService implements ImageUplo
 
                 Image::read($DTO->image->getRealPath())
                     ->resizeDown($imageSize['width'], $imageSize['height'])
-                    ->save(public_path($this->imageService->getImageAddress()), null, $this->imageService->getImageFormat());
+                    ->save(public_path($this->imageService->getImageAddress()), $this->imageService->getImageFormat());
 
                 $indexArray[$sizeAlias] = $this->imageService->getImageAddress();
             }
