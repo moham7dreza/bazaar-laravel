@@ -53,7 +53,6 @@
         "encoding": true,
         "explicit_string_variable": true,
         "explicit_indirect_variable": true,
-        "final_class": true,
         "final_internal_class": false,
         "full_opening_tag": true,
         "fully_qualified_strict_types": true,

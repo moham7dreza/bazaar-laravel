@@ -7,7 +7,7 @@ namespace App\Services\Image;
 use App\Utilities\Date\TimeUtility;
 use Morilog\Jalali\CalendarUtils;
 
-final class ImageToolsService
+class ImageToolsService
 {
     private $image;
 
