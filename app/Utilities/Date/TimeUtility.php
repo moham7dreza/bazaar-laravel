@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Utilities\Date;
 
 use Carbon\Carbon;
@@ -12,19 +14,19 @@ final class TimeUtility
 {
     public static function isFirstDayOfJalaliMonth(DateTimeInterface|string|int|null $date): bool
     {
-        return jalali_date($date)?->format('d') === '01';
+        return '01' === jalali_date($date)?->format('d');
     }
 
     public static function isLastDayOfJalaliMonth(DateTimeInterface|string|int|null $date): bool
     {
         $clonedDate = clone $date;
 
-        return jalali_date($clonedDate->addDay())?->format('d') === '01';
+        return '01' === jalali_date($clonedDate->addDay())?->format('d');
     }
 
     public static function jalaliSeasonNumber(DateTimeInterface|string|int|null $date): ?int
     {
-        return is_null($date) ? null : (int) ((jdate($date)->format('m') - 1) / 3) + 1;
+        return null === $date ? null : (int) ((jdate($date)->format('m') - 1) / 3) + 1;
     }
 
     public static function jalaliWeekdayName(DateTimeInterface|string|int|null $date): ?string
@@ -59,7 +61,7 @@ final class TimeUtility
 
     public static function jalaliCurrentTimeAsFileName(): string
     {
-        return CalendarUtils::strftime('Y-m-d-H-i-s');
+        return CalendarUtils::strftime('Y_m_d_H_i_s');
     }
 
     public static function convertMongoUTCDateTimeToCarbon(UTCDateTime $date): Carbon
@@ -87,7 +89,7 @@ final class TimeUtility
         $timestamp = Carbon::parse($date)->getTimestamp();
 
         $hexTimestamp = dechex($timestamp);
-        $objectIdHex  = str_pad($hexTimestamp, 8, '0', STR_PAD_LEFT).str_repeat('0', 16); // pad with zeroes to get 24 chars
+        $objectIdHex  = mb_str_pad($hexTimestamp, 8, '0', STR_PAD_LEFT) . str_repeat('0', 16); // pad with zeroes to get 24 chars
 
         return new ObjectId($objectIdHex);
     }
