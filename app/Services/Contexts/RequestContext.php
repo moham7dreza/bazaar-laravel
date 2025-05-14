@@ -25,7 +25,7 @@ final class RequestContext
         context()->add('hostname', gethostname());
         context()->add('method', request()->method());
         context()->add('referer', request()->header('referer'));
-        context()->addHidden('session', request()->session()->getId());
+//        context()->addHidden('session', request()?->session()?->getId());
     }
 
     public function addUserContext(): void
