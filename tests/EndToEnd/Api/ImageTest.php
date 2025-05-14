@@ -10,14 +10,14 @@ it('can upload an image', function (): void {
 
     $payload = [
         'image'         => $file,
-        'directory'     => '/uploads',
+        'directory'     => 'uploads',
         'upload_method' => ImageUploadMethod::METHOD_FIT_AND_SAVE->value,
         'width'         => 100,
         'height'        => 100,
     ];
 
-    $response = $this->postJson(route('images.store'), $payload);
-    $response->assertOk();
+    $response = $this->postJson(route('images.store'), $payload)->assertOk();
+
     expect($response->json())->not->toBeEmpty();
 });
 

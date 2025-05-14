@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Services\Image;
 
 use App\Utilities\Date\TimeUtility;
-use Morilog\Jalali\CalendarUtils;
 
 class ImageToolsService
 {
@@ -107,28 +106,28 @@ class ImageToolsService
         // set properties
         if ( ! $this->imageDirectory)
         {
-
             $this->setImageDirectory(
-                CalendarUtils::strftime('Y') . DIRECTORY_SEPARATOR .
-                CalendarUtils::strftime('m') . DIRECTORY_SEPARATOR .
-                CalendarUtils::strftime('d')
+                TimeUtility::jalaliCurrentYearNumber() . DIRECTORY_SEPARATOR .
+                TimeUtility::jalaliCurrentMonthNumber() . DIRECTORY_SEPARATOR .
+                TimeUtility::jalaliCurrentDayNumber()
             );
         }
 
         if ( ! $this->imageName)
         {
-
             $this->setImageName(TimeUtility::jalaliCurrentTimeAsFileName());
         }
 
         if ( ! $this->imageFormat)
         {
-
             $this->setImageFormat($this->image->extension());
         }
 
         // set final image Directory
-        $finalImageDirectory = empty($this->exclusiveDirectory) ? $this->imageDirectory : $this->exclusiveDirectory . DIRECTORY_SEPARATOR . $this->imageDirectory;
+        $finalImageDirectory = empty($this->exclusiveDirectory)
+            ? $this->imageDirectory
+            : $this->exclusiveDirectory . DIRECTORY_SEPARATOR . $this->imageDirectory;
+
         $this->setFinalImageDirectory($finalImageDirectory);
 
         // set final image name
@@ -139,7 +138,6 @@ class ImageToolsService
 
     private function checkDirectory($imageDirectory): void
     {
-
         if ( ! file_exists($imageDirectory))
         {
             mkdir($imageDirectory, 0777, true);

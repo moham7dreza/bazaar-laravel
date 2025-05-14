@@ -18,12 +18,11 @@ final class ImageService extends ImageToolsService
     {
         try
         {
-
             $this->setExclusiveDirectory(
                 config('image-index.default-parent-upload-directory') . DIRECTORY_SEPARATOR . $DTO->uploadDirectory,
             );
 
-            return ImageUploadFactory::make($DTO->uploadMethod)->handle($DTO);
+            return ImageUploadFactory::make($DTO->uploadMethod)?->handle($DTO);
 
         } catch (Exception $e)
         {
