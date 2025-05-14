@@ -33,7 +33,7 @@ final class ImageStoreRequest extends FormRequest
         return new ImageUploadDTO(
             image:              $this->file('image'),
             uploadMethod:       $this->enum('upload_method', ImageUploadMethod::class),
-            uploadDirectory:    $this->str('directory'),
+            uploadDirectory:    $this->str('directory')->value(),
             width:              $this->integer('width', null),
             height:             $this->integer('height', null),
         );

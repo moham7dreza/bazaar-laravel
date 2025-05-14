@@ -29,7 +29,7 @@ final class AdvertisementGridViewRequest extends FormRequest
     public function getDTO(): AdvertisementSearchDTO
     {
         return new AdvertisementSearchDTO(
-            phrase: $this->str('phrase'),
+            phrase: $this->str('phrase')->value(),
             sort: $this->enum('sort', Sort::class),
             perPage: $this->integer('per_page', 24),
             ids: $this->array('ids'),
