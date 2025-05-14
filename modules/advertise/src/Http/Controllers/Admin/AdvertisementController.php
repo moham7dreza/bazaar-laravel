@@ -12,7 +12,6 @@ use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Http\Resources\Json\ResourceCollection;
 use Modules\Advertise\Http\Requests\Admin\StoreAdvertisementRequest;
 use Modules\Advertise\Http\Requests\Admin\UpdateAdvertisementRequest;
-use Modules\Advertise\Http\Resources\Admin\AdvertisementCollection;
 use Modules\Advertise\Http\Resources\Admin\AdvertisementResource;
 use Modules\Advertise\Jobs\ProcessNewAdvertisementJob;
 use Modules\Advertise\Models\Advertisement;
@@ -24,7 +23,7 @@ final class AdvertisementController extends Controller
      */
     public function index(): ResourceCollection
     {
-        return Advertisement::all()->toResourceCollection(AdvertisementCollection::class);
+        return Advertisement::all()->toResourceCollection(AdvertisementResource::class);
     }
 
     /**

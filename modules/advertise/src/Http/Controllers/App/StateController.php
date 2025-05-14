@@ -6,7 +6,7 @@ namespace Modules\Advertise\Http\Controllers\App;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Resources\Json\ResourceCollection;
-use Modules\Advertise\Http\Resources\App\StateCollection;
+use Modules\Advertise\Http\Resources\App\StateResource;
 use Modules\Advertise\Models\State;
 
 final class StateController extends Controller
@@ -18,6 +18,6 @@ final class StateController extends Controller
     {
         $states = State::query()->whereNull('parent_id')->get();
 
-        return $states->toResourceCollection(StateCollection::class);
+        return $states->toResourceCollection(StateResource::class);
     }
 }

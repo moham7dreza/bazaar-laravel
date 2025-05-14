@@ -13,7 +13,6 @@ use Illuminate\Http\Resources\Json\ResourceCollection;
 use Log;
 use Modules\Advertise\Http\Controllers\Panel\HistoryAdvertisementController;
 use Modules\Advertise\Http\Requests\App\AdvertisementGridViewRequest;
-use Modules\Advertise\Http\Resources\App\AdvertisementCollection;
 use Modules\Advertise\Http\Resources\App\AdvertisementResource;
 use Modules\Advertise\Models\Advertisement;
 use Modules\Advertise\Repositories\AdvertisementReadRepository;
@@ -32,8 +31,7 @@ final class AdvertisementController extends Controller
 
         $advertisements = app(AdvertisementReadRepository::class)->search($request->getDTO());
 
-        return new AdvertisementCollection($advertisements->items);
-//        return $advertisements->items->toResourceCollection(AdvertisementCollection::class);
+        return $advertisements->items->toResourceCollection(AdvertisementResource::class);
     }
 
     public function show(Advertisement $advertisement): JsonResource|JsonResponse

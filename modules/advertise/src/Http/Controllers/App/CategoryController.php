@@ -6,7 +6,7 @@ namespace Modules\Advertise\Http\Controllers\App;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Resources\Json\ResourceCollection;
-use Modules\Advertise\Http\Resources\App\CategoryCollection;
+use Modules\Advertise\Http\Resources\App\CategoryResource;
 use Modules\Advertise\Models\Category;
 
 final class CategoryController extends Controller
@@ -18,6 +18,6 @@ final class CategoryController extends Controller
     {
         $categories = Category::query()->whereNull('parent_id')->get();
 
-        return $categories->toResourceCollection(CategoryCollection::class);
+        return $categories->toResourceCollection(CategoryResource::class);
     }
 }
