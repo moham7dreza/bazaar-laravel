@@ -2,19 +2,27 @@
 
 declare(strict_types=1);
 
-use App\Enums\Queue as Q;
+use App\Console\Commands\User\UserBatchUpdateCommand;
+use Database\Seeders\UserBatchSeeder;
+use Illuminate\Bus\PendingBatch;
+use Illuminate\Support\Facades\Bus;
+use Illuminate\Support\Facades\Queue;
 
 test('can batch update 1000 users', function (): void {
 
-    //    Queue::fake();
+    Queue::fake();
+    Bus::fake();
 
-    $this->artisan('db:seed', ['--class' => Database\Seeders\UserBatchSeeder::class]);
+    $this->artisan('db:seed', ['--class' => UserBatchSeeder::class])->assertSuccessful();
 
-    $this->artisan(App\Console\Commands\User\UserBatchUpdateCommand::class)->assertSuccessful();
+    $this->artisan(UserBatchUpdateCommand::class)->assertSuccessful();
 
-    //    Queue::assertPushedOn(Q::LOW->value, App\Jobs\UserUpdateJob::class);
+    // 1000 records => 100 records per job => 10 * 100 = 1000
+    Bus::assertBatched(static fn (PendingBatch $batch) => 10 === $batch->jobs->count());
 
-    $sentSmsCount = App\Models\SmsLog::query()->count();
-
-    dd($sentSmsCount);
+    Bus::assertBatched(static function (PendingBatch $batch) {
+        return $batch->jobs->each(function (App\Jobs\UserUpdateJob $job): void {
+            100 === count(array_intersect($job->ids, App\Models\User::pluck('id')->toArray()));
+        });
+    });
 });
