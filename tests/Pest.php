@@ -47,6 +47,35 @@ function remember(Closure $callback, ?string $key = null)
     return test()->addToDataContainer($callback, $key);
 }
 
+expect()->extend(
+    'toBeDefinedInEnum',
+    /** @param class-string<BackedEnum> $enum */
+    function (string $enum) {
+        expect($enum)->toBeEnum();
+        $resolved = $enum::tryFrom($this->value);
+        expect($resolved)->toBeInstanceOf($enum, "'{$this->value}' is not defined in '{$enum}' enum.");
+
+        return $this;
+    }
+);
+
+function a(): TestDataGenerator
+{
+    return new TestDataGenerator();
+}
+
+/**
+ * @phpstan-template T
+ *
+ * @param  Closure(): T  $callback
+ * @param  string|null  $key
+ * @return T
+ */
+function remember(Closure $callback, ?string $key = null)
+{
+    return test()->addToDataContainer($callback, $key);
+}
+
 function asUser(User $user): TestCase
 {
     return test()->be($user);
