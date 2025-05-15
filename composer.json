@@ -60,6 +60,7 @@
         "pestphp/pest": "^3.8",
         "pestphp/pest-plugin-faker": "^3.0",
         "pestphp/pest-plugin-laravel": "^3.1",
+        "pestphp/pest-plugin-livewire": "^3.0",
         "pestphp/pest-plugin-type-coverage": "^3.5",
         "roave/security-advisories": "dev-latest",
         "spatie/laravel-ignition": "^2.4",
