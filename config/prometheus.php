@@ -3,9 +3,9 @@
 declare(strict_types=1);
 
 return [
-    'enabled' => true,
+    'enabled' => env('PROMETHEUS_ENABLED', true),
 
-    'token' => env('BEARER_TOKEN'),
+    'token' => env('METRICS_BEARER_TOKEN'),
 
     // The urls that will return metrics.
     'urls' => [
@@ -29,7 +29,7 @@ return [
     // The middleware that will be applied to the urls above
     'middleware' => [
         Spatie\Prometheus\Http\Middleware\AllowIps::class,
-        App\Http\Middleware\BearerTokenMiddleware::class,
+        Modules\Monitoring\Http\Middlewares\MetricsBearerTokenMiddleware::class,
     ],
 
     /*

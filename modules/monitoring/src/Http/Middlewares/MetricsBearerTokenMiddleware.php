@@ -2,20 +2,23 @@
 
 declare(strict_types=1);
 
-namespace App\Http\Middleware;
+namespace Modules\Monitoring\Http\Middlewares;
 
 use App\Http\Responses\ApiJsonResponse;
 use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Modules\Monitoring\Support\Config\PrometheusConfig;
 
-final class BearerTokenMiddleware
+final class MetricsBearerTokenMiddleware
 {
     public function handle(Request $request, Closure $next)
     {
         $bearerToken = $request->bearerToken();
 
-        if ($bearerToken !== config('prometheus.token'))
+        $enabled = PrometheusConfig::isEnabled() && PrometheusConfig::isConfigured();
+
+        if ($enabled && $bearerToken !== PrometheusConfig::getToken())
         {
             return ApiJsonResponse::error(Response::HTTP_UNAUTHORIZED, __('response.general.unauthorized'));
         }
