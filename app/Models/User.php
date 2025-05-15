@@ -9,6 +9,7 @@ use App\Concerns\InteractWithSensitiveColumns;
 use App\Concerns\MustVerifyMobile;
 use App\Contracts\MustVerifyMobile as ShouldVerifiedMobile;
 use App\Enums\StorageDisk;
+use App\Enums\Theme;
 use App\Enums\UserPermission;
 use App\Enums\UserRole;
 use App\Models\Geo\City;
@@ -44,6 +45,7 @@ use Spatie\Permission\Traits\HasRoles;
 final class User extends Authenticatable implements CanLoginDirectly, FilamentUser, HasAvatar, ShouldVerifiedMobile
 {
     use HasApiTokens;
+
     // _____________________________________________ use SECTION ________________________________________________
     use HasFactory;
     use HasLocks;
@@ -77,6 +79,12 @@ final class User extends Authenticatable implements CanLoginDirectly, FilamentUs
     protected $hidden = [
         'password',
         'remember_token',
+    ];
+
+    protected $attributes = [
+        'theme'     => Theme::DRACULA->value,
+        'is_active' => true,
+        'user_type' => self::TYPE_USER,
     ];
 
     protected static array $recordEvents = ['deleted', 'updated'];
