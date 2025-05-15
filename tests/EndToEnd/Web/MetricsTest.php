@@ -1,9 +1,11 @@
 <?php
 
+declare(strict_types=1);
+
 it('can view metrics', function (): void {
 
     $response = $this->get(route('prometheus.default'), [
-        'Authorization' => 'Bearer '.getenv('BEARER_TOKEN'),
+        'Authorization' => 'Bearer ' . config('prometheus.token'),
     ])->assertOk();
 
     $response->assertSee([

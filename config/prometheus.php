@@ -1,7 +1,11 @@
 <?php
 
+declare(strict_types=1);
+
 return [
     'enabled' => true,
+
+    'token' => env('BEARER_TOKEN'),
 
     // The urls that will return metrics.
     'urls' => [
@@ -25,7 +29,7 @@ return [
     // The middleware that will be applied to the urls above
     'middleware' => [
         Spatie\Prometheus\Http\Middleware\AllowIps::class,
-        \App\Http\Middleware\BearerTokenMiddleware::class,
+        App\Http\Middleware\BearerTokenMiddleware::class,
     ],
 
     /*
