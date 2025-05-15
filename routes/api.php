@@ -154,3 +154,7 @@ Route::prefix(RouteSection::PANEL)
                 Route::post('{advertisement}', [HistoryAdvertisementController::class, 'store'])->name('store');
             });
     });
+
+Route::post('idempotency', fn () => to_route('advertisements.index'))
+    ->middleware(Infinitypaul\Idempotency\Middleware\EnsureIdempotency::class)
+    ->name('idempotency');

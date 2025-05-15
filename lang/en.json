@@ -41,5 +41,14 @@
     "Forbidden": "Forbidden",
     "Hello!": "Hello!",
     "Regards,": "Regards,",
-    "The CPU load of the last 5 minutes is 3 which is higher than the allowed 2": "The CPU load of the last 5 minutes is 3 which is higher than the allowed 2"
+    "The CPU load of the last 5 minutes is 3 which is higher than the allowed 2": "The CPU load of the last 5 minutes is 3 which is higher than the allowed 2",
+    "Unknown user": "Unknown user",
+    "Unknown parent": "Unknown parent",
+    "Unknown state": "Unknown state",
+    "Unknown category": "Unknown category",
+    "Service Unavailable": "Service Unavailable",
+    "Unknown city": "Unknown city",
+    "Guest author": "Guest author",
+    "Unknown advertisement": "Unknown advertisement",
+    "Unknown attribute": "Unknown attribute"
 }
