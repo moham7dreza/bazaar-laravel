@@ -58,7 +58,7 @@ final class UserBatchSeeder extends Seeder
                 {
                     User::insert($chunk);
 
-                    $this->createAdsForUsers($chunk);
+                    //                    $this->createAdsForUsers($chunk);
                 }
 
                 // free memory between batches
@@ -90,19 +90,19 @@ final class UserBatchSeeder extends Seeder
 
             for ($i = 1; $i <= $adsPerUser; $i++)
             {
-//                $adDepth = 0;
-//                $parentId = null;
-//
-//                // determine if this should be a child ad (max 4 levels deep)
-//                if ($i > 1 && count($userAdIds) > 0 && fake()->boolean(4)) {
-//                    $parentId = fake()->randomElement($userAdIds);
-//
-//                    $adDepth = $this->getAdDepth($parentId, $userAdIds);
-//
-//                    if ($adDepth >= 4) {
-//                        $parentId = null;
-//                    }
-//                }
+                //                $adDepth = 0;
+                //                $parentId = null;
+                //
+                //                // determine if this should be a child ad (max 4 levels deep)
+                //                if ($i > 1 && count($userAdIds) > 0 && fake()->boolean(4)) {
+                //                    $parentId = fake()->randomElement($userAdIds);
+                //
+                //                    $adDepth = $this->getAdDepth($parentId, $userAdIds);
+                //
+                //                    if ($adDepth >= 4) {
+                //                        $parentId = null;
+                //                    }
+                //                }
 
                 $ads[] = [
                     'id'           => $adId,
