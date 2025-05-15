@@ -1,9 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests;
 
 use Illuminate\Support\Facades\ParallelTesting;
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Testing\TestResponse;
 
 class TestsServiceProvider extends ServiceProvider
 {
@@ -13,10 +16,19 @@ class TestsServiceProvider extends ServiceProvider
 
     public function boot(): void
     {
-        if ($this->isRunningTestsInParallel()) {
+        if ($this->isRunningTestsInParallel())
+        {
             ParallelTesting::setUpTestCase(function ($testCase, int $token): void {
             });
         }
+
+        TestResponse::macro('assertJsonDataMetaStructure', fn (array $data) => $this->assertJsonStructure([
+            'data' => $data,
+            'meta' => [
+                'status',
+                'messages',
+            ],
+        ]));
     }
 
     private function isRunningTestsInParallel(): bool
