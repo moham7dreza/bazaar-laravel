@@ -39,10 +39,11 @@ Route::get('menus', [HomeMenuController::class, 'index'])->name('menus.index');
 Route::get('pages', [HomePageController::class, 'index'])->name('pages.index');
 
 Route::prefix(RouteSection::ADVERTISEMENTS)
-    ->middleware('cache-response:120')
+//    ->middleware('cache-response:120')
     ->group(function (): void {
 
         Route::get('/', [HomeAdvertisementController::class, 'index'])->name('advertisements.index');
+        Route::get('search', [HomeAdvertisementController::class, 'search'])->name('advertisements.search');
         Route::get('{advertisement}', [HomeAdvertisementController::class, 'show'])->name('advertisements.show')
             ->withTrashed();
     });

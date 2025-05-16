@@ -34,6 +34,15 @@ final class AdvertisementController extends Controller
         return $advertisements->items->toResourceCollection(AdvertisementResource::class);
     }
 
+    public function search(AdvertisementGridViewRequest $request): ResourceCollection
+    {
+        info('search scout log [{date}].', ['date' => now()->jdate()->format('Y-m-d H:i:s')]);
+
+        $advertisements = app(AdvertisementReadRepository::class)->searchWithScout($request->getDTO());
+
+        return $advertisements->items->toResourceCollection(AdvertisementResource::class);
+    }
+
     public function show(Advertisement $advertisement): JsonResource|JsonResponse
     {
         info('pdp page log [{date}].', ['date' => now()->jdate()->format('Y-m-d H:i:s')]);

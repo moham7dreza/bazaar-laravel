@@ -20,6 +20,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Laravel\Scout\Searchable;
 use Modules\Advertise\Enums\AdvertisementStatus;
 use Modules\Advertise\Enums\AdvertisementType;
 use Modules\Advertise\Enums\Sort;
@@ -32,6 +33,7 @@ final class Advertisement extends Model
     // _____________________________________________ use SECTION ________________________________________________
     use HasFactory;
     use Prunable;
+    use Searchable;
     use Sluggable;
     use SoftDeletes;
 
@@ -50,6 +52,11 @@ final class Advertisement extends Model
                 'source' => 'title',
             ],
         ];
+    }
+
+    public function getScoutKeyName(): string
+    {
+        return 'title';
     }
 
     #[Scope]
