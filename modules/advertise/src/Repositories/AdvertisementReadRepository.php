@@ -25,6 +25,20 @@ final class AdvertisementReadRepository extends BaseRepository
         return new PaginatedListViewDTO($items);
     }
 
+    public function searchWithScout(AdvertisementSearchDTO $searchDTO): PaginatedListViewDTO
+    {
+        $items = Advertisement::search($searchDTO->phrase)
+//            ->active()
+//            ->published()
+            ->when($searchDTO->ids, fn (Builder|Advertisement $builder) => $builder->whereIn('id', $searchDTO->ids))
+            ->when($searchDTO->sort, fn (Builder|Advertisement $builder) => $builder->sortBy($searchDTO->sort))
+            ->paginate($searchDTO->perPage)
+            ->withQueryString();
+        dd($items->items());
+
+        return new PaginatedListViewDTO($items);
+    }
+
     public function getAdsOfUsersRegisteredWithinDate(int $limit, DateTimeInterface $date, int $perPage = 20): PaginatedListViewDTO
     {
         $items = $this->freshQuery()->getQuery()
