@@ -9,6 +9,7 @@ use App\Models\User;
 use DB;
 use Hash;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Collection;
 use Modules\Advertise\Enums\AdvertisementStatus;
 use Modules\Advertise\Enums\AdvertisementType;
 use Modules\Advertise\Models\Advertisement;
@@ -73,11 +74,15 @@ final class UserBatchSeeder extends Seeder
 
     private function createAdsForUsers(array $users): void
     {
-        $adsPerUser = 20;
+        $adsPerUser = 100;
+        $chunkSize  = 50;
         $ads        = [];
 
-        $categories = Category::factory($adsPerUser)->create();
-        $cities     = City::factory($adsPerUser)->create();
+        $categories = Category::factory($adsPerUser)->make();
+        $categories->chunk($chunkSize)->each(fn (Collection $categories) => Category::query()->insert($categories->toArray()));
+
+        $cities = City::factory($adsPerUser)->make();
+        $cities->chunk($chunkSize)->each(fn (Collection $cities) => City::query()->insert($cities->toArray()));
 
         $maxAdId = DB::table('advertisements')->max('id') ?? 0;
         $adId    = $maxAdId + 1;
