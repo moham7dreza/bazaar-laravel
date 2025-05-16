@@ -318,6 +318,7 @@ reload: ## Update and refresh application
 	composer install
 	php artisan down --refresh=15
 	make clean
+	php artisan responsecache:clear
 	php artisan modules:sync
 	php artisan filament:upgrade
 	php artisan themes:upgrade

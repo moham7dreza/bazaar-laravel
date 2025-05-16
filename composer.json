@@ -43,7 +43,8 @@
         "mongodb/laravel-mongodb": "^5.4",
         "morilog/jalali": "^3.4",
         "munafio/chatify": "^1.6",
-        "shetabit/payment": "^6.1"
+        "shetabit/payment": "^6.1",
+        "spatie/laravel-responsecache": "^7.6"
     },
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.15",

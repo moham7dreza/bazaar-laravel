@@ -4,10 +4,12 @@ declare(strict_types=1);
 
 namespace Modules\Advertise\Models;
 
+use App\Concerns\ClearsResponseCache;
 use App\Models\Geo\City;
 use App\Models\Scopes\LatestScope;
 use App\Models\User;
 use Cviebrock\EloquentSluggable\Sluggable;
+use Dyrynda\Database\Support\CascadeSoftDeletes;
 use Illuminate\Database\Eloquent\Attributes\Scope;
 use Illuminate\Database\Eloquent\Attributes\ScopedBy;
 use Illuminate\Database\Eloquent\Builder;
@@ -25,6 +27,8 @@ use Modules\Advertise\Enums\Sort;
 #[ScopedBy([LatestScope::class])]
 final class Advertisement extends Model
 {
+    use CascadeSoftDeletes;
+    use ClearsResponseCache;
     // _____________________________________________ use SECTION ________________________________________________
     use HasFactory;
     use Prunable;

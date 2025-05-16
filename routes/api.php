@@ -37,11 +37,15 @@ Route::get('user', static fn (Request $request) => $request->user())->middleware
 Route::get('categories', [HomeCategoryController::class, 'index'])->name('categories.index');
 Route::get('menus', [HomeMenuController::class, 'index'])->name('menus.index');
 Route::get('pages', [HomePageController::class, 'index'])->name('pages.index');
-Route::get('advertisements', [HomeAdvertisementController::class, 'index'])->name('advertisements.index');
 
-Route::get('advertisements/{advertisement}', [HomeAdvertisementController::class, 'show'])
-    ->withTrashed()
-    ->name('advertisements.show');
+Route::prefix(RouteSection::ADVERTISEMENTS)
+    ->middleware('cache-response:120')
+    ->group(function (): void {
+
+        Route::get('/', [HomeAdvertisementController::class, 'index'])->name('advertisements.index');
+        Route::get('{advertisement}', [HomeAdvertisementController::class, 'show'])->name('advertisements.show')
+            ->withTrashed();
+    });
 
 Route::get('states', [HomeStateController::class, 'index'])->name('states.index');
 Route::get('cities', [CityController::class, 'index'])->name('cities.index');
