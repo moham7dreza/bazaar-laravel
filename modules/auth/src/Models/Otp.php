@@ -21,6 +21,10 @@ final class Otp extends Model
 
     protected $guarded = ['id'];
 
+    protected $hidden = [
+        'otp_code'
+    ];
+
     // _____________________________________________ relations SECTION __________________________________________
 
     public function user(): BelongsTo
