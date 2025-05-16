@@ -21,6 +21,7 @@ use Filament\Panel;
 use Illuminate\Database\Eloquent\Attributes\Scope;
 use Illuminate\Database\Eloquent\Attributes\ScopedBy;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -60,6 +61,7 @@ final class User extends Authenticatable implements CanLoginDirectly, FilamentUs
     // _____________________________________________ props SECTION ______________________________________________
 
     const int TYPE_USER  = 0;
+
     const int TYPE_ADMIN = 1;
 
     protected $fillable = [
@@ -237,6 +239,13 @@ final class User extends Authenticatable implements CanLoginDirectly, FilamentUs
     public function owns(Model $model, string $relation = 'user')
     {
         return $model->{$relation}()->is($this);
+    }
+
+    public function hasAdvertisements(): Attribute
+    {
+        return Attribute::make(
+            get: fn () => $this->relationLoaded('advertisements') ? $this->advertisements()->exists() : null,
+        );
     }
 
     // _____________________________________________ model related methods SECTION ______________________________
