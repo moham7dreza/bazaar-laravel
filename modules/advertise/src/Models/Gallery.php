@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Modules\Advertise\Models;
 
+use App\Enums\StorageDisk;
 use App\Models\Scopes\LatestScope;
 use Illuminate\Database\Eloquent\Attributes\ObservedBy;
 use Illuminate\Database\Eloquent\Attributes\ScopedBy;
@@ -16,6 +17,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Modules\Advertise\Database\Factories\GalleryFactory;
 use Modules\Advertise\Observers\GalleryObserver;
+use Storage;
 
 #[ScopedBy([LatestScope::class])]
 #[ObservedBy([GalleryObserver::class])]
@@ -32,7 +34,7 @@ final class Gallery extends Model
 
     public function prunable(): Builder
     {
-        return static::query()->where('created_at', '<=', now()->subMonths(6));
+        return self::query()->where('created_at', '<=', now()->subMonths(6));
     }
 
     // _____________________________________________ relations SECTION __________________________________________
@@ -40,6 +42,11 @@ final class Gallery extends Model
     public function advertisement(): BelongsTo
     {
         return $this->belongsTo(Advertisement::class)->withDefault(['name' => __('Unknown advertisement')]);
+    }
+
+    protected function pruning(): void
+    {
+        Storage::disk(StorageDisk::LOCAL->value)->delete($this->url);
     }
 
     // _____________________________________________ model related methods SECTION ______________________________
