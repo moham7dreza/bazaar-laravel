@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Models;
 
 use Afsakar\FilamentOtpLogin\Models\Contracts\CanLoginDirectly;
+use App\Concerns\GeneratesUsernames;
 use App\Concerns\InteractWithSensitiveColumns;
 use App\Concerns\MustVerifyMobile;
 use App\Contracts\MustVerifyMobile as ShouldVerifiedMobile;
@@ -45,8 +46,9 @@ use Spatie\Permission\Traits\HasRoles;
 #[ScopedBy([LatestScope::class])]
 final class User extends Authenticatable implements CanLoginDirectly, FilamentUser, HasAvatar, ShouldVerifiedMobile
 {
-    use HasApiTokens;
+//    use GeneratesUsernames;
 
+    use HasApiTokens;
     // _____________________________________________ use SECTION ________________________________________________
     use HasFactory;
     use HasLocks;
