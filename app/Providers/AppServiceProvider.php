@@ -56,7 +56,7 @@ final class AppServiceProvider extends ServiceProvider
         $this->configureGates();
         $this->logSlowQuery();
         $this->loadExtraMigrationsPath();
-        $this->configureMacros();
+        $this->configureCarbon();
         $this->handleMissingTrans();
         $this->configureValidator();
         $this->configureDate();
@@ -96,6 +96,16 @@ final class AppServiceProvider extends ServiceProvider
             'retry'       => 2,
             'retry_delay' => 150,
         ]);
+
+        Http::macro('openai', static function () {
+            $apiKey = config()?->string('');
+
+            return Http::withHeaders([
+                'Content-Type'  => 'application/json',
+                'Authorization' => 'Bearer ' . $apiKey,
+            ])
+                ->baseUrl('https://api.openai.com/v1/chat');
+        });
     }
 
     private function configureVite(): void
@@ -139,7 +149,7 @@ final class AppServiceProvider extends ServiceProvider
         }
     }
 
-    private function configureMacros(): void
+    private function configureCarbon(): void
     {
         Carbon::macro('jdate', fn (): ?Jalalian => jalali_date($this));
     }
