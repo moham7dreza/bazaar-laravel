@@ -7,7 +7,9 @@ namespace Modules\Advertise\Repositories;
 use App\Abstracts\BaseRepository;
 use App\Data\DTOs\PaginatedListViewDTO;
 use App\Enums\UserId;
+use App\Models\Scopes\LatestScope;
 use DateTimeInterface;
+use DB;
 use Illuminate\Database\Eloquent\Builder;
 use Modules\Advertise\DataContracts\AdvertisementSearchDTO;
 use Modules\Advertise\Models\Advertisement;
@@ -23,6 +25,16 @@ final class AdvertisementReadRepository extends BaseRepository
         );
 
         return new PaginatedListViewDTO($items);
+    }
+
+    public function columnCounts(string $column): array
+    {
+        return $this->freshQuery()->getQuery()
+            ->withoutGlobalScope(LatestScope::class)
+            ->select($column, DB::raw('COUNT(*) as count'))
+            ->groupBy($column)
+            ->pluck('count', $column)
+            ->toArray();
     }
 
     public function getAdsOfUsersRegisteredWithinDate(int $limit, DateTimeInterface $date, int $perPage = 20): PaginatedListViewDTO
