@@ -16,6 +16,7 @@ use App\Rules\ValidateNationalCodeRule;
 use App\Services\TranslationService;
 use Carbon\CarbonImmutable;
 use Illuminate\Console\Scheduling\Event;
+use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Database\Connection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Events\QueryExecuted;
@@ -234,5 +235,26 @@ final class AppServiceProvider extends ServiceProvider
                 ->withPath($path);
         });
         Uri::macro('tracking', fn ($campaign) => $this->withQuery(['utm_campaign' => $campaign, 'utm_source' => 'website']));
+    }
+
+    private function configureManager(): void
+    {
+        $this->app->singleton(Manager::class, function (Application $application): Manager {
+
+            $config = $application['config']->get('services.manager');
+
+            $rules = [
+                'redirect'      => ['required', 'url'],
+                'config_id'     => ['required', 'string'],
+                'client_id'     => ['required', 'string'],
+                'client_secret' => ['required', 'string'],
+            ];
+
+            Validator::make($config, $rules)
+                ->setException(ManagerConfigException::class)
+                ->validate();
+
+            return new Manager($config);
+        });
     }
 }
