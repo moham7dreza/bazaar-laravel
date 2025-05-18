@@ -15,12 +15,14 @@ use App\Rules\ValidateImageRule;
 use App\Rules\ValidateNationalCodeRule;
 use App\Services\TranslationService;
 use Carbon\CarbonImmutable;
+use Filament\Notifications\Auth\VerifyEmail;
 use Illuminate\Console\Scheduling\Event;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Database\Connection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Events\QueryExecuted;
 use Illuminate\Http\UploadedFile;
+use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Pipeline\Hub;
 use Illuminate\Pipeline\Pipeline;
 use Illuminate\Support\Carbon;
@@ -256,5 +258,18 @@ final class AppServiceProvider extends ServiceProvider
 
             return new Manager($config);
         });
+    }
+
+    private function configureVerifyEmail(): void
+    {
+        // custom email verification template
+        VerifyEmail::toMailUsing(static fn (User $user, string $url) => (new MailMessage())
+            ->subject('Verify Email Address')
+            ->view('mail.email-verification', [ // TODO add template for it
+                'title'       => 'Confirm your email address',
+                'previewText' => 'Please confirm your email address',
+                'user'        => $user,
+                'url'         => $url,
+            ]));
     }
 }
