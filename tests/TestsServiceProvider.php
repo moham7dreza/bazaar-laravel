@@ -8,21 +8,28 @@ use Illuminate\Support\Facades\ParallelTesting;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Testing\TestResponse;
 
-class TestsServiceProvider extends ServiceProvider
+final class TestsServiceProvider extends ServiceProvider
 {
-    public function register(): void
-    {
-    }
+    public function register(): void {}
 
     public function boot(): void
     {
+        $this->configureParallelTests();
+
+        $this->configureTestResponse();
+    }
+
+    private function configureParallelTests(): void
+    {
         if ($this->isRunningTestsInParallel())
         {
-            ParallelTesting::setUpTestCase(function ($testCase, int $token): void {
-            });
+            ParallelTesting::setUpTestCase(function ($testCase, int $token): void {});
         }
+    }
 
-        TestResponse::macro('assertJsonDataMetaStructure', fn (array $data) => $this->assertJsonStructure([
+    private function configureTestResponse(): void
+    {
+        TestResponse::macro('assertApiJsonResponseStructure', fn (array $data) => $this->assertJsonStructure([
             'data' => $data,
             'meta' => [
                 'status',
