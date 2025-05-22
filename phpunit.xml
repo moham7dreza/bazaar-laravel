@@ -19,7 +19,7 @@
     </source>
     <coverage>
         <report>
-            <clover outputFile="coverage@tests.xml"/>
+            <clover outputFile="tests/coverage@tests.xml"/>
         </report>
     </coverage>
     <groups>

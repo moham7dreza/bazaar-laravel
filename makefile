@@ -236,12 +236,12 @@ testpf: ## Recreate test DB and run parallel tests
 testcov: ## Generate code coverage report
 	php artisan config:clear --ansi
 	php artisan migrate --force --env=testing
-	php artisan test --coverage --compact --min=30 --coverage-clover=coverage@tests.xml
+	php artisan test --coverage --compact --min=30 --coverage-clover=tests/coverage@tests.xml
 
 typecov: ## Generate type coverage report
 	php artisan config:clear --ansi
 	php artisan migrate --force --env=testing
-	php artisan test --type-coverage --compact --min=94 --type-coverage-json=type-coverage@tests.json
+	php artisan test --type-coverage --compact --min=94 --type-coverage-json=tests/type-coverage@tests.json
 
 testls: ## list tests
 	php artisan test --list-tests
