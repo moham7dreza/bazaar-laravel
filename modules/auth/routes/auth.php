@@ -11,8 +11,8 @@ use Modules\Auth\Http\Controllers\PasswordResetLinkController;
 use Modules\Auth\Http\Controllers\RegisteredUserController;
 use Modules\Auth\Http\Controllers\VerifyEmailController;
 
-Route::post('/register', [RegisteredUserController::class, 'store'])
-    ->middleware('guest')
+Route::post('/register', RegisteredUserController::class)
+    ->middleware(['guest', 'throttle:5,1'])
     ->name('register');
 
 Route::redirect('/login', 'super-admin');

@@ -24,7 +24,6 @@ use Modules\Advertise\Http\Controllers\Panel\AdvertisementNoteController;
 use Modules\Advertise\Http\Controllers\Panel\FavoriteAdvertisementController;
 use Modules\Advertise\Http\Controllers\Panel\GalleryController as PanelGalleryController;
 use Modules\Advertise\Http\Controllers\Panel\HistoryAdvertisementController;
-use Modules\Auth\Http\Controllers\RegisteredUserController;
 use Modules\Auth\Http\Controllers\RegisteredUserWithOTPController;
 use Modules\Auth\Http\Controllers\VerifyUserWithOTPController;
 use Modules\Content\Http\Controllers\Admin\MenuController;
@@ -55,7 +54,6 @@ Route::prefix(RouteSection::AUTH)
     ->name('auth.')
     ->group(function (): void {
 
-        Route::post('register', RegisteredUserController::class)->middleware('throttle:5,1')->name('register');
         Route::post('send-otp', RegisteredUserWithOTPController::class)
             ->middleware(['throttle:10,1', MetricsLoggerMiddleware::class])
             ->name('send-otp');
