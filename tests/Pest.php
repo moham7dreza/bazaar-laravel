@@ -41,7 +41,6 @@ function a(): TestDataGenerator
  * @phpstan-template T
  *
  * @param  Closure(): T  $callback
- * @param  string|null  $key
  * @return T
  */
 function remember(Closure $callback, ?string $key = null)
@@ -76,8 +75,6 @@ function asAdminUser(User $user): TestCase
  * in case of validation failures.
  *
  * @param  class-string<Illuminate\Foundation\Http\FormRequest>  $class
- * @param  array  $parameters
- * @return array
  *
  * @throws ReflectionException
  */
@@ -85,7 +82,7 @@ function validateFormRequest(string $class, array $parameters): array
 {
     try
     {
-        $request = Request::create('/', 'POST', $parameters);
+        $request = request()->create('/', 'POST', $parameters);
         app()->bind('request', fn () => $request);
         app($class);
 

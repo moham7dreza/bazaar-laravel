@@ -7,7 +7,6 @@ namespace Tests;
 use App\Enums\StorageDisk;
 use Closure;
 use Illuminate\Foundation\Testing\TestCase as BaseTestCase;
-use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Storage;
 use ReflectionFunction;
 
@@ -30,7 +29,7 @@ abstract class TestCase extends BaseTestCase
     {
         parent::setUp();
 
-        Cache::flush();
+        cache()->flush();
 
         $this->migrateAndSeed();
 
