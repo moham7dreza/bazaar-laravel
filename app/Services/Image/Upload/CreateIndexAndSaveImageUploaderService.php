@@ -8,15 +8,14 @@ use App\Data\DTOs\Image\ImageUploadDTO;
 use App\Services\Image\ImageService;
 use App\Utilities\Date\TimeUtility;
 use Exception;
+use Illuminate\Support\Facades\Log;
 use Intervention\Image\Laravel\Facades\Image;
-use Log;
 
 final readonly class CreateIndexAndSaveImageUploaderService implements ImageUploader
 {
     public function __construct(
         private ImageService $imageService,
-    ) {
-    }
+    ) {}
 
     public function handle(ImageUploadDTO $DTO): array|string|null
     {

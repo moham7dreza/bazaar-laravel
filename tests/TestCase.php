@@ -8,8 +8,8 @@ use App\Enums\StorageDisk;
 use Closure;
 use Illuminate\Foundation\Testing\TestCase as BaseTestCase;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Storage;
 use ReflectionFunction;
-use Storage;
 
 abstract class TestCase extends BaseTestCase
 {
@@ -17,6 +17,7 @@ abstract class TestCase extends BaseTestCase
      * This static property is used for sharing data between test cases in a file/class.
      */
     protected static array $dataContainer = [];
+
     private static bool $migrated         = false;
 
     public static function tearDownAfterClass(): void

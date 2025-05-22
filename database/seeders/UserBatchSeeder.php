@@ -6,15 +6,15 @@ namespace Database\Seeders;
 
 use App\Models\Geo\City;
 use App\Models\User;
-use DB;
-use Hash;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Schema;
 use Modules\Advertise\Enums\AdvertisementStatus;
 use Modules\Advertise\Enums\AdvertisementType;
 use Modules\Advertise\Models\Advertisement;
 use Modules\Advertise\Models\Category;
-use Schema;
 
 final class UserBatchSeeder extends Seeder
 {

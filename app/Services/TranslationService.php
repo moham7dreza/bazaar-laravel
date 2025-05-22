@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Services;
 
 use Exception;
-use Log;
+use Illuminate\Support\Facades\Log;
 
 final class TranslationService
 {
