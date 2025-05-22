@@ -328,11 +328,11 @@ reload: ## Update and refresh application
 	php artisan schedule:run
 	php artisan backup:list
 	php artisan scramble:analyze
+	make ide
 	php artisan up
 
 dev: ## Full development setup
 	make reload
-	make ide
 	make checkup
 	make testr
 	make next-reload
