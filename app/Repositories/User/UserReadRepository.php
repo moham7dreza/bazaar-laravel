@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Repositories\User;
 
-use App\Abstracts\BaseRepository;
 use App\Data\DTOs\PaginatedListViewDTO;
 use App\Enums\UserPermission;
 use App\Enums\UserRole;
@@ -12,11 +11,11 @@ use App\Models\User;
 use Illuminate\Database\Eloquent\Builder;
 use Modules\Advertise\Models\Advertisement;
 
-final class UserReadRepository extends BaseRepository
+final class UserReadRepository
 {
     public function getUsersWithLatestAdvertisementPostedDate(int $limit = 1000, int $perPage = 20): PaginatedListViewDTO
     {
-        $items = $this->freshQuery()->getQuery()
+        $items = $this->baseQuery()
             ->select('*') // only get required fields
             ->addSelect([
                 'latest_advertisement_posted_at' => Advertisement::query()
@@ -34,7 +33,7 @@ final class UserReadRepository extends BaseRepository
 
     public function getUsersWithSpecialAdvertisements(int $limit = 1000, int $perPage = 20): PaginatedListViewDTO
     {
-        $items = $this->freshQuery()->getQuery()
+        $items = $this->baseQuery()
             ->select('*') // only get required fields
             ->withWhereHas('advertisements', fn (Builder $builder) => $builder->where('is_special', true))
             ->take($limit)
@@ -46,7 +45,7 @@ final class UserReadRepository extends BaseRepository
 
     public function getCountOfUsersRole(UserRole $role): int
     {
-        return $this->freshQuery()->getQuery()
+        return $this->baseQuery()
             ->with('roles')
             ->get()
             ->filter(fn (User $user) => $user->roles->where('name', $role)->toArray())
@@ -55,14 +54,14 @@ final class UserReadRepository extends BaseRepository
 
     public function getCountOfUsersPermission(UserPermission $permission): int
     {
-        return $this->freshQuery()->getQuery()
+        return $this->baseQuery()
             ->with('permissions')
             ->get()
             ->filter(fn (User $user) => $user->permissions->where('name', $permission)->toArray())
             ->count();
     }
 
-    protected function baseQuery(): Builder
+    private function baseQuery(): Builder
     {
         return User::query();
     }

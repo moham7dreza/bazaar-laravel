@@ -1,16 +1,18 @@
 <?php
 
-use App\Abstracts\BaseRepository;
+declare(strict_types=1);
+
 use App\Data\DTOs\PaginatedListViewDTO;
+use App\Models\Message;
 use Illuminate\Database\Eloquent\Builder;
 
 // TODO implement Message entity
 
-class MessageReadRepository extends BaseRepository
+final class MessageReadRepository
 {
     public function getUserUnreadMessages(int $userId, int $limit = 20, int $perPage = 20): PaginatedListViewDTO
     {
-        $items = $this->freshQuery()->getQuery()
+        $items = $this->baseQuery()
             ->with('user')
             // sender_id filed in `nullable` in database
             ->where(fn (Builder $builder) => $builder->whereNot('sender_id', $userId)
@@ -24,7 +26,7 @@ class MessageReadRepository extends BaseRepository
         return new PaginatedListViewDTO($items);
     }
 
-    protected function baseQuery(): Builder
+    private function baseQuery(): Builder
     {
         return Message::query();
     }

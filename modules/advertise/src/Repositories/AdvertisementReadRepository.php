@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Modules\Advertise\Repositories;
 
-use App\Abstracts\BaseRepository;
 use App\Data\DTOs\PaginatedListViewDTO;
 use App\Enums\UserId;
 use App\Models\Scopes\LatestScope;
@@ -15,12 +14,12 @@ use Modules\Advertise\DataContracts\AdvertisementSearchDTO;
 use Modules\Advertise\Models\Advertisement;
 use Modules\Advertise\Services\AdvertisementSearchService;
 
-final class AdvertisementReadRepository extends BaseRepository
+final class AdvertisementReadRepository
 {
     public function search(AdvertisementSearchDTO $searchDTO): PaginatedListViewDTO
     {
         $items = app(AdvertisementSearchService::class)->getAdvertisements(
-            builder: $this->freshQuery()->getQuery(),
+            builder: $this->baseQuery(),
             searchDTO: $searchDTO,
         );
 
@@ -39,7 +38,7 @@ final class AdvertisementReadRepository extends BaseRepository
 
     public function getAdsOfUsersRegisteredWithinDate(int $limit, DateTimeInterface $date, int $perPage = 20): PaginatedListViewDTO
     {
-        $items = $this->freshQuery()->getQuery()
+        $items = $this->baseQuery()
             ->with('user:created_at')
             ->whereHas('user', fn (Builder $query) => $query->createdAfter($date))
             ->active()
@@ -53,7 +52,7 @@ final class AdvertisementReadRepository extends BaseRepository
 
     public function getTopAdsOfDistinctUsersHaveAvatar(int $limit, int $perPage = 20): PaginatedListViewDTO
     {
-        $items = $this->freshQuery()->getQuery()
+        $items = $this->baseQuery()
             ->select('user_id')
             ->distinct('user_id')
             ->whereRelation('user', function (Builder $query): void {
@@ -75,7 +74,7 @@ final class AdvertisementReadRepository extends BaseRepository
 
     public function getAdsWithCounts(int $limit, int $perPage = 20): PaginatedListViewDTO
     {
-        $items = $this->freshQuery()->getQuery()
+        $items = $this->baseQuery()
             ->select('*')
             ->withCount([
                 'images',
@@ -91,7 +90,7 @@ final class AdvertisementReadRepository extends BaseRepository
         return new PaginatedListViewDTO($items);
     }
 
-    protected function baseQuery(): Builder
+    private function baseQuery(): Builder
     {
         return Advertisement::query()->active();
     }
