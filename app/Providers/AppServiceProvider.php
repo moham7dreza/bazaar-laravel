@@ -13,6 +13,7 @@ use App\Pipelines\Image\ImageThumbnailResizePipeline;
 use App\Pipelines\Pipelines;
 use App\Rules\ValidateImageRule;
 use App\Rules\ValidateNationalCodeRule;
+use App\Services\Manager;
 use App\Services\TranslationService;
 use Carbon\CarbonImmutable;
 use Filament\Notifications\Auth\VerifyEmail;
@@ -44,9 +45,7 @@ use Morilog\Jalali\Jalalian;
 
 final class AppServiceProvider extends ServiceProvider
 {
-    public function register(): void
-    {
-    }
+    public function register(): void {}
 
     public function boot(): void
     {
@@ -241,7 +240,7 @@ final class AppServiceProvider extends ServiceProvider
 
     private function configureManager(): void
     {
-        $this->app->singleton(Manager::class, function (Application $application): Manager {
+        $this->app->singleton(function (Application $application): Manager {
 
             $config = $application['config']->get('services.manager');
 
