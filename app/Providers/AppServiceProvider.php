@@ -7,6 +7,7 @@ namespace App\Providers;
 use App\Broadcasting\WhatsappChannel;
 use App\Console\Commands\System\DataMigrationCommand;
 use App\Enums\Language;
+use App\Exceptions\ManagerConfigException;
 use App\Models\Holiday;
 use App\Models\User;
 use App\Pipelines\Image\ImageThumbnailResizePipeline;
@@ -45,7 +46,9 @@ use Morilog\Jalali\Jalalian;
 
 final class AppServiceProvider extends ServiceProvider
 {
-    public function register(): void {}
+    public function register(): void
+    {
+    }
 
     public function boot(): void
     {
