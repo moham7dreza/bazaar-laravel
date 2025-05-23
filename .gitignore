@@ -32,7 +32,7 @@ public/sitemap.xml
 frankenphp
 frankenphp-worker.php
 
-test/coverage@tests.xml
+tests/coverage@tests.xml
 tests/type-coverage@tests.json
 
 phpstan-baseline.neon
