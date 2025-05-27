@@ -32,6 +32,7 @@ use Illuminate\Support\Facades\Date;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Facades\Validator;
@@ -132,6 +133,7 @@ final class AppServiceProvider extends ServiceProvider
 
     private function logSlowQuery(): void
     {
+        DB::enableQueryLog();
         DB::whenQueryingForLongerThan(5000, static function (Connection $connection, QueryExecuted $event): void {
 
             mongo_info('slow-query', [
@@ -143,6 +145,8 @@ final class AppServiceProvider extends ServiceProvider
                 'path'           => request()?->path(),
                 'req'            => request()?->all(),
             ]);
+
+            Log::warning('Long running queries detected', $connection->getQueryLog());
         });
     }
 
