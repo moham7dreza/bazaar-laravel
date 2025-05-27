@@ -35,8 +35,9 @@ class PermissionSeeder extends Seeder
         $role_super_admin->givePermissionTo(UserPermission::cases());
         $this->command->info('permissions assigned to admin role.');
 
-        $super_admin = User::query()->find(UserId::Admin)
-            ?? User::query()->admin()->first()
+        $super_admin =
+//            User::query()->find(UserId::Admin) ??
+            User::query()->admin()->first()
             ?? User::factory()->admin()->create();
         $this->command->info('admin user ok.');
 
