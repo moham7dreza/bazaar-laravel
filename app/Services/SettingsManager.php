@@ -7,9 +7,22 @@ namespace App\Services;
 use App\Exceptions\MissingSettingsException;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Fluent;
 
 final class SettingsManager
 {
+    private Fluent $settings;
+
+    public function __construct(array $config)
+    {
+        $this->settings = new Fluent($config);
+    }
+
+    public function getBackupLocations(): array
+    {
+        return $this->settings->array('backup_locations');
+    }
+
     public function getActivePaymentGateway(array $gateways)
     {
         return Arr::sole($gateways, static fn ($gateway) => true === $gateway['enabled']);
