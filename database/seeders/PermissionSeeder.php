@@ -13,7 +13,7 @@ use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\PermissionRegistrar;
 
-class PermissionSeeder extends Seeder
+final class PermissionSeeder extends Seeder
 {
     public function run(): void
     {
@@ -39,6 +39,8 @@ class PermissionSeeder extends Seeder
 //            User::query()->find(UserId::Admin) ??
             User::query()->admin()->first()
             ?? User::factory()->admin()->create();
+        context()->add('admin', $super_admin);
+
         $this->command->info('admin user ok.');
 
         auth()->loginUsingId($super_admin->id);

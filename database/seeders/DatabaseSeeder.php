@@ -18,12 +18,12 @@ final class DatabaseSeeder extends Seeder
 
         if ( ! isEnvProduction())
         {
-            collect(self::$seeders)->each(fn ($seeder) => $this->call($seeder));
-
             $this->call([
-                TopToDownSeeder::class,
                 PermissionSeeder::class,
+                TopToDownSeeder::class,
             ]);
+
+            collect(self::$seeders)->each(fn ($seeder) => $this->call($seeder));
         }
     }
 }
