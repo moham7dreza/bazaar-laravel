@@ -4,9 +4,10 @@ declare(strict_types=1);
 
 namespace App\Services;
 
-class Manager
+final readonly class Manager
 {
     public function __construct(
-        public readonly array $config,
-    ) {}
+        public array $config,
+    ) {
+    }
 }

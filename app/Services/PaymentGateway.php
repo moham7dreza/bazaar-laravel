@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace App\Services;
 
-use Exception;
 use Illuminate\Support\Arr;
 use InvalidArgumentException;
+use RuntimeException;
 
 final class PaymentGateway
 {
@@ -22,17 +22,17 @@ final class PaymentGateway
         // Before: verbose type checking
         if ( ! isset($this->config['api_key']) || ! is_string($this->config['api_key']))
         {
-            throw new Exception('API key is required and must be a string');
+            throw new RuntimeException('API key is required and must be a string');
         }
 
         if (isset($this->config['debug']) && ! is_bool($this->config['debug']))
         {
-            throw new Exception('Debug flag must be a boolean value');
+            throw new RuntimeException('Debug flag must be a boolean value');
         }
 
         if (isset($this->config['allowed_currencies']) && ! is_array($this->config['allowed_currencies']))
         {
-            throw new Exception('Allowed currencies must be an array');
+            throw new RuntimeException('Allowed currencies must be an array');
         }
 
         // Process payment...
@@ -48,7 +48,7 @@ final class PaymentGateway
 
         } catch (InvalidArgumentException $e)
         {
-            throw new Exception('Invalid payment configuration: ' . $e->getMessage());
+            throw new RuntimeException('Invalid payment configuration: ' . $e->getMessage());
         }
     }
 }

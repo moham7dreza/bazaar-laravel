@@ -7,7 +7,7 @@ namespace App\Services;
 use App\Models\User;
 use Illuminate\Support\Str;
 
-class ForumPostService
+final class ForumPostService
 {
     public function processReply(string $content, User $author)
     {
@@ -39,5 +39,9 @@ class ForumPostService
             'allow_unsafe_links' => false,
             'use_underline'      => false, // Prevent conflicts with code
         ]);
+    }
+
+    private function addAuthorContext(string $formatted, User $author): void
+    {
     }
 }

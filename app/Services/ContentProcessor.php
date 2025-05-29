@@ -6,9 +6,9 @@ namespace App\Services;
 
 use Illuminate\Support\Str;
 
-class ContentProcessor
+final class ContentProcessor
 {
-    protected array $secureOptions = [
+    private array $secureOptions = [
         'html_input'         => 'strip',
         'allow_unsafe_links' => false,
     ];
