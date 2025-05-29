@@ -42,6 +42,7 @@ use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Str;
 use Illuminate\Support\Uri;
 use Illuminate\Validation\InvokableValidationRule;
+use Illuminate\Validation\Rules\Email;
 use Illuminate\Validation\Rules\Password;
 use Morilog\Jalali\Jalalian;
 
@@ -71,6 +72,24 @@ final class AppServiceProvider extends ServiceProvider
         $this->configureNotification();
         $this->configureSchedule();
         $this->configureUri();
+        $this->configureEmail();
+    }
+
+    public function configureEmail(): void
+    {
+        Email::macro('contractor', static fn () => Email::default()
+            ->strict()
+            ->validateMxRecord()
+            ->rules('ends_with:@contractors.org,@freelance.net'));
+
+        Email::macro('customer', static fn () => Email::default()
+            ->strict()
+            ->rules('not_ends_with:@spam-domains.com'));
+
+        Email::macro('partner', static fn () => Email::default()
+            ->validateMxRecord()
+            ->preventSpoofing()
+            ->rules('ends_with:@trusted-partners.biz'));
     }
 
     private function configureCommands(): void
