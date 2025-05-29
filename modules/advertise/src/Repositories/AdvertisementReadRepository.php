@@ -28,7 +28,7 @@ final class AdvertisementReadRepository
 
     public function columnCounts(string $column): array
     {
-        return $this->freshQuery()->getQuery()
+        return $this->baseQuery()
             ->withoutGlobalScope(LatestScope::class)
             ->select($column, DB::raw('COUNT(*) as count'))
             ->groupBy($column)

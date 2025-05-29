@@ -19,6 +19,9 @@ final class AdvertisementSearchService
             ->through([
                 FilterAdvertisementsByPhrase::class,
             ])
+            ->finally(function (): void {
+                info('search request log.', request()->all());
+            })
             ->then(fn (Builder $query) => $query
                 ->active()
                 ->published()
