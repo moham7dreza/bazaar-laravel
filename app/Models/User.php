@@ -46,9 +46,10 @@ use Spatie\Permission\Traits\HasRoles;
 #[ScopedBy([LatestScope::class])]
 final class User extends Authenticatable implements CanLoginDirectly, FilamentUser, HasAvatar, ShouldVerifiedMobile
 {
-//    use GeneratesUsernames;
+    //    use GeneratesUsernames;
 
     use HasApiTokens;
+
     // _____________________________________________ use SECTION ________________________________________________
     use HasFactory;
     use HasLocks;
@@ -200,6 +201,11 @@ final class User extends Authenticatable implements CanLoginDirectly, FilamentUs
     public function specialAdvertisements(): HasMany
     {
         return $this->hasMany(Advertisement::class)->withAttributes(['is_special' => true]);
+    }
+
+    public function actionTags()
+    {
+        return $this->hasMany(UserActionTag::class);
     }
 
     // _____________________________________________ method SECTION __________________________________________
