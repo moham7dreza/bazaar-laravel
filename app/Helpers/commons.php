@@ -152,3 +152,18 @@ if ( ! function_exists('admin'))
         return $user?->isAdmin() ? $user : null;
     }
 }
+
+if ( ! function_exists('arrayKeySort'))
+{
+    function arrayKeySort(array $array): array
+    {
+        return collect($array)
+            ->sortKeysUsing(function ($a, $b) {
+                $numA = (int) filter_var($a, FILTER_SANITIZE_NUMBER_INT);
+                $numB = (int) filter_var($b, FILTER_SANITIZE_NUMBER_INT);
+
+                return $numA <=> $numB;
+            })
+            ->toArray();
+    }
+}
