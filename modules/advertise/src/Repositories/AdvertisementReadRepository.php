@@ -90,6 +90,16 @@ final class AdvertisementReadRepository
         return new PaginatedListViewDTO($items);
     }
 
+    public function getAdsCountWhichTypeOfThemUsedMore()
+    {
+        return $this->baseQuery()
+            ->select('ads_type', \Illuminate\Support\Facades\DB::raw('COUNT(*) as total'))
+            ->groupBy('ads_type')
+            ->having('total', '>', 10)
+            ->toBase() // this is necessary for do not ignore groupBy and having
+            ->getCountForPagination();
+    }
+
     private function baseQuery(): Builder
     {
         return Advertisement::query()->active();
