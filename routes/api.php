@@ -31,6 +31,11 @@ use Modules\Content\Http\Controllers\Admin\PageController;
 use Modules\Content\Http\Controllers\App\MenuController as HomeMenuController;
 use Modules\Content\Http\Controllers\App\PageController as HomePageController;
 
+when(isEnvStaging(), function (): void {
+
+    Route::view('test', 'test');
+});
+
 Route::get('user', static fn (Request $request) => $request->user())->middleware(['auth:sanctum', 'mobileVerified'])->name('user.info');
 
 Route::get('categories', [HomeCategoryController::class, 'index'])->name('categories.index');
