@@ -49,13 +49,13 @@ class UserFactory extends Factory
         })->afterCreating(function (User $user): void {
             if ( ! isEnvTesting())
             {
-//                $response = Http::get('https://thispersondoesnotexist.com/');
-//
-//                $imageName = 'profile-pic.jpg';
-                Storage::disk(StorageDisk::PUBLIC->value)->put($user->avatar_url, file_get_contents(asset($user->avatar_url)));
-//                Storage::disk(StorageDisk::PUBLIC->value)->put("images/{$imageName}", $response->body());
-//
-//                $user->update(['avatar_url' => "images/{$imageName}"]);
+                //                $response = Http::get('https://thispersondoesnotexist.com/');
+                //
+                //                $imageName = 'profile-pic.jpg';
+                Storage::disk(StorageDisk::PUBLIC->value)->put($user->avatar_url, file_get_contents(public_path($user->avatar_url)));
+                //                Storage::disk(StorageDisk::PUBLIC->value)->put("images/{$imageName}", $response->body());
+                //
+                //                $user->update(['avatar_url' => "images/{$imageName}"]);
             }
         });
     }
