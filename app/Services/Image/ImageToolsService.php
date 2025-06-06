@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Services\Image;
 
-use App\Utilities\Date\TimeUtility;
+use App\Helpers\TimeUtility;
 
 class ImageToolsService
 {

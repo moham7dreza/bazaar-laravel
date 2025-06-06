@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace App\Services\Image\Upload;
 
 use App\Data\DTOs\Image\ImageUploadDTO;
+use App\Helpers\TimeUtility;
 use App\Services\Image\ImageService;
-use App\Utilities\Date\TimeUtility;
 use Exception;
 use Illuminate\Support\Facades\Log;
 use Intervention\Image\Laravel\Facades\Image;

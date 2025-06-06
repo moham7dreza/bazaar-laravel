@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers;
 
+use App\Helpers\DomainRouter;
 use App\Http\Responses\ApiJsonResponse;
-use App\Services\DomainRouter;
 use Illuminate\Http\Request;
 
 final class DomainRouterController

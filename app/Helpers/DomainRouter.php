@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Services;
+namespace App\Helpers;
 
 use App\Enums\Environment;
 use Illuminate\Http\Request;

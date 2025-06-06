@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 use App\Enums\Environment;
-use App\Services\DomainRouter;
+use App\Helpers\DomainRouter;
 use Illuminate\Http\Request;
 
 beforeEach(function (): void {

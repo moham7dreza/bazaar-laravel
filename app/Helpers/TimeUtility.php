@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Utilities\Date;
+namespace App\Helpers;
 
 use Carbon\Carbon;
 use DateTimeInterface;
