@@ -36,6 +36,13 @@ when(isEnvStaging(), function (): void {
     Route::view('test', 'test');
 });
 
+when(isEnvLocal(), function (): void {
+
+    Route::post('idempotency', fn () => logger('idempotency passed'))
+        ->middleware(Infinitypaul\Idempotency\Middleware\EnsureIdempotency::class)
+        ->name('idempotency');
+});
+
 Route::get('user', static fn (Request $request) => $request->user())->name('user.info')
     ->middleware(['auth:sanctum', 'mobileVerified']);
 
