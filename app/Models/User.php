@@ -15,12 +15,14 @@ use App\Enums\UserPermission;
 use App\Enums\UserRole;
 use App\Models\Geo\City;
 use App\Models\Scopes\LatestScope;
+use Database\Factories\UserFactory;
 use DateTimeInterface;
 use Filament\Models\Contracts\FilamentUser;
 use Filament\Models\Contracts\HasAvatar;
 use Filament\Panel;
 use Illuminate\Database\Eloquent\Attributes\Scope;
 use Illuminate\Database\Eloquent\Attributes\ScopedBy;
+use Illuminate\Database\Eloquent\Attributes\UseFactory;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -43,6 +45,7 @@ use Spatie\Activitylog\LogOptions;
 use Spatie\Activitylog\Traits\LogsActivity;
 use Spatie\Permission\Traits\HasRoles;
 
+#[UseFactory(UserFactory::class)]
 #[ScopedBy([LatestScope::class])]
 final class User extends Authenticatable implements CanLoginDirectly, FilamentUser, HasAvatar, ShouldVerifiedMobile
 {

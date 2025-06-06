@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Database\Seeders;
 
+use App\Models\Geo\City;
 use App\Models\Holiday;
 use App\Models\PaymentGateway;
 use App\Models\SmsGateway;
@@ -42,6 +43,9 @@ final class TopToDownSeeder extends Seeder
 
         // days
         Holiday::factory(5)->create();
+
+        // geo
+        City::factory(5)->create();
 
         $this->command->alert('Relations seeded');
     }
