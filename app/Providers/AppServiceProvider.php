@@ -8,10 +8,10 @@ use App\Broadcasting\WhatsappChannel;
 use App\Console\Commands\System\DataMigrationCommand;
 use App\Enums\Language;
 use App\Exceptions\ManagerConfigException;
+use App\Http\Filters\FiltersList;
+use App\Http\Filters\Image\ImageThumbnailResizeFilter;
 use App\Models\Holiday;
 use App\Models\User;
-use App\Pipelines\Image\ImageThumbnailResizePipeline;
-use App\Pipelines\Pipelines;
 use App\Rules\ValidateImageRule;
 use App\Rules\ValidateNationalCodeRule;
 use App\Services\Manager;
@@ -48,9 +48,7 @@ use Morilog\Jalali\Jalalian;
 
 final class AppServiceProvider extends ServiceProvider
 {
-    public function register(): void
-    {
-    }
+    public function register(): void {}
 
     public function boot(): void
     {
@@ -233,10 +231,10 @@ final class AppServiceProvider extends ServiceProvider
     {
         $this->app
             ->get(Hub::class)
-            ->pipeline(Pipelines::PROCESS_UPLOADED_IMAGE, fn (Pipeline $pipeline, UploadedFile $image) => $pipeline
+            ->pipeline(FiltersList::PROCESS_UPLOADED_IMAGE, fn (Pipeline $pipeline, UploadedFile $image) => $pipeline
                 ->send($image)
                 ->through([
-                    ImageThumbnailResizePipeline::class,
+                    ImageThumbnailResizeFilter::class,
                 ])
                 ->thenReturn());
     }

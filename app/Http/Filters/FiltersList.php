@@ -1,8 +1,10 @@
 <?php
 
-namespace App\Pipelines;
+declare(strict_types=1);
 
-final readonly class Pipelines
+namespace App\Http\Filters;
+
+final readonly class FiltersList
 {
     public const string PROCESS_UPLOADED_IMAGE = 'process_uploaded_image';
 }

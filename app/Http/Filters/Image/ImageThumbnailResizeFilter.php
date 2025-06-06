@@ -1,21 +1,26 @@
 <?php
 
-namespace App\Pipelines\Image;
+declare(strict_types=1);
 
+namespace App\Http\Filters\Image;
+
+use App\Pipelines\Image\Constraint;
+use Closure;
 use Illuminate\Http\UploadedFile;
 use Intervention\Image\Laravel\Facades\Image;
 
-final readonly class ImageThumbnailResizePipeline
+class ImageThumbnailResizeFilter
 {
-    public function __invoke(UploadedFile $image, \Closure $next)
+    public function __invoke(UploadedFile $image, Closure $next)
     {
         $image = Image::read($image);
 
         $ratio = $image->width() / $image->height();
 
-        [$width, $height] = match (true) {
+        [$width, $height] = match (true)
+        {
             $ratio < 1   => [400, null],
-            $ratio === 1 => [400, 400],
+            1 === $ratio => [400, 400],
             $ratio > 1   => [null, 300],
         };
 
