@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace App\Http\Middleware;
 
 use Closure;
-use Context;
 use Illuminate\Http\Request;
-use Log;
+use Illuminate\Support\Facades\Context;
+use Illuminate\Support\Facades\Log;
 use Symfony\Component\HttpFoundation\Response;
 
 final class MetricsLoggerMiddleware

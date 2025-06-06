@@ -9,16 +9,20 @@ use App\Models\PaymentGateway;
 use App\Models\SmsGateway;
 use App\Models\SmsLog;
 use App\Models\User;
+use Illuminate\Container\Attributes\Context;
 use Illuminate\Database\Eloquent\Factories\Sequence;
 use Illuminate\Database\Seeder;
 
 final class TopToDownSeeder extends Seeder
 {
-    public function run(): void
-    {
+    public function run(
+        #[Context('admin')]
+        User $admin,
+    ): void {
         // User
         User::factory(5)->suspended()->create();
         $users = User::factory(5)->create();
+        context()->add('users', $users);
         /*
         User::factory(5)->admin()
             ->sequence(fn (Sequence $sequence) => [

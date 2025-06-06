@@ -9,6 +9,11 @@ use App\Http\Controllers\ImageController;
 use App\Http\Controllers\SyncRolePermissionsController;
 use Illuminate\Support\Facades\Route;
 
+when(isEnvLocal(), function (): void {
+
+    Route::view('test', 'test');
+});
+
 Route::fallback(FallbackController::class);
 
 Route::get('/', HomeController::class)->name('web.welcome');
@@ -26,5 +31,10 @@ Route::middleware([
         Route::get('domain-router', DomainRouterController::class)->name('web.domain-router');
     });
 
-Route::get('image', [ImageController::class, 'index']);
-Route::post('image/store', [ImageController::class, 'store'])->name('image.store');
+Route::prefix('image')
+    ->controller(ImageController::class)
+    ->group(function (): void {
+
+        Route::get('/', 'index')->name('image.index');
+        Route::post('store', 'store')->name('image.store');
+    });

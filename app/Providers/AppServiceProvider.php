@@ -7,19 +7,24 @@ namespace App\Providers;
 use App\Broadcasting\WhatsappChannel;
 use App\Console\Commands\System\DataMigrationCommand;
 use App\Enums\Language;
+use App\Exceptions\ManagerConfigException;
 use App\Models\Holiday;
 use App\Models\User;
 use App\Pipelines\Image\ImageThumbnailResizePipeline;
 use App\Pipelines\Pipelines;
 use App\Rules\ValidateImageRule;
 use App\Rules\ValidateNationalCodeRule;
+use App\Services\Manager;
 use App\Services\TranslationService;
 use Carbon\CarbonImmutable;
+use Filament\Notifications\Auth\VerifyEmail;
 use Illuminate\Console\Scheduling\Event;
+use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Database\Connection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Events\QueryExecuted;
 use Illuminate\Http\UploadedFile;
+use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Pipeline\Hub;
 use Illuminate\Pipeline\Pipeline;
 use Illuminate\Support\Carbon;
@@ -27,6 +32,7 @@ use Illuminate\Support\Facades\Date;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Facades\Validator;
@@ -36,6 +42,7 @@ use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Str;
 use Illuminate\Support\Uri;
 use Illuminate\Validation\InvokableValidationRule;
+use Illuminate\Validation\Rules\Email;
 use Illuminate\Validation\Rules\Password;
 use Morilog\Jalali\Jalalian;
 
@@ -56,7 +63,7 @@ final class AppServiceProvider extends ServiceProvider
         $this->configureGates();
         $this->logSlowQuery();
         $this->loadExtraMigrationsPath();
-        $this->configureMacros();
+        $this->configureCarbon();
         $this->handleMissingTrans();
         $this->configureValidator();
         $this->configureDate();
@@ -65,6 +72,24 @@ final class AppServiceProvider extends ServiceProvider
         $this->configureNotification();
         $this->configureSchedule();
         $this->configureUri();
+        $this->configureEmail();
+    }
+
+    public function configureEmail(): void
+    {
+        Email::macro('contractor', static fn () => Email::default()
+            ->strict()
+            ->validateMxRecord()
+            ->rules('ends_with:@contractors.org,@freelance.net'));
+
+        Email::macro('customer', static fn () => Email::default()
+            ->strict()
+            ->rules('not_ends_with:@spam-domains.com'));
+
+        Email::macro('partner', static fn () => Email::default()
+            ->validateMxRecord()
+            ->preventSpoofing()
+            ->rules('ends_with:@trusted-partners.biz'));
     }
 
     private function configureCommands(): void
@@ -96,6 +121,16 @@ final class AppServiceProvider extends ServiceProvider
             'retry'       => 2,
             'retry_delay' => 150,
         ]);
+
+        Http::macro('openai', static function () {
+            $apiKey = config()?->string('');
+
+            return Http::withHeaders([
+                'Content-Type'  => 'application/json',
+                'Authorization' => 'Bearer ' . $apiKey,
+            ])
+                ->baseUrl('https://api.openai.com/v1/chat');
+        });
     }
 
     private function configureVite(): void
@@ -117,6 +152,7 @@ final class AppServiceProvider extends ServiceProvider
 
     private function logSlowQuery(): void
     {
+        DB::enableQueryLog();
         DB::whenQueryingForLongerThan(5000, static function (Connection $connection, QueryExecuted $event): void {
 
             mongo_info('slow-query', [
@@ -128,6 +164,8 @@ final class AppServiceProvider extends ServiceProvider
                 'path'           => request()?->path(),
                 'req'            => request()?->all(),
             ]);
+
+            Log::warning('Long running queries detected', $connection->getQueryLog());
         });
     }
 
@@ -139,7 +177,7 @@ final class AppServiceProvider extends ServiceProvider
         }
     }
 
-    private function configureMacros(): void
+    private function configureCarbon(): void
     {
         Carbon::macro('jdate', fn (): ?Jalalian => jalali_date($this));
     }
@@ -224,5 +262,39 @@ final class AppServiceProvider extends ServiceProvider
                 ->withPath($path);
         });
         Uri::macro('tracking', fn ($campaign) => $this->withQuery(['utm_campaign' => $campaign, 'utm_source' => 'website']));
+    }
+
+    private function configureManager(): void
+    {
+        $this->app->singleton(function (Application $application): Manager {
+
+            $config = $application['config']->get('services.manager');
+
+            $rules = [
+                'redirect'      => ['required', 'url'],
+                'config_id'     => ['required', 'string'],
+                'client_id'     => ['required', 'string'],
+                'client_secret' => ['required', 'string'],
+            ];
+
+            Validator::make($config, $rules)
+                ->setException(ManagerConfigException::class)
+                ->validate();
+
+            return new Manager($config);
+        });
+    }
+
+    private function configureVerifyEmail(): void
+    {
+        // custom email verification template
+        VerifyEmail::toMailUsing(static fn (User $user, string $url) => (new MailMessage())
+            ->subject('Verify Email Address')
+            ->view('mail.email-verification', [ // TODO add template for it
+                'title'       => 'Confirm your email address',
+                'previewText' => 'Please confirm your email address',
+                'user'        => $user,
+                'url'         => $url,
+            ]));
     }
 }

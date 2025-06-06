@@ -5,10 +5,12 @@ declare(strict_types=1);
 namespace App\Models;
 
 use Afsakar\FilamentOtpLogin\Models\Contracts\CanLoginDirectly;
+use App\Concerns\GeneratesUsernames;
 use App\Concerns\InteractWithSensitiveColumns;
 use App\Concerns\MustVerifyMobile;
 use App\Contracts\MustVerifyMobile as ShouldVerifiedMobile;
 use App\Enums\StorageDisk;
+use App\Enums\Theme;
 use App\Enums\UserPermission;
 use App\Enums\UserRole;
 use App\Models\Geo\City;
@@ -20,6 +22,7 @@ use Filament\Panel;
 use Illuminate\Database\Eloquent\Attributes\Scope;
 use Illuminate\Database\Eloquent\Attributes\ScopedBy;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -43,7 +46,10 @@ use Spatie\Permission\Traits\HasRoles;
 #[ScopedBy([LatestScope::class])]
 final class User extends Authenticatable implements CanLoginDirectly, FilamentUser, HasAvatar, ShouldVerifiedMobile
 {
+    //    use GeneratesUsernames;
+
     use HasApiTokens;
+
     // _____________________________________________ use SECTION ________________________________________________
     use HasFactory;
     use HasLocks;
@@ -58,6 +64,7 @@ final class User extends Authenticatable implements CanLoginDirectly, FilamentUs
     // _____________________________________________ props SECTION ______________________________________________
 
     const int TYPE_USER  = 0;
+
     const int TYPE_ADMIN = 1;
 
     protected $fillable = [
@@ -77,6 +84,12 @@ final class User extends Authenticatable implements CanLoginDirectly, FilamentUs
     protected $hidden = [
         'password',
         'remember_token',
+    ];
+
+    protected $attributes = [
+        'theme'     => Theme::DRACULA->value,
+        'is_active' => true,
+        'user_type' => self::TYPE_USER,
     ];
 
     protected static array $recordEvents = ['deleted', 'updated'];
@@ -190,6 +203,11 @@ final class User extends Authenticatable implements CanLoginDirectly, FilamentUs
         return $this->hasMany(Advertisement::class)->withAttributes(['is_special' => true]);
     }
 
+    public function actionTags()
+    {
+        return $this->hasMany(UserActionTag::class);
+    }
+
     // _____________________________________________ method SECTION __________________________________________
 
     public function isAdmin(): bool
@@ -229,6 +247,13 @@ final class User extends Authenticatable implements CanLoginDirectly, FilamentUs
     public function owns(Model $model, string $relation = 'user')
     {
         return $model->{$relation}()->is($this);
+    }
+
+    public function hasAdvertisements(): Attribute
+    {
+        return Attribute::make(
+            get: fn () => $this->relationLoaded('advertisements') ? $this->advertisements()->exists() : null,
+        );
     }
 
     // _____________________________________________ model related methods SECTION ______________________________

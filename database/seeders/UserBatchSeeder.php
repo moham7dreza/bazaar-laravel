@@ -6,14 +6,15 @@ namespace Database\Seeders;
 
 use App\Models\Geo\City;
 use App\Models\User;
-use DB;
-use Hash;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Schema;
 use Modules\Advertise\Enums\AdvertisementStatus;
 use Modules\Advertise\Enums\AdvertisementType;
 use Modules\Advertise\Models\Advertisement;
 use Modules\Advertise\Models\Category;
-use Schema;
 
 final class UserBatchSeeder extends Seeder
 {
@@ -58,7 +59,7 @@ final class UserBatchSeeder extends Seeder
                 {
                     User::insert($chunk);
 
-                    $this->createAdsForUsers($chunk);
+                    //                    $this->createAdsForUsers($chunk);
                 }
 
                 // free memory between batches
@@ -73,11 +74,15 @@ final class UserBatchSeeder extends Seeder
 
     private function createAdsForUsers(array $users): void
     {
-        $adsPerUser = 20;
+        $adsPerUser = 100;
+        $chunkSize  = 50;
         $ads        = [];
 
-        $categories = Category::factory($adsPerUser)->create();
-        $cities     = City::factory($adsPerUser)->create();
+        $categories = Category::factory($adsPerUser)->make();
+        $categories->chunk($chunkSize)->each(fn (Collection $categories) => Category::query()->insert($categories->toArray()));
+
+        $cities = City::factory($adsPerUser)->make();
+        $cities->chunk($chunkSize)->each(fn (Collection $cities) => City::query()->insert($cities->toArray()));
 
         $maxAdId = DB::table('advertisements')->max('id') ?? 0;
         $adId    = $maxAdId + 1;
@@ -90,19 +95,19 @@ final class UserBatchSeeder extends Seeder
 
             for ($i = 1; $i <= $adsPerUser; $i++)
             {
-//                $adDepth = 0;
-//                $parentId = null;
-//
-//                // determine if this should be a child ad (max 4 levels deep)
-//                if ($i > 1 && count($userAdIds) > 0 && fake()->boolean(4)) {
-//                    $parentId = fake()->randomElement($userAdIds);
-//
-//                    $adDepth = $this->getAdDepth($parentId, $userAdIds);
-//
-//                    if ($adDepth >= 4) {
-//                        $parentId = null;
-//                    }
-//                }
+                //                $adDepth = 0;
+                //                $parentId = null;
+                //
+                //                // determine if this should be a child ad (max 4 levels deep)
+                //                if ($i > 1 && count($userAdIds) > 0 && fake()->boolean(4)) {
+                //                    $parentId = fake()->randomElement($userAdIds);
+                //
+                //                    $adDepth = $this->getAdDepth($parentId, $userAdIds);
+                //
+                //                    if ($adDepth >= 4) {
+                //                        $parentId = null;
+                //                    }
+                //                }
 
                 $ads[] = [
                     'id'           => $adId,

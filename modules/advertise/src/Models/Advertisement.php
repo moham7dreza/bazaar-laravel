@@ -4,12 +4,15 @@ declare(strict_types=1);
 
 namespace Modules\Advertise\Models;
 
+use App\Concerns\ClearsResponseCache;
 use App\Models\Geo\City;
 use App\Models\Scopes\LatestScope;
 use App\Models\User;
 use Cviebrock\EloquentSluggable\Sluggable;
+use Dyrynda\Database\Support\CascadeSoftDeletes;
 use Illuminate\Database\Eloquent\Attributes\Scope;
 use Illuminate\Database\Eloquent\Attributes\ScopedBy;
+use Illuminate\Database\Eloquent\Attributes\UseFactory;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -18,13 +21,18 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Modules\Advertise\Database\Factories\AdvertisementFactory;
 use Modules\Advertise\Enums\AdvertisementStatus;
 use Modules\Advertise\Enums\AdvertisementType;
 use Modules\Advertise\Enums\Sort;
 
+#[UseFactory(AdvertisementFactory::class)]
 #[ScopedBy([LatestScope::class])]
 final class Advertisement extends Model
 {
+    use CascadeSoftDeletes;
+    use ClearsResponseCache;
+
     // _____________________________________________ use SECTION ________________________________________________
     use HasFactory;
     use Prunable;
@@ -36,7 +44,7 @@ final class Advertisement extends Model
 
     public function prunable(): Builder
     {
-        return static::query()->whereDate('created_at', '<=', now()->subMonths(6));
+        return self::query()->whereDate('created_at', '<=', now()->subMonths(6));
     }
 
     public function sluggable(): array

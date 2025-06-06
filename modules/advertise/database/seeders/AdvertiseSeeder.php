@@ -4,8 +4,9 @@ declare(strict_types=1);
 
 namespace Modules\Advertise\Database\Seeders;
 
-use App\Models\User;
+use Illuminate\Container\Attributes\Context;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Collection;
 use Modules\Advertise\Models\Advertisement;
 use Modules\Advertise\Models\AdvertisementNote;
 use Modules\Advertise\Models\Category;
@@ -16,13 +17,10 @@ use Modules\Advertise\Models\State;
 
 final class AdvertiseSeeder extends Seeder
 {
-    /**
-     * Run the database seeds.
-     */
-    public function run(): void
-    {
-        $users = User::factory(5)->create();
-
+    public function run(
+        #[Context('users')]
+        Collection $users,
+    ): void {
         // State
         $parentStates = State::factory(5)->create();
         State::factory(5)

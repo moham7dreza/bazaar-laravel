@@ -19,7 +19,7 @@ final class RegisterUserRequest extends FormRequest
     {
         return[
             'name'     => ['required', 'string', 'max:255'],
-            'email'    => ['required', 'string', 'lowercase', 'email', 'max:255', Rule::unique('users', 'email')->withoutTrashed()],
+            'email'    => ['required', 'string', 'lowercase', Rule::email()->strict(), 'max:255', Rule::unique('users', 'email')->withoutTrashed()],
             'password' => ['required', 'confirmed', Password::defaults()],
             'mobile'   => ['required', 'string', 'max:15', Rule::unique('users', 'mobile')->withoutTrashed()],
             'city_id'  => ['nullable', Rule::exists('cities', 'id')->whereNull('deleted_at')],

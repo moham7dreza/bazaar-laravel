@@ -35,10 +35,10 @@ final class UpdateGalleryRequest extends FormRequest
     {
         return new ImageUploadDTO(
             image:              $this->file('image'),
-            uploadMethod:       $this->enum('upload_method', ImageUploadMethod::class),
+            uploadMethod:       $this->enum('upload_method', ImageUploadMethod::class, ImageUploadMethod::METHOD_SAVE),
             uploadDirectory:    $this->get('directory'),
             model:              Advertisement::class,
-            currentImageSize:   $this->enum('current_image_size', ImageSize::class),
+            currentImageSize:   $this->enum('current_image_size', ImageSize::class, ImageSize::MEDIUM),
             width:              $this->get('width'),
             height:             $this->get('height'),
         );

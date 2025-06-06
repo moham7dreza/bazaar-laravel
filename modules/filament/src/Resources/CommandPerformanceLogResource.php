@@ -83,7 +83,9 @@ final class CommandPerformanceLogResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('command')->translateLabel()->sortable()->searchable(),
+                Tables\Columns\TextColumn::make('command')->translateLabel()->sortable()->searchable()
+                    ->limit(20)
+                    ->tooltip(fn ($record): string => $record->command),
                 Tables\Columns\TextColumn::make('query_time')->translateLabel()->sortable(),
                 Tables\Columns\TextColumn::make('query_count')->translateLabel()->sortable(),
                 Tables\Columns\TextColumn::make('memory_usage')->translateLabel()->sortable(),

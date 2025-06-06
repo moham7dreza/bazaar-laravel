@@ -10,8 +10,9 @@ enum RequestHeader: string
 {
     use EnumDataListTrait;
 
-    case PLATFORM = 'Platform';
-    case ORIGIN   = 'origin';
+    case PLATFORM      = 'Platform';
+    case ORIGIN        = 'origin';
+    case DISABLE_CACHE = 'x-disable-cache';
 
     case IDEMPOTENCY_KEY    = 'Idempotency-Key';
     case IDEMPOTENCY_STATUS = 'Idempotency-Status';

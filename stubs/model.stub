@@ -16,23 +16,11 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 #[UseFactory({{ class }}Factory::class)]
 class {{ class }} extends Model
 {
-    // _____________________________________________ use section ________________________________________________
     {{ factory }}
     use SoftDeletes;
     use Prunable;
 
-    // _____________________________________________ props section ______________________________________________
-
     protected $guarded = ['id'];
-
-    // _____________________________________________ model related methods section ______________________________
-
-    protected function casts(): array
-    {
-        return [
-            //
-        ];
-    }
 
     public function prunable(): Builder
     {
@@ -45,8 +33,10 @@ class {{ class }} extends Model
         return $this->where('status', true);
     }
 
-    // _____________________________________________ relations section __________________________________________
+    protected function casts(): array
+    {
+        return [
 
-    // _____________________________________________ method section __________________________________________
-
+        ];
+    }
 }

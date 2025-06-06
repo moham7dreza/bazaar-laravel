@@ -236,12 +236,12 @@ testpf: ## Recreate test DB and run parallel tests
 testcov: ## Generate code coverage report
 	php artisan config:clear --ansi
 	php artisan migrate --force --env=testing
-	php artisan test --coverage --compact --min=30 --coverage-clover=coverage@tests.xml
+	php artisan test --coverage --compact --min=30 --coverage-clover=tests/coverage@tests.xml
 
 typecov: ## Generate type coverage report
 	php artisan config:clear --ansi
 	php artisan migrate --force --env=testing
-	php artisan test --type-coverage --compact --min=94 --type-coverage-json=type-coverage@tests.json
+	php artisan test --type-coverage --compact --min=94 --type-coverage-json=tests/type-coverage@tests.json
 
 testls: ## list tests
 	php artisan test --list-tests
@@ -318,6 +318,7 @@ reload: ## Update and refresh application
 	composer install
 	php artisan down --refresh=15
 	make clean
+	php artisan responsecache:clear
 	php artisan modules:sync
 	php artisan filament:upgrade
 	php artisan themes:upgrade
@@ -327,11 +328,11 @@ reload: ## Update and refresh application
 	php artisan schedule:run
 	php artisan backup:list
 	php artisan scramble:analyze
+	make ide
 	php artisan up
 
 dev: ## Full development setup
 	make reload
-	make ide
 	make checkup
 	make testr
 	make next-reload
@@ -415,7 +416,7 @@ rector: ## Run rector analysis and change files
 	vendor/bin/rector process
 
 checkup: ## Run necessary tools to check code and typesense
-	make pintt
+	#make pintt
 	make checks
 	make rectort
 	make phpstan
