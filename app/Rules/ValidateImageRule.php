@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Rules;
 
 use Closure;
@@ -12,28 +14,18 @@ class ValidateImageRule implements ValidationRule
 {
     public function validate(string $attribute, mixed $value, Closure $fail): void
     {
-        if (! ($value instanceof UploadedFile)) {
+        if ( ! ($value instanceof UploadedFile))
+        {
             $fail(trans('validation.file', ['attribute' => $attribute]));
 
             return;
         }
 
-        try {
+        try
+        {
             $image = Image::read($value->getRealPath());
-
-            $originalWidth = $image->width();
-            $originalHeight = $image->height();
-
-            $maxAspectRatio = 2;
-            $aspectRatio = $originalWidth / $originalHeight;
-
-            //              Too Wide                           Too Tall
-            if ($aspectRatio > $maxAspectRatio || $aspectRatio < (1 / $maxAspectRatio)) {
-                $fail(trans('validation.image_aspect_ratio', ['attribute' => $attribute]));
-
-                return;
-            }
-        } catch (NotSupportedException) {
+        } catch (NotSupportedException)
+        {
             $fail(trans('validation.image', ['attribute' => $attribute]));
         }
     }

@@ -208,7 +208,7 @@ final class AppServiceProvider extends ServiceProvider
             ->setValidator($validator)
             ->passes($attribute, $value));
 
-        Validator::extend('picture', static fn (string $attribute, mixed $value, array $parameters, \Illuminate\Contracts\Validation\Validator $validator) => InvokableValidationRule::make(new ValidateImageRule())
+        Validator::extend('processable_image', static fn (string $attribute, mixed $value, array $parameters, \Illuminate\Contracts\Validation\Validator $validator) => InvokableValidationRule::make(new ValidateImageRule())
             ->setValidator($validator)
             ->passes($attribute, $value));
     }
