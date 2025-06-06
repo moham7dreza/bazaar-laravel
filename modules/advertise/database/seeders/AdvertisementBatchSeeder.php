@@ -25,7 +25,11 @@ class AdvertisementBatchSeeder extends Seeder
 
         if ( ! $users)
         {
-            $users = User::factory(5)->create();
+            $users = collect(User::all()->modelKeys());
+            if ($users->isEmpty())
+            {
+                $users = User::factory(5)->create();
+            }
         }
         $this->createAdsForUsers($users->toArray());
     }
