@@ -38,9 +38,7 @@ when(isEnvStaging(), function (): void {
 
 when(isEnvLocal(), function (): void {
 
-    Route::post('idempotency', function (): void {
-        dd(\request()->headers);
-    })
+    Route::post('idempotency', fn () => logger('idempotency passed'))
         ->middleware(Infinitypaul\Idempotency\Middleware\EnsureIdempotency::class)
         ->name('idempotency');
 });
