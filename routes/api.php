@@ -36,6 +36,15 @@ when(isEnvStaging(), function (): void {
     Route::view('test', 'test');
 });
 
+when(isEnvLocal(), function (): void {
+
+    Route::post('idempotency', function (): void {
+        dd(\request()->headers);
+    })
+        ->middleware(Infinitypaul\Idempotency\Middleware\EnsureIdempotency::class)
+        ->name('idempotency');
+});
+
 Route::get('user', static fn (Request $request) => $request->user())->name('user.info')
     ->middleware(['auth:sanctum', 'mobileVerified']);
 
@@ -172,7 +181,3 @@ Route::prefix(RouteSection::PANEL)
                 Route::post('{advertisement}', 'store')->name('store');
             });
     });
-
-Route::post('idempotency', fn () => to_route('advertisements.index'))
-    ->middleware(Infinitypaul\Idempotency\Middleware\EnsureIdempotency::class)
-    ->name('idempotency');
