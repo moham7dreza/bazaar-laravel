@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Helpers;
 
-use App\Services\Str;
+use Illuminate\Support\Str;
 
 class PathNormalizer
 {
