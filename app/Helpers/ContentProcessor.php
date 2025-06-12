@@ -48,4 +48,26 @@ final class ContentProcessor
             ]
         );
     }
+
+    public function processFormData(array $data)
+    {
+        return collect($data)->map(fn ($value) => is_string($value)
+                ? Str::transliterate($value)
+                : $value)->all();
+    }
+
+    public function createSlug(string $title)
+    {
+        return Str::slug(Str::transliterate($title));
+    }
+
+    public function normalizeSearchQuery(string $query)
+    {
+        return mb_strtolower(Str::transliterate($query));
+    }
+
+    public function sanitizeKeywords(array $keywords)
+    {
+        return array_map(fn ($keyword) => Str::transliterate($keyword), $keywords);
+    }
 }
