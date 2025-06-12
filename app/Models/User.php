@@ -13,6 +13,7 @@ use App\Enums\StorageDisk;
 use App\Enums\Theme;
 use App\Enums\UserPermission;
 use App\Enums\UserRole;
+use App\Events\UserUpdatedEvent;
 use App\Models\Geo\City;
 use App\Models\Scopes\LatestScope;
 use Database\Factories\UserFactory;
@@ -50,10 +51,7 @@ use Spatie\Permission\Traits\HasRoles;
 final class User extends Authenticatable implements CanLoginDirectly, FilamentUser, HasAvatar, ShouldVerifiedMobile
 {
     //    use GeneratesUsernames;
-
     use HasApiTokens;
-
-    // _____________________________________________ use SECTION ________________________________________________
     use HasFactory;
     use HasLocks;
     use HasRoles;
@@ -63,8 +61,6 @@ final class User extends Authenticatable implements CanLoginDirectly, FilamentUs
     use Notifiable;
     use SoftDeletes;
     use TwoFactorAuthenticatable;
-
-    // _____________________________________________ props SECTION ______________________________________________
 
     const int TYPE_USER  = 0;
 
@@ -96,6 +92,10 @@ final class User extends Authenticatable implements CanLoginDirectly, FilamentUs
     ];
 
     protected static array $recordEvents = ['deleted', 'updated'];
+
+    protected $dispatchesEvents = [
+        'updated' => UserUpdatedEvent::class,
+    ];
 
     public function getActivitylogOptions(): LogOptions
     {
@@ -151,7 +151,6 @@ final class User extends Authenticatable implements CanLoginDirectly, FilamentUs
         $query->where('created_at', '>=', Carbon::parse($date));
     }
 
-    // _____________________________________________ relations SECTION __________________________________________
     public function advertisements(): HasMany
     {
         return $this->hasMany(Advertisement::class);
@@ -211,8 +210,6 @@ final class User extends Authenticatable implements CanLoginDirectly, FilamentUs
         return $this->hasMany(UserActionTag::class);
     }
 
-    // _____________________________________________ method SECTION __________________________________________
-
     public function isAdmin(): bool
     {
         return self::TYPE_ADMIN === $this->user_type
@@ -258,8 +255,6 @@ final class User extends Authenticatable implements CanLoginDirectly, FilamentUs
             get: fn () => $this->relationLoaded('advertisements') ? $this->advertisements()->exists() : null,
         );
     }
-
-    // _____________________________________________ model related methods SECTION ______________________________
 
     protected function casts(): array
     {
