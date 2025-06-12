@@ -16,7 +16,11 @@ final class CategoryController extends Controller
      */
     public function index(): ResourceCollection
     {
-        $categories = Category::query()->whereNull('parent_id')->get();
+        $categories = Category::query()
+            ->with('advertisements')
+            ->has('advertisements')
+            ->whereNull('parent_id')
+            ->get();
 
         return $categories->toResourceCollection(CategoryResource::class);
     }
