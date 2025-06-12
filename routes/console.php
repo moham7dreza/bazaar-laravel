@@ -10,7 +10,7 @@ use Modules\Monitoring\Commands\CheckVulnerabilitiesCommand;
 use Spatie\Backup\Commands\BackupCommand;
 use Spatie\Health\Commands as SpatieHealthCommands;
 
-$commandOutputLogPath = strorage_path('logs/command_output.log');
+$commandOutputLogPath = storage_path('logs/command_output.log');
 
 Artisan::command('inspire', fn () => $this->comment(Inspiring::quote()));
 
