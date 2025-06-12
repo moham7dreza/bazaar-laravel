@@ -10,19 +10,24 @@ use Modules\Monitoring\Commands\CheckVulnerabilitiesCommand;
 use Spatie\Backup\Commands\BackupCommand;
 use Spatie\Health\Commands as SpatieHealthCommands;
 
+$commandOutputLogPath = strorage_path('logs/command_output.log');
+
 Artisan::command('inspire', fn () => $this->comment(Inspiring::quote()));
 
 Schedule::command(SpatieHealthCommands\RunHealthChecksCommand::class)->everyMinute();
 Schedule::command(SpatieHealthCommands\DispatchQueueCheckJobsCommand::class)->everyMinute();
 Schedule::command(SpatieHealthCommands\ScheduleCheckHeartbeatCommand::class)->everyMinute();
-Schedule::command(BackupCommand::class)->daily();
+Schedule::command(BackupCommand::class)->daily()
+    ->appendOutputTo($commandOutputLogPath);
 
 Schedule::command('telescope:prune --hours=48')->daily();
 Schedule::command('sanctum:prune-expired --hours=48')->daily();
 Schedule::command('horizon:snapshot')->everyFiveMinutes();
 Schedule::command('cache:prune-stale-tags ')->weekly();
 Schedule::command(CheckDependencyVersions::class)->everyFiveMinutes();
-Schedule::command(CheckVulnerabilitiesCommand::class)->everySixHours();
+Schedule::command(CheckVulnerabilitiesCommand::class)->everySixHours()
+    ->appendOutputTo($commandOutputLogPath)
+    ->emailOutputOnFailure(admin()->email);
 
 Schedule::command('model:prune')->daily();
 
