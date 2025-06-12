@@ -13,6 +13,7 @@ use Dyrynda\Database\Support\CascadeSoftDeletes;
 use Illuminate\Database\Eloquent\Attributes\Scope;
 use Illuminate\Database\Eloquent\Attributes\ScopedBy;
 use Illuminate\Database\Eloquent\Attributes\UseFactory;
+use Illuminate\Database\Eloquent\Attributes\UsePolicy;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -25,21 +26,20 @@ use Modules\Advertise\Database\Factories\AdvertisementFactory;
 use Modules\Advertise\Enums\AdvertisementStatus;
 use Modules\Advertise\Enums\AdvertisementType;
 use Modules\Advertise\Enums\Sort;
+use Modules\Advertise\Policies\AdvertisementPolicy;
 
+#[UsePolicy(AdvertisementPolicy::class)]
 #[UseFactory(AdvertisementFactory::class)]
 #[ScopedBy([LatestScope::class])]
 final class Advertisement extends Model
 {
     use CascadeSoftDeletes;
     use ClearsResponseCache;
-
-    // _____________________________________________ use SECTION ________________________________________________
     use HasFactory;
     use Prunable;
     use Sluggable;
     use SoftDeletes;
 
-    // _____________________________________________ props SECTION ______________________________________________
     protected $guarded = ['id'];
 
     public function prunable(): Builder
@@ -80,7 +80,6 @@ final class Advertisement extends Model
     {
         return match ($sort)
         {
-
             Sort::PRICE_ASC  => $builder->oldest('price'),
             Sort::PRICE_DESC => $builder->latest('price'),
             Sort::NEWEST     => $builder->latest(),
@@ -108,7 +107,6 @@ final class Advertisement extends Model
             ->orWhere('is_ladder', true);
     }
 
-    // _____________________________________________ relations SECTION __________________________________________
     public function category(): BelongsTo
     {
         return $this->belongsTo(Category::class)->withDefault(['name' => __('Unknown category')]);
@@ -149,7 +147,6 @@ final class Advertisement extends Model
         return $this->belongsToMany(User::class, 'advertisement_view_history')->withTimestamps();
     }
 
-    // _____________________________________________ model related methods SECTION ______________________________
     protected function casts(): array
     {
         return [
@@ -164,6 +161,4 @@ final class Advertisement extends Model
             'ads_status'       => AdvertisementStatus::class,
         ];
     }
-
-    // _____________________________________________ method SECTION __________________________________________
 }
