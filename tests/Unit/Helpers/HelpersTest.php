@@ -17,6 +17,14 @@ it('can make uri with options', function (): void {
         ->withFragment('section-1');
 
     expect($uri->value())->toBe('http://test.com:8000/users?page=2#section-1');
+
+    $uri = str('Go to {https://euhosting.com/support} for support.')
+        ->between('{', '}')
+        ->toUri()
+        ->withQuery(['customer' => 'publicId'])
+        ->withQuery(['priority' => 'emergency']);
+
+    expect($uri->value())->toBe('https://euhosting.com/support?customer=publicId&priority=emergency');
 });
 
 it('can easily handle plural of english word', function (): void {
