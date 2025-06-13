@@ -7,19 +7,19 @@ namespace App\Services;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
 
-class ResourceValidator
+final readonly class ResourceValidator
 {
     public function validateExternalLinks(array $links): Collection
     {
-        return collect($links)->filter(function ($url, $type) {
-            return match ($type)
+        return collect($links)->filter(
+            fn ($url, $type) => match ($type)
             {
                 'documentation' => Str::isUrl($url, ['https']),
                 'repository'    => Str::isUrl($url, ['https']),
                 'demo'          => Str::isUrl($url, ['http', 'https']),
                 default         => Str::isUrl($url)
-            };
-        });
+            }
+        );
     }
 
     public function validateSecureResources(array $urls): Collection
