@@ -17,7 +17,7 @@ use Illuminate\Database\Seeder;
 final class TopToDownSeeder extends Seeder
 {
     public function run(
-        #[Context('admin')]
+        #[Context('admin', hidden: true)]
         User $admin,
     ): void {
         // User
