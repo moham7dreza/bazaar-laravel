@@ -249,6 +249,9 @@ final class User extends Authenticatable implements CanLoginDirectly, FilamentUs
         return $model->{$relation}()->is($this);
     }
 
+    /**
+     * @accessor has_advertisements
+     */
     public function hasAdvertisements(): Attribute
     {
         return Attribute::make(
