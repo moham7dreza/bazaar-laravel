@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace App\Services;
 
+use Illuminate\Support\Collection;
+use Illuminate\Validation\ValidationException;
+
 final class BusinessRuleValidator
 {
     public function validateTeamStructure(Collection $members)
