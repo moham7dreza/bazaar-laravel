@@ -17,17 +17,23 @@ use App\Rules\ValidateNationalCodeRule;
 use App\Services\Manager;
 use App\Services\TranslationService;
 use Carbon\CarbonImmutable;
+use Closure;
 use Filament\Notifications\Auth\VerifyEmail;
 use Illuminate\Console\Scheduling\Event;
 use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\Pagination\CursorPaginator;
+use Illuminate\Contracts\Pagination\Paginator;
 use Illuminate\Database\Connection;
+use Illuminate\Database\Eloquent\Builder as EloquentBuilder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Events\QueryExecuted;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Notifications\Messages\MailMessage;
+use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Pipeline\Hub;
 use Illuminate\Pipeline\Pipeline;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Date;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Gate;
@@ -45,6 +51,7 @@ use Illuminate\Validation\InvokableValidationRule;
 use Illuminate\Validation\Rules\Email;
 use Illuminate\Validation\Rules\Password;
 use Morilog\Jalali\Jalalian;
+use Throwable;
 
 final class AppServiceProvider extends ServiceProvider
 {
@@ -294,5 +301,95 @@ final class AppServiceProvider extends ServiceProvider
                 'user'        => $user,
                 'url'         => $url,
             ]));
+    }
+
+    private function configureEloquentBuilder(): void
+    {
+        EloquentBuilder::macro(
+            'getUnHydrated',
+            /**
+             * @throws Throwable
+             */
+            function (array|string $columns = ['*']): Collection {
+                /** @var EloquentBuilder $this */
+                return $this->toBase()->get($columns);
+            }
+        );
+
+        EloquentBuilder::macro(
+            'paginateUnHydrated',
+            /**
+             * @throws Throwable
+             */
+            function (
+                int|null|Closure $perPage = null,
+                array|string $columns = ['*'],
+                string $pageName = 'page',
+                ?int $page = null,
+                int|null|Closure $total = null,
+            ): LengthAwarePaginator {
+                /** @var EloquentBuilder $this */
+                $page = $page ?: Paginator::resolveCurrentPage($pageName);
+
+                $total = value($total) ?? $this->toBase()->getCountForPagination();
+
+                $perPage = value($perPage, $total) ?: $this->model->getPerPage();
+
+                $results = $total
+                    ? $this->forPage($page, $perPage)->getUnHydrated($columns)
+                    : $this->model->newCollection();
+
+                return $this->paginator($results, $total, $perPage, $page, [
+                    'path'     => Paginator::resolveCurrentPath(),
+                    'pageName' => $pageName,
+                ]);
+            }
+        );
+
+        EloquentBuilder::macro(
+            'simplePaginateUnHydrated',
+            /**
+             * @throws Throwable
+             */
+            function (
+                ?int $perPage = null,
+                array $columns = ['*'],
+                string $pageName = 'page',
+                ?int $page = null
+            ): Paginator {
+                /** @var EloquentBuilder $this */
+                $page = $page ?: Paginator::resolveCurrentPage($pageName);
+
+                $perPage = $perPage ?: $this->model->getPerPage();
+
+                // Next we will set the limit and offset for this query so that when we get the
+                // results we get the proper section of results. Then, we'll create the full
+                // paginator instances for these results with the given page and per page.
+                $this->skip(($page - 1) * $perPage)->take($perPage + 1);
+
+                return $this->simplePaginator($this->getUnHydrated($columns), $perPage, $page, [
+                    'path'     => Paginator::resolveCurrentPath(),
+                    'pageName' => $pageName,
+                ]);
+            }
+        );
+
+        EloquentBuilder::macro(
+            'cursorPaginateUnHydrated',
+            /**
+             * @throws Throwable
+             */
+            function (
+                ?int $perPage = null,
+                array|string $columns = ['*'],
+                string $cursorName = 'cursor',
+                Cursor|string|null $cursor = null
+            ): CursorPaginator {
+                /** @var EloquentBuilder $this */
+                $perPage = $perPage ?: $this->model->getPerPage();
+
+                return $this->paginateUsingCursorUnHydrated($perPage, $columns, $cursorName, $cursor);
+            }
+        );
     }
 }
