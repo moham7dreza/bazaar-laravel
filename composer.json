@@ -24,6 +24,7 @@
         "ext-mongodb": "*",
         "ext-pcntl": "*",
         "amiriun/sms": "dev-master",
+        "christophrumpel/artisan-benchmark": "^0.0.4",
         "cviebrock/eloquent-sluggable": "^12.0",
         "dedoc/scramble": "^0.12",
         "doctrine/dbal": "^4.2",

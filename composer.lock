@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "870408b2d62b106ca5cd0081f95e00dd",
+    "content-hash": "c8d7635f199b0b3f36d51a0ffdce9e7b",
     "packages": [
         {
             "name": "afsakar/filament-otp-login",
@@ -1318,6 +1318,65 @@
                 }
             ],
             "time": "2024-07-16T11:13:48+00:00"
+        },
+        {
+            "name": "christophrumpel/artisan-benchmark",
+            "version": "v0.0.4",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/christophrumpel/artisan-benchmark.git",
+                "reference": "1553cdb0a276ade36a918f1f9c0a8f3b49e632fd"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/christophrumpel/artisan-benchmark/zipball/1553cdb0a276ade36a918f1f9c0a8f3b49e632fd",
+                "reference": "1553cdb0a276ade36a918f1f9c0a8f3b49e632fd",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^8.3.0"
+            },
+            "require-dev": {
+                "laravel/pint": "^1.18.1",
+                "orchestra/testbench": "^9.9",
+                "pestphp/pest": "^3.7",
+                "symfony/var-dumper": "^7.1.6"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "ChristophRumpel\\ArtisanBenchmark\\ArtisanBenchmarkServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "ChristophRumpel\\ArtisanBenchmark\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Christoph Rumpel",
+                    "email": "christoph@christoph-rumpel.com"
+                }
+            ],
+            "description": "Benchmark Artisan Commands",
+            "keywords": [
+                "artisan",
+                "benchmark",
+                "laravel",
+                "php"
+            ],
+            "support": {
+                "issues": "https://github.com/christophrumpel/artisan-benchmark/issues",
+                "source": "https://github.com/christophrumpel/artisan-benchmark/tree/v0.0.4"
+            },
+            "time": "2025-05-12T06:48:45+00:00"
         },
         {
             "name": "clue/redis-protocol",
