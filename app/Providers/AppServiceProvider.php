@@ -7,6 +7,8 @@ namespace App\Providers;
 use App\Broadcasting\WhatsappChannel;
 use App\Console\Commands\System\DataMigrationCommand;
 use App\Enums\Language;
+use App\Enums\RequestHeader;
+use App\Enums\RequestPlatform;
 use App\Exceptions\ManagerConfigException;
 use App\Http\Filters\FiltersList;
 use App\Http\Filters\Image\ImageThumbnailResizeFilter;
@@ -294,5 +296,44 @@ final class AppServiceProvider extends ServiceProvider
                 'user'        => $user,
                 'url'         => $url,
             ]));
+    }
+
+    private function resolveBaseUrls(): void
+    {
+        $refs = [
+            RequestHeader::ORIGIN->value,
+            RequestHeader::REFERER->value,
+        ];
+        $headers = array_keys(request()->headers->all());
+
+        if (collect($refs)->intersect($headers)->isNotEmpty())
+        {
+            $baseUrl = request()->header(RequestHeader::REFERER->value) ?? request()->header(RequestHeader::ORIGIN->value);
+
+            if (Str::endsWith($baseUrl, 'dev'))
+            {
+                // change domain for staging
+                return;
+            }
+
+            //            config()->set('app.url', );
+        }
+    }
+
+    private function handleBaseUrlAccordingToPlatform()
+    {
+        if ( ! request()->hasHeader(RequestHeader::PLATFORM->value))
+        {
+            return;
+        }
+
+        return match (request()->header(RequestHeader::PLATFORM->value))
+        {
+            RequestPlatform::APP->value    => config('app.url'),
+            RequestPlatform::PWA->value    => config('app.url'),
+            RequestPlatform::SERVER->value => config('app.url'),
+            RequestPlatform::WEB->value    => config('app.url'),
+            default                        => config('app.url'),
+        };
     }
 }
