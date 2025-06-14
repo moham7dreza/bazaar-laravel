@@ -20,6 +20,8 @@ final class AuthenticatedSessionController extends Controller
 
         $request->session()->regenerate();
 
+        $request->user()->updateLoginFields();
+
         return response()->noContent();
     }
 

@@ -78,6 +78,8 @@ final class User extends Authenticatable implements CanLoginDirectly, FilamentUs
         'suspended_at',
         'suspended_until',
         'avatar_url',
+        'last_login_at',
+        'last_login_ip',
     ];
 
     protected $hidden = [
@@ -257,6 +259,14 @@ final class User extends Authenticatable implements CanLoginDirectly, FilamentUs
         return Attribute::make(
             get: fn () => $this->relationLoaded('advertisements') ? $this->advertisements()->exists() : null,
         );
+    }
+
+    public function updateLoginFields()
+    {
+        return $this->updateQuietly([
+            'last_login_at' => Carbon::now()->toDateTimeString(),
+            'last_login_ip' => request()->getClientIp(),
+        ]);
     }
 
     protected function casts(): array
