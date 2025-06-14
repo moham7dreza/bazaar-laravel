@@ -28,6 +28,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Events\QueryExecuted;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Notifications\Messages\MailMessage;
+use Illuminate\Pagination\Cursor;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Pipeline\Hub;
@@ -389,6 +390,27 @@ final class AppServiceProvider extends ServiceProvider
                 $perPage = $perPage ?: $this->model->getPerPage();
 
                 return $this->paginateUsingCursorUnHydrated($perPage, $columns, $cursorName, $cursor);
+            }
+        );
+
+        EloquentBuilder::macro(
+            'paginateUsingCursorUnHydrated',
+            /**
+             * @throws Throwable
+             */
+            function (
+                int $perPage,
+                array|string $columns = ['*'],
+                string $cursorName = 'cursor',
+                Cursor|string|null $cursor = null
+            ): CursorPaginator {
+                // copy paste here from \Illuminate\Database\Concerns\BuildsQueries::paginateUsingCursor
+
+                return $this->cursorPaginator($this->getUnHydrated($columns), $perPage, $cursor, [
+                    'path'       => Paginator::resolveCurrentPath(),
+                    'cursorName' => $cursorName,
+                    'parameters' => $orders->pluck('column')->toArray(),
+                ]);
             }
         );
     }
