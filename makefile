@@ -288,8 +288,8 @@ pint: ## Run PHP code style fixer
 	vendor/bin/pint --repair
 
 start: ## Start all development servers
-	@npx concurrently -k -n "QUEUE,HORIZON,REVERB,OCTANE,VITE,SCHEDULE,PULSE,NEXT,LOGGING" \
-		-c "green,blue,magenta,cyan,yellow,red,gray,black,white" \
+	@npx concurrently -k -n "QUEUE,HORIZON,REVERB,OCTANE,VITE,SCHEDULE,PULSE,NEXT,LOGGING,NIGHTWATCH" \
+		-c "green,blue,magenta,cyan,yellow,red,gray,black,white,green" \
 		"php artisan queue:listen" \
 		"php artisan horizon" \
 		"php artisan reverb:start --debug" \
@@ -298,11 +298,12 @@ start: ## Start all development servers
 		"php artisan schedule:work" \
 		"php artisan pulse:work" \
 		"make next-dev" \
-        "php artisan pail"
+        "php artisan pail" \
+        "php artisan nightwatch:agent"
 
 serve: ## Start basic servers
-	@npx concurrently -k -n "QUEUE,HORIZON,REVERB,SERVER,VITE,SCHEDULE,PULSE,NEXT,LOGGING" \
-		-c "green,blue,magenta,cyan,yellow,red,gray,black,white" \
+	@npx concurrently -k -n "QUEUE,HORIZON,REVERB,SERVER,VITE,SCHEDULE,PULSE,NEXT,LOGGING,NIGHTWATCH" \
+		-c "green,blue,magenta,cyan,yellow,red,gray,black,white,green" \
 		"php artisan queue:listen" \
 		"php artisan horizon" \
 		"php artisan reverb:start --debug" \
@@ -311,7 +312,8 @@ serve: ## Start basic servers
 		"php artisan schedule:work" \
 		"php artisan pulse:work" \
 		"make next-dev" \
-		"php artisan pail"
+		"php artisan pail" \
+		"php artisan nightwatch:agent"
 
 reload: ## Update and refresh application
 	git pull
