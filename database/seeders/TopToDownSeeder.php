@@ -17,8 +17,8 @@ use Illuminate\Database\Seeder;
 final class TopToDownSeeder extends Seeder
 {
     public function run(
-        #[Context('admin', hidden: true)]
-        User $admin,
+        //        #[Context('admin', hidden: true)]
+        //        User $admin,
     ): void {
         // User
         User::factory(5)->suspended()->create();
