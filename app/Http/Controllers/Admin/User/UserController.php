@@ -1,8 +1,11 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Controllers\Admin\User;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Admin\StoreUserRequest;
 use App\Http\Resources\Admin\User\UserCollection;
 use App\Http\Resources\Admin\User\UserResource;
 use App\Http\Responses\ApiJsonResponse;
@@ -17,6 +20,21 @@ class UserController extends Controller
     public function index()
     {
         return new UserCollection(User::all());
+    }
+
+    /**
+     * store new user from admin panel.
+     */
+    public function store(StoreUserRequest $request)
+    {
+        $request->merge([
+            'mobile_verified_at' => $request->has('is_active') ? now() : null,
+            'email_verified_at'  => $request->has('is_active') ? now() : null,
+        ]);
+
+        $user = User::create($request->validated());
+
+        return $user->toResource(UserResource::class);
     }
 
     /**
