@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Modules\Monitoring\Providers;
 
-use Carbon\Carbon;
 use Exception;
 use Illuminate\Console\Events;
 use Illuminate\Database\Events\QueryExecuted;
