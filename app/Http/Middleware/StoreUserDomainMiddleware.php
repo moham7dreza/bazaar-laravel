@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Middleware;
 
 use App\Enums\ClientDomain;
@@ -14,13 +16,15 @@ class StoreUserDomainMiddleware
     {
         $user = getUser();
 
-        if (! $user) {
+        if ( ! $user)
+        {
             return $next($request);
         }
 
         $baseUrl = $request->header(RequestHeader::REFERER->value) ?: $request->header(RequestHeader::ORIGIN->value);
 
-        if (! $baseUrl) {
+        if ( ! $baseUrl)
+        {
             return $next($request);
         }
 
@@ -28,11 +32,13 @@ class StoreUserDomainMiddleware
 
         $domain = ClientDomain::tryFrom($baseUrl)?->toNumber();
 
-        if ($domain === null) {
+        if (null === $domain)
+        {
             return $next($request);
         }
 
-        if ($user->domain !== $domain) {
+        if ($user->domain !== $domain)
+        {
             $user->domain = $domain;
             $user->saveQuietly();
         }
