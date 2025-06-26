@@ -22,12 +22,12 @@ return Application::configure(basePath: dirname(__DIR__))
         commands: __DIR__ . '/../routes/console.php',
         channels: __DIR__ . '/../routes/channels.php',
         health: '/up',
-    //        then: function () {
-    //            Route::middleware('api')
-    //                ->prefix('api/v1')
-    //                ->name('api.v1.')
-    //                ->group(base_path('routes/api_v1.php'));
-    //        },
+        //        then: function () {
+        //            Route::middleware('api')
+        //                ->prefix('api/v1')
+        //                ->name('api.v1.')
+        //                ->group(base_path('routes/api_v1.php'));
+        //        },
     )
     ->withMiddleware(function (Middleware $middleware): void {
 
@@ -42,6 +42,8 @@ return Application::configure(basePath: dirname(__DIR__))
             //            \App\Http\Middleware\RequireJsonMiddleware::class,
             App\Http\Middleware\ApiRequestLoggerMiddleware::class,
             //            \App\Http\Middleware\OnlyAllowValidHostsMiddleware::class,
+            App\Http\Middleware\StoreUserDomainMiddleware::class,
+            App\Http\Middleware\SetLocaleMiddleware::class,
         ]);
 
         $middleware->alias([
@@ -90,7 +92,7 @@ return Application::configure(basePath: dirname(__DIR__))
             // Auth
             if ($e instanceof AuthenticationException)
             {
-//                return ApiJsonResponse::error(Response::HTTP_UNAUTHORIZED, 'Unauthenticated');
+                //                return ApiJsonResponse::error(Response::HTTP_UNAUTHORIZED, 'Unauthenticated');
             }
 
             // Model Not Found
@@ -113,7 +115,7 @@ return Application::configure(basePath: dirname(__DIR__))
             // for other exceptions
             if ( ! $e instanceof ValidationException)
             {
-//                return ApiJsonResponse::error(Response::HTTP_INTERNAL_SERVER_ERROR, 'Server Error');
+                //                return ApiJsonResponse::error(Response::HTTP_INTERNAL_SERVER_ERROR, 'Server Error');
             }
         });
 

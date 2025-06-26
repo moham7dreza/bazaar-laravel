@@ -1,5 +1,9 @@
 <?php
 
+declare(strict_types=1);
+
+use App\Enums\Language;
+
 return [
 
     /*
@@ -82,11 +86,13 @@ return [
     |
     */
 
-    'locale' => env('APP_LOCALE', 'en'),
+    'locale' => env('APP_LOCALE', Language::EN->value),
 
-    'fallback_locale' => env('APP_FALLBACK_LOCALE', 'en'),
+    'available_locales' => Language::values(),
 
-    'faker_locale' => env('APP_FAKER_LOCALE', 'en_US'),
+    'fallback_locale' => env('APP_FALLBACK_LOCALE', Language::EN->value),
+
+    'faker_locale' => env('APP_FAKER_LOCALE', Language::EN->label()),
 
     /*
     |--------------------------------------------------------------------------
@@ -124,7 +130,7 @@ return [
 
     'maintenance' => [
         'driver' => env('APP_MAINTENANCE_DRIVER', 'file'),
-        'store' => env('APP_MAINTENANCE_STORE', 'database'),
+        'store'  => env('APP_MAINTENANCE_STORE', 'database'),
     ],
 
 ];

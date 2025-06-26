@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Enums;
 
 use App\Enums\Concerns\EnumDataListTrait;
@@ -13,19 +15,20 @@ enum Language: string
 
     public static function default(): array
     {
-        return match (app()->getLocale()) {
+        return match (app()->getLocale())
+        {
 
             self::FA->value => [
                 'timezone' => self::FA->timezone(),
-                'country' => self::FA->country(),
+                'country'  => self::FA->country(),
                 'currency' => self::FA->currency(),
-                'flag' => self::FA->flag(),
+                'flag'     => self::FA->flag(),
             ],
             self::EN->value => [
                 'timezone' => self::EN->timezone(),
-                'country' => self::EN->country(),
+                'country'  => self::EN->country(),
                 'currency' => self::EN->currency(),
-                'flag' => self::EN->flag(),
+                'flag'     => self::EN->flag(),
             ],
             default => [],
         };
@@ -33,7 +36,8 @@ enum Language: string
 
     public function timezone(): string
     {
-        return match ($this) {
+        return match ($this)
+        {
             self::FA => 'Asia\Tehran',
             self::EN => 'UTC',
         };
@@ -41,7 +45,8 @@ enum Language: string
 
     public function country(): string
     {
-        return match ($this) {
+        return match ($this)
+        {
             self::FA => 'IR',
             self::EN => 'US',
         };
@@ -49,7 +54,8 @@ enum Language: string
 
     public function currency(): string
     {
-        return match ($this) {
+        return match ($this)
+        {
             self::FA => 'IRT',
             self::EN => 'USD',
         };
@@ -57,9 +63,19 @@ enum Language: string
 
     public function flag(): string
     {
-        return match ($this) {
+        return match ($this)
+        {
             self::FA => asset('images/flags/ir.svg'),
             self::EN => asset('images/flags/usa.svg'),
+        };
+    }
+
+    public function label(): string
+    {
+        return match ($this)
+        {
+            self::FA => 'fa_IR',
+            self::EN => 'en_US',
         };
     }
 }
