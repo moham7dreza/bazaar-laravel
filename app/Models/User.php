@@ -9,6 +9,7 @@ use App\Concerns\GeneratesUsernames;
 use App\Concerns\InteractWithSensitiveColumns;
 use App\Concerns\MustVerifyMobile;
 use App\Contracts\MustVerifyMobile as ShouldVerifiedMobile;
+use App\Enums\ClientDomain;
 use App\Enums\StorageDisk;
 use App\Enums\Theme;
 use App\Enums\UserPermission;
@@ -207,7 +208,7 @@ final class User extends Authenticatable implements CanLoginDirectly, FilamentUs
         return $this->hasMany(Advertisement::class)->withAttributes(['is_special' => true]);
     }
 
-    public function actionTags()
+    public function actionTags(): HasMany
     {
         return $this->hasMany(UserActionTag::class);
     }
@@ -280,5 +281,10 @@ final class User extends Authenticatable implements CanLoginDirectly, FilamentUs
             'suspended_until'    => 'datetime',
             //            'addresses' => \Illuminate\Database\Eloquent\Casts\AsCollection::of(\App\Data\ValueObjects\Address::class)
         ];
+    }
+
+    public function getDomain(): ?ClientDomain
+    {
+        return $this->domain ? ClientDomain::fromNumber($this->domain) : null;
     }
 }
