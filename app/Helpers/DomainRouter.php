@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Helpers;
 
+use App\Enums\ClientDomain;
 use App\Enums\Environment;
 use Illuminate\Http\Request;
 
@@ -29,9 +30,9 @@ final readonly class DomainRouter
                 'environment' => Environment::STAGING->value,
             ],
             default => [
-                'api'         => 'http://localhost:9000/api',
-                'web'         => 'http://localhost:3000',
-                'assets'      => 'http://localhost:9000',
+                'api'         => ClientDomain::Local->backendApi(),
+                'web'         => ClientDomain::Local->value,
+                'assets'      => ClientDomain::Local->backendUrl(),
                 'environment' => Environment::LOCAL->value,
             ]
         };

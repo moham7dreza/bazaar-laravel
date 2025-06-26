@@ -2,6 +2,8 @@
 
 declare(strict_types=1);
 
+use App\Enums\ClientDomain;
+use App\Enums\Environment;
 use App\Enums\Language;
 
 return [
@@ -30,7 +32,7 @@ return [
     |
     */
 
-    'env' => env('APP_ENV', 'production'),
+    'env' => env('APP_ENV', Environment::LOCAL->value),
 
     /*
     |--------------------------------------------------------------------------
@@ -56,9 +58,9 @@ return [
     |
     */
 
-    'url' => env('APP_URL', 'http://localhost'),
+    'url' => env('APP_URL', ClientDomain::Local->backendUrl()),
 
-    'frontend_url' => env('FRONTEND_URL', 'http://localhost:3000'),
+    'frontend_url' => env('FRONTEND_URL', ClientDomain::Local->value),
 
     'asset_url' => env('ASSET_URL'),
 
@@ -73,7 +75,7 @@ return [
     |
     */
 
-    'timezone' => env('APP_TIMEZONE', 'Asia/Tehran'),
+    'timezone' => env('APP_TIMEZONE', Language::FA->timezone()),
 
     /*
     |--------------------------------------------------------------------------
