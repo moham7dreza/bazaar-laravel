@@ -180,6 +180,10 @@ final class AppServiceProvider extends ServiceProvider
     private function configureCarbon(): void
     {
         Carbon::macro('jdate', fn (): ?Jalalian => jalali_date($this));
+
+        Carbon::macro('createFromTimestampLocal', function ($timestamp) {
+            return Carbon::createFromTimestamp($timestamp, config('app.timezone'));
+        });
     }
 
     private function handleMissingTrans(): void
