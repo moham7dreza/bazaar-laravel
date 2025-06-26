@@ -10,15 +10,22 @@ use Illuminate\Database\Eloquent\Attributes\ScopedBy;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Prunable;
+use Modules\Monitoring\Enums\CommandLoggingStatus;
 
 #[ScopedBy([LatestScope::class])]
 final class CommandPerformanceLog extends Model
 {
     use Prunable;
 
-    public const UPDATED_AT = null;
-
     protected $guarded = [];
+
+    protected function casts(): array
+    {
+        return [
+            'inputs' => 'json',
+            'status' => CommandLoggingStatus::class,
+        ];
+    }
 
     public function prunable(): Builder
     {

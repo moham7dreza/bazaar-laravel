@@ -11,6 +11,7 @@ use Illuminate\Database\Events\QueryExecuted;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\ServiceProvider;
+use Modules\Monitoring\Enums\CommandLoggingStatus;
 use Modules\Monitoring\Models\CommandPerformanceLog;
 
 final class CommandLoggingServiceProvider extends ServiceProvider
@@ -38,10 +39,8 @@ final class CommandLoggingServiceProvider extends ServiceProvider
     private int $queryCount;
 
     private float $totalQueryTime;
+    private CommandPerformanceLog $log;
 
-    /**
-     * Bootstrap any application services.
-     */
     public function boot(): void
     {
         if (
@@ -51,62 +50,78 @@ final class CommandLoggingServiceProvider extends ServiceProvider
             return;
         }
 
-        Event::listen(function (Events\CommandStarting $event): void {
-            try
-            {
-                if (self::isExcluded($event->command))
-                {
-                    return;
-                }
+        $this->listenToCommandStartingEventAndLogIt();
 
-                $this->startTime      = microtime(true);
-                $this->startMemory    = memory_get_usage();
-                $this->queryCount     = 0;
-                $this->totalQueryTime = 0;
-
-                DB::listen(function (QueryExecuted $query): void {
-                    $this->queryCount++;
-                    $this->totalQueryTime += $query->time;
-                });
-            } catch (Exception $e)
-            {
-                report($e);
-            }
-        });
-
-        Event::listen(function (Events\CommandFinished $event): void {
-            try
-            {
-                if (self::isExcluded($event->command))
-                {
-                    return;
-                }
-
-                $endTime   = microtime(true);
-                $endMemory = memory_get_usage();
-
-                $duration    = $endTime   - $this->startTime;
-                $memoryUsage = $endMemory - $this->startMemory;
-
-                $data = [
-                    'command'      => $event->command ?? 'unknown',
-                    'started_at'   => Carbon::createFromTimestamp($this->startTime)->toDateTimeString(),
-                    'runtime'      => round($duration * 1000), // milliseconds
-                    'memory_usage' => $memoryUsage,
-                    'query_count'  => $this->queryCount,
-                    'query_time'   => round($this->totalQueryTime), // milliseconds
-                ];
-
-                CommandPerformanceLog::query()->create($data);
-            } catch (Exception $e)
-            {
-                report($e);
-            }
-        });
+        $this->listenToCommandFinishedEventAndUpdateLog();
     }
 
     private static function isExcluded(?string $command): bool
     {
         return in_array($command, self::EXCLUDED_COMMANDS, true);
+    }
+
+    private function listenToCommandStartingEventAndLogIt(): void
+    {
+        Event::listen(Events\CommandStarting::class, function (Events\CommandStarting $event) {
+            try {
+                if (self::isExcluded($event->command)) {
+                    return;
+                }
+
+                $this->startTime = microtime(true);
+                $this->startMemory = memory_get_usage();
+                $this->queryCount = 0;
+                $this->totalQueryTime = 0;
+
+                DB::listen(function (QueryExecuted $query) {
+                    $this->queryCount++;
+                    $this->totalQueryTime += $query->time;
+                });
+
+                $data = [
+                    'command' => $event->command ?? 'unknown',
+                    'status' => CommandLoggingStatus::Started,
+                    'inputs' => [
+                        'arguments' => $event->input->getArguments(),
+                        'options' => $event->input->getOptions(),
+                    ],
+                    'runtime' => 0,
+                    'memory_usage' => 0,
+                    'query_count' => 0,
+                    'query_time' => 0,
+                ];
+
+                $this->log = CommandPerformanceLog::query()->create($data);
+            } catch (Exception $e) {
+                report($e);
+            }
+        });
+    }
+
+    private function listenToCommandFinishedEventAndUpdateLog(): void
+    {
+        Event::listen(Events\CommandFinished::class, function (Events\CommandFinished $event) {
+            try {
+                if (self::isExcluded($event->command)) {
+                    return;
+                }
+
+                $endTime = microtime(true);
+                $endMemory = memory_get_usage();
+
+                $duration = $endTime - $this->startTime;
+                $memoryUsage = $endMemory - $this->startMemory;
+
+                $this->log->update([
+                    'status' => CommandLoggingStatus::Completed,
+                    'runtime' => round($duration * 1000), // milliseconds
+                    'memory_usage' => $memoryUsage,
+                    'query_count' => $this->queryCount,
+                    'query_time' => round($this->totalQueryTime), // milliseconds
+                ]);
+            } catch (Exception $e) {
+                report($e);
+            }
+        });
     }
 }

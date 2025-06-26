@@ -55,10 +55,6 @@ final class CommandPerformanceLogResource extends Resource
                             ->required()
                             ->string()
                             ->translateLabel(),
-                        Forms\Components\DatePicker::make('started_at')
-                            ->required()
-                            ->date()
-                            ->translateLabel(),
                         Forms\Components\TextInput::make('query_time')
                             ->required()
                             ->numeric()
@@ -86,11 +82,11 @@ final class CommandPerformanceLogResource extends Resource
                 Tables\Columns\TextColumn::make('command')->translateLabel()->sortable()->searchable()
                     ->limit(20)
                     ->tooltip(fn ($record): string => $record->command),
+                Tables\Columns\TextColumn::make('status')->translateLabel()->badge(),
                 Tables\Columns\TextColumn::make('query_time')->translateLabel()->sortable(),
                 Tables\Columns\TextColumn::make('query_count')->translateLabel()->sortable(),
                 Tables\Columns\TextColumn::make('memory_usage')->translateLabel()->sortable(),
                 Tables\Columns\TextColumn::make('runtime')->translateLabel()->sortable(),
-                Tables\Columns\TextColumn::make('started_at')->translateLabel()->sortable(),
             ])
             ->filters([
                 Tables\Filters\QueryBuilder::make()
@@ -100,7 +96,6 @@ final class CommandPerformanceLogResource extends Resource
                         Constraints\NumberConstraint::make('query_count')->translateLabel(),
                         Constraints\NumberConstraint::make('memory_usage')->translateLabel(),
                         Constraints\NumberConstraint::make('runtime')->translateLabel(),
-                        Constraints\DateConstraint::make('started_at')->translateLabel(),
                     ])
                     ->constraintPickerColumns(),
             ], layout: Tables\Enums\FiltersLayout::AboveContentCollapsible)
