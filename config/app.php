@@ -3,8 +3,8 @@
 declare(strict_types=1);
 
 use App\Enums\ClientDomain;
+use App\Enums\ClientLocale;
 use App\Enums\Environment;
-use App\Enums\Language;
 
 return [
 
@@ -75,7 +75,7 @@ return [
     |
     */
 
-    'timezone' => env('APP_TIMEZONE', Language::FA->timezone()),
+    'timezone' => env('APP_TIMEZONE', ClientLocale::FA->timezone()),
 
     /*
     |--------------------------------------------------------------------------
@@ -88,13 +88,11 @@ return [
     |
     */
 
-    'locale' => env('APP_LOCALE', Language::EN->value),
+    'locale' => env('APP_LOCALE', ClientLocale::EN->value),
 
-    'available_locales' => Language::values(),
+    'fallback_locale' => env('APP_FALLBACK_LOCALE', ClientLocale::FA->value),
 
-    'fallback_locale' => env('APP_FALLBACK_LOCALE', Language::EN->value),
-
-    'faker_locale' => env('APP_FAKER_LOCALE', Language::EN->label()),
+    'faker_locale' => env('APP_FAKER_LOCALE', ClientLocale::FA->label()),
 
     /*
     |--------------------------------------------------------------------------

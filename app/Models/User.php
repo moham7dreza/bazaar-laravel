@@ -10,11 +10,13 @@ use App\Concerns\InteractWithSensitiveColumns;
 use App\Concerns\MustVerifyMobile;
 use App\Contracts\MustVerifyMobile as ShouldVerifiedMobile;
 use App\Enums\ClientDomain;
+use App\Enums\ClientLocale;
 use App\Enums\StorageDisk;
 use App\Enums\Theme;
 use App\Enums\UserPermission;
 use App\Enums\UserRole;
 use App\Events\UserUpdatedEvent;
+use App\Helpers\ClientLocaleService;
 use App\Models\Geo\City;
 use App\Models\Scopes\LatestScope;
 use Database\Factories\UserFactory;
@@ -22,6 +24,7 @@ use DateTimeInterface;
 use Filament\Models\Contracts\FilamentUser;
 use Filament\Models\Contracts\HasAvatar;
 use Filament\Panel;
+use Illuminate\Contracts\Translation\HasLocalePreference;
 use Illuminate\Database\Eloquent\Attributes\Scope;
 use Illuminate\Database\Eloquent\Attributes\ScopedBy;
 use Illuminate\Database\Eloquent\Attributes\UseFactory;
@@ -49,7 +52,12 @@ use Spatie\Permission\Traits\HasRoles;
 
 #[UseFactory(UserFactory::class)]
 #[ScopedBy([LatestScope::class])]
-final class User extends Authenticatable implements CanLoginDirectly, FilamentUser, HasAvatar, ShouldVerifiedMobile
+final class User extends Authenticatable implements
+    CanLoginDirectly,
+    FilamentUser,
+    HasAvatar,
+    HasLocalePreference,
+    ShouldVerifiedMobile
 {
     //    use GeneratesUsernames;
     use HasApiTokens;
@@ -99,6 +107,11 @@ final class User extends Authenticatable implements CanLoginDirectly, FilamentUs
     protected $dispatchesEvents = [
         'updated' => UserUpdatedEvent::class,
     ];
+
+    public function preferredLocale(): string
+    {
+        return ClientLocaleService::getUserLocaleWithFallback($this)->value;
+    }
 
     public function getActivitylogOptions(): LogOptions
     {
@@ -270,6 +283,16 @@ final class User extends Authenticatable implements CanLoginDirectly, FilamentUs
         ]);
     }
 
+    public function getDomain(): ?ClientDomain
+    {
+        return $this->domain ? ClientDomain::fromNumber($this->domain) : null;
+    }
+
+    public function getLocale(): ?ClientLocale
+    {
+        return $this->locale ? ClientLocale::fromNumber($this->locale) : null;
+    }
+
     protected function casts(): array
     {
         return [
@@ -279,12 +302,9 @@ final class User extends Authenticatable implements CanLoginDirectly, FilamentUs
             'is_active'          => 'bool',
             'suspended_at'       => 'datetime',
             'suspended_until'    => 'datetime',
-            //            'addresses' => \Illuminate\Database\Eloquent\Casts\AsCollection::of(\App\Data\ValueObjects\Address::class)
+            //            'addresses' => \Illuminate\Database\Eloquent\Casts\AsCollection::of(\App\Data\ValueObjects\Address::class),
+            'domain' => 'integer',
+            'locale' => 'integer',
         ];
-    }
-
-    public function getDomain(): ?ClientDomain
-    {
-        return $this->domain ? ClientDomain::fromNumber($this->domain) : null;
     }
 }

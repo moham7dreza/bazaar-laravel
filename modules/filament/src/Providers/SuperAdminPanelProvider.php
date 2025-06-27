@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Modules\Filament\Providers;
 
-use App\Enums\Language;
+use App\Enums\ClientLocale;
 use App\Enums\Queue;
 use App\Enums\StorageDisk;
 use BezhanSalleh\FilamentLanguageSwitch\LanguageSwitch;
@@ -141,7 +141,7 @@ final class SuperAdminPanelProvider extends PanelProvider
     {
         $this->configureLanguageSwitch();
 
-        \Statikbe\FilamentTranslationManager\FilamentTranslationManager::setLocales(Language::values());
+        \Statikbe\FilamentTranslationManager\FilamentTranslationManager::setLocales(ClientLocale::values());
 
         $this->configureTable();
     }
@@ -159,7 +159,7 @@ final class SuperAdminPanelProvider extends PanelProvider
     {
         LanguageSwitch::configureUsing(static function (LanguageSwitch $switch): void {
             $switch
-                ->locales(Language::values());
+                ->locales(ClientLocale::values());
         });
     }
 

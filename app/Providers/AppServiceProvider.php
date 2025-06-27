@@ -6,7 +6,7 @@ namespace App\Providers;
 
 use App\Broadcasting\WhatsappChannel;
 use App\Console\Commands\System\DataMigrationCommand;
-use App\Enums\Language;
+use App\Enums\ClientLocale;
 use App\Enums\RequestHeader;
 use App\Enums\RequestPlatform;
 use App\Exceptions\ManagerConfigException;
@@ -140,7 +140,7 @@ final class AppServiceProvider extends ServiceProvider
 
     private function configureCurrency(): void
     {
-        Number::useCurrency(Language::default()['currency']);
+        Number::useCurrency(ClientLocale::default()['currency']);
     }
 
     private function configureGates(): void

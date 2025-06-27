@@ -6,12 +6,22 @@ namespace App\Enums;
 
 use App\Enums\Concerns\EnumDataListTrait;
 
-enum Language: string
+enum ClientLocale: string
 {
     use EnumDataListTrait;
 
     case FA = 'fa';
     case EN = 'en';
+
+    public const array NUMBER_MAP = [
+        1  => self::FA,
+        2  => self::EN,
+    ];
+
+    public static function fromNumber(int $number): ?self
+    {
+        return self::NUMBER_MAP[$number];
+    }
 
     public static function default(): array
     {
@@ -32,6 +42,13 @@ enum Language: string
             ],
             default => [],
         };
+    }
+
+    public function toNumber(): int
+    {
+        $key = array_search($this, self::NUMBER_MAP, true);
+
+        return false !== $key ? $key : throw new RuntimeException('Case is missing in NUMBER_MAP: ' . $this->value);
     }
 
     public function timezone(): string
