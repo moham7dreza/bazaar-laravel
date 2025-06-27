@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "120b256801a36c8796b19df13b918b9d",
+    "content-hash": "36b96204085563482a88041655d3bae9",
     "packages": [
         {
             "name": "afsakar/filament-otp-login",
@@ -8377,10 +8377,11 @@
             "dist": {
                 "type": "path",
                 "url": "modules/monitoring",
-                "reference": "8b6ed6a0e92c50bd40b8e065c2409182d84369f4"
+                "reference": "08906425bf436c51c3286f2dc67da3f1c39774c1"
             },
             "require": {
                 "laravel/horizon": "^5.31",
+                "laravel/nightwatch": "^1.7",
                 "laravel/pulse": "^1.4",
                 "laravel/telescope": "^5.6",
                 "opcodesio/log-viewer": "^3.15",
