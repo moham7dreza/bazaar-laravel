@@ -7,6 +7,7 @@ namespace Modules\Monitoring\Providers;
 use App\Models\User;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\ServiceProvider;
+use Laravel\Nightwatch\Facades\Nightwatch;
 use Laravel\Pulse\Facades\Pulse;
 use Modules\Monitoring\Commands\CheckVulnerabilitiesCommand;
 
@@ -25,6 +26,7 @@ final class MonitoringServiceProvider extends ServiceProvider
     {
         $this->configureGates();
         $this->configurePulse();
+        $this->configureNightwatch();
     }
 
     private function configureGates(): void
@@ -38,6 +40,14 @@ final class MonitoringServiceProvider extends ServiceProvider
             'name'   => $user->name,
             'extra'  => $user->email,
             'avatar' => $user->avatar_url,
+        ]);
+    }
+
+    private function configureNightwatch(): void
+    {
+        Nightwatch::user(fn (User $user) => [
+            'name'     => $user->name,
+            'username' => $user->email,
         ]);
     }
 }

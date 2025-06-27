@@ -6,6 +6,7 @@
 	"license": "proprietary",
 	"require": {
         "laravel/horizon": "^5.31",
+        "laravel/nightwatch": "^1.7",
         "laravel/pulse": "^1.4",
         "laravel/telescope": "^5.6",
         "opcodesio/log-viewer": "^3.15",
