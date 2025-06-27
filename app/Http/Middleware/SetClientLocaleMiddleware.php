@@ -8,11 +8,11 @@ use App\Enums\ClientLocale;
 use Closure;
 use Illuminate\Http\Request;
 
-class SetLocaleMiddleware
+class SetClientLocaleMiddleware
 {
     public function handle(Request $request, Closure $next)
     {
-        if ($request->route()->hasParameter('lang'))
+        if ($request->route()?->hasParameter('lang'))
         {
             $lang = ClientLocale::tryFrom($request->route('lang'));
 

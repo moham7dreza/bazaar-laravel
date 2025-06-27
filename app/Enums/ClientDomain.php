@@ -11,16 +11,20 @@ enum ClientDomain: string
 {
     use EnumDataListTrait;
 
-    case Staging = 'https://bazaar.dev';
-    case ProdIR  = 'https://www.bazaar.ir';
-    case ProdApp = 'https://bazaar.app';
-    case Local   = 'http://localhost:3000';
+    case Staging                = 'https://bazaar.dev';
+    case ProdIR                 = 'https://www.bazaar.ir';
+    case ProdApp                = 'https://bazaar.app';
+    case Local                  = 'http://localhost:3000';
+    case LocalAdminPanel        = 'http://localhost:3000/admin';
+    case LocalSuperAdminPanel   = 'http://bazaar.local/super-admin';
 
     public const array NUMBER_MAP = [
         1  => self::Staging,
         10 => self::ProdIR,
         11 => self::ProdApp,
         20 => self::Local,
+        21 => self::LocalAdminPanel,
+        22 => self::LocalSuperAdminPanel,
     ];
 
     public static function fromNumber(int $number): ?self

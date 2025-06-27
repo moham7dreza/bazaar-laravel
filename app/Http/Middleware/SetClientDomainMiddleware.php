@@ -10,20 +10,20 @@ use Closure;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-class StoreUserDomainMiddleware
+class SetClientDomainMiddleware
 {
     public function handle(Request $request, Closure $next): Response
     {
         $user = getUser();
 
-        if ( ! $user)
+        if (blank($user))
         {
             return $next($request);
         }
 
         $baseUrl = $request->header(RequestHeader::REFERER->value) ?: $request->header(RequestHeader::ORIGIN->value);
 
-        if ( ! $baseUrl)
+        if (blank($baseUrl))
         {
             return $next($request);
         }
@@ -32,7 +32,7 @@ class StoreUserDomainMiddleware
 
         $domain = ClientDomain::tryFrom($baseUrl)?->toNumber();
 
-        if (null === $domain)
+        if (blank($domain))
         {
             return $next($request);
         }

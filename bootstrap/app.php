@@ -42,8 +42,8 @@ return Application::configure(basePath: dirname(__DIR__))
             //            \App\Http\Middleware\RequireJsonMiddleware::class,
             App\Http\Middleware\ApiRequestLoggerMiddleware::class,
             //            \App\Http\Middleware\OnlyAllowValidHostsMiddleware::class,
-            App\Http\Middleware\StoreUserDomainMiddleware::class,
-            App\Http\Middleware\SetLocaleMiddleware::class,
+            App\Http\Middleware\SetClientDomainMiddleware::class,
+            App\Http\Middleware\SetClientLocaleMiddleware::class,
         ]);
 
         $middleware->alias([
