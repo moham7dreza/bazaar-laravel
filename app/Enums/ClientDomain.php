@@ -35,7 +35,7 @@ enum ClientDomain: string
         return false !== $key ? $key : throw new RuntimeException('Case is missing in NUMBER_MAP: ' . $this->value);
     }
 
-    public function backendUrl(): self
+    public function backendUrl(): string
     {
         return match ($this)
         {
@@ -45,7 +45,7 @@ enum ClientDomain: string
         };
     }
 
-    public function backendApi(): self
+    public function backendApi(): string
     {
         return $this->backendUrl() . '/api';
     }
