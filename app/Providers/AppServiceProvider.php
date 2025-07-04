@@ -225,10 +225,14 @@ final class AppServiceProvider extends ServiceProvider
 
     private function configurePassword(): void
     {
-        Password::defaults(static fn () => Password::min(8)
-            ->letters()
-            ->mixedCase()
-            ->numbers());
+        Password::defaults(static fn () =>
+        Password::min(8) // Minimum length of 8 characters
+        ->mixedCase() // Must include both uppercase and lowercase letters
+        ->letters()   // Must include at least one letter
+        ->numbers()   // Must include at least one number
+        ->symbols()   // Must include at least one symbol
+        ->uncompromised(), // Checks against known data breaches
+        );
     }
 
     private function configurePipelines(): void
