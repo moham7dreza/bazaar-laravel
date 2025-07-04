@@ -88,7 +88,7 @@ Route::prefix(RouteSection::ADMIN)
     ->middleware([/* 'auth', 'admin' */])
     ->group(function (): void {
 
-        Route::prefix(RouteSection::ADVERTISE)
+        Route::prefix(RouteSection::ADVERTISEMENTS)
             ->name('advertise.')
             ->group(function (): void {
 
@@ -126,7 +126,7 @@ Route::prefix(RouteSection::PANEL)
     ])
     ->group(function (): void {
 
-        Route::prefix(RouteSection::ADVERTISE)
+        Route::prefix(RouteSection::ADVERTISEMENTS)
             ->name('advertise.')
             ->group(function (): void {
 

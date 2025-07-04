@@ -7,7 +7,6 @@ namespace App\Enums;
 enum RouteSection: string
 {
     case ADMIN          = 'admin';
-    case ADVERTISE      = 'advertise';
     case ADVERTISEMENTS = 'advertisements';
     case CONTENT        = 'content';
     case USERS          = 'users';
