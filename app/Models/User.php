@@ -275,7 +275,7 @@ final class User extends Authenticatable implements
         );
     }
 
-    public function updateLoginFields()
+    public function updateLoginFields(): bool
     {
         return $this->updateQuietly([
             'last_login_at' => Carbon::now()->toDateTimeString(),
