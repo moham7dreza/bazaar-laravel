@@ -41,6 +41,11 @@ when(isEnvLocal(), function (): void {
     Route::post('idempotency', fn () => logger('idempotency passed'))
         ->middleware(Infinitypaul\Idempotency\Middleware\EnsureIdempotency::class)
         ->name('idempotency');
+
+    Route::get('lock-test', fn() => print 1)->block(
+        lockSeconds: 5,
+        waitSeconds: 5,
+    );
 });
 
 Route::get('user', static fn (Request $request) => $request->user())->name('user.info')
