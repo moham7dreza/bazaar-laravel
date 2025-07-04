@@ -8,7 +8,7 @@ use App\Helpers\DomainRouter;
 use App\Http\Responses\ApiJsonResponse;
 use Illuminate\Http\Request;
 
-final class DomainRouterController
+final class DomainRouterController extends Controller
 {
     public function __invoke(Request $request)
     {
