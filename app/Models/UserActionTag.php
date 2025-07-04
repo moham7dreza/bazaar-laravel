@@ -7,6 +7,7 @@ namespace App\Models;
 use Database\Factories\UserActionTagFactory;
 use Illuminate\Database\Eloquent\Attributes\UseFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use MongoDB\Laravel\Eloquent\Model;
 
 #[UseFactory(UserActionTagFactory::class)]
@@ -26,15 +27,32 @@ class UserActionTag extends Model
         'created_at',
     ];
 
-    public function user()
+    protected function casts(): array
+    {
+        return [
+            'user_id' => 'integer',
+            'action_tag' => 'string',
+            'created_at' => 'datetime',
+        ];
+    }
+
+    public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
     }
 
-    protected function casts(): array
+    public static function hasAction(int $userId, string $tag): bool
     {
-        return [
-            'action_tag' => 'json',
-        ];
+        return static::where('user_id', $userId)
+            ->where('action_tag', $tag)
+            ->exists();
+    }
+
+    public static function addAction(int $userId, string $tag): self
+    {
+        return static::create([
+            'user_id' => $userId,
+            'action_tag' => $tag,
+        ]);
     }
 }
