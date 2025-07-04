@@ -4,12 +4,15 @@ declare(strict_types=1);
 
 namespace App\Jobs;
 
+use Amiriun\SMS\DataContracts\SendSMSDTO;
 use Amiriun\SMS\Services\SMSService;
 use App\Enums\Queue;
+use App\Enums\Sms\SmsSenderNumber;
 use App\Models\User;
 use Illuminate\Bus\Batchable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Queue\Queueable;
+use Illuminate\Queue\Middleware\FailOnException;
 
 final class UserUpdateJob implements ShouldQueue
 {
@@ -21,9 +24,15 @@ final class UserUpdateJob implements ShouldQueue
         $this->onQueue(Queue::LOW);
     }
 
-    /**
-     * Execute the job.
-     */
+    public function middleware(): array
+    {
+        return [
+            new FailOnException([
+                //
+            ]),
+        ];
+    }
+
     public function handle(): void
     {
         User::query()
@@ -46,8 +55,8 @@ final class UserUpdateJob implements ShouldQueue
 
     private function notifyUser(string $mobile): void
     {
-        $data = new \Amiriun\SMS\DataContracts\SendSMSDTO();
-        $data->setSenderNumber('300024444');
+        $data = new SendSMSDTO();
+        $data->setSenderNumber(SmsSenderNumber::NUMBER_1->value);
         $data->setMessage('Hello, your account is activated');
         $data->setTo($mobile);
 
