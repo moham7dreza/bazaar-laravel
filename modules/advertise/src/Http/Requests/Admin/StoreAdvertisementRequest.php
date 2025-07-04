@@ -7,6 +7,7 @@ namespace Modules\Advertise\Http\Requests\Admin;
 use App\Enums\Image\ImageSize;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
+use Illuminate\Validation\Validator;
 
 final class StoreAdvertisementRequest extends FormRequest
 {
@@ -16,6 +17,24 @@ final class StoreAdvertisementRequest extends FormRequest
     public function authorize(): bool
     {
         return true;
+    }
+
+    /**
+     * @return array<int, \Closure(Validator): void>
+     */
+    public function after(): array
+    {
+        return [
+            function (Validator $validator) {
+                if ($validator->errors()->any()) {
+                    return;
+                }
+
+                if ($this->user()->advertisements()->count() > 100) {
+                    $validator->errors()->add('advertisement', 'Maximum 100 advertisements allowed');
+                }
+            }
+        ];
     }
 
     /**
