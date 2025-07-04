@@ -17,4 +17,9 @@ enum RouteSection: string
     case HISTORY        = 'history';
     case IMAGES         = 'images';
     case AUTH           = 'auth';
+
+    public function name(): string
+    {
+        return $this->value . '.';
+    }
 }

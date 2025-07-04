@@ -51,12 +51,13 @@ Route::get('menus', [HomeMenuController::class, 'index'])->name('menus.index');
 Route::get('pages', [HomePageController::class, 'index'])->name('pages.index');
 
 Route::prefix(RouteSection::ADVERTISEMENTS)
+    ->name(RouteSection::ADVERTISEMENTS->name())
     ->controller(HomeAdvertisementController::class)
     ->middleware('cache-response:120')
     ->group(function (): void {
 
-        Route::get('/', 'index')->name('advertisements.index');
-        Route::get('{advertisement}', 'show')->name('advertisements.show')
+        Route::get('/', 'index')->name('index');
+        Route::get('{advertisement}', 'show')->name('show')
             ->withTrashed();
     });
 
@@ -65,7 +66,7 @@ Route::get('cities', [CityController::class, 'index'])->name('cities.index');
 
 Route::prefix(RouteSection::AUTH)
     ->middleware('guest')
-    ->name('auth.')
+    ->name(RouteSection::AUTH->name())
     ->group(function (): void {
 
         Route::post('send-otp', RegisteredUserWithOTPController::class)->name('send-otp')
@@ -76,7 +77,7 @@ Route::prefix(RouteSection::AUTH)
 
 Route::prefix(RouteSection::IMAGES)
     ->controller(ImageController::class)
-    ->name('images.')
+    ->name(RouteSection::IMAGES->name())
     ->group(function (): void {
 
         Route::post('store', 'store')->name('store');
@@ -84,12 +85,12 @@ Route::prefix(RouteSection::IMAGES)
     });
 
 Route::prefix(RouteSection::ADMIN)
-    ->name('admin.')
+    ->name(RouteSection::ADMIN->name())
     ->middleware([/* 'auth', 'admin' */])
     ->group(function (): void {
 
         Route::prefix(RouteSection::ADVERTISEMENTS)
-            ->name('advertise.')
+            ->name(RouteSection::ADVERTISEMENTS->name())
             ->group(function (): void {
 
                 Route::apiResource('category', CategoryController::class);
@@ -102,7 +103,7 @@ Route::prefix(RouteSection::ADMIN)
             });
 
         Route::prefix(RouteSection::CONTENT)
-            ->name('content.')
+            ->name(RouteSection::CONTENT->name())
             ->group(function (): void {
 
                 Route::apiResource('menu', MenuController::class);
@@ -110,7 +111,7 @@ Route::prefix(RouteSection::ADMIN)
             });
 
         Route::prefix(RouteSection::USERS)
-            ->name('users.')
+            ->name(RouteSection::USERS->name())
             ->group(function (): void {
 
                 Route::apiResource('user', UserController::class);
@@ -119,7 +120,7 @@ Route::prefix(RouteSection::ADMIN)
 
 // user panel
 Route::prefix(RouteSection::PANEL)
-    ->name('panel.')
+    ->name(RouteSection::PANEL->name())
     ->middleware([
         'auth:sanctum',
         EnsureMobileIsVerified::class,
@@ -127,14 +128,14 @@ Route::prefix(RouteSection::PANEL)
     ->group(function (): void {
 
         Route::prefix(RouteSection::ADVERTISEMENTS)
-            ->name('advertise.')
+            ->name(RouteSection::ADVERTISEMENTS->name())
             ->group(function (): void {
 
                 Route::apiResource('advertisement', PanelAdvertisementController::class)
                     ->withTrashed(['show', 'update']);
 
                 Route::prefix(RouteSection::GALLERY)
-                    ->name('gallery.')
+                    ->name(RouteSection::GALLERY->name())
                     ->group(function (): void {
 
                         Route::get('{advertisement}', [PanelGalleryController::class, 'index'])->name('index');
@@ -148,7 +149,7 @@ Route::prefix(RouteSection::PANEL)
 
                 Route::prefix(RouteSection::NOTES)
                     ->controller(AdvertisementNoteController::class)
-                    ->name('notes.')
+                    ->name(RouteSection::NOTES->name())
                     ->group(function (): void {
 
                         Route::post('{advertisement}/store', 'store')->name('store');
@@ -161,7 +162,7 @@ Route::prefix(RouteSection::PANEL)
 
         Route::prefix(RouteSection::FAVORITES)
             ->controller(FavoriteAdvertisementController::class)
-            ->name('favorites.')
+            ->name(RouteSection::FAVORITES->name())
             ->group(function (): void {
 
                 Route::get('/', 'index')->name('index');
@@ -171,7 +172,7 @@ Route::prefix(RouteSection::PANEL)
 
         Route::prefix(RouteSection::HISTORY)
             ->controller(HistoryAdvertisementController::class)
-            ->name('history.')
+            ->name(RouteSection::HISTORY->name())
             ->group(function (): void {
 
                 Route::get('/', 'index')->name('index');
