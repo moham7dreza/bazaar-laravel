@@ -279,13 +279,13 @@ cache: ## Cache system files
 	php artisan settings:discover
 
 pintd: ## Run PHP code style fixer to only modify the files that have uncommitted changes
-	vendor/bin/pint --dirty
+	vendor/bin/pint --dirty --parallel
 
 pintt: ## Run PHP code style fixer to simply inspect your code for style errors
 	vendor/bin/pint --test
 
 pint: ## Run PHP code style fixer
-	vendor/bin/pint --repair
+	vendor/bin/pint --repair --parallel
 
 start: ## Start all development servers
 	@npx concurrently -k -n "QUEUE,HORIZON,REVERB,OCTANE,VITE,SCHEDULE,PULSE,NEXT,LOGGING,NIGHTWATCH" \
