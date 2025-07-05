@@ -1,6 +1,6 @@
 <?php
 
-use App\Builders\SmsBuilder;
+use App\Services\Builders\SmsBuilder;
 use App\Models\User;
 use Illuminate\Support\Facades\Lang;
 
