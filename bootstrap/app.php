@@ -11,6 +11,8 @@ use Illuminate\Database\QueryException;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
+use Illuminate\Http\Exceptions\ThrottleRequestsException;
+use Illuminate\Support\Facades\Date;
 use Illuminate\Validation\ValidationException;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
@@ -47,17 +49,17 @@ return Application::configure(basePath: dirname(__DIR__))
         ]);
 
         $middleware->alias([
-            'verified'            => App\Http\Middleware\EnsureEmailIsVerified::class,
-            'mobile-verified'     => App\Http\Middleware\EnsureMobileIsVerified::class,
-            'admin'               => App\Http\Middleware\CheckAdminMiddleware::class,
-            'dev'                 => App\Http\Middleware\OnlyAllowDevelopersMiddleware::class,
-            'abilities'           => Laravel\Sanctum\Http\Middleware\CheckAbilities::class,
-            'ability'             => Laravel\Sanctum\Http\Middleware\CheckForAnyAbility::class,
-            'role'                => Spatie\Permission\Middleware\RoleMiddleware::class,
-            'permission'          => Spatie\Permission\Middleware\PermissionMiddleware::class,
-            'role-or-permission'  => Spatie\Permission\Middleware\RoleOrPermissionMiddleware::class,
-            'cache-response'      => Spatie\ResponseCache\Middlewares\CacheResponse::class,
-            'uncache-response'    => Spatie\ResponseCache\Middlewares\DoNotCacheResponse::class,
+            'verified'           => App\Http\Middleware\EnsureEmailIsVerified::class,
+            'mobile-verified'    => App\Http\Middleware\EnsureMobileIsVerified::class,
+            'admin'              => App\Http\Middleware\CheckAdminMiddleware::class,
+            'dev'                => App\Http\Middleware\OnlyAllowDevelopersMiddleware::class,
+            'abilities'          => Laravel\Sanctum\Http\Middleware\CheckAbilities::class,
+            'ability'            => Laravel\Sanctum\Http\Middleware\CheckForAnyAbility::class,
+            'role'               => Spatie\Permission\Middleware\RoleMiddleware::class,
+            'permission'         => Spatie\Permission\Middleware\PermissionMiddleware::class,
+            'role-or-permission' => Spatie\Permission\Middleware\RoleOrPermissionMiddleware::class,
+            'cache-response'     => Spatie\ResponseCache\Middlewares\CacheResponse::class,
+            'uncache-response'   => Spatie\ResponseCache\Middlewares\DoNotCacheResponse::class,
         ]);
 
         $middleware->appendToGroup('administrator', [
@@ -122,6 +124,11 @@ return Application::configure(basePath: dirname(__DIR__))
                 //                return ApiJsonResponse::error(Response::HTTP_INTERNAL_SERVER_ERROR, 'Server Error');
             }
         });
+
+        $exceptions->map(fn (ThrottleRequestsException $e) => new ThrottleRequestsException(
+            message: 'Too Many Attempts. Please try again in ' . Date::make($e->getHeaders()['X-RateLimit-Reset'])->fromNow(),
+            headers: $e->getHeaders(),
+        ));
 
     })
     ->create();
