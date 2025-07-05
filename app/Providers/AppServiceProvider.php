@@ -11,6 +11,7 @@ use App\Exceptions\ManagerConfigException;
 use App\Helpers\JalalianFactory;
 use App\Http\Filters\FiltersList;
 use App\Http\Filters\Image\ImageThumbnailResizeFilter;
+use App\Http\Routing\IgnoreBindingValidator;
 use App\Models\Holiday;
 use App\Models\User;
 use App\Rules\ValidateImageRule;
@@ -29,6 +30,7 @@ use Illuminate\Http\UploadedFile;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Pipeline\Hub;
 use Illuminate\Pipeline\Pipeline;
+use Illuminate\Routing\Route;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Date;
@@ -79,6 +81,7 @@ final class AppServiceProvider extends ServiceProvider
         $this->configureStringable();
         $this->configureCollection();
         $this->configureBuilder();
+        $this->configureRoute();
     }
 
     private function configureEmail(): void
@@ -324,5 +327,15 @@ final class AppServiceProvider extends ServiceProvider
     private function configureBuilder(): void
     {
         Builder::macro('reserveFirstAvailable', fn (mixed $key, string|int|Carbon $duration = 60) => $this->get()->first(fn ($item) => $item->reserve($key, $duration)));
+    }
+
+    private function configureRoute(): void
+    {
+        Route::$validators = [
+            ...Route::getValidators(),
+            new IgnoreBindingValidator(),
+        ];
+
+        Route::macro('ignoreMissingBindings', fn () => $this->action['ignoreMissingBindings'] = true);
     }
 }
