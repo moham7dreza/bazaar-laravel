@@ -5,35 +5,35 @@ declare(strict_types=1);
 namespace Modules\Advertise\Http\Requests\Admin;
 
 use App\Enums\Image\ImageSize;
+use Closure;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 use Illuminate\Validation\Validator;
 
 final class StoreAdvertisementRequest extends FormRequest
 {
-    /**
-     * Determine if the user is authorized to make this request.
-     */
     public function authorize(): bool
     {
         return true;
     }
 
     /**
-     * @return array<int, \Closure(Validator): void>
+     * @return array<int, Closure(Validator): void>
      */
     public function after(): array
     {
         return [
-            function (Validator $validator) {
-                if ($validator->errors()->any()) {
+            function (Validator $validator): void {
+                if ($validator->errors()->any())
+                {
                     return;
                 }
 
-                if ($this->user()->advertisements()->count() > 100) {
+                if ($this->user()->advertisements()->count() > 100)
+                {
                     $validator->errors()->add('advertisement', 'Maximum 100 advertisements allowed');
                 }
-            }
+            },
         ];
     }
 
@@ -65,5 +65,12 @@ final class StoreAdvertisementRequest extends FormRequest
             'willing_to_trade'   => 'nullable|numeric|in:0,1',
             'current_image_size' => Rule::enum(ImageSize::class),
         ];
+    }
+
+    protected function prepareForValidation(): void
+    {
+        $this->merge([
+            'price' => str_replace(',', '', $this->input('price')),
+        ]);
     }
 }
