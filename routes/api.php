@@ -42,14 +42,14 @@ when(isEnvLocal(), function (): void {
         ->middleware(Infinitypaul\Idempotency\Middleware\EnsureIdempotency::class)
         ->name('idempotency');
 
-    Route::get('lock-test', fn() => print 1)->block(
+    Route::get('lock-test', fn () => print 1)->block(
         lockSeconds: 5,
         waitSeconds: 5,
     );
 });
 
 Route::get('user', static fn (Request $request) => $request->user())->name('user.info')
-    ->middleware(['auth:sanctum', 'mobileVerified']);
+    ->middleware(['auth:sanctum', 'mobile-verified']);
 
 Route::get('categories', [HomeCategoryController::class, 'index'])->name('categories.index');
 Route::get('menus', [HomeMenuController::class, 'index'])->name('menus.index');
