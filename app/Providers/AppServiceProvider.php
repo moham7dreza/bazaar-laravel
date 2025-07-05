@@ -55,11 +55,11 @@ final class AppServiceProvider extends ServiceProvider
     public function boot(): void
     {
         $this->configureCommands();
-        $this->configureModels();
+        $this->configureModel();
         $this->configureUrl();
         $this->configureVite();
         $this->configureHttp();
-        $this->configureCurrency();
+        $this->configureNumber();
         $this->configureGates();
         $this->logSlowQuery();
         $this->loadExtraMigrationsPath();
@@ -73,6 +73,7 @@ final class AppServiceProvider extends ServiceProvider
         $this->configureSchedule();
         $this->configureUri();
         $this->configureEmail();
+//        $this->configureVerifyEmail();
     }
 
     public function configureEmail(): void
@@ -97,7 +98,7 @@ final class AppServiceProvider extends ServiceProvider
         DB::prohibitDestructiveCommands(isEnvProduction());
     }
 
-    private function configureModels(): void
+    private function configureModel(): void
     {
         Model::automaticallyEagerLoadRelationships();
         Model::shouldBeStrict( ! isEnvProduction());
@@ -138,7 +139,7 @@ final class AppServiceProvider extends ServiceProvider
         Vite::useAggressivePrefetching();
     }
 
-    private function configureCurrency(): void
+    private function configureNumber(): void
     {
         Number::useCurrency(ClientLocale::default()['currency']);
     }
@@ -220,6 +221,7 @@ final class AppServiceProvider extends ServiceProvider
     private function configureDate(): void
     {
         Date::use(CarbonImmutable::class);
+
         Date::macro('isHoliday', fn () => Holiday::query()->where('date', $this)->exists()); // today()->isHoliday()
     }
 
