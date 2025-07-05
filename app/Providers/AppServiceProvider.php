@@ -7,9 +7,8 @@ namespace App\Providers;
 use App\Broadcasting\WhatsappChannel;
 use App\Console\Commands\System\DataMigrationCommand;
 use App\Enums\ClientLocale;
-use App\Enums\RequestHeader;
-use App\Enums\RequestPlatform;
 use App\Exceptions\ManagerConfigException;
+use App\Helpers\JalalianFactory;
 use App\Http\Filters\FiltersList;
 use App\Http\Filters\Image\ImageThumbnailResizeFilter;
 use App\Models\Holiday;
@@ -180,7 +179,7 @@ final class AppServiceProvider extends ServiceProvider
 
     private function configureCarbon(): void
     {
-        Carbon::macro('jdate', fn (): ?Jalalian => jalali_date($this));
+        Carbon::macro('jdate', fn (): ?Jalalian => JalalianFactory::fromGregorian($this));
 
         Carbon::macro('createFromTimestampLocal', static fn ($timestamp) => Carbon::createFromTimestamp($timestamp, config()->string('app.timezone')));
     }

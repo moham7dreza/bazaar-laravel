@@ -134,14 +134,6 @@ if ( ! function_exists('userIdIs'))
     }
 }
 
-if ( ! function_exists('jalali_date'))
-{
-    function jalali_date(DateTimeInterface|string|int|null $date = null): ?Jalalian
-    {
-        return null !== $date ? jdate($date) : null;
-    }
-}
-
 if ( ! function_exists('admin'))
 {
     function admin(): ?User

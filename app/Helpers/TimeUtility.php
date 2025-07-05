@@ -14,14 +14,14 @@ final class TimeUtility
 {
     public static function isFirstDayOfJalaliMonth(DateTimeInterface|string|int|null $date): bool
     {
-        return '01' === jalali_date($date)?->format('d');
+        return '01' === JalalianFactory::fromGregorian($date)?->format('d');
     }
 
     public static function isLastDayOfJalaliMonth(DateTimeInterface|string|int|null $date): bool
     {
         $clonedDate = clone $date;
 
-        return '01' === jalali_date($clonedDate->addDay())?->format('d');
+        return '01' === JalalianFactory::fromGregorian($clonedDate->addDay())?->format('d');
     }
 
     public static function jalaliSeasonNumber(DateTimeInterface|string|int|null $date): ?int
@@ -31,17 +31,17 @@ final class TimeUtility
 
     public static function jalaliWeekdayName(DateTimeInterface|string|int|null $date): ?string
     {
-        return jalali_date($date)?->format('%A');
+        return JalalianFactory::fromGregorian($date)?->format('%A');
     }
 
     public static function jalaliMonthName(DateTimeInterface|string|int|null $date): ?string
     {
-        return jalali_date($date)?->format('%B');
+        return JalalianFactory::fromGregorian($date)?->format('%B');
     }
 
     public static function jalaliDayMonthName(DateTimeInterface|string|int|null $date): ?string
     {
-        return jalali_date($date)?->format('%d %B');
+        return JalalianFactory::fromGregorian($date)?->format('%d %B');
     }
 
     public static function jalaliCurrentYearNumber(): int
