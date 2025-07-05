@@ -48,6 +48,10 @@ when(isEnvLocal(), function (): void {
     );
 });
 
+when(isEnvLocalOrTesting(), function (): void {
+    Route::get('today/{date}', fn ($date) => $date)->name('today.date');
+});
+
 Route::get('user', static fn (Request $request) => $request->user())->name('user.info')
     ->middleware(['auth:sanctum', 'mobile-verified']);
 
