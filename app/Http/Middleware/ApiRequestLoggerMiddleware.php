@@ -18,6 +18,11 @@ final class ApiRequestLoggerMiddleware
         $logger->addBasicContexts();
         $logger->addUserContext();
 
+        if ($request->filled('per_page') && is_numeric($request->get('per_page')))
+        {
+            context()->add('per_page', $request->integer('per_page'));
+        }
+
         // Add performance metrics
         $startTime = microtime(true);
 
