@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Middleware;
 
+use App\Classes\ContextItem;
 use App\Services\Contexts\RequestContext;
 use Closure;
 use Illuminate\Http\Request;
@@ -20,7 +21,7 @@ final class ApiRequestLoggerMiddleware
 
         if ($request->filled('per_page') && is_numeric($request->get('per_page')))
         {
-            context()->add('per_page', $request->integer('per_page'));
+            context()->add(ContextItem::PerPage, $request->integer('per_page'));
         }
 
         // Add performance metrics
@@ -28,8 +29,8 @@ final class ApiRequestLoggerMiddleware
 
         $response = $next($request);
 
-        context()->add('response_time', round((microtime(true) - $startTime) * 1000, 2));
-        context()->add('status_code', $response->getStatusCode());
+        context()->add(ContextItem::ResponseTime, round((microtime(true) - $startTime) * 1000, 2));
+        context()->add(ContextItem::StatusCode, $response->getStatusCode());
 
         info('API request processed');
 

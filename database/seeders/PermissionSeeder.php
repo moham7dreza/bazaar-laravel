@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Database\Seeders;
 
+use App\Classes\ContextItem;
 use App\Enums\UserId;
 use App\Enums\UserPermission;
 use App\Enums\UserRole;
@@ -39,7 +40,7 @@ final class PermissionSeeder extends Seeder
 //            User::query()->find(UserId::Admin) ??
             User::query()->admin()->first()
             ?? User::factory()->admin()->create();
-        context()->add('admin', $super_admin);
+        context()->add(ContextItem::Admin, $super_admin);
 
         $this->command->info('admin user ok.');
 

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Services\Contexts;
 
+use App\Classes\ContextItem;
 use Illuminate\Support\Str;
 
 /**
@@ -13,19 +14,19 @@ final class RequestContext
 {
     public function __construct()
     {
-        context()->add('request_id', Str::uuid()->toString());
+        context()->add(ContextItem::RequestId, Str::uuid()->toString());
     }
 
     public function addBasicContexts(): void
     {
-        context()->add('path', request()->path());
-        context()->add('host', request()->host());
-        context()->add('ip', request()->ip());
-        context()->add('url', request()->url());
-        context()->add('hostname', gethostname());
-        context()->add('method', request()->method());
-        context()->add('referer', request()->header('referer'));
-//        context()->addHidden('session', request()?->session()?->getId());
+        context()->add(ContextItem::Path, request()->path());
+        context()->add(ContextItem::Host, request()->host());
+        context()->add(ContextItem::Ip, request()->ip());
+        context()->add(ContextItem::Url, request()->url());
+        context()->add(ContextItem::Hostname, gethostname());
+        context()->add(ContextItem::Method, request()->method());
+        context()->add(ContextItem::Referer, request()->header('referer'));
+        //        context()->addHidden(ContextItem::Session, request()?->session()?->getId());
     }
 
     public function addUserContext(): void
@@ -35,7 +36,7 @@ final class RequestContext
             return;
         }
 
-        context()->add('user_id', $user->id);
-        context()->add('user_type', $user->user_type);
+        context()->add(ContextItem::UserId, $user->id);
+        context()->add(ContextItem::UserType, $user->user_type);
     }
 }
