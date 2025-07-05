@@ -146,7 +146,7 @@ if ( ! function_exists('admin'))
 {
     function admin(): ?User
     {
-        $user = User::query()->find(UserId::Admin)
+        $user = User::query()->find(UserId::Admin->value)
             ?? User::query()->admin()->first();
 
         return $user?->isAdmin() ? $user : null;
