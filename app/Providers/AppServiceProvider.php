@@ -22,6 +22,7 @@ use Filament\Notifications\Auth\VerifyEmail;
 use Illuminate\Console\Scheduling\Event;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Database\Connection;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Events\QueryExecuted;
 use Illuminate\Http\UploadedFile;
@@ -29,6 +30,7 @@ use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Pipeline\Hub;
 use Illuminate\Pipeline\Pipeline;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Date;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Gate;
@@ -41,6 +43,7 @@ use Illuminate\Support\Facades\Vite;
 use Illuminate\Support\Number;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Str;
+use Illuminate\Support\Stringable;
 use Illuminate\Support\Uri;
 use Illuminate\Validation\InvokableValidationRule;
 use Illuminate\Validation\Rules\Email;
@@ -72,10 +75,13 @@ final class AppServiceProvider extends ServiceProvider
         $this->configureSchedule();
         $this->configureUri();
         $this->configureEmail();
-//        $this->configureVerifyEmail();
+        //        $this->configureVerifyEmail();
+        $this->configureStringable();
+        $this->configureCollection();
+        $this->configureBuilder();
     }
 
-    public function configureEmail(): void
+    private function configureEmail(): void
     {
         Email::macro('contractor', static fn () => Email::default()
             ->strict()
@@ -226,13 +232,13 @@ final class AppServiceProvider extends ServiceProvider
 
     private function configurePassword(): void
     {
-        Password::defaults(static fn () =>
-        Password::min(8) // Minimum length of 8 characters
-        ->mixedCase() // Must include both uppercase and lowercase letters
-        ->letters()   // Must include at least one letter
-        ->numbers()   // Must include at least one number
-        ->symbols()   // Must include at least one symbol
-        ->uncompromised(), // Checks against known data breaches
+        Password::defaults(
+            static fn () => Password::min(8) // Minimum length of 8 characters
+                ->mixedCase() // Must include both uppercase and lowercase letters
+                ->letters()   // Must include at least one letter
+                ->numbers()   // Must include at least one number
+                ->symbols()   // Must include at least one symbol
+                ->uncompromised(), // Checks against known data breaches
         );
     }
 
@@ -303,5 +309,20 @@ final class AppServiceProvider extends ServiceProvider
                 'user'        => $user,
                 'url'         => $url,
             ]));
+    }
+
+    private function configureStringable(): void
+    {
+        Stringable::macro('toJson', fn (?bool $associative = null, int $depth = 512, int $flags = 0) => json_decode($this->value(), $associative, $depth, $flags));
+    }
+
+    private function configureCollection(): void
+    {
+        Collection::macro('reserveFirstAvailable', fn (mixed $key, string|int|Carbon $duration = 60) => $this->first(fn ($item) => $item->reserve($key, $duration)));
+    }
+
+    private function configureBuilder(): void
+    {
+        Builder::macro('reserveFirstAvailable', fn (mixed $key, string|int|Carbon $duration = 60) => $this->get()->first(fn ($item) => $item->reserve($key, $duration)));
     }
 }
