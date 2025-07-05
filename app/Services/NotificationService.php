@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Services;
 
+use Illuminate\Support\Collection;
+
 final readonly class NotificationService
 {
     public function sendEmails($recipients, $message)
@@ -36,4 +38,8 @@ final readonly class NotificationService
             ])
             ->sortByDesc('timestamp');
     }
+
+    private function validateEmail($email): void {}
+
+    private function dispatch($email, $message): void {}
 }
