@@ -21,11 +21,11 @@ final class TelescopeServiceProvider extends TelescopeApplicationServiceProvider
 
         $this->hideSensitiveRequestDetails();
 
-        Telescope::filter(fn (IncomingEntry $entry) => isEnvLocal() ||
-            $entry->isReportableException()                         ||
-            $entry->isFailedRequest()                               ||
-            $entry->isFailedJob()                                   ||
-            $entry->isScheduledTask()                               ||
+        Telescope::filter(fn (IncomingEntry $entry) => isEnvLocalOrTesting() ||
+            $entry->isReportableException()                                  ||
+            $entry->isFailedRequest()                                        ||
+            $entry->isFailedJob()                                            ||
+            $entry->isScheduledTask()                                        ||
             $entry->hasMonitoredTag());
 
         Telescope::avatar(static fn (?string $id, ?string $email) => null !== $id
