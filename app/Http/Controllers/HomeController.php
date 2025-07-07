@@ -16,38 +16,40 @@ class HomeController extends Controller
 {
     public function __invoke(SMSService $SMSService)
     {
-        mongo_info('view', ['ip' => request()->ip(), 'url' => request()->url()], true);
+        defer(static function () use ($SMSService): void {
+            mongo_info('view', ['ip' => request()->ip(), 'url' => request()->url()], true);
 
-        try
-        {
-            // sample jobs, ...
-            PackageSent::dispatch('processed', 'prosper');
-            PackageSent::dispatch('delivered', 'olamide');
+            try
+            {
+                // sample jobs, ...
+                PackageSent::dispatch('processed', 'prosper');
+                PackageSent::dispatch('delivered', 'olamide');
 
-            // sample send sms
-            $data = new \Amiriun\SMS\DataContracts\SendSMSDTO();
-            $data->setSenderNumber(SmsSenderNumber::NUMBER_2->value); // also this can be set as default in config/sms.php
-            $data->setMessage('Hello, this is a test');
-            $data->setTo('09123000000');
-            $SMSService->send($data);
+                // sample send sms
+                $data = new \Amiriun\SMS\DataContracts\SendSMSDTO();
+                $data->setSenderNumber(SmsSenderNumber::NUMBER_2->value); // also this can be set as default in config/sms.php
+                $data->setMessage('Hello, this is a test');
+                $data->setTo('09123000000');
+                $SMSService->send($data);
 
-            // sample send email
-            Mail::to('test@example.com')
-                ->when(false)
-                ->send(new UserLandMail(
-                    subject: 'welcome',
-                    from: getenv('MAIL_FROM_ADDRESS'),
-                    details: [
-                        'subject' => 'test',
-                        'body'    => 'test',
-                    ],
-                    files: [],
-                ));
+                // sample send email
+                Mail::to('test@example.com')
+//                    ->when(false)
+                    ->send(new UserLandMail(
+                        subject: 'welcome',
+                        from: getenv('MAIL_FROM_ADDRESS'),
+                        details: [
+                            'subject' => 'test',
+                            'body'    => 'test',
+                        ],
+                        files: [],
+                    ));
 
-        } catch (Exception $e)
-        {
-            Log::error($e->getMessage());
-        }
+            } catch (Exception $e)
+            {
+                Log::error($e->getMessage());
+            }
+        });
 
         Log::warning('this is sample log to view queued jobs [{date}]', ['date' => now()->jdate()->format('Y-m-d H:i:s')]);
 
