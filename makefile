@@ -476,3 +476,6 @@ setup-horizon: ## Configure Supervisor for Laravel horizon
 		printf "${COLOR_GREEN}✓ Laravel horizon started${COLOR_RESET}\n"; \
 	fi
 	@printf "${COLOR_GREEN}✓ Laravel horizon setup completed!${COLOR_RESET}\n"
+
+db-telescope: ## Run Telescope DB migrations
+	php artisan migrate --database=telescope --path=vendor/laravel/telescope/database/migrations --force
