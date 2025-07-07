@@ -13,9 +13,16 @@ use Modules\Advertise\Models\Advertisement;
 
 final class UserReadRepository
 {
+    private Builder $baseQuery;
+
+    public function __construct()
+    {
+        $this->baseQuery = User::query();
+    }
+
     public function getUsersWithLatestAdvertisementPostedDate(int $limit = 1000, int $perPage = 20): PaginatedListViewDTO
     {
-        $items = $this->baseQuery()
+        $items = $this->baseQuery->clone()
             ->select('*') // only get required fields
             ->addSelect([
                 'latest_advertisement_posted_at' => Advertisement::query()
@@ -33,7 +40,7 @@ final class UserReadRepository
 
     public function getUsersWithSpecialAdvertisements(int $limit = 1000, int $perPage = 20): PaginatedListViewDTO
     {
-        $items = $this->baseQuery()
+        $items = $this->baseQuery->clone()
             ->select('*') // only get required fields
             ->withWhereHas('advertisements', fn (Builder $builder) => $builder->where('is_special', true))
             ->take($limit)
@@ -45,7 +52,7 @@ final class UserReadRepository
 
     public function getCountOfUsersRole(UserRole $role): int
     {
-        return $this->baseQuery()
+        return $this->baseQuery->clone()
             ->with('roles')
             ->get()
             ->filter(fn (User $user) => $user->roles->where('name', $role)->toArray())
@@ -54,15 +61,10 @@ final class UserReadRepository
 
     public function getCountOfUsersPermission(UserPermission $permission): int
     {
-        return $this->baseQuery()
+        return $this->baseQuery->clone()
             ->with('permissions')
             ->get()
             ->filter(fn (User $user) => $user->permissions->where('name', $permission)->toArray())
             ->count();
-    }
-
-    private function baseQuery(): Builder
-    {
-        return User::query();
     }
 }
