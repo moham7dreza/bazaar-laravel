@@ -26,8 +26,8 @@ Schedule::command('horizon:snapshot')->everyFiveMinutes();
 Schedule::command('cache:prune-stale-tags ')->weekly();
 Schedule::command(CheckDependencyVersions::class)->everyFiveMinutes();
 Schedule::command(CheckVulnerabilitiesCommand::class)->everySixHours()
-    ->appendOutputTo($commandOutputLogPath)
-    ->emailOutputOnFailure(admin()->email ?? 'admin@admin.com');
+    ->appendOutputTo($commandOutputLogPath);
+//    ->emailOutputOnFailure(admin()->email ?? 'admin@admin.com');
 
 Schedule::command('model:prune')->daily();
 

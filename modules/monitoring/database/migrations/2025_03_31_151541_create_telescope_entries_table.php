@@ -20,6 +20,7 @@ return new class() extends Migration {
      */
     public function up(): void
     {
+        return;
         $schema = Schema::connection($this->getConnection());
 
         $schema->create('telescope_entries', function (Blueprint $table): void {
@@ -62,6 +63,7 @@ return new class() extends Migration {
      */
     public function down(): void
     {
+        return;
         $schema = Schema::connection($this->getConnection());
 
         $schema->dropIfExists('telescope_entries_tags');
