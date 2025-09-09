@@ -19,7 +19,7 @@ final class CategoryAttributeResource extends JsonResource
         return [
             'id'         => $this->id,
             'name'       => $this->name,
-            'unit'       => $this->description,
+            'unit'       => $this->unit,
             'category'   => $this->category,
             'type'       => $this->type,
             'status'     => $this->status,
