@@ -6,11 +6,11 @@ namespace Modules\Content\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Http\Responses\ApiJsonResponse;
+use Modules\Content\Http\Requests\Admin\StorePageRequest;
+use Modules\Content\Http\Requests\Admin\UpdatePageRequest;
+use Modules\Content\Http\Resources\Admin\PageCollection;
+use Modules\Content\Http\Resources\Admin\PageResource;
 use Modules\Content\Models\Page;
-use PageCollection;
-use PageResource;
-use StorePageRequest;
-use UpdatePageRequest;
 
 final class PageController extends Controller
 {

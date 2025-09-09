@@ -6,11 +6,11 @@ namespace Modules\Content\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Http\Responses\ApiJsonResponse;
-use MenuCollection;
-use MenuResource;
+use Modules\Content\Http\Requests\Admin\StoreMenuRequest;
+use Modules\Content\Http\Requests\Admin\UpdateMenuRequest;
+use Modules\Content\Http\Resources\Admin\MenuCollection;
+use Modules\Content\Http\Resources\Admin\MenuResource;
 use Modules\Content\Models\Menu;
-use StoreMenuRequest;
-use UpdateMenuRequest;
 
 final class MenuController extends Controller
 {
