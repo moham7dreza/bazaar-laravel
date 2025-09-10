@@ -10,7 +10,7 @@ use Modules\Advertise\Models\Advertisement;
 use Modules\Advertise\Models\AdvertisementNote;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\Modules\Advertise\Models\AdvertisementNote>
+ * @extends Factory<AdvertisementNote>
  */
 final class AdvertisementNoteFactory extends Factory
 {

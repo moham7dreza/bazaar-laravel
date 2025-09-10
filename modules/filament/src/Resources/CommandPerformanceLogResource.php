@@ -4,11 +4,22 @@ declare(strict_types=1);
 
 namespace Modules\Filament\Resources;
 
+use Modules\Filament\Resources\CommandPerformanceLogResource\Widgets\StatsOverview;
+use Filament\Schemas\Schema;
+use Filament\Schemas\Components\Section;
+use Filament\Forms\Components\TextInput;
+use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Filters\QueryBuilder;
+use Filament\Tables\Filters\QueryBuilder\Constraints\TextConstraint;
+use Filament\Tables\Filters\QueryBuilder\Constraints\NumberConstraint;
+use Filament\Tables\Enums\FiltersLayout;
+use Filament\Actions\ViewAction;
+use Filament\Tables\Enums\RecordActionsPosition;
+use Modules\Filament\Resources\CommandPerformanceLogResource\Pages\ListCommandPerformanceLogs;
+use Modules\Filament\Resources\CommandPerformanceLogResource\Pages\ViewCommandPerformanceLog;
 use Filament\Forms;
-use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
-use Filament\Tables\Enums\ActionsPosition;
 use Filament\Tables\Filters\QueryBuilder\Constraints;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
@@ -18,9 +29,9 @@ final class CommandPerformanceLogResource extends Resource
 {
     protected static ?string $model = CommandPerformanceLog::class;
 
-    protected static ?string $navigationGroup = 'Logging';
+    protected static string | \UnitEnum | null $navigationGroup = 'Logging';
 
-    protected static ?string $navigationIcon = 'heroicon-o-adjustments-horizontal';
+    protected static string | \BackedEnum | null $navigationIcon = 'heroicon-o-adjustments-horizontal';
 
     protected static ?string $recordTitleAttribute = 'command';
 
@@ -39,35 +50,35 @@ final class CommandPerformanceLogResource extends Resource
     public static function getWidgets(): array
     {
         return [
-            CommandPerformanceLogResource\Widgets\StatsOverview::class,
+            StatsOverview::class,
         ];
     }
 
-    public static function form(Form $form): Form
+    public static function form(Schema $schema): Schema
     {
-        return $form
-            ->schema([
-                Forms\Components\Section::make()
+        return $schema
+            ->components([
+                Section::make()
                     ->translateLabel()
                     ->columns()
                     ->schema([
-                        Forms\Components\TextInput::make('command')
+                        TextInput::make('command')
                             ->required()
                             ->string()
                             ->translateLabel(),
-                        Forms\Components\TextInput::make('query_time')
+                        TextInput::make('query_time')
                             ->required()
                             ->numeric()
                             ->translateLabel(),
-                        Forms\Components\TextInput::make('query_count')
+                        TextInput::make('query_count')
                             ->required()
                             ->numeric()
                             ->translateLabel(),
-                        Forms\Components\TextInput::make('runtime')
+                        TextInput::make('runtime')
                             ->required()
                             ->numeric()
                             ->translateLabel(),
-                        Forms\Components\TextInput::make('memory_usage')
+                        TextInput::make('memory_usage')
                             ->required()
                             ->numeric()
                             ->translateLabel(),
@@ -79,31 +90,31 @@ final class CommandPerformanceLogResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('command')->translateLabel()->sortable()->searchable()
+                TextColumn::make('command')->translateLabel()->sortable()->searchable()
                     ->limit(20)
                     ->tooltip(fn ($record): string => $record->command),
-                Tables\Columns\TextColumn::make('status')->translateLabel()->badge(),
-                Tables\Columns\TextColumn::make('query_time')->translateLabel()->sortable(),
-                Tables\Columns\TextColumn::make('query_count')->translateLabel()->sortable(),
-                Tables\Columns\TextColumn::make('memory_usage')->translateLabel()->sortable(),
-                Tables\Columns\TextColumn::make('runtime')->translateLabel()->sortable(),
+                TextColumn::make('status')->translateLabel()->badge(),
+                TextColumn::make('query_time')->translateLabel()->sortable(),
+                TextColumn::make('query_count')->translateLabel()->sortable(),
+                TextColumn::make('memory_usage')->translateLabel()->sortable(),
+                TextColumn::make('runtime')->translateLabel()->sortable(),
             ])
             ->filters([
-                Tables\Filters\QueryBuilder::make()
+                QueryBuilder::make()
                     ->constraints([
-                        Constraints\TextConstraint::make('command')->translateLabel(),
-                        Constraints\NumberConstraint::make('query_time')->translateLabel(),
-                        Constraints\NumberConstraint::make('query_count')->translateLabel(),
-                        Constraints\NumberConstraint::make('memory_usage')->translateLabel(),
-                        Constraints\NumberConstraint::make('runtime')->translateLabel(),
+                        TextConstraint::make('command')->translateLabel(),
+                        NumberConstraint::make('query_time')->translateLabel(),
+                        NumberConstraint::make('query_count')->translateLabel(),
+                        NumberConstraint::make('memory_usage')->translateLabel(),
+                        NumberConstraint::make('runtime')->translateLabel(),
                     ])
                     ->constraintPickerColumns(),
-            ], layout: Tables\Enums\FiltersLayout::AboveContentCollapsible)
+            ], layout: FiltersLayout::AboveContentCollapsible)
             ->deferFilters()
-            ->actions([
-                Tables\Actions\ViewAction::make(),
-            ], position: ActionsPosition::BeforeColumns)
-            ->bulkActions([
+            ->recordActions([
+                ViewAction::make(),
+            ], position: RecordActionsPosition::BeforeColumns)
+            ->toolbarActions([
 
             ]);
     }
@@ -118,8 +129,8 @@ final class CommandPerformanceLogResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => CommandPerformanceLogResource\Pages\ListCommandPerformanceLogs::route('/'),
-            'view'  => CommandPerformanceLogResource\Pages\ViewCommandPerformanceLog::route('/{record}'),
+            'index' => ListCommandPerformanceLogs::route('/'),
+            'view'  => ViewCommandPerformanceLog::route('/{record}'),
         ];
     }
 

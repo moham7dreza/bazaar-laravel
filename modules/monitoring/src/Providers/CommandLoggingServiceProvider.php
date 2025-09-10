@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Modules\Monitoring\Providers;
 
+use Illuminate\Console\Events\CommandStarting;
+use Illuminate\Console\Events\CommandFinished;
 use Exception;
 use Illuminate\Console\Events;
 use Illuminate\Database\Events\QueryExecuted;
@@ -61,7 +63,7 @@ final class CommandLoggingServiceProvider extends ServiceProvider
 
     private function listenToCommandStartingEventAndLogIt(): void
     {
-        Event::listen(Events\CommandStarting::class, function (Events\CommandStarting $event) {
+        Event::listen(CommandStarting::class, function (CommandStarting $event) {
             try {
                 if (self::isExcluded($event->command)) {
                     return;
@@ -99,7 +101,7 @@ final class CommandLoggingServiceProvider extends ServiceProvider
 
     private function listenToCommandFinishedEventAndUpdateLog(): void
     {
-        Event::listen(Events\CommandFinished::class, function (Events\CommandFinished $event) {
+        Event::listen(CommandFinished::class, function (CommandFinished $event) {
             try {
                 if (self::isExcluded($event->command)) {
                     return;

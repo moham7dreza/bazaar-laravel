@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Modules\Auth\Http\Requests;
 
+use Illuminate\Contracts\Validation\Rule;
 use Illuminate\Auth\Events\Lockout;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\RateLimiter;
@@ -23,7 +24,7 @@ final class LoginRequest extends FormRequest
     /**
      * Get the validation rules that apply to the request.
      *
-     * @return array<string, \Illuminate\Contracts\Validation\Rule|array|string>
+     * @return array<string, Rule|array|string>
      */
     public function rules(): array
     {

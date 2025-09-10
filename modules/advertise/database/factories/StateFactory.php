@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Factories\Factory;
 use Modules\Advertise\Models\State;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\Modules\Advertise\Models\State>
+ * @extends Factory<State>
  */
 final class StateFactory extends Factory
 {

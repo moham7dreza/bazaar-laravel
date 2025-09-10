@@ -2,6 +2,8 @@
 
 namespace App\Console\Commands\System;
 
+use Exception;
+use JsonException;
 use Illuminate\Console\Command;
 use Illuminate\Support\Collection;
 
@@ -20,7 +22,7 @@ class ArtisanFinderCommand extends Command
     protected $description = 'Find artisan commands';
 
     /**
-     * @throws \JsonException
+     * @throws JsonException
      */
     public function handle(): int
     {
@@ -66,7 +68,7 @@ class ArtisanFinderCommand extends Command
             $this->call($commandName, $commandParameters);
 
             warning('Command execution successfully.');
-        } catch (\Exception $exception) {
+        } catch (Exception $exception) {
             report($exception);
         }
 

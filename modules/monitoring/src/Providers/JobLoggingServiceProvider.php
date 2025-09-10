@@ -4,6 +4,10 @@ declare(strict_types=1);
 
 namespace Modules\Monitoring\Providers;
 
+use Illuminate\Queue\Events\JobProcessing;
+use Illuminate\Queue\Events\JobProcessed;
+use Illuminate\Queue\Events\JobQueued;
+use Illuminate\Queue\Events\JobFailed;
 use App\Events\PackageSent;
 use App\Jobs\Contracts\ShouldNotifyOnFailures;
 use App\Notifications\FailedJobNotification;
@@ -60,7 +64,7 @@ final class JobLoggingServiceProvider extends ServiceProvider
 
     private function handleJobProcessing(): void
     {
-        Event::listen(function (Events\JobProcessing $event): void {
+        Event::listen(function (JobProcessing $event): void {
             try
             {
                 if (self::isExcluded($event->job->resolveName()))
@@ -85,7 +89,7 @@ final class JobLoggingServiceProvider extends ServiceProvider
 
     private function handleJobProcessed(): void
     {
-        Event::listen(function (Events\JobProcessed $event): void {
+        Event::listen(function (JobProcessed $event): void {
             try
             {
                 if (self::isExcluded($event->job->resolveName()))
@@ -121,7 +125,7 @@ final class JobLoggingServiceProvider extends ServiceProvider
 
     private function handleJobQueued(): void
     {
-        Event::listen(static function (Events\JobQueued $event): void {
+        Event::listen(static function (JobQueued $event): void {
             $job = get_class($event->job);
             context()->push('queued_job_history', "Job queued: {$job}");
         });
@@ -129,7 +133,7 @@ final class JobLoggingServiceProvider extends ServiceProvider
 
     private function handleJobFailed(): void
     {
-        Event::listen(static function (Events\JobFailed $event): void {
+        Event::listen(static function (JobFailed $event): void {
             $job = get_class($event->job);
             context()->push('failed_job_history', "Job failed: {$job}");
 

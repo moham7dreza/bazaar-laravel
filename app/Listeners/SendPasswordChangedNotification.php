@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Listeners;
 
+use App\Notifications\PasswordChangedNotification;
 use App\Enums\Queue;
 use App\Events\UserUpdatedEvent;
 use Carbon\CarbonImmutable;
@@ -35,6 +36,6 @@ class SendPasswordChangedNotification extends QueuedListener
 
     public function handle(UserUpdatedEvent $event): void
     {
-        $event->user->notify(new \App\Notifications\PasswordChangedNotification($event->user));
+        $event->user->notify(new PasswordChangedNotification($event->user));
     }
 }

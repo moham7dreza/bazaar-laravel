@@ -4,11 +4,22 @@ declare(strict_types=1);
 
 namespace Modules\Filament\Resources;
 
+use Filament\Schemas\Schema;
+use Filament\Forms\Components\Toggle;
+use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Columns\IconColumn;
+use Filament\Actions\EditAction;
+use Filament\Actions\BulkActionGroup;
+use Filament\Actions\DeleteBulkAction;
+use Modules\Filament\Resources\SmsGatewayResource\Pages\ListSmsGateways;
+use Modules\Filament\Resources\SmsGatewayResource\Pages\CreateSmsGateway;
+use Modules\Filament\Resources\SmsGatewayResource\Pages\EditSmsGateway;
+use Filament\Forms\Components\Select;
+use Filament\Schemas\Components\Section;
+use Filament\Schemas\Components\Utilities\Get;
 use App\Enums\SMSGateways;
 use App\Models\SmsGateway;
 use Filament\Forms;
-use Filament\Forms\Form;
-use Filament\Forms\Get;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
@@ -16,20 +27,20 @@ use Filament\Tables\Table;
 final class SmsGatewayResource extends Resource
 {
     protected static ?string $model                = SmsGateway::class;
-    protected static ?string $navigationGroup      = 'Sale';
-    protected static ?string $navigationIcon       = 'heroicon-o-chat-bubble-bottom-center-text';
+    protected static string | \UnitEnum | null $navigationGroup      = 'Sale';
+    protected static string | \BackedEnum | null $navigationIcon       = 'heroicon-o-chat-bubble-bottom-center-text';
     protected static ?string $recordTitleAttribute = 'gateway';
     protected static ?int $navigationSort          = 2;
     public static function getNavigationLabel(): string
     {
         return __('SMS Gateways');
     }
-    public static function form(Form $form): Form
+    public static function form(Schema $schema): Schema
     {
-        return $form
-            ->schema([
+        return $schema
+            ->components([
                 ...self::getConfigInputs(),
-                Forms\Components\Toggle::make('status')
+                Toggle::make('status')
                     ->required(),
 
             ]);
@@ -39,19 +50,19 @@ final class SmsGatewayResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('gateway')
+                TextColumn::make('gateway')
                     ->formatStateUsing(fn ($state): string => __('sms-gateways.' . $state)),
 
-                Tables\Columns\IconColumn::make('status')
+                IconColumn::make('status')
                     ->boolean(),
-                Tables\Columns\TextColumn::make('sort_order')
+                TextColumn::make('sort_order')
                     ->numeric()
                     ->sortable(),
-                Tables\Columns\TextColumn::make('created_at')
+                TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
-                Tables\Columns\TextColumn::make('updated_at')
+                TextColumn::make('updated_at')
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
@@ -59,12 +70,12 @@ final class SmsGatewayResource extends Resource
             ->filters([
 
             ])
-            ->actions([
-                Tables\Actions\EditAction::make(),
+            ->recordActions([
+                EditAction::make(),
             ])
-            ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
+            ->toolbarActions([
+                BulkActionGroup::make([
+                    DeleteBulkAction::make(),
                 ]),
             ]);
     }
@@ -72,9 +83,9 @@ final class SmsGatewayResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index'  => SmsGatewayResource\Pages\ListSmsGateways::route('/'),
-            'create' => SmsGatewayResource\Pages\CreateSmsGateway::route('/create'),
-            'edit'   => SmsGatewayResource\Pages\EditSmsGateway::route('/{record}/edit'),
+            'index'  => ListSmsGateways::route('/'),
+            'create' => CreateSmsGateway::route('/create'),
+            'edit'   => EditSmsGateway::route('/{record}/edit'),
         ];
     }
 
@@ -82,12 +93,12 @@ final class SmsGatewayResource extends Resource
     {
         return [
 
-            Forms\Components\Select::make('gateway')
+            Select::make('gateway')
                 ->options(SMSGateways::class)
                 ->required()
                 ->live(),
 
-            Forms\Components\Section::make('gateway config')
+            Section::make('gateway config')
                 ->schema(
                     fn (Get $get) => $get('gateway') > 0
                     ? SMSGateways::from($get('gateway'))->configInputs()

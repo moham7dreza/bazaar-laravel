@@ -2,12 +2,14 @@
 
 declare(strict_types=1);
 
+use App\Http\Middleware\OnlyAllowDevelopersMiddleware;
+use App\Http\Middleware\CheckAdminMiddleware;
 use Modules\Monitoring\Http\Controllers\HealthCheckController;
 use Spatie\Health\Http\Controllers as HeathCheckControllers;
 
 Route::middleware([
-    App\Http\Middleware\OnlyAllowDevelopersMiddleware::class,
-    App\Http\Middleware\CheckAdminMiddleware::class,
+    OnlyAllowDevelopersMiddleware::class,
+    CheckAdminMiddleware::class,
 ])
     ->group(function (): void {
 

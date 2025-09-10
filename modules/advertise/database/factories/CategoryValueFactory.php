@@ -10,7 +10,7 @@ use Modules\Advertise\Models\CategoryAttribute;
 use Modules\Advertise\Models\CategoryValue;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\Modules\Advertise\Models\CategoryValue>
+ * @extends Factory<CategoryValue>
  */
 final class CategoryValueFactory extends Factory
 {

@@ -4,6 +4,12 @@ declare(strict_types=1);
 
 namespace Modules\Filament\Resources;
 
+use Modules\Filament\Resources\SmsLogResource\Widgets\StatsOverview;
+use Filament\Tables\Columns\TextColumn;
+use Filament\Actions\BulkActionGroup;
+use Filament\Actions\DeleteBulkAction;
+use Modules\Filament\Resources\SmsLogResource\Pages\ListSmsLogs;
+use Modules\Filament\Resources\SmsLogResource\Pages\ViewSmsLog;
 use App\Models\SmsLog;
 use Filament\Resources\Resource;
 use Filament\Tables;
@@ -15,9 +21,9 @@ final class SmsLogResource extends Resource
 {
     protected static ?string $model = SmsLog::class;
 
-    protected static ?string $navigationGroup = 'Logging';
+    protected static string | \UnitEnum | null $navigationGroup = 'Logging';
 
-    protected static ?string $navigationIcon = 'heroicon-o-chat-bubble-bottom-center-text';
+    protected static string | \BackedEnum | null $navigationIcon = 'heroicon-o-chat-bubble-bottom-center-text';
 
     protected static ?string $recordTitleAttribute = 'message';
 
@@ -36,7 +42,7 @@ final class SmsLogResource extends Resource
     public static function getWidgets(): array
     {
         return [
-            SmsLogResource\Widgets\StatsOverview::class,
+            StatsOverview::class,
         ];
     }
 
@@ -44,26 +50,26 @@ final class SmsLogResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('message_id')->translateLabel()->sortable()->searchable(),
-                Tables\Columns\TextColumn::make('connector')->translateLabel()->badge(),
-                Tables\Columns\TextColumn::make('type')->translateLabel(),
-                Tables\Columns\TextColumn::make('status')->translateLabel()->badge(),
-                Tables\Columns\TextColumn::make('message_type')->translateLabel(),
-                Tables\Columns\TextColumn::make('sender_number')->translateLabel(),
-                Tables\Columns\TextColumn::make('to')->translateLabel(),
-                Tables\Columns\TextColumn::make('sent_at')->translateLabel(),
-                Tables\Columns\TextColumn::make('delivered_at')->translateLabel(),
-                Tables\Columns\TextColumn::make('user.name')->translateLabel(),
+                TextColumn::make('message_id')->translateLabel()->sortable()->searchable(),
+                TextColumn::make('connector')->translateLabel()->badge(),
+                TextColumn::make('type')->translateLabel(),
+                TextColumn::make('status')->translateLabel()->badge(),
+                TextColumn::make('message_type')->translateLabel(),
+                TextColumn::make('sender_number')->translateLabel(),
+                TextColumn::make('to')->translateLabel(),
+                TextColumn::make('sent_at')->translateLabel(),
+                TextColumn::make('delivered_at')->translateLabel(),
+                TextColumn::make('user.name')->translateLabel(),
             ])
             ->filters([
 
             ])
-            ->actions([
+            ->recordActions([
 
             ])
-            ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
+            ->toolbarActions([
+                BulkActionGroup::make([
+                    DeleteBulkAction::make(),
                 ]),
             ]);
     }
@@ -71,8 +77,8 @@ final class SmsLogResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => SmsLogResource\Pages\ListSmsLogs::route('/'),
-            'view'  => SmsLogResource\Pages\ViewSmsLog::route('/{record}'),
+            'index' => ListSmsLogs::route('/'),
+            'view'  => ViewSmsLog::route('/{record}'),
         ];
     }
 

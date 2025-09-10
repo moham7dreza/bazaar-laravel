@@ -2,6 +2,7 @@
 
 namespace App\Data\ValueObjects;
 
+use JsonException;
 use App\Casts\AsAddress;
 use Illuminate\Contracts\Database\Eloquent\Castable;
 use Illuminate\Contracts\Support\Arrayable;
@@ -29,7 +30,7 @@ class Address implements Castable, Arrayable, JsonSerializable
     }
 
     /**
-     * @throws \JsonException
+     * @throws JsonException
      */
     public function jsonSerialize(): mixed
     {

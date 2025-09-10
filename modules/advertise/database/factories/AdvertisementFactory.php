@@ -13,7 +13,7 @@ use Modules\Advertise\Models\Advertisement;
 use Modules\Advertise\Models\Category;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\Modules\Advertise\Models\Advertisement>
+ * @extends Factory<Advertisement>
  */
 final class AdvertisementFactory extends Factory
 {

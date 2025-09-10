@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Factories\Factory;
 use Modules\Content\Models\Page;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\Modules\Content\Models\Page>
+ * @extends Factory<Page>
  */
 final class PageFactory extends Factory
 {

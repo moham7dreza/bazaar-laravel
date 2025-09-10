@@ -54,6 +54,7 @@
         "barryvdh/laravel-ide-helper": "^3.5",
         "driftingly/rector-laravel": "^2.0",
         "fakerphp/faker": "^1.23",
+        "filament/upgrade": "^4.0",
         "imanghafoori/laravel-microscope": "^1.0",
         "larastan/larastan": "^3.0",
         "laravel/breeze": "^2.0",

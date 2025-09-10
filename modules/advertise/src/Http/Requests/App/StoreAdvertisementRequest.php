@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Modules\Advertise\Http\Requests\App;
 
+use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
 
 final class StoreAdvertisementRequest extends FormRequest
@@ -19,7 +20,7 @@ final class StoreAdvertisementRequest extends FormRequest
     /**
      * Get the validation rules that apply to the request.
      *
-     * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
+     * @return array<string, ValidationRule|array<mixed>|string>
      */
     public function rules(): array
     {

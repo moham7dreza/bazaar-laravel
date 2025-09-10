@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Modules\Filament\Resources\JobPerformanceLogResource\Pages;
 
+use Filament\Schemas\Components\Tabs\Tab;
 use Filament\Pages\Concerns\ExposesTableToWidgets;
-use Filament\Resources\Components\Tab;
 use Filament\Resources\Pages\ListRecords;
 use Illuminate\Database\Eloquent\Builder;
 use Modules\Filament\Resources\JobPerformanceLogResource;

@@ -15,7 +15,7 @@
         "charrafimed/global-search-modal": "^3.7",
         "cmsmaxinc/filament-error-pages": "^1.0",
         "cmsmaxinc/filament-system-versions": "^1.0",
-        "filament/filament": "3.3",
+        "filament/filament": "~4.0",
         "geo-sot/filament-env-editor": "^0.0.7",
         "hasnayeen/themes": "^3.0",
         "infinityxtech/filament-world-map-widget": "^1.0",

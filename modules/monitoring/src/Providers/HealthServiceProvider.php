@@ -4,6 +4,22 @@ declare(strict_types=1);
 
 namespace Modules\Monitoring\Providers;
 
+use Spatie\Health\Checks\Checks\DatabaseCheck;
+use Spatie\Health\Checks\Checks\CacheCheck;
+use Spatie\Health\Checks\Checks\QueueCheck;
+use Spatie\Health\Checks\Checks\RedisCheck;
+use Spatie\Health\Checks\Checks\BackupsCheck;
+use Spatie\Health\Checks\Checks\EnvironmentCheck;
+use Spatie\Health\Checks\Checks\DatabaseTableSizeCheck;
+use Spatie\Health\Checks\Checks\DatabaseSizeCheck;
+use Spatie\Health\Checks\Checks\DatabaseConnectionCountCheck;
+use Spatie\Health\Checks\Checks\DebugModeCheck;
+use Spatie\Health\Checks\Checks\OptimizedAppCheck;
+use Spatie\Health\Checks\Checks\PingCheck;
+use Spatie\Health\Checks\Checks\HorizonCheck;
+use Spatie\Health\Checks\Checks\UsedDiskSpaceCheck;
+use Spatie\Health\Checks\Checks\ScheduleCheck;
+use Spatie\Health\Checks\Checks\RedisMemoryUsageCheck;
 use App\Models\User;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\ServiceProvider;
@@ -38,32 +54,32 @@ final class HealthServiceProvider extends ServiceProvider
         }
 
         Health::checks([
-            Checks\DatabaseCheck::new(),
-            Checks\CacheCheck::new(),
-            Checks\QueueCheck::new(),
-            Checks\RedisCheck::new(),
-            Checks\BackupsCheck::new(),
-            Checks\EnvironmentCheck::new()->expectEnvironment(getenv('APP_ENV')),
-            Checks\DatabaseTableSizeCheck::new()
+            DatabaseCheck::new(),
+            CacheCheck::new(),
+            QueueCheck::new(),
+            RedisCheck::new(),
+            BackupsCheck::new(),
+            EnvironmentCheck::new()->expectEnvironment(getenv('APP_ENV')),
+            DatabaseTableSizeCheck::new()
                 ->table('advertisements', maxSizeInMb: 1_000),
-            Checks\DatabaseSizeCheck::new()
+            DatabaseSizeCheck::new()
                 ->failWhenSizeAboveGb(errorThresholdGb: 0.1),
-            Checks\DatabaseConnectionCountCheck::new()
+            DatabaseConnectionCountCheck::new()
                 ->warnWhenMoreConnectionsThan(50)
                 ->failWhenMoreConnectionsThan(100),
-            Checks\DebugModeCheck::new(),
-            Checks\OptimizedAppCheck::new(),
-            Checks\PingCheck::new()->url(getenv('APP_URL'))->timeout(2)->retryTimes(3)->label('App'),
+            DebugModeCheck::new(),
+            OptimizedAppCheck::new(),
+            PingCheck::new()->url(getenv('APP_URL'))->timeout(2)->retryTimes(3)->label('App'),
             CpuLoadCheck::new()
                 ->failWhenLoadIsHigherInTheLast5Minutes(2.0)
                 ->failWhenLoadIsHigherInTheLast15Minutes(1.5),
-            Checks\HorizonCheck::new(),
-            Checks\UsedDiskSpaceCheck::new()
+            HorizonCheck::new(),
+            UsedDiskSpaceCheck::new()
                 ->warnWhenUsedSpaceIsAbovePercentage(90)
                 ->failWhenUsedSpaceIsAbovePercentage(95),
-            Checks\ScheduleCheck::new()->heartbeatMaxAgeInMinutes(2),
+            ScheduleCheck::new()->heartbeatMaxAgeInMinutes(2),
             SecurityAdvisoriesCheck::new(),
-            Checks\RedisMemoryUsageCheck::new()
+            RedisMemoryUsageCheck::new()
                 ->warnWhenAboveMb(900)
                 ->failWhenAboveMb(1000),
         ]);

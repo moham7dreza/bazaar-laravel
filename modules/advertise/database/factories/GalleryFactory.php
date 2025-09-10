@@ -9,7 +9,7 @@ use Modules\Advertise\Models\Advertisement;
 use Modules\Advertise\Models\Gallery;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\Modules\Advertise\Models\Gallery>
+ * @extends Factory<Gallery>
  */
 final class GalleryFactory extends Factory
 {

@@ -11,7 +11,7 @@ use Modules\Advertise\Models\Category;
 use Modules\Advertise\Models\CategoryAttribute;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\Modules\Advertise\Models\CategoryAttribute>
+ * @extends Factory<CategoryAttribute>
  */
 final class CategoryAttributeFactory extends Factory
 {

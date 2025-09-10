@@ -11,7 +11,7 @@ use Modules\Auth\Enums\NoticeType;
 use Modules\Auth\Models\Otp;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\Modules\Auth\Models\Otp>
+ * @extends Factory<Otp>
  */
 final class OtpFactory extends Factory
 {

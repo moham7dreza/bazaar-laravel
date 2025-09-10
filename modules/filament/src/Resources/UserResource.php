@@ -4,12 +4,30 @@ declare(strict_types=1);
 
 namespace Modules\Filament\Resources;
 
+use Filament\Schemas\Schema;
+use Filament\Schemas\Components\Section;
+use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\Select;
+use Filament\Forms\Components\DateTimePicker;
+use Filament\Forms\Components\Toggle;
+use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Filters\SelectFilter;
+use Filament\Tables\Filters\Filter;
+use Filament\Tables\Filters\QueryBuilder;
+use Filament\Tables\Filters\QueryBuilder\Constraints\TextConstraint;
+use Filament\Tables\Enums\FiltersLayout;
+use STS\FilamentImpersonate\Tables\Actions\Impersonate;
+use Filament\Actions\EditAction;
+use Filament\Tables\Enums\RecordActionsPosition;
+use Filament\Actions\BulkActionGroup;
+use Filament\Actions\DeleteBulkAction;
+use Modules\Filament\Resources\UserResource\Pages\ListUsers;
+use Modules\Filament\Resources\UserResource\Pages\CreateUser;
+use Modules\Filament\Resources\UserResource\Pages\EditUser;
 use App\Models\User;
 use Filament\Forms;
-use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
-use Filament\Tables\Enums\ActionsPosition;
 use Filament\Tables\Filters\QueryBuilder\Constraints;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
@@ -23,9 +41,9 @@ final class UserResource extends Resource
 {
     protected static ?string $model = User::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-users';
+    protected static string | \BackedEnum | null $navigationIcon = 'heroicon-o-users';
 
-    protected static ?string $navigationGroup = 'User';
+    protected static string | \UnitEnum | null $navigationGroup = 'User';
 
     protected static ?string $recordTitleAttribute = 'name';
 
@@ -48,33 +66,33 @@ final class UserResource extends Resource
         ];
     }
 
-    public static function form(Form $form): Form
+    public static function form(Schema $schema): Schema
     {
-        return $form
-            ->schema([
-                Forms\Components\Section::make()
+        return $schema
+            ->components([
+                Section::make()
                     ->translateLabel()
                     ->columns()
                     ->schema([
-                        Forms\Components\TextInput::make('name')
+                        TextInput::make('name')
                             ->required()
                             ->string()
                             ->translateLabel(),
-                        Forms\Components\TextInput::make('email')
+                        TextInput::make('email')
                             ->required()
                             ->email()
                             ->translateLabel(),
-                        Forms\Components\TextInput::make('mobile')
+                        TextInput::make('mobile')
                             ->required()
                             ->string()
                             ->translateLabel(),
-                        Forms\Components\TextInput::make('password')
+                        TextInput::make('password')
                             ->password()
                             ->required()
                             ->dehydrated(fn ($state) => filled($state))
                             ->required(fn (string $context): bool => 'create' === $context)
                             ->maxLength(255),
-                        Forms\Components\TextInput::make('password_confirmation')
+                        TextInput::make('password_confirmation')
                             ->password()
                             ->required()
                             ->maxLength(255)
@@ -82,16 +100,16 @@ final class UserResource extends Resource
                             ->required(fn (string $context): bool => 'create' === $context)
                             ->same('password')
                             ->label('Confirm Password'),
-                        Forms\Components\Select::make('city_id')
+                        Select::make('city_id')
                             ->translateLabel()
                             ->searchable()
                             ->preload()
                             ->relationship('city', 'name'),
-                        Forms\Components\Section::make('Access')
+                        Section::make('Access')
                             ->translateLabel()
                             ->columns()
                             ->schema([
-                                Forms\Components\Select::make('roles')
+                                Select::make('roles')
                                     ->multiple()
                                     ->columnSpanFull()
                                     ->preload()
@@ -99,27 +117,27 @@ final class UserResource extends Resource
                                     ->translateLabel()
                                     ->relationship('roles', 'name'),
                             ]),
-                        Forms\Components\Section::make('Suspension')
+                        Section::make('Suspension')
                             ->translateLabel()
                             ->columns()
                             ->schema([
-                                Forms\Components\DateTimePicker::make('suspended_at')
+                                DateTimePicker::make('suspended_at')
                                     ->jalali()
                                     ->nullable()
                                     ->translateLabel(),
-                                Forms\Components\DateTimePicker::make('suspended_until')
+                                DateTimePicker::make('suspended_until')
                                     ->jalali()
                                     ->nullable()
                                     ->translateLabel(),
                             ]),
-                        Forms\Components\Section::make('Toggles')
+                        Section::make('Toggles')
                             ->translateLabel()
                             ->columns()
                             ->schema([
-                                Forms\Components\Toggle::make('user_type')
+                                Toggle::make('user_type')
                                     ->required()
                                     ->translateLabel(),
-                                Forms\Components\Toggle::make('is_active')
+                                Toggle::make('is_active')
                                     ->required()
                                     ->translateLabel(),
                             ]),
@@ -131,20 +149,20 @@ final class UserResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('name')->translateLabel()->sortable()->searchable(),
-                Tables\Columns\TextColumn::make('email')->translateLabel()->sortable()->searchable(),
-                Tables\Columns\TextColumn::make('mobile')->translateLabel()->searchable(),
-                Tables\Columns\TextColumn::make('user_type')->translateLabel()->sortable()->badge(),
-                Tables\Columns\TextColumn::make('is_active')->translateLabel()->sortable()->badge(),
-                Tables\Columns\TextColumn::make('suspended_at')->jalaliDate()->translateLabel(),
-                Tables\Columns\TextColumn::make('suspended_until')->jalaliDate()->translateLabel(),
-                Tables\Columns\TextColumn::make('city.name')->translateLabel(),
-                Tables\Columns\TextColumn::make('mobile_verified_at')->jalaliDate()->translateLabel(),
-                Tables\Columns\TextColumn::make('email_verified_at')->jalaliDate()->translateLabel(),
+                TextColumn::make('name')->translateLabel()->sortable()->searchable(),
+                TextColumn::make('email')->translateLabel()->sortable()->searchable(),
+                TextColumn::make('mobile')->translateLabel()->searchable(),
+                TextColumn::make('user_type')->translateLabel()->sortable()->badge(),
+                TextColumn::make('is_active')->translateLabel()->sortable()->badge(),
+                TextColumn::make('suspended_at')->jalaliDate()->translateLabel(),
+                TextColumn::make('suspended_until')->jalaliDate()->translateLabel(),
+                TextColumn::make('city.name')->translateLabel(),
+                TextColumn::make('mobile_verified_at')->jalaliDate()->translateLabel(),
+                TextColumn::make('email_verified_at')->jalaliDate()->translateLabel(),
             ])
             ->filters([
                 DateRangeFilter::make('suspended_at'),
-                Tables\Filters\SelectFilter::make('user_type')
+                SelectFilter::make('user_type')
                     ->translateLabel()
                     ->options([
                         '0' => 'User',
@@ -152,32 +170,32 @@ final class UserResource extends Resource
                     ])
                     ->multiple()
                     ->searchable(),
-                Tables\Filters\Filter::make('mobile_verified_at')
+                Filter::make('mobile_verified_at')
                     ->label('not verified mobile')
                     ->translateLabel()
                     ->query(fn (Builder $query): Builder => $query->whereNull('mobile_verified_at')),
-                Tables\Filters\QueryBuilder::make()
+                QueryBuilder::make()
                     ->constraints([
-                        Constraints\TextConstraint::make('name')->translateLabel(),
-                        Constraints\TextConstraint::make('email')->translateLabel(),
-                        Constraints\TextConstraint::make('mobile')->translateLabel(),
-                        Constraints\TextConstraint::make('mobile_verified_at')->translateLabel(),
-                        Constraints\TextConstraint::make('email_verified_at')->translateLabel(),
-                        Constraints\TextConstraint::make('suspended_at')->translateLabel(),
-                        Constraints\TextConstraint::make('suspended_until')->translateLabel(),
+                        TextConstraint::make('name')->translateLabel(),
+                        TextConstraint::make('email')->translateLabel(),
+                        TextConstraint::make('mobile')->translateLabel(),
+                        TextConstraint::make('mobile_verified_at')->translateLabel(),
+                        TextConstraint::make('email_verified_at')->translateLabel(),
+                        TextConstraint::make('suspended_at')->translateLabel(),
+                        TextConstraint::make('suspended_until')->translateLabel(),
                     ])
                     ->constraintPickerColumns(),
-            ], layout: Tables\Enums\FiltersLayout::Dropdown)
+            ], layout: FiltersLayout::Dropdown)
             ->deferFilters()
-            ->actions([
-                \STS\FilamentImpersonate\Tables\Actions\Impersonate::make(),
-                Tables\Actions\EditAction::make(),
+            ->recordActions([
+                Impersonate::make(),
+                EditAction::make(),
                 ActivityLogTimelineTableAction::make('Activities')->limit(),
-            ], position: ActionsPosition::BeforeColumns)
-            ->bulkActions([
+            ], position: RecordActionsPosition::BeforeColumns)
+            ->toolbarActions([
                 ExportBulkAction::make(),
-                Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
+                BulkActionGroup::make([
+                    DeleteBulkAction::make(),
                 ]),
             ]);
     }
@@ -192,9 +210,9 @@ final class UserResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index'  => UserResource\Pages\ListUsers::route('/'),
-            'create' => UserResource\Pages\CreateUser::route('/create'),
-            'edit'   => UserResource\Pages\EditUser::route('/{record}/edit'),
+            'index'  => ListUsers::route('/'),
+            'create' => CreateUser::route('/create'),
+            'edit'   => EditUser::route('/{record}/edit'),
         ];
     }
 
