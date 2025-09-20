@@ -114,7 +114,7 @@ final class CommandLoggingServiceProvider extends ServiceProvider
                 $endMemory = memory_get_usage();
 
                 $duration    = $endTime      - $this->startTime;
-                $memoryUsage = $endMemory - $this->startMemory;
+                $memoryUsage = $endMemory    - $this->startMemory;
 
                 $this->log?->update([
                     'status'       => CommandLoggingStatus::Completed,
