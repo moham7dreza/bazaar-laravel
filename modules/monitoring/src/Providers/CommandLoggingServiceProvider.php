@@ -38,7 +38,7 @@ final class CommandLoggingServiceProvider extends ServiceProvider
     private int $queryCount;
 
     private float $totalQueryTime;
-    private CommandPerformanceLog $log;
+    private ?CommandPerformanceLog $log = null;
 
     public function boot(): void
     {
@@ -61,37 +61,40 @@ final class CommandLoggingServiceProvider extends ServiceProvider
 
     private function listenToCommandStartingEventAndLogIt(): void
     {
-        Event::listen(Events\CommandStarting::class, function (Events\CommandStarting $event) {
-            try {
-                if (self::isExcluded($event->command)) {
+        Event::listen(Events\CommandStarting::class, function (Events\CommandStarting $event): void {
+            try
+            {
+                if (self::isExcluded($event->command))
+                {
                     return;
                 }
 
-                $this->startTime = microtime(true);
-                $this->startMemory = memory_get_usage();
-                $this->queryCount = 0;
+                $this->startTime      = microtime(true);
+                $this->startMemory    = memory_get_usage();
+                $this->queryCount     = 0;
                 $this->totalQueryTime = 0;
 
-                DB::listen(function (QueryExecuted $query) {
+                DB::listen(function (QueryExecuted $query): void {
                     $this->queryCount++;
                     $this->totalQueryTime += $query->time;
                 });
 
                 $data = [
                     'command' => $event->command ?? 'unknown',
-                    'status' => CommandLoggingStatus::Started,
-                    'inputs' => [
+                    'status'  => CommandLoggingStatus::Started,
+                    'inputs'  => [
                         'arguments' => $event->input->getArguments(),
-                        'options' => $event->input->getOptions(),
+                        'options'   => $event->input->getOptions(),
                     ],
-                    'runtime' => 0,
+                    'runtime'      => 0,
                     'memory_usage' => 0,
-                    'query_count' => 0,
-                    'query_time' => 0,
+                    'query_count'  => 0,
+                    'query_time'   => 0,
                 ];
 
                 $this->log = CommandPerformanceLog::query()->create($data);
-            } catch (Exception $e) {
+            } catch (Exception $e)
+            {
                 report($e);
             }
         });
@@ -99,26 +102,29 @@ final class CommandLoggingServiceProvider extends ServiceProvider
 
     private function listenToCommandFinishedEventAndUpdateLog(): void
     {
-        Event::listen(Events\CommandFinished::class, function (Events\CommandFinished $event) {
-            try {
-                if (self::isExcluded($event->command)) {
+        Event::listen(Events\CommandFinished::class, function (Events\CommandFinished $event): void {
+            try
+            {
+                if (self::isExcluded($event->command))
+                {
                     return;
                 }
 
-                $endTime = microtime(true);
+                $endTime   = microtime(true);
                 $endMemory = memory_get_usage();
 
-                $duration = $endTime - $this->startTime;
+                $duration    = $endTime      - $this->startTime;
                 $memoryUsage = $endMemory - $this->startMemory;
 
-                $this->log->update([
-                    'status' => CommandLoggingStatus::Completed,
-                    'runtime' => round($duration * 1000), // milliseconds
+                $this->log?->update([
+                    'status'       => CommandLoggingStatus::Completed,
+                    'runtime'      => round($duration * 1000), // milliseconds
                     'memory_usage' => $memoryUsage,
-                    'query_count' => $this->queryCount,
-                    'query_time' => round($this->totalQueryTime), // milliseconds
+                    'query_count'  => $this->queryCount,
+                    'query_time'   => round($this->totalQueryTime), // milliseconds
                 ]);
-            } catch (Exception $e) {
+            } catch (Exception $e)
+            {
                 report($e);
             }
         });
