@@ -362,6 +362,11 @@ git-alias: ## add aliases to git
 	git config --global alias.br branch
 	git config --global alias.lg "log --oneline --graph --all --decorate"
 
+git-user:
+	git config --global user.name "Mohamadreza Rezaei"
+	git config --global user.email "me.moham6dreza@gmail.com"
+	git config --list
+
 serve-ip: find-ip ## serve project in local network
 	@echo "Starting Laravel development server on http://$(IP):8080"
 	@php -S $(IP):8080 -t public
@@ -479,3 +484,6 @@ setup-horizon: ## Configure Supervisor for Laravel horizon
 
 db-telescope: ## Run Telescope DB migrations
 	php artisan migrate --database=telescope --path=vendor/laravel/telescope/database/migrations --force
+
+php-extensions:
+	sudo apt install php8.4-{dev,pcov,xdebug,sqlite3,cli,soap,fpm,xml,curl,cgi,mysql,mysqlnd,gd,bz2,ldap,pgsql,opcache,zip,intl,common,bcmath,imagick,xmlrpc,readline,memcached,redis,mbstring,apcu,xml,dom,memcache,mongodb}
