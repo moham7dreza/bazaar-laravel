@@ -2,6 +2,8 @@
 
 declare(strict_types=1);
 
+namespace App\Repositories\Message;
+
 use App\Data\DTOs\PaginatedListViewDTO;
 use App\Models\Message;
 use Illuminate\Database\Eloquent\Builder;
