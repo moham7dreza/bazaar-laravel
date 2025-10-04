@@ -96,7 +96,7 @@ setup: ## Configure Nginx for bazaar.local
 	@sudo ln -sf /etc/nginx/sites-available/bazaar /etc/nginx/sites-enabled/
 	@sudo nginx -t
 	@sudo systemctl reload nginx
-	@sudo systemctl reload php8.3-fpm
+	@sudo systemctl reload php8.4-fpm
 	@if ! grep -q "bazaar.local" /etc/hosts; then \
 		sudo sed -i '1s/^/127.0.0.1 bazaar.local\n/' /etc/hosts; \
 		printf "${COLOR_GREEN}✓ Added bazaar.local to /etc/hosts${COLOR_RESET}\n"; \
