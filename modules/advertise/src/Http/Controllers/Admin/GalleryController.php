@@ -11,6 +11,7 @@ use Modules\Advertise\Http\Requests\Admin\StoreGalleryRequest;
 use Modules\Advertise\Http\Requests\Admin\UpdateGalleryRequest;
 use Modules\Advertise\Http\Resources\Admin\GalleryCollection;
 use Modules\Advertise\Http\Resources\Admin\GalleryResource;
+use Modules\Advertise\Models\Advertisement;
 use Modules\Advertise\Models\Gallery;
 
 final class GalleryController extends Controller
@@ -18,15 +19,15 @@ final class GalleryController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Advertisement $advertisement)
     {
-        return new GalleryCollection(Gallery::all());
+        return $advertisement->images->toResourceCollection(GalleryCollection::class);
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreGalleryRequest $request, ImageService $imageService)
+    public function store(Advertisement $advertisement, StoreGalleryRequest $request, ImageService $imageService)
     {
         $inputs = $request->all();
 
@@ -45,7 +46,7 @@ final class GalleryController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Gallery $gallery)
+    public function show(Advertisement $advertisement, Gallery $gallery)
     {
         return new GalleryResource($gallery);
     }
@@ -53,7 +54,7 @@ final class GalleryController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateGalleryRequest $request, Gallery $gallery, ImageService $imageService)
+    public function update(Advertisement $advertisement, UpdateGalleryRequest $request, Gallery $gallery, ImageService $imageService)
     {
         $inputs = $request->all();
         if ($result = $imageService->update($request->getDTO(), $gallery->url))
@@ -71,7 +72,7 @@ final class GalleryController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Gallery $gallery)
+    public function destroy(Advertisement $advertisement, Gallery $gallery)
     {
         $gallery->delete();
 

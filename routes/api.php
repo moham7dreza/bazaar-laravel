@@ -103,7 +103,7 @@ Route::prefix(RouteSection::ADMIN)
             ->group(function (): void {
 
                 Route::apiResource('category', CategoryController::class);
-                Route::apiResource('gallery', GalleryController::class);
+                Route::apiResource('{advertisement}/gallery', GalleryController::class);
                 Route::apiResource('state', StateController::class);
                 Route::apiResource('category-attribute', CategoryAttributeController::class);
                 Route::apiResource('category-value', CategoryValueController::class);
