@@ -487,3 +487,7 @@ db-telescope: ## Run Telescope DB migrations
 
 php-extensions:
 	sudo apt install php8.4-{dev,pcov,xdebug,sqlite3,cli,soap,fpm,xml,curl,cgi,mysql,mysqlnd,gd,bz2,ldap,pgsql,opcache,zip,intl,common,bcmath,imagick,xmlrpc,readline,memcached,redis,mbstring,apcu,xml,dom,memcache,mongodb}
+
+phpres:
+	sudo systemctl reload nginx
+	sudo systemctl reload php8.4-fpm
