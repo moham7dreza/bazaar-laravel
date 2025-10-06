@@ -40,7 +40,7 @@ final class GalleryController extends Controller
         }
         $gallery = Gallery::create($inputs);
 
-        return new GalleryResource($gallery);
+        return $gallery->toResource(GalleryResource::class);
     }
 
     /**
@@ -48,7 +48,7 @@ final class GalleryController extends Controller
      */
     public function show(Advertisement $advertisement, Gallery $gallery)
     {
-        return new GalleryResource($gallery);
+        return $gallery->toResource(GalleryResource::class);
     }
 
     /**
@@ -66,7 +66,7 @@ final class GalleryController extends Controller
         }
         $gallery->update($inputs);
 
-        return new GalleryResource($gallery);
+        return $gallery->toResource(GalleryResource::class);
     }
 
     /**
