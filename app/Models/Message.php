@@ -32,7 +32,7 @@ class Message extends Model
     }
 
     #[Scope]
-    public function active(): Builder
+    protected function active(): Builder
     {
         return $this->where('status', true);
     }

@@ -22,17 +22,17 @@ final class City extends Model
 
     protected $guarded = ['id'];
 
-    #[Scope]
-    public function active(Builder $query): Builder
-    {
-        return $query->where('status', true);
-    }
-
     // _____________________________________________ relations SECTION __________________________________________
 
     public function advertisements(): HasMany
     {
         return $this->hasMany(Advertisement::class);
+    }
+
+    #[Scope]
+    protected function active(Builder $query): Builder
+    {
+        return $query->where('status', true);
     }
 
     // _____________________________________________ model related methods SECTION ______________________________

@@ -8,7 +8,7 @@ use Illuminate\Support\Collection;
 
 final class CartManager
 {
-    protected Collection $items;
+    private Collection $items;
 
     public function __construct(array $cartItems)
     {
@@ -27,7 +27,7 @@ final class CartManager
         $this->items
             ->forget(
                 collect($outOfStock)
-                    ->map(fn($sku) => "product_{$sku}")
+                    ->map(fn ($sku) => "product_{$sku}")
                     ->all()
             );
 

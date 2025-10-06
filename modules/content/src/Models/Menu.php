@@ -46,8 +46,20 @@ final class Menu extends Model
         ];
     }
 
+    // _____________________________________________ relations SECTION __________________________________________
+
+    public function children(): HasMany
+    {
+        return $this->hasMany(__CLASS__, 'parent_id');
+    }
+
+    public function parent(): BelongsTo
+    {
+        return $this->belongsTo(__CLASS__, 'parent_id')->withDefault(['name' => __('Unknown parent')]);
+    }
+
     #[Scope]
-    public function loadChildren(Builder $query, int $levels = 4): Builder
+    protected function loadChildren(Builder $query, int $levels = 4): Builder
     {
         $constraintsCallback = static function (Builder $query): void {
             $query->where('status', true);
@@ -64,18 +76,6 @@ final class Menu extends Model
             ->all();
 
         return $query->with($relations);
-    }
-
-    // _____________________________________________ relations SECTION __________________________________________
-
-    public function children(): HasMany
-    {
-        return $this->hasMany(__CLASS__, 'parent_id');
-    }
-
-    public function parent(): BelongsTo
-    {
-        return $this->belongsTo(__CLASS__, 'parent_id')->withDefault(['name' => __('Unknown parent')]);
     }
 
     protected function casts(): array

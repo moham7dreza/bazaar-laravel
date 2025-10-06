@@ -26,7 +26,7 @@ final class CommandPerformanceLog extends Model
     }
 
     #[Scope]
-    public function highestQueryTime($query, int $count = 1000): Builder
+    protected function highestQueryTime($query, int $count = 1000): Builder
     {
         return $query->where('query_time', '>=', $count);
     }

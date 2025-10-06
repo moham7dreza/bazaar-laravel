@@ -1,17 +1,19 @@
 <?php
 
-use App\Services\Builders\SmsBuilder;
+declare(strict_types=1);
+
 use App\Models\User;
+use App\Services\Builders\SmsBuilder;
 use Illuminate\Support\Facades\Lang;
 
-beforeEach(function () {
+beforeEach(function (): void {
     Lang::addLines([
-        'sms.welcome' => 'Hello :name, click :link to continue.',
-        'sms.templates.2' => 'temp2 :body'
+        'sms.welcome'     => 'Hello :name, click :link to continue.',
+        'sms.templates.2' => 'temp2 :body',
     ], 'fa');
 });
 
-it('adds token to URL if withToken is set', function () {
+it('adds token to URL if withToken is set', function (): void {
     $user = User::factory()->create();
 
     $message = SmsBuilder::make('sms.welcome')
@@ -23,7 +25,7 @@ it('adds token to URL if withToken is set', function () {
     expect($message)->toBeString();
 });
 
-it('builds a message with dynamic shortlink and token', function () {
+it('builds a message with dynamic shortlink and token', function (): void {
     $user = User::factory()->create();
 
     $message = SmsBuilder::make('sms.welcome')
@@ -36,7 +38,7 @@ it('builds a message with dynamic shortlink and token', function () {
     expect($message)->toBeString();
 });
 
-it('overrides baseUrl', function () {
+it('overrides baseUrl', function (): void {
     $user = User::factory()->create();
 
     $message = SmsBuilder::make('sms.welcome')
@@ -48,7 +50,7 @@ it('overrides baseUrl', function () {
     expect($message)->toBeString();
 });
 
-it('handles multiple query params in path', function () {
+it('handles multiple query params in path', function (): void {
     $user = User::factory()->create();
 
     $message = SmsBuilder::make('sms.welcome')
@@ -60,7 +62,7 @@ it('handles multiple query params in path', function () {
     expect($message)->toBeString();
 });
 
-it('defaults to user domain if baseUrl is not set', function () {
+it('defaults to user domain if baseUrl is not set', function (): void {
     $user = User::factory()->create();
 
     $message = SmsBuilder::make('sms.welcome')

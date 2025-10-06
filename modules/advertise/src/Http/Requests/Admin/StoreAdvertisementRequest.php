@@ -8,7 +8,6 @@ use App\Enums\Image\ImageSize;
 use Closure;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
-use Illuminate\Validation\Validator;
 
 final class StoreAdvertisementRequest extends FormRequest
 {
@@ -18,12 +17,12 @@ final class StoreAdvertisementRequest extends FormRequest
     }
 
     /**
-     * @return array<int, Closure(Validator): void>
+     * @return array<int, Closure(\Illuminate\Contracts\Validation\Validator):void>
      */
     public function after(): array
     {
         return [
-            function (Validator $validator): void {
+            function (\Illuminate\Contracts\Validation\Validator $validator): void {
                 if ($validator->errors()->any())
                 {
                     return;

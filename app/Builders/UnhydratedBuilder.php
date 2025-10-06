@@ -102,7 +102,7 @@ class UnhydratedBuilder extends EloquentBuilder
     ): CursorPaginator {
         if ( ! $this->query->orders)
         {
-            $this->orderBy($this->model->getQualifiedKeyName(), 'asc');
+            $this->oldest($this->model->getQualifiedKeyName());
         }
 
         $orders = collect($this->query->orders)

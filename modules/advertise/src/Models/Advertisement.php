@@ -56,57 +56,6 @@ final class Advertisement extends Model
         ];
     }
 
-    #[Scope]
-    public function active(): Builder
-    {
-        return $this->where('status', true);
-    }
-
-    #[Scope]
-    public function inCategory(Builder $builder, int $categoryId): Builder
-    {
-        return $builder->where('category_id', $categoryId);
-    }
-
-    #[Scope]
-    public function priceRange(Builder $builder, ?float $min = null, ?float $max = null): Builder
-    {
-        return $builder->when($min, fn (Builder $query) => $query->where('price', '>=', $min))
-            ->when($max, fn (Builder $query) => $query->where('price', '<=', $max));
-    }
-
-    #[Scope]
-    public function sortBy(Builder $builder, Sort $sort): Builder
-    {
-        return match ($sort)
-        {
-            Sort::PRICE_ASC  => $builder->oldest('price'),
-            Sort::PRICE_DESC => $builder->latest('price'),
-            Sort::NEWEST     => $builder->latest(),
-            Sort::OLDEST     => $builder->oldest(),
-        };
-    }
-
-    #[Scope]
-    public function published(): Builder
-    {
-        return $this->where('published_at', '<', now());
-    }
-
-    #[Scope]
-    public function popular(): Builder
-    {
-        return $this->where('views', '>', 1000);
-    }
-
-    #[Scope]
-    public function withHighEngagement(): Builder
-    {
-        return $this->popular()
-            ->orWhere('is_special', true)
-            ->orWhere('is_ladder', true);
-    }
-
     public function category(): BelongsTo
     {
         return $this->belongsTo(Category::class)->withDefault(['name' => __('Unknown category')]);
@@ -145,6 +94,57 @@ final class Advertisement extends Model
     public function viewedByUsers(): BelongsToMany
     {
         return $this->belongsToMany(User::class, 'advertisement_view_history')->withTimestamps();
+    }
+
+    #[Scope]
+    protected function active(): Builder
+    {
+        return $this->where('status', true);
+    }
+
+    #[Scope]
+    protected function inCategory(Builder $builder, int $categoryId): Builder
+    {
+        return $builder->where('category_id', $categoryId);
+    }
+
+    #[Scope]
+    protected function priceRange(Builder $builder, ?float $min = null, ?float $max = null): Builder
+    {
+        return $builder->when($min, fn (Builder $query) => $query->where('price', '>=', $min))
+            ->when($max, fn (Builder $query) => $query->where('price', '<=', $max));
+    }
+
+    #[Scope]
+    protected function sortBy(Builder $builder, Sort $sort): Builder
+    {
+        return match ($sort)
+        {
+            Sort::PRICE_ASC  => $builder->oldest('price'),
+            Sort::PRICE_DESC => $builder->latest('price'),
+            Sort::NEWEST     => $builder->latest(),
+            Sort::OLDEST     => $builder->oldest(),
+        };
+    }
+
+    #[Scope]
+    protected function published(): Builder
+    {
+        return $this->where('published_at', '<', now());
+    }
+
+    #[Scope]
+    protected function popular(): Builder
+    {
+        return $this->where('views', '>', 1000);
+    }
+
+    #[Scope]
+    protected function withHighEngagement(): Builder
+    {
+        return $this->popular()
+            ->orWhere('is_special', true)
+            ->orWhere('is_ladder', true);
     }
 
     protected function casts(): array

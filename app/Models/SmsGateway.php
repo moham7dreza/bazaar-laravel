@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Models;
 
 use App\Models\Scopes\LatestScope;
@@ -29,6 +31,13 @@ class SmsGateway extends Model
         'owner_type',
     ];
 
+    // _____________________________________________ relations SECTION __________________________________________
+
+    public function ownerable(): MorphTo
+    {
+        return $this->morphTo();
+    }
+
     // _____________________________________________ model related methods SECTION ______________________________
 
     protected function casts(): array
@@ -41,16 +50,9 @@ class SmsGateway extends Model
     }
 
     #[Scope]
-    public function active(): Builder
+    protected function active(): Builder
     {
         return $this->where('status', true);
-    }
-
-    // _____________________________________________ relations SECTION __________________________________________
-
-    public function ownerable(): MorphTo
-    {
-        return $this->morphTo();
     }
 
     // _____________________________________________ method SECTION __________________________________________

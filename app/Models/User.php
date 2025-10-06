@@ -141,32 +141,6 @@ final class User extends Authenticatable implements
         return $this->avatar_url ? Storage::disk(StorageDisk::PUBLIC->value)->url($this->avatar_url) : null;
     }
 
-    #[Scope]
-    public function admin(Builder $query): Builder
-    {
-        return $query->ofType(self::TYPE_ADMIN)
-            ->whereNotNull('mobile_verified_at');
-    }
-
-    #[Scope]
-    public function suspended(Builder $query): Builder
-    {
-        return $query->whereNotNull('suspended_at')
-            ->where('suspended_until', '>=', now());
-    }
-
-    #[Scope]
-    public function ofType(Builder $query, int $type): void
-    {
-        $query->where('user_type', $type);
-    }
-
-    #[Scope]
-    public function createdAfter(Builder $query, DateTimeInterface|string|int $date): void
-    {
-        $query->where('created_at', '>=', Carbon::parse($date));
-    }
-
     public function advertisements(): HasMany
     {
         return $this->hasMany(Advertisement::class);
@@ -265,16 +239,6 @@ final class User extends Authenticatable implements
         return $model->{$relation}()->is($this);
     }
 
-    /**
-     * @accessor has_advertisements
-     */
-    public function hasAdvertisements(): Attribute
-    {
-        return Attribute::make(
-            get: fn () => $this->relationLoaded('advertisements') ? $this->advertisements()->exists() : null,
-        );
-    }
-
     public function updateLoginFields(): bool
     {
         return $this->updateQuietly([
@@ -291,6 +255,42 @@ final class User extends Authenticatable implements
     public function getLocale(): ?ClientLocale
     {
         return $this->locale ? ClientLocale::fromNumber($this->locale) : null;
+    }
+
+    #[Scope]
+    protected function admin(Builder $query): Builder
+    {
+        return $query->ofType(self::TYPE_ADMIN)
+            ->whereNotNull('mobile_verified_at');
+    }
+
+    #[Scope]
+    protected function suspended(Builder $query): Builder
+    {
+        return $query->whereNotNull('suspended_at')
+            ->where('suspended_until', '>=', now());
+    }
+
+    #[Scope]
+    protected function ofType(Builder $query, int $type): void
+    {
+        $query->where('user_type', $type);
+    }
+
+    #[Scope]
+    protected function createdAfter(Builder $query, DateTimeInterface|string|int $date): void
+    {
+        $query->where('created_at', '>=', Carbon::parse($date));
+    }
+
+    /**
+     * @accessor has_advertisements
+     */
+    protected function hasAdvertisements(): Attribute
+    {
+        return Attribute::make(
+            get: fn () => $this->relationLoaded('advertisements') ? $this->advertisements()->exists() : null,
+        );
     }
 
     protected function casts(): array
