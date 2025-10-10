@@ -59,7 +59,7 @@ Route::get('categories', [HomeCategoryController::class, 'index'])->name('catego
 Route::get('menus', [HomeMenuController::class, 'index'])->name('menus.index');
 Route::get('pages', [HomePageController::class, 'index'])->name('pages.index');
 
-Route::prefix(RouteSection::ADVERTISEMENTS)
+Route::prefix(RouteSection::ADVERTISEMENTS->value)
     ->name(RouteSection::ADVERTISEMENTS->name())
     ->controller(HomeAdvertisementController::class)
     ->middleware('cache-response:120')
@@ -73,7 +73,7 @@ Route::prefix(RouteSection::ADVERTISEMENTS)
 Route::get('states', [HomeStateController::class, 'index'])->name('states.index');
 Route::get('cities', [CityController::class, 'index'])->name('cities.index');
 
-Route::prefix(RouteSection::AUTH)
+Route::prefix(RouteSection::AUTH->value)
     ->middleware('guest')
     ->name(RouteSection::AUTH->name())
     ->group(function (): void {
@@ -84,7 +84,7 @@ Route::prefix(RouteSection::AUTH)
             ->middleware('throttle:5,1');
     });
 
-Route::prefix(RouteSection::IMAGES)
+Route::prefix(RouteSection::IMAGES->value)
     ->controller(ImageController::class)
     ->name(RouteSection::IMAGES->name())
     ->group(function (): void {
@@ -93,12 +93,12 @@ Route::prefix(RouteSection::IMAGES)
         Route::put('update', 'update')->name('destroy');
     });
 
-Route::prefix(RouteSection::ADMIN)
+Route::prefix(RouteSection::ADMIN->value)
     ->name(RouteSection::ADMIN->name())
     ->middleware([/* 'auth', 'admin' */])
     ->group(function (): void {
 
-        Route::prefix(RouteSection::ADVERTISEMENTS)
+        Route::prefix(RouteSection::ADVERTISEMENTS->value)
             ->name(RouteSection::ADVERTISEMENTS->name())
             ->group(function (): void {
 
@@ -111,7 +111,7 @@ Route::prefix(RouteSection::ADMIN)
                     ->withTrashed();
             });
 
-        Route::prefix(RouteSection::CONTENT)
+        Route::prefix(RouteSection::CONTENT->value)
             ->name(RouteSection::CONTENT->name())
             ->group(function (): void {
 
@@ -119,7 +119,7 @@ Route::prefix(RouteSection::ADMIN)
                 Route::apiResource('page', PageController::class);
             });
 
-        Route::prefix(RouteSection::USERS)
+        Route::prefix(RouteSection::USERS->value)
             ->name(RouteSection::USERS->name())
             ->group(function (): void {
 
@@ -128,7 +128,7 @@ Route::prefix(RouteSection::ADMIN)
     });
 
 // user panel
-Route::prefix(RouteSection::PANEL)
+Route::prefix(RouteSection::PANEL->value)
     ->name(RouteSection::PANEL->name())
     ->middleware([
         'auth:sanctum',
@@ -136,14 +136,14 @@ Route::prefix(RouteSection::PANEL)
     ])
     ->group(function (): void {
 
-        Route::prefix(RouteSection::ADVERTISEMENTS)
+        Route::prefix(RouteSection::ADVERTISEMENTS->value)
             ->name(RouteSection::ADVERTISEMENTS->name())
             ->group(function (): void {
 
                 Route::apiResource('advertisement', PanelAdvertisementController::class)
                     ->withTrashed(['show', 'update']);
 
-                Route::prefix(RouteSection::GALLERY)
+                Route::prefix(RouteSection::GALLERY->value)
                     ->name(RouteSection::GALLERY->name())
                     ->group(function (): void {
 
@@ -156,7 +156,7 @@ Route::prefix(RouteSection::PANEL)
                         Route::delete('{gallery}', [PanelGalleryController::class, 'destroy'])->name('destroy');
                     });
 
-                Route::prefix(RouteSection::NOTES)
+                Route::prefix(RouteSection::NOTES->value)
                     ->controller(AdvertisementNoteController::class)
                     ->name(RouteSection::NOTES->name())
                     ->group(function (): void {
@@ -169,7 +169,7 @@ Route::prefix(RouteSection::PANEL)
                     });
             });
 
-        Route::prefix(RouteSection::FAVORITES)
+        Route::prefix(RouteSection::FAVORITES->value)
             ->controller(FavoriteAdvertisementController::class)
             ->name(RouteSection::FAVORITES->name())
             ->group(function (): void {
@@ -179,7 +179,7 @@ Route::prefix(RouteSection::PANEL)
                 Route::delete('{advertisement}', 'destroy')->name('destroy');
             });
 
-        Route::prefix(RouteSection::HISTORY)
+        Route::prefix(RouteSection::HISTORY->value)
             ->controller(HistoryAdvertisementController::class)
             ->name(RouteSection::HISTORY->name())
             ->group(function (): void {
