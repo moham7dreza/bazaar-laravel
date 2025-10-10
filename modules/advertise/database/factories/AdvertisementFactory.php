@@ -36,7 +36,7 @@ final class AdvertisementFactory extends Factory
             'contact'          => fake()->phoneNumber,
             'is_special'       => fake()->boolean,
             'is_ladder'        => fake()->boolean,
-            'image'            => fake()->imageIndexArray,
+            'image'            => fake()->imageIndexArray(),
             'price'            => fake()->randomNumber(),
             'tags'             => fake()->tags,
             'lat'              => fake()->latitude,

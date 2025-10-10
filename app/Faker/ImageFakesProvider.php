@@ -16,9 +16,9 @@ final class ImageFakesProvider extends Base
     {
         return [
             'indexArray' => [
-                ImageSize::LARGE->value  => $this->generator->imageUrl,
-                ImageSize::MEDIUM->value => $this->generator->imageUrl,
-                ImageSize::SMALL->value  => $this->generator->imageUrl,
+                ImageSize::LARGE->value  => 'images/admin.jpg',
+                ImageSize::MEDIUM->value => 'images/admin.jpg',
+                ImageSize::SMALL->value  => 'images/admin.jpg',
             ],
             'directory'    => $this->generator->directory,
             'currentImage' => ImageSize::MEDIUM->value,
