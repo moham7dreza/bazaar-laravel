@@ -14,6 +14,7 @@ use Illuminate\Support\Facades\Log;
 use Modules\Advertise\Http\Controllers\Panel\HistoryAdvertisementController;
 use Modules\Advertise\Http\Requests\App\AdvertisementGridViewRequest;
 use Modules\Advertise\Http\Resources\App\AdvertisementResource;
+use Modules\Advertise\Http\Resources\App\GalleryCollection;
 use Modules\Advertise\Models\Advertisement;
 use Modules\Advertise\Repositories\AdvertisementReadRepository;
 use Throwable;
@@ -63,5 +64,10 @@ final class AdvertisementController extends Controller
         $advertisement->refresh();
 
         return $advertisement->toResource(AdvertisementResource::class);
+    }
+
+    public function gallery(Advertisement $advertisement): ResourceCollection
+    {
+        return $advertisement->images->toResourceCollection(GalleryCollection::class);
     }
 }

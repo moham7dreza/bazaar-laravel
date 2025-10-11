@@ -17,6 +17,7 @@ use Modules\Advertise\Http\Controllers\Admin\CategoryValueController;
 use Modules\Advertise\Http\Controllers\Admin\GalleryController;
 use Modules\Advertise\Http\Controllers\Admin\StateController;
 use Modules\Advertise\Http\Controllers\App\AdvertisementController as HomeAdvertisementController;
+use Modules\Advertise\Http\Controllers\App\AdvertisementGalleryController as HomeAdvertisementGalleryController;
 use Modules\Advertise\Http\Controllers\App\CategoryController as HomeCategoryController;
 use Modules\Advertise\Http\Controllers\App\StateController as HomeStateController;
 use Modules\Advertise\Http\Controllers\Panel\AdvertisementController as PanelAdvertisementController;
@@ -61,13 +62,18 @@ Route::get('pages', [HomePageController::class, 'index'])->name('pages.index');
 
 Route::prefix(RouteSection::ADVERTISEMENTS->value)
     ->name(RouteSection::ADVERTISEMENTS->name())
-    ->controller(HomeAdvertisementController::class)
     ->middleware('cache-response:120')
     ->group(function (): void {
-
-        Route::get('/', 'index')->name('index');
-        Route::get('{advertisement}', 'show')->name('show')
-            ->withTrashed();
+        Route::controller(HomeAdvertisementController::class)
+            ->group(function (): void {
+                Route::get('/', 'index')->name('index');
+                Route::get('{advertisement}', 'show')->name('show')
+                    ->withTrashed();
+            });
+        Route::controller(HomeAdvertisementGalleryController::class)
+            ->group(function (): void {
+                Route::get('{advertisement}/gallery', 'index')->name('gallery.index');
+            });
     });
 
 Route::get('states', [HomeStateController::class, 'index'])->name('states.index');
