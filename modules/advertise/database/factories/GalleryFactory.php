@@ -19,7 +19,7 @@ final class GalleryFactory extends Factory
     {
         return [
             'advertisement_id' => Advertisement::factory(),
-            'url'              => fake()->imageIndexArray,
+            'url'              => fake()->imageIndexArray(),
         ];
     }
 }
