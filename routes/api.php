@@ -70,12 +70,10 @@ Route::prefix(RouteSection::ADVERTISEMENTS->value)
                 Route::get('{advertisement}', 'show')->name('show')
                     ->withTrashed();
             });
-        /*
         Route::controller(HomeAdvertisementGalleryController::class)
             ->group(function (): void {
                 Route::get('{advertisement}/gallery', 'index')->name('gallery.index');
             });
-        */
     });
 
 Route::get('states', [HomeStateController::class, 'index'])->name('states.index');
