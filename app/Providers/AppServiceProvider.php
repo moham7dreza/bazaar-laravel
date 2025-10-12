@@ -54,7 +54,9 @@ use Morilog\Jalali\Jalalian;
 
 final class AppServiceProvider extends ServiceProvider
 {
-    public function register(): void {}
+    public function register(): void
+    {
+    }
 
     public function boot(): void
     {
@@ -68,7 +70,7 @@ final class AppServiceProvider extends ServiceProvider
         $this->logSlowQuery();
         $this->loadExtraMigrationsPath();
         $this->configureCarbon();
-        $this->handleMissingTrans();
+//        $this->handleMissingTrans();
         $this->configureValidator();
         $this->configureDate();
         $this->configurePassword();
@@ -271,9 +273,9 @@ final class AppServiceProvider extends ServiceProvider
     private function configureUri(): void
     {
         Uri::macro('docs', fn () => $this->withPath('docs'));
-        Uri::macro('inCategory', fn ($category) => $this->withPath('shop/' . $category . '/' . trim($this->path(), '/')));
+        Uri::macro('inCategory', fn ($category) => $this->withPath('shop/' . $category . '/' . mb_trim($this->path(), '/')));
         Uri::macro('mobile', function () {
-            $path = trim($this->path(), '/');
+            $path = mb_trim($this->path(), '/');
 
             return $this->withHost('m.' . $this->host())
                 ->withPath($path);
