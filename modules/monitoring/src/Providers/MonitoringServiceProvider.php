@@ -9,12 +9,13 @@ use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\ServiceProvider;
 use Laravel\Nightwatch\Facades\Nightwatch;
 use Laravel\Pulse\Facades\Pulse;
-use Modules\Monitoring\Commands\CheckVulnerabilitiesCommand;
+use Modules\Monitoring\Commands;
 
 final class MonitoringServiceProvider extends ServiceProvider
 {
     private const array COMMANDS = [
-        CheckVulnerabilitiesCommand::class,
+        Commands\CheckVulnerabilitiesCommand::class,
+        Commands\MonitorCommands::class,
     ];
 
     public function register(): void
