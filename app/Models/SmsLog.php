@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Models;
 
 use App\Enums\Sms\SmsMessageType;
@@ -8,13 +10,16 @@ use App\Enums\Sms\SmsSenderNumber;
 use App\Enums\Sms\SmsStatus;
 use App\Enums\Sms\SmsType;
 use App\Models\Scopes\LatestScope;
+use Database\Factories\SmsLogFactory;
 use Illuminate\Database\Eloquent\Attributes\ScopedBy;
+use Illuminate\Database\Eloquent\Attributes\UseFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 #[ScopedBy([LatestScope::class])]
+#[UseFactory(SmsLogFactory::class)]
 class SmsLog extends Model
 {
     // _____________________________________________ use SECTION ________________________________________________
@@ -29,6 +34,13 @@ class SmsLog extends Model
 
     protected $guarded = ['id'];
 
+    // _____________________________________________ relations SECTION __________________________________________
+
+    public function user(): BelongsTo
+    {
+        return $this->belongsTo(User::class)->withDefault(['name' => __('Unknown user')]);
+    }
+
     // _____________________________________________ model related methods SECTION ______________________________
 
     protected function casts(): array
@@ -42,13 +54,6 @@ class SmsLog extends Model
             'sent_at'       => 'datetime',
             'delivered_at'  => 'datetime',
         ];
-    }
-
-    // _____________________________________________ relations SECTION __________________________________________
-
-    public function user(): BelongsTo
-    {
-        return $this->belongsTo(User::class)->withDefault(['name' => __('Unknown user')]);
     }
 
     // _____________________________________________ methods SECTION __________________________________________

@@ -7,12 +7,15 @@ namespace Modules\Content\Models;
 use App\Models\Scopes\LatestScope;
 use Cviebrock\EloquentSluggable\Sluggable;
 use Illuminate\Database\Eloquent\Attributes\ScopedBy;
+use Illuminate\Database\Eloquent\Attributes\UseFactory;
 use Illuminate\Database\Eloquent\Casts\AsHtmlString;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Modules\Content\Database\Factories\PageFactory;
 
 #[ScopedBy([LatestScope::class])]
+#[UseFactory(PageFactory::class)]
 final class Page extends Model
 {
     // _____________________________________________ use SECTION ________________________________________________

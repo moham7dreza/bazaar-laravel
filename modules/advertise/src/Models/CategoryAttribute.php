@@ -6,14 +6,17 @@ namespace Modules\Advertise\Models;
 
 use App\Models\Scopes\LatestScope;
 use Illuminate\Database\Eloquent\Attributes\ScopedBy;
+use Illuminate\Database\Eloquent\Attributes\UseFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Modules\Advertise\Database\Factories\CategoryAttributeFactory;
 use Modules\Advertise\Enums\Unit;
 
 #[ScopedBy([LatestScope::class])]
+#[UseFactory(CategoryAttributeFactory::class)]
 final class CategoryAttribute extends Model
 {
     // _____________________________________________ use SECTION ________________________________________________

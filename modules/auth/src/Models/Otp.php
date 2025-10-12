@@ -5,12 +5,15 @@ declare(strict_types=1);
 namespace Modules\Auth\Models;
 
 use App\Models\User;
+use Illuminate\Database\Eloquent\Attributes\UseFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Modules\Auth\Database\Factories\OtpFactory;
 use Modules\Auth\Enums\NoticeType;
 
+#[UseFactory(OtpFactory::class)]
 final class Otp extends Model
 {
     // _____________________________________________ use SECTION ________________________________________________
@@ -22,7 +25,7 @@ final class Otp extends Model
     protected $guarded = ['id'];
 
     protected $hidden = [
-        'otp_code'
+        'otp_code',
     ];
 
     // _____________________________________________ relations SECTION __________________________________________

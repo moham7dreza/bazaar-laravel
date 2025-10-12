@@ -15,9 +15,9 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Prunable;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Facades\Storage;
 use Modules\Advertise\Database\Factories\GalleryFactory;
 use Modules\Advertise\Observers\GalleryObserver;
-use Storage;
 
 #[ScopedBy([LatestScope::class])]
 #[ObservedBy([GalleryObserver::class])]
