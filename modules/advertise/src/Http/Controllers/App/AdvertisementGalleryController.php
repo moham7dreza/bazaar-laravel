@@ -6,7 +6,7 @@ namespace Modules\Advertise\Http\Controllers\App;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Resources\Json\ResourceCollection;
-use Modules\Advertise\Http\Resources\App\GalleryCollection;
+use Modules\Advertise\Http\Resources\App\GalleryResource;
 use Modules\Advertise\Models\Advertisement;
 use Throwable;
 
@@ -19,6 +19,6 @@ final class AdvertisementGalleryController extends Controller
      */
     public function index(Advertisement $advertisement): ResourceCollection
     {
-        return $advertisement->images->toResourceCollection(GalleryCollection::class);
+        return $advertisement->images->toResourceCollection(GalleryResource::class);
     }
 }
