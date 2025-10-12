@@ -491,3 +491,11 @@ php-extensions:
 phpres:
 	sudo systemctl reload nginx
 	sudo systemctl reload php8.4-fpm
+
+permissions:
+	sudo chmod -R 777 storage/logs
+
+health:
+	composer du
+	php artisan route:list
+	php artisan test
