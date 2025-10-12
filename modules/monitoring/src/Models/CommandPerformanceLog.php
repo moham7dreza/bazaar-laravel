@@ -7,6 +7,7 @@ namespace Modules\Monitoring\Models;
 use Illuminate\Database\Eloquent\Attributes\Scope;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Casts\AsFluent;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Prunable;
 use Modules\Monitoring\Enums\CommandLoggingStatus;
@@ -22,41 +23,44 @@ class CommandPerformanceLog extends Model
         return self::query()->where('created_at', '<=', now()->subWeeks(2));
     }
 
-    public function scopeRunning($query)
+    public function isRunning(): bool
+    {
+        return CommandLoggingStatus::Started === $this->status;
+    }
+
+    #[Scope]
+    protected function running($query)
     {
         return $query->where('status', CommandLoggingStatus::Started);
     }
 
-    public function scopeCompleted($query)
+    #[Scope]
+    protected function completed($query)
     {
         return $query->where('status', CommandLoggingStatus::Completed);
     }
 
-    public function scopeFailed($query)
+    #[Scope]
+    protected function failed($query)
     {
         return $query
             ->where('status', CommandLoggingStatus::Started)
             ->whereDate('created_at', '<', now()->subDays());
     }
 
-    public function getFormattedRuntimeAttribute(): string
+    protected function formattedRuntime(): Attribute
     {
-        return number_format($this->runtime) . ' ms';
+        return Attribute::make(get: fn () => number_format($this->runtime) . ' ms');
     }
 
-    public function getFormattedMemoryUsageAttribute(): string
+    protected function formattedMemoryUsage(): Attribute
     {
-        return number_format($this->memory_usage) . ' bytes';
+        return Attribute::make(get: fn () => number_format($this->memory_usage) . ' bytes');
     }
 
-    public function getFormattedQueryTimeAttribute(): string
+    protected function formattedQueryTime(): Attribute
     {
-        return number_format($this->query_time) . ' ms';
-    }
-
-    public function isRunning(): bool
-    {
-        return CommandLoggingStatus::Started === $this->status;
+        return Attribute::make(get: fn () => number_format($this->query_time) . ' ms');
     }
 
     /** @attribute category */
@@ -66,7 +70,8 @@ class CommandPerformanceLog extends Model
 //        return count($parts) > 1 ? $parts[0] : 'general';
 //    }
 
-    public function scopeByCategory($query, string $category)
+    #[Scope]
+    protected function byCategory($query, string $category)
     {
         return $query->where('command', 'like', "{$category}%");
     }

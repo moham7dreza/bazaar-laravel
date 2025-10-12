@@ -15,7 +15,7 @@ class CommandMonitoringService
         return CommandPerformanceLog::query()
             ->select(DB::raw("SUBSTRING_INDEX(command, ':', 1) as category"))
             ->distinct()
-            ->orderBy('category')
+            ->oldest('category')
             ->pluck('category');
     }
 
@@ -29,7 +29,7 @@ class CommandMonitoringService
             ->selectRaw('AVG(runtime) as avg_runtime')
             ->selectRaw('MAX(runtime) as max_runtime')
             ->groupBy('category')
-            ->orderBy('category')
+            ->oldest('category')
             ->get();
     }
 
@@ -177,7 +177,7 @@ class CommandMonitoringService
             $query->where('status', $status);
         }
 
-        return $query->orderBy('created_at', 'desc')
+        return $query->latest()
             ->limit($limit)
             ->get();
     }
