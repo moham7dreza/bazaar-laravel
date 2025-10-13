@@ -13,7 +13,7 @@ it('can get category attributes from app', function (): void {
         ->has(CategoryAttribute::factory()->count(3), 'attributes')
         ->create();
 
-    $response = getJson(route('advertisements.category.attributes', $category))->assertOk();
+    $response = getJson(route('advertisements.category.attributes.index', $category))->assertOk();
 
     expect($response->json('data'))->toHaveLength(3);
 

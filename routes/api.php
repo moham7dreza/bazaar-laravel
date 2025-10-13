@@ -20,6 +20,7 @@ use Modules\Advertise\Http\Controllers\App\AdvertisementController as HomeAdvert
 use Modules\Advertise\Http\Controllers\App\AdvertisementGalleryController as HomeAdvertisementGalleryController;
 use Modules\Advertise\Http\Controllers\App\CategoryAttributeController as HomeCategoryAttributeController;
 use Modules\Advertise\Http\Controllers\App\CategoryController as HomeCategoryController;
+use Modules\Advertise\Http\Controllers\App\CategoryValueController as HomeCategoryValueController;
 use Modules\Advertise\Http\Controllers\App\StateController as HomeStateController;
 use Modules\Advertise\Http\Controllers\Panel\AdvertisementController as PanelAdvertisementController;
 use Modules\Advertise\Http\Controllers\Panel\AdvertisementNoteController;
@@ -75,7 +76,11 @@ Route::prefix(RouteSection::ADVERTISEMENTS->value)
             ->group(function (): void {
                 Route::get('{advertisement}/gallery', 'index')->name('gallery.index');
             });
-        Route::get('category/{category}/attributes', HomeCategoryAttributeController::class)->name('category.attributes');
+        Route::prefix('category')
+            ->group(function (): void {
+                Route::get('{category}/attributes', HomeCategoryAttributeController::class)->name('category.attributes.index');
+                Route::get('{categoryAttribute}/values', HomeCategoryValueController::class)->name('category.values.index');
+            });
     });
 
 Route::get('states', [HomeStateController::class, 'index'])->name('states.index');
