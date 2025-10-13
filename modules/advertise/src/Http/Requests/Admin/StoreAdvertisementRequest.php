@@ -6,6 +6,8 @@ namespace Modules\Advertise\Http\Requests\Admin;
 
 use App\Enums\Image\ImageSize;
 use Closure;
+use Illuminate\Contracts\Validation\ValidationRule;
+use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
@@ -17,12 +19,12 @@ final class StoreAdvertisementRequest extends FormRequest
     }
 
     /**
-     * @return array<int, Closure(\Illuminate\Contracts\Validation\Validator):void>
+     * @return array<int, Closure(Validator):void>
      */
     public function after(): array
     {
         return [
-            function (\Illuminate\Contracts\Validation\Validator $validator): void {
+            function (Validator $validator): void {
                 if ($validator->errors()->any())
                 {
                     return;
@@ -39,7 +41,7 @@ final class StoreAdvertisementRequest extends FormRequest
     /**
      * Get the validation rules that apply to the request.
      *
-     * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
+     * @return array<string, ValidationRule|array|string>
      */
     public function rules(): array
     {
@@ -63,6 +65,9 @@ final class StoreAdvertisementRequest extends FormRequest
             'lat'                => 'nullable|numeric',
             'willing_to_trade'   => 'nullable|numeric|in:0,1',
             'current_image_size' => Rule::enum(ImageSize::class),
+            // category values
+            'category_value_id'   => 'nullable|array',
+            'category_value_id.*' => 'nullable|numeric|exists:category_values,id',
         ];
     }
 

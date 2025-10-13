@@ -10,11 +10,13 @@ use App\Services\Image\ImageService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Http\Resources\Json\ResourceCollection;
+use Illuminate\Support\Facades\DB;
 use Modules\Advertise\Http\Requests\Admin\StoreAdvertisementRequest;
 use Modules\Advertise\Http\Requests\Admin\UpdateAdvertisementRequest;
 use Modules\Advertise\Http\Resources\Admin\AdvertisementResource;
 use Modules\Advertise\Jobs\ProcessNewAdvertisementJob;
 use Modules\Advertise\Models\Advertisement;
+use Throwable;
 
 final class AdvertisementController extends Controller
 {
@@ -28,6 +30,8 @@ final class AdvertisementController extends Controller
 
     /**
      * Store a newly created resource in storage.
+     *
+     * @throws Throwable
      */
     public function store(StoreAdvertisementRequest $request, ImageService $imageService)
     {
@@ -45,7 +49,16 @@ final class AdvertisementController extends Controller
             }
         }
 
-        $ad = Advertisement::create($inputs);
+        $ad = DB::transaction(static function () use ($inputs, $request) {
+            $ad = Advertisement::create($inputs);
+
+            if ($request->filled('category_value_id'))
+            {
+                $ad->categoryValues()->attach($request->category_value_id);
+            }
+
+            return $ad;
+        });
 
         ProcessNewAdvertisementJob::dispatch($ad->id);
 
