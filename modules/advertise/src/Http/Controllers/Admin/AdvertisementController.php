@@ -50,6 +50,7 @@ final class AdvertisementController extends Controller
         }
 
         $ad = DB::transaction(static function () use ($inputs, $request) {
+            unset($inputs['category_value_id']);
             $ad = Advertisement::create($inputs);
 
             if ($request->filled('category_value_id'))
@@ -60,7 +61,7 @@ final class AdvertisementController extends Controller
             return $ad;
         });
 
-        ProcessNewAdvertisementJob::dispatch($ad->id);
+        dispatch(new ProcessNewAdvertisementJob($ad->id));
 
         return $ad->toResource(AdvertisementResource::class);
     }
