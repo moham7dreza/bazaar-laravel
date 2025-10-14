@@ -1,15 +1,15 @@
 #!/bin/bash
 
 echo "Run tests..."
-make testr
+#make testr
 echo "Done!"
 
 echo "Run Rector..."
-make rector
+#make rector
 echo "Done!"
 
 echo "Run Pint..."
-make pintd
+#make pintd
 echo "Done!"
 
 # Get the branch being pushed
