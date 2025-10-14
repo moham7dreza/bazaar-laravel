@@ -288,6 +288,7 @@ pint: ## Run PHP code style fixer
 	vendor/bin/pint --repair --parallel
 
 start: ## Start all development servers
+	make permissions
 	@npx concurrently -k -n "QUEUE,HORIZON,REVERB,OCTANE,VITE,SCHEDULE,PULSE,NEXT,LOGGING,NIGHTWATCH" \
 		-c "green,blue,magenta,cyan,yellow,red,gray,black,white,green" \
 		"php artisan queue:listen" \
@@ -302,6 +303,7 @@ start: ## Start all development servers
         "php artisan nightwatch:agent"
 
 serve: ## Start basic servers
+	make permissions
 	@npx concurrently -k -n "QUEUE,HORIZON,REVERB,SERVER,VITE,SCHEDULE,PULSE,NEXT,LOGGING,NIGHTWATCH" \
 		-c "green,blue,magenta,cyan,yellow,red,gray,black,white,green" \
 		"php artisan queue:listen" \
@@ -493,7 +495,7 @@ phpres:
 	sudo systemctl reload php8.4-fpm
 
 permissions:
-	sudo chmod -R 777 storage/logs
+	sudo chmod -R 777 storage
 
 health:
 	composer du
