@@ -57,7 +57,7 @@
                                                 </svg>
                                             </div>
                                             <div>
-                                                <a href="{{$tool['url']}}" class="font-semibold text-gray-900">
+                                                <a target="_blank" href="{{$tool['url']}}" class="font-semibold text-gray-900">
                                                     {{trans($tool['title'])}}
                                                     <span class="absolute inset-0"></span>
                                                 </a>
