@@ -6,6 +6,10 @@ namespace Modules\Advertise\Http\Resources\App;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
+use Modules\Advertise\Models\Advertisement;
+use Modules\Advertise\Models\CategoryAttribute;
+use Modules\Advertise\Models\CategoryValue;
+use Modules\Advertise\Models\Gallery;
 
 final class AdvertisementResource extends JsonResource
 {
@@ -16,6 +20,10 @@ final class AdvertisementResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
+        /** @var Advertisement $this */
+        $categoryAttributes = $this->category->attributes;
+        $categoryValues     = $this->categoryValues;
+
         return [
             'id'          => $this->id,
             'title'       => $this->title,
@@ -24,27 +32,27 @@ final class AdvertisementResource extends JsonResource
             'ads_status'  => $this->ads_status,
             //            'allCategories' => $this->getAllCategories($this->category),
             'category' => $this->category,
-            'gallery'  => $this->images->map(fn ($image) => [
+            'gallery'  => $this->images->map(fn (Gallery $image) => [
                 'id'  => $image->id,
                 'url' => $image->url,
             ]),
-            'category_attributes' => $this->category->attributes->map(fn ($attribute) => [
+            'category_attributes' => $categoryAttributes->map(fn (CategoryAttribute $attribute) => [
                 'id'   => $attribute->id,
                 'name' => $attribute->name,
                 'unit' => $attribute->unit,
             ]),
-            'category_values' => $this->categoryValues->map(fn ($value) => [
+            'category_values' => $categoryValues->map(fn (CategoryValue $value) => [
                 'id'    => $value->id,
                 'value' => $value->value,
             ]),
-            'category_attributes_with_values' => $this->category->attributes->map(function ($attribute) {
-                $value = $this->categoryValues()->firstWhere('category_attribute_id', $attribute->id);
+            'category_attributes_with_values' => $categoryAttributes->map(function (CategoryAttribute $attribute) use ($categoryValues) {
+                $value = $categoryValues->firstWhere('category_attribute_id', $attribute->id);
 
                 return [
                     'id'    => $attribute->id,
                     'name'  => $attribute->name,
                     'unit'  => $attribute->unit,
-                    'value' => $value ? $value->value : null,
+                    'value' => $value?->value,
                 ];
             }),
             'city'             => $this->city,

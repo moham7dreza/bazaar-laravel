@@ -21,6 +21,7 @@ use Illuminate\Database\Eloquent\Prunable;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Modules\Advertise\Database\Factories\AdvertisementFactory;
 use Modules\Advertise\Enums\AdvertisementStatus;
@@ -94,6 +95,16 @@ final class Advertisement extends Model
     public function viewedByUsers(): BelongsToMany
     {
         return $this->belongsToMany(User::class, 'advertisement_view_history')->withTimestamps();
+    }
+
+    public function categoryAttributes(): HasManyThrough
+    {
+        return $this->hasManyThrough(
+            CategoryAttribute::class,
+            Category::class,
+            'category_id',
+            'id',
+        );
     }
 
     #[Scope]
