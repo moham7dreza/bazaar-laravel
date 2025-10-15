@@ -17,7 +17,7 @@ final class LoginOtpRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'mobile' => ['required', 'string', 'max:15', Rule::exists('users', 'mobile')],
+            'mobile'    => 'required|numeric|digits:11|regex:/^09[0-9]{9}$/|unique:users',
         ];
     }
 }
