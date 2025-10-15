@@ -2,7 +2,6 @@
 
 declare(strict_types=1);
 
-use App\Enums\RouteSection;
 use App\Http\Controllers\Admin\User\UserController;
 use App\Http\Controllers\App\Home\CityController;
 use App\Http\Controllers\ImageController;
@@ -35,12 +34,10 @@ use Modules\Content\Http\Controllers\App\MenuController as HomeMenuController;
 use Modules\Content\Http\Controllers\App\PageController as HomePageController;
 
 when(isEnvStaging(), function (): void {
-
     Route::view('test', 'test');
 });
 
 when(isEnvLocal(), function (): void {
-
     Route::post('idempotency', fn () => logger('idempotency passed'))
         ->middleware(Infinitypaul\Idempotency\Middleware\EnsureIdempotency::class)
         ->name('idempotency');
@@ -58,12 +55,23 @@ when(isEnvLocalOrTesting(), function (): void {
 Route::get('user', static fn (Request $request) => $request->user())->name('user.info')
     ->middleware(['auth:sanctum', 'mobile-verified']);
 
+/*
+|--------------------------------------------------------------------------
+| Primary Routes
+|--------------------------------------------------------------------------
+*/
 Route::get('categories', [HomeCategoryController::class, 'index'])->name('categories.index');
 Route::get('menus', [HomeMenuController::class, 'index'])->name('menus.index');
 Route::get('pages', [HomePageController::class, 'index'])->name('pages.index');
-
-Route::prefix(RouteSection::ADVERTISEMENTS->value)
-    ->name(RouteSection::ADVERTISEMENTS->name())
+Route::get('states', [HomeStateController::class, 'index'])->name('states.index');
+Route::get('cities', [CityController::class, 'index'])->name('cities.index');
+/*
+|--------------------------------------------------------------------------
+| Advertisement Routes
+|--------------------------------------------------------------------------
+*/
+Route::prefix('advertisements')
+    ->name('advertisements.')
     ->middleware('cache-response:120')
     ->group(function (): void {
         Route::controller(HomeAdvertisementController::class)
@@ -82,39 +90,49 @@ Route::prefix(RouteSection::ADVERTISEMENTS->value)
                 Route::get('{categoryAttribute}/values', HomeCategoryValueController::class)->name('category.values.index');
             });
     });
-
-Route::get('states', [HomeStateController::class, 'index'])->name('states.index');
-Route::get('cities', [CityController::class, 'index'])->name('cities.index');
-
-Route::prefix(RouteSection::AUTH->value)
+/*
+|--------------------------------------------------------------------------
+| Auth Routes
+|--------------------------------------------------------------------------
+*/
+Route::prefix('auth')
+    ->name('auth.')
     ->middleware('guest')
-    ->name(RouteSection::AUTH->name())
     ->group(function (): void {
-
         Route::post('send-otp', RegisteredUserWithOTPController::class)->name('send-otp')
             ->middleware(['throttle:10,1', MetricsLoggerMiddleware::class]);
         Route::post('verify-otp', VerifyUserWithOTPController::class)->name('verify-otp')
             ->middleware('throttle:5,1');
     });
-
-Route::prefix(RouteSection::IMAGES->value)
+/*
+|--------------------------------------------------------------------------
+| Image Routes
+|--------------------------------------------------------------------------
+*/
+Route::prefix('images')
+    ->name('images.')
     ->controller(ImageController::class)
-    ->name(RouteSection::IMAGES->name())
     ->group(function (): void {
-
         Route::post('store', 'store')->name('store');
         Route::put('update', 'update')->name('destroy');
     });
-
-Route::prefix(RouteSection::ADMIN->value)
-    ->name(RouteSection::ADMIN->name())
+/*
+|--------------------------------------------------------------------------
+| Admin Panel Routes
+|--------------------------------------------------------------------------
+*/
+Route::prefix('admin')
+    ->name('admin.')
     ->middleware([/* 'auth', 'admin' */])
     ->group(function (): void {
-
-        Route::prefix(RouteSection::ADVERTISEMENTS->value)
-            ->name(RouteSection::ADVERTISEMENTS->name())
+        /*
+        |--------------------------------------------------------------------------
+        | Advertisements Routes
+        |--------------------------------------------------------------------------
+        */
+        Route::prefix('advertisements')
+            ->name('advertisements.')
             ->group(function (): void {
-
                 Route::apiResource('category', CategoryController::class);
                 Route::apiResource('{advertisement}/gallery', GalleryController::class);
                 Route::apiResource('state', StateController::class);
@@ -123,43 +141,59 @@ Route::prefix(RouteSection::ADMIN->value)
                 Route::apiResource('advertisement', AdvertisementController::class)
                     ->withTrashed();
             });
-
-        Route::prefix(RouteSection::CONTENT->value)
-            ->name(RouteSection::CONTENT->name())
+        /*
+        |--------------------------------------------------------------------------
+        | Content Section Routes
+        |--------------------------------------------------------------------------
+        */
+        Route::prefix('content')
+            ->name('content.')
             ->group(function (): void {
-
                 Route::apiResource('menu', MenuController::class);
                 Route::apiResource('page', PageController::class);
             });
-
-        Route::prefix(RouteSection::USERS->value)
-            ->name(RouteSection::USERS->name())
+        /*
+        |--------------------------------------------------------------------------
+        | Users Routes
+        |--------------------------------------------------------------------------
+        */
+        Route::prefix('users')
+            ->name('users.')
             ->group(function (): void {
-
                 Route::apiResource('user', UserController::class);
             });
     });
 
-// user panel
-Route::prefix(RouteSection::PANEL->value)
-    ->name(RouteSection::PANEL->name())
+/*
+|--------------------------------------------------------------------------
+| User Panel Routes
+|--------------------------------------------------------------------------
+*/
+Route::prefix('panel')
+    ->name('panel.')
     ->middleware([
         'auth:sanctum',
         EnsureMobileIsVerified::class,
     ])
     ->group(function (): void {
-
-        Route::prefix(RouteSection::ADVERTISEMENTS->value)
-            ->name(RouteSection::ADVERTISEMENTS->name())
+        /*
+        |--------------------------------------------------------------------------
+        | Advertisements Routes
+        |--------------------------------------------------------------------------
+        */
+        Route::prefix('advertisements')
+            ->name('advertisements.')
             ->group(function (): void {
-
                 Route::apiResource('advertisement', PanelAdvertisementController::class)
                     ->withTrashed(['show', 'update']);
-
-                Route::prefix(RouteSection::GALLERY->value)
-                    ->name(RouteSection::GALLERY->name())
+                /*
+                |--------------------------------------------------------------------------
+                | Gallery Routes
+                |--------------------------------------------------------------------------
+                */
+                Route::prefix('gallery')
+                    ->name('gallery')
                     ->group(function (): void {
-
                         Route::get('{advertisement}', [PanelGalleryController::class, 'index'])->name('index');
                         Route::post('{advertisement}/store', [PanelGalleryController::class, 'store'])->name('store');
                         Route::get('show/{gallery}', [PanelGalleryController::class, 'show'])->name('show')
@@ -168,12 +202,15 @@ Route::prefix(RouteSection::PANEL->value)
                             ->withTrashed();
                         Route::delete('{gallery}', [PanelGalleryController::class, 'destroy'])->name('destroy');
                     });
-
-                Route::prefix(RouteSection::NOTES->value)
+                /*
+                |--------------------------------------------------------------------------
+                | Note Routes
+                |--------------------------------------------------------------------------
+                */
+                Route::prefix('notes')
+                    ->name('notes.')
                     ->controller(AdvertisementNoteController::class)
-                    ->name(RouteSection::NOTES->name())
                     ->group(function (): void {
-
                         Route::post('{advertisement}/store', 'store')->name('store');
                         Route::get('/', 'index')->name('index');
                         Route::get('{advertisement}/show', 'show')->name('show')
@@ -181,22 +218,28 @@ Route::prefix(RouteSection::PANEL->value)
                         Route::delete('{advertisement}/destroy', 'destroy')->name('destroy');
                     });
             });
-
-        Route::prefix(RouteSection::FAVORITES->value)
+        /*
+        |--------------------------------------------------------------------------
+        | User Favorite Routes
+        |--------------------------------------------------------------------------
+        */
+        Route::prefix('favorites')
+            ->name('favorites.')
             ->controller(FavoriteAdvertisementController::class)
-            ->name(RouteSection::FAVORITES->name())
             ->group(function (): void {
-
                 Route::get('/', 'index')->name('index');
                 Route::post('{advertisement}', 'store')->name('store');
                 Route::delete('{advertisement}', 'destroy')->name('destroy');
             });
-
-        Route::prefix(RouteSection::HISTORY->value)
+        /*
+        |--------------------------------------------------------------------------
+        | User History Routes
+        |--------------------------------------------------------------------------
+        */
+        Route::prefix('history')
+            ->name('history.')
             ->controller(HistoryAdvertisementController::class)
-            ->name(RouteSection::HISTORY->name())
             ->group(function (): void {
-
                 Route::get('/', 'index')->name('index');
                 Route::post('{advertisement}', 'store')->name('store');
             });
