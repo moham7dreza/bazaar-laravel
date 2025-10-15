@@ -57,10 +57,11 @@ final class VerifyUserWithOTPController extends Controller
         {
 
             $user = User::create([
-                'password'           => Hash::make(Str::random(10)),
+                'password'           => Str::random(10),
                 'mobile'             => $request->mobile,
                 'city_id'            => $request->city_id,
                 'mobile_verified_at' => now(),
+                'email'              => fake()->email,
             ]);
 
             $message = 'ثبت نام و ورود با موفقیت انجام شد';
