@@ -15,8 +15,6 @@ Route::post('/register', RegisteredUserController::class)
     ->middleware(['guest', 'throttle:5,1'])
     ->name('register');
 
-Route::redirect('/login', 'super-admin');
-
 Route::post('/login', [AuthenticatedSessionController::class, 'store'])
     ->middleware('guest')
     ->name('login');
