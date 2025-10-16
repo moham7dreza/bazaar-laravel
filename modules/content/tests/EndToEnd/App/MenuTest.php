@@ -12,7 +12,7 @@ it('can get all parent menus', function (): void {
 
     expect($menu->parent_id)->not->toBeNull();
 
-    $response = $this->getJson(route('menus.index'))->assertOk();
+    $response = \Pest\Laravel\getJson(route('menus.index'))->assertOk();
 
     expect($response->json('data'))->toHaveLength(1);
 
@@ -28,5 +28,5 @@ it('can get all parent menus', function (): void {
         ->status->toBeBool()
         ->icon->toBeString();
 
-    $this->assertModelExists($menu);
+    Pest\Laravel\assertModelExists($menu);
 });

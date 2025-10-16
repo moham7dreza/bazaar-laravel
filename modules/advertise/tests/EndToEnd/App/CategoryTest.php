@@ -12,7 +12,7 @@ it('can get all parent categories', function (): void {
 
     expect($category->parent_id)->not->toBeNull();
 
-    $response = $this->getJson(route('categories.index'))->assertOk();
+    $response = \Pest\Laravel\getJson(route('categories.index'))->assertOk();
 
     expect($response->json('data'))->toHaveLength(1);
 
@@ -24,5 +24,5 @@ it('can get all parent categories', function (): void {
         ->slug->toBeString()
         ->icon->toBeString();
 
-    $this->assertModelExists($category);
+    Pest\Laravel\assertModelExists($category);
 });

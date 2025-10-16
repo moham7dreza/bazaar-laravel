@@ -28,5 +28,5 @@ it('can get category values from app', function (): void {
         ->updated_at->toBeString()
         ->categoryAttribute->toBeArray();
 
-    $this->assertModelExists($categoryAttribute);
+    Pest\Laravel\assertModelExists($categoryAttribute);
 });

@@ -8,7 +8,7 @@ it('can get all pages', function (): void {
 
     $page = Page::factory()->create();
 
-    $response = $this->getJson(route('pages.index'))->assertOk();
+    $response = \Pest\Laravel\getJson(route('pages.index'))->assertOk();
 
     expect($response->json('data'))->toHaveLength(1);
 
@@ -21,5 +21,5 @@ it('can get all pages', function (): void {
         ->status->toBeBool()
         ->body->toBeString();
 
-    $this->assertModelExists($page);
+    Pest\Laravel\assertModelExists($page);
 });

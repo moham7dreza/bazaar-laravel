@@ -30,12 +30,12 @@ beforeEach(function (): void {
 
 afterEach(function (): void {
 
-    $this->assertModelExists($this->advertisement);
+    Pest\Laravel\assertModelExists($this->advertisement);
 });
 
 it('can get all advertisements', function (): void {
 
-    $response = $this->getJson(route('advertisements.index', [
+    $response = \Pest\Laravel\getJson(route('advertisements.index', [
         'title' => 'adv',
         'sort'  => Sort::NEWEST,
     ]))->assertOk();
@@ -49,7 +49,7 @@ it('can get all advertisements', function (): void {
 
 it('can show a single advertisement', function (): void {
 
-    $response = $this->getJson(route('advertisements.show', $this->advertisement->id))->assertOk();
+    $response = \Pest\Laravel\getJson(route('advertisements.show', $this->advertisement->id))->assertOk();
 
     $data = $response->json('data');
 

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 use App\Models\Geo\City;
 
 it('can get all active cities', function (): void {
@@ -17,5 +19,5 @@ it('can get all active cities', function (): void {
         ->name->toBeString()
         ->status->toBeBool();
 
-    $this->assertModelExists($city);
+    Pest\Laravel\assertModelExists($city);
 });

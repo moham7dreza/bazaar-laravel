@@ -11,6 +11,6 @@ test('new users can register', function (): void {
         'mobile'                => '09141234567',
     ]);
 
-    $this->assertAuthenticated();
+    Pest\Laravel\assertAuthenticated();
     $response->assertNoContent();
 });

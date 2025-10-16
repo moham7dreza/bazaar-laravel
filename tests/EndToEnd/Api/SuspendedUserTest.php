@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 use App\Console\Commands\User\UserSuspendClearCommand;
 use App\Models\User;
 
@@ -19,5 +21,5 @@ it('can not get response from api', function (): void {
 
     $response->assertOk();
 
-    $this->assertModelExists($user);
+    Pest\Laravel\assertModelExists($user);
 });

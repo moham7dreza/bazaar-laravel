@@ -12,7 +12,7 @@ test('users can authenticate using the login screen', function (): void {
         'password' => 'password',
     ]);
 
-    $this->assertAuthenticated();
+    Pest\Laravel\assertAuthenticated();
     $response->assertNoContent();
 });
 
@@ -24,7 +24,7 @@ test('users can not authenticate with invalid password', function (): void {
         'password' => 'wrong-password',
     ]);
 
-    $this->assertGuest();
+    Pest\Laravel\assertGuest();
 });
 
 test('users can logout', function (): void {
@@ -32,6 +32,6 @@ test('users can logout', function (): void {
 
     $response = $this->actingAs($user)->post('/logout');
 
-    $this->assertGuest();
+    Pest\Laravel\assertGuest();
     $response->assertNoContent();
 });

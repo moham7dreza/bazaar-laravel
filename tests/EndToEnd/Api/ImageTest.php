@@ -16,7 +16,7 @@ it('can upload an image', function (): void {
         'height'        => 100,
     ];
 
-    $response = $this->postJson(route('images.store'), $payload)->assertOk();
+    $response = \Pest\Laravel\postJson(route('images.store'), $payload)->assertOk();
 
     expect($response->json())->not->toBeEmpty();
 });
@@ -28,6 +28,6 @@ it('fails to upload without image', function (): void {
         'width'         => 100,
         'height'        => 100,
     ];
-    $response = $this->postJson(route('images.store'), $payload);
+    $response = \Pest\Laravel\postJson(route('images.store'), $payload);
     $response->assertUnprocessable();
 });

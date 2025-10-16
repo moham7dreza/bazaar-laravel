@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 use Illuminate\Support\Fluent;
 use Tests\TestGroup;
 
@@ -7,7 +9,7 @@ it('can get backend url details from front api', function (): void {
 
     Http::record();
 
-    $result = Http::get(config('app.frontend_url').'/api/backend')->json();
+    $result = Http::get(config('app.frontend_url') . '/api/backend')->json();
 
     $result = Fluent::make($result);
 
@@ -20,7 +22,8 @@ it('can get backend url details from front api', function (): void {
         $apiCallCount++;
 
         // Check response status
-        if ($response->status() >= 400) {
+        if ($response->status() >= 400)
+        {
             $allStatusCodesSuccessful = false;
         }
 
@@ -32,7 +35,7 @@ it('can get backend url details from front api', function (): void {
         ]);
     });
 
-    $this->assertGreaterThan(0, $apiCallCount, 'No API calls were made');
-    $this->assertTrue($allStatusCodesSuccessful, 'Some API calls failed');
+    Pest\Laravel\assertGreaterThan(0, $apiCallCount, 'No API calls were made');
+    Pest\Laravel\assertTrue($allStatusCodesSuccessful, 'Some API calls failed');
 })
     ->skip(TestGroup::MANUAL);
