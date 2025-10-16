@@ -16,7 +16,7 @@ final class LoginOtpRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'mobile'    => 'required|numeric|digits:11|regex:/^09[0-9]{9}$/|unique:users',
+            'mobile'    => 'required|numeric|digits:11|regex:/^09[0-9]{9}$/',
         ];
     }
 }
