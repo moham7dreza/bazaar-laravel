@@ -30,7 +30,7 @@ beforeEach(function (): void {
 
 afterEach(function (): void {
 
-    Pest\Laravel\assertModelExists($this->advertisement);
+    \Pest\Laravel\assertModelExists($this->advertisement);
 });
 
 it('can get all advertisements', function (): void {
