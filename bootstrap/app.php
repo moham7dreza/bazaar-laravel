@@ -126,7 +126,7 @@ return Application::configure(basePath: dirname(__DIR__))
         });
 
         $exceptions->map(fn (ThrottleRequestsException $e) => new ThrottleRequestsException(
-            message: 'Too Many Attempts. Please try again in ' . Date::make($e->getHeaders()['X-RateLimit-Reset'])->fromNow(),
+            message: 'Too Many Attempts. Please try again in ' . Date::make($e->getHeaders()['X-RateLimit-Reset'])?->fromNow(),
             headers: $e->getHeaders(),
         ));
 
