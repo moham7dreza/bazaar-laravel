@@ -33,8 +33,8 @@ help: ## Show this help menu
 fix-permissions: ## Fix project directory permissions
 	@printf "${COLOR_BLUE}▶ Fixing file and directory permissions...${COLOR_RESET}\n"
 	@sudo chown -R $(USER):$(USER) .
-	@sudo find . -type f -exec chmod 664 {} \;
-	@sudo find . -type d -exec chmod 775 {} \;
+	@sudo find . -type d \( -name "vendor" -o -name "node_modules" \) -prune -o -type f -exec chmod 664 {} \;
+	@sudo find . -type d \( -name "vendor" -o -name "node_modules" \) -prune -o -type d -exec chmod 775 {} \;
 	@sudo chgrp -R $(USER) storage bootstrap/cache
 	@sudo chmod -R ug+rwx storage bootstrap/cache
 	@printf "${COLOR_GREEN}✓ All permissions fixed successfully!${COLOR_RESET}\n"
