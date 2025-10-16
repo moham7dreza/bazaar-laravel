@@ -7,19 +7,19 @@ use Illuminate\Auth\Events\Registered;
 use Modules\Auth\Enums\NoticeType;
 use Modules\Auth\Models\Otp;
 
-it('can register a user', function (): void {
+it('can register new user', function (): void {
 
-//    Event::fake();
+    Event::fake();
 
     $userData = [
         'name'                  => 'Test User',
         'email'                 => 'user@example.com',
-        'password'              => 'Password1',
-        'password_confirmation' => 'Password1',
+        'password'              => $pass = fake()->password,
+        'password_confirmation' => $pass,
         'mobile'                => '09120000000',
     ];
 
-    \Pest\Laravel\postJson(route('auth.register'), $userData)->assertNoContent();
+    \Pest\Laravel\postJson(route('register'), $userData)->assertNoContent();
 
     $user = User::query()->firstWhere([
         'name'   => 'Test User',
@@ -31,7 +31,7 @@ it('can register a user', function (): void {
 
     Pest\Laravel\assertAuthenticated();
 
-//    Event::assertDispatchedTimes(Registered::class);
+    Event::assertDispatchedTimes(Registered::class);
 });
 
 it('can send otp with user', function (): void {
