@@ -6,7 +6,6 @@ use App\Http\Controllers\Admin\User\UserController;
 use App\Http\Controllers\App\Home\CityController;
 use App\Http\Controllers\ImageController;
 use App\Http\Middleware\EnsureMobileIsVerified;
-use App\Http\Middleware\MetricsLoggerMiddleware;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use Modules\Advertise\Http\Controllers\Admin\AdvertisementController;
@@ -26,8 +25,6 @@ use Modules\Advertise\Http\Controllers\Panel\AdvertisementNoteController;
 use Modules\Advertise\Http\Controllers\Panel\FavoriteAdvertisementController;
 use Modules\Advertise\Http\Controllers\Panel\GalleryController as PanelGalleryController;
 use Modules\Advertise\Http\Controllers\Panel\HistoryAdvertisementController;
-use Modules\Auth\Http\Controllers\RegisteredUserWithOTPController;
-use Modules\Auth\Http\Controllers\VerifyUserWithOTPController;
 use Modules\Content\Http\Controllers\Admin\MenuController;
 use Modules\Content\Http\Controllers\Admin\PageController;
 use Modules\Content\Http\Controllers\App\MenuController as HomeMenuController;
@@ -90,22 +87,7 @@ Route::prefix('advertisements')
                 Route::get('{categoryAttribute}/values', HomeCategoryValueController::class)->name('category.values.index');
             });
     });
-/*
-|--------------------------------------------------------------------------
-| Auth Routes
-|--------------------------------------------------------------------------
-*/
-Route::prefix('auth')
-    ->name('auth.')
-    ->middleware([
-        'guest',
-        'throttle:10,1',
-    ])
-    ->group(function (): void {
-        Route::post('send-otp', RegisteredUserWithOTPController::class)->name('send-otp')
-            ->middleware(MetricsLoggerMiddleware::class);
-        Route::post('verify-otp', VerifyUserWithOTPController::class)->name('verify-otp');
-    });
+
 /*
 |--------------------------------------------------------------------------
 | Image Routes
