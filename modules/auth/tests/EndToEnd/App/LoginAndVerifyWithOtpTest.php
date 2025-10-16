@@ -14,7 +14,7 @@ it('can register new user', function (): void {
     $userData = [
         'name'                  => 'Test User',
         'email'                 => 'user@example.com',
-        'password'              => $pass = fake()->password,
+        'password'              => $pass = 'asdasdsa@1231DQWD',
         'password_confirmation' => $pass,
         'mobile'                => '09120000000',
     ];
