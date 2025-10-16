@@ -6,8 +6,9 @@ namespace App\Listeners;
 
 use App\Enums\Queue;
 use App\Events\UserUpdatedEvent;
-use Carbon\CarbonImmutable;
+use App\Notifications\PasswordChangedNotification;
 use Illuminate\Queue\Middleware\Skip;
+use Illuminate\Support\Carbon;
 
 class SendPasswordChangedNotification extends QueuedListener
 {
@@ -28,13 +29,13 @@ class SendPasswordChangedNotification extends QueuedListener
         return true;
     }
 
-    public function retryUntil(): CarbonImmutable
+    public function retryUntil(): Carbon
     {
         return now()->addMinutes(5);
     }
 
     public function handle(UserUpdatedEvent $event): void
     {
-        $event->user->notify(new \App\Notifications\PasswordChangedNotification($event->user));
+        $event->user->notify(new PasswordChangedNotification($event->user));
     }
 }
