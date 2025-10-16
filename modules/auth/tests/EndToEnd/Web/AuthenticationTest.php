@@ -30,7 +30,7 @@ test('users can not authenticate with invalid password', function (): void {
 test('users can logout', function (): void {
     $user = User::factory()->create();
 
-    $response = $this->actingAs($user)->post('/logout');
+    $response = asUser($user)->post('/logout');
 
     Pest\Laravel\assertGuest();
     $response->assertNoContent();
