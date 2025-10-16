@@ -12,9 +12,9 @@ test('schedule user suspend clear job pushed', function (): void {
 
     User::factory()->suspended()->create();
 
-    $this->travelTo(now()->addDays(8));
+    Pest\Laravel\travelTo(now()->addDays(8));
 
-    $this->artisan(UserSuspendClearCommand::class);
+    Pest\Laravel\artisan(UserSuspendClearCommand::class);
 
     Queue::assertPushed(UserSuspendClearJob::class);
 

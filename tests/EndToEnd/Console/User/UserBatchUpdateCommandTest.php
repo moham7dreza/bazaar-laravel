@@ -15,9 +15,9 @@ test('can batch update 1000 users', function (): void {
     Queue::fake();
     Bus::fake();
 
-    $this->artisan('db:seed', ['--class' => UserBatchSeeder::class])->assertSuccessful();
+    Pest\Laravel\artisan('db:seed', ['--class' => UserBatchSeeder::class])->assertSuccessful();
 
-    $this->artisan(UserBatchUpdateCommand::class)->assertSuccessful();
+    Pest\Laravel\artisan(UserBatchUpdateCommand::class)->assertSuccessful();
 
     // 1000 records => 100 records per job => 10 * 100 = 1000
     Bus::assertBatched(static fn (PendingBatch $batch) => 10 === $batch->jobs->count());

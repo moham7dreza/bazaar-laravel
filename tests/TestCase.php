@@ -71,7 +71,7 @@ abstract class TestCase extends BaseTestCase
 
             foreach ($commands as $command)
             {
-                $this->artisan($command);
+                \Pest\Laravel\artisan($command);
             }
 
             self::$migrated = true;
