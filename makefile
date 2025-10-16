@@ -32,10 +32,10 @@ help: ## Show this help menu
 ## Linux
 fix-permissions: ## Fix project directory permissions
 	@printf "${COLOR_BLUE}▶ Fixing file and directory permissions...${COLOR_RESET}\n"
-	@sudo chown -R $(USER):www-data .
+	@sudo chown -R $(USER):$(USER) .
 	@sudo find . -type f -exec chmod 664 {} \;
 	@sudo find . -type d -exec chmod 775 {} \;
-	@sudo chgrp -R www-data storage bootstrap/cache
+	@sudo chgrp -R $(USER) storage bootstrap/cache
 	@sudo chmod -R ug+rwx storage bootstrap/cache
 	@printf "${COLOR_GREEN}✓ All permissions fixed successfully!${COLOR_RESET}\n"
 
@@ -288,7 +288,6 @@ pint: ## Run PHP code style fixer
 	vendor/bin/pint --repair --parallel
 
 start: ## Start all development servers
-	make permissions
 	@npx concurrently -k -n "QUEUE,HORIZON,REVERB,OCTANE,VITE,SCHEDULE,PULSE,NEXT,LOGGING,NIGHTWATCH" \
 		-c "green,blue,magenta,cyan,yellow,red,gray,black,white,green" \
 		"php artisan queue:listen" \
@@ -303,7 +302,6 @@ start: ## Start all development servers
         "php artisan nightwatch:agent"
 
 serve: ## Start basic servers
-	make permissions
 	@npx concurrently -k -n "QUEUE,HORIZON,REVERB,SERVER,VITE,SCHEDULE,PULSE,NEXT,LOGGING,NIGHTWATCH" \
 		-c "green,blue,magenta,cyan,yellow,red,gray,black,white,green" \
 		"php artisan queue:listen" \
