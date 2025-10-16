@@ -9,6 +9,8 @@ use App\Http\Controllers\ImageController;
 use App\Http\Controllers\SyncRolePermissionsController;
 use Illuminate\Support\Facades\Route;
 
+require __DIR__ . '/auth.php';
+
 when(isEnvLocal(), function (): void {
 
     Route::view('test', 'test');
