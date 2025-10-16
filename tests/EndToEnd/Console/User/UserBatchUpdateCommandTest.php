@@ -8,6 +8,8 @@ use Illuminate\Bus\PendingBatch;
 use Illuminate\Support\Facades\Bus;
 use Illuminate\Support\Facades\Queue;
 
+pest()->group(Tests\TestGroup::MANUAL);
+
 test('can batch update 1000 users', function (): void {
 
     Queue::fake();
