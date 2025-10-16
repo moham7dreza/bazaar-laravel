@@ -97,12 +97,14 @@ Route::prefix('advertisements')
 */
 Route::prefix('auth')
     ->name('auth.')
-    ->middleware('guest')
+    ->middleware([
+        'guest',
+        'throttle:10,1',
+    ])
     ->group(function (): void {
         Route::post('send-otp', RegisteredUserWithOTPController::class)->name('send-otp')
-            ->middleware(['throttle:10,1', MetricsLoggerMiddleware::class]);
-        Route::post('verify-otp', VerifyUserWithOTPController::class)->name('verify-otp')
-            ->middleware('throttle:5,1');
+            ->middleware(MetricsLoggerMiddleware::class);
+        Route::post('verify-otp', VerifyUserWithOTPController::class)->name('verify-otp');
     });
 /*
 |--------------------------------------------------------------------------
