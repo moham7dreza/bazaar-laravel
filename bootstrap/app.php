@@ -118,6 +118,11 @@ return Application::configure(basePath: dirname(__DIR__))
                 return ApiJsonResponse::error(Response::HTTP_INTERNAL_SERVER_ERROR, 'QueryException');
             }
 
+            if ($e instanceof RuntimeException)
+            {
+                return ApiJsonResponse::error(Response::HTTP_INTERNAL_SERVER_ERROR, $e->getMessage());
+            }
+
             // for other exceptions
             if ( ! $e instanceof ValidationException)
             {
