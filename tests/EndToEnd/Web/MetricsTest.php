@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 it('can view metrics', function (): void {
 
-    $response = $this->get(route('prometheus.default'), [
+    $response = \Pest\Laravel\get(route('prometheus.default'), [
         'Authorization' => 'Bearer ' . config('prometheus.token'),
     ])->assertOk();
 

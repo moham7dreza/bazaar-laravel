@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 test('new users can register', function (): void {
-    $response = $this->post('/register', [
+    $response = \Pest\Laravel\post('/register', [
         'name'                  => 'Test User',
         'email'                 => 'test@example.com',
         'password'              => 'password',

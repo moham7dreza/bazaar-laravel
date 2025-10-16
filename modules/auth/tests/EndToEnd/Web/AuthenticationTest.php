@@ -7,7 +7,7 @@ use App\Models\User;
 test('users can authenticate using the login screen', function (): void {
     $user = User::factory()->create();
 
-    $response = $this->post('/login', [
+    $response = \Pest\Laravel\post('/login', [
         'email'    => $user->email,
         'password' => 'password',
     ]);
@@ -19,7 +19,7 @@ test('users can authenticate using the login screen', function (): void {
 test('users can not authenticate with invalid password', function (): void {
     $user = User::factory()->create();
 
-    $this->post('/login', [
+    \Pest\Laravel\post('/login', [
         'email'    => $user->email,
         'password' => 'wrong-password',
     ]);

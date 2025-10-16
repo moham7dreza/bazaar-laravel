@@ -11,7 +11,7 @@ test('reset password link can be requested', function (): void {
 
     $user = User::factory()->create();
 
-    $this->post('/forgot-password', ['email' => $user->email]);
+    \Pest\Laravel\post('/forgot-password', ['email' => $user->email]);
 
     Notification::assertSentTo($user, ResetPassword::class);
 });
@@ -21,10 +21,10 @@ test('password can be reset with valid token', function (): void {
 
     $user = User::factory()->create();
 
-    $this->post('/forgot-password', ['email' => $user->email]);
+    \Pest\Laravel\post('/forgot-password', ['email' => $user->email]);
 
     Notification::assertSentTo($user, ResetPassword::class, function (object $notification) use ($user) {
-        $response = $this->post('/reset-password', [
+        $response = \Pest\Laravel\post('/reset-password', [
             'token'                 => $notification->token,
             'email'                 => $user->email,
             'password'              => 'Password1',
