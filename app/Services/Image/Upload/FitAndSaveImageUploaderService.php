@@ -14,7 +14,8 @@ final readonly class FitAndSaveImageUploaderService implements ImageUploader
 {
     public function __construct(
         private ImageService $imageService,
-    ) {}
+    ) {
+    }
 
     public function handle(ImageUploadDTO $DTO): array|string|null
     {
@@ -29,7 +30,7 @@ final readonly class FitAndSaveImageUploaderService implements ImageUploader
 
             Image::read($DTO->image->getRealPath())
                 ->resizeDown($DTO->width, $DTO->height)
-                ->save(public_path($this->imageService->getImageAddress()), $this->imageService->getImageFormat());
+                ->save($this->imageService->getImageAddress(), $this->imageService->getImageFormat());
 
             return $this->imageService->getImageAddress();
 

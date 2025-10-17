@@ -16,9 +16,11 @@ it('can upload an image', function (): void {
         'height'        => 100,
     ];
 
-    $response = \Pest\Laravel\postJson(route('images.store'), $payload)->assertOk();
+    $imagePath = \Pest\Laravel\postJson(route('images.store'), $payload)->assertOk()->content();
 
-    expect($response->json())->not->toBeEmpty();
+    expect(file_exists($imagePath))->toBeTrue();
+
+    unlink($imagePath);
 });
 
 it('fails to upload without image', function (): void {

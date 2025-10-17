@@ -34,7 +34,7 @@ class ImageToolsService
 
     public function setExclusiveDirectory($exclusiveDirectory): void
     {
-        $this->exclusiveDirectory = trim($exclusiveDirectory, '/\\');
+        $this->exclusiveDirectory = mb_trim($exclusiveDirectory, '/\\');
     }
 
     public function getImageDirectory()
@@ -44,7 +44,7 @@ class ImageToolsService
 
     public function setImageDirectory($imageDirectory): void
     {
-        $this->imageDirectory = trim($imageDirectory, '/\\');
+        $this->imageDirectory = mb_trim($imageDirectory, '/\\');
     }
 
     public function getImageName()
@@ -128,8 +128,15 @@ class ImageToolsService
             ? $this->imageDirectory
             : $this->exclusiveDirectory . DIRECTORY_SEPARATOR . $this->imageDirectory;
 
-        $this->setFinalImageDirectory($finalImageDirectory);
-
+        $this->setFinalImageDirectory(public_path($finalImageDirectory));
+        logger('image provider', [
+            $this->image,
+            $this->exclusiveDirectory,
+            $this->imageDirectory,
+            $this->imageName,
+            $this->imageFormat,
+            $this->finalImageDirectory,
+        ]);
         // set final image name
         $this->setFinalImageName($this->imageName . '.' . $this->imageFormat);
 
