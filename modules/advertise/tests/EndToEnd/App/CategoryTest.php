@@ -2,6 +2,7 @@
 
 declare(strict_types=1);
 
+use Modules\Advertise\Models\Advertisement;
 use Modules\Advertise\Models\Category;
 
 it('can get all parent categories', function (): void {
@@ -9,6 +10,8 @@ it('can get all parent categories', function (): void {
     $category = Category::factory()
         ->for(Category::factory(), 'parent')
         ->create();
+
+    Advertisement::factory()->for($category)->create();
 
     expect($category->parent_id)->not->toBeNull();
 
