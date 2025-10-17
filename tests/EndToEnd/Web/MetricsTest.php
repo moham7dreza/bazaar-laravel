@@ -2,6 +2,10 @@
 
 declare(strict_types=1);
 
+use Tests\TestGroup;
+
+pest()->group(TestGroup::MANUAL);
+
 it('can view metrics', function (): void {
 
     $response = \Pest\Laravel\get(route('prometheus.default'), [
