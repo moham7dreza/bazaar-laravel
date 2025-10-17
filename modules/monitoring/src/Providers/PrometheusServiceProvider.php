@@ -8,7 +8,6 @@ use App\Enums\Queue;
 use App\Models\User;
 use Illuminate\Support\ServiceProvider;
 use Modules\Monitoring\Collectors\Horizon as CustomHorizonCollectors;
-use Modules\Monitoring\Repositories\RedisQueueWorkloadRepository;
 use Spatie\Prometheus\Collectors\Horizon as HorizonCollectors;
 use Spatie\Prometheus\Collectors\Queue as QueueCollector;
 use Spatie\Prometheus\Facades\Prometheus;
@@ -20,14 +19,12 @@ final class PrometheusServiceProvider extends ServiceProvider
         $this->registerGauges();
         $this->registerHorizonCollectors();
         $this->registerCustomHorizonCollectors();
-        $this->registerQueueCollectors([
-            Queue::DEFAULT->value,
-        ]);
+        $this->registerQueueCollectors(Queue::values());
     }
 
     public function boot(): void
     {
-//        $metrics = app(RedisQueueWorkloadRepository::class)->get();
+//        $metrics = app(\Modules\Monitoring\Repositories\RedisQueueWorkloadRepository::class)->get();
     }
 
     public function registerGauges(): void
