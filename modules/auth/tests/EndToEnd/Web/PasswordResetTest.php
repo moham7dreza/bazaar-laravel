@@ -6,7 +6,8 @@ use App\Models\User;
 use Illuminate\Auth\Notifications\ResetPassword;
 use Illuminate\Support\Facades\Notification;
 
-beforeEach(function () {})->skip('fix tests');
+beforeEach(function (): void {
+})->skip('fix tests');
 
 test('reset password link can be requested', function (): void {
     Notification::fake();
