@@ -29,7 +29,7 @@ return [
     // The middleware that will be applied to the urls above
     'middleware' => [
         Spatie\Prometheus\Http\Middleware\AllowIps::class,
-        Modules\Monitoring\Http\Middlewares\MetricsBearerTokenMiddleware::class,
+        //        Modules\Monitoring\Http\Middlewares\MetricsBearerTokenMiddleware::class,
     ],
 
     /*
