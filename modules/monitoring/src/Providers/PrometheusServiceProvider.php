@@ -4,19 +4,13 @@ declare(strict_types=1);
 
 namespace Modules\Monitoring\Providers;
 
+use App\Enums\Queue;
 use App\Models\User;
 use Illuminate\Support\ServiceProvider;
-use Modules\Monitoring\Collectors\Horizon\CustomCurrentProcessesPerQueueCollector;
-use Modules\Monitoring\Collectors\Horizon\CustomCurrentQueueWaitCollector;
-use Modules\Monitoring\Collectors\Horizon\CustomCurrentQueueWorkloadCollector;
+use Modules\Monitoring\Collectors\Horizon as CustomHorizonCollectors;
 use Modules\Monitoring\Repositories\RedisQueueWorkloadRepository;
-use Spatie\Prometheus\Collectors\Horizon\CurrentMasterSupervisorCollector;
-use Spatie\Prometheus\Collectors\Horizon\CurrentProcessesPerQueueCollector;
-use Spatie\Prometheus\Collectors\Horizon\CurrentWorkloadCollector;
-use Spatie\Prometheus\Collectors\Horizon\FailedJobsPerHourCollector;
-use Spatie\Prometheus\Collectors\Horizon\HorizonStatusCollector;
-use Spatie\Prometheus\Collectors\Horizon\JobsPerMinuteCollector;
-use Spatie\Prometheus\Collectors\Horizon\RecentJobsCollector;
+use Spatie\Prometheus\Collectors\Horizon as HorizonCollectors;
+use Spatie\Prometheus\Collectors\Queue as QueueCollector;
 use Spatie\Prometheus\Facades\Prometheus;
 
 final class PrometheusServiceProvider extends ServiceProvider
@@ -26,6 +20,9 @@ final class PrometheusServiceProvider extends ServiceProvider
         $this->registerGauges();
         $this->registerHorizonCollectors();
         $this->registerCustomHorizonCollectors();
+        $this->registerQueueCollectors([
+            Queue::DEFAULT->value,
+        ]);
     }
 
     public function boot(): void
@@ -33,7 +30,7 @@ final class PrometheusServiceProvider extends ServiceProvider
 //        $metrics = app(RedisQueueWorkloadRepository::class)->get();
     }
 
-    private function registerGauges(): void
+    public function registerGauges(): void
     {
         Prometheus::addGauge('User count')
             ->label('status')
@@ -45,25 +42,42 @@ final class PrometheusServiceProvider extends ServiceProvider
             ]);
     }
 
-    private function registerHorizonCollectors(): void
+    public function registerHorizonCollectors(): self
     {
         Prometheus::registerCollectorClasses([
-            CurrentMasterSupervisorCollector::class,
-            CurrentProcessesPerQueueCollector::class,
-            CurrentWorkloadCollector::class,
-            FailedJobsPerHourCollector::class,
-            HorizonStatusCollector::class,
-            JobsPerMinuteCollector::class,
-            RecentJobsCollector::class,
+            HorizonCollectors\CurrentMasterSupervisorCollector::class,
+            HorizonCollectors\CurrentProcessesPerQueueCollector::class,
+            HorizonCollectors\CurrentWorkloadCollector::class,
+            HorizonCollectors\FailedJobsPerHourCollector::class,
+            HorizonCollectors\HorizonStatusCollector::class,
+            HorizonCollectors\JobsPerMinuteCollector::class,
+            HorizonCollectors\RecentJobsCollector::class,
         ]);
+
+        return $this;
     }
 
-    private function registerCustomHorizonCollectors(): void
+    public function registerCustomHorizonCollectors(): self
     {
         Prometheus::registerCollectorClasses([
-            CustomCurrentQueueWorkloadCollector::class,
-            CustomCurrentProcessesPerQueueCollector::class,
-            CustomCurrentQueueWaitCollector::class,
+            CustomHorizonCollectors\CustomCurrentQueueWorkloadCollector::class,
+            CustomHorizonCollectors\CustomCurrentProcessesPerQueueCollector::class,
+            CustomHorizonCollectors\CustomCurrentQueueWaitCollector::class,
         ]);
+
+        return $this;
+    }
+
+    public function registerQueueCollectors(array $queues = [], ?string $connection = null): self
+    {
+        Prometheus::registerCollectorClasses([
+            QueueCollector\QueueSizeCollector::class,
+            QueueCollector\QueuePendingJobsCollector::class,
+            QueueCollector\QueueDelayedJobsCollector::class,
+            QueueCollector\QueueReservedJobsCollector::class,
+            QueueCollector\QueueOldestPendingJobCollector::class,
+        ], compact('connection', 'queues'));
+
+        return $this;
     }
 }
