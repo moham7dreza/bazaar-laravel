@@ -8,7 +8,6 @@ use App\Enums\StorageDisk;
 use Closure;
 use Illuminate\Foundation\Testing\TestCase as BaseTestCase;
 use Illuminate\Support\Facades\Storage;
-use Laravel\Telescope\Telescope;
 use ReflectionFunction;
 
 abstract class TestCase extends BaseTestCase
@@ -41,7 +40,7 @@ abstract class TestCase extends BaseTestCase
 
         if (config()->boolean('telescope.enabled'))
         {
-            Telescope::startRecording();
+            dump('telescope enabled');
         }
     }
 
@@ -81,15 +80,5 @@ abstract class TestCase extends BaseTestCase
     private function isRunningInParallel(): bool
     {
         return ! empty($_SERVER['LARAVEL_PARALLEL_TESTING']);
-    }
-
-    protected function tearDown(): void
-    {
-        if (config()->boolean('telescope.enabled'))
-        {
-            Telescope::stopRecording();
-        }
-
-        parent::tearDown();
     }
 }
