@@ -72,3 +72,12 @@ it('defaults to user domain if baseUrl is not set', function (): void {
 
     expect($message)->toBeString();
 });
+
+it('throws when "link" is provided manually while path() is used', function (): void {
+    $user = User::factory()->make();
+
+    SmsBuilder::make('sms.welcome')
+        ->path('/verify', $user)
+        ->parameters(['name' => 'Ali', 'link' => 'should-not-set'])
+        ->build();
+})->throws(RuntimeException::class, "The 'link' parameter is reserved and must not be provided in the parameters array.");

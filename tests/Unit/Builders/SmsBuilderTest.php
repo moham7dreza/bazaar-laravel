@@ -2,7 +2,6 @@
 
 declare(strict_types=1);
 
-use App\Models\User;
 use App\Services\Builders\SmsBuilder;
 use Illuminate\Support\Facades\Lang;
 
@@ -53,15 +52,6 @@ it('throws if parameters are missing', function (): void {
         ->parameters(['name' => 'Ali']) // missing link
         ->build();
 })->throws(RuntimeException::class, 'Missing parameters for sms.welcome: link');
-
-it('throws when "link" is provided manually while path() is used', function (): void {
-    $user = User::factory()->make();
-
-    SmsBuilder::make('sms.welcome')
-        ->path('/verify', $user)
-        ->parameters(['name' => 'Ali', 'link' => 'should-not-set'])
-        ->build();
-})->throws(RuntimeException::class, "The 'link' parameter is reserved and must not be provided in the parameters array.");
 
 it('throws if path used with token but user is not set', function (): void {
     SmsBuilder::make('sms.welcome')

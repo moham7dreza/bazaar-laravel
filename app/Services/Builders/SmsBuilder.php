@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Services\Builders;
 
+use App\Enums\ClientLocale;
 use App\Helpers\ClientDomainService;
 use App\Models\User;
 use DateTimeInterface;
@@ -36,6 +37,7 @@ final class SmsBuilder
     private string $tokenName;
 
     private array $tokenScopes;
+    private ClientLocale $locale = ClientLocale::FA;
 
     private DateTimeInterface $tokenExpireAt;
 
@@ -73,6 +75,13 @@ final class SmsBuilder
         return $this;
     }
 
+    public function locale(ClientLocale $locale): self
+    {
+        $this->locale = $locale;
+
+        return $this;
+    }
+
     public function noMessageTemplate(): self
     {
         $this->messageTemplate = null;
@@ -85,6 +94,12 @@ final class SmsBuilder
         $this->path = $path;
         $this->user = $user;
 
+        return $this;
+    }
+
+    public function setUser(User $user): self
+    {
+        $this->user = $user;
         return $this;
     }
 
@@ -127,10 +142,10 @@ final class SmsBuilder
         $this->addLinkToMessageParams();
         $this->ensureAllPlaceholdersAreFilled();
 
-        $body = __($this->messageKey, $this->messageParams);
+        $body = __($this->messageKey, $this->messageParams, $this->locale->value);
 
         return is_int($this->messageTemplate)
-            ? __("sms.templates.{$this->messageTemplate}", ['body' => $body])
+            ? __("sms.templates.{$this->messageTemplate}", ['body' => $body], $this->locale->value)
             : $body;
     }
 
@@ -178,7 +193,7 @@ final class SmsBuilder
 
     private function ensureAllPlaceholdersAreFilled(): void
     {
-        $rawMessage = __($this->messageKey);
+        $rawMessage = __($this->messageKey, locale: $this->locale->value);
         preg_match_all('/:([a-zA-Z0-9_]+)/', $rawMessage, $matches);
         $placeholders  = $matches[1];
         $missingParams = array_diff($placeholders, array_keys($this->messageParams));
