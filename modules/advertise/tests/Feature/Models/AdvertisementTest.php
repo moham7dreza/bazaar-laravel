@@ -31,5 +31,6 @@ it('can check for ad nested relations loaded', function (): void {
 
     expect($ad->category->attributes()->exists())->toBeTrue()
         ->and($ad->relationLoaded('category'))->toBeTrue()
-        ->and($ad->relationLoaded('category.attributes'))->toBeTrue();
+//        ->and($ad->relationLoaded('category.attributes'))->toBeTrue()
+        ->and($ad->category->relationLoaded('attributes'))->toBeTrue();
 });
