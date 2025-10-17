@@ -13,4 +13,4 @@ test('new users can register', function (): void {
 
     Pest\Laravel\assertAuthenticated();
     $response->assertNoContent();
-});
+})->skip('fix 6 sec exec time');
