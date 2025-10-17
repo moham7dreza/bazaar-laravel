@@ -11,7 +11,7 @@ it('can get all parent categories', function (): void {
         ->for(Category::factory(), 'parent')
         ->create();
 
-    Advertisement::factory()->for($category)->create();
+    Advertisement::factory()->for($category->parent)->create();
 
     expect($category->parent_id)->not->toBeNull();
 
