@@ -23,7 +23,7 @@ final class ImageStoreRequest extends FormRequest
                 'required',
                 'image',
                 'mimes:png,jpg,jpeg',
-                Rule::dimensions()->ratioBetween(0.25, 2),
+                //                Rule::dimensions()->ratioBetween(0.25, 2),
                 'processable_image',
             ],
             'directory'     => ['required', 'string'],
