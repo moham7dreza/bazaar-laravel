@@ -12,7 +12,7 @@ it('can get all parent states', function (): void {
 
     expect($state->parent_id)->not->toBeNull();
 
-    $response = \Pest\Laravel\getJson(route('states.index'))->assertOk();
+    $response = \Pest\Laravel\getJson(route('api.states.index'))->assertOk();
 
     expect($response->json('data'))->toHaveLength(1);
 

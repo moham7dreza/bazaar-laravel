@@ -19,7 +19,7 @@ beforeEach(function (): void {
 
 it('can get advertisement gallery', function (): void {
 
-    $response = getJson(route('advertisements.gallery.index', $this->advertisement->id))->assertOk();
+    $response = getJson(route('api.advertisements.gallery.index', $this->advertisement->id))->assertOk();
 
     $data = $response->json('data');
 

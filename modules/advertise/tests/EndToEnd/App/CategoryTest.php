@@ -15,7 +15,7 @@ it('can get all parent categories', function (): void {
 
     expect($category->parent_id)->not->toBeNull();
 
-    $response = \Pest\Laravel\getJson(route('categories.index'))->assertOk();
+    $response = \Pest\Laravel\getJson(route('api.categories.index'))->assertOk();
 
     expect($response->json('data'))->toHaveLength(1);
 

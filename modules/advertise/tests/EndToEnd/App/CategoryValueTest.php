@@ -13,7 +13,7 @@ it('can get category values from app', function (): void {
         ->has(CategoryValue::factory()->count(3))
         ->create();
 
-    $response = getJson(route('advertisements.category.values.index', $categoryAttribute))->assertOk();
+    $response = getJson(route('api.advertisements.category.values.index', $categoryAttribute))->assertOk();
 
     expect($response->json('data'))->toHaveLength(3);
 

@@ -12,7 +12,7 @@ it('can get all parent menus', function (): void {
 
     expect($menu->parent_id)->not->toBeNull();
 
-    $response = \Pest\Laravel\getJson(route('menus.index'))->assertOk();
+    $response = \Pest\Laravel\getJson(route('api.menus.index'))->assertOk();
 
     expect($response->json('data'))->toHaveLength(1);
 

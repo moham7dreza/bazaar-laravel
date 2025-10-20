@@ -19,5 +19,5 @@ it('test next js api', function (): void {
 
 it('can get today', function (): void {
 
-    \Pest\Laravel\getJson(route('today.date', today()))->ddBody();
+    \Pest\Laravel\getJson(route('api.today.date', today()))->ddBody();
 })->skip();

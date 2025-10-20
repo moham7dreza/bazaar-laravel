@@ -8,7 +8,7 @@ it('can get all pages', function (): void {
 
     $page = Page::factory()->create();
 
-    $response = \Pest\Laravel\getJson(route('pages.index'))->assertOk();
+    $response = \Pest\Laravel\getJson(route('api.pages.index'))->assertOk();
 
     expect($response->json('data'))->toHaveLength(1);
 

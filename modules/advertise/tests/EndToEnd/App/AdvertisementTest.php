@@ -35,7 +35,7 @@ afterEach(function (): void {
 
 it('can get all advertisements', function (): void {
 
-    $response = \Pest\Laravel\getJson(route('advertisements.index', [
+    $response = \Pest\Laravel\getJson(route('api.advertisements.index', [
         'title' => 'adv',
         'sort'  => Sort::NEWEST,
     ]))->assertOk();
@@ -49,7 +49,7 @@ it('can get all advertisements', function (): void {
 
 it('can show a single advertisement', function (): void {
 
-    $response = \Pest\Laravel\getJson(route('advertisements.show', $this->advertisement->id))->assertOk();
+    $response = \Pest\Laravel\getJson(route('api.advertisements.show', $this->advertisement->id))->assertOk();
 
     $data = $response->json('data');
 

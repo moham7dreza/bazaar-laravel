@@ -9,7 +9,7 @@ it('can not get response from api', function (): void {
 
     $user = User::factory()->suspended()->create();
 
-    $response = asUser($user)->getJson(route('cities.index'));
+    $response = asUser($user)->getJson(route('api.cities.index'));
 
     $response->assertForbidden();
 
@@ -17,7 +17,7 @@ it('can not get response from api', function (): void {
 
     Pest\Laravel\artisan(UserSuspendClearCommand::class);
 
-    $response = asUser($user)->getJson(route('cities.index'));
+    $response = asUser($user)->getJson(route('api.cities.index'));
 
     $response->assertOk();
 

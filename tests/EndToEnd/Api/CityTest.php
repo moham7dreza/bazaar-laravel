@@ -8,8 +8,8 @@ it('can get all active cities', function (): void {
 
     $city = City::factory()->create();
 
-    $response = $this->getJson(route('cities.index'))->assertOk();
-
+    $response = $this->getJson(route('api.cities.index'))->assertOk();
+dd($response->json());
     expect($response->json('data'))->toHaveLength(1);
 
     $data = $response->json('data.0');
