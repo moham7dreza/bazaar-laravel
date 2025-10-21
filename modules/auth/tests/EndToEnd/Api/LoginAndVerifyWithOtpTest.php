@@ -19,7 +19,7 @@ it('can register new user', function (): void {
         'mobile'                => '09120000000',
     ];
 
-    \Pest\Laravel\postJson(route('register'), $userData)->assertNoContent();
+    \Pest\Laravel\postJson(route('api.auth.register'), $userData)->assertNoContent();
 
     $user = User::query()->firstWhere([
         'name'   => 'Test User',
@@ -38,7 +38,7 @@ it('can send otp with user', function (): void {
 
     $user = User::factory()->create();
 
-    $response = \Pest\Laravel\postJson(route('auth.send-otp'), [
+    $response = \Pest\Laravel\postJson(route('api.auth.send-otp'), [
         'mobile' => $user->mobile,
     ])
         ->assertOk();
@@ -56,7 +56,7 @@ it('can send otp with user', function (): void {
 
 it('can send otp without user', function (): void {
 
-    $response = \Pest\Laravel\postJson(route('auth.send-otp'), [
+    $response = \Pest\Laravel\postJson(route('api.auth.send-otp'), [
         'mobile' => $mobile = '09120000001',
     ])
         ->assertOk();
@@ -88,7 +88,7 @@ it('can verify otp without user', function (): void {
         'type'     => NoticeType::SMS,
     ]);
 
-    \Pest\Laravel\postJson(route('auth.verify-otp'), [
+    \Pest\Laravel\postJson(route('api.auth.verify-otp'), [
         'mobile' => $mobile,
         'otp'    => $otpCode,
         'token'  => $token,
@@ -124,7 +124,7 @@ it('can verify otp with user', function (): void {
         'type'     => NoticeType::SMS,
     ]);
 
-    \Pest\Laravel\postJson(route('auth.verify-otp'), [
+    \Pest\Laravel\postJson(route('api.auth.verify-otp'), [
         'mobile' => $mobile,
         'otp'    => $otpCode,
         'token'  => $token,
