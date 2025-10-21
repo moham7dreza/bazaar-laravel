@@ -25,12 +25,12 @@ final class RegisteredUserWithOTPController extends Controller
     {
         Context::increment('metrics.login_otp_attempts');
 
-        return (new Timebox())->call(
+        return new Timebox()->call(
             callback: function () use ($request, $service) {
 
-                $token = $service->prepareAndSend($request->mobile);
+                $data = $service->prepareAndSend($request->mobile);
 
-                return ApiJsonResponse::success(['token' => $token], message: 'کد تایید با موفقیت ارسال شد');
+                return ApiJsonResponse::success($data, message: 'کد تایید با موفقیت ارسال شد');
 
             },
             microseconds: CarbonInterval::microseconds(200)->microseconds

@@ -13,7 +13,7 @@ use Modules\Auth\Models\Otp;
 
 class ConsumeOneTimePasswordService
 {
-    public function prepareAndSend($mobile): string
+    public function prepareAndSend($mobile): array
     {
         $user = User::firstWhere('mobile', $mobile);
 
@@ -39,6 +39,9 @@ class ConsumeOneTimePasswordService
 
         app(SMSService::class)->send($data);
 
-        return $token;
+        return [
+            'token' => $token,
+            'otp'   => $otpCode,
+        ];
     }
 }
