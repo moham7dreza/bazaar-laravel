@@ -34,6 +34,6 @@ final class ApiRequestLoggerMiddleware
 
         info('API request processed');
 
-        return $next($request);
+        return $response;
     }
 }
