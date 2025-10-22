@@ -5,6 +5,8 @@ declare(strict_types=1);
 use Illuminate\Support\Fluent;
 use Tests\TestGroup;
 
+pest()->group(TestGroup::MANUAL);
+
 it('can get backend url details from front api', function (): void {
 
     Http::record();
@@ -37,5 +39,4 @@ it('can get backend url details from front api', function (): void {
 
     Pest\Laravel\assertGreaterThan(0, $apiCallCount, 'No API calls were made');
     Pest\Laravel\assertTrue($allStatusCodesSuccessful, 'Some API calls failed');
-})
-    ->skip(TestGroup::MANUAL);
+});
