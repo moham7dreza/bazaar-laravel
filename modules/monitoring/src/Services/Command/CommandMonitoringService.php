@@ -36,14 +36,14 @@ class CommandMonitoringService
     public function getRunningCommands(): Collection
     {
         return CommandPerformanceLog::running()
-            ->orderBy('created_at', 'desc')
+            ->latest()
             ->get();
     }
 
     public function getCommandsByCategory(string $category): Collection
     {
         return CommandPerformanceLog::byCategory($category)
-            ->orderBy('created_at', 'desc')
+            ->latest()
             ->get();
     }
 
