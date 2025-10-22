@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 use Illuminate\Support\Facades\Http;
 
+pest()->group(Tests\TestGroup::MANUAL);
+
 it('test next js api', function (): void {
 
     Http::dd()
@@ -15,9 +17,9 @@ it('test next js api', function (): void {
             'endpoint' => 'profile',
         ])
         ->get('{+base}/{version}/users/{userId}/{endpoint}?include=settings');
-})->skip();
+});
 
 it('can get today', function (): void {
 
     \Pest\Laravel\getJson(route('api.today.date', today()))->ddBody();
-})->skip();
+});
