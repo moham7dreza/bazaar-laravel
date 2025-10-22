@@ -108,6 +108,12 @@ final class Advertisement extends Model
     }
 
     #[Scope]
+    protected function forAuth(): Builder
+    {
+        return $this->whereBelongsTo(auth()->user());
+    }
+
+    #[Scope]
     protected function active(): Builder
     {
         return $this->where('status', true);

@@ -7,6 +7,7 @@ namespace Tests\EndToEnd\Api\Panel;
 use App\Enums\UserPermission;
 use App\Enums\UserRole;
 use App\Models\User;
+use Modules\Advertise\Models\Advertisement;
 use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\PermissionRegistrar;
@@ -46,7 +47,11 @@ test('writer can access to advertisements', function (): void {
 
     $writer = createUserWithRoleAndPermissions(UserRole::WRITER);
 
-    asUser($writer)
+    Advertisement::factory()->for($writer)->create();
+
+    $response = asUser($writer)
         ->getJson(route('api.panel.advertisements.advertisement.index'))
         ->assertOk();
+
+    expect($response->json('data.0.user_id'))->toBe($writer->id);
 });

@@ -30,6 +30,7 @@ final class AdvertisementResource extends JsonResource
             'description' => $this->description,
             'ads_type'    => $this->ads_type,
             'ads_status'  => $this->ads_status,
+            'user_id'     => $this->user_id,
             //            'allCategories' => $this->getAllCategories($this->category),
             'category' => $this->category,
             'gallery'  => $this->images->map(fn (Gallery $image) => [

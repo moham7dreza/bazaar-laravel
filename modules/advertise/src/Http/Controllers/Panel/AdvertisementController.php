@@ -7,7 +7,7 @@ namespace Modules\Advertise\Http\Controllers\Panel;
 use App\Http\Controllers\Controller;
 use App\Http\Responses\ApiJsonResponse;
 use App\Services\Image\ImageService;
-use Gate;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
@@ -27,13 +27,13 @@ final class AdvertisementController extends Controller
      */
     public function index(): ResourceCollection
     {
-        // TODO fix policy and revert
-//        Gate::authorize('viewAny', Advertisement::class);
+        // TODO: fix policy and revert
+        //        Gate::authorize('viewAny', Advertisement::class);
 
-        return getUser()
-            ->advertisements()
+        return Advertisement::query()
+            ->forAuth()
             ->paginate(10)
-            ->toResourceCollection(AdvertisementCollection::class);
+            ->toResourceCollection(AdvertisementResource::class);
     }
 
     /**
@@ -126,7 +126,7 @@ final class AdvertisementController extends Controller
             $result = $imageService->createIndexAndSave($request->image);
             if (false === $result)
             {
-                return ApiJsonResponse::error(500, message:  'خطا در فرایند اپلود');
+                return ApiJsonResponse::error(500, message: 'خطا در فرایند اپلود');
             }
             $inputs['image'] = $result;
         } else
