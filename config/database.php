@@ -39,6 +39,7 @@ return [
             'database'                => env('DB_DATABASE', database_path('database.sqlite')),
             'prefix'                  => '',
             'foreign_key_constraints' => env('DB_FOREIGN_KEYS', true),
+            'transaction_mode'        => 'DEFERRED',
         ],
 
         'mysql' => [
@@ -166,25 +167,33 @@ return [
 
         'options' => [
             'cluster' => env('REDIS_CLUSTER', 'redis'),
-            'prefix'  => env('REDIS_PREFIX', Str::slug(env('APP_NAME', 'laravel'), '_') . '_database_'),
+            'prefix'  => env('REDIS_PREFIX', Str::slug((string) env('APP_NAME', 'laravel')) . '-database-'),
         ],
 
         'default' => [
-            'url'      => env('REDIS_URL'),
-            'host'     => env('REDIS_HOST', '127.0.0.1'),
-            'username' => env('REDIS_USERNAME'),
-            'password' => env('REDIS_PASSWORD'),
-            'port'     => env('REDIS_PORT', '6379'),
-            'database' => env('REDIS_DB', '0'),
+            'url'               => env('REDIS_URL'),
+            'host'              => env('REDIS_HOST', '127.0.0.1'),
+            'username'          => env('REDIS_USERNAME'),
+            'password'          => env('REDIS_PASSWORD'),
+            'port'              => env('REDIS_PORT', '6379'),
+            'database'          => env('REDIS_DB', '0'),
+            'max_retries'       => env('REDIS_MAX_RETRIES', 3),
+            'backoff_algorithm' => env('REDIS_BACKOFF_ALGORITHM', 'decorrelated_jitter'),
+            'backoff_base'      => env('REDIS_BACKOFF_BASE', 100),
+            'backoff_cap'       => env('REDIS_BACKOFF_CAP', 1000),
         ],
 
         'cache' => [
-            'url'      => env('REDIS_URL'),
-            'host'     => env('REDIS_HOST', '127.0.0.1'),
-            'username' => env('REDIS_USERNAME'),
-            'password' => env('REDIS_PASSWORD'),
-            'port'     => env('REDIS_PORT', '6379'),
-            'database' => env('REDIS_CACHE_DB', '1'),
+            'url'               => env('REDIS_URL'),
+            'host'              => env('REDIS_HOST', '127.0.0.1'),
+            'username'          => env('REDIS_USERNAME'),
+            'password'          => env('REDIS_PASSWORD'),
+            'port'              => env('REDIS_PORT', '6379'),
+            'database'          => env('REDIS_CACHE_DB', '1'),
+            'max_retries'       => env('REDIS_MAX_RETRIES', 3),
+            'backoff_algorithm' => env('REDIS_BACKOFF_ALGORITHM', 'decorrelated_jitter'),
+            'backoff_base'      => env('REDIS_BACKOFF_BASE', 100),
+            'backoff_cap'       => env('REDIS_BACKOFF_CAP', 1000),
         ],
 
     ],
