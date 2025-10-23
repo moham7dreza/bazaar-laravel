@@ -23,7 +23,8 @@ use Filament\Notifications\Auth\VerifyEmail;
 use Illuminate\Console\Scheduling\Event;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Database\Connection;
-use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Builder as EloquentBuilder;
+use Illuminate\Database\Query\Builder as QueryBuilder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Events\QueryExecuted;
 use Illuminate\Database\Schema\Blueprint;
@@ -85,7 +86,8 @@ final class AppServiceProvider extends ServiceProvider
         //        $this->configureVerifyEmail();
         $this->configureStringable();
         $this->configureCollection();
-        $this->configureBuilder();
+        $this->configureEloquentBuilder();
+        $this->configureQueryBuilder();
         $this->configureRoute();
         $this->configureBlueprint();
         $this->configureHttpClientResponse();
@@ -339,9 +341,18 @@ final class AppServiceProvider extends ServiceProvider
         });
     }
 
-    private function configureBuilder(): void
+    private function configureEloquentBuilder(): void
     {
-        Builder::macro('reserveFirstAvailable', fn (mixed $key, string|int|Carbon $duration = 60) => $this->get()->first(fn ($item) => $item->reserve($key, $duration)));
+        EloquentBuilder::macro('reserveFirstAvailable', fn (mixed $key, string|int|Carbon $duration = 60) => $this->get()->first(fn ($item) => $item->reserve($key, $duration)));
+    }
+
+    private function configureQueryBuilder(): void
+    {
+        QueryBuilder::macro('c2c', function () {
+            c2c($this->toRawSql())
+
+            return $this;
+        });
     }
 
     private function configureRoute(): void
