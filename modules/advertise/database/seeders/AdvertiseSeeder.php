@@ -36,7 +36,7 @@ final class AdvertiseSeeder extends Seeder
             ->for($parentCategories->random()->first(), 'parent')
             ->create();
 
-        Advertisement::factory(5)
+        Advertisement::factory(12)
             ->for($parentCategories->random()->first())
             ->has(AdvertisementNote::factory(2))
             ->has(Gallery::factory(2), 'images')
