@@ -26,6 +26,7 @@ use Illuminate\Database\Connection;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Events\QueryExecuted;
+use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Pipeline\Hub;
@@ -84,6 +85,7 @@ final class AppServiceProvider extends ServiceProvider
         $this->configureCollection();
         $this->configureBuilder();
         $this->configureRoute();
+        $this->configureBlueprint();
     }
 
     private function configureEmail(): void
@@ -340,5 +342,19 @@ final class AppServiceProvider extends ServiceProvider
         ];
 
         Route::macro('ignoreMissingBindings', fn () => $this->action['ignoreMissingBindings'] = true);
+    }
+
+    private function configureBlueprint(): void
+    {
+        Blueprint::macro('status', fn (string $default = 'inactive') => $this
+            ->enum('status', [
+                'active',
+                'inactive',
+                'blocked',
+                'archived',
+            ])
+            ->comment('general status column')
+            ->default($default)
+            ->index());
     }
 }
