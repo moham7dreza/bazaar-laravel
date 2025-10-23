@@ -23,7 +23,7 @@ class UserSuspendClearJob implements ShouldQueue
     public function handle(): void
     {
         User::query()
-            ->whereIn('id', $this->ids->toArray())
+            ->whereIntegerInRaw('id', $this->ids->toArray())
             ->update([
                 'suspended_until' => null,
             ]);

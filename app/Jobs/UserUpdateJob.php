@@ -36,7 +36,7 @@ final class UserUpdateJob implements ShouldQueue
     public function handle(): void
     {
         User::query()
-            ->whereIn('id', $this->ids)
+            ->whereIntegerInRaw('id', $this->ids)
             ->select('*') // select only needed columns
             ->each(function (User $user): void {
 

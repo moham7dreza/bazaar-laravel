@@ -36,7 +36,7 @@ final class AdvertisementSearchService
                     'description',
                     'tags',
                 ], 'like', '%' . $searchDTO->phrase . '%'))
-                ->when($searchDTO->ids, fn (Builder|Advertisement $builder) => $builder->whereIn('id', $searchDTO->ids))
+                ->when($searchDTO->ids, fn (Builder|Advertisement $builder) => $builder->whereIntegerInRaw('id', $searchDTO->ids))
                 ->when($searchDTO->sort, fn (Builder|Advertisement $builder) => $builder->sortBy($searchDTO->sort))
                 ->paginate($searchDTO->perPage)
                 ->withQueryString());
