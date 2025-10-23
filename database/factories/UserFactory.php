@@ -9,6 +9,9 @@ use App\Enums\Theme;
 use App\Models\Geo\City;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Http\Client\ConnectionException;
+use Illuminate\Http\Client\RequestException;
+use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Random\RandomException;
@@ -49,13 +52,12 @@ class UserFactory extends Factory
         })->afterCreating(function (User $user): void {
             if ( ! isEnvTesting())
             {
-                //                $response = Http::get('https://thispersondoesnotexist.com/');
-                //
-                //                $imageName = 'profile-pic.jpg';
-                Storage::disk(StorageDisk::PUBLIC->value)->put($user->avatar_url, file_get_contents(public_path($user->avatar_url)));
-                //                Storage::disk(StorageDisk::PUBLIC->value)->put("images/{$imageName}", $response->body());
-                //
-                //                $user->update(['avatar_url' => "images/{$imageName}"]);
+                // $this->getRealProfilePhotoFor($user);
+                Storage::disk(StorageDisk::PUBLIC->value)
+                    ->put(
+                        $user->avatar_url,
+                        file_get_contents(public_path($user->avatar_url))
+                    );
             }
         });
     }
@@ -84,5 +86,27 @@ class UserFactory extends Factory
             'suspended_at'    => now(),
             'suspended_until' => now()->addWeek(),
         ]);
+    }
+
+    /**
+     * TODO: fix method.
+     *
+     * @throws RequestException
+     * @throws ConnectionException
+     */
+    private function getRealProfilePhotoFor(User $user): void
+    {
+        $response = Http::retry(3, 100, fn ($e, $attempts) => $e instanceof ConnectionException)
+            ->timeout(5)
+            ->get('https://thispersondoesnotexist.com/');
+        $response->throw();
+
+        $imageName = 'profile-pic.jpg';
+        Storage::disk(StorageDisk::PUBLIC->value)
+            ->put(
+                "images/{$imageName}",
+                $response->body()
+            );
+        $user->update(['avatar_url' => "images/{$imageName}"]);
     }
 }
