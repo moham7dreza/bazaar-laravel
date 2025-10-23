@@ -6,8 +6,9 @@ namespace App\Data\DTOs;
 
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Collection;
+use Spatie\LaravelData\Data;
 
-final readonly class PaginatedListViewDTO
+final class PaginatedListViewDTO extends Data
 {
     public Collection $items;
 
