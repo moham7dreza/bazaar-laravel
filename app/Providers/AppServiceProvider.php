@@ -24,9 +24,9 @@ use Illuminate\Console\Scheduling\Event;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Database\Connection;
 use Illuminate\Database\Eloquent\Builder as EloquentBuilder;
-use Illuminate\Database\Query\Builder as QueryBuilder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Events\QueryExecuted;
+use Illuminate\Database\Query\Builder as QueryBuilder;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Http\Client\Response as HttpClientResponse;
 use Illuminate\Http\UploadedFile;
@@ -349,7 +349,7 @@ final class AppServiceProvider extends ServiceProvider
     private function configureQueryBuilder(): void
     {
         QueryBuilder::macro('c2c', function () {
-            c2c($this->toRawSql())
+            c2c($this->toRawSql());
 
             return $this;
         });

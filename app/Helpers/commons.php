@@ -171,6 +171,23 @@ if ( ! function_exists('c2c'))
     {
         $path = tempnam('', 'laravel:c2c');
         file_put_contents($path, $content);
-        Illuminate\Support\Facades\Process::run("pbcopy < {$path}; rm {$path};")->throw();
+        // macOS
+        if (PHP_OS_FAMILY === 'Darwin')
+        {
+        $command = "pbcopy < {$path}; rm {$path};";
+        }
+        elseif (PHP_OS_FAMILY === 'Linux')
+        {
+            // Try xclip first, then xsel
+            $command = "xclip -selection clipboard < {$path} 2>/dev/null || xsel --clipboard --input < {$path} 2>/dev/null; rm {$path};";
+        } elseif (PHP_OS_FAMILY === 'Windows')
+        {
+            $command = "clip < {$path} 2>/dev/null; rm {$path};";
+        } else
+        {
+            throw new RuntimeException('Unsupported operating system for clipboard operations');
+        }
+
+        Illuminate\Support\Facades\Process::run($command)->throw();
     }
 }
