@@ -35,6 +35,10 @@ class UserFactory extends Factory
             'mobile_verified_at' => now(),
             'city_id'            => City::factory(),
             'avatar_url'         => '/images/admin.jpg',
+            'secrets'            => [
+                'stripe'  => Str::random(32),
+                'open_ai' => Str::random(32),
+            ],
         ];
     }
 

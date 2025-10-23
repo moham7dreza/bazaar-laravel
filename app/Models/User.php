@@ -29,6 +29,7 @@ use Illuminate\Database\Eloquent\Attributes\Scope;
 use Illuminate\Database\Eloquent\Attributes\ScopedBy;
 use Illuminate\Database\Eloquent\Attributes\UseFactory;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Casts\AsEncryptedArrayObject;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -89,6 +90,7 @@ final class User extends Authenticatable implements
         'avatar_url',
         'last_login_at',
         'last_login_ip',
+        'secrets',
     ];
 
     protected $hidden = [
@@ -303,8 +305,9 @@ final class User extends Authenticatable implements
             'suspended_at'       => 'datetime',
             'suspended_until'    => 'datetime',
             //            'addresses' => \Illuminate\Database\Eloquent\Casts\AsCollection::of(\App\Data\ValueObjects\Address::class),
-            'domain' => 'integer',
-            'locale' => 'integer',
+            'domain'  => 'integer',
+            'locale'  => 'integer',
+            'secrets' => AsEncryptedArrayObject::class,
         ];
     }
 }
