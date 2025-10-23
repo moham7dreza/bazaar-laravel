@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "216051e5ab7afe378447e9da53b97e9f",
+    "content-hash": "a56160b7626507ddf1d595dbc980ac2e",
     "packages": [
         {
             "name": "afsakar/filament-otp-login",
@@ -9555,16 +9555,16 @@
         },
         {
             "name": "opcodesio/log-viewer",
-            "version": "v3.21.0",
+            "version": "v3.21.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/opcodesio/log-viewer.git",
-                "reference": "d244fb6307c37051f6e9e3ac880c72797eeb4c83"
+                "reference": "6dfa99c3a8c5ae128c6b7f2f0a4f026af7ca055c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/opcodesio/log-viewer/zipball/d244fb6307c37051f6e9e3ac880c72797eeb4c83",
-                "reference": "d244fb6307c37051f6e9e3ac880c72797eeb4c83",
+                "url": "https://api.github.com/repos/opcodesio/log-viewer/zipball/6dfa99c3a8c5ae128c6b7f2f0a4f026af7ca055c",
+                "reference": "6dfa99c3a8c5ae128c6b7f2f0a4f026af7ca055c",
                 "shasum": ""
             },
             "require": {
@@ -9627,7 +9627,7 @@
             ],
             "support": {
                 "issues": "https://github.com/opcodesio/log-viewer/issues",
-                "source": "https://github.com/opcodesio/log-viewer/tree/v3.21.0"
+                "source": "https://github.com/opcodesio/log-viewer/tree/v3.21.1"
             },
             "funding": [
                 {
@@ -9639,7 +9639,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2025-10-18T10:17:51+00:00"
+            "time": "2025-10-23T05:12:09+00:00"
         },
         {
             "name": "opcodesio/mail-parser",
@@ -19770,6 +19770,53 @@
             "time": "2025-08-14T07:29:31+00:00"
         },
         {
+            "name": "filament/upgrade",
+            "version": "v4.1.10",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/filamentphp/upgrade.git",
+                "reference": "72f47ecdf4972f84085f300f19da04b9c835f60c"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/filamentphp/upgrade/zipball/72f47ecdf4972f84085f300f19da04b9c835f60c",
+                "reference": "72f47ecdf4972f84085f300f19da04b9c835f60c",
+                "shasum": ""
+            },
+            "require": {
+                "nunomaduro/termwind": "^2.0",
+                "php": "^8.2",
+                "rector/rector": "^2.0"
+            },
+            "bin": [
+                "bin/filament-v4"
+            ],
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Filament\\Upgrade\\UpgradeServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Filament\\Upgrade\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "description": "Upgrade Filament v3 code to Filament v4.",
+            "homepage": "https://github.com/filamentphp/filament",
+            "support": {
+                "issues": "https://github.com/filamentphp/filament/issues",
+                "source": "https://github.com/filamentphp/filament"
+            },
+            "time": "2025-09-11T14:01:25+00:00"
+        },
+        {
             "name": "filp/whoops",
             "version": "2.18.4",
             "source": {
@@ -22254,16 +22301,16 @@
         },
         {
             "name": "rector/rector",
-            "version": "2.2.4",
+            "version": "2.2.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/rectorphp/rector.git",
-                "reference": "904f12f23858ef54ec5782b05cb2979b703cb185"
+                "reference": "fb9418af7777dfb1c87a536dc58398b5b07c74b9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/rectorphp/rector/zipball/904f12f23858ef54ec5782b05cb2979b703cb185",
-                "reference": "904f12f23858ef54ec5782b05cb2979b703cb185",
+                "url": "https://api.github.com/repos/rectorphp/rector/zipball/fb9418af7777dfb1c87a536dc58398b5b07c74b9",
+                "reference": "fb9418af7777dfb1c87a536dc58398b5b07c74b9",
                 "shasum": ""
             },
             "require": {
@@ -22302,7 +22349,7 @@
             ],
             "support": {
                 "issues": "https://github.com/rectorphp/rector/issues",
-                "source": "https://github.com/rectorphp/rector/tree/2.2.4"
+                "source": "https://github.com/rectorphp/rector/tree/2.2.5"
             },
             "funding": [
                 {
@@ -22310,7 +22357,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2025-10-22T07:50:23+00:00"
+            "time": "2025-10-23T11:22:37+00:00"
         },
         {
             "name": "roave/security-advisories",

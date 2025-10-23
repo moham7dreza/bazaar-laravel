@@ -499,3 +499,6 @@ health:
 	composer du
 	php artisan route:list
 	php artisan test
+
+fila-up:
+	vendor/bin/filament-v4
