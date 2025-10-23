@@ -21,7 +21,7 @@
 </head>
     <body>
     @php
-        $tools = collect(config('tools'))->except('tools')->toArray();
+        $tools = once(fn() => collect(config('tools'))->except('tools')->toArray());
     @endphp
     <div class="bg-white">
         <header class="absolute inset-x-0 top-0 z-40">
