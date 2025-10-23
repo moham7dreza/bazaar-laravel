@@ -3,6 +3,14 @@
 declare(strict_types=1);
 
 return [
+    'nightwatch' => [
+        'title'    => 'Nightwatch',
+        'url'      => 'https://nightwatch.laravel.com/us/environments/9f2c96aa-8c28-4e01-9385-a907a4853111/dashboard',
+        'heroicon' => 'heroicon-s-rocket-launch',
+        'icon'     => null,
+        'group'    => null,
+        'sort'     => 1,
+    ],
     'github' => [
         'title'    => 'Github',
         'url'      => 'https://github.com/moham7dreza',
