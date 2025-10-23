@@ -158,3 +158,19 @@ if ( ! function_exists('arrayKeySort'))
             ->toArray();
     }
 }
+
+if ( ! function_exists('c2c'))
+{
+    /**
+     * copy to clipboard.
+     *
+     * @param  string  $content
+     * @return void
+     */
+    function c2c(string $content): void
+    {
+        $path = tempnam('', 'laravel:c2c');
+        file_put_contents($path, $content);
+        Illuminate\Support\Facades\Process::run("pbcopy < {$path}; rm {$path};")->throw();
+    }
+}

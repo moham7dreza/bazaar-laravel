@@ -27,6 +27,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Events\QueryExecuted;
 use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Http\Client\Response as HttpClientResponse;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Pipeline\Hub;
@@ -52,6 +53,7 @@ use Illuminate\Validation\InvokableValidationRule;
 use Illuminate\Validation\Rules\Email;
 use Illuminate\Validation\Rules\Password;
 use Morilog\Jalali\Jalalian;
+use Throwable;
 
 final class AppServiceProvider extends ServiceProvider
 {
@@ -86,6 +88,7 @@ final class AppServiceProvider extends ServiceProvider
         $this->configureBuilder();
         $this->configureRoute();
         $this->configureBlueprint();
+        $this->configureHttp();
     }
 
     private function configureEmail(): void
@@ -327,6 +330,12 @@ final class AppServiceProvider extends ServiceProvider
     private function configureCollection(): void
     {
         Collection::macro('reserveFirstAvailable', fn (mixed $key, string|int|Carbon $duration = 60) => $this->first(fn ($item) => $item->reserve($key, $duration)));
+
+        Collection::macro('c2c', function () {
+            $this->toJson(JSON_PRETTY_PRINT);
+
+            return $this;
+        });
     }
 
     private function configureBuilder(): void
@@ -356,5 +365,20 @@ final class AppServiceProvider extends ServiceProvider
             ->comment('general status column')
             ->default($default)
             ->index());
+    }
+
+    private function configureHttpClientResponse(): void
+    {
+        HttpClientResponse::macro('c2c', function () {
+            try
+            {
+                $this->collect()->c2c();
+            } catch (Throwable)
+            {
+                c2c($this->body());
+            }
+
+            return $this;
+        });
     }
 }
