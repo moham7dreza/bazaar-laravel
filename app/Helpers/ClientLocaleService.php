@@ -11,6 +11,6 @@ class ClientLocaleService
 {
     public static function getUserLocaleWithFallback(User $user): ClientLocale
     {
-        return $user->getLocale() ?? ClientLocale::EN->value;
+        return $user->getLocale() ?? ClientLocale::EN;
     }
 }
