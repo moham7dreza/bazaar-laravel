@@ -6,15 +6,19 @@ namespace Modules\Content\Http\Controllers\App;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Resources\Json\ResourceCollection;
-use Modules\Content\Http\Resources\App\MenuResource;
 use Modules\Content\Models\Menu;
+use Throwable;
 
 final class MenuController extends Controller
 {
+    /**
+     * @throws Throwable
+     */
     public function index(): ResourceCollection
     {
-        $menus = Menu::query()->whereNull('parent_id')->get();
-
-        return $menus->toResourceCollection(MenuResource::class);
+        return Menu::query()
+            ->whereNull('parent_id')
+            ->get()
+            ->toResourceCollection();
     }
 }

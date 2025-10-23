@@ -6,13 +6,18 @@ namespace Modules\Content\Http\Controllers\App;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Resources\Json\ResourceCollection;
-use Modules\Content\Http\Resources\App\PageResource;
 use Modules\Content\Models\Page;
+use Throwable;
 
 final class PageController extends Controller
 {
+    /**
+     * @throws Throwable
+     */
     public function index(): ResourceCollection
     {
-        return Page::all()->toResourceCollection(PageResource::class);
+        return Page::query()
+            ->paginate(10)
+            ->toResourceCollection();
     }
 }

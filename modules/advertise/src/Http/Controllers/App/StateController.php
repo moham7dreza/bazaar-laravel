@@ -6,18 +6,20 @@ namespace Modules\Advertise\Http\Controllers\App;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Resources\Json\ResourceCollection;
-use Modules\Advertise\Http\Resources\App\StateResource;
 use Modules\Advertise\Models\State;
+use Throwable;
 
 final class StateController extends Controller
 {
     /**
      * Display a listing of the resource.
+     * @throws Throwable
      */
     public function index(): ResourceCollection
     {
-        $states = State::query()->whereNull('parent_id')->get();
-
-        return $states->toResourceCollection(StateResource::class);
+        return State::query()
+            ->whereNull('parent_id')
+            ->paginate(10)
+            ->toResourceCollection();
     }
 }

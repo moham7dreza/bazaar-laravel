@@ -22,10 +22,14 @@ final class AdvertisementController extends Controller
 {
     /**
      * Display a listing of the resource.
+     *
+     * @throws Throwable
      */
     public function index(): ResourceCollection
     {
-        return Advertisement::all()->toResourceCollection(AdvertisementResource::class);
+        return Advertisement::query()
+            ->get()
+            ->toResourceCollection(AdvertisementResource::class);
     }
 
     /**

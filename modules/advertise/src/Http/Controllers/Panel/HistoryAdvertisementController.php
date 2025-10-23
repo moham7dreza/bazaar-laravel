@@ -8,7 +8,6 @@ use App\Http\Controllers\Controller;
 use App\Http\Responses\ApiJsonResponse;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Resources\Json\ResourceCollection;
-use Modules\Advertise\Http\Resources\App\AdvertisementCollection;
 use Modules\Advertise\Models\Advertisement;
 use Throwable;
 
@@ -19,13 +18,12 @@ final class HistoryAdvertisementController extends Controller
      */
     public function index(): ResourceCollection
     {
-        $history = getUser()
+        return getUser()
             ?->viewedAdvertisements()
             ->with('category', 'city')
             ->latest('pivot_updated_at')
-            ->paginate(10);
-
-        return $history->toResourceCollection(AdvertisementCollection::class);
+            ->paginate(10)
+            ->toResourceCollection();
     }
 
     public function store(Advertisement $advertisement): JsonResponse

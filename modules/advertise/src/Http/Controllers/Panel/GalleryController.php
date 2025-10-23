@@ -12,8 +12,6 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Modules\Advertise\Http\Requests\App\StoreGalleryRequest;
 use Modules\Advertise\Http\Requests\App\UpdateGalleryRequest;
-use Modules\Advertise\Http\Resources\App\GalleryCollection;
-use Modules\Advertise\Http\Resources\App\GalleryResource;
 use Modules\Advertise\Models\Advertisement;
 use Modules\Advertise\Models\Gallery;
 use Throwable;
@@ -30,7 +28,7 @@ final class GalleryController extends Controller
         return Gallery::query()
             ->whereBelongsTo($advertisement)
             ->paginate(10)
-            ->toResourceCollection(GalleryCollection::class);
+            ->toResourceCollection();
     }
 
     /**
@@ -56,9 +54,7 @@ final class GalleryController extends Controller
             }
         }
 
-        $gallery = Gallery::create($inputs);
-
-        return $gallery->toResource(GalleryResource::class);
+        return Gallery::create($inputs)->toResource();
     }
 
     /**
@@ -68,7 +64,7 @@ final class GalleryController extends Controller
     {
         Gate::authorize('view', $gallery->advertisement);
 
-        return $gallery->toResource(GalleryResource::class);
+        return $gallery->toResource();
     }
 
     /**
@@ -104,7 +100,7 @@ final class GalleryController extends Controller
 
         $gallery->update($inputs);
 
-        return $gallery->toResource(GalleryResource::class);
+        return $gallery->toResource();
     }
 
     public function destroy(Gallery $gallery): JsonResponse

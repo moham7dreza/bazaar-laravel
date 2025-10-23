@@ -9,7 +9,6 @@ use App\Http\Responses\ApiJsonResponse;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Http\Resources\Json\ResourceCollection;
-use Modules\Advertise\Http\Resources\App\AdvertisementResource;
 use Modules\Advertise\Models\Advertisement;
 use Throwable;
 
@@ -20,12 +19,11 @@ final class FavoriteAdvertisementController extends Controller
      */
     public function index(): ResourceCollection
     {
-        $favorites = getUser()
+        return getUser()
             ?->favoriteAdvertisements()
             ->with('category', 'city')
-            ->paginate(10);
-
-        return $favorites->toResourceCollection(AdvertisementResource::class);
+            ->paginate(10)
+            ->toResourceCollection();
     }
 
     /**
@@ -43,7 +41,7 @@ final class FavoriteAdvertisementController extends Controller
 
         $user?->favoriteAdvertisements()->attach($advertisement->id);
 
-        return $advertisement->toResource(AdvertisementResource::class);
+        return $advertisement->toResource();
     }
 
     public function destroy(Advertisement $advertisement): JsonResponse

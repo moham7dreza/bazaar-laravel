@@ -32,9 +32,9 @@ class UserController extends Controller
             'email_verified_at'  => $request->has('is_active') ? now() : null,
         ]);
 
-        $user = User::create($request->validated());
-
-        return $user->toResource(UserResource::class);
+        return User::query()
+            ->create($request->validated())
+            ->toResource(UserResource::class);
     }
 
     /**

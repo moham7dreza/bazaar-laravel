@@ -7,21 +7,26 @@ namespace Modules\Advertise\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Http\Responses\ApiJsonResponse;
 use App\Services\Image\ImageService;
+use Illuminate\Http\Resources\Json\ResourceCollection;
 use Modules\Advertise\Http\Requests\Admin\StoreGalleryRequest;
 use Modules\Advertise\Http\Requests\Admin\UpdateGalleryRequest;
 use Modules\Advertise\Http\Resources\Admin\GalleryCollection;
 use Modules\Advertise\Http\Resources\Admin\GalleryResource;
 use Modules\Advertise\Models\Advertisement;
 use Modules\Advertise\Models\Gallery;
+use Throwable;
 
 final class GalleryController extends Controller
 {
     /**
      * Display a listing of the resource.
+     * @throws Throwable
      */
-    public function index(Advertisement $advertisement)
+    public function index(Advertisement $advertisement): ResourceCollection
     {
-        return $advertisement->images->toResourceCollection(GalleryCollection::class);
+        return $advertisement
+            ->images
+            ->toResourceCollection(GalleryCollection::class);
     }
 
     /**
@@ -38,9 +43,10 @@ final class GalleryController extends Controller
         {
             return ApiJsonResponse::error(500, message: __('response.image.upload failed'));
         }
-        $gallery = Gallery::create($inputs);
 
-        return $gallery->toResource(GalleryResource::class);
+        return Gallery::query()
+            ->create($inputs)
+            ->toResource(GalleryResource::class);
     }
 
     /**

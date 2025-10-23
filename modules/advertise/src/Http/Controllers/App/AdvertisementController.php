@@ -13,8 +13,6 @@ use Illuminate\Http\Resources\Json\ResourceCollection;
 use Illuminate\Support\Facades\Log;
 use Modules\Advertise\Http\Controllers\Panel\HistoryAdvertisementController;
 use Modules\Advertise\Http\Requests\App\AdvertisementGridViewRequest;
-use Modules\Advertise\Http\Resources\App\AdvertisementResource;
-use Modules\Advertise\Http\Resources\App\GalleryCollection;
 use Modules\Advertise\Models\Advertisement;
 use Modules\Advertise\Repositories\AdvertisementReadRepository;
 use Throwable;
@@ -32,7 +30,9 @@ final class AdvertisementController extends Controller
 
         $advertisements = app(AdvertisementReadRepository::class)->search($request->getDTO());
 
-        return $advertisements->items->toResourceCollection(AdvertisementResource::class);
+        return $advertisements
+            ->items
+            ->toResourceCollection();
     }
 
     public function show(Advertisement $advertisement): JsonResource|JsonResponse
@@ -63,11 +63,16 @@ final class AdvertisementController extends Controller
 
         $advertisement->refresh();
 
-        return $advertisement->toResource(AdvertisementResource::class);
+        return $advertisement->toResource();
     }
 
+    /**
+     * @throws Throwable
+     */
     public function gallery(Advertisement $advertisement): ResourceCollection
     {
-        return $advertisement->images->toResourceCollection(GalleryCollection::class);
+        return $advertisement
+            ->images
+            ->toResourceCollection();
     }
 }

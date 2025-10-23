@@ -7,14 +7,12 @@ namespace Modules\Advertise\Http\Controllers\Panel;
 use App\Http\Controllers\Controller;
 use App\Http\Responses\ApiJsonResponse;
 use App\Services\Image\ImageService;
-use Illuminate\Support\Facades\Gate;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Http\Resources\Json\ResourceCollection;
+use Illuminate\Support\Facades\Gate;
 use Modules\Advertise\Http\Requests\App\StoreAdvertisementRequest;
-use Modules\Advertise\Http\Resources\App\AdvertisementCollection;
-use Modules\Advertise\Http\Resources\App\AdvertisementResource;
 use Modules\Advertise\Models\Advertisement;
 use Throwable;
 
@@ -33,7 +31,7 @@ final class AdvertisementController extends Controller
         return Advertisement::query()
             ->forAuth()
             ->paginate(10)
-            ->toResourceCollection(AdvertisementResource::class);
+            ->toResourceCollection();
     }
 
     /**
@@ -74,9 +72,10 @@ final class AdvertisementController extends Controller
                 return ApiJsonResponse::error(500, message: 'خطا در اپلود عکس');
             }
         }
-        $ad = Advertisement::create($inputs);
 
-        return $ad->toResource(AdvertisementResource::class);
+        return Advertisement::query()
+            ->create($inputs)
+            ->toResource();
     }
 
     /**
@@ -88,7 +87,7 @@ final class AdvertisementController extends Controller
     {
         Gate::authorize('view', $advertisement);
 
-        return $advertisement->toResource(AdvertisementResource::class);
+        return $advertisement->toResource();
     }
 
     /**
@@ -140,7 +139,7 @@ final class AdvertisementController extends Controller
         }
         $advertisement->update($inputs);
 
-        return $advertisement->toResource(AdvertisementResource::class);
+        return $advertisement->toResource();
     }
 
     /**
