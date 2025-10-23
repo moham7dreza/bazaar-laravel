@@ -14,6 +14,8 @@ use Illuminate\Database\Eloquent\Attributes\Scope;
 use Illuminate\Database\Eloquent\Attributes\ScopedBy;
 use Illuminate\Database\Eloquent\Attributes\UseFactory;
 use Illuminate\Database\Eloquent\Attributes\UsePolicy;
+use Illuminate\Database\Eloquent\Attributes\UseResource;
+use Illuminate\Database\Eloquent\Attributes\UseResourceCollection;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -27,10 +29,14 @@ use Modules\Advertise\Database\Factories\AdvertisementFactory;
 use Modules\Advertise\Enums\AdvertisementStatus;
 use Modules\Advertise\Enums\AdvertisementType;
 use Modules\Advertise\Enums\Sort;
+use Modules\Advertise\Http\Resources\App\AdvertisementCollection;
+use Modules\Advertise\Http\Resources\App\AdvertisementResource;
 use Modules\Advertise\Policies\AdvertisementPolicy;
 
 #[UsePolicy(AdvertisementPolicy::class)]
 #[UseFactory(AdvertisementFactory::class)]
+#[UseResource(AdvertisementResource::class)]
+#[UseResourceCollection(AdvertisementCollection::class)]
 #[ScopedBy([LatestScope::class])]
 final class Advertisement extends Model
 {

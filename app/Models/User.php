@@ -17,6 +17,8 @@ use App\Enums\UserPermission;
 use App\Enums\UserRole;
 use App\Events\UserUpdatedEvent;
 use App\Helpers\ClientLocaleService;
+use App\Http\Resources\Admin\User\UserCollection;
+use App\Http\Resources\Admin\User\UserResource;
 use App\Models\Geo\City;
 use App\Models\Scopes\LatestScope;
 use Database\Factories\UserFactory;
@@ -28,6 +30,8 @@ use Illuminate\Contracts\Translation\HasLocalePreference;
 use Illuminate\Database\Eloquent\Attributes\Scope;
 use Illuminate\Database\Eloquent\Attributes\ScopedBy;
 use Illuminate\Database\Eloquent\Attributes\UseFactory;
+use Illuminate\Database\Eloquent\Attributes\UseResource;
+use Illuminate\Database\Eloquent\Attributes\UseResourceCollection;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Casts\AsEncryptedArrayObject;
 use Illuminate\Database\Eloquent\Casts\Attribute;
@@ -52,6 +56,8 @@ use Spatie\Activitylog\Traits\LogsActivity;
 use Spatie\Permission\Traits\HasRoles;
 
 #[UseFactory(UserFactory::class)]
+#[UseResource(UserResource::class)]
+#[UseResourceCollection(UserCollection::class)]
 #[ScopedBy([LatestScope::class])]
 final class User extends Authenticatable implements
     CanLoginDirectly,

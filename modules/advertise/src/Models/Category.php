@@ -9,6 +9,8 @@ use Cviebrock\EloquentSluggable\Sluggable;
 use Dyrynda\Database\Support\CascadeSoftDeletes;
 use Illuminate\Database\Eloquent\Attributes\ScopedBy;
 use Illuminate\Database\Eloquent\Attributes\UseFactory;
+use Illuminate\Database\Eloquent\Attributes\UseResource;
+use Illuminate\Database\Eloquent\Attributes\UseResourceCollection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -18,9 +20,13 @@ use Illuminate\Database\Eloquent\Relations\HasOneThrough;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Modules\Advertise\Database\Factories\CategoryFactory;
 use Modules\Advertise\Enums\AttributeType;
+use Modules\Advertise\Http\Resources\App\CategoryCollection;
+use Modules\Advertise\Http\Resources\App\CategoryResource;
 
 #[ScopedBy([LatestScope::class])]
 #[UseFactory(CategoryFactory::class)]
+#[UseResource(CategoryResource::class)]
+#[UseResourceCollection(CategoryCollection::class)]
 final class Category extends Model
 {
     // _____________________________________________ use SECTION ________________________________________________

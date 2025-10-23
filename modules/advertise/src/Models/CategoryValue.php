@@ -7,6 +7,8 @@ namespace Modules\Advertise\Models;
 use App\Models\Scopes\LatestScope;
 use Illuminate\Database\Eloquent\Attributes\ScopedBy;
 use Illuminate\Database\Eloquent\Attributes\UseFactory;
+use Illuminate\Database\Eloquent\Attributes\UseResource;
+use Illuminate\Database\Eloquent\Attributes\UseResourceCollection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -14,9 +16,13 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Modules\Advertise\Database\Factories\CategoryValueFactory;
 use Modules\Advertise\Enums\ValueType;
+use Modules\Advertise\Http\Resources\Admin\CategoryValueCollection;
+use Modules\Advertise\Http\Resources\Admin\CategoryValueResource;
 
 #[ScopedBy([LatestScope::class])]
 #[UseFactory(CategoryValueFactory::class)]
+#[UseResource(CategoryValueResource::class)]
+#[UseResourceCollection(CategoryValueCollection::class)]
 final class CategoryValue extends Model
 {
     // _____________________________________________ use SECTION ________________________________________________

@@ -8,15 +8,21 @@ use App\Models\Scopes\LatestScope;
 use Dyrynda\Database\Support\CascadeSoftDeletes;
 use Illuminate\Database\Eloquent\Attributes\ScopedBy;
 use Illuminate\Database\Eloquent\Attributes\UseFactory;
+use Illuminate\Database\Eloquent\Attributes\UseResource;
+use Illuminate\Database\Eloquent\Attributes\UseResourceCollection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Modules\Advertise\Database\Factories\StateFactory;
+use Modules\Advertise\Http\Resources\App\StateCollection;
+use Modules\Advertise\Http\Resources\App\StateResource;
 
 #[ScopedBy([LatestScope::class])]
 #[UseFactory(StateFactory::class)]
+#[UseResource(StateResource::class)]
+#[UseResourceCollection(StateCollection::class)]
 final class State extends Model
 {
     use CascadeSoftDeletes;

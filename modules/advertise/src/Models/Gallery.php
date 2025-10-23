@@ -9,6 +9,8 @@ use App\Models\Scopes\LatestScope;
 use Illuminate\Database\Eloquent\Attributes\ObservedBy;
 use Illuminate\Database\Eloquent\Attributes\ScopedBy;
 use Illuminate\Database\Eloquent\Attributes\UseFactory;
+use Illuminate\Database\Eloquent\Attributes\UseResource;
+use Illuminate\Database\Eloquent\Attributes\UseResourceCollection;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -17,11 +19,15 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\Storage;
 use Modules\Advertise\Database\Factories\GalleryFactory;
+use Modules\Advertise\Http\Resources\App\GalleryCollection;
+use Modules\Advertise\Http\Resources\App\GalleryResource;
 use Modules\Advertise\Observers\GalleryObserver;
 
 #[ScopedBy([LatestScope::class])]
 #[ObservedBy([GalleryObserver::class])]
 #[UseFactory(GalleryFactory::class)]
+#[UseResource(GalleryResource::class)]
+#[UseResourceCollection(GalleryCollection::class)]
 final class Gallery extends Model
 {
     // _____________________________________________ use SECTION ________________________________________________

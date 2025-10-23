@@ -8,14 +8,20 @@ use App\Models\Scopes\LatestScope;
 use Cviebrock\EloquentSluggable\Sluggable;
 use Illuminate\Database\Eloquent\Attributes\ScopedBy;
 use Illuminate\Database\Eloquent\Attributes\UseFactory;
+use Illuminate\Database\Eloquent\Attributes\UseResource;
+use Illuminate\Database\Eloquent\Attributes\UseResourceCollection;
 use Illuminate\Database\Eloquent\Casts\AsHtmlString;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Modules\Content\Database\Factories\PageFactory;
+use Modules\Content\Http\Resources\App\PageCollection;
+use Modules\Content\Http\Resources\App\PageResource;
 
-#[ScopedBy([LatestScope::class])]
 #[UseFactory(PageFactory::class)]
+#[UseResource(PageResource::class)]
+#[UseResourceCollection(PageCollection::class)]
+#[ScopedBy([LatestScope::class])]
 final class Page extends Model
 {
     // _____________________________________________ use SECTION ________________________________________________

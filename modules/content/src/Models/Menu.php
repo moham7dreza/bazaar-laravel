@@ -10,6 +10,8 @@ use Dyrynda\Database\Support\CascadeSoftDeletes;
 use Illuminate\Database\Eloquent\Attributes\Scope;
 use Illuminate\Database\Eloquent\Attributes\ScopedBy;
 use Illuminate\Database\Eloquent\Attributes\UseFactory;
+use Illuminate\Database\Eloquent\Attributes\UseResource;
+use Illuminate\Database\Eloquent\Attributes\UseResourceCollection;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Casts\AsUri;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -18,8 +20,12 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Modules\Content\Database\Factories\MenuFactory;
+use Modules\Content\Http\Resources\App\MenuCollection;
+use Modules\Content\Http\Resources\App\MenuResource;
 
 #[UseFactory(MenuFactory::class)]
+#[UseResource(MenuResource::class)]
+#[UseResourceCollection(MenuCollection::class)]
 #[ScopedBy([LatestScope::class])]
 final class Menu extends Model
 {

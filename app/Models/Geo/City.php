@@ -4,9 +4,13 @@ declare(strict_types=1);
 
 namespace App\Models\Geo;
 
+use App\Http\Resources\App\CityCollection;
+use App\Http\Resources\App\CityResource;
 use Database\Factories\Geo\CityFactory;
 use Illuminate\Database\Eloquent\Attributes\Scope;
 use Illuminate\Database\Eloquent\Attributes\UseFactory;
+use Illuminate\Database\Eloquent\Attributes\UseResource;
+use Illuminate\Database\Eloquent\Attributes\UseResourceCollection;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -15,6 +19,8 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Modules\Advertise\Models\Advertisement;
 
 #[UseFactory(CityFactory::class)]
+#[UseResource(CityResource::class)]
+#[UseResourceCollection(CityCollection::class)]
 final class City extends Model
 {
     // _____________________________________________ use SECTION ________________________________________________
