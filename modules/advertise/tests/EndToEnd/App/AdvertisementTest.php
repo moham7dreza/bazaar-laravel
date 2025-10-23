@@ -58,12 +58,13 @@ it('can show a single advertisement', function (): void {
 
 function assertAdv($data, $advertisement_id): void
 {
-    expect($data)->toHaveCount(27)
+    expect($data)->toHaveCount(28)
         ->id->toBe($advertisement_id)
         ->title->toBeString()
         ->description->toBeString()
         ->ads_type->toBeString()
         ->ads_status->toBeString()
+        ->user_id->toBeInt()
 //        ->allCategories->toBeArray() // have children
         ->category->toBeArray() // have children
         ->gallery->toBeArray() // have children

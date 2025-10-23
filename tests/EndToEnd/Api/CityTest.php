@@ -8,7 +8,7 @@ it('can get all active cities', function (): void {
 
     $city = City::factory()->create();
 
-    $response = $this->getJson(route('api.cities.index'))->assertOk();
+    $response = \Pest\Laravel\getJson(route('api.cities.index'))->assertOk();
 
     expect($response->json('data'))->toHaveLength(1);
 
