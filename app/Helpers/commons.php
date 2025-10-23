@@ -5,7 +5,8 @@ declare(strict_types=1);
 use App\Enums\Environment;
 use App\Enums\UserId;
 use App\Models\User;
-use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Builder as EloquentBuilder;
+use Illuminate\Database\Query\Builder as QueryBuilder;
 use Modules\Monitoring\Jobs\MongoLogJob;
 
 if ( ! function_exists('getUser'))
@@ -116,9 +117,9 @@ if ( ! function_exists('isEnvLocalOrTesting'))
 
 if ( ! function_exists('getSqlWithBindings'))
 {
-    function getSqlWithBindings(Builder $query): array
+    function getSqlWithBindings(EloquentBuilder|QueryBuilder $query): string
     {
-        return str_replace('?', $query->getBindings(), $query->toSql());
+        return str_replace_array('?', $query->getBindings(), $query->toSql());
     }
 }
 
