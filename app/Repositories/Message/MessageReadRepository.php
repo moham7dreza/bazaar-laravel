@@ -20,8 +20,8 @@ final class MessageReadRepository
             ->where(fn (Builder $builder) => $builder->whereNot('sender_id', $userId)
                 // this is necessary for get records which sender_id of them is null
                 ->orWhereNull('sender_id'))
-            ->canBeSeenBy($userId)
-            ->notSeenBy($userId)
+//            ->canBeSeenBy($userId)
+//            ->notSeenBy($userId)
             ->latest()
             ->paginate($perPage);
 
