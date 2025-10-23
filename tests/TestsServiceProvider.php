@@ -10,7 +10,9 @@ use Illuminate\Testing\TestResponse;
 
 final class TestsServiceProvider extends ServiceProvider
 {
-    public function register(): void {}
+    public function register(): void
+    {
+    }
 
     public function boot(): void
     {
@@ -23,7 +25,8 @@ final class TestsServiceProvider extends ServiceProvider
     {
         if ($this->isRunningTestsInParallel())
         {
-            ParallelTesting::setUpTestCase(function ($testCase, int $token): void {});
+            ParallelTesting::setUpTestCase(function ($testCase, int $token): void {
+            });
         }
     }
 

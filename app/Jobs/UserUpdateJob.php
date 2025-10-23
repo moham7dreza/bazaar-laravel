@@ -28,7 +28,7 @@ final class UserUpdateJob implements ShouldQueue
     {
         return [
             new FailOnException([
-                //
+
             ]),
         ];
     }

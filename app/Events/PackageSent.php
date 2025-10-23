@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Events;
 
 use Illuminate\Broadcasting\Channel;
@@ -16,7 +18,7 @@ class PackageSent implements ShouldBroadcast
         public string $status,
         public string $deliveryHandler
     ) {
-        //
+
     }
 
     public function broadcastOn(): array

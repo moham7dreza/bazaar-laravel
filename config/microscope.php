@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 return [
     /**
      * Will disable microscope if set to false.
@@ -63,6 +65,6 @@ return [
      * If you have additional composer.json files, you can list their file paths here.
      */
     'additional_composer_paths' => [
-        //
+
     ],
 ];

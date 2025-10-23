@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Helpers;
 
 use App\Enums\ClientDomain;
@@ -15,10 +17,11 @@ class ClientDomainService
 
     public static function getFallbackDomain(): ClientDomain
     {
-        return match (app()->environment()) {
+        return match (app()->environment())
+        {
             Environment::LOCAL->value, Environment::TESTING->value => ClientDomain::Local,
             Environment::STAGING->value => BaseUrlUtility::getBaseUrlForStaging(request()->host()),
-            default => ClientDomain::ProdIR,
+            default                     => ClientDomain::ProdIR,
         };
     }
 }

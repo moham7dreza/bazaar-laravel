@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Database\Factories;
 
 use App\Enums\PaymentGateways;
@@ -17,18 +19,19 @@ class PaymentGatewayFactory extends Factory
     public function definition(): array
     {
         return [
-            'gateway' => PaymentGateways::random(),
+            'gateway'    => PaymentGateways::random(),
             'owner_type' => fake()->randomElement([User::class]),
-            'owner_id' => function (array $attributes) {
-                return match ($attributes['owner_type']) {
+            'owner_id'   => function (array $attributes) {
+                return match ($attributes['owner_type'])
+                {
                     User::class => UserFactory::new()->create()->id,
                 };
             },
             'config' => [
-                'merchant_id' => fake()->uuid,
+                'merchant_id'  => fake()->uuid,
                 'callback_url' => fake()->url,
             ],
-            'status' => fake()->boolean,
+            'status'     => fake()->boolean,
             'sort_order' => fake()->numberBetween(1, 10),
         ];
     }

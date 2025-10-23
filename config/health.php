@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 return [
     /*
      * A result store is responsible for saving the results of the checks. The
@@ -8,8 +10,8 @@ return [
      */
     'result_stores' => [
         Spatie\Health\ResultStores\EloquentHealthResultStore::class => [
-            'connection' => env('HEALTH_DB_CONNECTION', env('DB_CONNECTION')),
-            'model' => Spatie\Health\Models\HealthCheckResultHistoryItem::class,
+            'connection'            => env('HEALTH_DB_CONNECTION', env('DB_CONNECTION')),
+            'model'                 => Spatie\Health\Models\HealthCheckResultHistoryItem::class,
             'keep_history_for_days' => 5,
         ],
 
@@ -53,14 +55,14 @@ return [
          * only get one notification per hour.
          */
         'throttle_notifications_for_minutes' => 60,
-        'throttle_notifications_key' => 'health:latestNotificationSentAt:',
+        'throttle_notifications_key'         => 'health:latestNotificationSentAt:',
 
         'mail' => [
             'to' => 'your@example.com',
 
             'from' => [
                 'address' => env('MAIL_FROM_ADDRESS', 'hello@example.com'),
-                'name' => env('MAIL_FROM_NAME', 'Example'),
+                'name'    => env('MAIL_FROM_NAME', 'Example'),
             ],
         ],
 

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 use App\Enums\Queue as QUEUE;
 use Illuminate\Support\Str;
 
@@ -57,7 +59,7 @@ return [
 
     'prefix' => env(
         'HORIZON_PREFIX',
-        Str::slug(env('APP_NAME', 'laravel'), '_').'_horizon:'
+        Str::slug(env('APP_NAME', 'laravel'), '_') . '_horizon:'
     ),
 
     /*
@@ -226,7 +228,7 @@ return [
             'mongo' => [
                 'connection' => 'redis',
                 'queue'      => [
-                    //
+
                 ],
                 'balance'   => 'false',
                 'processes' => 1,
@@ -236,7 +238,7 @@ return [
             'sms' => [
                 'connection' => 'redis',
                 'queue'      => [
-                    //
+
                 ],
                 'balance'         => 'auto',
                 'minProcesses'    => 1,
@@ -249,7 +251,7 @@ return [
             'sms-otp' => [
                 'connection' => 'redis',
                 'queue'      => [
-                    //
+
                 ],
                 'balance'         => 'auto',
                 'minProcesses'    => 1,

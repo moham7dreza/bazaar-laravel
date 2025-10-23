@@ -1,10 +1,13 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Data\ValueObjects;
 
 use App\Casts\AsAddress;
 use Illuminate\Contracts\Database\Eloquent\Castable;
 use Illuminate\Contracts\Support\Arrayable;
+use JsonException;
 use JsonSerializable;
 
 class Address implements Castable, Arrayable, JsonSerializable
@@ -29,7 +32,7 @@ class Address implements Castable, Arrayable, JsonSerializable
     }
 
     /**
-     * @throws \JsonException
+     * @throws JsonException
      */
     public function jsonSerialize(): mixed
     {

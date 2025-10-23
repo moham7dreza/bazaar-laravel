@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 return [
 
     /*
@@ -30,7 +32,7 @@ return [
     */
 
     'default' => [
-        'theme' => \App\Enums\Theme::DRACULA->value,
+        'theme'       => App\Enums\Theme::DRACULA->value,
         'theme_color' => 'blue',
     ],
 ];

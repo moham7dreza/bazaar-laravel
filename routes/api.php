@@ -39,7 +39,8 @@ use Modules\Content\Http\Controllers\App\PageController as HomePageController;
  *      for better finding routes with simple search
  *      and better categorize route sections and find them.
  */
-when(isEnvStaging(), function (): void {});
+when(isEnvStaging(), function (): void {
+});
 
 when(isEnvLocal(), static function (): void {
     Route::post('idempotency', static fn () => logger('idempotency passed'))

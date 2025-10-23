@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Enums;
 
 use App\Enums\Concerns\EnumDataListTrait;
@@ -10,16 +12,16 @@ enum PaymentGateways: int implements HasLabel
 {
     use EnumDataListTrait;
 
-    case ZARRIN_PAL = 1;
+    case ZARRIN_PAL    = 1;
     case ASAN_PARDAKHT = 2;
-    case BEH_PARDAKHT = 3;
+    case BEH_PARDAKHT  = 3;
 
     public function configInputs(): array
     {
-        $keys = config('payment-gateways.keys.'.$this->value);
+        $keys = config('payment-gateways.keys.' . $this->value);
 
         return array_map(function ($config, $key) {
-            $name = "config.$key";
+            $name  = "config.{$key}";
             $label = $config['label'] ?? $key;
             $rules = $config['rules'] ?? [];
 
@@ -32,6 +34,6 @@ enum PaymentGateways: int implements HasLabel
 
     public function getLabel(): ?string
     {
-        return __('payment-gateways.'.$this->value);
+        return __('payment-gateways.' . $this->value);
     }
 }

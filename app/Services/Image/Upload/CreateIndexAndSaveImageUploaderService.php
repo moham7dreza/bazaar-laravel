@@ -15,7 +15,8 @@ final readonly class CreateIndexAndSaveImageUploaderService implements ImageUplo
 {
     public function __construct(
         private ImageService $imageService,
-    ) {}
+    ) {
+    }
 
     public function handle(ImageUploadDTO $DTO): array|string|null
     {

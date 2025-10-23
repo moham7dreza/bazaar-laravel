@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 return [
 
     /*
@@ -69,8 +71,8 @@ return [
      */
     'widget' => [
         'enabled' => false,
-        'gate' => null,
-        'sort' => null,
+        'gate'    => null,
+        'sort'    => null,
     ],
 
     /*

@@ -13,7 +13,8 @@ class UpdateUserMobileAction extends Action
     public function __construct(
         public User $user,
         public readonly string $mobile,
-    ) {}
+    ) {
+    }
 
     public function handle(): User
     {

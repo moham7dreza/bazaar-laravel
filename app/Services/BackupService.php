@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Services;
 
 use App\Enums\StorageDisk;
@@ -18,12 +20,14 @@ class BackupService
      */
     public function downloadRemoteBackup(string $backupUrl, string $destinationPath): true
     {
-        try {
+        try
+        {
             $this->validateBackupUrl($backupUrl);
 
             $response = Http::timeout(300)->get($backupUrl);
 
-            if ($response->failed()) {
+            if ($response->failed())
+            {
                 throw new BackupDownloadException("Failed to retrieve backup from {$backupUrl}");
             }
 
@@ -40,7 +44,8 @@ class BackupService
 
             return true;
 
-        } catch (Exception $e) {
+        } catch (Exception $e)
+        {
             $this->logBackupError($backupUrl, $e->getMessage());
             throw new BackupProcessingException("Backup operation failed: {$e->getMessage()}");
         }
@@ -50,24 +55,29 @@ class BackupService
     {
         $results = [];
 
-        foreach ($mediaUrls as $url) {
+        foreach ($mediaUrls as $url)
+        {
             $filename = basename(parse_url($url, PHP_URL_PATH));
 
-            try {
+            try
+            {
                 $response = Http::get($url);
 
-                if ($response->successful()) {
+                if ($response->successful())
+                {
                     Storage::disk(StorageDisk::MEDIA->value)->writeStream(
                         "library/{$filename}",
                         $response->resource()
                     );
 
                     $results[$url] = 'success';
-                } else {
+                } else
+                {
                     $results[$url] = 'failed';
                 }
 
-            } catch (Exception $e) {
+            } catch (Exception $e)
+            {
                 $results[$url] = 'error: ' . $e->getMessage();
             }
         }
@@ -77,8 +87,9 @@ class BackupService
 
     private function validateBackupUrl(string $url): void
     {
-        if (!filter_var($url, FILTER_VALIDATE_URL)) {
-            throw new InvalidArgumentException("Invalid backup URL provided");
+        if ( ! filter_var($url, FILTER_VALIDATE_URL))
+        {
+            throw new InvalidArgumentException('Invalid backup URL provided');
         }
     }
 
@@ -89,20 +100,21 @@ class BackupService
     {
         $actualSize = Storage::disk(StorageDisk::BACKUPS->value)->size($path);
 
-        if ($expectedSize && $actualSize !== (int) $expectedSize) {
-            throw new BackupIntegrityException("File size mismatch during backup verification");
+        if ($expectedSize && $actualSize !== (int) $expectedSize)
+        {
+            throw new BackupIntegrityException('File size mismatch during backup verification');
         }
     }
 
-    private function logBackupCompletion(string $destinationPath)
+    private function logBackupCompletion(string $destinationPath): void
     {
     }
 
-    private function logBackupStart(string $backupUrl, string $fileSize)
+    private function logBackupStart(string $backupUrl, string $fileSize): void
     {
     }
 
-    private function logBackupError(string $backupUrl, string $getMessage)
+    private function logBackupError(string $backupUrl, string $getMessage): void
     {
     }
 }

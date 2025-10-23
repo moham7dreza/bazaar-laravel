@@ -1,11 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
-{
+return new class() extends Migration {
     /**
      * Run the migrations.
      */
@@ -16,7 +17,7 @@ return new class extends Migration
             $table->dateTime('mobile_verified_at')->nullable();
             $table->foreignId('city_id')->nullable()->constrained('cities');
             $table->tinyInteger('is_active')->default(0);
-            $table->tinyInteger('user_type')->default(\App\Models\User::TYPE_USER);
+            $table->tinyInteger('user_type')->default(App\Models\User::TYPE_USER);
             $table->timestamp('suspended_at')->nullable();
             $table->timestamp('suspended_until')->nullable();
             $table->string('avatar_url')->nullable();

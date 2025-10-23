@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Exceptions;
 
 use App\Http\Responses\ApiJsonResponse;
@@ -16,9 +18,11 @@ final class ApiJsonResponseException extends Exception implements Responsable
     {
         $this->status = $status;
 
-        if (empty($messages)) {
+        if (empty($messages))
+        {
             $this->messages = $this->getDefaultMessageForStatus($status);
-        } else {
+        } else
+        {
             $this->messages = $messages;
         }
 
@@ -32,7 +36,8 @@ final class ApiJsonResponseException extends Exception implements Responsable
 
     private function getDefaultMessageForStatus(int $status): array
     {
-        $message = match ($status) {
+        $message = match ($status)
+        {
             403     => trans('response.general.forbidden'),
             404     => trans('response.general.not-found'),
             default => null,

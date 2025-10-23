@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Resources\App;
 
 use Illuminate\Http\Request;
@@ -15,8 +17,8 @@ class CityResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
-            'id' => $this->id,
-            'name' => $this->name,
+            'id'     => $this->id,
+            'name'   => $this->name,
             'status' => $this->status,
         ];
     }

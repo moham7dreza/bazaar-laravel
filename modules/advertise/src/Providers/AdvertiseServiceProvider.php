@@ -22,7 +22,9 @@ final class AdvertiseServiceProvider extends ServiceProvider
         $this->setupSeeders();
     }
 
-    public function boot(): void {}
+    public function boot(): void
+    {
+    }
 
     private function setupSeeders(): void
     {

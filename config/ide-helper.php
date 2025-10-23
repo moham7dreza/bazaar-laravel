@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 return [
 
     /*
@@ -122,8 +124,8 @@ return [
     'include_helpers' => true,
 
     'helper_files' => [
-        base_path().'/vendor/laravel/framework/src/Illuminate/Support/helpers.php',
-        base_path().'/vendor/laravel/framework/src/Illuminate/Foundation/helpers.php',
+        base_path() . '/vendor/laravel/framework/src/Illuminate/Support/helpers.php',
+        base_path() . '/vendor/laravel/framework/src/Illuminate/Foundation/helpers.php',
     ],
 
     /*
@@ -183,7 +185,7 @@ return [
 
     'extra' => [
         'Eloquent' => ['Illuminate\Database\Eloquent\Builder', 'Illuminate\Database\Query\Builder'],
-        'Session' => ['Illuminate\Session\Store'],
+        'Session'  => ['Illuminate\Session\Store'],
     ],
 
     'magic' => [],

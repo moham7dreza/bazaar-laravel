@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Enums;
 
 use App\Enums\Concerns\EnumDataListTrait;
@@ -11,14 +13,14 @@ enum SMSGateways: int implements HasLabel
     use EnumDataListTrait;
 
     case KAVEHNEGAR = 1;
-    case SMS_IR = 2;
+    case SMS_IR     = 2;
 
     public function configInputs(): array
     {
-        $keys = config('sms-gateways.keys.'.$this->value);
+        $keys = config('sms-gateways.keys.' . $this->value);
 
         return array_map(function ($config, $key) {
-            $name = "config.$key";
+            $name  = "config.{$key}";
             $label = $config['label'] ?? $key;
             $rules = $config['rules'] ?? [];
 
@@ -31,6 +33,6 @@ enum SMSGateways: int implements HasLabel
 
     public function getLabel(): ?string
     {
-        return __('sms-gateways.'.$this->value);
+        return __('sms-gateways.' . $this->value);
     }
 }

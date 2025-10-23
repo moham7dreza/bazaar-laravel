@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\States\Order\Handler;
 
 use App\Enums\OrderState;
@@ -15,6 +17,11 @@ class OrderContext
         $this->state = new PendingState(); // وضعیت اولیه
     }
 
+    public function __toString(): string
+    {
+        return $this->getState()->value;
+    }
+
     public function setState(OrderStateInterface $state): void
     {
         $this->state = $state;
@@ -28,10 +35,5 @@ class OrderContext
     public function proceedToNext(): void
     {
         $this->state->proceedToNext($this);
-    }
-
-    public function __toString(): string
-    {
-        return $this->getState()->value;
     }
 }

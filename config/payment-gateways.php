@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 use App\Enums\PaymentGateways;
 
 return [
@@ -23,8 +25,8 @@ return [
         ],
         PaymentGateways::BEH_PARDAKHT->value => [
             'terminalId' => [],
-            'username' => [],
-            'password' => [],
+            'username'   => [],
+            'password'   => [],
         ],
     ],
 ];

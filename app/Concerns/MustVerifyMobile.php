@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Concerns;
 
 use App\Notifications\VerifyMobileNotification;
@@ -8,7 +10,7 @@ trait MustVerifyMobile
 {
     public function hasVerifiedMobile(): bool
     {
-        return ! is_null($this->mobile_verified_at);
+        return null !== $this->mobile_verified_at;
     }
 
     /**
@@ -26,7 +28,7 @@ trait MustVerifyMobile
      */
     public function sendMobileVerificationNotification(): void
     {
-        $this->notify(new VerifyMobileNotification);
+        $this->notify(new VerifyMobileNotification());
     }
 
     /**

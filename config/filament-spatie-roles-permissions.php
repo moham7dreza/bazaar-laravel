@@ -1,10 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 return [
 
     'resources' => [
-        'PermissionResource' => \Althinect\FilamentSpatieRolesPermissions\Resources\PermissionResource::class,
-        'RoleResource' => \Althinect\FilamentSpatieRolesPermissions\Resources\RoleResource::class,
+        'PermissionResource' => Althinect\FilamentSpatieRolesPermissions\Resources\PermissionResource::class,
+        'RoleResource'       => Althinect\FilamentSpatieRolesPermissions\Resources\RoleResource::class,
     ],
 
     'preload_roles' => true,
@@ -17,15 +19,15 @@ return [
 
     'scope_to_tenant' => true,
 
-    'scope_roles_to_tenant' => true,
+    'scope_roles_to_tenant'       => true,
     'scope_premissions_to_tenant' => false,
 
-    'super_admin_role_name' => \App\Enums\UserRole::ADMIN->value,
+    'super_admin_role_name' => App\Enums\UserRole::ADMIN->value,
 
     // Set as false to remove from navigation.
     'should_register_on_navigation' => [
         'permissions' => true,
-        'roles' => true,
+        'roles'       => true,
     ],
 
     'should_show_permissions_for_roles' => true,
@@ -33,13 +35,13 @@ return [
     // Set as true to use simple modal resource.
     'should_use_simple_modal_resource' => [
         'permissions' => false,
-        'roles' => false,
+        'roles'       => false,
     ],
 
     // Set as true to remove empty state actions.
     'should_remove_empty_state_actions' => [
         'permissions' => false,
-        'roles' => false,
+        'roles'       => false,
     ],
 
     /**
@@ -48,11 +50,11 @@ return [
     'should_redirect_to_index' => [
         'permissions' => [
             'after_create' => false,
-            'after_edit' => false,
+            'after_edit'   => false,
         ],
         'roles' => [
             'after_create' => false,
-            'after_edit' => false,
+            'after_edit'   => false,
         ],
     ],
 
@@ -61,8 +63,8 @@ return [
      */
     'should_display_relation_managers' => [
         'permissions' => true,
-        'users' => true,
-        'roles' => true,
+        'users'       => true,
+        'roles'       => true,
     ],
 
     /*
@@ -71,7 +73,7 @@ return [
      */
     'clusters' => [
         'permissions' => null,
-        'roles' => null,
+        'roles'       => null,
     ],
 
     'guard_names' => [
@@ -116,14 +118,14 @@ return [
 
     // Icons to use for navigation
     'icons' => [
-        'role_navigation' => 'heroicon-o-lock-closed',
+        'role_navigation'       => 'heroicon-o-lock-closed',
         'permission_navigation' => 'heroicon-o-lock-closed',
     ],
 
     // Navigation items order - int value, false  restores the default position
 
     'sort' => [
-        'role_navigation' => false,
+        'role_navigation'       => false,
         'permission_navigation' => false,
     ],
 
@@ -140,17 +142,17 @@ return [
              * Permissions Aligned with Policies.
              * DO NOT change the keys unless the genericPolicy.stub is published and altered accordingly
              */
-            'viewAnyPermission' => 'view-any',
-            'viewPermission' => 'view',
-            'createPermission' => 'create',
-            'updatePermission' => 'update',
-            'deletePermission' => 'delete',
-            'deleteAnyPermission' => 'delete-any',
-            'replicatePermission' => 'replicate',
-            'restorePermission' => 'restore',
-            'restoreAnyPermission' => 'restore-any',
-            'reorderPermission' => 'reorder',
-            'forceDeletePermission' => 'force-delete',
+            'viewAnyPermission'        => 'view-any',
+            'viewPermission'           => 'view',
+            'createPermission'         => 'create',
+            'updatePermission'         => 'update',
+            'deletePermission'         => 'delete',
+            'deleteAnyPermission'      => 'delete-any',
+            'replicatePermission'      => 'replicate',
+            'restorePermission'        => 'restore',
+            'restoreAnyPermission'     => 'restore-any',
+            'reorderPermission'        => 'reorder',
+            'forceDeletePermission'    => 'force-delete',
             'forceDeleteAnyPermission' => 'force-delete-any',
         ],
 
@@ -177,16 +179,16 @@ return [
 
         // Define custom_models
         'custom_models' => [
-            //
+
         ],
 
         // Define excluded_models
         'excluded_models' => [
-            //
+
         ],
 
         'excluded_policy_models' => [
-            \App\Models\User::class,
+            App\Models\User::class,
         ],
 
         // Define any other permission that should be synced with the DB
@@ -194,7 +196,7 @@ return [
             // 'view-log'
         ],
 
-        'user_model' => \App\Models\User::class,
+        'user_model' => App\Models\User::class,
 
         'user_model_class' => 'User',
 

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Responses;
 
 use App\Exceptions\ApiJsonResponseException;
@@ -15,7 +17,8 @@ final class ApiJsonResponse
         array|string $message = []
     ): JsonResponse {
 
-        if ($data instanceof Arrayable) {
+        if ($data instanceof Arrayable)
+        {
             $data = $data->toArray();
         }
 
@@ -67,7 +70,8 @@ final class ApiJsonResponse
         array|string $message = [],
     ): never {
 
-        if (is_string($message)) {
+        if (is_string($message))
+        {
             $message = [$message];
         }
 
@@ -81,7 +85,8 @@ final class ApiJsonResponse
         array|string $message = [],
     ): JsonResponse {
 
-        if (is_string($message)) {
+        if (is_string($message))
+        {
             $message = [$message];
         }
 

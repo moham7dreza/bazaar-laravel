@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Console\Commands\System;
 
 use Illuminate\Database\Console\Migrations\MigrateMakeCommand;

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Enums;
 
 use App\Enums\Concerns\EnumDataListTrait;
@@ -17,16 +19,6 @@ enum UserPermission: string
     case DESTROY_AD = 'destroy_ad';
     case PUBLISH_AD = 'publish_ad';
 
-    public function isAdminLevel(): bool
-    {
-        $permissions = [
-            self::SEE_PANEL,
-            self::MANAGE_USERS,
-        ];
-
-        return in_array($this, $permissions, true);
-    }
-
     public static function ads(): array
     {
         return [
@@ -36,5 +28,15 @@ enum UserPermission: string
             self::DESTROY_AD,
             self::PUBLISH_AD,
         ];
+    }
+
+    public function isAdminLevel(): bool
+    {
+        $permissions = [
+            self::SEE_PANEL,
+            self::MANAGE_USERS,
+        ];
+
+        return in_array($this, $permissions, true);
     }
 }

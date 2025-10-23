@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Enums;
 
 use App\Enums\Concerns\EnumDataListTrait;
@@ -8,8 +10,8 @@ enum RequestOs: string
 {
     use EnumDataListTrait;
 
-    case WEB = 'web';
-    case IOS = 'ios';
+    case WEB     = 'web';
+    case IOS     = 'ios';
     case ANDROID = 'android';
 
     public static function mobiles(): array

@@ -14,7 +14,8 @@ final readonly class SimpleImageUploaderService implements ImageUploader
 {
     public function __construct(
         private ImageService $imageService,
-    ) {}
+    ) {
+    }
 
     public function handle(ImageUploadDTO $DTO): array|string|null
     {

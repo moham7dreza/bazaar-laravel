@@ -2,7 +2,6 @@
 
 declare(strict_types=1);
 
-use App\Actions\User\UpdateUserMobileAction;
 use App\Actions\User\UpdateUserSecretAction;
 use App\Models\User;
 

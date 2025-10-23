@@ -39,7 +39,11 @@ final readonly class NotificationService
             ->sortByDesc('timestamp');
     }
 
-    private function validateEmail($email): void {}
+    private function validateEmail($email): void
+    {
+    }
 
-    private function dispatch($email, $message): void {}
+    private function dispatch($email, $message): void
+    {
+    }
 }

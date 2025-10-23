@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 use BezhanSalleh\FilamentExceptions\Models\Exception;
 
 return [
@@ -23,11 +25,11 @@ return [
     /** Icons to use for navigation (if enabled) and pills */
     'icons' => [
         'navigation' => 'heroicon-o-cpu-chip',
-        'exception' => 'heroicon-o-cpu-chip',
-        'headers' => 'heroicon-o-arrows-right-left',
-        'cookies' => 'heroicon-o-circle-stack',
-        'body' => 'heroicon-s-code-bracket',
-        'queries' => 'heroicon-s-circle-stack',
+        'exception'  => 'heroicon-o-cpu-chip',
+        'headers'    => 'heroicon-o-arrows-right-left',
+        'cookies'    => 'heroicon-o-circle-stack',
+        'body'       => 'heroicon-s-code-bracket',
+        'queries'    => 'heroicon-s-circle-stack',
     ],
 
     'is_globally_searchable' => false,

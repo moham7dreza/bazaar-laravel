@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 use Vormkracht10\Mails\Models\Mail;
 use Vormkracht10\Mails\Models\MailAttachment;
 use Vormkracht10\Mails\Models\MailEvent;
@@ -9,8 +11,8 @@ return [
     // Eloquent model to use for sent emails
 
     'models' => [
-        'mail' => Mail::class,
-        'event' => MailEvent::class,
+        'mail'       => Mail::class,
+        'event'      => MailEvent::class,
         'attachment' => MailAttachment::class,
     ],
 
@@ -18,15 +20,15 @@ return [
 
     'database' => [
         'tables' => [
-            'mails' => 'mails',
+            'mails'       => 'mails',
             'attachments' => 'mail_attachments',
-            'events' => 'mail_events',
-            'polymorph' => 'mailables',
+            'events'      => 'mail_events',
+            'polymorph'   => 'mailables',
         ],
 
         'pruning' => [
             'enabled' => true,
-            'after' => 30, // days
+            'after'   => 30, // days
         ],
     ],
 
@@ -71,11 +73,11 @@ return [
         // Track following events using webhooks from email provider
 
         'tracking' => [
-            'bounces' => true,
-            'clicks' => true,
-            'complaints' => true,
-            'deliveries' => true,
-            'opens' => true,
+            'bounces'      => true,
+            'clicks'       => true,
+            'complaints'   => true,
+            'deliveries'   => true,
+            'opens'        => true,
             'unsubscribes' => true,
         ],
 
@@ -83,8 +85,8 @@ return [
 
         'attachments' => [
             'enabled' => env('MAILS_LOGGING_ATTACHMENTS_ENABLED', true),
-            'disk' => env('FILESYSTEM_DISK', 'local'),
-            'root' => 'mails/attachments',
+            'disk'    => env('FILESYSTEM_DISK', 'local'),
+            'root'    => 'mails/attachments',
         ],
     ],
 
@@ -130,11 +132,11 @@ return [
         ],
 
         'complained' => [
-            //
+
         ],
 
         'unsent' => [
-            //
+
         ],
     ],
 

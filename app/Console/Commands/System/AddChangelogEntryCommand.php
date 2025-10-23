@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Console\Commands\System;
 
 use Carbon\Carbon;
@@ -52,24 +54,28 @@ class AddChangelogEntryCommand extends Command
         $this->newLine();
 
         // Get and validate datetime
-        $datetime = null;
+        $datetime        = null;
         $currentDatetime = Carbon::now()->format('Y-m-d H:i');
 
-        while ($datetime === null) {
+        while (null === $datetime)
+        {
             $datetimeInput = text(
                 label: 'Date and time [YYYY-MM-DD HH:MM]',
                 default: $currentDatetime,
-                validate: fn ($value) => match (true) {
+                validate: fn ($value) => match (true)
+                {
                     ! empty($value) && ! Carbon::canBeCreatedFromFormat($value, 'Y-m-d H:i') => 'Invalid format. Please use YYYY-MM-DD HH:MM format (e.g. 2023-12-31 14:30)',
-                    default => null
+                    default                                                                  => null
                 }
             );
 
-            try {
+            try
+            {
                 $datetime = empty($datetimeInput)
                     ? Carbon::now()
                     : Carbon::createFromFormat('Y-m-d H:i', $datetimeInput);
-            } catch (Exception $e) {
+            } catch (Exception $e)
+            {
                 error('Invalid datetime format. Please try again.');
                 $datetime = null;
             }
@@ -80,9 +86,10 @@ class AddChangelogEntryCommand extends Command
             label: 'Title of the change',
             placeholder: 'Be specific about what changed',
             required: true,
-            validate: fn ($value) => match (true) {
-                empty(trim($value)) => 'Title cannot be empty',
-                default => null
+            validate: fn ($value) => match (true)
+            {
+                empty(mb_trim($value)) => 'Title cannot be empty',
+                default                => null
             }
         );
 
@@ -108,18 +115,20 @@ class AddChangelogEntryCommand extends Command
         $jiraTicket = text(
             label: 'Jira Ticket',
             placeholder: 'PROJ-123 or full URL (leave empty if none)',
-            validate: fn ($value) => match (true) {
+            validate: fn ($value) => match (true)
+            {
                 ! empty($value) && ! $this->isValidJiraTicket($value) => 'Invalid Jira ticket format. Use PROJ-123 or full Jira URL',
-                default => null
+                default                                               => null
             }
         );
 
         $mergeRequest = text(
             label: 'Merge Request URL or number',
             placeholder: '5072 or full URL (leave empty if none)',
-            validate: fn ($value) => match (true) {
+            validate: fn ($value) => match (true)
+            {
                 ! empty($value) && ! $this->isValidMergeRequest($value) => 'Invalid format. Use MR number or full GitLab MR URL',
-                default => null
+                default                                                 => null
             }
         );
 
@@ -132,21 +141,22 @@ class AddChangelogEntryCommand extends Command
             label: 'Description of the change',
             placeholder: 'Describe what changed and why...',
             required: true,
-            validate: fn ($value) => match (true) {
-                empty(trim($value)) => 'Description cannot be empty',
-                default => null
+            validate: fn ($value) => match (true)
+            {
+                empty(mb_trim($value)) => 'Description cannot be empty',
+                default                => null
             }
         );
 
         // Format the entry
         $formattedDatetime = $datetime->format('Y-m-d H:i');
-        $entry = "\n\n### [$formattedDatetime] - $title\n\n";
-        $entry .= "- **Author**: $author\n";
-        $entry .= "- **Category**: $category\n";
-        $entry .= "- **Impact**: $impact\n";
-        $entry .= '- **Jira Ticket**: '.$this->formatJiraTicket($jiraTicket)."\n";
-        $entry .= '- **Merge Request**: '.$this->formatMergeRequest($mergeRequest)."\n";
-        $entry .= "\n$description\n";
+        $entry             = "\n\n### [{$formattedDatetime}] - {$title}\n\n";
+        $entry .= "- **Author**: {$author}\n";
+        $entry .= "- **Category**: {$category}\n";
+        $entry .= "- **Impact**: {$impact}\n";
+        $entry .= '- **Jira Ticket**: ' . $this->formatJiraTicket($jiraTicket) . "\n";
+        $entry .= '- **Merge Request**: ' . $this->formatMergeRequest($mergeRequest) . "\n";
+        $entry .= "\n{$description}\n";
         $entry .= "\n---";
 
         // Show preview and confirm
@@ -159,7 +169,8 @@ class AddChangelogEntryCommand extends Command
             no: 'No, discard it'
         );
 
-        if (! $confirmed) {
+        if ( ! $confirmed)
+        {
             warning('Changelog entry was NOT saved.');
 
             return;
@@ -168,7 +179,8 @@ class AddChangelogEntryCommand extends Command
         // Append to changelog file
         $changelogPath = base_path('CHANGELOG.md');
 
-        if (! File::exists($changelogPath)) {
+        if ( ! File::exists($changelogPath))
+        {
             error('CHANGELOG.md file not found in project root!');
 
             return;
@@ -181,12 +193,14 @@ class AddChangelogEntryCommand extends Command
     protected function isValidJiraTicket($input): bool
     {
         // Check for ticket format (PROJ-123)
-        if (preg_match('/^[A-Za-z]+-\d+$/', $input)) {
+        if (preg_match('/^[A-Za-z]+-\d+$/', $input))
+        {
             return true;
         }
 
         // Check for Jira URL format
-        if (filter_var($input, FILTER_VALIDATE_URL)) {
+        if (filter_var($input, FILTER_VALIDATE_URL))
+        {
             return (bool) preg_match('/\/browse\/[A-Za-z]+-\d+$/', $input);
         }
 
@@ -196,12 +210,14 @@ class AddChangelogEntryCommand extends Command
     protected function isValidMergeRequest($input): bool
     {
         // Check for MR number format (digits only)
-        if (is_numeric($input)) {
+        if (is_numeric($input))
+        {
             return true;
         }
 
         // Check for GitLab MR URL format
-        if (filter_var($input, FILTER_VALIDATE_URL)) {
+        if (filter_var($input, FILTER_VALIDATE_URL))
+        {
             return (bool) preg_match('/\/merge_requests\/\d+/', $input);
         }
 
@@ -210,19 +226,22 @@ class AddChangelogEntryCommand extends Command
 
     protected function formatJiraTicket($input): string
     {
-        if (empty($input)) {
+        if (empty($input))
+        {
             return '-';
         }
 
         // If it's already a URL, return as is
-        if (filter_var($input, FILTER_VALIDATE_URL)) {
+        if (filter_var($input, FILTER_VALIDATE_URL))
+        {
             return $input;
         }
 
         // If it's in PROJ-123 format, convert to URL
-        if (preg_match('/^([A-Za-z]+)-(\d+)$/', $input, $matches)) {
+        if (preg_match('/^([A-Za-z]+)-(\d+)$/', $input, $matches))
+        {
             $project = $matches[1];
-            $ticket = $matches[2];
+            $ticket  = $matches[2];
 
             return "https://your-jira-domain.com/browse/{$project}-{$ticket}";
         }
@@ -232,20 +251,23 @@ class AddChangelogEntryCommand extends Command
 
     protected function formatMergeRequest($input): string
     {
-        if (empty($input)) {
+        if (empty($input))
+        {
             return '-';
         }
 
         // Extract MR number if URL provided
-        if (preg_match('/merge_requests\/(\d+)/', $input, $matches)) {
+        if (preg_match('/merge_requests\/(\d+)/', $input, $matches))
+        {
             $mrNumber = $matches[1];
 
-            return "[!$mrNumber](https://github.com/moham7dreza/bazaar-laravel/pull/$mrNumber)";
+            return "[!{$mrNumber}](https://github.com/moham7dreza/bazaar-laravel/pull/{$mrNumber})";
         }
 
         // If numeric, format as MR link
-        if (is_numeric($input)) {
-            return "[!$input](https://github.com/moham7dreza/bazaar-laravel/pull/$input)";
+        if (is_numeric($input))
+        {
+            return "[!{$input}](https://github.com/moham7dreza/bazaar-laravel/pull/{$input})";
         }
 
         return $input;

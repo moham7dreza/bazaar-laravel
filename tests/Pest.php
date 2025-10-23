@@ -30,16 +30,12 @@ expect()->extend(
     }
 );
 
-expect()->extend('toContainPersianCharacters', function () {
-    return $this->toMatch(
-        '/[\x{0600}-\x{06FF}\x{FB8A}\x{067E}\x{0686}\x{06AF}\x{0698}\x{06A9}\x{06CC}]/u',
-        'String must contain at least one Persian character.'
-    );
-});
+expect()->extend('toContainPersianCharacters', fn () => $this->toMatch(
+    '/[\x{0600}-\x{06FF}\x{FB8A}\x{067E}\x{0686}\x{06AF}\x{0698}\x{06A9}\x{06CC}]/u',
+    'String must contain at least one Persian character.'
+));
 
-expect()->extend('toHaveNoPlaceholders', function () {
-    return $this->toBeString()->not()->toMatch('/:\w+/');
-});
+expect()->extend('toHaveNoPlaceholders', fn () => $this->toBeString()->not()->toMatch('/:\w+/'));
 
 // ****************************************************** methods
 

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Mail;
 
 use App\Enums\Queue;
@@ -46,7 +48,8 @@ class UserLandMail extends Mailable implements ShouldQueue
     public function attachments(): array
     {
         $publicFiles = [];
-        foreach ($this->files as $file) {
+        foreach ($this->files as $file)
+        {
             $publicFiles[] = public_path($file);
         }
 

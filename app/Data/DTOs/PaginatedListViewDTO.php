@@ -21,10 +21,10 @@ final readonly class PaginatedListViewDTO
 
     public function __construct(LengthAwarePaginator $paginator)
     {
-        $this->items = $paginator->getCollection();
-        $this->total = $paginator->total();
-        $this->perPage = $paginator->perPage();
+        $this->items       = $paginator->getCollection();
+        $this->total       = $paginator->total();
+        $this->perPage     = $paginator->perPage();
         $this->currentPage = $paginator->currentPage();
-        $this->lastPage = $paginator->lastPage();
+        $this->lastPage    = $paginator->lastPage();
     }
 }

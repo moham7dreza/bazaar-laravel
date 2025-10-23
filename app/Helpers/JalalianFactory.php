@@ -13,12 +13,14 @@ final readonly class JalalianFactory
     /**
      * Create a new Jalalian instance from a DateTimeInterface, Gregorian date string, or timestamp.
      *
-     * @param DateTimeInterface|string|int|null $date Must NOT be a Jalalian instance.
+     * @param  DateTimeInterface|string|int|null  $date  Must NOT be a Jalalian instance.
+     *
      * @throws RuntimeException If $date is a Jalalian instance or unsupported type.
      */
     public static function fromGregorian(mixed $date): ?Jalalian
     {
-        if (!is_null($date) && !is_string($date) && !is_int($date) && !($date instanceof DateTimeInterface)) {
+        if (null !== $date && ! is_string($date) && ! is_int($date) && ! ($date instanceof DateTimeInterface))
+        {
             throw new RuntimeException('$date must be a string, int, or DateTimeInterface instance.');
         }
 

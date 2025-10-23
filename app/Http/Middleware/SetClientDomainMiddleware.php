@@ -28,7 +28,7 @@ class SetClientDomainMiddleware
             return $next($request);
         }
 
-        $baseUrl = rtrim($baseUrl, '/');
+        $baseUrl = mb_rtrim($baseUrl, '/');
 
         $domain = ClientDomain::tryFrom($baseUrl)?->toNumber();
 

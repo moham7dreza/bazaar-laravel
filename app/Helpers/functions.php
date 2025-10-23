@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 function convertPersianToEnglish($number): array|string
 {
     $number = str_replace('۰', '0', $number);

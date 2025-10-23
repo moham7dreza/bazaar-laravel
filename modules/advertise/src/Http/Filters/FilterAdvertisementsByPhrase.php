@@ -14,7 +14,8 @@ class FilterAdvertisementsByPhrase implements Filter
 {
     public function __construct(
         private readonly Request $request,
-    ) {}
+    ) {
+    }
 
     public function handle(Builder|Relation $query, Closure $next)
     {

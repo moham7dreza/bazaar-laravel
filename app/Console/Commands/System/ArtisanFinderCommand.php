@@ -1,9 +1,13 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Console\Commands\System;
 
+use Exception;
 use Illuminate\Console\Command;
 use Illuminate\Support\Collection;
+use JsonException;
 
 use function Laravel\Prompts\confirm;
 use function Laravel\Prompts\error;
@@ -20,7 +24,7 @@ class ArtisanFinderCommand extends Command
     protected $description = 'Find artisan commands';
 
     /**
-     * @throws \JsonException
+     * @throws JsonException
      */
     public function handle(): int
     {
@@ -36,37 +40,43 @@ class ArtisanFinderCommand extends Command
         $commands    = collect($this->getApplication()?->all());
         $commandName = $this->getSuggestedCommandName($method, $commands);
 
-        if (! $this->isCommandValid($commands, $commandName)) {
+        if ( ! $this->isCommandValid($commands, $commandName))
+        {
             error('Command not found.');
 
             return self::FAILURE;
         }
 
         $command = $commands->get($commandName);
-        if (! $command) {
+        if ( ! $command)
+        {
             error('Command definition not found.');
 
             return self::FAILURE;
         }
 
-        if (! $this->confirmCommandClassPath($command)) {
+        if ( ! $this->confirmCommandClassPath($command))
+        {
             return self::FAILURE;
         }
 
         $commandParameters = $this->getCommandParameters($command);
-        info('Command parameters: '.json_encode($commandParameters, JSON_THROW_ON_ERROR));
+        info('Command parameters: ' . json_encode($commandParameters, JSON_THROW_ON_ERROR));
 
-        if (! confirm('Do you want to continue?')) {
+        if ( ! confirm('Do you want to continue?'))
+        {
             warning('Command execution cancelled.');
 
             return self::FAILURE;
         }
 
-        try {
+        try
+        {
             $this->call($commandName, $commandParameters);
 
             warning('Command execution successfully.');
-        } catch (\Exception $exception) {
+        } catch (Exception $exception)
+        {
             report($exception);
         }
 
@@ -75,13 +85,11 @@ class ArtisanFinderCommand extends Command
 
     private function getSuggestedCommandName(string $method, Collection $commands): string
     {
-        $input = $method === 'Exact Match' ? text('Search part of command') : null;
+        $input = 'Exact Match' === $method ? text('Search part of command') : null;
 
         $commandsTitles = $commands->keys()
             ->reject(fn (string $command) => $command === $this->signature)
-            ->when($input, function (Collection $commands) use ($input) {
-                return $commands->filter(fn ($command) => $this->matchesSearchTerms($command, $input));
-            })
+            ->when($input, fn (Collection $commands) => $commands->filter(fn ($command) => $this->matchesSearchTerms($command, $input)))
             ->values()
             ->toArray();
 
@@ -95,8 +103,10 @@ class ArtisanFinderCommand extends Command
 
     private function matchesSearchTerms(string $command, string $input): bool
     {
-        foreach (explode(' ', $input) as $term) {
-            if (! str_contains($command, $term)) {
+        foreach (explode(' ', $input) as $term)
+        {
+            if ( ! str_contains($command, $term))
+            {
                 return false;
             }
         }
@@ -113,9 +123,10 @@ class ArtisanFinderCommand extends Command
     {
         $commandClass = get_class($command);
         info("Command: {$command->getName()}");
-        warning("Class: $commandClass");
+        warning("Class: {$commandClass}");
 
-        if ($command->getDescription()) {
+        if ($command->getDescription())
+        {
             info("Description: {$command->getDescription()}");
         }
 
@@ -136,10 +147,10 @@ class ArtisanFinderCommand extends Command
 
     private function buildPlaceholderText($arguments, $options): string
     {
-        $argsList    = implode(' ', array_map(static fn ($arg) => $arg->getName().($arg->isRequired() ? '*' : ''), $arguments));
-        $optionsList = implode(' ', array_map(static fn ($opt) => '--'.$opt->getName().($opt->isValueRequired() ? '*' : ''), $options));
+        $argsList    = implode(' ', array_map(static fn ($arg) => $arg->getName() . ($arg->isRequired() ? '*' : ''), $arguments));
+        $optionsList = implode(' ', array_map(static fn ($opt) => '--' . $opt->getName() . ($opt->isValueRequired() ? '*' : ''), $options));
 
-        return trim("$argsList $optionsList");
+        return mb_trim("{$argsList} {$optionsList}");
     }
 
     private function getUserInput(string $placeholderText): array
@@ -157,17 +168,21 @@ class ArtisanFinderCommand extends Command
     {
         $commandParameters = [];
 
-        foreach (array_keys($arguments) as $index => $argName) {
+        foreach (array_keys($arguments) as $index => $argName)
+        {
             $argValue = $userValues[$index] ?? null;
-            if (! in_array($argValue, [null, '-', ''], true)) {
+            if ( ! in_array($argValue, [null, '-', ''], true))
+            {
                 $commandParameters[$argName] = str_contains($argValue, ',') ? explode(',', $argValue) : $argValue;
             }
         }
 
-        foreach (array_keys($options) as $index => $optName) {
+        foreach (array_keys($options) as $index => $optName)
+        {
             $optionValue = $userValues[count($arguments) + $index] ?? null;
-            if (! in_array($optionValue, [null, '-', ''], true)) {
-                $commandParameters['--'.$optName] = str_contains($optionValue, ',') ? explode(',', $optionValue) : $optionValue;
+            if ( ! in_array($optionValue, [null, '-', ''], true))
+            {
+                $commandParameters['--' . $optName] = str_contains($optionValue, ',') ? explode(',', $optionValue) : $optionValue;
             }
         }
 

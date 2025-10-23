@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Casts;
 
 use App\Data\ValueObjects\Address;
@@ -20,7 +22,8 @@ class AsAddress implements CastsAttributes, SerializesCastableAttributes
 
     public function set(Model $model, string $key, mixed $value, array $attributes): array
     {
-        if (! $value instanceof Address) {
+        if ( ! $value instanceof Address)
+        {
             throw new InvalidArgumentException('The given value is not an Address instance.');
         }
 

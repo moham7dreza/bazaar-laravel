@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Resources\Admin\User;
 
 use Illuminate\Http\Request;
@@ -15,7 +17,7 @@ class UserCollection extends ResourceCollection
     public function toArray(Request $request): array
     {
         return [
-            'data' => $this->collection,
+            'data'   => $this->collection,
             'status' => true,
         ];
     }

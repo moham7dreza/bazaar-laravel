@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Providers;
 
 use App\Faker;
@@ -11,7 +13,7 @@ class FakerServiceProvider extends ServiceProvider
 {
     public function register(): void
     {
-        $this->app->singleton(function (): \Faker\Generator {
+        $this->app->singleton(function (): Generator {
             $faker = Factory::create();
             $faker->addProvider(new Faker\ImageFakesProvider($faker));
             $faker->addProvider(new Faker\CommonFakesProvider($faker));
@@ -20,13 +22,13 @@ class FakerServiceProvider extends ServiceProvider
         });
 
         $this->app->bind(
-            Generator::class.':'.config('app.faker_locale'),
+            Generator::class . ':' . config('app.faker_locale'),
             Generator::class
         );
     }
 
     public function boot(): void
     {
-        //
+
     }
 }

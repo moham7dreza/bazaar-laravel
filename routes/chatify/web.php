@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * -----------------------------------------------------------------
  * NOTE : There is two routes has a name (user & group),

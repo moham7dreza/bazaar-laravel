@@ -20,6 +20,7 @@ final class GalleryController extends Controller
 {
     /**
      * Display a listing of the resource.
+     *
      * @throws Throwable
      */
     public function index(Advertisement $advertisement): ResourceCollection

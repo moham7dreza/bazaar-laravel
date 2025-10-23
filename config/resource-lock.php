@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 return [
 
     /*
@@ -14,7 +16,7 @@ return [
     */
 
     'models' => [
-        'User' => \App\Models\User::class,
+        'User' => App\Models\User::class,
         // 'ResourceLock' => null,
     ],
 
@@ -28,7 +30,7 @@ return [
     |
     */
     'resource' => [
-        'class' => \Kenepa\ResourceLock\Resources\LockResource::class,
+        'class' => Kenepa\ResourceLock\Resources\LockResource::class,
     ],
 
     /*
@@ -45,7 +47,7 @@ return [
 
     'unlocker' => [
         'limited_access' => false,
-        'gate' => \App\Enums\UserPermission::SEE_PANEL->value,
+        'gate'           => App\Enums\UserPermission::SEE_PANEL->value,
     ],
 
     /*
@@ -74,13 +76,13 @@ return [
     */
 
     'manager' => [
-        'navigation_badge' => false,
-        'navigation_icon' => 'heroicon-o-lock-closed',
-        'navigation_label' => 'Resource Lock Manager',
-        'plural_label' => 'Resource Locks',
-        'navigation_group' => 'Settings',
-        'navigation_sort' => 1,
-        'limited_access' => false,
+        'navigation_badge'           => false,
+        'navigation_icon'            => 'heroicon-o-lock-closed',
+        'navigation_label'           => 'Resource Lock Manager',
+        'plural_label'               => 'Resource Locks',
+        'navigation_group'           => 'Settings',
+        'navigation_sort'            => 1,
+        'limited_access'             => false,
         'should_register_navigation' => true,
         //        'gate' => ''
     ],
@@ -125,6 +127,6 @@ return [
    */
 
     'actions' => [
-        'get_resource_lock_owner_action' => \Kenepa\ResourceLock\Actions\GetResourceLockOwnerAction::class,
+        'get_resource_lock_owner_action' => Kenepa\ResourceLock\Actions\GetResourceLockOwnerAction::class,
     ],
 ];
