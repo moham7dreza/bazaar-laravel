@@ -23,6 +23,7 @@ final class AdvertisementSearchService
         ];
 
         return Pipeline::send($builder)
+            ->withinTransaction()
             ->through($filters)
             ->finally(function (): void {
                 info('search request log.', request()->all());
