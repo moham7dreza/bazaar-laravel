@@ -28,6 +28,7 @@ final class UserBatchUpdateCommand extends Command
         $jobs->each(function ($jobBatch): void {
             Bus::batch($jobBatch)
                 ->name('User Processing Batch')
+                ->allowFailures()
                 ->dispatch();
 
             info('Dispatched batch of 200 jobs');
