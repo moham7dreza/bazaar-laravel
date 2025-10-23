@@ -349,7 +349,7 @@ final class AppServiceProvider extends ServiceProvider
     private function configureQueryBuilder(): void
     {
         QueryBuilder::macro('c2c', function () {
-            c2c($this->toRawSql());
+            c2c(getSqlWithBindings($this));
 
             return $this;
         });
