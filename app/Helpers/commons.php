@@ -178,7 +178,7 @@ if ( ! function_exists('c2c'))
         }
         elseif (PHP_OS_FAMILY === 'Linux')
         {
-            // Try xclip first, then xsel
+            // Try xclip first, then xsel (sudo apt install xclip)
             $command = "xclip -selection clipboard < {$path} 2>/dev/null || xsel --clipboard --input < {$path} 2>/dev/null; rm {$path};";
         } elseif (PHP_OS_FAMILY === 'Windows')
         {
