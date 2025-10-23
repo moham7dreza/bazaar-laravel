@@ -20,6 +20,9 @@
     @endif
 </head>
     <body>
+    @php
+        $tools = collect(config('tools'))->except('tools')->toArray();
+    @endphp
     <div class="bg-white">
         <header class="absolute inset-x-0 top-0 z-40">
             <nav class="flex items-center justify-between p-6 lg:px-8" aria-label="Global">
@@ -48,7 +51,7 @@
                         <div class="absolute left-1/2 z-10 mt-5 flex w-screen max-w-max -translate-x-1/2 px-4">
                             <div class="w-screen max-w-md flex-auto overflow-hidden rounded-3xl bg-white text-sm/6 ring-1 shadow-lg ring-gray-900/5">
                                 <div class="p-4">
-                                    @foreach(collect(config('tools'))->except('tools')->toArray() as $tool)
+                                    @foreach($tools as $tool)
                                         <div class="group relative flex gap-x-6 rounded-lg p-4 hover:bg-gray-50">
                                             <div class="mt-1 flex size-11 flex-none items-center justify-center rounded-lg bg-gray-50 group-hover:bg-white">
                                                 <svg class="size-6 text-gray-600 group-hover:text-indigo-600" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true" data-slot="icon">
@@ -86,7 +89,7 @@
 
                 </div>
                 <div class="hidden lg:flex lg:flex-1 lg:justify-end">
-                    <a href="https://localhost:3000/login-register" target="_blank" class="text-sm/6 font-semibold text-gray-900">Log in <span aria-hidden="true">&rarr;</span></a>
+                    <a href="{{config('app.frontend_url')}}" target="_blank" class="text-sm/6 font-semibold text-gray-900">Log in <span aria-hidden="true">&rarr;</span></a>
                 </div>
             </nav>
             <!-- Mobile menu, show/hide based on menu open state. -->
@@ -109,14 +112,14 @@
                     <div class="mt-6 flow-root">
                         <div class="-my-6 divide-y divide-gray-500/10">
                             <div class="space-y-2 py-6">
-                                @foreach(collect(config('tools'))->except('backend-root')->toArray() as $tool)
+                                @foreach($tools as $tool)
                                     <a href="{{$tool['url']}}" class="-mx-3 block rounded-lg px-3 py-2 text-base/7 font-semibold text-gray-900 hover:bg-gray-50">
                                         {{trans($tool['title'])}}
                                     </a>
                                 @endforeach
                             </div>
                             <div class="py-6">
-                                <a href="https://localhost:3000/login-register" class="-mx-3 block rounded-lg px-3 py-2.5 text-base/7 font-semibold text-gray-900 hover:bg-gray-50">Log in</a>
+                                <a href="{{config('app.frontend_url')}}" class="-mx-3 block rounded-lg px-3 py-2.5 text-base/7 font-semibold text-gray-900 hover:bg-gray-50">Log in</a>
                             </div>
                         </div>
                     </div>
