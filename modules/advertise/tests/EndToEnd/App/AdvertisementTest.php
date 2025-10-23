@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Tests\EndToEnd\Api;
 
 use App\Models\User;
+use Illuminate\Support\Facades\DB;
 use Modules\Advertise\Enums\Sort;
 use Modules\Advertise\Models\Advertisement;
 use Modules\Advertise\Models\AdvertisementNote;
@@ -35,6 +36,9 @@ afterEach(function (): void {
 
 it('can get all advertisements', function (): void {
 
+    $queries = collect();
+    DB::listen($queries->push(...));
+
     $response = \Pest\Laravel\getJson(route('api.advertisements.index', [
         'title' => 'adv',
         'sort'  => Sort::NEWEST,
@@ -45,6 +49,8 @@ it('can get all advertisements', function (): void {
     $data = $response->json('data.0');
 
     assertAdv($data, $this->advertisement->id);
+
+    expect($queries)->toHaveCount(7);
 });
 
 it('can show a single advertisement', function (): void {
