@@ -48,7 +48,7 @@
                         <div class="absolute left-1/2 z-10 mt-5 flex w-screen max-w-max -translate-x-1/2 px-4">
                             <div class="w-screen max-w-md flex-auto overflow-hidden rounded-3xl bg-white text-sm/6 ring-1 shadow-lg ring-gray-900/5">
                                 <div class="p-4">
-                                    @foreach(collect(config('tools'))->except('backend-root')->toArray() as $tool)
+                                    @foreach(collect(config('tools'))->except('tools')->toArray() as $tool)
                                         <div class="group relative flex gap-x-6 rounded-lg p-4 hover:bg-gray-50">
                                             <div class="mt-1 flex size-11 flex-none items-center justify-center rounded-lg bg-gray-50 group-hover:bg-white">
                                                 <svg class="size-6 text-gray-600 group-hover:text-indigo-600" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true" data-slot="icon">
