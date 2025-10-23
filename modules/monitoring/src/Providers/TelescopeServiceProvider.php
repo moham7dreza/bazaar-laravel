@@ -17,7 +17,13 @@ final class TelescopeServiceProvider extends TelescopeApplicationServiceProvider
      */
     public function register(): void
     {
-        Telescope::night();
+       if (now()->isBetween(
+           today()->setTime(17, 0),
+           today()->addDay()->setTime(6, 0),
+       ))
+       {
+           Telescope::night();
+       }
 
         $this->hideSensitiveRequestDetails();
 
