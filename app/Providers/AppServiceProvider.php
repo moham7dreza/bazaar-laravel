@@ -334,25 +334,19 @@ final class AppServiceProvider extends ServiceProvider
     {
         Collection::macro('reserveFirstAvailable', fn (mixed $key, string|int|Carbon $duration = 60) => $this->first(fn ($item) => $item->reserve($key, $duration)));
 
-        Collection::macro('c2c', function () {
-            $this->toJson(JSON_PRETTY_PRINT);
-
-            return $this;
-        });
+        Collection::macro('c2c', fn () => $this->toJson(JSON_PRETTY_PRINT));
     }
 
     private function configureEloquentBuilder(): void
     {
         EloquentBuilder::macro('reserveFirstAvailable', fn (mixed $key, string|int|Carbon $duration = 60) => $this->get()->first(fn ($item) => $item->reserve($key, $duration)));
+
+        EloquentBuilder::macro('c2c', fn () => c2c(getSqlWithBindings($this)));
     }
 
     private function configureQueryBuilder(): void
     {
-        QueryBuilder::macro('c2c', function () {
-            c2c(getSqlWithBindings($this));
-
-            return $this;
-        });
+        QueryBuilder::macro('c2c', fn () => c2c(getSqlWithBindings($this)));
     }
 
     private function configureRoute(): void
