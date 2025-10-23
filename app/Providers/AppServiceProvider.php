@@ -88,7 +88,7 @@ final class AppServiceProvider extends ServiceProvider
         $this->configureBuilder();
         $this->configureRoute();
         $this->configureBlueprint();
-        $this->configureHttp();
+        $this->configureHttpClientResponse();
     }
 
     private function configureEmail(): void
@@ -123,6 +123,7 @@ final class AppServiceProvider extends ServiceProvider
     private function configureUrl(): void
     {
         URL::forceHttps(isEnvProduction());
+//        URL::useOrigin('');
     }
 
     private function configureHttp(): void
