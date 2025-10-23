@@ -63,7 +63,7 @@ final class AdvertisementController extends Controller
             }
 
             return $ad;
-        });
+        }, 3);
 
         dispatch(new ProcessNewAdvertisementJob($ad->id));
 
