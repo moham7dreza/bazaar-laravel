@@ -422,11 +422,12 @@ rectort: ## Run rector analysis
 rector: ## Run rector analysis and change files
 	vendor/bin/rector process
 
-checkup: ## Run necessary tools to check code and typesense
-	#make pintt
+checkup: ## Run necessary tools to check code and code style
+	make pintt
 	make checks
 	make rectort
 	make phpstan
+	make migrate-linter
 
 route-ls-v: ## Show list of routes that are registered by packages
 	php artisan route:list --only-vendor
@@ -502,3 +503,6 @@ health:
 
 fila-up:
 	vendor/bin/filament-v4
+
+migration-linter:
+	php artisan migrate:lint --generate-baseline

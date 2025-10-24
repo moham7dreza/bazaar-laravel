@@ -39,3 +39,4 @@ phpstan-baseline.neon
 *.log
 .DS_Store
 Thumbs.db
+migration-linter-baseline.json

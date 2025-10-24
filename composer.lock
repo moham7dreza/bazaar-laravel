@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "a56160b7626507ddf1d595dbc980ac2e",
+    "content-hash": "5d6be6fd2d556eb8f102918f71fd68d1",
     "packages": [
         {
             "name": "afsakar/filament-otp-login",
@@ -24360,6 +24360,73 @@
                 }
             ],
             "time": "2024-10-20T05:08:20+00:00"
+        },
+        {
+            "name": "sufyandev/laravel-migration-linter",
+            "version": "v1.1.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/muhammad-sufyan5/sufyan-laravel-migration-lint-package.git",
+                "reference": "be6b5f3929d655a2cf78b9390efb42b74e090e47"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/muhammad-sufyan5/sufyan-laravel-migration-lint-package/zipball/be6b5f3929d655a2cf78b9390efb42b74e090e47",
+                "reference": "be6b5f3929d655a2cf78b9390efb42b74e090e47",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^8.1|^8.2|^8.3",
+                "spatie/laravel-package-tools": "^1.16"
+            },
+            "conflict": {
+                "laravel/framework": "<10.0"
+            },
+            "require-dev": {
+                "laravel/framework": "^10.0|^11.0",
+                "laravel/pint": "^1.0",
+                "nunomaduro/larastan": "^2.9",
+                "orchestra/testbench": "^8.0|^9.0",
+                "pestphp/pest": "^3.0"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Sufyan\\MigrationLinter\\MigrationLinterServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Sufyan\\MigrationLinter\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Muhammad Sufyan",
+                    "email": "muhammadsufyanwebdeveloper@gmail.com"
+                }
+            ],
+            "description": "Static analyzer that lints Laravel migrations for risky patterns",
+            "homepage": "https://github.com/muhammad-sufyan5/laravel-migration-linter",
+            "keywords": [
+                "ci",
+                "database",
+                "laravel",
+                "linter",
+                "migrations",
+                "schema"
+            ],
+            "support": {
+                "issues": "https://github.com/muhammad-sufyan5/laravel-migration-linter/issues",
+                "source": "https://github.com/muhammad-sufyan5/laravel-migration-linter"
+            },
+            "time": "2025-10-22T08:53:14+00:00"
         },
         {
             "name": "ta-tikoma/phpunit-architecture-test",
