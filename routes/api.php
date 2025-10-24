@@ -73,7 +73,6 @@ Route::prefix('auth')
     ])
     ->group(function (): void {
         Route::post('register', RegisteredUserController::class)
-            ->middleware(['guest', 'throttle:5,1'])
             ->name('api.auth.register');
         Route::post('send-otp', RegisteredUserWithOTPController::class)
             ->name('api.auth.send-otp')
