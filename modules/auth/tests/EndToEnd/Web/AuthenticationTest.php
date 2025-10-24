@@ -4,11 +4,14 @@ declare(strict_types=1);
 
 use App\Models\User;
 
-test('users can authenticate using the login screen', function (): void {
-    $user = User::factory()->create();
+beforeEach(function (): void {
+    $this->user = User::factory()->create();
+});
 
-    $response = \Pest\Laravel\post('/login', [
-        'email'    => $user->email,
+test('users can authenticate using the login screen', function (): void {
+
+    $response = \Pest\Laravel\post(route('login'), [
+        'email'    => $this->user->email,
         'password' => 'password',
     ]);
 
@@ -17,10 +20,9 @@ test('users can authenticate using the login screen', function (): void {
 });
 
 test('users can not authenticate with invalid password', function (): void {
-    $user = User::factory()->create();
 
-    \Pest\Laravel\post('/login', [
-        'email'    => $user->email,
+    \Pest\Laravel\post(route('login'), [
+        'email'    => $this->user->email,
         'password' => 'wrong-password',
     ]);
 
@@ -28,9 +30,8 @@ test('users can not authenticate with invalid password', function (): void {
 });
 
 test('users can logout', function (): void {
-    $user = User::factory()->create();
 
-    $response = asUser($user)->post('/logout');
+    $response = asUser($this->user)->post(route('logout'));
 
     Pest\Laravel\assertGuest();
     $response->assertNoContent();
