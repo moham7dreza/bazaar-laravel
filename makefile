@@ -309,7 +309,7 @@ serve: ## Start basic servers
 		"php artisan reverb:start --debug" \
 		"php artisan serve --port=9000" \
 		"npm run dev" \
-		"php artisan schedule:work" \
+		"php artisan schedule:run-cronless" \
 		"php artisan pulse:work" \
 		"make next-dev" \
 		"php artisan pail" \
