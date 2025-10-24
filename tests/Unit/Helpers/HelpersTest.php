@@ -25,6 +25,28 @@ it('can make uri with options', function (): void {
         ->withQuery(['priority' => 'emergency']);
 
     expect($uri->value())->toBe('https://euhosting.com/support?customer=publicId&priority=emergency');
+
+    $logUrl = Uri::of('http://example.com/endpoint')
+        ->withPath('/api/long/path/resource')
+        ->toStringable()
+        ->limit(40)
+        ->toString();
+    expect($logUrl)->toBe('http://example.com/api/long/path/resourc...');
+
+    $masked = Uri::of('https://api.service.com/users/12345')
+        ->toStringable()
+        ->mask('*', -5, 5)
+        ->toString();
+    expect($masked)->toBe('https://api.service.com/users/*****');
+
+    $endpoint = Uri::of('http://api-service.com')
+        ->withPath('/users')
+        ->withQuery(['active' => 1, 'limit' => 25])
+        ->toStringable()
+        ->replace('/users', '/v2/users')
+        ->lower()
+        ->toString();
+    expect($endpoint)->toBe('http://api-service.com/v2/users?active=1&limit=25');
 });
 
 it('can easily handle plural of english word', function (): void {
