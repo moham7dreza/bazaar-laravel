@@ -23,6 +23,7 @@ use App\Models\Geo\City;
 use App\Models\Scopes\LatestScope;
 use Database\Factories\UserFactory;
 use DateTimeInterface;
+use DirectoryTree\Metrics\HasMetrics;
 use Filament\Models\Contracts\FilamentUser;
 use Filament\Models\Contracts\HasAvatar;
 use Filament\Panel;
@@ -71,6 +72,7 @@ final class User extends Authenticatable implements
     use HasApiTokens;
     use HasFactory;
     use HasLocks;
+    use HasMetrics;
     use HasRoles;
     use HasSchedules;
     use InteractWithSensitiveColumns;

@@ -38,3 +38,5 @@ Schedule::command('queue:work --tries=2 --stop-when-empty')
     ->after(fn () => cache()->decrement('queue:work'))
     ->when(fn () => cache('queue:work') <= 20);
 */
+
+Schedule::command('metrics:commit')->hourly();
