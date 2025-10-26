@@ -54,6 +54,7 @@ use Modules\Advertise\Models\AdvertisementNote;
 use Spatie\Activitylog\LogOptions;
 use Spatie\Activitylog\Traits\LogsActivity;
 use Spatie\Permission\Traits\HasRoles;
+use Zap\Models\Concerns\HasSchedules;
 
 #[UseFactory(UserFactory::class)]
 #[UseResource(UserResource::class)]
@@ -71,6 +72,7 @@ final class User extends Authenticatable implements
     use HasFactory;
     use HasLocks;
     use HasRoles;
+    use HasSchedules;
     use InteractWithSensitiveColumns;
     use LogsActivity;
     use MustVerifyMobile;

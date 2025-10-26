@@ -37,6 +37,7 @@
         "laravel/reverb": "^1.5",
         "laravel/sanctum": "^4.0",
         "laravel/tinker": "^2.0",
+        "laraveljutsu/zap": "^1.4",
         "modules/advertise": "*",
         "modules/auth": "*",
         "modules/content": "*",
