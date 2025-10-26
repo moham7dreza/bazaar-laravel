@@ -7,6 +7,7 @@ namespace Modules\Advertise\Models;
 use App\Concerns\ClearsResponseCache;
 use App\Models\Geo\City;
 use App\Models\Scopes\LatestScope;
+use App\Models\Traits\Attributable;
 use App\Models\User;
 use Cviebrock\EloquentSluggable\Sluggable;
 use Dyrynda\Database\Support\CascadeSoftDeletes;
@@ -40,6 +41,7 @@ use Modules\Advertise\Policies\AdvertisementPolicy;
 #[ScopedBy([LatestScope::class])]
 final class Advertisement extends Model
 {
+    use Attributable;
     use CascadeSoftDeletes;
     use ClearsResponseCache;
     use HasFactory;
