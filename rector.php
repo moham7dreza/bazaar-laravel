@@ -64,4 +64,6 @@ return RectorConfig::configure()
         //        RectorLaravel\Rector\StaticCall\RequestStaticValidateToInjectRector::class,
         RectorLaravel\Rector\StaticCall\RouteActionCallableRector::class,
         RectorLaravel\Rector\MethodCall\UseComponentPropertyWithinCommandsRector::class,
+        RectorLaravel\Rector\Class_\UseForwardsCallsTraitRector::class,
+        RectorLaravel\Rector\MethodCall\WhereToWhereLikeRector::class,
     ]);
