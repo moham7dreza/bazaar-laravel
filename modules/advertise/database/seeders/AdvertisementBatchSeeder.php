@@ -94,7 +94,7 @@ class AdvertisementBatchSeeder extends Seeder
                     'published_at' => fake()->dateTimeBetween('now', '+2 months'),
                     'expired_at'   => fake()->boolean(40) ? fake()->dateTimeBetween('+2 months', '+4 months') : null,
                     'contact'      => fake()->phoneNumber(),
-                    'image'        => fake()->imageUrl(),
+                    'image'        => fake()->imageUrl(200, 200, 'people'),
                     'price'        => fake()->randomFloat(2, 10),
                     'tags'         => fake()->tags(),
                     'lat'          => fake()->latitude(),

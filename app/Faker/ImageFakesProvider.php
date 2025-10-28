@@ -20,7 +20,7 @@ final class ImageFakesProvider extends Base
                 ImageSize::MEDIUM->value => 'images/admin.jpg',
                 ImageSize::SMALL->value  => 'images/admin.jpg',
             ],
-            'directory'    => $this->generator->directory,
+            'directory'    => $this->generator->directory(),
             'currentImage' => ImageSize::MEDIUM->value,
         ];
     }
