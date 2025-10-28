@@ -35,9 +35,9 @@ return RectorConfig::configure()
         RectorLaravel\Set\LaravelSetList::LARAVEL_FACADE_ALIASES_TO_FULL_NAMES,
         RectorLaravel\Set\LaravelSetList::LARAVEL_FACTORIES,
         RectorLaravel\Set\LaravelSetList::LARAVEL_IF_HELPERS,
-        //        RectorLaravel\Set\LaravelSetList::LARAVEL_LEGACY_FACTORIES_TO_CLASSES,
-        //        RectorLaravel\Set\LaravelSetList::LARAVEL_STATIC_TO_INJECTION,
-        //        RectorLaravel\Set\LaravelSetList::LARAVEL_TESTING,
+        RectorLaravel\Set\LaravelSetList::LARAVEL_LEGACY_FACTORIES_TO_CLASSES,
+        //                RectorLaravel\Set\LaravelSetList::LARAVEL_STATIC_TO_INJECTION,
+        RectorLaravel\Set\LaravelSetList::LARAVEL_TESTING,
         //        RectorLaravel\Set\LaravelSetList::LARAVEL_TYPE_DECLARATIONS,
     ])
     ->withRules([

@@ -18,8 +18,7 @@ it('role is required when sync permissions', function (): void {
         'permissions' => [
             UserPermission::MANAGE_USERS,
         ],
-    ])
-        ->assertStatus(422)
+    ])->assertUnprocessable()
         ->assertJsonValidationErrors(['role'])
         ->assertJsonMissingValidationErrors(['permissions'])
         ->assertOnlyJsonValidationErrors(['role']);
