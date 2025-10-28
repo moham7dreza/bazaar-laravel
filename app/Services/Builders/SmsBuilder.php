@@ -184,7 +184,7 @@ final class SmsBuilder
     {
         $rawMessage = __($this->messageKey, locale: $this->locale->value);
         preg_match_all('/:([a-zA-Z0-9_]+)/', $rawMessage, $matches);
-        $placeholders  = $matches[1];
+        $placeholders  = \Illuminate\Support\Arr::get($matches, 1);
         $missingParams = array_diff($placeholders, array_keys($this->messageParams));
 
         throw_unless(empty($missingParams), RuntimeException::class, "Missing parameters for {$this->messageKey}: " . implode(', ', $missingParams));

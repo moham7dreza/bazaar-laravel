@@ -26,7 +26,7 @@ final class Sort
         {
             $sortOrder = 'ASC';
 
-            if ('-' === $sortField[0])
+            if ('-' === \Illuminate\Support\Arr::get($sortField, 0))
             {
                 $sortOrder = 'DESC';
                 $sortField = mb_substr($sortField, 1);

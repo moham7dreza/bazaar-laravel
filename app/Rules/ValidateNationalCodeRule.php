@@ -54,7 +54,7 @@ class ValidateNationalCodeRule implements ValidationRule
                 $lastDigit = 11 - ($divideRemaining);
             }
 
-            if ((int) $nationalCode[9] !== $lastDigit)
+            if ((int) \Illuminate\Support\Arr::get($nationalCode, 9) !== $lastDigit)
             {
                 $fail(trans('validation.national_code', ['attribute' => $attribute]));
             }

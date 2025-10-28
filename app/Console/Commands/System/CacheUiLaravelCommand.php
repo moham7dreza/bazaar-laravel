@@ -186,7 +186,7 @@ final class CacheUiLaravelCommand extends Command
                     $data = unserialize($serialized);
                     if (is_array($data) && isset($data['key']))
                     {
-                        $keys[] = $data['key'];
+                        $keys[] = \Illuminate\Support\Arr::get($data, 'key');
                     } else
                     {
                         // Fallback to filename if we can't extract the key

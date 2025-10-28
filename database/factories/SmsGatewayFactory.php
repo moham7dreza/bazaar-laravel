@@ -22,7 +22,7 @@ class SmsGatewayFactory extends Factory
             'gateway'    => SMSGateways::random(),
             'owner_type' => fake()->randomElement([User::class]),
             'owner_id'   => function (array $attributes) {
-                return match ($attributes['owner_type'])
+                return match (\Illuminate\Support\Arr::get($attributes, 'owner_type'))
                 {
                     User::class => UserFactory::new()->create()->id,
                 };

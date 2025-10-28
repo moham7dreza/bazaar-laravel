@@ -53,10 +53,10 @@ final class CacheAnalyticsService
     {
         DB::table('cache_analytics')->insert([
             'operation_type' => $operation,
-            'cache_key'      => $metadata['cache_key'],
-            'store_name'     => $metadata['store'],
-            'expiry_time'    => $metadata['expiry_seconds'] ?? null,
-            'recorded_at'    => $metadata['timestamp'],
+            'cache_key'      => \Illuminate\Support\Arr::get($metadata, 'cache_key'),
+            'store_name'     => \Illuminate\Support\Arr::get($metadata, 'store'),
+            'expiry_time'    => \Illuminate\Support\Arr::get($metadata, 'expiry_seconds', null),
+            'recorded_at'    => \Illuminate\Support\Arr::get($metadata, 'timestamp'),
         ]);
     }
 }

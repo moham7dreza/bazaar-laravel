@@ -29,7 +29,7 @@ class UserLandMail extends Mailable implements ShouldQueue
     public function envelope(): Envelope
     {
         return new Envelope(
-            from: new Address($this->from[0]['address'], $this->from[0]['name']),
+            from: new Address(\Illuminate\Support\Arr::get($this->from, '0.address'), \Illuminate\Support\Arr::get($this->from, '0.name')),
             subject: $this->subject,
         );
     }
@@ -39,8 +39,8 @@ class UserLandMail extends Mailable implements ShouldQueue
         return new Content(
             view: 'mail',
             with: [
-                'subject' => $this->details['subject'],
-                'body'    => $this->details['body'],
+                'subject' => \Illuminate\Support\Arr::get($this->details, 'subject'),
+                'body'    => \Illuminate\Support\Arr::get($this->details, 'body'),
             ]
         );
     }

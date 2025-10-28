@@ -240,8 +240,8 @@ class AddChangelogEntryCommand extends Command
         // If it's in PROJ-123 format, convert to URL
         if (preg_match('/^([A-Za-z]+)-(\d+)$/', $input, $matches))
         {
-            $project = $matches[1];
-            $ticket  = $matches[2];
+            $project = \Illuminate\Support\Arr::get($matches, 1);
+            $ticket  = \Illuminate\Support\Arr::get($matches, 2);
 
             return "https://your-jira-domain.com/browse/{$project}-{$ticket}";
         }
@@ -259,7 +259,7 @@ class AddChangelogEntryCommand extends Command
         // Extract MR number if URL provided
         if (preg_match('/merge_requests\/(\d+)/', $input, $matches))
         {
-            $mrNumber = $matches[1];
+            $mrNumber = \Illuminate\Support\Arr::get($matches, 1);
 
             return "[!{$mrNumber}](https://github.com/moham7dreza/bazaar-laravel/pull/{$mrNumber})";
         }

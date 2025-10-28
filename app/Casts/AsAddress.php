@@ -15,8 +15,8 @@ class AsAddress implements CastsAttributes, SerializesCastableAttributes
     public function get(Model $model, string $key, mixed $value, array $attributes): Address
     {
         return new Address(
-            $attributes['address_line_one'],
-            $attributes['address_line_two']
+            \Illuminate\Support\Arr::get($attributes, 'address_line_one'),
+            \Illuminate\Support\Arr::get($attributes, 'address_line_two')
         );
     }
 

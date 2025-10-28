@@ -19,7 +19,7 @@ final class CheckVulnerabilitiesCommand extends Command
      */
     public function handle(): int
     {
-        $vulnerabilities = json_decode(shell_exec('composer audit --format=json'), true, 512, JSON_THROW_ON_ERROR)['advisories'] ?? [];
+        $vulnerabilities = \Illuminate\Support\Arr::get(json_decode(shell_exec('composer audit --format=json'), true, 512, JSON_THROW_ON_ERROR), 'advisories', []);
 
         if (count($vulnerabilities) > 0)
         {

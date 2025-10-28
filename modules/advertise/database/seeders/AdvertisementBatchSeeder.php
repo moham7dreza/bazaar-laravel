@@ -51,7 +51,7 @@ class AdvertisementBatchSeeder extends Seeder
 
         foreach ($users as $user)
         {
-            $userId = $user['id'];
+            $userId = \Illuminate\Support\Arr::get($user, 'id');
             $this->command->info("user {$userId} is processing");
             // need for check ad depth
             //            $userAdIds = [];

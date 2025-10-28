@@ -25,6 +25,7 @@ return RectorConfig::configure()
     )
     ->withSets([
         RectorLaravel\Set\LaravelLevelSetList::UP_TO_LARAVEL_120,
+        RectorLaravel\Set\LaravelSetList::ARRAY_STR_FUNCTIONS_TO_STATIC_CALL,
         RectorLaravel\Set\LaravelSetList::LARAVEL_120,
         RectorLaravel\Set\LaravelSetList::LARAVEL_ARRAYACCESS_TO_METHOD_CALL,
         RectorLaravel\Set\LaravelSetList::LARAVEL_ARRAY_STR_FUNCTION_TO_STATIC_CALL,
@@ -38,13 +39,14 @@ return RectorConfig::configure()
         RectorLaravel\Set\LaravelSetList::LARAVEL_LEGACY_FACTORIES_TO_CLASSES,
         //                RectorLaravel\Set\LaravelSetList::LARAVEL_STATIC_TO_INJECTION,
         RectorLaravel\Set\LaravelSetList::LARAVEL_TESTING,
-        //        RectorLaravel\Set\LaravelSetList::LARAVEL_TYPE_DECLARATIONS,
+        RectorLaravel\Set\LaravelSetList::LARAVEL_TYPE_DECLARATIONS,
     ])
     ->withRules([
-        //        EloquentMagicMethodToQueryBuilderRector::class,
+        RectorLaravel\Rector\StaticCall\EloquentMagicMethodToQueryBuilderRector::class,
         RectorLaravel\Rector\MethodCall\EloquentOrderByToLatestOrOldestRector::class,
         RectorLaravel\Rector\FuncCall\RemoveDumpDataDeadCodeRector::class,
         RectorLaravel\Rector\ClassMethod\AddArgumentDefaultValueRector::class,
-        RectorLaravel\Rector\ClassMethod\AddGenericReturnTypeToRelationsRector::class,
         RectorLaravel\Rector\MethodCall\ResponseHelperCallToJsonResponseRector::class,
+        RectorLaravel\Rector\FuncCall\ArgumentFuncCallToMethodCallRector::class,
+        RectorLaravel\Rector\ArrayDimFetch\ArrayToArrGetRector::class,
     ]);

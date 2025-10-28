@@ -32,8 +32,8 @@ class UserFactory extends Factory
             'remember_token'    => Str::random(10),
             'theme'             => Theme::DRACULA->value,
             'suspended_at'      => fake()->optional(0.1)->dateTimeBetween('-30 days'),
-            'suspended_until'   => fn (array $attributes) => $attributes['suspended_at']
-                ? Date::parse($attributes['suspended_at'])->addWeek()
+            'suspended_until'   => fn (array $attributes) => \Illuminate\Support\Arr::get($attributes, 'suspended_at')
+                ? Date::parse(\Illuminate\Support\Arr::get($attributes, 'suspended_at'))->addWeek()
                 : null,
             'is_active'          => true,
             'user_type'          => User::TYPE_USER,
@@ -46,7 +46,7 @@ class UserFactory extends Factory
                 'open_ai' => Str::random(32),
             ],
             'last_login_at' => fake()->optional(0.8)->dateTimeBetween('-30 days'),
-            'last_login_ip' => fn (array $attributes) => $attributes['last_login_at'] ? fake()->localIpv4() : null,
+            'last_login_ip' => fn (array $attributes) => \Illuminate\Support\Arr::get($attributes, 'last_login_at') ? fake()->localIpv4() : null,
         ];
     }
 

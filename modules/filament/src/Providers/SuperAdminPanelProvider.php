@@ -169,11 +169,11 @@ final class SuperAdminPanelProvider extends PanelProvider
             fn () => collect(config('tools'))->except('backend-admin')
                 ->map(
                     fn (array $tool) => NavigationItem::make()
-                        ->label(fn (): string => trans($tool['title']))
-                        ->url($tool['url'], shouldOpenInNewTab: true)
-                        ->icon($tool['heroicon'])
-                        ->group($tool['group'])
-                        ->sort($tool['sort'])
+                        ->label(fn (): string => trans(\Illuminate\Support\Arr::get($tool, 'title')))
+                        ->url(\Illuminate\Support\Arr::get($tool, 'url'), shouldOpenInNewTab: true)
+                        ->icon(\Illuminate\Support\Arr::get($tool, 'heroicon'))
+                        ->group(\Illuminate\Support\Arr::get($tool, 'group'))
+                        ->sort(\Illuminate\Support\Arr::get($tool, 'sort'))
                 )
                 ->all()
         );

@@ -107,8 +107,8 @@ class UnhydratedBuilder extends EloquentBuilder
 
         $orders = collect($this->query->orders)
             ->map(fn ($order) => [
-                'column'    => $order['column'],
-                'direction' => $order['direction'],
+                'column'    => \Illuminate\Support\Arr::get($order, 'column'),
+                'direction' => \Illuminate\Support\Arr::get($order, 'direction'),
             ]);
 
         $cursor = $cursor instanceof Cursor

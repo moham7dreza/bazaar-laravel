@@ -88,7 +88,7 @@ final class AdvertisementController extends Controller
         {
             if ( ! empty(($advertisement->image)))
             {
-                $imageService->deleteDirectoryAndFiles($advertisement->image['directory']);
+                $imageService->deleteDirectoryAndFiles(\Illuminate\Support\Arr::get($advertisement->image, 'directory'));
             }
             $imageService->setExclusiveDirectory('images' . DIRECTORY_SEPARATOR . 'advertisement-images');
             $result = $imageService->createIndexAndSave($request->image);

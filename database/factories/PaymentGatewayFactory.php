@@ -22,7 +22,7 @@ class PaymentGatewayFactory extends Factory
             'gateway'    => PaymentGateways::random(),
             'owner_type' => fake()->randomElement([User::class]),
             'owner_id'   => function (array $attributes) {
-                return match ($attributes['owner_type'])
+                return match (\Illuminate\Support\Arr::get($attributes, 'owner_type'))
                 {
                     User::class => UserFactory::new()->create()->id,
                 };

@@ -57,7 +57,7 @@ final readonly class CreateIndexAndSaveImageUploaderService implements ImageUplo
                 $this->imageService->provider();
 
                 Image::read($DTO->image->getRealPath())
-                    ->resizeDown($imageSize['width'], $imageSize['height'])
+                    ->resizeDown(\Illuminate\Support\Arr::get($imageSize, 'width'), \Illuminate\Support\Arr::get($imageSize, 'height'))
                     ->save(public_path($this->imageService->getImageAddress()), $this->imageService->getImageFormat());
 
                 $indexArray[$sizeAlias] = $this->imageService->getImageAddress();

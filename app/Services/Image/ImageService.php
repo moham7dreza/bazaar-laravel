@@ -110,7 +110,7 @@ final class ImageService extends ImageToolsService
 
                 (new ImageManager(new Driver()))
                     ->read($image->getRealPath())
-                    ->resizeDown($imageSize['width'], $imageSize['height'])
+                    ->resizeDown(\Illuminate\Support\Arr::get($imageSize, 'width'), \Illuminate\Support\Arr::get($imageSize, 'height'))
                     ->save(public_path($this->getImageAddress()), null, $this->getImageFormat());
 
                 $indexArray[$sizeAlias] = $this->getImageAddress();
@@ -152,7 +152,7 @@ final class ImageService extends ImageToolsService
     {
         try
         {
-            $directory = public_path($images['directory']);
+            $directory = public_path(\Illuminate\Support\Arr::get($images, 'directory'));
 
             return $this->deleteDirectoryAndFiles($directory);
 

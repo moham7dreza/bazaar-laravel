@@ -280,14 +280,14 @@ class MonitorCommands extends Command
         $this->info("Statistics for: {$commandName}");
         $this->info('==================' . str_repeat('=', mb_strlen($commandName)));
 
-        if ( ! $statistics['statistics'] || 0 === $statistics['statistics']->total_runs)
+        if ( ! \Illuminate\Support\Arr::get($statistics, 'statistics') || 0 === \Illuminate\Support\Arr::get($statistics, 'statistics')->total_runs)
         {
             $this->error("No data found for command: {$commandName}");
 
             return;
         }
 
-        $stats = $statistics['statistics'];
+        $stats = \Illuminate\Support\Arr::get($statistics, 'statistics');
 
         // Display summary statistics
         $this->info("\n📊 Summary Statistics:");
@@ -301,14 +301,14 @@ class MonitorCommands extends Command
         // Display recent runs
         $this->info("\n🕒 Recent Runs (Last 10):");
 
-        if ($statistics['recent_runs']->isEmpty())
+        if (\Illuminate\Support\Arr::get($statistics, 'recent_runs')->isEmpty())
         {
             $this->line('No recent runs found.');
 
             return;
         }
 
-        $rows = $statistics['recent_runs']->map(function (CommandPerformanceLog $run) {
+        $rows = \Illuminate\Support\Arr::get($statistics, 'recent_runs')->map(function (CommandPerformanceLog $run) {
             $status = ! $run->isRunning()
                 ? '<fg=green>✓</>'
                 : '<fg=red>✗</>';

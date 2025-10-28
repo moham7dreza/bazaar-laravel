@@ -13,6 +13,6 @@ test('UpdateUserSecretAction updates user mobile number', function (): void {
 
     $updatedUser = UpdateUserSecretAction::dispatch($user, 'password', $password = '123456');
 
-    expect($updatedUser->secrets['password'])->toBe($password)
-        ->and($user->fresh()->secrets['password'])->toBe($password);
+    expect(Illuminate\Support\Arr::get($updatedUser->secrets, 'password'))->toBe($password)
+        ->and(Illuminate\Support\Arr::get($user->fresh()->secrets, 'password'))->toBe($password);
 });

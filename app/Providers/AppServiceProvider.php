@@ -159,7 +159,7 @@ final class AppServiceProvider extends ServiceProvider
 
     private function configureNumber(): void
     {
-        Number::useCurrency(ClientLocale::default()['currency']);
+        Number::useCurrency(\Illuminate\Support\Arr::get(ClientLocale::default(), 'currency'));
     }
 
     private function configureGates(): void

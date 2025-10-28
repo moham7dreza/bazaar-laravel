@@ -76,13 +76,13 @@ class MakefileRunnerCommand extends Command
                     $scripts[$currentScript] = mb_trim($currentDescription);
                 }
 
-                $currentScript      = $matches[1];
+                $currentScript      = \Illuminate\Support\Arr::get($matches, 1);
                 $currentDescription = '';
 
                 // Check for inline comment
                 if (preg_match('/#\s*(.+)$/', $trimmed, $commentMatches))
                 {
-                    $currentDescription = $commentMatches[1];
+                    $currentDescription = \Illuminate\Support\Arr::get($commentMatches, 1);
                 }
             }
             // Found a comment line

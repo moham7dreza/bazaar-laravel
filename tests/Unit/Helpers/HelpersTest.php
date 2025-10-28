@@ -84,9 +84,9 @@ it('can use fluent and collect to process data', function (): void {
      * **/
 
     // Collection -> good to process data lists
-    $userName    = collect($data)->get('user')['name'];
+    $userName    = Arr::get(collect($data)->get('user'), 'name');
     $postTitles  = array_column(collect($data)->get('posts'), 'title');
-    $addressJson = json_encode(collect($data)->get('user')['address'], JSON_THROW_ON_ERROR);
+    $addressJson = json_encode(Arr::get(collect($data)->get('user'), 'address'), JSON_THROW_ON_ERROR);
 
     expect($userName)->toBe('admin')
         ->and($postTitles)->toBe(['post 1', 'post 2'])
@@ -136,7 +136,7 @@ it('can get solo item from array', function (): void {
     ];
 
     // Get the sole engineering employee
-    $engineer = Arr::sole($employees, fn ($employee) => 'Engineering' === $employee['department']);
+    $engineer = Arr::sole($employees, fn ($employee) => 'Engineering' === Arr::get($employee, 'department'));
 
-    expect($engineer)->toBe($employees[0]);
+    expect($engineer)->toBe(Arr::get($employees, 0));
 });

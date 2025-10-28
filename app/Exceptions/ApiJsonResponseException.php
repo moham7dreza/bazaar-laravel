@@ -26,7 +26,7 @@ final class ApiJsonResponseException extends Exception implements Responsable
             $this->messages = $messages;
         }
 
-        parent::__construct($this->messages[0] ?? '');
+        parent::__construct(\Illuminate\Support\Arr::get($this->messages, 0, ''));
     }
 
     public function toResponse($request): JsonResponse
