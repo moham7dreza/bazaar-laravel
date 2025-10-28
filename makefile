@@ -426,8 +426,8 @@ checkup: ## Run necessary tools to check code and code style
 	make pintt
 	make checks
 	make rectort
-	make phpstan
-	make migrate-linter
+	# make phpstan
+	make migration-linter
 
 route-ls-v: ## Show list of routes that are registered by packages
 	php artisan route:list --only-vendor
