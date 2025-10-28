@@ -25,8 +25,8 @@ class HomeController extends Controller
             try
             {
                 // sample jobs, ...
-                PackageSent::dispatch('processed', 'prosper');
-                PackageSent::dispatch('delivered', 'olamide');
+                event(new PackageSent('processed', 'prosper'));
+                event(new PackageSent('delivered', 'olamide'));
 
                 // sample send sms
                 $data = new \Amiriun\SMS\DataContracts\SendSMSDTO();

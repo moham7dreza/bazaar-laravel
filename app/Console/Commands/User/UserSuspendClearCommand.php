@@ -28,7 +28,7 @@ class UserSuspendClearCommand extends Command
 
         })->each(function (User $user): void {
 
-            UserSuspendClearJob::dispatch($user->pluck('id'));
+            dispatch(new UserSuspendClearJob($user->pluck('id')));
         });
 
         //        User::query()

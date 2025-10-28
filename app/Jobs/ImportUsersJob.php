@@ -52,7 +52,7 @@ class ImportUsersJob implements ShouldQueue
         {
             $nextPage = $this->page + 1;
 
-            $batch->finally(fn () => ImportUsersJob::dispatch($nextPage));
+            $batch->finally(fn () => dispatch(new ImportUsersJob($nextPage)));
         }
         $batch->dispatch();
     }

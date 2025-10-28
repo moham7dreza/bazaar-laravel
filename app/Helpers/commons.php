@@ -68,7 +68,7 @@ if ( ! function_exists('mongo_info'))
         {
             $dispatch = $queueable ? 'dispatch' : 'dispatchSync';
 
-            MongoLogJob::$dispatch($data, $log_key);
+            dispatch(new MongoLogJob($data, $log_key));
         } catch (Exception $exception)
         {
 
