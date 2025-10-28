@@ -9,7 +9,7 @@ make rector
 echo "Done!"
 
 echo "Run Pint..."
-#make pintd
+make pint
 echo "Done!"
 
 # Get the branch being pushed
