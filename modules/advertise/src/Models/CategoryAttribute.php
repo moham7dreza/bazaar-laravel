@@ -33,12 +33,17 @@ final class CategoryAttribute extends Model
     protected $guarded = ['id'];
 
     // _____________________________________________ relations SECTION __________________________________________
-
+    /**
+     * @return BelongsTo<Category, $this>
+     */
     public function category(): BelongsTo
     {
         return $this->belongsTo(Category::class)->withDefault(['name' => __('Unknown category')]);
     }
 
+    /**
+     * @return HasMany<CategoryValue, $this>
+     */
     public function categoryValues(): HasMany
     {
         return $this->hasMany(CategoryValue::class);

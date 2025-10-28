@@ -35,7 +35,9 @@ class SmsLog extends Model
     protected $guarded = ['id'];
 
     // _____________________________________________ relations SECTION __________________________________________
-
+    /**
+     * @return BelongsTo<User, $this>
+     */
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class)->withDefault(['name' => __('Unknown user')]);

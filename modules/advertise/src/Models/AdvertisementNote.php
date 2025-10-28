@@ -35,7 +35,9 @@ final class AdvertisementNote extends Model
     }
 
     // _____________________________________________ relations SECTION __________________________________________
-
+    /**
+     * @return BelongsTo<Advertisement, $this>
+     */
     public function advertisement(): BelongsTo
     {
         return $this->belongsTo(Advertisement::class)->withDefault(['title' => __('Unknown advertisement')]);

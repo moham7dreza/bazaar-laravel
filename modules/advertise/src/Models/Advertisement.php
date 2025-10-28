@@ -65,46 +65,73 @@ final class Advertisement extends Model
         ];
     }
 
+    /**
+     * @return BelongsTo<Category, $this>
+     */
     public function category(): BelongsTo
     {
         return $this->belongsTo(Category::class)->withDefault(['name' => __('Unknown category')]);
     }
 
+    /**
+     * @return BelongsTo<City, $this>
+     */
     public function city(): BelongsTo
     {
         return $this->belongsTo(City::class)->withDefault(['name' => __('Unknown city')]);
     }
 
+    /**
+     * @return BelongsTo<User, $this>
+     */
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class)->withDefault(['name' => trans('Guest author')]);
     }
 
+    /**
+     * @return BelongsToMany<User, $this, \Illuminate\Database\Eloquent\Relations\Pivot>
+     */
     public function favoritedByUsers(): BelongsToMany
     {
         return $this->belongsToMany(User::class)->withTimestamps();
     }
 
+    /**
+     * @return BelongsToMany<CategoryValue, $this, \Illuminate\Database\Eloquent\Relations\Pivot>
+     */
     public function categoryValues(): BelongsToMany
     {
         return $this->belongsToMany(CategoryValue::class, 'advertisement_category_values')->withTimestamps();
     }
 
+    /**
+     * @return HasMany<AdvertisementNote, $this>
+     */
     public function advertisementNotes(): HasMany
     {
         return $this->hasMany(AdvertisementNote::class);
     }
 
+    /**
+     * @return HasMany<Gallery, $this>
+     */
     public function images(): HasMany
     {
         return $this->hasMany(Gallery::class);
     }
 
+    /**
+     * @return BelongsToMany<User, $this, \Illuminate\Database\Eloquent\Relations\Pivot>
+     */
     public function viewedByUsers(): BelongsToMany
     {
         return $this->belongsToMany(User::class, 'advertisement_view_history')->withTimestamps();
     }
 
+    /**
+     * @return HasManyThrough<CategoryAttribute, Category, $this>
+     */
     public function categoryAttributes(): HasManyThrough
     {
         return $this->hasManyThrough(

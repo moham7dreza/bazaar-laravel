@@ -62,17 +62,26 @@ final class Category extends Model
         return $this->belongsTo($this, 'parent_id')->withDefault(['name' => __('Unknown parent')]);
     }
 
+    /**
+     * @return HasMany<Advertisement, $this>
+     */
     public function advertisements(): HasMany
     {
         return $this->hasMany(Advertisement::class);
     }
 
+    /**
+     * @return HasMany<CategoryAttribute, $this>
+     */
     public function attributes(): HasMany
     {
         return $this->hasMany(CategoryAttribute::class);
     }
 
     // Category values
+    /**
+     * @return HasManyThrough<CategoryValue, CategoryAttribute, $this>
+     */
     public function values(): HasManyThrough
     {
         return $this->hasManyThrough(

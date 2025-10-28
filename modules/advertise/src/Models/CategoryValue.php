@@ -33,12 +33,17 @@ final class CategoryValue extends Model
     protected $guarded = ['id'];
 
     // _____________________________________________ relations SECTION __________________________________________
-
+    /**
+     * @return BelongsTo<CategoryAttribute, $this>
+     */
     public function categoryAttribute(): BelongsTo
     {
         return $this->belongsTo(CategoryAttribute::class)->withDefault(['name' => __('Unknown attribute')]);
     }
 
+    /**
+     * @return BelongsToMany<Advertisement, $this, \Illuminate\Database\Eloquent\Relations\Pivot>
+     */
     public function advertisements(): BelongsToMany
     {
         return $this->belongsToMany(Advertisement::class, 'advertisement_category_values')->withTimestamps();

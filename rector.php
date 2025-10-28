@@ -5,7 +5,6 @@ declare(strict_types=1);
 use Rector\Config\RectorConfig;
 use RectorLaravel\Rector\FuncCall\RemoveDumpDataDeadCodeRector;
 use RectorLaravel\Rector\MethodCall\EloquentOrderByToLatestOrOldestRector;
-use RectorLaravel\Rector\StaticCall\EloquentMagicMethodToQueryBuilderRector;
 use RectorLaravel\Set\LaravelLevelSetList;
 use RectorLaravel\Set\LaravelSetList;
 
@@ -38,4 +37,7 @@ return RectorConfig::configure()
         //        EloquentMagicMethodToQueryBuilderRector::class,
         EloquentOrderByToLatestOrOldestRector::class,
         RemoveDumpDataDeadCodeRector::class,
+        RectorLaravel\Rector\If_\AbortIfRector::class,
+        RectorLaravel\Rector\ClassMethod\AddArgumentDefaultValueRector::class,
+        RectorLaravel\Rector\ClassMethod\AddGenericReturnTypeToRelationsRector::class,
     ]);

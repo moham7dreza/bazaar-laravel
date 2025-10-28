@@ -29,7 +29,9 @@ final class Otp extends Model
     ];
 
     // _____________________________________________ relations SECTION __________________________________________
-
+    /**
+     * @return BelongsTo<User, $this>
+     */
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);

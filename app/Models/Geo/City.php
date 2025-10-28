@@ -32,7 +32,9 @@ final class City extends Model
     protected $guarded = ['id'];
 
     // _____________________________________________ relations SECTION __________________________________________
-
+    /**
+     * @return HasMany<Advertisement, $this>
+     */
     public function advertisements(): HasMany
     {
         return $this->hasMany(Advertisement::class);

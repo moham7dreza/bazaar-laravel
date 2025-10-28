@@ -153,42 +153,66 @@ final class User extends Authenticatable implements
         return $this->avatar_url ? Storage::disk(StorageDisk::PUBLIC->value)->url($this->avatar_url) : null;
     }
 
+    /**
+     * @return HasMany<Advertisement, $this>
+     */
     public function advertisements(): HasMany
     {
         return $this->hasMany(Advertisement::class);
     }
 
+    /**
+     * @return BelongsToMany<Advertisement, $this, \Illuminate\Database\Eloquent\Relations\Pivot>
+     */
     public function favoriteAdvertisements(): BelongsToMany
     {
         return $this->belongsToMany(Advertisement::class)->withTimestamps();
     }
 
+    /**
+     * @return HasMany<AdvertisementNote, $this>
+     */
     public function advertisementNotes(): HasMany
     {
         return $this->hasMany(AdvertisementNote::class);
     }
 
+    /**
+     * @return BelongsToMany<Advertisement, $this, \Illuminate\Database\Eloquent\Relations\Pivot>
+     */
     public function viewedAdvertisements(): BelongsToMany
     {
         return $this->belongsToMany(Advertisement::class, 'advertisement_view_history')->withTimestamps();
     }
 
+    /**
+     * @return BelongsTo<City, $this>
+     */
     public function city(): BelongsTo
     {
         return $this->belongsTo(City::class)->withDefault(['name' => __('Unknown city')]);
     }
 
+    /**
+     * @return HasOne<Advertisement, $this>
+     */
     public function latestAdvertisement(): HasOne
     {
         return $this->hasOne(Advertisement::class)->latestOfMany();
     }
 
+    /**
+     * @return HasOne<Advertisement, $this>
+     */
     public function mostViewedAdvertisement(): HasOne
     {
         return $this->hasOne(Advertisement::class)->ofMany('view', 'max');
     }
 
     // the newest advertisement with likest in last month
+    /**
+     * @return HasOne<Advertisement, $this>
+     */
     public function popularRecentAdvertisement(): HasOne
     {
         return $this->hasOne(Advertisement::class)->ofMany(
@@ -202,11 +226,17 @@ final class User extends Authenticatable implements
         );
     }
 
+    /**
+     * @return HasMany<Advertisement, $this>
+     */
     public function specialAdvertisements(): HasMany
     {
         return $this->hasMany(Advertisement::class)->withAttributes(['is_special' => true]);
     }
 
+    /**
+     * @return HasMany<UserActionTag, $this>
+     */
     public function actionTags(): HasMany
     {
         return $this->hasMany(UserActionTag::class);
