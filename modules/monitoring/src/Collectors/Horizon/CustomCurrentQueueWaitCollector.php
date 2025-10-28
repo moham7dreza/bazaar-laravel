@@ -20,6 +20,6 @@ final class CustomCurrentQueueWaitCollector implements Collector
                 ->sortBy('name')
                 ->values()
                 ->map(fn (array $workload) => [$workload['wait'], [$workload['name']]])
-                ->toArray());
+                ->all());
     }
 }

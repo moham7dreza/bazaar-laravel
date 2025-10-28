@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Support;
 
 use Illuminate\Contracts\Routing\UrlRoutable;
+use Illuminate\Support\Facades\Date;
 
 class Carbon extends \Illuminate\Support\Carbon implements UrlRoutable
 {
@@ -20,7 +21,7 @@ class Carbon extends \Illuminate\Support\Carbon implements UrlRoutable
 
     public function resolveRouteBinding($value, $field = null)
     {
-        return rescue(fn () => static::make($value), report: false);
+        return rescue(fn () => Date::make($value), report: false);
     }
 
     public function resolveChildRouteBinding($childType, $value, $field): void

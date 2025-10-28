@@ -91,7 +91,7 @@ class ArtisanFinderCommand extends Command
             ->reject(fn (string $command) => $command === $this->signature)
             ->when($input, fn (Collection $commands) => $commands->filter(fn ($command) => $this->matchesSearchTerms($command, $input)))
             ->values()
-            ->toArray();
+            ->all();
 
         return suggest(
             'Search for a command',

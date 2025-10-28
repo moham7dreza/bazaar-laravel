@@ -133,7 +133,7 @@ final class RedisQueueWorkloadRepository implements WorkloadRepository
         return collect($combinedQueues)
             ->values()
             ->sortBy('name')
-            ->toArray();
+            ->all();
     }
 
     /**

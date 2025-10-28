@@ -20,6 +20,6 @@ final class CustomCurrentProcessesPerQueueCollector implements Collector
                 ->sortBy('name')
                 ->values()
                 ->map(fn (array $workload) => [$workload['processes'], [$workload['name']]])
-                ->toArray());
+                ->all());
     }
 }
