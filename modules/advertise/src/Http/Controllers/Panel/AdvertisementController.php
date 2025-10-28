@@ -117,7 +117,7 @@ final class AdvertisementController extends Controller
 
         if ($request->hasFile('image'))
         {
-            if ( ! empty(($advertisement->image)))
+            if (filled($advertisement->image))
             {
                 $imageService->deleteDirectoryAndFiles(\Illuminate\Support\Arr::get($advertisement->image, 'directory'));
             }
@@ -130,7 +130,7 @@ final class AdvertisementController extends Controller
             \Illuminate\Support\Arr::set($inputs, 'image', $result);
         } else
         {
-            if (null !== \Illuminate\Support\Arr::get($inputs, 'currentImage') && ! empty($advertisement->image))
+            if (null !== \Illuminate\Support\Arr::get($inputs, 'currentImage') && filled($advertisement->image))
             {
                 $image                 = $advertisement->image;
                 \Illuminate\Support\Arr::set($image, 'currentImage', \Illuminate\Support\Arr::get($inputs, 'currentImage'));

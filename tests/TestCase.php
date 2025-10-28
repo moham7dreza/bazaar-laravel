@@ -75,6 +75,6 @@ abstract class TestCase extends BaseTestCase
 
     private function isRunningInParallel(): bool
     {
-        return ! empty(Request::server('LARAVEL_PARALLEL_TESTING'));
+        return filled(Request::server('LARAVEL_PARALLEL_TESTING'));
     }
 }

@@ -41,7 +41,7 @@ class ImportUsersJob implements ShouldQueue
             $jobs[] = new ImportUserJob($user);
         }
 
-        if (empty($jobs))
+        if (blank($jobs))
         {
             return;
         }

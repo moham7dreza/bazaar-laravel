@@ -49,4 +49,6 @@ return RectorConfig::configure()
         RectorLaravel\Rector\MethodCall\ResponseHelperCallToJsonResponseRector::class,
         RectorLaravel\Rector\FuncCall\ArgumentFuncCallToMethodCallRector::class,
         RectorLaravel\Rector\ArrayDimFetch\ArrayToArrGetRector::class,
+        RectorLaravel\Rector\FuncCall\ConfigToTypedConfigMethodCallRector::class,
+        RectorLaravel\Rector\Empty_\EmptyToBlankAndFilledFuncRector::class,
     ]);

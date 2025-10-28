@@ -18,8 +18,8 @@ return new class() extends Migration {
         $pivotRole       = Illuminate\Support\Arr::get($columnNames, 'role_pivot_key', 'role_id');
         $pivotPermission = Illuminate\Support\Arr::get($columnNames, 'permission_pivot_key', 'permission_id');
 
-        throw_if(empty($tableNames), Exception::class, 'Error: config/permission.php not loaded. Run [php artisan config:clear] and try again.');
-        throw_if($teams && empty(Illuminate\Support\Arr::get($columnNames, 'team_foreign_key', null)), Exception::class, 'Error: team_foreign_key on config/permission.php not loaded. Run [php artisan config:clear] and try again.');
+        throw_if(blank($tableNames), Exception::class, 'Error: config/permission.php not loaded. Run [php artisan config:clear] and try again.');
+        throw_if($teams && blank(Illuminate\Support\Arr::get($columnNames, 'team_foreign_key', null)), Exception::class, 'Error: team_foreign_key on config/permission.php not loaded. Run [php artisan config:clear] and try again.');
 
         Schema::create(Illuminate\Support\Arr::get($tableNames, 'permissions'), static function (Blueprint $table): void {
             // $table->engine('InnoDB');
@@ -138,7 +138,7 @@ return new class() extends Migration {
     {
         $tableNames = config('permission.table_names');
 
-        throw_if(empty($tableNames), Exception::class, 'Error: config/permission.php not found and defaults could not be merged. Please publish the package configuration before proceeding, or drop the tables manually.');
+        throw_if(blank($tableNames), Exception::class, 'Error: config/permission.php not found and defaults could not be merged. Please publish the package configuration before proceeding, or drop the tables manually.');
 
         Schema::drop(Illuminate\Support\Arr::get($tableNames, 'role_has_permissions'));
         Schema::drop(Illuminate\Support\Arr::get($tableNames, 'model_has_roles'));

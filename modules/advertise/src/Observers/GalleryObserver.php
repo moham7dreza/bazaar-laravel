@@ -32,7 +32,7 @@ final class GalleryObserver implements ShouldHandleEventsAfterCommit
 
     public function forceDeleted(Gallery $gallery): void
     {
-        if ( ! app()->runningUnitTests() && ! empty($images = $gallery->url))
+        if ( ! app()->runningUnitTests() && filled($images = $gallery->url))
         {
 
             app(ImageService::class)->deleteIndex($images);

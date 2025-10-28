@@ -76,7 +76,7 @@ final class GalleryController extends Controller
         $inputs = $request->all();
         if ($request->hasFile('url'))
         {
-            if ( ! empty(($gallery->url)))
+            if (filled($gallery->url))
             {
                 $imageService->deleteDirectoryAndFiles(\Illuminate\Support\Arr::get($gallery->url, 'directory'));
             }
@@ -89,7 +89,7 @@ final class GalleryController extends Controller
             \Illuminate\Support\Arr::set($inputs, 'url', $result);
         } else
         {
-            if (null !== \Illuminate\Support\Arr::get($inputs, 'currentImage') && ! empty($gallery->url))
+            if (null !== \Illuminate\Support\Arr::get($inputs, 'currentImage') && filled($gallery->url))
             {
                 $image                 = $gallery->url;
                 \Illuminate\Support\Arr::get($image, 'currentImage', \Illuminate\Support\Arr::get($inputs, 'currentImage'));

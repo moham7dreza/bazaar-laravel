@@ -64,14 +64,14 @@ class AddChangelogEntryCommand extends Command
                 default: $currentDatetime,
                 validate: fn ($value) => match (true)
                 {
-                    ! empty($value) && ! Date::canBeCreatedFromFormat($value, 'Y-m-d H:i')                             => 'Invalid format. Please use YYYY-MM-DD HH:MM format (e.g. 2023-12-31 14:30)',
+                    filled($value) && ! Date::canBeCreatedFromFormat($value, 'Y-m-d H:i')                              => 'Invalid format. Please use YYYY-MM-DD HH:MM format (e.g. 2023-12-31 14:30)',
                     default                                                                                            => null
                 }
             );
 
             try
             {
-                $datetime = empty($datetimeInput)
+                $datetime = blank($datetimeInput)
                     ? Date::now()
                     : Date::createFromFormat('Y-m-d H:i', $datetimeInput);
             } catch (Exception $e)
@@ -88,7 +88,7 @@ class AddChangelogEntryCommand extends Command
             required: true,
             validate: fn ($value) => match (true)
             {
-                empty(mb_trim($value)) => 'Title cannot be empty',
+                blank(mb_trim($value)) => 'Title cannot be empty',
                 default                => null
             }
         );
@@ -117,7 +117,7 @@ class AddChangelogEntryCommand extends Command
             placeholder: 'PROJ-123 or full URL (leave empty if none)',
             validate: fn ($value) => match (true)
             {
-                ! empty($value) && ! $this->isValidJiraTicket($value) => 'Invalid Jira ticket format. Use PROJ-123 or full Jira URL',
+                filled($value) && ! $this->isValidJiraTicket($value)  => 'Invalid Jira ticket format. Use PROJ-123 or full Jira URL',
                 default                                               => null
             }
         );
@@ -127,7 +127,7 @@ class AddChangelogEntryCommand extends Command
             placeholder: '5072 or full URL (leave empty if none)',
             validate: fn ($value) => match (true)
             {
-                ! empty($value) && ! $this->isValidMergeRequest($value) => 'Invalid format. Use MR number or full GitLab MR URL',
+                filled($value) && ! $this->isValidMergeRequest($value)  => 'Invalid format. Use MR number or full GitLab MR URL',
                 default                                                 => null
             }
         );
@@ -143,7 +143,7 @@ class AddChangelogEntryCommand extends Command
             required: true,
             validate: fn ($value) => match (true)
             {
-                empty(mb_trim($value)) => 'Description cannot be empty',
+                blank(mb_trim($value)) => 'Description cannot be empty',
                 default                => null
             }
         );
@@ -226,7 +226,7 @@ class AddChangelogEntryCommand extends Command
 
     protected function formatJiraTicket($input): string
     {
-        if (empty($input))
+        if (blank($input))
         {
             return '-';
         }
@@ -251,7 +251,7 @@ class AddChangelogEntryCommand extends Command
 
     protected function formatMergeRequest($input): string
     {
-        if (empty($input))
+        if (blank($input))
         {
             return '-';
         }

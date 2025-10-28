@@ -206,7 +206,7 @@ final class AppServiceProvider extends ServiceProvider
     private function handleMissingTrans(): void
     {
         app(\Illuminate\Contracts\Translation\Translator::class)->handleMissingKeysUsing(function (string $key, array $replacements, ?string $locale): void {
-            if (empty($key))
+            if (blank($key))
             {
                 return;
             }

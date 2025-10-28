@@ -59,7 +59,7 @@ class ImageToolsService
 
     public function setCurrentImageName(): void
     {
-        if ( ! empty($this->image))
+        if (filled($this->image))
         {
 
             $this->setImageName(pathinfo($this->image->getClientOriginalName(), PATHINFO_FILENAME));
@@ -124,7 +124,7 @@ class ImageToolsService
         }
 
         // set final image Directory
-        $finalImageDirectory = empty($this->exclusiveDirectory)
+        $finalImageDirectory = blank($this->exclusiveDirectory)
             ? $this->imageDirectory
             : $this->exclusiveDirectory . DIRECTORY_SEPARATOR . $this->imageDirectory;
 

@@ -28,7 +28,7 @@ class MakefileRunnerCommand extends Command
 
         $scripts = $this->parseMakefile(File::get($makefilePath));
 
-        if (empty($scripts))
+        if (blank($scripts))
         {
             $this->error('No scripts found in makefile!');
 
@@ -105,7 +105,7 @@ class MakefileRunnerCommand extends Command
     {
         return search(
             label: 'Search for a script to run',
-            options: fn (string $value) => empty($value)
+            options: fn (string $value) => blank($value)
                 ? array_keys($scripts) // Show all when empty
                 : array_values(
                     array_filter(
@@ -123,7 +123,7 @@ class MakefileRunnerCommand extends Command
         $options = [];
         foreach ($scripts as $script => $desc)
         {
-            $options[$script] = empty($desc) ? $script : "{$script} - {$desc}";
+            $options[$script] = blank($desc) ? $script : "{$script} - {$desc}";
         }
 
         return select(

@@ -18,7 +18,7 @@ final class ApiJsonResponseException extends Exception implements Responsable
     {
         $this->status = $status;
 
-        if (empty($messages))
+        if (blank($messages))
         {
             $this->messages = $this->getDefaultMessageForStatus($status);
         } else

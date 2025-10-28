@@ -40,20 +40,20 @@ final class ImageService extends ImageToolsService
             if (ImageUploadMethod::METHOD_CREATE_INDEX_AND_SAVE === $DTO->uploadMethod)
             {
 
-                if ($DTO->currentImageSize && ! empty($image))
+                if ($DTO->currentImageSize && filled($image))
                 {
                     \Illuminate\Support\Arr::set($image, 'currentImage', $DTO->currentImageSize);
 
                     return $image;
                 }
 
-                if ( ! empty($image))
+                if (filled($image))
                 {
                     $this->deleteIndex($image);
                 }
             } else
             {
-                if ( ! empty($image))
+                if (filled($image))
                 {
                     $this->deleteImage($image);
                 }

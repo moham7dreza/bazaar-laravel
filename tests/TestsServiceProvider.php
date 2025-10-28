@@ -44,7 +44,7 @@ final class TestsServiceProvider extends ServiceProvider
 
     private function isRunningTestsInParallel(): bool
     {
-        return ($this->app->runningUnitTests() && ! empty(Request::server('LARAVEL_PARALLEL_TESTING'))) ||
+        return ($this->app->runningUnitTests() && filled(Request::server('LARAVEL_PARALLEL_TESTING'))) ||
             ($this->app->runningInConsole() && in_array('--parallel', Request::server('argv'), true));
     }
 }

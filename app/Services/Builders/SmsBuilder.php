@@ -188,6 +188,6 @@ final class SmsBuilder
         $placeholders  = \Illuminate\Support\Arr::get($matches, 1);
         $missingParams = array_diff($placeholders, array_keys($this->messageParams));
 
-        throw_unless(empty($missingParams), RuntimeException::class, "Missing parameters for {$this->messageKey}: " . implode(', ', $missingParams));
+        throw_unless(blank($missingParams), RuntimeException::class, "Missing parameters for {$this->messageKey}: " . implode(', ', $missingParams));
     }
 }
