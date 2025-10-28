@@ -40,3 +40,4 @@ Schedule::command('queue:work --tries=2 --stop-when-empty')
 */
 
 Schedule::command('metrics:commit')->hourly();
+Schedule::command('spy:clean', ['--days' => 30])->daily();

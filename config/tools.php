@@ -139,4 +139,12 @@ return [
         'group'    => 'Tools',
         'sort'     => 9,
     ],
+    'spy' => [
+        'title'    => 'SPY',
+        'url'      => '/spy',
+        'heroicon' => 'heroicon-o-arrow-top-right-on-square',
+        'icon'     => null,
+        'group'    => 'Tools',
+        'sort'     => 9,
+    ],
 ];
