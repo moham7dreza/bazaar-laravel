@@ -10,7 +10,7 @@ it('can see user info', function (): void {
 
     $response = asUser($user)->getJson(route('api.user.info'))->assertOk();
 
-    expect($response->json())->toHaveCount(16)
+    expect($response->json())->toHaveCount(18)
         ->id->toBeInt()
         ->name->toBeString()
         ->mobile->toBeString();
