@@ -15,8 +15,8 @@ final class CreateSmsGateway extends CreateRecord
 
     protected function handleRecordCreation(array $data): Model
     {
-        $data['owner_id']   = auth()->id();
-        $data['owner_type'] = User::class;
+        \Illuminate\Support\Arr::set($data, 'owner_id', auth()->id());
+        \Illuminate\Support\Arr::set($data, 'owner_type', User::class);
 
         return parent::handleRecordCreation($data);
     }

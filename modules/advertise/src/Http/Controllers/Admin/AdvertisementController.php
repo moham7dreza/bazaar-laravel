@@ -46,7 +46,7 @@ final class AdvertisementController extends Controller
             $result = $imageService->createIndexAndSave($request->image);
             if ($result)
             {
-                $inputs['image'] = $result;
+                \Illuminate\Support\Arr::set($inputs, 'image', $result);
             } else
             {
                 return ApiJsonResponse::error(500, message: __('response.image.upload failed'));
@@ -96,14 +96,14 @@ final class AdvertisementController extends Controller
             {
                 return ApiJsonResponse::error(500, message: __('response.image.upload failed'));
             }
-            $inputs['image'] = $result;
+            \Illuminate\Support\Arr::set($inputs, 'image', $result);
         } else
         {
-            if (isset($inputs['currentImage']) && ! empty($advertisement->image))
+            if (null !== \Illuminate\Support\Arr::get($inputs, 'currentImage') && ! empty($advertisement->image))
             {
                 $image                 = $advertisement->image;
-                $image['currentImage'] = $inputs['currentImage'];
-                $inputs['image']       = $image;
+                \Illuminate\Support\Arr::set($image, 'currentImage', \Illuminate\Support\Arr::get($inputs, 'currentImage'));
+                \Illuminate\Support\Arr::set($inputs, 'image', $image);
             }
         }
         $advertisement->update($inputs);

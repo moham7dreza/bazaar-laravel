@@ -53,8 +53,8 @@ trait Attributable
     {
         foreach ($values as $value)
         {
-            $value['attributable_id'] = $this->getKey();
-            $value['attributable']    = get_class($this);
+            \Illuminate\Support\Arr::set($value, 'attributable_id', $this->getKey());
+            \Illuminate\Support\Arr::set($value, 'attributable', get_class($this));
 
             $this->attributes()->create($value);
         }

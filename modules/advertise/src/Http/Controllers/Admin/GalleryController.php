@@ -39,7 +39,7 @@ final class GalleryController extends Controller
 
         if ($result = $imageService->upload($request->getDTO()))
         {
-            $inputs['url'] = $result;
+            \Illuminate\Support\Arr::set($inputs, 'url', $result);
         } else
         {
             return ApiJsonResponse::error(500, message: __('response.image.upload failed'));
@@ -66,7 +66,7 @@ final class GalleryController extends Controller
         $inputs = $request->all();
         if ($result = $imageService->update($request->getDTO(), $gallery->url))
         {
-            $inputs['url'] = $result;
+            \Illuminate\Support\Arr::set($inputs, 'url', $result);
         } else
         {
             return ApiJsonResponse::error(500, message: __('response.image.upload failed'));

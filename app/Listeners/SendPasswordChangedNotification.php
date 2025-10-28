@@ -20,7 +20,7 @@ class SendPasswordChangedNotification extends QueuedListener
     public function middleware(UserUpdatedEvent $event)
     {
         return [
-            Skip::when(fn (): bool => ! isset($event->changes['password'])),
+            Skip::when(fn (): bool => null !== ! \Illuminate\Support\Arr::get($event->changes, 'password')),
         ];
     }
 

@@ -356,7 +356,7 @@ final class AppServiceProvider extends ServiceProvider
             new IgnoreBindingValidator(),
         ];
 
-        Route::macro('ignoreMissingBindings', fn () => $this->action['ignoreMissingBindings'] = true);
+        Route::macro('ignoreMissingBindings', fn () => true === \Illuminate\Support\Arr::get($this->action, 'ignoreMissingBindings'));
     }
 
     private function configureBlueprint(): void

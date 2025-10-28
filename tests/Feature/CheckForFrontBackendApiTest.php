@@ -15,7 +15,7 @@ it('can get backend url details from front api', function (): void {
 
     $result = Fluent::make($result);
 
-    expect($result->data['backend_url'])->toBeUrl();
+    expect(Illuminate\Support\Arr::get($result->data, 'backend_url'))->toBeUrl();
 
     $apiCallCount             = 0;
     $allStatusCodesSuccessful = true;

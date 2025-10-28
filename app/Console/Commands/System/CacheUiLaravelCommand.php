@@ -184,7 +184,7 @@ final class CacheUiLaravelCommand extends Command
 
                     // Try to unserialize to get the actual key
                     $data = unserialize($serialized);
-                    if (is_array($data) && isset($data['key']))
+                    if (is_array($data) && null !== \Illuminate\Support\Arr::get($data, 'key'))
                     {
                         $keys[] = \Illuminate\Support\Arr::get($data, 'key');
                     } else
@@ -312,7 +312,7 @@ final class CacheUiLaravelCommand extends Command
 
                     // Try to unserialize to get the data
                     $data = unserialize($serialized);
-                    if (is_array($data) && isset($data['key']) && $data['key'] === $key)
+                    if (is_array($data) && null !== \Illuminate\Support\Arr::get($data, 'key') && \Illuminate\Support\Arr::get($data, 'key') === $key)
                     {
                         return File::delete($file->getPathname());
                     }

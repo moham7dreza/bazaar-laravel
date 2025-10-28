@@ -38,7 +38,7 @@ final class GalleryController extends Controller
         \Illuminate\Support\Facades\Gate::authorize('view', $advertisement);
 
         $inputs                     = $request->all();
-        $inputs['advertisement_id'] = $advertisement->id;
+        \Illuminate\Support\Arr::set($inputs, 'advertisement_id', $advertisement->id);
 
         if ($request->hasFile('url'))
         {
@@ -46,7 +46,7 @@ final class GalleryController extends Controller
             $result = $imageService->createIndexAndSave($request->url);
             if ($result)
             {
-                $inputs['url'] = $result;
+                \Illuminate\Support\Arr::set($inputs, 'url', $result);
             } else
             {
                 return ApiJsonResponse::error(500, message: 'خطا در اپلود تصویر');
@@ -78,7 +78,7 @@ final class GalleryController extends Controller
         {
             if ( ! empty(($gallery->url)))
             {
-                $imageService->deleteDirectoryAndFiles($gallery->url['directory']);
+                $imageService->deleteDirectoryAndFiles(\Illuminate\Support\Arr::get($gallery->url, 'directory'));
             }
             $imageService->setExclusiveDirectory('images' . DIRECTORY_SEPARATOR . 'user-advertisement-images-gallery');
             $result = $imageService->createIndexAndSave($request->url);
@@ -86,14 +86,14 @@ final class GalleryController extends Controller
             {
                 return ApiJsonResponse::error(500, message: 'خطا در فرایند اپلود');
             }
-            $inputs['url'] = $result;
+            \Illuminate\Support\Arr::set($inputs, 'url', $result);
         } else
         {
-            if (isset($inputs['currentImage']) && ! empty($gallery->url))
+            if (null !== \Illuminate\Support\Arr::get($inputs, 'currentImage') && ! empty($gallery->url))
             {
                 $image                 = $gallery->url;
-                $image['currentImage'] = $inputs['currentImage'];
-                $inputs['url']         = $image;
+                \Illuminate\Support\Arr::get($image, 'currentImage', \Illuminate\Support\Arr::get($inputs, 'currentImage'));
+                \Illuminate\Support\Arr::set($inputs, 'url', $image);
             }
         }
 
