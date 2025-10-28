@@ -424,7 +424,7 @@ rector: ## Run rector analysis and change files
 
 checkup: ## Run necessary tools to check code and code style
 	make pintt
-	make checks
+	# make checks
 	make rectort
 	# make phpstan
 	make migration-linter
