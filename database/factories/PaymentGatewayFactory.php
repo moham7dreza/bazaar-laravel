@@ -25,10 +25,10 @@ class PaymentGatewayFactory extends Factory
                 };
             },
             'config' => [
-                'merchant_id'  => fake()->uuid,
-                'callback_url' => fake()->url,
+                'merchant_id'  => fake()->uuid(),
+                'callback_url' => fake()->url(),
             ],
-            'status'     => fake()->boolean,
+            'status'     => fake()->boolean(),
             'sort_order' => fake()->numberBetween(1, 10),
         ];
     }

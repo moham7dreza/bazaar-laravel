@@ -17,7 +17,7 @@ final class CategoryAttributeFactory extends Factory
     public function definition(): array
     {
         return [
-            'name'        => fake()->name,
+            'name'        => fake()->name(),
             'unit'        => Unit::random(),
             'type'        => AttributeType::random(),
             'category_id' => Category::factory(),

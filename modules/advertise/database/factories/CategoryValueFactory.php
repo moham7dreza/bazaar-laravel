@@ -17,7 +17,7 @@ final class CategoryValueFactory extends Factory
     {
         return [
             'category_attribute_id' => CategoryAttribute::factory(),
-            'value'                 => fake()->jobTitle,
+            'value'                 => fake()->jobTitle(),
             'type'                  => ValueType::random(),
             'status'                => true,
         ];

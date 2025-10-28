@@ -18,7 +18,7 @@ final class AdvertisementNoteFactory extends Factory
         return [
             'user_id'          => User::factory(),
             'advertisement_id' => Advertisement::factory(),
-            'note'             => fake()->text,
+            'note'             => fake()->text(),
         ];
     }
 }

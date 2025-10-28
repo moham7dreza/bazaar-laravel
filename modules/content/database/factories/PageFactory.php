@@ -14,8 +14,8 @@ final class PageFactory extends Factory
     public function definition(): array
     {
         return [
-            'title'  => fake()->title,
-            'body'   => fake()->randomHtml,
+            'title'  => fake()->title(),
+            'body'   => fake()->randomHtml(),
             'status' => true,
         ];
     }

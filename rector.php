@@ -59,4 +59,5 @@ return RectorConfig::configure()
         RectorLaravel\Rector\PropertyFetch\OptionalToNullsafeOperatorRector::class,
         //        RectorLaravel\Rector\StaticCall\MinutesToSecondsInCacheRector::class,
         RectorLaravel\Rector\Class_\RemoveModelPropertyFromFactoriesRector::class,
+        RectorLaravel\Rector\PropertyFetch\ReplaceFakerPropertyFetchWithMethodCallRector::class,
     ]);

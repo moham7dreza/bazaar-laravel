@@ -15,10 +15,10 @@ class HolidayFactory extends Factory
     public function definition(): array
     {
         return [
-            'title'      => fake()->title,
-            'date'       => fake()->dateTime,
-            'started_at' => fake()->dateTime,
-            'ended_at'   => fake()->dateTime,
+            'title'      => fake()->title(),
+            'date'       => fake()->dateTime(),
+            'started_at' => fake()->dateTime(),
+            'ended_at'   => fake()->dateTime(),
         ];
     }
 }

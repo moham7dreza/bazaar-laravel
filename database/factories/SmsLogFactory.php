@@ -30,7 +30,7 @@ class SmsLogFactory extends Factory
             'to'            => '09121234567',
             'sent_at'       => now(),
             'delivered_at'  => null,
-            'message'       => fake()->text,
+            'message'       => fake()->text(),
         ];
     }
 }

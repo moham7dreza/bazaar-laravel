@@ -14,7 +14,7 @@ class CommonFakesProvider extends Base
     public function tags(): string
     {
         return collect(range(1, $this->generator->numberBetween(5, 10)))
-            ->map(fn () => $this->generator->jobTitle)
+            ->map(fn () => $this->generator->jobTitle())
             ->implode(',');
     }
 
@@ -22,7 +22,7 @@ class CommonFakesProvider extends Base
     {
         return collect()
             ->times($count)
-            ->map(fn () => fake()->name)
+            ->map(fn () => fake()->name())
             ->all();
     }
 }
