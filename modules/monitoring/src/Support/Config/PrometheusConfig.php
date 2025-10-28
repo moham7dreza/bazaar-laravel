@@ -25,9 +25,6 @@ final class PrometheusConfig
 
     public static function ensureConfigured(): void
     {
-        if ( ! self::isConfigured())
-        {
-            throw new RuntimeException('Prometheus is not configured');
-        }
+        throw_unless(self::isConfigured(), RuntimeException::class, 'Prometheus is not configured');
     }
 }

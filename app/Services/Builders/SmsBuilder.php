@@ -48,15 +48,9 @@ final class SmsBuilder
 
     public static function make(string $messageKey): self
     {
-        if ( ! str_starts_with($messageKey, 'sms.'))
-        {
-            throw new InvalidArgumentException("The message key must start with 'sms.'.");
-        }
+        throw_unless(str_starts_with($messageKey, 'sms.'), InvalidArgumentException::class, "The message key must start with 'sms.'.");
 
-        if ( ! Lang::has($messageKey))
-        {
-            throw new InvalidArgumentException("The [{$messageKey}] message key does not exist in translations.");
-        }
+        throw_unless(Lang::has($messageKey), InvalidArgumentException::class, "The [{$messageKey}] message key does not exist in translations.");
 
         return new self($messageKey);
     }
@@ -154,10 +148,7 @@ final class SmsBuilder
     {
         if ($this->withToken)
         {
-            if ( ! $this->user)
-            {
-                throw new RuntimeException('User must be provided through the `path()` method to generate auth token.');
-            }
+            throw_unless($this->user, RuntimeException::class, 'User must be provided through the `path()` method to generate auth token.');
 
             $this->queryParams['token'] = $this->user->createToken(
                 name: $this->tokenName,
@@ -171,10 +162,7 @@ final class SmsBuilder
     {
         if (filled($this->path))
         {
-            if (array_key_exists('link', $this->messageParams))
-            {
-                throw new RuntimeException("The 'link' parameter is reserved and must not be provided in the parameters array.");
-            }
+            throw_if(array_key_exists('link', $this->messageParams), RuntimeException::class, "The 'link' parameter is reserved and must not be provided in the parameters array.");
 
             $this->messageParams['link'] = $this->createShortlink();
         }
@@ -199,9 +187,6 @@ final class SmsBuilder
         $placeholders  = $matches[1];
         $missingParams = array_diff($placeholders, array_keys($this->messageParams));
 
-        if ( ! empty($missingParams))
-        {
-            throw new RuntimeException("Missing parameters for {$this->messageKey}: " . implode(', ', $missingParams));
-        }
+        throw_unless(empty($missingParams), RuntimeException::class, "Missing parameters for {$this->messageKey}: " . implode(', ', $missingParams));
     }
 }

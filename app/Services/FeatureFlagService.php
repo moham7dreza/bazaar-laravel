@@ -29,12 +29,7 @@ final class FeatureFlagService
             ->diffKeys($userFlags)
             ->keys();
 
-        if ($unavailable->isNotEmpty())
-        {
-            throw new FeatureAccessException(
-                'Access denied to features: ' . $unavailable->implode(', ')
-            );
-        }
+        throw_if($unavailable->isNotEmpty(), FeatureAccessException::class, 'Access denied to features: ' . $unavailable->implode(', '));
 
         return true;
     }

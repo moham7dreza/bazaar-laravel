@@ -19,10 +19,7 @@ final readonly class JalalianFactory
      */
     public static function fromGregorian(mixed $date): ?Jalalian
     {
-        if (null !== $date && ! is_string($date) && ! is_int($date) && ! ($date instanceof DateTimeInterface))
-        {
-            throw new RuntimeException('$date must be a string, int, or DateTimeInterface instance.');
-        }
+        throw_if(null !== $date && ! is_string($date) && ! is_int($date) && ! ($date instanceof DateTimeInterface), RuntimeException::class, '$date must be a string, int, or DateTimeInterface instance.');
 
         return filled($date) ? jdate($date) : null;
     }

@@ -15,16 +15,10 @@ class WebhookService
     public function registerWebhook(string $url, array $events): bool
     {
         // Validate webhook URL is secure
-        if ( ! Str::isUrl($url, ['https']))
-        {
-            throw new InvalidWebhookException('Webhook URLs must use HTTPS protocol');
-        }
+        throw_unless(Str::isUrl($url, ['https']), InvalidWebhookException::class, 'Webhook URLs must use HTTPS protocol');
 
         // Additional validation for webhook endpoints
-        if ( ! $this->isReachableEndpoint($url))
-        {
-            throw new InvalidWebhookException('Webhook endpoint is not reachable');
-        }
+        throw_unless($this->isReachableEndpoint($url), InvalidWebhookException::class, 'Webhook endpoint is not reachable');
 
         return $this->createWebhookSubscription($url, $events);
     }

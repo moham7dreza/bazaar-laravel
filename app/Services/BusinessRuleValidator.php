@@ -12,16 +12,10 @@ final class BusinessRuleValidator
     public function validateTeamStructure(Collection $members)
     {
         // Ensure exactly one team lead exists
-        if ( ! $members->containsOneItem(fn ($member) => 'lead' === $member->role))
-        {
-            throw new ValidationException('Exactly one team lead required');
-        }
+        throw_unless($members->containsOneItem(fn ($member) => 'lead' === $member->role), ValidationException::class, 'Exactly one team lead required');
 
         // Ensure exactly one budget approver
-        if ( ! $members->containsOneItem(fn ($member) => $member->can_approve_budget))
-        {
-            throw new ValidationException('Exactly one budget approver required');
-        }
+        throw_unless($members->containsOneItem(fn ($member) => $member->can_approve_budget), ValidationException::class, 'Exactly one budget approver required');
 
         return true;
     }
@@ -36,10 +30,7 @@ final class BusinessRuleValidator
 
         foreach ($validations as $type => $isValid)
         {
-            if ( ! $isValid)
-            {
-                throw new ValidationException("Exactly one {$type} fee required");
-            }
+            throw_unless($isValid, ValidationException::class, "Exactly one {$type} fee required");
         }
 
         return $items;

@@ -20,20 +20,11 @@ final class PaymentGateway
     public function processPayment(float $amount): bool
     {
         // Before: verbose type checking
-        if ( ! isset($this->config['api_key']) || ! is_string($this->config['api_key']))
-        {
-            throw new RuntimeException('API key is required and must be a string');
-        }
+        throw_if( ! isset($this->config['api_key']) || ! is_string($this->config['api_key']), RuntimeException::class, 'API key is required and must be a string');
 
-        if (isset($this->config['debug']) && ! is_bool($this->config['debug']))
-        {
-            throw new RuntimeException('Debug flag must be a boolean value');
-        }
+        throw_if(isset($this->config['debug']) && ! is_bool($this->config['debug']), RuntimeException::class, 'Debug flag must be a boolean value');
 
-        if (isset($this->config['allowed_currencies']) && ! is_array($this->config['allowed_currencies']))
-        {
-            throw new RuntimeException('Allowed currencies must be an array');
-        }
+        throw_if(isset($this->config['allowed_currencies']) && ! is_array($this->config['allowed_currencies']), RuntimeException::class, 'Allowed currencies must be an array');
 
         // Process payment...
 

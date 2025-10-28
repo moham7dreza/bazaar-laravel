@@ -33,10 +33,7 @@ class HistoryStack
     {
         $eventJson = $this->redis->lpop("history:todos:{$todoId}:{$userId}");
 
-        if ( ! $eventJson)
-        {
-            throw new InvalidArgumentException('Event not found in redis');
-        }
+        throw_unless($eventJson, InvalidArgumentException::class, 'Event not found in redis');
 
         return json_decode($eventJson, true, 512, JSON_THROW_ON_ERROR);
     }

@@ -26,10 +26,7 @@ class BackupService
 
             $response = Http::timeout(300)->get($backupUrl);
 
-            if ($response->failed())
-            {
-                throw new BackupDownloadException("Failed to retrieve backup from {$backupUrl}");
-            }
+            throw_if($response->failed(), BackupDownloadException::class, "Failed to retrieve backup from {$backupUrl}");
 
             $fileSize = $response->header('Content-Length');
             $this->logBackupStart($backupUrl, $fileSize);
@@ -87,10 +84,7 @@ class BackupService
 
     private function validateBackupUrl(string $url): void
     {
-        if ( ! filter_var($url, FILTER_VALIDATE_URL))
-        {
-            throw new InvalidArgumentException('Invalid backup URL provided');
-        }
+        throw_unless(filter_var($url, FILTER_VALIDATE_URL), InvalidArgumentException::class, 'Invalid backup URL provided');
     }
 
     /**
@@ -100,10 +94,7 @@ class BackupService
     {
         $actualSize = Storage::disk(StorageDisk::BACKUPS->value)->size($path);
 
-        if ($expectedSize && $actualSize !== (int) $expectedSize)
-        {
-            throw new BackupIntegrityException('File size mismatch during backup verification');
-        }
+        throw_if($expectedSize && $actualSize !== (int) $expectedSize, BackupIntegrityException::class, 'File size mismatch during backup verification');
     }
 
     private function logBackupCompletion(string $destinationPath): void

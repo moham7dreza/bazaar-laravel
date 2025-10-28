@@ -35,9 +35,6 @@ class UpdateUserMobileAction extends Action
 
     private function validateMobile(): void
     {
-        if ( ! preg_match('/^\+?\d{10,15}$/', $this->mobile))
-        {
-            throw new InvalidArgumentException('Invalid mobile number format');
-        }
+        throw_unless(preg_match('/^\+?\d{10,15}$/', $this->mobile), InvalidArgumentException::class, 'Invalid mobile number format');
     }
 }

@@ -22,10 +22,7 @@ class AsAddress implements CastsAttributes, SerializesCastableAttributes
 
     public function set(Model $model, string $key, mixed $value, array $attributes): array
     {
-        if ( ! $value instanceof Address)
-        {
-            throw new InvalidArgumentException('The given value is not an Address instance.');
-        }
+        throw_unless($value instanceof Address, InvalidArgumentException::class, 'The given value is not an Address instance.');
 
         return [
             'address_line_one' => $value->lineOne,

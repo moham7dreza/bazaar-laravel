@@ -59,13 +59,8 @@ final class SettingsManager
             ->diffKeys($settings)
             ->keys();
 
-        if ($missing->isNotEmpty())
-        {
-            throw new MissingSettingsException(
-                'Essential settings missing: ' .
-                $missing->implode(', ')
-            );
-        }
+        throw_if($missing->isNotEmpty(), MissingSettingsException::class, 'Essential settings missing: ' .
+        $missing->implode(', '));
 
         return true;
     }
