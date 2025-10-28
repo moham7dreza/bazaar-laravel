@@ -63,9 +63,9 @@ final readonly class CreateIndexAndSaveImageUploaderService implements ImageUplo
                 $indexArray[$sizeAlias] = $this->imageService->getImageAddress();
             }
 
-            $images['indexArray']   = $indexArray;
-            $images['directory']    = $this->imageService->getFinalImageDirectory();
-            $images['currentImage'] = config('image-index.default-current-index-image');
+            \Illuminate\Support\Arr::set($images, 'indexArray', $indexArray);
+            \Illuminate\Support\Arr::set($images, 'directory', $this->imageService->getFinalImageDirectory());
+            \Illuminate\Support\Arr::set($images, 'currentImage', config('image-index.default-current-index-image'));
 
             return $images;
 

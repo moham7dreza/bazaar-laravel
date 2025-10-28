@@ -42,7 +42,7 @@ final class ImageService extends ImageToolsService
 
                 if ($DTO->currentImageSize && ! empty($image))
                 {
-                    $image['currentImage'] = $DTO->currentImageSize;
+                    \Illuminate\Support\Arr::set($image, 'currentImage', $DTO->currentImageSize);
 
                     return $image;
                 }
@@ -116,9 +116,9 @@ final class ImageService extends ImageToolsService
                 $indexArray[$sizeAlias] = $this->getImageAddress();
             }
 
-            $images['indexArray']   = $indexArray;
-            $images['directory']    = $this->getFinalImageDirectory();
-            $images['currentImage'] = config('image-index.default-current-index-image');
+            \Illuminate\Support\Arr::set($images, 'indexArray', $indexArray);
+            \Illuminate\Support\Arr::set($images, 'directory', $this->getFinalImageDirectory());
+            \Illuminate\Support\Arr::set($images, 'currentImage', config('image-index.default-current-index-image'));
 
             return $images;
 

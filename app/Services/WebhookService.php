@@ -29,8 +29,8 @@ class WebhookService
 
         foreach ($integrations as $service => $config)
         {
-            if (isset($config['callback_url']) &&
-                Str::isUrl($config['callback_url'], ['https']))
+            if (null !== \Illuminate\Support\Arr::get($config, 'callback_url') &&
+                Str::isUrl(\Illuminate\Support\Arr::get($config, 'callback_url'), ['https']))
             {
                 $validated[$service] = $config;
             }

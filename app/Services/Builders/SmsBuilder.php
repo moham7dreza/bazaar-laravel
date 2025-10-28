@@ -124,9 +124,9 @@ final class SmsBuilder
 
     public function withProductUtms(string $campaign = 'productsms'): self
     {
-        $this->queryParams['utm_source']   = 'product';
-        $this->queryParams['utm_medium']   = 'sms';
-        $this->queryParams['utm_campaign'] = $campaign;
+        \Illuminate\Support\Arr::set($this->queryParams, 'utm_source', 'product');
+        \Illuminate\Support\Arr::set($this->queryParams, 'utm_medium', 'sms');
+        \Illuminate\Support\Arr::set($this->queryParams, 'utm_campaign', $campaign);
 
         return $this;
     }
@@ -150,11 +150,12 @@ final class SmsBuilder
         {
             throw_unless($this->user, RuntimeException::class, 'User must be provided through the `path()` method to generate auth token.');
 
-            $this->queryParams['token'] = $this->user->createToken(
+            $token = $this->user->createToken(
                 name: $this->tokenName,
                 abilities: $this->tokenScopes,
                 expiresAt: $this->tokenExpireAt,
             )->plainTextToken;
+            \Illuminate\Support\Arr::set($this->queryParams, 'token', $token);
         }
     }
 
@@ -164,7 +165,7 @@ final class SmsBuilder
         {
             throw_if(array_key_exists('link', $this->messageParams), RuntimeException::class, "The 'link' parameter is reserved and must not be provided in the parameters array.");
 
-            $this->messageParams['link'] = $this->createShortlink();
+            \Illuminate\Support\Arr::set($this->messageParams, 'link', $this->createShortlink());
         }
     }
 

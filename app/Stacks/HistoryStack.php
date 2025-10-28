@@ -20,8 +20,9 @@ class HistoryStack
      */
     public function push(array $event, int $userId): void
     {
+        $id = \Illuminate\Support\Arr::get($event, 'data.todo_id');
         $this->redis->lPush(
-            "history:todos:{$event['data']['todo_id']}:{$userId}",
+            "history:todos:{$id}:{$userId}",
             json_encode($event, JSON_THROW_ON_ERROR)
         );
     }

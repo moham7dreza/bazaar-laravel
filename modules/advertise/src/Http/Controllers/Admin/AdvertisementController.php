@@ -54,7 +54,7 @@ final class AdvertisementController extends Controller
         }
 
         $ad = DB::transaction(static function () use ($inputs, $request) {
-            unset($inputs['category_value_id']);
+            \Illuminate\Support\Arr::forget($inputs, 'category_value_id');
             $ad = Advertisement::query()->create($inputs);
 
             if ($request->filled('category_value_id'))
