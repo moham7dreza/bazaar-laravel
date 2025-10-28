@@ -14,6 +14,7 @@ use Illuminate\Database\Eloquent\Prunable;
 #[ScopedBy([LatestScope::class])]
 final class JobPerformanceLog extends Model
 {
+    use \Illuminate\Database\Eloquent\Factories\HasFactory;
     use Prunable;
 
     public const UPDATED_AT = null;

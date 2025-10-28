@@ -15,6 +15,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 #[ScopedBy([LatestScope::class])]
 class Message extends Model
 {
+    use \Illuminate\Database\Eloquent\Factories\HasFactory;
     use Prunable;
     // _____________________________________________ use section ________________________________________________
     //

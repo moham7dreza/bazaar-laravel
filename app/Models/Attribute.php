@@ -14,6 +14,7 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Attribute extends Model
 {
+    use \Illuminate\Database\Eloquent\Factories\HasFactory;
     protected $guarded = [];
 
     public function __construct(array $attributes = [])

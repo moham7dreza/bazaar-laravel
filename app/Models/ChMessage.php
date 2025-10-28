@@ -9,5 +9,6 @@ use Illuminate\Database\Eloquent\Model;
 
 class ChMessage extends Model
 {
+    use \Illuminate\Database\Eloquent\Factories\HasFactory;
     use UUID;
 }

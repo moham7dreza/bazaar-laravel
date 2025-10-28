@@ -14,6 +14,7 @@ use Modules\Monitoring\Enums\CommandLoggingStatus;
 
 class CommandPerformanceLog extends Model
 {
+    use \Illuminate\Database\Eloquent\Factories\HasFactory;
     use Prunable;
 
     protected $guarded = [];
