@@ -23,6 +23,6 @@ final class MobileVerificationNotificationController extends Controller
 
         $request->user()->sendMobileVerificationNotification();
 
-        return response()->json(['status' => 'verification-link-sent']);
+        return new JsonResponse(['status' => 'verification-link-sent']);
     }
 }

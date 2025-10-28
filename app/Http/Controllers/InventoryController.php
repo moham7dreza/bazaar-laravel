@@ -7,6 +7,7 @@ namespace App\Http\Controllers;
 use App\Events\PricingUpdateFailed;
 use App\Exceptions\InsufficientStockException;
 use App\Models\Item;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Log;
 
 class InventoryController extends Controller
@@ -18,7 +19,7 @@ class InventoryController extends Controller
             ->existsOr(function () use ($itemCode) {
                 Log::warning("Stock check attempted for unavailable item: {$itemCode}");
 
-                return response()->json([
+                return new JsonResponse([
                     'in_stock' => false,
                     'message'  => 'Item unavailable or out of stock',
                 ], 404);

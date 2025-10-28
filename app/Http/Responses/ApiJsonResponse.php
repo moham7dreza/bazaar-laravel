@@ -90,7 +90,7 @@ final class ApiJsonResponse
             $message = [$message];
         }
 
-        return response()->json([
+        return new JsonResponse([
             'data' => $data,
             'meta' => [
                 'status'   => $metaStatus,

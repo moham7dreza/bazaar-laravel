@@ -11,6 +11,7 @@ use App\Helpers\JalalianFactory;
 use App\Mail\UserLandMail;
 use Exception;
 use Illuminate\Http\Client\Batch;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
@@ -69,7 +70,7 @@ class HomeController extends Controller
             ]);
         })->defer();
 
-        return response()->json([
+        return new JsonResponse([
             'ServiceName'    => 'Bazaar Api',
             'ServiceVersion' => 'v1.0',
             'HostName'       => \request()?->getHost(),

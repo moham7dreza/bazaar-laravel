@@ -40,4 +40,5 @@ return RectorConfig::configure()
         RectorLaravel\Rector\If_\AbortIfRector::class,
         RectorLaravel\Rector\ClassMethod\AddArgumentDefaultValueRector::class,
         RectorLaravel\Rector\ClassMethod\AddGenericReturnTypeToRelationsRector::class,
+        RectorLaravel\Rector\MethodCall\ResponseHelperCallToJsonResponseRector::class,
     ]);
