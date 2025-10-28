@@ -12,7 +12,7 @@ class WebhookService
     /**
      * @throws InvalidWebhookException
      */
-    public function registerWebhook(string $url, array $events)
+    public function registerWebhook(string $url, array $events): bool
     {
         // Validate webhook URL is secure
         if ( ! Str::isUrl($url, ['https']))
@@ -50,7 +50,8 @@ class WebhookService
         return true;
     }
 
-    private function createWebhookSubscription(string $url, array $events): void
+    private function createWebhookSubscription(string $url, array $events): bool
     {
+        return true;
     }
 }

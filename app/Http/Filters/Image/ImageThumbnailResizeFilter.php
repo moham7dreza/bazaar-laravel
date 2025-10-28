@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Http\Filters\Image;
 
-use App\Pipelines\Image\Constraint;
 use Closure;
 use Illuminate\Http\UploadedFile;
 use Intervention\Image\Laravel\Facades\Image;
@@ -24,9 +23,7 @@ class ImageThumbnailResizeFilter
             $ratio > 1   => [null, 300],
         };
 
-        $image = $image->resize($width, $height, function (Constraint $constraint): void {
-            $constraint->aspectRatio();
-        })
+        $image = $image->resize($width, $height)
             ->crop(400, 300);
 
         return $next($image);

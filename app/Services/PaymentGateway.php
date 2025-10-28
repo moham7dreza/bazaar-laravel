@@ -50,5 +50,7 @@ final class PaymentGateway
         {
             throw new RuntimeException('Invalid payment configuration: ' . $e->getMessage());
         }
+
+        return true;
     }
 }

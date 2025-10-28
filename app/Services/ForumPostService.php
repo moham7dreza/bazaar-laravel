@@ -9,7 +9,7 @@ use Illuminate\Support\Str;
 
 final class ForumPostService
 {
-    public function processReply(string $content, User $author)
+    public function processReply(string $content, User $author): bool
     {
         // Handle code blocks and formatting
         $formatted = Str::inlineMarkdown($content, [
@@ -41,7 +41,8 @@ final class ForumPostService
         ]);
     }
 
-    private function addAuthorContext(string $formatted, User $author): void
+    private function addAuthorContext(string $formatted, User $author): bool
     {
+        return true;
     }
 }

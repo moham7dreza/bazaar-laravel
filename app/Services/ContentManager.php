@@ -5,10 +5,11 @@ declare(strict_types=1);
 namespace App\Services;
 
 use App\Models\User;
+use Illuminate\Support\Collection;
 
 final class ContentManager
 {
-    public function findDormantAuthors()
+    public function findDormantAuthors(): Collection
     {
         return User::query()
             ->whereDoesntHaveRelation(
@@ -19,6 +20,8 @@ final class ContentManager
             )->get();
     }
 
+    /*
+     * TODO
     public function getUnmoderatedContent()
     {
         return Article::query()
@@ -54,4 +57,5 @@ final class ContentManager
             )
             ->update(['status' => 'archived']);
     }
+    */
 }

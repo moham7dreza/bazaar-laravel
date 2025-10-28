@@ -21,6 +21,6 @@ class WhatsappChannel
      */
     public function join(User $user): array|bool
     {
-
+        return [];
     }
 }

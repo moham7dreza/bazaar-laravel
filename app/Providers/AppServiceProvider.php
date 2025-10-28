@@ -275,7 +275,7 @@ final class AppServiceProvider extends ServiceProvider
 
     private function configureSchedule(): void
     {
-        Event::macro('exceptOnHolidays', static fn () => $this->skip(today()->isHoliday()));
+        Event::macro('exceptOnHolidays', fn () => $this->skip(today()->isHoliday()));
     }
 
     private function configureUri(): void
