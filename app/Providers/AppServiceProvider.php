@@ -295,7 +295,7 @@ final class AppServiceProvider extends ServiceProvider
     {
         $this->app->singleton(function (Application $application): Manager {
 
-            $config = $application['config']->get('services.manager');
+            $config = $application->make(\Illuminate\Contracts\Config\Repository::class)->get('services.manager');
 
             $rules = [
                 'redirect'      => ['required', 'url'],
