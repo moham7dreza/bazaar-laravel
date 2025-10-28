@@ -28,6 +28,7 @@ return RectorConfig::configure()
         RectorLaravel\Set\LaravelSetList::LARAVEL_120,
         RectorLaravel\Set\LaravelSetList::LARAVEL_COLLECTION,
         RectorLaravel\Set\LaravelSetList::LARAVEL_CODE_QUALITY,
+        RectorLaravel\Set\LaravelSetList::LARAVEL_CONTAINER_STRING_TO_FULLY_QUALIFIED_NAME,
     ])
     ->withRules([
         //        EloquentMagicMethodToQueryBuilderRector::class,

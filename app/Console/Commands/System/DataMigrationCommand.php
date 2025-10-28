@@ -18,7 +18,7 @@ class DataMigrationCommand extends MigrateMakeCommand
 
     public function __construct()
     {
-        parent::__construct(app('migration.creator'), app('composer'));
+        parent::__construct(app('migration.creator'), app(\Illuminate\Support\Composer::class));
     }
 
     public function handle(): int
