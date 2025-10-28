@@ -31,7 +31,7 @@ final class CheckVulnerabilitiesCommand extends Command
 
         admin()?->notify(new VulnerabilitiesFoundNotification($text));
 
-        $this->info($text);
+        $this->components->info($text);
 
         return static::SUCCESS;
     }

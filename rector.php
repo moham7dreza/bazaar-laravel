@@ -60,4 +60,8 @@ return RectorConfig::configure()
         //        RectorLaravel\Rector\StaticCall\MinutesToSecondsInCacheRector::class,
         RectorLaravel\Rector\Class_\RemoveModelPropertyFromFactoriesRector::class,
         RectorLaravel\Rector\PropertyFetch\ReplaceFakerPropertyFetchWithMethodCallRector::class,
+        RectorLaravel\Rector\MethodCall\ReplaceServiceContainerCallArgRector::class,
+        //        RectorLaravel\Rector\StaticCall\RequestStaticValidateToInjectRector::class,
+        RectorLaravel\Rector\StaticCall\RouteActionCallableRector::class,
+        RectorLaravel\Rector\MethodCall\UseComponentPropertyWithinCommandsRector::class,
     ]);

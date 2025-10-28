@@ -64,7 +64,7 @@ final class CacheUiLaravelCommand extends Command
         }
 
         $this->newLine();
-        $this->line("📝 <fg=cyan>Key:</>      {$selectedKey}");
+        $this->components->line("📝 <fg=cyan>Key:</>      {$selectedKey}");
         $this->newLine();
 
         $confirmed = confirm(

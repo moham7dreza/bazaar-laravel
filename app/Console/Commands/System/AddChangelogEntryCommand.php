@@ -44,13 +44,13 @@ class AddChangelogEntryCommand extends Command
 
     public function handle(): void
     {
-        $this->info('=== Adding New Changelog Entry ===');
-        $this->line('Please provide the following details for the changelog entry.');
-        $this->line('Refer to the project guidelines:');
-        $this->warn('- Be clear and concise');
-        $this->warn('- Focus on what changed');
-        $this->warn('- Use Consistent Language');
-        $this->warn('- Include relevant details like Jira tickets or MR links');
+        $this->components->info('=== Adding New Changelog Entry ===');
+        $this->components->line('Please provide the following details for the changelog entry.');
+        $this->components->line('Refer to the project guidelines:');
+        $this->components->warn('- Be clear and concise');
+        $this->components->warn('- Focus on what changed');
+        $this->components->warn('- Use Consistent Language');
+        $this->components->warn('- Include relevant details like Jira tickets or MR links');
         $this->newLine();
 
         // Get and validate datetime

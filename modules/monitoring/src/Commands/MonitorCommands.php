@@ -101,8 +101,8 @@ class MonitorCommands extends Command
             ? "Failed Commands Per Hour - Category: {$category} (Last {$hours}h)"
             : "Failed Commands Per Hour (Last {$hours}h)";
 
-        $this->info($title);
-        $this->info(str_repeat('=', mb_strlen($title)));
+        $this->components->info($title);
+        $this->components->info(str_repeat('=', mb_strlen($title)));
 
         if ($failedData->isEmpty())
         {
@@ -114,12 +114,12 @@ class MonitorCommands extends Command
         $totalFailed = $failedData->sum('failed_count');
         $peakHour    = $failedData->sortByDesc('failed_count')->first();
 
-        $this->info("\n📈 Summary:");
-        $this->line("Total Failed Commands: <comment>{$totalFailed}</comment>");
-        $this->line("Peak Failure Hour: <comment>{$peakHour->hour} - {$peakHour->failed_count} failures</comment>");
-        $this->line('Average Failures/Hour: <comment>' . number_format($totalFailed / $failedData->count(), 1) . '</comment>');
+        $this->components->info("\n📈 Summary:");
+        $this->components->line("Total Failed Commands: <comment>{$totalFailed}</comment>");
+        $this->components->line("Peak Failure Hour: <comment>{$peakHour->hour} - {$peakHour->failed_count} failures</comment>");
+        $this->components->line('Average Failures/Hour: <comment>' . number_format($totalFailed / $failedData->count(), 1) . '</comment>');
 
-        $this->info("\n🕒 Hourly Breakdown:");
+        $this->components->info("\n🕒 Hourly Breakdown:");
 
         $rows = $failedData->map(function ($hour) {
             $trend = $hour->failed_count > 5 ? '🔴' : ($hour->failed_count > 2 ? '🟡' : '🟢');
@@ -157,8 +157,8 @@ class MonitorCommands extends Command
             ? "Commands Execution Rate - Category: {$category} (Last {$minutes}m)"
             : "Commands Execution Rate (Last {$minutes}m)";
 
-        $this->info($title);
-        $this->info(str_repeat('=', mb_strlen($title)));
+        $this->components->info($title);
+        $this->components->info(str_repeat('=', mb_strlen($title)));
 
         if ($rateData->isEmpty())
         {
@@ -171,12 +171,12 @@ class MonitorCommands extends Command
         $peakMinute    = $rateData->sortByDesc('command_count')->first();
         $avgPerMinute  = $totalCommands / $rateData->count();
 
-        $this->info("\n📈 Summary:");
-        $this->line("Total Commands Executed: <comment>{$totalCommands}</comment>");
-        $this->line("Peak Execution: <comment>{$peakMinute->minute} - {$peakMinute->command_count} commands</comment>");
-        $this->line('Average Rate: <comment>' . number_format($avgPerMinute, 1) . ' commands/minute</comment>');
+        $this->components->info("\n📈 Summary:");
+        $this->components->line("Total Commands Executed: <comment>{$totalCommands}</comment>");
+        $this->components->line("Peak Execution: <comment>{$peakMinute->minute} - {$peakMinute->command_count} commands</comment>");
+        $this->components->line('Average Rate: <comment>' . number_format($avgPerMinute, 1) . ' commands/minute</comment>');
 
-        $this->info("\n⏱️  Minute-by-Minute Rate:");
+        $this->components->info("\n⏱️  Minute-by-Minute Rate:");
 
         // Group by 5-minute intervals for better readability
         $groupedData = $rateData->groupBy(function ($item) {
@@ -203,7 +203,7 @@ class MonitorCommands extends Command
 
         // Show busiest minutes
         $busiestMinutes = $rateData->sortByDesc('command_count')->take(5);
-        $this->info("\n🔥 Busiest Minutes:");
+        $this->components->info("\n🔥 Busiest Minutes:");
         $busiestMinutes->each(function ($minute): void {
             $this->line(" - <comment>{$minute->minute}</comment>: {$minute->command_count} commands");
         });
@@ -221,8 +221,8 @@ class MonitorCommands extends Command
             ($category ? " - Category: {$category}" : '') .
             ('all' !== $status ? " - Status: {$status}" : '');
 
-        $this->info($title);
-        $this->info(str_repeat('=', mb_strlen($title)));
+        $this->components->info($title);
+        $this->components->info(str_repeat('=', mb_strlen($title)));
 
         if ($recentCommands->isEmpty())
         {
@@ -262,8 +262,8 @@ class MonitorCommands extends Command
         $failed    = $recentCommands->where('status', 'failed')->count();
         $running   = $recentCommands->where('status', 'started')->count();
 
-        $this->info("\n📊 Summary of Last {$limit} Commands:");
-        $this->line("Completed: <fg=green>{$completed}</> | Failed: <fg=red>{$failed}</> | Running: <fg=yellow>{$running}</>");
+        $this->components->info("\n📊 Summary of Last {$limit} Commands:");
+        $this->components->line("Completed: <fg=green>{$completed}</> | Failed: <fg=red>{$failed}</> | Running: <fg=yellow>{$running}</>");
 
         if ($failed > 0)
         {
@@ -277,8 +277,8 @@ class MonitorCommands extends Command
         $commandName = $this->option('statistics');
         $statistics  = $monitor->getCommandStatistics($commandName);
 
-        $this->info("Statistics for: {$commandName}");
-        $this->info('==================' . str_repeat('=', mb_strlen($commandName)));
+        $this->components->info("Statistics for: {$commandName}");
+        $this->components->info('==================' . str_repeat('=', mb_strlen($commandName)));
 
         if ( ! \Illuminate\Support\Arr::get($statistics, 'statistics') || 0 === \Illuminate\Support\Arr::get($statistics, 'statistics')->total_runs)
         {
@@ -290,16 +290,16 @@ class MonitorCommands extends Command
         $stats = \Illuminate\Support\Arr::get($statistics, 'statistics');
 
         // Display summary statistics
-        $this->info("\n📊 Summary Statistics:");
-        $this->line("Total Runs: <comment>{$stats->total_runs}</comment>");
-        $this->line('Average Runtime: <comment>' . number_format($stats->avg_runtime) . ' ms</comment>');
-        $this->line('Min Runtime: <comment>' . number_format($stats->min_runtime) . ' ms</comment>');
-        $this->line('Max Runtime: <comment>' . number_format($stats->max_runtime) . ' ms</comment>');
-        $this->line('Average Memory: <comment>' . number_format($stats->avg_memory) . ' bytes</comment>');
-        $this->line('Average Queries: <comment>' . number_format($stats->avg_queries) . '</comment>');
+        $this->components->info("\n📊 Summary Statistics:");
+        $this->components->line("Total Runs: <comment>{$stats->total_runs}</comment>");
+        $this->components->line('Average Runtime: <comment>' . number_format($stats->avg_runtime) . ' ms</comment>');
+        $this->components->line('Min Runtime: <comment>' . number_format($stats->min_runtime) . ' ms</comment>');
+        $this->components->line('Max Runtime: <comment>' . number_format($stats->max_runtime) . ' ms</comment>');
+        $this->components->line('Average Memory: <comment>' . number_format($stats->avg_memory) . ' bytes</comment>');
+        $this->components->line('Average Queries: <comment>' . number_format($stats->avg_queries) . '</comment>');
 
         // Display recent runs
-        $this->info("\n🕒 Recent Runs (Last 10):");
+        $this->components->info("\n🕒 Recent Runs (Last 10):");
 
         if (\Illuminate\Support\Arr::get($statistics, 'recent_runs')->isEmpty())
         {
@@ -339,8 +339,8 @@ class MonitorCommands extends Command
         $days        = $this->ask('Number of days to analyze', 30);
         $performance = $monitor->getCategoryPerformance($category, $days);
 
-        $this->info("Performance Trends for Category: {$category} (Last {$days} days)");
-        $this->info('==========================================' . str_repeat('=', mb_strlen($category) + mb_strlen($days)));
+        $this->components->info("Performance Trends for Category: {$category} (Last {$days} days)");
+        $this->components->info('==========================================' . str_repeat('=', mb_strlen($category) + mb_strlen($days)));
 
         if ($performance->isEmpty())
         {
@@ -354,13 +354,13 @@ class MonitorCommands extends Command
         $avgRuntime      = $performance->avg('avg_runtime');
         $avgMemory       = $performance->avg('avg_memory');
 
-        $this->info("\n📈 Summary:");
-        $this->line("Total Executions: <comment>{$totalExecutions}</comment>");
-        $this->line('Average Runtime: <comment>' . number_format($avgRuntime) . ' ms</comment>');
-        $this->line('Average Memory: <comment>' . number_format($avgMemory) . ' bytes</comment>');
+        $this->components->info("\n📈 Summary:");
+        $this->components->line("Total Executions: <comment>{$totalExecutions}</comment>");
+        $this->components->line('Average Runtime: <comment>' . number_format($avgRuntime) . ' ms</comment>');
+        $this->components->line('Average Memory: <comment>' . number_format($avgMemory) . ' bytes</comment>');
 
         // Daily performance table
-        $this->info("\n📅 Daily Performance:");
+        $this->components->info("\n📅 Daily Performance:");
 
         $rows = $performance->map(fn ($day) => [
             $day->date,
@@ -373,15 +373,15 @@ class MonitorCommands extends Command
         $this->table(['Date', 'Executions', 'Avg Runtime', 'Avg Memory', 'Avg Queries'], $rows);
 
         // Performance trends analysis
-        $this->info("\n📊 Trends Analysis:");
+        $this->components->info("\n📊 Trends Analysis:");
 
         $minRuntime = $performance->min('avg_runtime');
         $maxRuntime = $performance->max('avg_runtime');
         $trend      = $this->calculateTrend($performance->pluck('avg_runtime')->toArray());
 
-        $this->line('Best Runtime: <comment>' . number_format($minRuntime) . ' ms</comment>');
-        $this->line('Worst Runtime: <comment>' . number_format($maxRuntime) . ' ms</comment>');
-        $this->line("Performance Trend: <comment>{$trend}</comment>");
+        $this->components->line('Best Runtime: <comment>' . number_format($minRuntime) . ' ms</comment>');
+        $this->components->line('Worst Runtime: <comment>' . number_format($maxRuntime) . ' ms</comment>');
+        $this->components->line("Performance Trend: <comment>{$trend}</comment>");
     }
 
     protected function calculateTrend(array $runtimes): string
@@ -416,8 +416,8 @@ class MonitorCommands extends Command
     {
         $categories = $monitor->getCategories();
 
-        $this->info('Available Command Categories');
-        $this->info('============================');
+        $this->components->info('Available Command Categories');
+        $this->components->info('============================');
 
         foreach ($categories as $category)
         {
@@ -429,8 +429,8 @@ class MonitorCommands extends Command
     {
         $workload = $monitor->getCategoryWorkload();
 
-        $this->info('Command Workload Overview');
-        $this->info('=========================');
+        $this->components->info('Command Workload Overview');
+        $this->components->info('=========================');
 
         $rows = $workload->map(fn ($data) => [
             $data->category,
@@ -457,8 +457,8 @@ class MonitorCommands extends Command
     {
         $running = $monitor->getRunningCommands();
 
-        $this->info('Currently Running Commands');
-        $this->info('==========================');
+        $this->components->info('Currently Running Commands');
+        $this->components->info('==========================');
 
         if ($running->isEmpty())
         {
@@ -489,8 +489,8 @@ class MonitorCommands extends Command
             ? "Slow Commands in Category: {$category}"
             : 'Slow Commands (> 5 minutes)';
 
-        $this->info($title);
-        $this->info(str_repeat('=', mb_strlen($title)));
+        $this->components->info($title);
+        $this->components->info(str_repeat('=', mb_strlen($title)));
 
         if ($slowCommands->isEmpty())
         {
@@ -525,8 +525,8 @@ class MonitorCommands extends Command
         $category = $this->option('category');
         $commands = $monitor->getCommandsByCategory($category);
 
-        $this->info("Commands in Category: {$category}");
-        $this->info('==============================' . str_repeat('=', mb_strlen($category)));
+        $this->components->info("Commands in Category: {$category}");
+        $this->components->info('==============================' . str_repeat('=', mb_strlen($category)));
 
         if ($commands->isEmpty())
         {

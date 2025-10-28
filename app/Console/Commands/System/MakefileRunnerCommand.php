@@ -135,12 +135,12 @@ class MakefileRunnerCommand extends Command
 
     protected function runScript(string $script): void
     {
-        $this->info("Running: make {$script}");
+        $this->components->info("Running: make {$script}");
         $this->newLine();
 
         passthru("make {$script}", $result);
 
         $this->newLine();
-        $this->info("Finished with exit code: {$result}");
+        $this->components->info("Finished with exit code: {$result}");
     }
 }

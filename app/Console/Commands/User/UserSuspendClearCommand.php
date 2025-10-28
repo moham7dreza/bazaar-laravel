@@ -38,7 +38,7 @@ class UserSuspendClearCommand extends Command
         //                UserSuspendClearJob::dispatch($users->pluck('id'));
         //            });
 
-        $this->info('Expired suspensions have been lifted.');
+        $this->components->info('Expired suspensions have been lifted.');
 
         return self::SUCCESS;
     }
