@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Tests;
 
 use Illuminate\Support\Facades\ParallelTesting;
+use Illuminate\Support\Facades\Request;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Testing\TestResponse;
 
@@ -43,7 +44,7 @@ final class TestsServiceProvider extends ServiceProvider
 
     private function isRunningTestsInParallel(): bool
     {
-        return ($this->app->runningUnitTests() && ! empty($_SERVER['LARAVEL_PARALLEL_TESTING'])) ||
-            ($this->app->runningInConsole() && in_array('--parallel', $_SERVER['argv'], true));
+        return ($this->app->runningUnitTests() && ! empty(Request::server('LARAVEL_PARALLEL_TESTING'))) ||
+            ($this->app->runningInConsole() && in_array('--parallel', Request::server('argv'), true));
     }
 }

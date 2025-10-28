@@ -7,6 +7,7 @@ namespace Tests;
 use App\Enums\StorageDisk;
 use Closure;
 use Illuminate\Foundation\Testing\TestCase as BaseTestCase;
+use Illuminate\Support\Facades\Request;
 use Illuminate\Support\Facades\Storage;
 use ReflectionFunction;
 
@@ -74,6 +75,6 @@ abstract class TestCase extends BaseTestCase
 
     private function isRunningInParallel(): bool
     {
-        return ! empty($_SERVER['LARAVEL_PARALLEL_TESTING']);
+        return ! empty(Request::server('LARAVEL_PARALLEL_TESTING'));
     }
 }
