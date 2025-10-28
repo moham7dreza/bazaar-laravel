@@ -44,54 +44,50 @@ class MonitorCommands extends Command
 
     protected $description = 'Monitor command performance using command prefixes as categories';
 
-    public function handle(CommandMonitoringService $monitor)
+    public function handle(CommandMonitoringService $monitor): int
     {
         if ($this->option('failed-per-hour'))
         {
-            return $this->showFailedCommandsPerHour($monitor);
+            $this->showFailedCommandsPerHour($monitor);
         }
-
-        if ($this->option('commands-per-minute'))
+        elseif ($this->option('commands-per-minute'))
         {
-            return $this->showCommandsPerMinute($monitor);
+            $this->showCommandsPerMinute($monitor);
         }
-
-        if ($this->option('recent'))
+        elseif ($this->option('recent'))
         {
-            return $this->showRecentCommands($monitor);
+            $this->showRecentCommands($monitor);
         }
-
-        if ($this->option('statistics'))
+        elseif ($this->option('statistics'))
         {
-            return $this->showCommandStatistics($monitor);
+            $this->showCommandStatistics($monitor);
         }
-
-        if ($this->option('performance'))
+        elseif ($this->option('performance'))
         {
-            return $this->showCategoryPerformance($monitor);
+            $this->showCategoryPerformance($monitor);
         }
-
-        if ($this->option('categories'))
+        elseif ($this->option('categories'))
         {
-            return $this->showCategories($monitor);
+            $this->showCategories($monitor);
         }
-
-        if ($this->option('running'))
+        elseif ($this->option('running'))
         {
-            return $this->showRunningCommands($monitor);
+            $this->showRunningCommands($monitor);
         }
-
-        if ($this->option('slow'))
+        elseif ($this->option('slow'))
         {
-            return $this->showSlowCommands($monitor);
+            $this->showSlowCommands($monitor);
         }
-
-        if ($this->option('category'))
+        elseif ($this->option('category'))
         {
-            return $this->showCategoryDetails($monitor);
+            $this->showCategoryDetails($monitor);
+        }
+        else
+        {
+            $this->showWorkloadOverview($monitor);
         }
 
-        $this->showWorkloadOverview($monitor);
+        return static::SUCCESS;
     }
 
     protected function showFailedCommandsPerHour(CommandMonitoringService $monitor): void
