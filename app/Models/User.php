@@ -82,7 +82,7 @@ final class User extends Authenticatable implements
     use SoftDeletes;
     use TwoFactorAuthenticatable;
 
-    const int TYPE_USER  = 0;
+    const int TYPE_USER = 0;
 
     const int TYPE_ADMIN = 1;
 
@@ -314,6 +314,7 @@ final class User extends Authenticatable implements
             'is_active'          => 'bool',
             'suspended_at'       => 'datetime',
             'suspended_until'    => 'datetime',
+            'last_login_at'      => 'datetime',
             //            'addresses' => \Illuminate\Database\Eloquent\Casts\AsCollection::of(\App\Data\ValueObjects\Address::class),
             'domain'  => 'integer',
             'locale'  => 'integer',
