@@ -54,7 +54,7 @@ final class GalleryController extends Controller
             }
         }
 
-        return Gallery::create($inputs)->toResource();
+        return Gallery::query()->create($inputs)->toResource();
     }
 
     /**

@@ -37,7 +37,7 @@ it('can assign permissions to specific role', function (): void {
     ])
         ->assertOk();
 
-    $permissions = Role::firstWhere(['name' => $role])
+    $permissions = Role::query()->firstWhere(['name' => $role])
         ?->permissions()
         ->pluck('name')
         ->intersect(UserPermission::values())

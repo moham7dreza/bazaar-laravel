@@ -35,7 +35,7 @@ final class TelescopeServiceProvider extends TelescopeApplicationServiceProvider
             $entry->hasMonitoredTag());
 
         Telescope::avatar(static fn (?string $id, ?string $email) => null !== $id
-                ? User::find($id)->avatar_url
+                ? User::query()->find($id)->avatar_url
                 : '');
     }
 

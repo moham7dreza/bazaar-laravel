@@ -16,8 +16,8 @@ final class UserBatchSeeder extends Seeder
     public function run(): void
     {
         Schema::disableForeignKeyConstraints();
-        User::truncate();
-        Advertisement::truncate();
+        User::query()->truncate();
+        Advertisement::query()->truncate();
 
         $totalUsers = 1000;
 
@@ -52,7 +52,7 @@ final class UserBatchSeeder extends Seeder
                 // insert in chunks of 1000
                 foreach (array_chunk($users, 1000) as $chunk)
                 {
-                    User::insert($chunk);
+                    User::query()->insert($chunk);
 
                     app(AdvertisementBatchSeeder::class)->createAdsForUsers($chunk);
                 }

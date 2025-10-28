@@ -25,7 +25,7 @@ final class ProcessNewAdvertisementJob implements ShouldQueue, ShouldNotifyOnFai
     public function __construct(
         public readonly int $id,
     ) {
-        $this->advertisement = Advertisement::find($this->id);
+        $this->advertisement = Advertisement::query()->find($this->id);
     }
 
     public function middleware(): array
@@ -33,7 +33,7 @@ final class ProcessNewAdvertisementJob implements ShouldQueue, ShouldNotifyOnFai
         return [
             new WithoutOverlapping("ad-processing-{$this->id}"),
             new RateLimited('ad-notifications'),
-            (new ThrottlesExceptions(3, 60))->backoff(30),
+            new ThrottlesExceptions(3, 60)->backoff(30),
         ];
     }
 

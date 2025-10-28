@@ -50,12 +50,12 @@ final class VerifyUserWithOTPController extends Controller
 
         $otp->update(['used' => 1]);
 
-        $user = User::firstWhere('mobile', $request->mobile);
+        $user = User::query()->firstWhere('mobile', $request->mobile);
 
         if ( ! $user)
         {
 
-            $user = User::create([
+            $user = User::query()->create([
                 'password'           => Str::random(10),
                 'mobile'             => $request->mobile,
                 'city_id'            => $request->city_id,

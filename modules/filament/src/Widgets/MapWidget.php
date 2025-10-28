@@ -16,7 +16,7 @@ final class MapWidget extends WorldMapWidget
     public function stats(): array
     {
         return [
-            'IR' => Advertisement::count(),
+            'IR' => Advertisement::query()->count(),
         ];
     }
 

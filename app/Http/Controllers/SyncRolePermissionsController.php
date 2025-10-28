@@ -33,7 +33,7 @@ final class SyncRolePermissionsController extends Controller
         // Assign permissions to role
         $role = $request->enum('role', UserRole::class);
 
-        Role::firstWhere(['name' => $role])?->syncPermissions(
+        Role::query()->firstWhere(['name' => $role])?->syncPermissions(
             $permissions->map->value->toArray()
         );
 

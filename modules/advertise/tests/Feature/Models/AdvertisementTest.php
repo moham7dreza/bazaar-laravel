@@ -12,7 +12,7 @@ it('can get advertisements viewed by users', function (): void {
         ->hasAttached($users = User::factory(2)->create(), relationship: 'viewedByUsers')
         ->create();
 
-    $viewedAdvertisements = Advertisement::whereAttachedTo($users, 'viewedByUsers');
+    $viewedAdvertisements = Advertisement::query()->whereAttachedTo($users, 'viewedByUsers');
 
     $intersect = $viewedAdvertisements->pluck('id')->intersect($ads->pluck('id'))->count();
 

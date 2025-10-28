@@ -24,7 +24,7 @@ test('can batch update 1000 users', function (): void {
 
     Bus::assertBatched(static function (PendingBatch $batch) {
         return $batch->jobs->each(function (App\Jobs\UserUpdateJob $job): void {
-            100 === count(array_intersect($job->ids, App\Models\User::pluck('id')->toArray()));
+            100 === count(array_intersect($job->ids, App\Models\User::query()->pluck('id')->toArray()));
         });
     });
 });

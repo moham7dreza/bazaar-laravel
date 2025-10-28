@@ -22,7 +22,7 @@ class UserSuspendClearCommand extends Command
         // as they load data only when needed
         LazyCollection::make(static function () {
 
-            yield from User::cursor()
+            yield from User::query()->cursor()
                 ->whereNotNull('suspended_until')
                 ->where('suspended_until', '<=', now());
 

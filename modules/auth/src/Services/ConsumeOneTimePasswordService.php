@@ -10,12 +10,16 @@ use App\Models\User;
 use Illuminate\Support\Str;
 use Modules\Auth\Enums\NoticeType;
 use Modules\Auth\Models\Otp;
+use Random\RandomException;
 
 class ConsumeOneTimePasswordService
 {
+    /**
+     * @throws RandomException
+     */
     public function prepareAndSend($mobile): array
     {
-        $user = User::firstWhere('mobile', $mobile);
+        $user = User::query()->firstWhere('mobile', $mobile);
 
         $otpCode = random_int(1000, 9999);
         $token   = Str::random(60);

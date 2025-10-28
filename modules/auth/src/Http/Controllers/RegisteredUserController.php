@@ -20,7 +20,7 @@ final class RegisteredUserController extends Controller
      */
     public function __invoke(RegisterUserRequest $request): Response
     {
-        $user = User::create([
+        $user = User::query()->create([
             'name'     => $request->str('name'),
             'email'    => $request->str('email'),
             'password' => $request->str('password'),

@@ -28,7 +28,7 @@ final class MenuController extends Controller
     public function store(StoreMenuRequest $request)
     {
         $inputs = $request->all();
-        $menu   = Menu::create($inputs);
+        $menu   = Menu::query()->create($inputs);
 
         return new MenuResource($menu);
     }

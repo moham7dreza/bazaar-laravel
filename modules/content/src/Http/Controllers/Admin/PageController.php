@@ -28,7 +28,7 @@ final class PageController extends Controller
     public function store(StorePageRequest $request)
     {
         $inputs = $request->all();
-        $page   = Page::create($inputs);
+        $page   = Page::query()->create($inputs);
 
         return new PageResource($page);
     }

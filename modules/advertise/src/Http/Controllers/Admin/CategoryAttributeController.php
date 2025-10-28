@@ -28,7 +28,7 @@ final class CategoryAttributeController extends Controller
     public function store(StoreCategoryAttributeRequest $request)
     {
         $inputs            = $request->all();
-        $categoryAttribute = CategoryAttribute::create($inputs);
+        $categoryAttribute = CategoryAttribute::query()->create($inputs);
 
         return new CategoryAttributeResource($categoryAttribute);
     }

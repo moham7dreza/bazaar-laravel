@@ -28,7 +28,7 @@ final class StateController extends Controller
     public function store(StoreStateRequest $request)
     {
         $inputs = $request->all();
-        $state  = State::create($inputs);
+        $state  = State::query()->create($inputs);
 
         return new StateResource($state);
     }

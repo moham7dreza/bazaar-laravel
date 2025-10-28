@@ -28,7 +28,7 @@ final class CategoryController extends Controller
     public function store(StoreCategoryRequest $request)
     {
         $inputs   = $request->all();
-        $category = Category::create($inputs);
+        $category = Category::query()->create($inputs);
 
         return new CategoryResource($category);
     }

@@ -25,14 +25,14 @@ class UserActionTag extends Model
 
     public static function hasAction(int $userId, string $tag): bool
     {
-        return static::where('user_id', $userId)
+        return static::query()->where('user_id', $userId)
             ->where('action_tag', $tag)
             ->exists();
     }
 
     public static function addAction(int $userId, string $tag): self
     {
-        return static::create([
+        return static::query()->create([
             'user_id'    => $userId,
             'action_tag' => $tag,
         ]);

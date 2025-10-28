@@ -41,10 +41,10 @@ class AdvertisementBatchSeeder extends Seeder
         $ads        = [];
 
         $categories = Category::factory($adsPerUser)->make();
-        $categories->chunk($chunkSize)->each(fn (Collection $categories) => Category::insert($categories->toArray()));
+        $categories->chunk($chunkSize)->each(fn (Collection $categories) => Category::query()->insert($categories->toArray()));
 
         $cities = City::factory($adsPerUser)->make();
-        $cities->chunk($chunkSize)->each(fn (Collection $cities) => City::insert($cities->toArray()));
+        $cities->chunk($chunkSize)->each(fn (Collection $cities) => City::query()->insert($cities->toArray()));
 
         $maxAdId = DB::table('advertisements')->max('id') ?? 0;
         $adId    = $maxAdId + 1;
@@ -121,7 +121,7 @@ class AdvertisementBatchSeeder extends Seeder
             $this->command->info('chunk is processing');
             try
             {
-                Advertisement::insert($chunk);
+                Advertisement::query()->insert($chunk);
             } catch (Exception $e)
             {
                 $this->command->error($e->getMessage());

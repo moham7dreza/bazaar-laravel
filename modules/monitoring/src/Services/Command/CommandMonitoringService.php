@@ -80,7 +80,7 @@ class CommandMonitoringService
 
     public function getCommandStatistics(string $commandName): array
     {
-        $stats = CommandPerformanceLog::where('command', $commandName)
+        $stats = CommandPerformanceLog::query()->where('command', $commandName)
             ->completed()
             ->select([
                 DB::raw('COUNT(*) as total_runs'),
@@ -92,7 +92,7 @@ class CommandMonitoringService
             ])
             ->first();
 
-        $lastRuns = CommandPerformanceLog::where('command', $commandName)
+        $lastRuns = CommandPerformanceLog::query()->where('command', $commandName)
             ->completed()
             ->orderBy('updated_at', 'desc')
             ->limit(10)
@@ -147,7 +147,7 @@ class CommandMonitoringService
 
     public function getCommandsPerMinute(int $minutes = 60, ?string $category = null): Collection
     {
-        $query = CommandPerformanceLog::where('created_at', '>=', now()->subMinutes($minutes))
+        $query = CommandPerformanceLog::query()->where('created_at', '>=', now()->subMinutes($minutes))
             ->select(
                 DB::raw("DATE_FORMAT(created_at, '%Y-%m-%d %H:%i') as minute"),
                 DB::raw('COUNT(*) as command_count')

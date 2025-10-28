@@ -34,8 +34,8 @@ final class PrometheusServiceProvider extends ServiceProvider
             ->helpText('This is the number of users in our app')
             ->namespace('app')
             ->value(fn () => [
-                [User::where('is_active', 1)->count(), ['active']],
-                [User::where('is_active', 0)->count(), ['inactive']],
+                [User::query()->where('is_active', 1)->count(), ['active']],
+                [User::query()->where('is_active', 0)->count(), ['inactive']],
             ]);
     }
 
