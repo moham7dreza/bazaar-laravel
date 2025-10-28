@@ -9,7 +9,7 @@ parameters:
         - modules/
 
     # Level 10 is the highest level
-    level: 0
+    level: 1
 
     typeAliases:
         ValidationRules: 'array<string, array<\Illuminate\Contracts\Validation\Rule|\Illuminate\Contracts\Validation\ValidationRule|string>|string>'
