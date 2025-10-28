@@ -7,7 +7,6 @@ namespace Modules\Advertise\Http\Controllers\Panel;
 use App\Http\Controllers\Controller;
 use App\Http\Responses\ApiJsonResponse;
 use App\Services\Image\ImageService;
-use Gate;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Modules\Advertise\Http\Requests\App\StoreGalleryRequest;
@@ -23,7 +22,7 @@ final class GalleryController extends Controller
      */
     public function index(Advertisement $advertisement): JsonResource
     {
-        Gate::authorize('view', $advertisement);
+        \Illuminate\Support\Facades\Gate::authorize('view', $advertisement);
 
         return Gallery::query()
             ->whereBelongsTo($advertisement)
@@ -36,7 +35,7 @@ final class GalleryController extends Controller
      */
     public function store(StoreGalleryRequest $request, ImageService $imageService, Advertisement $advertisement): JsonResource|JsonResponse
     {
-        Gate::authorize('view', $advertisement);
+        \Illuminate\Support\Facades\Gate::authorize('view', $advertisement);
 
         $inputs                     = $request->all();
         $inputs['advertisement_id'] = $advertisement->id;
@@ -62,7 +61,7 @@ final class GalleryController extends Controller
      */
     public function show(Gallery $gallery): JsonResource
     {
-        Gate::authorize('view', $gallery->advertisement);
+        \Illuminate\Support\Facades\Gate::authorize('view', $gallery->advertisement);
 
         return $gallery->toResource();
     }
@@ -72,7 +71,7 @@ final class GalleryController extends Controller
      */
     public function update(UpdateGalleryRequest $request, Gallery $gallery, ImageService $imageService)
     {
-        Gate::authorize('view', $gallery->advertisement);
+        \Illuminate\Support\Facades\Gate::authorize('view', $gallery->advertisement);
 
         $inputs = $request->all();
         if ($request->hasFile('url'))
@@ -105,7 +104,7 @@ final class GalleryController extends Controller
 
     public function destroy(Gallery $gallery): JsonResponse
     {
-        Gate::authorize('view', $gallery->advertisement);
+        \Illuminate\Support\Facades\Gate::authorize('view', $gallery->advertisement);
 
         $gallery->delete();
 

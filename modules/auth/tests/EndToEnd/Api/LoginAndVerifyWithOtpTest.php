@@ -9,7 +9,7 @@ use Modules\Auth\Models\Otp;
 
 it('can register new user', function (): void {
 
-    Event::fake();
+    Illuminate\Support\Facades\Event::fake();
 
     $userData = [
         'name'                  => 'Test User',
@@ -31,7 +31,7 @@ it('can register new user', function (): void {
 
     Pest\Laravel\assertAuthenticated();
 
-    Event::assertDispatchedTimes(Registered::class);
+    Illuminate\Support\Facades\Event::assertDispatchedTimes(Registered::class);
 });
 
 it('can send otp with user', function (): void {
@@ -74,7 +74,7 @@ it('can send otp without user', function (): void {
 
 it('can verify otp without user', function (): void {
 
-    Event::fake();
+    Illuminate\Support\Facades\Event::fake();
 
     $mobile  = '09120000002';
     $otpCode = '1234';
@@ -103,12 +103,12 @@ it('can verify otp without user', function (): void {
 
     Pest\Laravel\assertAuthenticated();
 
-    Event::assertDispatchedTimes(Registered::class);
+    Illuminate\Support\Facades\Event::assertDispatchedTimes(Registered::class);
 });
 
 it('can verify otp with user', function (): void {
 
-    Event::fake();
+    Illuminate\Support\Facades\Event::fake();
 
     $user = User::factory()->create();
 
@@ -133,5 +133,5 @@ it('can verify otp with user', function (): void {
 
     Pest\Laravel\assertAuthenticated();
 
-    Event::assertDispatchedTimes(Registered::class);
+    Illuminate\Support\Facades\Event::assertDispatchedTimes(Registered::class);
 });

@@ -32,7 +32,7 @@ return RectorConfig::configure()
         RectorLaravel\Set\LaravelSetList::LARAVEL_COLLECTION,
         RectorLaravel\Set\LaravelSetList::LARAVEL_CONTAINER_STRING_TO_FULLY_QUALIFIED_NAME,
         RectorLaravel\Set\LaravelSetList::LARAVEL_ELOQUENT_MAGIC_METHOD_TO_QUERY_BUILDER,
-        //        RectorLaravel\Set\LaravelSetList::LARAVEL_FACADE_ALIASES_TO_FULL_NAMES,
+        RectorLaravel\Set\LaravelSetList::LARAVEL_FACADE_ALIASES_TO_FULL_NAMES,
         //        RectorLaravel\Set\LaravelSetList::LARAVEL_FACTORIES,
         //        RectorLaravel\Set\LaravelSetList::LARAVEL_IF_HELPERS,
         //        RectorLaravel\Set\LaravelSetList::LARAVEL_LEGACY_FACTORIES_TO_CLASSES,

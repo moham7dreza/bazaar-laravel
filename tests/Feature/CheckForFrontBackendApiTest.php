@@ -9,9 +9,9 @@ pest()->group(TestGroup::MANUAL);
 
 it('can get backend url details from front api', function (): void {
 
-    Http::record();
+    Illuminate\Support\Facades\Http::record();
 
-    $result = Http::get(config('app.frontend_url') . '/api/backend')->json();
+    $result = Illuminate\Support\Facades\Http::get(config('app.frontend_url') . '/api/backend')->json();
 
     $result = Fluent::make($result);
 
@@ -20,7 +20,7 @@ it('can get backend url details from front api', function (): void {
     $apiCallCount             = 0;
     $allStatusCodesSuccessful = true;
 
-    Http::recorded(static function ($request, $response) use (&$apiCallCount, &$allStatusCodesSuccessful): void {
+    Illuminate\Support\Facades\Http::recorded(static function ($request, $response) use (&$apiCallCount, &$allStatusCodesSuccessful): void {
         $apiCallCount++;
 
         // Check response status
@@ -30,7 +30,7 @@ it('can get backend url details from front api', function (): void {
         }
 
         // Log the interaction for debugging
-        Log::debug('API Call', [
+        Illuminate\Support\Facades\Log::debug('API Call', [
             'url'    => $request->url(),
             'method' => $request->method(),
             'status' => $response->status(),

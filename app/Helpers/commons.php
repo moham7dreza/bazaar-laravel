@@ -48,7 +48,7 @@ if ( ! function_exists('ondemand_info'))
 {
     function ondemand_info(string $message, array $context = [], string $file = 'custom'): void
     {
-        Log::build([
+        Illuminate\Support\Facades\Log::build([
             'driver' => 'single',
             'path'   => storage_path('logs/' . $file . '.log'),
             'level'  => 'info',

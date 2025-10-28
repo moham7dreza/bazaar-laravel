@@ -8,7 +8,7 @@ use App\Models\User;
 
 test('schedule user suspend clear job pushed', function (): void {
 
-    Queue::fake();
+    Illuminate\Support\Facades\Queue::fake();
 
     User::factory()->suspended()->create();
 
@@ -16,7 +16,7 @@ test('schedule user suspend clear job pushed', function (): void {
 
     Pest\Laravel\artisan(UserSuspendClearCommand::class);
 
-    Queue::assertPushed(UserSuspendClearJob::class);
+    Illuminate\Support\Facades\Queue::assertPushed(UserSuspendClearJob::class);
 
     $suspendedUsers = User::query()->suspended()->count();
 

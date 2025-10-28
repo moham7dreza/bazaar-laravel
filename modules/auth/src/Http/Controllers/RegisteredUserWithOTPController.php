@@ -7,7 +7,6 @@ namespace Modules\Auth\Http\Controllers;
 use App\Http\Controllers\Controller;
 use App\Http\Responses\ApiJsonResponse;
 use Carbon\CarbonInterval;
-use Context;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Timebox;
 use Modules\Auth\Http\Requests\LoginOtpRequest;
@@ -23,7 +22,7 @@ final class RegisteredUserWithOTPController extends Controller
      */
     public function __invoke(LoginOtpRequest $request, ConsumeOneTimePasswordService $service): JsonResponse
     {
-        Context::increment('metrics.login_otp_attempts');
+        \Illuminate\Support\Facades\Context::increment('metrics.login_otp_attempts');
 
         return new Timebox()->call(
             callback: function () use ($request, $service) {

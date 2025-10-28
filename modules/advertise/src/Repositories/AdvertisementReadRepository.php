@@ -8,8 +8,8 @@ use App\Data\DTOs\PaginatedListViewDTO;
 use App\Enums\UserId;
 use App\Models\Scopes\LatestScope;
 use DateTimeInterface;
-use DB;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Facades\DB;
 use Modules\Advertise\DataContracts\AdvertisementSearchDTO;
 use Modules\Advertise\Models\Advertisement;
 use Modules\Advertise\Services\AdvertisementSearchService;
@@ -93,7 +93,7 @@ final class AdvertisementReadRepository
     public function getAdsCountWhichTypeOfThemUsedMore()
     {
         return $this->baseQuery()
-            ->select('ads_type', \Illuminate\Support\Facades\DB::raw('COUNT(*) as total'))
+            ->select('ads_type', DB::raw('COUNT(*) as total'))
             ->groupBy('ads_type')
             ->having('total', '>', 10)
             ->toBase() // this is necessary for do not ignore groupBy and having
