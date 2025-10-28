@@ -24,11 +24,11 @@ final class UpdateCategoryRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name'        => 'required|max:120|min:2|regex:/^[ا-یa-zA-Z0-9\-۰-۹ء-ي., ]+$/u',
-            'description' => 'required|max:500|min:5',
-            'status'      => 'required|numeric|in:0,1',
-            'icon'        => 'nullable|min:2|max:120',
-            'parent_id'   => 'nullable|min:1|max:100000000|regex:/^[0-9]+$/u|exists:categories,id',
+            'name'        => ['required', 'max:120', 'min:2', 'regex:/^[ا-یa-zA-Z0-9\-۰-۹ء-ي., ]+$/u'],
+            'description' => ['required', 'max:500', 'min:5'],
+            'status'      => ['required', 'numeric', 'in:0,1'],
+            'icon'        => ['nullable', 'min:2', 'max:120'],
+            'parent_id'   => ['nullable', 'min:1', 'max:100000000', 'regex:/^[0-9]+$/u', 'exists:categories,id'],
         ];
     }
 }

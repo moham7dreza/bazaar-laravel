@@ -43,8 +43,7 @@ class InventoryController extends Controller
             ->existsOr(function () use ($itemId) {
                 event(new PricingUpdateFailed($itemId));
 
-                return redirect()
-                    ->route('inventory.index')
+                return to_route('')
                     ->with('error', 'Item not found or inactive');
             });
     }

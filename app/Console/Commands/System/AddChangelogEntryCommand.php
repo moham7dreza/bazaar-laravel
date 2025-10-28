@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace App\Console\Commands\System;
 
-use Carbon\Carbon;
 use Exception;
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\Date;
 use Illuminate\Support\Facades\File;
 
 use function Laravel\Prompts\confirm;
@@ -55,7 +55,7 @@ class AddChangelogEntryCommand extends Command
 
         // Get and validate datetime
         $datetime        = null;
-        $currentDatetime = Carbon::now()->format('Y-m-d H:i');
+        $currentDatetime = Date::now()->format('Y-m-d H:i');
 
         while (null === $datetime)
         {
@@ -64,16 +64,16 @@ class AddChangelogEntryCommand extends Command
                 default: $currentDatetime,
                 validate: fn ($value) => match (true)
                 {
-                    ! empty($value) && ! Carbon::canBeCreatedFromFormat($value, 'Y-m-d H:i') => 'Invalid format. Please use YYYY-MM-DD HH:MM format (e.g. 2023-12-31 14:30)',
-                    default                                                                  => null
+                    ! empty($value) && ! Date::canBeCreatedFromFormat($value, 'Y-m-d H:i')                             => 'Invalid format. Please use YYYY-MM-DD HH:MM format (e.g. 2023-12-31 14:30)',
+                    default                                                                                            => null
                 }
             );
 
             try
             {
                 $datetime = empty($datetimeInput)
-                    ? Carbon::now()
-                    : Carbon::createFromFormat('Y-m-d H:i', $datetimeInput);
+                    ? Date::now()
+                    : Date::createFromFormat('Y-m-d H:i', $datetimeInput);
             } catch (Exception $e)
             {
                 error('Invalid datetime format. Please try again.');

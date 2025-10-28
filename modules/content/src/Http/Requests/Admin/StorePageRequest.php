@@ -24,9 +24,9 @@ final class StorePageRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'title'  => 'nullable|max:120|min:2|regex:/^[ا-یa-zA-Z0-9\-۰-۹ء-ي., ]+$/u',
-            'body'   => 'required|min:1|max:10000',
-            'status' => 'required|numeric|in:0,1',
+            'title'  => ['nullable', 'max:120', 'min:2', 'regex:/^[ا-یa-zA-Z0-9\-۰-۹ء-ي., ]+$/u'],
+            'body'   => ['required', 'min:1', 'max:10000'],
+            'status' => ['required', 'numeric', 'in:0,1'],
         ];
     }
 }

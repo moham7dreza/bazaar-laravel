@@ -6,6 +6,7 @@ namespace App\Helpers;
 
 use Carbon\Carbon;
 use DateTimeInterface;
+use Illuminate\Support\Facades\Date;
 use MongoDB\BSON\ObjectId;
 use MongoDB\BSON\UTCDateTime;
 use Morilog\Jalali\CalendarUtils;
@@ -66,27 +67,27 @@ final class TimeUtility
 
     public static function convertMongoUTCDateTimeToCarbon(UTCDateTime $date): Carbon
     {
-        return Carbon::createFromTimestamp(self::getMongoTimestamp($date));
+        return Date::createFromTimestamp(self::getMongoTimestamp($date));
     }
 
     public static function convertMongoObjectIdToCarbon(string $id): Carbon
     {
-        return Carbon::createFromTimestamp((new ObjectId($id))->getTimestamp());
+        return Date::createFromTimestamp(new ObjectId($id)->getTimestamp());
     }
 
     public static function convertCarbonFormatToMongoUTCDateTime(string $date, string $format = 'Y-m-d H:i:s'): UTCDateTime
     {
-        return new UTCDateTime(Carbon::createFromFormat($format, $date)?->getTimestampMs());
+        return new UTCDateTime(Date::createFromFormat($format, $date)?->getTimestampMs());
     }
 
     public static function convertCarbonToMongoUTCDateTime(DateTimeInterface|string|int $date): UTCDateTime
     {
-        return new UTCDateTime(Carbon::parse($date)->getTimestampMs());
+        return new UTCDateTime(Date::parse($date)->getTimestampMs());
     }
 
     public static function convertCarbonToMongoObjectId(DateTimeInterface|string|int $date): ObjectId
     {
-        $timestamp = Carbon::parse($date)->getTimestamp();
+        $timestamp = Date::parse($date)->getTimestamp();
 
         $hexTimestamp = dechex($timestamp);
         $objectIdHex  = mb_str_pad($hexTimestamp, 8, '0', STR_PAD_LEFT) . str_repeat('0', 16); // pad with zeroes to get 24 chars

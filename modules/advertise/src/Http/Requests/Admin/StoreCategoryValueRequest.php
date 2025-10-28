@@ -24,10 +24,10 @@ final class StoreCategoryValueRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'value'                 => 'required|max:255|min:2|regex:/^[ا-یa-zA-Z0-9\-۰-۹ء-ي., ]+$/u',
-            'type'                  => 'required|numeric|in:0,1',
-            'status'                => 'required|numeric|in:0,1',
-            'category_attribute_id' => 'required|max:100000000|regex:/^[0-9]+$/u|exists:category_attributes,id',
+            'value'                 => ['required', 'max:255', 'min:2', 'regex:/^[ا-یa-zA-Z0-9\-۰-۹ء-ي., ]+$/u'],
+            'type'                  => ['required', 'numeric', 'in:0,1'],
+            'status'                => ['required', 'numeric', 'in:0,1'],
+            'category_attribute_id' => ['required', 'max:100000000', 'regex:/^[0-9]+$/u', 'exists:category_attributes,id'],
         ];
     }
 }

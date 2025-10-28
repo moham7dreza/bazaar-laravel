@@ -45,7 +45,7 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
-use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Date;
 use Illuminate\Support\Facades\Storage;
 use Jeffgreco13\FilamentBreezy\Traits\TwoFactorAuthenticatable;
 use Kenepa\ResourceLock\Models\Concerns\HasLocks;
@@ -254,7 +254,7 @@ final class User extends Authenticatable implements
     public function updateLoginFields(): bool
     {
         return $this->updateQuietly([
-            'last_login_at' => Carbon::now()->toDateTimeString(),
+            'last_login_at' => Date::now()->toDateTimeString(),
             'last_login_ip' => request()->getClientIp(),
         ]);
     }
@@ -292,7 +292,7 @@ final class User extends Authenticatable implements
     #[Scope]
     protected function createdAfter(Builder $query, DateTimeInterface|string|int $date): void
     {
-        $query->where('created_at', '>=', Carbon::parse($date));
+        $query->where('created_at', '>=', Date::parse($date));
     }
 
     /**

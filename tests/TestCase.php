@@ -37,11 +37,6 @@ abstract class TestCase extends BaseTestCase
         {
             Storage::fake($case->value);
         }
-
-        if (config()->boolean('telescope.enabled'))
-        {
-            dump('telescope enabled');
-        }
     }
 
     public function addToDataContainer(Closure $callback, ?string $key = null)

@@ -24,11 +24,11 @@ final class UpdateCategoryAttributeRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name'        => 'required|max:120|min:2|regex:/^[ا-یa-zA-Z0-9\-۰-۹ء-ي., ]+$/u',
-            'unit'        => 'required|max:120|min:2|regex:/^[ا-یa-zA-Z0-9\-۰-۹ء-ي., ]+$/u',
-            'type'        => 'required|numeric|in:0,1',
-            'status'      => 'required|numeric|in:0,1',
-            'category_id' => 'required|max:100000000|regex:/^[0-9]+$/u|exists:categories,id',
+            'name'        => ['required', 'max:120', 'min:2', 'regex:/^[ا-یa-zA-Z0-9\-۰-۹ء-ي., ]+$/u'],
+            'unit'        => ['required', 'max:120', 'min:2', 'regex:/^[ا-یa-zA-Z0-9\-۰-۹ء-ي., ]+$/u'],
+            'type'        => ['required', 'numeric', 'in:0,1'],
+            'status'      => ['required', 'numeric', 'in:0,1'],
+            'category_id' => ['required', 'max:100000000', 'regex:/^[0-9]+$/u', 'exists:categories,id'],
         ];
     }
 }

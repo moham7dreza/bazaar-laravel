@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Modules\Advertise\Commands;
 
-use Carbon\Carbon;
 use Illuminate\Console\Command;
 use Illuminate\Contracts\Console\PromptsForMissingInput;
+use Illuminate\Support\Facades\Date;
 use Modules\Advertise\Models\Advertisement;
 
 final class AdvertisementLadderCommand extends Command implements PromptsForMissingInput
@@ -30,7 +30,7 @@ final class AdvertisementLadderCommand extends Command implements PromptsForMiss
      */
     public function handle(): int
     {
-        $date = Carbon::parse($this->argument('date'));
+        $date = Date::parse($this->argument('date'));
 
         Advertisement::query()
             ->where('published_at', '<=', $date)

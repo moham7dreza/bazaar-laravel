@@ -25,7 +25,7 @@ final class AdvertisementNoteController extends Controller
     public function store(Advertisement $advertisement, Request $request): JsonResponse
     {
         $request->validate([
-            'note' => 'required|string|max:500',
+            'note' => ['required', 'string', 'max:500'],
         ]);
 
         $note = AdvertisementNote::query()

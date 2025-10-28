@@ -7,10 +7,10 @@ namespace Modules\Monitoring\Providers;
 use App\Events\PackageSent;
 use App\Jobs\Contracts\ShouldNotifyOnFailures;
 use App\Notifications\FailedJobNotification;
-use Carbon\Carbon;
 use Exception;
 use Illuminate\Database\Events\QueryExecuted;
 use Illuminate\Queue\Events;
+use Illuminate\Support\Facades\Date;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\ServiceProvider;
@@ -104,7 +104,7 @@ final class JobLoggingServiceProvider extends ServiceProvider
                     'connection'   => $event->job->getConnectionName(),
                     'queue'        => $event->job->getQueue(),
                     'attempts'     => $event->job->attempts(),
-                    'started_at'   => Carbon::createFromTimestamp($this->startTime)->toDateTimeString(),
+                    'started_at'   => Date::createFromTimestamp($this->startTime)->toDateTimeString(),
                     'runtime'      => round($duration * 1000), // milliseconds
                     'memory_usage' => $memoryUsage,
                     'query_count'  => $this->queryCount,

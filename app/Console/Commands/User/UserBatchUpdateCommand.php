@@ -8,6 +8,7 @@ use App\Jobs\UserUpdateJob;
 use App\Models\User;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Bus;
+use Illuminate\Support\Sleep;
 use Symfony\Component\Console\Attribute\AsCommand;
 
 use function Laravel\Prompts\info;
@@ -33,7 +34,7 @@ final class UserBatchUpdateCommand extends Command
 
             info('Dispatched batch of 200 jobs');
 
-            sleep(1);
+            Sleep::sleep(1);
         });
 
         info('All job batches dispatched successfully');

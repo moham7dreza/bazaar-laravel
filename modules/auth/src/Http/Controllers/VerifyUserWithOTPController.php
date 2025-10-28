@@ -7,10 +7,10 @@ namespace Modules\Auth\Http\Controllers;
 use App\Http\Controllers\Controller;
 use App\Http\Responses\ApiJsonResponse;
 use App\Models\User;
-use Carbon\Carbon;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Date;
 use Illuminate\Support\Str;
 use Modules\Auth\Http\Requests\VerifyOtpRequest;
 use Modules\Auth\Models\Otp;
@@ -35,7 +35,7 @@ final class VerifyUserWithOTPController extends Controller
             return ApiJsonResponse::error(Response::HTTP_TOO_MANY_REQUESTS, 'تعداد دفعات مجاز این کد به پایان رسید');
         }
 
-        if (Carbon::now()->diffInMinutes($otp->created_at) > 5)
+        if (Date::now()->diffInMinutes($otp->created_at) > 5)
         {
             return ApiJsonResponse::error(Response::HTTP_UNPROCESSABLE_ENTITY, 'زمان مجاز این کد به پایان رسید');
         }

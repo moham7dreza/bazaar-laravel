@@ -8,10 +8,10 @@ use App\Enums\StorageDisk;
 use App\Enums\Theme;
 use App\Models\Geo\City;
 use App\Models\User;
-use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Http\Client\ConnectionException;
 use Illuminate\Http\Client\RequestException;
+use Illuminate\Support\Facades\Date;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
@@ -33,7 +33,7 @@ class UserFactory extends Factory
             'theme'             => Theme::DRACULA->value,
             'suspended_at'      => fake()->optional(0.1)->dateTimeBetween('-30 days'),
             'suspended_until'   => fn (array $attributes) => $attributes['suspended_at']
-                ? Carbon::parse($attributes['suspended_at'])->addWeek()
+                ? Date::parse($attributes['suspended_at'])->addWeek()
                 : null,
             'is_active'          => true,
             'user_type'          => User::TYPE_USER,

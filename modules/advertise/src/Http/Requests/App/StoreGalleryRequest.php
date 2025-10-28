@@ -24,7 +24,7 @@ final class StoreGalleryRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'url' => 'nullable|file|mimes:jpg,jpeg,png|max:2048',
+            'url' => ['nullable', 'file', 'mimes:jpg,jpeg,png', 'max:2048'],
 
         ];
     }
