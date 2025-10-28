@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Database\Factories;
 
 use App\Enums\SMSGateways;
-use App\Models\SmsGateway;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
@@ -14,8 +13,6 @@ use Illuminate\Database\Eloquent\Factories\Factory;
  */
 class SmsGatewayFactory extends Factory
 {
-    protected $model = SmsGateway::class;
-
     public function definition(): array
     {
         return [

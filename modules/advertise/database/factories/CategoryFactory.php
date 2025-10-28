@@ -12,8 +12,6 @@ use Modules\Advertise\Models\Category;
  */
 final class CategoryFactory extends Factory
 {
-    protected $model = Category::class;
-
     public function definition(): array
     {
         return [

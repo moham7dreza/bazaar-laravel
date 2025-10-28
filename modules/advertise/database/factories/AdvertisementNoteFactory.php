@@ -7,15 +7,12 @@ namespace Modules\Advertise\Database\Factories;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Modules\Advertise\Models\Advertisement;
-use Modules\Advertise\Models\AdvertisementNote;
 
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\Modules\Advertise\Models\AdvertisementNote>
  */
 final class AdvertisementNoteFactory extends Factory
 {
-    protected $model = AdvertisementNote::class;
-
     public function definition(): array
     {
         return [

@@ -8,7 +8,6 @@ use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
 use Modules\Auth\Enums\NoticeType;
-use Modules\Auth\Models\Otp;
 use Random\RandomException;
 
 /**
@@ -16,8 +15,6 @@ use Random\RandomException;
  */
 final class OtpFactory extends Factory
 {
-    protected $model = Otp::class;
-
     /**
      * @throws RandomException
      */

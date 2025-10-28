@@ -9,7 +9,6 @@ use App\Enums\Sms\SmsProvider;
 use App\Enums\Sms\SmsSenderNumber;
 use App\Enums\Sms\SmsStatus;
 use App\Enums\Sms\SmsType;
-use App\Models\SmsLog;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
@@ -18,8 +17,6 @@ use Illuminate\Database\Eloquent\Factories\Factory;
  */
 class SmsLogFactory extends Factory
 {
-    protected $model = SmsLog::class;
-
     public function definition(): array
     {
         return [

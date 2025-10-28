@@ -9,7 +9,6 @@ use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Modules\Advertise\Enums\AdvertisementStatus;
 use Modules\Advertise\Enums\AdvertisementType;
-use Modules\Advertise\Models\Advertisement;
 use Modules\Advertise\Models\Category;
 
 /**
@@ -17,8 +16,6 @@ use Modules\Advertise\Models\Category;
  */
 final class AdvertisementFactory extends Factory
 {
-    protected $model = Advertisement::class;
-
     public function definition(): array
     {
         return [

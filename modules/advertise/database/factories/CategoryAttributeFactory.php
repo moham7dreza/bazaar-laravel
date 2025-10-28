@@ -8,15 +8,12 @@ use Illuminate\Database\Eloquent\Factories\Factory;
 use Modules\Advertise\Enums\AttributeType;
 use Modules\Advertise\Enums\Unit;
 use Modules\Advertise\Models\Category;
-use Modules\Advertise\Models\CategoryAttribute;
 
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\Modules\Advertise\Models\CategoryAttribute>
  */
 final class CategoryAttributeFactory extends Factory
 {
-    protected $model = CategoryAttribute::class;
-
     public function definition(): array
     {
         return [

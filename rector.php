@@ -51,4 +51,12 @@ return RectorConfig::configure()
         RectorLaravel\Rector\ArrayDimFetch\ArrayToArrGetRector::class,
         RectorLaravel\Rector\FuncCall\ConfigToTypedConfigMethodCallRector::class,
         RectorLaravel\Rector\Empty_\EmptyToBlankAndFilledFuncRector::class,
+        RectorLaravel\Rector\Namespace_\FactoryDefinitionRector::class,
+        RectorLaravel\Rector\FuncCall\FactoryFuncCallToStaticCallRector::class,
+        //        RectorLaravel\Rector\FuncCall\HelperFuncCallToFacadeClassRector::class,
+        RectorLaravel\Rector\Class_\LivewireComponentComputedMethodToComputedAttributeRector::class,
+        RectorLaravel\Rector\Class_\LivewireComponentQueryStringToUrlAttributeRector::class,
+        RectorLaravel\Rector\PropertyFetch\OptionalToNullsafeOperatorRector::class,
+        //        RectorLaravel\Rector\StaticCall\MinutesToSecondsInCacheRector::class,
+        RectorLaravel\Rector\Class_\RemoveModelPropertyFromFactoriesRector::class,
     ]);

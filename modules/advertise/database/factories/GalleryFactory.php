@@ -6,15 +6,12 @@ namespace Modules\Advertise\Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Modules\Advertise\Models\Advertisement;
-use Modules\Advertise\Models\Gallery;
 
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\Modules\Advertise\Models\Gallery>
  */
 final class GalleryFactory extends Factory
 {
-    protected $model = Gallery::class;
-
     public function definition(): array
     {
         return [
