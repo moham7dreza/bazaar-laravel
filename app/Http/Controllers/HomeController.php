@@ -7,8 +7,11 @@ namespace App\Http\Controllers;
 use Amiriun\SMS\Services\SMSService;
 use App\Enums\Sms\SmsSenderNumber;
 use App\Events\PackageSent;
+use App\Helpers\JalalianFactory;
 use App\Mail\UserLandMail;
 use Exception;
+use Illuminate\Http\Client\Batch;
+use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 
@@ -53,11 +56,24 @@ class HomeController extends Controller
 
         Log::warning('this is sample log to view queued jobs [{date}]', ['date' => now()->jdate()->format('Y-m-d H:i:s')]);
 
+        // sample http batch requests
+        Http::batch(
+            callback: fn (Batch $batch) => [
+                $batch->get(config()->string('app.frontend_url')),
+                $batch->get(config()->string('app.url')),
+                $batch->get(config()->string('app.url') . '/super-admin'),
+            ],
+        )->then(function (Batch $batch, array $results): void {
+            logger('sample http batch request results', [
+                'results' => $results,
+            ]);
+        })->defer();
+
         return response()->json([
-            'ServiceName'    => 'api',
+            'ServiceName'    => 'Bazaar Api',
             'ServiceVersion' => 'v1.0',
             'HostName'       => \request()?->getHost(),
-            'Time'           => time(),
+            'Time'           => JalalianFactory::now()->toDateTimeString(),
             'Status'         => 'healthy',
         ]);
     }
