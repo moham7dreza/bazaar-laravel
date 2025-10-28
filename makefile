@@ -420,7 +420,7 @@ rectort: ## Run rector analysis
 	vendor/bin/rector process --dry-run
 
 rector: ## Run rector analysis and change files
-	vendor/bin/rector process
+	vendor/bin/rector
 
 checkup: ## Run necessary tools to check code and code style
 	make pintt
