@@ -298,7 +298,7 @@ start: ## Start all development servers
 		"php artisan schedule:work" \
 		"php artisan pulse:work" \
 		"make next-dev" \
-        "php artisan pail" \
+        "php artisan pail --timeout=86400" \
         "php artisan nightwatch:agent"
 
 serve: ## Start basic servers
@@ -312,7 +312,7 @@ serve: ## Start basic servers
 		"php artisan schedule:run-cronless" \
 		"php artisan pulse:work" \
 		"make next-dev" \
-		"php artisan pail" \
+		"php artisan pail --timeout=86400" \
 		"php artisan nightwatch:agent"
 
 reload: ## Update and refresh application
