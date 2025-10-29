@@ -16,7 +16,8 @@ when(isEnvLocal(), function (): void {
 
 Route::fallback(FallbackController::class);
 
-Route::get('/', HomeController::class)->name('web.welcome');
+Route::get('/', HomeController::class)
+    ->name('web.welcome');
 
 Route::middleware([
     /*
@@ -25,18 +26,19 @@ Route::middleware([
     */
 ])
     ->group(function (): void {
-
-        Route::view('tool', 'tool')->name('web.tool');
-
-        Route::put('role-permissions-sync', SyncRolePermissionsController::class)->name('web.permissions.sync');
-
-        Route::get('domain-router', DomainRouterController::class)->name('web.domain-router');
+        Route::view('tool', 'tool')
+            ->name('web.tool');
+        Route::put('role-permissions-sync', SyncRolePermissionsController::class)
+            ->name('web.permissions.sync');
+        Route::get('domain-router', DomainRouterController::class)
+            ->name('web.domain-router');
     });
 
 Route::prefix('image')
     ->controller(ImageController::class)
     ->group(function (): void {
-
-        Route::get('/', 'index')->name('image.index');
-        Route::post('store', 'store')->name('image.store');
+        Route::get('/', 'index')
+            ->name('web.image.index');
+        Route::post('store', 'store')
+            ->name('web.image.store');
     });

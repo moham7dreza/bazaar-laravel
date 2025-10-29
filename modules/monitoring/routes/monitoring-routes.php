@@ -13,11 +13,12 @@ Route::middleware([
     */
 ])
     ->group(function (): void {
-
         Route::can('viewHealth')->group(function (): void {
-
-            Route::get('health', HeathCheckControllers\HealthCheckResultsController::class);
-            Route::get('health-json', HeathCheckControllers\HealthCheckJsonResultsController::class);
-            Route::get('health-custom', HealthCheckController::class)->name('web.health-custom');
+            Route::get('health', HeathCheckControllers\HealthCheckResultsController::class)
+                ->name('monitoring.health');
+            Route::get('health-json', HeathCheckControllers\HealthCheckJsonResultsController::class)
+                ->name('monitoring.health-json');
+            Route::get('health-custom', HealthCheckController::class)
+                ->name('monitoring.health-custom');
         });
     });

@@ -16,7 +16,7 @@
     <div class="container">
         <div class="row">
             <div class="col">
-                <form action="{{ route('image.store') }}" method="POST" enctype="multipart/form-data">
+                <form action="{{ route('web.image.store') }}" method="POST" enctype="multipart/form-data">
                     @csrf
                     <div class="mb-3">
                         <label for="formFile" class="form-label">Default file input example</label>
