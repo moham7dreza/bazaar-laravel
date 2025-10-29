@@ -30,6 +30,10 @@ return [
     'allowed_origins' => [
         env('FRONTEND_URL', 'http://localhost:3000'),
         env('APP_URL', 'http://localhost:9000'),
+        'http://localhost:9001',
+        'http://localhost:3001',
+        'http://localhost:8000',
+        'http://localhost:8001',
     ],
 
     'allowed_origins_patterns' => [],
