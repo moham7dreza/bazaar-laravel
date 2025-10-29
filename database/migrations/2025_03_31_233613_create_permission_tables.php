@@ -16,8 +16,8 @@ return new class() extends Migration {
         $teams           = config('permission.teams');
         $tableNames      = config('permission.table_names');
         $columnNames     = config('permission.column_names');
-        $pivotRole       = Arr::get($columnNames, 'role_pivot_key', 'role_id');
-        $pivotPermission = Arr::get($columnNames, 'permission_pivot_key', 'permission_id');
+        $pivotRole       = Arr::get($columnNames, 'role_pivot_key')       ?? 'role_id';
+        $pivotPermission = Arr::get($columnNames, 'permission_pivot_key') ?? 'permission_id';
 
         throw_if(blank($tableNames), Exception::class, 'Error: config/permission.php not loaded. Run [php artisan config:clear] and try again.');
         throw_if($teams && blank(Arr::get($columnNames, 'team_foreign_key', null)), Exception::class, 'Error: team_foreign_key on config/permission.php not loaded. Run [php artisan config:clear] and try again.');
