@@ -68,6 +68,7 @@
         "pestphp/pest-plugin-faker": "^4.0",
         "pestphp/pest-plugin-laravel": "^4.0",
         "pestphp/pest-plugin-livewire": "^4.0",
+        "pestphp/pest-plugin-stressless": "^4.0",
         "pestphp/pest-plugin-type-coverage": "^4.0",
         "roave/security-advisories": "dev-latest",
         "spatie/laravel-cronless-schedule": "^1.2",
