@@ -37,6 +37,7 @@ return Application::configure(basePath: dirname(__DIR__))
             App\Http\Middleware\UserCheckSuspendedMiddleware::class,
             App\Http\Middleware\EnableDebugForDeveloper::class,
             Illuminate\Foundation\Http\Middleware\PreventRequestsDuringMaintenance::class,
+            App\Http\Middleware\HttpsRedirectMiddleware::class,
         ]);
 
         $middleware->api(prepend: [
