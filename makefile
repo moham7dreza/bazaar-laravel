@@ -436,7 +436,7 @@ setup-worker: ## Configure Supervisor for Laravel queue worker
 	@printf "${COLOR_BLUE}▶ Starting Laravel worker setup...${COLOR_RESET}\n"
 	@printf '%s\n' '[program:laravel-worker]' \
 	'process_name=%(program_name)s_%(process_num)02d' \
-	'command=php /var/www/bazaar-laravel/artisan queue:work redis --sleep=3 --tries=3 --max-time=3600' \
+	'command=php /var/www/bazaar-laravel/artisan queue:work redis --sleep=3 --tries=3 --max-time=86400' \
 	'autostart=true' \
 	'autorestart=true' \
 	'stopasgroup=true' \
