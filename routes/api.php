@@ -107,6 +107,9 @@ Route::prefix('advertisements')
             ->group(function (): void {
                 Route::get('/', 'index')
                     ->name('api.advertisements.index');
+                // test route for query builder
+                // /api/advertisements/query-builder?filter[title]=Prof&filter[price]=200&sort=-price
+                Route::get('query-builder', 'queryBuilder');
                 Route::get('{advertisement}', 'show')
                     ->name('api.advertisements.show')
                     ->withTrashed();

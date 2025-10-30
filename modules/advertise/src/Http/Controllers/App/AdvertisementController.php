@@ -15,6 +15,9 @@ use Modules\Advertise\Http\Controllers\Panel\HistoryAdvertisementController;
 use Modules\Advertise\Http\Requests\App\AdvertisementGridViewRequest;
 use Modules\Advertise\Models\Advertisement;
 use Modules\Advertise\Repositories\AdvertisementReadRepository;
+use Spatie\QueryBuilder\AllowedFilter;
+use Spatie\QueryBuilder\Enums\FilterOperator;
+use Spatie\QueryBuilder\QueryBuilder;
 use Throwable;
 
 final class AdvertisementController extends Controller
@@ -69,10 +72,34 @@ final class AdvertisementController extends Controller
     /**
      * @throws Throwable
      */
-    public function gallery(Advertisement $advertisement): ResourceCollection
+    public function queryBuilder(): ResourceCollection
     {
-        return $advertisement
-            ->images
+        return QueryBuilder::for(Advertisement::class)
+            ->allowedFilters(
+                [
+                    'title',
+                    'description',
+                    'tags',
+                    AllowedFilter::operator('price', FilterOperator::GREATER_THAN_OR_EQUAL),
+                ]
+            )
+            ->allowedSorts(
+                [
+                    'title',
+                    'price',
+                    'published_at',
+                    'is_ladder',
+                    'is_special',
+                    'view',
+                    'created_at',
+                ]
+            )
+            ->allowedIncludes(
+                [
+
+                ]
+            )
+            ->paginate(12)
             ->toResourceCollection();
     }
 }
