@@ -57,10 +57,9 @@ final class AdvertisementController extends Controller
             \Illuminate\Support\Arr::forget($inputs, 'category_value_id');
             $ad = Advertisement::query()->create($inputs);
 
-            if ($request->filled('category_value_id'))
-            {
-                $ad->categoryValues()->attach($request->category_value_id);
-            }
+            $request->whenFilled('category_value_id', function (string $input) use ($ad): void {
+                $ad->categoryValues()->attach($input);
+            });
 
             return $ad;
         }, 3);
@@ -107,6 +106,10 @@ final class AdvertisementController extends Controller
             }
         }
         $advertisement->update($inputs);
+
+        $request->whenFilled('category_value_id', function (string $input) use ($advertisement): void {
+            $advertisement->categoryValues()->sync($input);
+        });
 
         return $advertisement->toResource(AdvertisementResource::class);
     }

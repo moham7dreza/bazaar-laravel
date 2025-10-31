@@ -7,11 +7,13 @@ namespace Modules\Advertise\Http\Controllers\Panel;
 use App\Http\Controllers\Controller;
 use App\Http\Responses\ApiJsonResponse;
 use App\Services\Image\ImageService;
+use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Http\Resources\Json\ResourceCollection;
 use Illuminate\Support\Facades\Gate;
+use Modules\Advertise\Enums\AdvertisementPublishStatus;
 use Modules\Advertise\Http\Requests\App\StoreAdvertisementRequest;
 use Modules\Advertise\Models\Advertisement;
 use Throwable;
@@ -57,8 +59,8 @@ final class AdvertisementController extends Controller
             'lng'              => $request->lng,
             'lat'              => $request->lat,
             'willing_to_trade' => $request->willing_to_trade ?: 0,
-            'user_id'          => auth()->user()->id,
-            'status'           => 3,
+            'user_id'          => auth()->id(),
+            'status'           => AdvertisementPublishStatus::Pending,
         ];
         if ($request->hasFile('image'))
         {
@@ -73,9 +75,13 @@ final class AdvertisementController extends Controller
             }
         }
 
-        return Advertisement::query()
-            ->create($inputs)
-            ->toResource();
+        $ad = Advertisement::query()->create($inputs);
+
+        $request->whenFilled('category_values', function (string $input) use ($ad): void {
+            $ad->categoryValues()->attach($input);
+        });
+
+        return $ad->toResource();
     }
 
     /**
@@ -112,7 +118,7 @@ final class AdvertisementController extends Controller
             'lng'              => $request->lng,
             'lat'              => $request->lat,
             'willing_to_trade' => $request->willing_to_trade ?: 0,
-            'status'           => 3,
+            'status'           => AdvertisementPublishStatus::Pending,
         ];
 
         if ($request->hasFile('image'))
@@ -139,11 +145,16 @@ final class AdvertisementController extends Controller
         }
         $advertisement->update($inputs);
 
+        $request->whenFilled('category_values', function (string $input) use ($advertisement): void {
+            $advertisement->categoryValues()->sync($input);
+        });
+
         return $advertisement->toResource();
     }
 
     /**
      * Remove the specified resource from storage.
+     * @throws AuthorizationException
      */
     public function destroy(Advertisement $advertisement): JsonResponse
     {

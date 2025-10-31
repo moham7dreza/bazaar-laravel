@@ -27,6 +27,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Modules\Advertise\Database\Factories\AdvertisementFactory;
+use Modules\Advertise\Enums\AdvertisementPublishStatus;
 use Modules\Advertise\Enums\AdvertisementStatus;
 use Modules\Advertise\Enums\AdvertisementType;
 use Modules\Advertise\Enums\Sort;
@@ -203,7 +204,7 @@ final class Advertisement extends Model
     {
         return [
             'image'            => 'array',
-            'status'           => 'bool',
+            'status'           => AdvertisementPublishStatus::class,
             'is_special'       => 'bool',
             'is_ladder'        => 'bool',
             'willing_to_trade' => 'bool',
