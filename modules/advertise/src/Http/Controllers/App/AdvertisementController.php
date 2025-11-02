@@ -27,11 +27,11 @@ final class AdvertisementController extends Controller
      *
      * @throws Throwable
      */
-    public function index(AdvertisementGridViewRequest $request): ResourceCollection
+    public function index(AdvertisementGridViewRequest $request, AdvertisementReadRepository $repository): ResourceCollection
     {
         info('search log [{date}].', ['date' => now()->jdate()->format('Y-m-d H:i:s')]);
 
-        $advertisements = app(AdvertisementReadRepository::class)->search($request->getDTO());
+        $advertisements = $repository->search($request->getDTO());
 
         return $advertisements
             ->items

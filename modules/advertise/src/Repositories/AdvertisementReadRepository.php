@@ -14,11 +14,16 @@ use Modules\Advertise\DataContracts\AdvertisementSearchDTO;
 use Modules\Advertise\Models\Advertisement;
 use Modules\Advertise\Services\AdvertisementSearchService;
 
-final class AdvertisementReadRepository
+final readonly class AdvertisementReadRepository
 {
+    public function __construct(
+        private AdvertisementSearchService $advertisementSearchService
+    ) {
+    }
+
     public function search(AdvertisementSearchDTO $searchDTO): PaginatedListViewDTO
     {
-        $items = app(AdvertisementSearchService::class)->getAdvertisements(
+        $items = $this->advertisementSearchService->getAdvertisements(
             builder: $this->baseQuery(),
             searchDTO: $searchDTO,
         );
