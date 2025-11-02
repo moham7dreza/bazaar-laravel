@@ -10,9 +10,9 @@ use Illuminate\Http\Request;
 
 final class DomainRouterController extends Controller
 {
-    public function __invoke(Request $request)
+    public function __invoke(Request $request, DomainRouter $domainRouter)
     {
-        $routes = app(DomainRouter::class)->generateRoutes($request);
+        $routes = $domainRouter->generateRoutes($request);
 
         return ApiJsonResponse::success($routes);
     }

@@ -16,9 +16,9 @@ use Spatie\Permission\PermissionRegistrar;
 
 final class PermissionSeeder extends Seeder
 {
-    public function run(): void
+    public function run(PermissionRegistrar $permissionRegistrar): void
     {
-        app(PermissionRegistrar::class)->forgetCachedPermissions();
+        $permissionRegistrar->forgetCachedPermissions();
 
         UserPermission::totalCases()->each(static fn (UserPermission $permission) => Permission::query()->firstOrCreate(['name' => $permission]));
         $this->command->info('permissions created.');
