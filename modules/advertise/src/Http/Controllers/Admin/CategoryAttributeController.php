@@ -8,18 +8,19 @@ use App\Http\Controllers\Controller;
 use App\Http\Responses\ApiJsonResponse;
 use Modules\Advertise\Http\Requests\Admin\StoreCategoryAttributeRequest;
 use Modules\Advertise\Http\Requests\Admin\UpdateCategoryAttributeRequest;
-use Modules\Advertise\Http\Resources\Admin\CategoryAttributeCollection;
-use Modules\Advertise\Http\Resources\Admin\CategoryAttributeResource;
 use Modules\Advertise\Models\CategoryAttribute;
+use Throwable;
 
 final class CategoryAttributeController extends Controller
 {
     /**
      * Display a listing of the resource.
+     *
+     * @throws Throwable
      */
     public function index()
     {
-        return new CategoryAttributeCollection(CategoryAttribute::all());
+        return CategoryAttribute::query()->paginate()->toResourceCollection();
     }
 
     /**
@@ -30,7 +31,7 @@ final class CategoryAttributeController extends Controller
         $inputs            = $request->all();
         $categoryAttribute = CategoryAttribute::query()->create($inputs);
 
-        return new CategoryAttributeResource($categoryAttribute);
+        return $categoryAttribute->toResource();
     }
 
     /**
@@ -38,7 +39,7 @@ final class CategoryAttributeController extends Controller
      */
     public function show(CategoryAttribute $categoryAttribute)
     {
-        return new CategoryAttributeResource($categoryAttribute);
+        return $categoryAttribute->toResource();
     }
 
     /**
@@ -49,7 +50,7 @@ final class CategoryAttributeController extends Controller
         $inputs = $request->all();
         $categoryAttribute->update($inputs);
 
-        return new CategoryAttributeResource($categoryAttribute);
+        return $categoryAttribute->toResource();
     }
 
     /**
