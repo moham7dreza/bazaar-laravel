@@ -12,8 +12,9 @@ use Symfony\Component\HttpFoundation\Response;
 
 final class ApiRequestLoggerMiddleware
 {
-    public function handle(Request $request, Closure $next, RequestContext $logger): Response
+    public function handle(Request $request, Closure $next): Response
     {
+        $logger = app(RequestContext::class);
         $logger->addBasicContexts();
         $logger->addUserContext();
 
