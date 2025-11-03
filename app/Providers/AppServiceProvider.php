@@ -73,7 +73,6 @@ final class AppServiceProvider extends ServiceProvider
         $this->configureGates();
         $this->logSlowQuery();
         $this->loadExtraMigrationsPath();
-        $this->configureCarbon();
 //        $this->handleMissingTrans();
         $this->configureValidator();
         $this->configureDate();
@@ -196,13 +195,6 @@ final class AppServiceProvider extends ServiceProvider
         }
     }
 
-    private function configureCarbon(): void
-    {
-        Date::macro('jdate', fn (): ?Jalalian => JalalianFactory::fromGregorian($this));
-
-        Date::macro('createFromTimestampLocal', static fn ($timestamp) => Date::createFromTimestamp($timestamp, config()->string('app.timezone')));
-    }
-
     private function handleMissingTrans(): void
     {
         app(\Illuminate\Contracts\Translation\Translator::class)->handleMissingKeysUsing(function (string $key, array $replacements, ?string $locale): void {
@@ -239,9 +231,12 @@ final class AppServiceProvider extends ServiceProvider
     private function configureDate(): void
     {
         Date::use(CarbonImmutable::class);
-//        Date::use(\App\Support\Carbon::class);
 
-        Date::macro('isHoliday', fn () => Holiday::query()->where('date', $this)->exists()); // today()->isHoliday()
+        Date::macro('isHoliday', fn () => Holiday::query()->where('date', $this)->exists());
+
+        Date::macro('toJalali', fn (): ?Jalalian => JalalianFactory::fromGregorian($this));
+
+        Date::macro('createFromTimestampLocal', static fn ($timestamp) => Date::createFromTimestamp($timestamp, config()->string('app.timezone')));
     }
 
     private function configurePassword(): void

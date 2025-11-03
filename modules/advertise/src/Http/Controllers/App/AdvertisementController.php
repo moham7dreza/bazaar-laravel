@@ -10,6 +10,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Http\Resources\Json\ResourceCollection;
+use Illuminate\Support\Facades\Date;
 use Illuminate\Support\Facades\Log;
 use Modules\Advertise\Http\Controllers\Panel\HistoryAdvertisementController;
 use Modules\Advertise\Http\Requests\App\AdvertisementGridViewRequest;
@@ -29,7 +30,7 @@ final class AdvertisementController extends Controller
      */
     public function index(AdvertisementGridViewRequest $request, AdvertisementReadRepository $repository): ResourceCollection
     {
-        info('search log [{date}].', ['date' => now()->jdate()->format('Y-m-d H:i:s')]);
+        info('search log [{date}].', ['date' => Date::now()->toDateTimeString()]);
 
         $advertisements = $repository->search($request->getDTO());
 
@@ -40,7 +41,7 @@ final class AdvertisementController extends Controller
 
     public function show(Advertisement $advertisement): JsonResource|JsonResponse
     {
-        info('pdp page log [{date}].', ['date' => now()->jdate()->format('Y-m-d H:i:s')]);
+        info('pdp page log [{date}].', ['date' => Date::now()->toDateTimeString()]);
 
         if ($advertisement->trashed())
         {

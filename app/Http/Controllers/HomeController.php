@@ -12,6 +12,7 @@ use App\Mail\UserLandMail;
 use Exception;
 use Illuminate\Http\Client\Batch;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\Date;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
@@ -55,7 +56,7 @@ class HomeController extends Controller
             }
         });
 
-        Log::warning('this is sample log to view queued jobs [{date}]', ['date' => now()->jdate()->format('Y-m-d H:i:s')]);
+        Log::warning('this is sample log to view queued jobs [{date}]', ['date' => Date::now()->toDateTimeString()]);
 
         // sample http batch requests
         Http::batch(
