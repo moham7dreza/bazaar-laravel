@@ -8,18 +8,20 @@ use App\Http\Controllers\Controller;
 use App\Http\Responses\ApiJsonResponse;
 use Modules\Advertise\Http\Requests\Admin\StoreStateRequest;
 use Modules\Advertise\Http\Requests\Admin\UpdateStateRequest;
-use Modules\Advertise\Http\Resources\Admin\StateCollection;
 use Modules\Advertise\Http\Resources\Admin\StateResource;
 use Modules\Advertise\Models\State;
+use Throwable;
 
 final class StateController extends Controller
 {
     /**
      * Display a listing of the resource.
+     *
+     * @throws Throwable
      */
     public function index()
     {
-        return new StateCollection(State::all());
+        return State::query()->paginate()->toResourceCollection(StateResource::class);
     }
 
     /**
@@ -30,7 +32,7 @@ final class StateController extends Controller
         $inputs = $request->all();
         $state  = State::query()->create($inputs);
 
-        return new StateResource($state);
+        return $state->toResource(StateResource::class);
     }
 
     /**
@@ -38,7 +40,7 @@ final class StateController extends Controller
      */
     public function show(State $state)
     {
-        return new StateResource($state);
+        return $state->toResource(StateResource::class);
     }
 
     /**
@@ -49,7 +51,7 @@ final class StateController extends Controller
         $inputs = $request->all();
         $state->update($inputs);
 
-        return new StateResource($state);
+        return $state->toResource(StateResource::class);
     }
 
     /**
