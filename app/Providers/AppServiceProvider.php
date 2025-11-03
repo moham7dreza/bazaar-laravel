@@ -238,7 +238,7 @@ final class AppServiceProvider extends ServiceProvider
 
     private function configureDate(): void
     {
-//        Date::use(CarbonImmutable::class);
+        Date::use(CarbonImmutable::class);
 //        Date::use(\App\Support\Carbon::class);
 
         Date::macro('isHoliday', fn () => Holiday::query()->where('date', $this)->exists()); // today()->isHoliday()
