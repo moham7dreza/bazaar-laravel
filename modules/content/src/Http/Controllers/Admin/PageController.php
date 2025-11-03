@@ -8,18 +8,20 @@ use App\Http\Controllers\Controller;
 use App\Http\Responses\ApiJsonResponse;
 use Modules\Content\Http\Requests\Admin\StorePageRequest;
 use Modules\Content\Http\Requests\Admin\UpdatePageRequest;
-use Modules\Content\Http\Resources\Admin\PageCollection;
 use Modules\Content\Http\Resources\Admin\PageResource;
 use Modules\Content\Models\Page;
+use Throwable;
 
 final class PageController extends Controller
 {
     /**
      * Display a listing of the resource.
+     *
+     * @throws Throwable
      */
     public function index()
     {
-        return new PageCollection(Page::all());
+        return Page::query()->paginate()->toResourceCollection(PageResource::class);
     }
 
     /**
@@ -30,7 +32,7 @@ final class PageController extends Controller
         $inputs = $request->all();
         $page   = Page::query()->create($inputs);
 
-        return new PageResource($page);
+        return $page->toResource(PageResource::class);
     }
 
     /**
@@ -38,7 +40,7 @@ final class PageController extends Controller
      */
     public function show(Page $page)
     {
-        return new PageResource($page);
+        return $page->toResource(PageResource::class);
     }
 
     /**
@@ -49,7 +51,7 @@ final class PageController extends Controller
         $inputs = $request->all();
         $page->update($inputs);
 
-        return new PageResource($page);
+        return $page->toResource(PageResource::class);
     }
 
     /**
