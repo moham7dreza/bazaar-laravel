@@ -10,13 +10,17 @@ use Closure;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-final class ApiRequestLoggerMiddleware
+final readonly class ApiRequestLoggerMiddleware
 {
+    public function __construct(
+        private RequestContext $requestContext,
+    ) {
+    }
+
     public function handle(Request $request, Closure $next): Response
     {
-        $logger = app(RequestContext::class);
-        $logger->addBasicContexts();
-        $logger->addUserContext();
+        $this->requestContext->addBasicContexts();
+        $this->requestContext->addUserContext();
 
         if ($request->filled('per_page') && is_numeric($request->get('per_page')))
         {
