@@ -6,20 +6,22 @@ namespace App\Http\Controllers\Admin\User;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\StoreUserRequest;
-use App\Http\Resources\Admin\User\UserCollection;
-use App\Http\Resources\Admin\User\UserResource;
 use App\Http\Responses\ApiJsonResponse;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Date;
+use Throwable;
 
 class UserController extends Controller
 {
     /**
      * Display a listing of the resource.
+     *
+     * @throws Throwable
      */
     public function index()
     {
-        return new UserCollection(User::all());
+        return User::query()->paginate()->toResourceCollection();
     }
 
     /**
@@ -28,13 +30,13 @@ class UserController extends Controller
     public function store(StoreUserRequest $request)
     {
         $request->merge([
-            'mobile_verified_at' => $request->has('is_active') ? now() : null,
-            'email_verified_at'  => $request->has('is_active') ? now() : null,
+            'mobile_verified_at' => $request->has('is_active') ? Date::now() : null,
+            'email_verified_at'  => $request->has('is_active') ? Date::now() : null,
         ]);
 
         return User::query()
             ->create($request->validated())
-            ->toResource(UserResource::class);
+            ->toResource();
     }
 
     /**
@@ -42,7 +44,7 @@ class UserController extends Controller
      */
     public function show(User $user)
     {
-        return new UserResource($user);
+        return $user->toResource();
     }
 
     /**
@@ -53,7 +55,7 @@ class UserController extends Controller
         $inputs = ['name' => $request->name];
         $user->update($inputs);
 
-        return new UserResource($user);
+        return $user->toResource();
     }
 
     /**
