@@ -8,18 +8,20 @@ use App\Http\Controllers\Controller;
 use App\Http\Responses\ApiJsonResponse;
 use Illuminate\Http\Request;
 use Modules\Advertise\Http\Requests\Admin\StoreCategoryRequest;
-use Modules\Advertise\Http\Resources\Admin\CategoryCollection;
 use Modules\Advertise\Http\Resources\Admin\CategoryResource;
 use Modules\Advertise\Models\Category;
+use Throwable;
 
 final class CategoryController extends Controller
 {
     /**
      * Display a listing of the resource.
+     *
+     * @throws Throwable
      */
     public function index()
     {
-        return new CategoryCollection(Category::all());
+        return Category::query()->paginate()->toResourceCollection(CategoryResource::class);
     }
 
     /**
@@ -30,7 +32,7 @@ final class CategoryController extends Controller
         $inputs   = $request->all();
         $category = Category::query()->create($inputs);
 
-        return new CategoryResource($category);
+        return $category->toResource(CategoryResource::class);
     }
 
     /**
@@ -38,7 +40,7 @@ final class CategoryController extends Controller
      */
     public function show(Category $category)
     {
-        return new CategoryResource($category);
+        return $category->toResource(CategoryResource::class);
     }
 
     /**
@@ -49,7 +51,7 @@ final class CategoryController extends Controller
         $inputs = $request->all();
         $category->update($inputs);
 
-        return new CategoryResource($category);
+        return $category->toResource(CategoryResource::class);
     }
 
     /**
