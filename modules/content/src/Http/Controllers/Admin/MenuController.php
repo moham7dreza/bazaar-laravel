@@ -8,18 +8,20 @@ use App\Http\Controllers\Controller;
 use App\Http\Responses\ApiJsonResponse;
 use Modules\Content\Http\Requests\Admin\StoreMenuRequest;
 use Modules\Content\Http\Requests\Admin\UpdateMenuRequest;
-use Modules\Content\Http\Resources\Admin\MenuCollection;
 use Modules\Content\Http\Resources\Admin\MenuResource;
 use Modules\Content\Models\Menu;
+use Throwable;
 
 final class MenuController extends Controller
 {
     /**
      * Display a listing of the resource.
+     *
+     * @throws Throwable
      */
     public function index()
     {
-        return new MenuCollection(Menu::all());
+        return Menu::query()->paginate()->toResourceCollection(MenuResource::class);
     }
 
     /**
@@ -30,7 +32,7 @@ final class MenuController extends Controller
         $inputs = $request->all();
         $menu   = Menu::query()->create($inputs);
 
-        return new MenuResource($menu);
+        return $menu->toResource(MenuResource::class);
     }
 
     /**
@@ -38,7 +40,7 @@ final class MenuController extends Controller
      */
     public function show(Menu $menu)
     {
-        return new MenuResource($menu);
+        return $menu->toResource(MenuResource::class);
     }
 
     /**
@@ -49,7 +51,7 @@ final class MenuController extends Controller
         $inputs = $request->all();
         $menu->update($inputs);
 
-        return new MenuResource($menu);
+        return $menu->toResource(MenuResource::class);
     }
 
     /**
