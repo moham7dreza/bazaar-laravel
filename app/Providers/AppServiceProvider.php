@@ -21,7 +21,9 @@ use App\Services\TranslationService;
 use Carbon\CarbonImmutable;
 use Filament\Notifications\Auth\VerifyEmail;
 use Illuminate\Console\Scheduling\Event;
+use Illuminate\Contracts\Config\Repository;
 use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\Translation\Translator;
 use Illuminate\Database\Connection;
 use Illuminate\Database\Eloquent\Builder as EloquentBuilder;
 use Illuminate\Database\Eloquent\Model;
@@ -34,6 +36,7 @@ use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Pipeline\Hub;
 use Illuminate\Pipeline\Pipeline;
 use Illuminate\Routing\Route;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Date;
@@ -117,7 +120,9 @@ final class AppServiceProvider extends ServiceProvider
     private function configureModel(): void
     {
         Model::automaticallyEagerLoadRelationships();
+
         Model::shouldBeStrict( ! isEnvProduction());
+
         Model::unguard();
     }
 
@@ -158,7 +163,9 @@ final class AppServiceProvider extends ServiceProvider
 
     private function configureNumber(): void
     {
-        Number::useCurrency(\Illuminate\Support\Arr::get(ClientLocale::default(), 'currency'));
+        Number::useCurrency(
+            Arr::get(ClientLocale::default(), 'currency')
+        );
     }
 
     private function configureGates(): void
@@ -171,6 +178,7 @@ final class AppServiceProvider extends ServiceProvider
     private function logSlowQuery(): void
     {
         DB::enableQueryLog();
+
         DB::whenQueryingForLongerThan(5000, static function (Connection $connection, QueryExecuted $event): void {
 
             mongo_info('slow-query', [
@@ -197,7 +205,7 @@ final class AppServiceProvider extends ServiceProvider
 
     private function handleMissingTrans(): void
     {
-        app(\Illuminate\Contracts\Translation\Translator::class)->handleMissingKeysUsing(function (string $key, array $replacements, ?string $locale): void {
+        app(Translator::class)->handleMissingKeysUsing(function (string $key, array $replacements, ?string $locale): void {
             if (blank($key))
             {
                 return;
@@ -276,13 +284,16 @@ final class AppServiceProvider extends ServiceProvider
     private function configureUri(): void
     {
         Uri::macro('docs', fn () => $this->withPath('docs'));
+
         Uri::macro('inCategory', fn ($category) => $this->withPath('shop/' . $category . '/' . mb_trim($this->path(), '/')));
+
         Uri::macro('mobile', function () {
             $path = mb_trim($this->path(), '/');
 
             return $this->withHost('m.' . $this->host())
                 ->withPath($path);
         });
+
         Uri::macro('tracking', fn ($campaign) => $this->withQuery(['utm_campaign' => $campaign, 'utm_source' => 'website']));
     }
 
@@ -290,7 +301,7 @@ final class AppServiceProvider extends ServiceProvider
     {
         $this->app->singleton(function (Application $application): Manager {
 
-            $config = $application->make(\Illuminate\Contracts\Config\Repository::class)->get('services.manager');
+            $config = $application->make(Repository::class)->get('services.manager');
 
             $rules = [
                 'redirect'      => ['required', 'url'],
@@ -310,7 +321,7 @@ final class AppServiceProvider extends ServiceProvider
     private function configureVerifyEmail(): void
     {
         // custom email verification template
-        VerifyEmail::toMailUsing(static fn (User $user, string $url) => (new MailMessage())
+        VerifyEmail::toMailUsing(static fn (User $user, string $url) => new MailMessage()
             ->subject('Verify Email Address')
             ->view('mail.email-verification', [ // TODO add template for it
                 'title'       => 'Confirm your email address',
@@ -351,7 +362,7 @@ final class AppServiceProvider extends ServiceProvider
             new IgnoreBindingValidator(),
         ];
 
-        Route::macro('ignoreMissingBindings', fn () => true === \Illuminate\Support\Arr::get($this->action, 'ignoreMissingBindings'));
+        Route::macro('ignoreMissingBindings', fn () => true === Arr::get($this->action, 'ignoreMissingBindings'));
     }
 
     private function configureBlueprint(): void
