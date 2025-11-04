@@ -25,6 +25,7 @@ use Illuminate\Cookie\Middleware\EncryptCookies;
 use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
 use Illuminate\Routing\Middleware\SubstituteBindings;
 use Illuminate\Session\Middleware\StartSession;
+use Illuminate\Support\Arr;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
 
 final class SuperAdminPanelProvider extends PanelProvider
@@ -32,7 +33,7 @@ final class SuperAdminPanelProvider extends PanelProvider
     public function panel(Panel $panel): Panel
     {
         return $panel
-//            ->brandName('بازار الان دادااش')
+//            ->brandName('بازار')
 //            ->brandLogo(asset('images/logo.png'))
 //            ->brandLogoHeight('2.5rem')
             ->favicon(asset('images/logo.png'))
@@ -169,11 +170,11 @@ final class SuperAdminPanelProvider extends PanelProvider
             fn () => collect(config('tools'))->except('backend-admin')
                 ->map(
                     fn (array $tool) => NavigationItem::make()
-                        ->label(fn (): string => trans(\Illuminate\Support\Arr::get($tool, 'title')))
-                        ->url(\Illuminate\Support\Arr::get($tool, 'url'), shouldOpenInNewTab: true)
-                        ->icon(\Illuminate\Support\Arr::get($tool, 'heroicon'))
-                        ->group(\Illuminate\Support\Arr::get($tool, 'group'))
-                        ->sort(\Illuminate\Support\Arr::get($tool, 'sort'))
+                        ->label(fn (): string => trans(Arr::get($tool, 'title')))
+                        ->url(Arr::get($tool, 'url'), shouldOpenInNewTab: true)
+                        ->icon(Arr::get($tool, 'heroicon'))
+                        ->group(Arr::get($tool, 'group'))
+                        ->sort(Arr::get($tool, 'sort'))
                 )
                 ->all()
         );
