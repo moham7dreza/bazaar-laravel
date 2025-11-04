@@ -12,8 +12,13 @@ use Modules\Auth\Enums\NoticeType;
 use Modules\Auth\Models\Otp;
 use Random\RandomException;
 
-class ConsumeOneTimePasswordService
+final readonly class ConsumeOneTimePasswordService
 {
+    public function __construct(
+        private SMSService $smsService,
+    ) {
+    }
+
     /**
      * @throws RandomException
      */
@@ -41,7 +46,7 @@ class ConsumeOneTimePasswordService
         $data->setMessage($otpCode);
         $data->setTo($mobile);
 
-        app(SMSService::class)->send($data);
+        $this->smsService->send($data);
 
         return [
             'token' => $token,

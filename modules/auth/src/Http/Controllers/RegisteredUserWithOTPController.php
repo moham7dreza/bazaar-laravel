@@ -8,6 +8,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Responses\ApiJsonResponse;
 use Carbon\CarbonInterval;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\Context;
 use Illuminate\Support\Timebox;
 use Modules\Auth\Http\Requests\LoginOtpRequest;
 use Modules\Auth\Services\ConsumeOneTimePasswordService;
@@ -22,7 +23,7 @@ final class RegisteredUserWithOTPController extends Controller
      */
     public function __invoke(LoginOtpRequest $request, ConsumeOneTimePasswordService $service): JsonResponse
     {
-        \Illuminate\Support\Facades\Context::increment('metrics.login_otp_attempts');
+        Context::increment('metrics.login_otp_attempts');
 
         return new Timebox()->call(
             callback: function () use ($request, $service) {
