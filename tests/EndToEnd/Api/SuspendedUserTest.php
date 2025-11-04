@@ -13,7 +13,7 @@ it('can not get response from api', function (): void {
 
     $response->assertForbidden();
 
-    Pest\Laravel\travelTo(Date::now()->addDays(8));
+    Pest\Laravel\travelTo(Illuminate\Support\Facades\Date::now()->addDays(8));
 
     Pest\Laravel\artisan(UserSuspendClearCommand::class);
 

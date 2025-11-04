@@ -16,7 +16,7 @@ test('email can be verified', function (): void {
 
     $verificationUrl = URL::temporarySignedRoute(
         'verification.verify',
-        Date::now()->addMinutes(60),
+        Illuminate\Support\Facades\Date::now()->addMinutes(60),
         ['id' => $user->id, 'hash' => sha1($user->email)]
     );
 
@@ -34,7 +34,7 @@ test('email is not verified with invalid hash', function (): void {
 
     $verificationUrl = URL::temporarySignedRoute(
         'verification.verify',
-        Date::now()->addMinutes(60),
+        Illuminate\Support\Facades\Date::now()->addMinutes(60),
         ['id' => $user->id, 'hash' => sha1('wrong-email')]
     );
 

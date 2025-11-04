@@ -12,7 +12,7 @@ test('schedule user suspend clear job pushed', function (): void {
 
     User::factory()->suspended()->create();
 
-    Pest\Laravel\travelTo(Date::now()->addDays(8));
+    Pest\Laravel\travelTo(Illuminate\Support\Facades\Date::now()->addDays(8));
 
     Pest\Laravel\artisan(UserSuspendClearCommand::class);
 

@@ -31,7 +31,7 @@ it('builds a message with dynamic shortlink and token', function (): void {
     $message = SmsBuilder::make('sms.welcome')
         ->path('/verify', $user)
         ->queryParams(['ref' => 'abc'])
-        ->withToken('TestToken', ['*'], Date::now()->addMinutes(5))
+        ->withToken('TestToken', ['*'], Illuminate\Support\Facades\Date::now()->addMinutes(5))
         ->parameters(['name' => 'Ali'])
         ->build();
 
