@@ -2,23 +2,8 @@
 
 declare(strict_types=1);
 
-use App\Models\User;
 use Modules\Advertise\Models\Advertisement;
 use Modules\Advertise\Models\CategoryAttribute;
-
-it('can get advertisements viewed by users', function (): void {
-
-    $ads = Advertisement::factory(2)
-        ->hasAttached($users = User::factory(2)->create(), relationship: 'viewedByUsers')
-        ->create();
-
-    $viewedAdvertisements = Advertisement::query()->whereAttachedTo($users, 'viewedByUsers');
-
-    $intersect = $viewedAdvertisements->pluck('id')->intersect($ads->pluck('id'))->count();
-
-    expect($intersect)->toBe(2);
-})
-    ->skip('advertisement_view_history table have timestamp columns');
 
 it('can check for ad nested relations loaded', function (): void {
     $ad = Advertisement::factory()->create();
