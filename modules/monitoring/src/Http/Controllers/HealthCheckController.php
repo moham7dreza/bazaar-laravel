@@ -37,10 +37,13 @@ final class HealthCheckController extends Controller
     {
         $this->healthChecker->checks(array_merge(
             [
-                EnvironmentCheck::new()->expectEnvironment(getenv('APP_ENV')),
+                EnvironmentCheck::new()
+                    ->expectEnvironment(config()->string('app.env')),
+
                 UsedDiskSpaceCheck::new()
                     ->warnWhenUsedSpaceIsAbovePercentage(70)
                     ->failWhenUsedSpaceIsAbovePercentage(90),
+
                 CpuLoadCheck::new()
                     ->failWhenLoadIsHigherInTheLast5Minutes(2.0)
                     ->failWhenLoadIsHigherInTheLast15Minutes(1.5),
@@ -48,8 +51,11 @@ final class HealthCheckController extends Controller
             $this->registerGetPingChecks(),
             $this->registerPostPingChecks(),
             [
-                DatabaseCheck::new()->connectionName(getenv('DB_CONNECTION')),
-                CacheCheck::new()->driver('redis'),
+                DatabaseCheck::new()
+                    ->connectionName(config()->string('database.default')),
+
+                CacheCheck::new()
+                    ->driver('redis'),
             ]
         ));
     }
@@ -78,7 +84,7 @@ final class HealthCheckController extends Controller
     private function registerPingCheck(array $urls, string $method): array
     {
         return array_map(static function ($url) use ($method) {
-            $basePath = getenv('APP_URL');
+            $basePath = config()->string('app.url');
 
             return PingCheck::new()
                 ->url($basePath . $url)
