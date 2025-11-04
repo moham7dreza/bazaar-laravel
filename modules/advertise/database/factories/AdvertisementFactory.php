@@ -8,6 +8,7 @@ use App\Models\Geo\City;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Facades\Date;
+use Modules\Advertise\Enums\AdvertisementPublishStatus;
 use Modules\Advertise\Enums\AdvertisementStatus;
 use Modules\Advertise\Enums\AdvertisementType;
 use Modules\Advertise\Models\Advertisement;
@@ -28,7 +29,7 @@ final class AdvertisementFactory extends Factory
             'category_id'      => Category::factory(),
             'city_id'          => City::factory(),
             'user_id'          => User::factory(),
-            'status'           => true,
+            'status'           => AdvertisementPublishStatus::Active,
             'published_at'     => Date::now()->subMonth(),
             'expired_at'       => Date::now()->addYear(),
             'view'             => fake()->randomNumber(),
