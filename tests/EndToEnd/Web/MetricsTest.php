@@ -2,13 +2,11 @@
 
 declare(strict_types=1);
 
-use Tests\TestGroup;
-
-pest()->group(TestGroup::MANUAL);
+use function Pest\Laravel\get;
 
 it('can view metrics', function (): void {
 
-    $response = \Pest\Laravel\get(route('prometheus.default'), [
+    $response = get(route('prometheus.default'), [
         'Authorization' => 'Bearer ' . config('prometheus.token'),
     ])->assertOk();
 

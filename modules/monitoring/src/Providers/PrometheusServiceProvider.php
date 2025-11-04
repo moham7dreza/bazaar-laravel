@@ -16,15 +16,18 @@ final class PrometheusServiceProvider extends ServiceProvider
 {
     public function register(): void
     {
-        $this->registerGauges();
-        $this->registerHorizonCollectors();
-        $this->registerCustomHorizonCollectors();
-        $this->registerQueueCollectors(Queue::values());
+
     }
 
     public function boot(): void
     {
-//        $metrics = app(\Modules\Monitoring\Repositories\RedisQueueWorkloadRepository::class)->get();
+        $this->registerGauges();
+
+        $this->registerHorizonCollectors();
+
+        $this->registerCustomHorizonCollectors();
+
+        $this->registerQueueCollectors(Queue::values());
     }
 
     public function registerGauges(): void
