@@ -14,20 +14,15 @@ use Spatie\SecurityAdvisoriesHealthCheck\SecurityAdvisoriesCheck;
 
 final class HealthServiceProvider extends ServiceProvider
 {
-    /**
-     * Register services.
-     */
     public function register(): void
     {
-//        $this->runHealthChecks();
     }
 
-    /**
-     * Bootstrap services.
-     */
     public function boot(): void
     {
         Gate::define('viewHealth', static fn (?User $user) => ! isEnvLocalOrTesting() ? $user?->isAdmin() : true);
+
+        $this->runHealthChecks();
     }
 
     private function runHealthChecks(): void
