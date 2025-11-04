@@ -14,7 +14,7 @@ use Modules\Advertise\Models\Advertisement;
 
 final class UserBatchSeeder extends Seeder
 {
-    public function run(): void
+    public function run(AdvertisementBatchSeeder $advertisementBatchSeeder): void
     {
         Schema::disableForeignKeyConstraints();
         User::query()->truncate();
@@ -55,7 +55,7 @@ final class UserBatchSeeder extends Seeder
                 {
                     User::query()->insert($chunk);
 
-                    app(AdvertisementBatchSeeder::class)->createAdsForUsers($chunk);
+                    $advertisementBatchSeeder->createAdsForUsers($chunk);
                 }
 
                 // free memory between batches

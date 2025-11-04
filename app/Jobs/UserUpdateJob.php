@@ -33,16 +33,21 @@ final class UserUpdateJob implements ShouldQueue
         ];
     }
 
-    public function handle(): void
+    public function handle(SMSService $SMSService): void
     {
         User::query()
             ->whereIntegerInRaw('id', $this->ids)
             ->select('*') // select only needed columns
-            ->each(function (User $user): void {
+            ->each(function (User $user) use ($SMSService): void {
 
                 $user->updateQuietly(['is_active' => true]);
 
-                $this->notifyUser($user->mobile);
+                $data = new SendSMSDTO();
+                $data->setSenderNumber(SmsSenderNumber::NUMBER_1->value);
+                $data->setMessage('Hello, your account is activated');
+                $data->setTo($user->mobile);
+
+                $SMSService->send($data);
             });
     }
 
@@ -51,15 +56,5 @@ final class UserUpdateJob implements ShouldQueue
         return [
             'user-batch-update',
         ];
-    }
-
-    private function notifyUser(string $mobile): void
-    {
-        $data = new SendSMSDTO();
-        $data->setSenderNumber(SmsSenderNumber::NUMBER_1->value);
-        $data->setMessage('Hello, your account is activated');
-        $data->setTo($mobile);
-
-        app(SMSService::class)->send($data);
     }
 }

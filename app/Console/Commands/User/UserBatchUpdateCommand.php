@@ -8,7 +8,7 @@ use App\Jobs\UserUpdateJob;
 use App\Models\User;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Bus;
-use Illuminate\Support\Sleep;
+use Illuminate\Support\LazyCollection;
 use Symfony\Component\Console\Attribute\AsCommand;
 
 use function Laravel\Prompts\info;
@@ -22,19 +22,17 @@ final class UserBatchUpdateCommand extends Command
             ->select('id')
             ->lazyById(100, 'id') // Get 100 users at a time from DB
             ->chunk(100) // Group into chunks of 100 users
-            ->map(fn ($chunk) => new UserUpdateJob($chunk->pluck('id')->toArray()))
+            ->map(fn (LazyCollection $users) => new UserUpdateJob($users->pluck('id')->all()))
             ->chunk(200); // Group jobs into batches of 200
 
         // Now dispatch each batch of 200 jobs
-        $jobs->each(function ($jobBatch): void {
+        $jobs->each(function (LazyCollection $jobBatch): void {
             Bus::batch($jobBatch)
                 ->name('User Processing Batch')
                 ->allowFailures()
                 ->dispatch();
 
             info('Dispatched batch of 200 jobs');
-
-            Sleep::sleep(1);
         });
 
         info('All job batches dispatched successfully');
