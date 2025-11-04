@@ -5,9 +5,12 @@ declare(strict_types=1);
 namespace Modules\Content\Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Support\Arr;
+use Illuminate\Support\Str;
+use Modules\Content\Models\Page;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\Modules\Content\Models\Page>
+ * @extends Factory<Page>
  */
 final class PageFactory extends Factory
 {
@@ -17,6 +20,7 @@ final class PageFactory extends Factory
             'title'  => fake()->title(),
             'body'   => fake()->randomHtml(),
             'status' => true,
+            'slug'   => fn (array $attributes) => Str::slug(Arr::get($attributes, 'title')),
         ];
     }
 }
