@@ -61,7 +61,7 @@ final class AdvertisementResource extends JsonResource
             'published_at'     => $this->published_at,
             'expired_at'       => $this->expired_at,
             'view'             => $this->view,
-            'status'           => $this->status,
+            'status'           => $this->status->name,
             'contact'          => $this->contact,
             'is_special'       => $this->is_special,
             'is_ladder'        => $this->is_ladder,

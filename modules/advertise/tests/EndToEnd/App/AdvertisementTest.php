@@ -82,7 +82,7 @@ function assertAdv($data, $advertisement_id): void
         ->published_at->toBeString()
         ->expired_at->toBeString()
         ->view->toBeInt()
-        ->status->toBeBool()
+        ->status->toBeString()
         ->contact->toBeString()
         ->is_special->toBeBool()
         ->is_ladder->toBeBool()
