@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Modules\Monitoring\Services\Command;
 
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Date;
 use Illuminate\Support\Facades\DB;
 use Modules\Monitoring\Models\CommandPerformanceLog;
 
@@ -51,7 +52,7 @@ class CommandMonitoringService
     {
         return CommandPerformanceLog::byCategory($category)
             ->completed()
-            ->where('updated_at', '>=', now()->subDays($days))
+            ->where('updated_at', '>=', Date::now()->subDays($days))
             ->select([
                 DB::raw('DATE(updated_at) as date'),
                 DB::raw('COUNT(*) as executions'),
@@ -107,7 +108,7 @@ class CommandMonitoringService
     public function getFailedCommandsPerHour(int $hours = 24, ?string $category = null): Collection
     {
         $query = CommandPerformanceLog::failed()
-            ->where('created_at', '>=', now()->subHours($hours))
+            ->where('created_at', '>=', Date::now()->subHours($hours))
             ->select(
                 DB::raw("DATE_FORMAT(created_at, '%Y-%m-%d %H:00') as hour"),
                 DB::raw('COUNT(*) as failed_count'),
@@ -128,7 +129,7 @@ class CommandMonitoringService
     public function getTopFailingCommands(int $hours, ?string $category = null)
     {
         $query = CommandPerformanceLog::failed()
-            ->where('created_at', '>=', now()->subHours($hours))
+            ->where('created_at', '>=', Date::now()->subHours($hours))
             ->select(
                 'command',
                 DB::raw('COUNT(*) as failure_count')
@@ -147,7 +148,7 @@ class CommandMonitoringService
 
     public function getCommandsPerMinute(int $minutes = 60, ?string $category = null): Collection
     {
-        $query = CommandPerformanceLog::query()->where('created_at', '>=', now()->subMinutes($minutes))
+        $query = CommandPerformanceLog::query()->where('created_at', '>=', Date::now()->subMinutes($minutes))
             ->select(
                 DB::raw("DATE_FORMAT(created_at, '%Y-%m-%d %H:%i') as minute"),
                 DB::raw('COUNT(*) as command_count')

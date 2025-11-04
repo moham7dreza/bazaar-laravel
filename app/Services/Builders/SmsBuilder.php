@@ -8,6 +8,7 @@ use App\Enums\ClientLocale;
 use App\Helpers\ClientDomainService;
 use App\Models\User;
 use DateTimeInterface;
+use Illuminate\Support\Facades\Date;
 use Illuminate\Support\Facades\Lang;
 use Illuminate\Support\Traits\Conditionable;
 use Illuminate\Support\Uri;
@@ -117,7 +118,7 @@ final class SmsBuilder
         $this->withToken     = true;
         $this->tokenName     = $name ?: class_basename(self::class);
         $this->tokenScopes   = $scopes;
-        $this->tokenExpireAt = $expireAt ?: now()->addDays();
+        $this->tokenExpireAt = $expireAt ?: Date::now()->addDays();
 
         return $this;
     }

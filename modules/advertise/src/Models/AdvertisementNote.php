@@ -13,6 +13,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Prunable;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Facades\Date;
 use Modules\Advertise\Database\Factories\AdvertisementNoteFactory;
 
 #[ScopedBy([LatestScope::class])]
@@ -31,7 +32,7 @@ final class AdvertisementNote extends Model
 
     public function prunable(): Builder
     {
-        return static::query()->where('created_at', '<=', now()->subMonths(6));
+        return static::query()->where('created_at', '<=', Date::now()->subMonths(6));
     }
 
     // _____________________________________________ relations SECTION __________________________________________

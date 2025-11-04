@@ -3,6 +3,7 @@
 declare(strict_types=1);
 
 use BezhanSalleh\FilamentExceptions\Models\Exception;
+use Illuminate\Support\Facades\Date;
 
 return [
 
@@ -57,5 +58,5 @@ return [
      *
      */
 
-    'period' => now()->subWeek(),
+    'period' => Date::now()->subWeek(),
 ];

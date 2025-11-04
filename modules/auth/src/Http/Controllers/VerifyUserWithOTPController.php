@@ -59,7 +59,7 @@ final class VerifyUserWithOTPController extends Controller
                 'password'           => Str::random(10),
                 'mobile'             => $request->mobile,
                 'city_id'            => $request->city_id,
-                'mobile_verified_at' => now(),
+                'mobile_verified_at' => Date::now(),
                 'email'              => fake()->email(),
             ]);
 

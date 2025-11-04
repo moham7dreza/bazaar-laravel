@@ -8,6 +8,8 @@ use Illuminate\Cache\Events\CacheHit;
 use Illuminate\Cache\Events\CacheMissed;
 use Illuminate\Cache\Events\KeyForgotten;
 use Illuminate\Cache\Events\KeyWritten;
+use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\Date;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Event;
 
@@ -19,7 +21,7 @@ final class CacheAnalyticsService
             $this->trackCacheOperation('hit', [
                 'cache_key' => $event->key,
                 'store'     => $event->store ?? 'default',
-                'timestamp' => now(),
+                'timestamp' => Date::now(),
             ]);
         });
 
@@ -27,7 +29,7 @@ final class CacheAnalyticsService
             $this->trackCacheOperation('miss', [
                 'cache_key' => $event->key,
                 'store'     => $event->store ?? 'default',
-                'timestamp' => now(),
+                'timestamp' => Date::now(),
             ]);
         });
 
@@ -36,7 +38,7 @@ final class CacheAnalyticsService
                 'cache_key'      => $event->key,
                 'expiry_seconds' => $event->seconds,
                 'store'          => $event->store ?? 'default',
-                'timestamp'      => now(),
+                'timestamp'      => Date::now(),
             ]);
         });
 
@@ -44,7 +46,7 @@ final class CacheAnalyticsService
             $this->trackCacheOperation('delete', [
                 'cache_key' => $event->key,
                 'store'     => $event->store ?? 'default',
-                'timestamp' => now(),
+                'timestamp' => Date::now(),
             ]);
         });
     }
@@ -53,10 +55,10 @@ final class CacheAnalyticsService
     {
         DB::table('cache_analytics')->insert([
             'operation_type' => $operation,
-            'cache_key'      => \Illuminate\Support\Arr::get($metadata, 'cache_key'),
-            'store_name'     => \Illuminate\Support\Arr::get($metadata, 'store'),
-            'expiry_time'    => \Illuminate\Support\Arr::get($metadata, 'expiry_seconds', null),
-            'recorded_at'    => \Illuminate\Support\Arr::get($metadata, 'timestamp'),
+            'cache_key'      => Arr::get($metadata, 'cache_key'),
+            'store_name'     => Arr::get($metadata, 'store'),
+            'expiry_time'    => Arr::get($metadata, 'expiry_seconds'),
+            'recorded_at'    => Arr::get($metadata, 'timestamp'),
         ]);
     }
 }

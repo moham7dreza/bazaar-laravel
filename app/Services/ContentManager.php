@@ -6,6 +6,7 @@ namespace App\Services;
 
 use App\Models\User;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Date;
 
 final class ContentManager
 {
@@ -16,7 +17,7 @@ final class ContentManager
                 'articles',
                 'published_at',
                 '>',
-                now()->subDays(60)
+                Date::now()->subDays(60)
             )->get();
     }
 
@@ -40,7 +41,7 @@ final class ContentManager
             [Like::class, Share::class, Bookmark::class],
             'created_at',
             '>',
-            now()->subMonth()
+            Date::now()->subMonth()
         )->get();
     }
 
@@ -53,7 +54,7 @@ final class ContentManager
                 'updates',
                 'created_at',
                 '>',
-                now()->subMonths(6)
+                Date::now()->subMonths(6)
             )
             ->update(['status' => 'archived']);
     }

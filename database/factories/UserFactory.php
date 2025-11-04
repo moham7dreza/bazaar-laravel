@@ -11,6 +11,7 @@ use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Http\Client\ConnectionException;
 use Illuminate\Http\Client\RequestException;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Date;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Storage;
@@ -27,18 +28,18 @@ class UserFactory extends Factory
         return [
             'name'              => fake()->name(),
             'email'             => fake()->unique()->safeEmail(),
-            'email_verified_at' => now(),
+            'email_verified_at' => Date::now(),
             'password'          => 'password',
             'remember_token'    => Str::random(10),
             'theme'             => Theme::DRACULA->value,
             'suspended_at'      => fake()->optional(0.1)->dateTimeBetween('-30 days'),
-            'suspended_until'   => fn (array $attributes) => \Illuminate\Support\Arr::get($attributes, 'suspended_at')
-                ? Date::parse(\Illuminate\Support\Arr::get($attributes, 'suspended_at'))->addWeek()
+            'suspended_until'   => fn (array $attributes) => Arr::get($attributes, 'suspended_at')
+                ? Date::parse(Arr::get($attributes, 'suspended_at'))->addWeek()
                 : null,
             'is_active'          => true,
             'user_type'          => User::TYPE_USER,
             'mobile'             => '0912' . random_int(1000000, 9999999),
-            'mobile_verified_at' => now(),
+            'mobile_verified_at' => Date::now(),
             'city_id'            => City::factory(),
             'avatar_url'         => '/images/admin.jpg',
             'secrets'            => [
@@ -46,7 +47,7 @@ class UserFactory extends Factory
                 'open_ai' => Str::random(32),
             ],
             'last_login_at' => fake()->optional(0.8)->dateTimeBetween('-30 days'),
-            'last_login_ip' => fn (array $attributes) => \Illuminate\Support\Arr::get($attributes, 'last_login_at') ? fake()->localIpv4() : null,
+            'last_login_ip' => fn (array $attributes) => Arr::get($attributes, 'last_login_at') ? fake()->localIpv4() : null,
         ];
     }
 
@@ -88,8 +89,8 @@ class UserFactory extends Factory
     public function suspended(): static
     {
         return $this->state(fn (array $attributes) => [
-            'suspended_at'    => now(),
-            'suspended_until' => now()->addWeek(),
+            'suspended_at'    => Date::now(),
+            'suspended_until' => Date::now()->addWeek(),
         ]);
     }
 

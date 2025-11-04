@@ -8,6 +8,7 @@ use App\Enums\UserPermission;
 use App\Enums\UserRole;
 use App\Models\User;
 use Illuminate\Auth\Access\Response;
+use Illuminate\Support\Facades\Date;
 use Modules\Advertise\Models\Advertisement;
 
 final class AdvertisementPolicy
@@ -75,7 +76,7 @@ final class AdvertisementPolicy
     {
         $check = $user->owns($advertisement)
             && $user->can(UserPermission::DESTROY_AD)
-            && (null === $advertisement->published_at || now()->gt($advertisement->published_at));
+            && (null === $advertisement->published_at || Date::now()->gt($advertisement->published_at));
 
         return $check
             ? Response::allow()

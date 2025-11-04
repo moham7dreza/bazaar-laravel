@@ -8,7 +8,8 @@ use App\Enums\Queue;
 use App\Events\UserUpdatedEvent;
 use App\Notifications\PasswordChangedNotification;
 use Illuminate\Queue\Middleware\Skip;
-use Illuminate\Support\Carbon;
+use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\Date;
 
 class SendPasswordChangedNotification extends QueuedListener
 {
@@ -20,7 +21,7 @@ class SendPasswordChangedNotification extends QueuedListener
     public function middleware(UserUpdatedEvent $event)
     {
         return [
-            Skip::when(fn (): bool => null !== ! \Illuminate\Support\Arr::get($event->changes, 'password')),
+            Skip::when(fn (): bool => null !== ! Arr::get($event->changes, 'password')),
         ];
     }
 
@@ -29,9 +30,9 @@ class SendPasswordChangedNotification extends QueuedListener
         return true;
     }
 
-    public function retryUntil(): Carbon
+    public function retryUntil()
     {
-        return now()->addMinutes(5);
+        return Date::now()->addMinutes(5);
     }
 
     public function handle(UserUpdatedEvent $event): void

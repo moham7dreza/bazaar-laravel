@@ -8,6 +8,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Responses\ApiJsonResponse;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Resources\Json\ResourceCollection;
+use Illuminate\Support\Facades\Date;
 use Modules\Advertise\Models\Advertisement;
 use Throwable;
 
@@ -32,7 +33,7 @@ final class HistoryAdvertisementController extends Controller
 
         if ($user?->viewedAdvertisements()->whereBelongsTo($advertisement)->exists())
         {
-            $user?->viewedAdvertisements()->updateExistingPivot($advertisement->id, ['updated_at' => now()]);
+            $user?->viewedAdvertisements()->updateExistingPivot($advertisement->id, ['updated_at' => Date::now()]);
         } else
         {
             $user?->viewedAdvertisements()->attach($advertisement->id);

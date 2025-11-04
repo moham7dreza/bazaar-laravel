@@ -11,6 +11,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Prunable;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Facades\Date;
 
 #[ScopedBy([LatestScope::class])]
 class Message extends Model
@@ -27,7 +28,7 @@ class Message extends Model
 
     public function prunable(): Builder
     {
-        return static::query()->where('created_at', '<=', now()->subMonths(6));
+        return static::query()->where('created_at', '<=', Date::now()->subMonths(6));
     }
 
     #[Scope]

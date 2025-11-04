@@ -7,12 +7,14 @@ namespace Modules\Advertise\Database\Factories;
 use App\Models\Geo\City;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Support\Facades\Date;
 use Modules\Advertise\Enums\AdvertisementStatus;
 use Modules\Advertise\Enums\AdvertisementType;
+use Modules\Advertise\Models\Advertisement;
 use Modules\Advertise\Models\Category;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\Modules\Advertise\Models\Advertisement>
+ * @extends Factory<Advertisement>
  */
 final class AdvertisementFactory extends Factory
 {
@@ -27,8 +29,8 @@ final class AdvertisementFactory extends Factory
             'city_id'          => City::factory(),
             'user_id'          => User::factory(),
             'status'           => true,
-            'published_at'     => now()->subMonth(),
-            'expired_at'       => now()->addYear(),
+            'published_at'     => Date::now()->subMonth(),
+            'expired_at'       => Date::now()->addYear(),
             'view'             => fake()->randomNumber(),
             'contact'          => fake()->phoneNumber(),
             'is_special'       => fake()->boolean(),

@@ -6,6 +6,7 @@ namespace Database\Seeders;
 
 use App\Models\User;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Date;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Schema;
 use Modules\Advertise\Database\Seeders\AdvertisementBatchSeeder;
@@ -44,8 +45,8 @@ final class UserBatchSeeder extends Seeder
                         'email'      => fake()->userName() . ($i + $offset) . '@' . fake()->safeEmailDomain(),
                         'mobile'     => '09' . fake()->randomNumber(9),
                         'password'   => $password,
-                        'created_at' => now()->toDateTimeString(),
-                        'updated_at' => now()->toDateTimeString(),
+                        'created_at' => Date::now()->toDateTimeString(),
+                        'updated_at' => Date::now()->toDateTimeString(),
                     ];
                 }
 

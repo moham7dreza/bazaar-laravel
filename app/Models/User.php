@@ -221,7 +221,7 @@ final class User extends Authenticatable implements
                 'created_at' => 'max',
             ],
             function (Builder $query): void {
-                $query->where('created_at', '>', now()->subMonth());
+                $query->where('created_at', '>', Date::now()->subMonth());
             }
         );
     }
@@ -253,14 +253,14 @@ final class User extends Authenticatable implements
 
     public function isSuspended(): bool
     {
-        return null !== $this->suspended_at && now()->lte($this->suspended_until);
+        return null !== $this->suspended_at && Date::now()->lte($this->suspended_until);
     }
 
     public function suspend(): bool
     {
         return $this->update([
-            'suspend_at'      => now(),
-            'suspended_until' => now()->addWeek(),
+            'suspend_at'      => Date::now(),
+            'suspended_until' => Date::now()->addWeek(),
         ]);
     }
 
@@ -310,7 +310,7 @@ final class User extends Authenticatable implements
     protected function suspended(Builder $query): Builder
     {
         return $query->whereNotNull('suspended_at')
-            ->where('suspended_until', '>=', now());
+            ->where('suspended_until', '>=', Date::now());
     }
 
     #[Scope]

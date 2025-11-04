@@ -10,6 +10,7 @@ use Exception;
 use Illuminate\Container\Attributes\Context;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Date;
 use Illuminate\Support\Facades\DB;
 use Modules\Advertise\Enums\AdvertisementStatus;
 use Modules\Advertise\Enums\AdvertisementType;
@@ -99,8 +100,8 @@ class AdvertisementBatchSeeder extends Seeder
                     'tags'         => fake()->tags(),
                     'lat'          => fake()->latitude(),
                     'lng'          => fake()->longitude(),
-                    'created_at'   => now()->toDateTimeString(),
-                    'updated_at'   => now()->toDateTimeString(),
+                    'created_at'   => Date::now()->toDateTimeString(),
+                    'updated_at'   => Date::now()->toDateTimeString(),
                 ];
 
                 $this->command->info("ads {$adId} is processing");

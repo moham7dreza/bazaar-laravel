@@ -10,6 +10,7 @@ use Illuminate\Database\Eloquent\Attributes\ScopedBy;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Prunable;
+use Illuminate\Support\Facades\Date;
 
 #[ScopedBy([LatestScope::class])]
 final class JobPerformanceLog extends Model
@@ -23,7 +24,7 @@ final class JobPerformanceLog extends Model
 
     public function prunable(): Builder
     {
-        return static::query()->where('created_at', '<=', now()->subWeeks(2));
+        return static::query()->where('created_at', '<=', Date::now()->subWeeks(2));
     }
 
     #[Scope]

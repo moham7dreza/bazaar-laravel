@@ -26,6 +26,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Facades\Date;
 use Modules\Advertise\Database\Factories\AdvertisementFactory;
 use Modules\Advertise\Enums\AdvertisementPublishStatus;
 use Modules\Advertise\Enums\AdvertisementStatus;
@@ -54,7 +55,7 @@ final class Advertisement extends Model
 
     public function prunable(): Builder
     {
-        return self::query()->whereDate('created_at', '<=', now()->subMonths(6));
+        return self::query()->whereDate('created_at', '<=', Date::now()->subMonths(6));
     }
 
     public function sluggable(): array
@@ -183,7 +184,7 @@ final class Advertisement extends Model
     #[Scope]
     protected function published(): Builder
     {
-        return $this->where('published_at', '<', now());
+        return $this->where('published_at', '<', Date::now());
     }
 
     #[Scope]

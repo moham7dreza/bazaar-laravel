@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Services;
 
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Date;
 
 final class PermissionManager
 {
@@ -15,7 +16,7 @@ final class PermissionManager
             ->map(fn ($granted, $permission) => [
                 'permission'  => $permission,
                 'was_granted' => $granted,
-                'revoked_at'  => now(),
+                'revoked_at'  => Date::now(),
             ]);
     }
 

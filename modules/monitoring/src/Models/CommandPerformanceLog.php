@@ -10,6 +10,7 @@ use Illuminate\Database\Eloquent\Casts\AsFluent;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Prunable;
+use Illuminate\Support\Facades\Date;
 use Modules\Monitoring\Enums\CommandLoggingStatus;
 
 class CommandPerformanceLog extends Model
@@ -21,7 +22,7 @@ class CommandPerformanceLog extends Model
 
     public function prunable(): Builder
     {
-        return self::query()->where('created_at', '<=', now()->subWeeks(2));
+        return self::query()->where('created_at', '<=', Date::now()->subWeeks(2));
     }
 
     public function isRunning(): bool
@@ -46,7 +47,7 @@ class CommandPerformanceLog extends Model
     {
         return $query
             ->where('status', CommandLoggingStatus::Started)
-            ->whereDate('created_at', '<', now()->subDays());
+            ->whereDate('created_at', '<', Date::now()->subDays());
     }
 
     protected function formattedRuntime(): Attribute

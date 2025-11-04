@@ -7,7 +7,9 @@ namespace App\Services;
 use App\Exceptions\MissingSettingsException;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Date;
 use Illuminate\Support\Fluent;
+use Throwable;
 
 final class SettingsManager
 {
@@ -40,12 +42,12 @@ final class SettingsManager
             ->map(fn ($value, $key) => [
                 'setting'       => $key,
                 'current_value' => $value,
-                'deprecated_at' => now(),
+                'deprecated_at' => Date::now(),
             ]);
     }
 
     /**
-     * @throws MissingSettingsException
+     * @throws MissingSettingsException|Throwable
      */
     public function validateEssentialKeys(array $settings): true
     {

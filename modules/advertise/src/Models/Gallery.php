@@ -17,6 +17,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Prunable;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Facades\Date;
 use Illuminate\Support\Facades\Storage;
 use Modules\Advertise\Database\Factories\GalleryFactory;
 use Modules\Advertise\Http\Resources\App\GalleryCollection;
@@ -40,7 +41,7 @@ final class Gallery extends Model
 
     public function prunable(): Builder
     {
-        return self::query()->where('created_at', '<=', now()->subMonths(6));
+        return self::query()->where('created_at', '<=', Date::now()->subMonths(6));
     }
 
     // _____________________________________________ relations SECTION __________________________________________

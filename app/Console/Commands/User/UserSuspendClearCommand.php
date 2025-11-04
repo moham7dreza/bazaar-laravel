@@ -8,6 +8,7 @@ use App\Jobs\UserSuspendClearJob;
 use App\Models\User;
 use Illuminate\Console\Command;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Date;
 use Illuminate\Support\LazyCollection;
 
 class UserSuspendClearCommand extends Command
@@ -24,7 +25,7 @@ class UserSuspendClearCommand extends Command
 
             yield from User::query()->cursor()
                 ->whereNotNull('suspended_until')
-                ->where('suspended_until', '<=', now());
+                ->where('suspended_until', '<=', Date::now());
 
         })->each(function (User $user): void {
 
@@ -33,7 +34,7 @@ class UserSuspendClearCommand extends Command
 
         //        User::query()
         //            ->whereNotNull('suspended_until')
-        //            ->where('suspended_until', '<=', now())
+        //            ->where('suspended_until', '<=', Date::now())
         //            ->chunkById(100, function (Collection $users): void {
         //                UserSuspendClearJob::dispatch($users->pluck('id'));
         //            });

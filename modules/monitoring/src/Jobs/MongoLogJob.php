@@ -7,6 +7,7 @@ namespace Modules\Monitoring\Jobs;
 use App\Enums\Queue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Queue\Queueable;
+use Illuminate\Support\Facades\Date;
 use Modules\Monitoring\Models\DevLog;
 
 final class MongoLogJob implements ShouldQueue
@@ -19,7 +20,7 @@ final class MongoLogJob implements ShouldQueue
         public readonly array $data,
         public readonly string $logKey,
     ) {
-        $this->delay(now()->addSeconds(5));
+        $this->delay(Date::now()->addSeconds(5));
         $this->onQueue(Queue::MONGO_LOG);
     }
 

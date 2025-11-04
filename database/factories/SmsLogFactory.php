@@ -11,6 +11,7 @@ use App\Enums\Sms\SmsStatus;
 use App\Enums\Sms\SmsType;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Support\Facades\Date;
 
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\SmsLog>
@@ -28,7 +29,7 @@ class SmsLogFactory extends Factory
             'message_type'  => SmsMessageType::random(),
             'sender_number' => SmsSenderNumber::random(),
             'to'            => '09121234567',
-            'sent_at'       => now(),
+            'sent_at'       => Date::now(),
             'delivered_at'  => null,
             'message'       => fake()->text(),
         ];
