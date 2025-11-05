@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Helpers;
 
-use Carbon\Carbon;
+use Carbon\CarbonImmutable;
 use DateTimeInterface;
 use Illuminate\Support\Facades\Date;
 use MongoDB\BSON\ObjectId;
@@ -65,12 +65,12 @@ final class TimeUtility
         return CalendarUtils::strftime('Y_m_d_H_i_s');
     }
 
-    public static function convertMongoUTCDateTimeToCarbon(UTCDateTime $date): Carbon
+    public static function convertMongoUTCDateTimeToCarbon(UTCDateTime $date): CarbonImmutable
     {
         return Date::createFromTimestamp(self::getMongoTimestamp($date));
     }
 
-    public static function convertMongoObjectIdToCarbon(string $id): Carbon
+    public static function convertMongoObjectIdToCarbon(string $id): CarbonImmutable
     {
         return Date::createFromTimestamp(new ObjectId($id)->getTimestamp());
     }
