@@ -6,10 +6,8 @@ namespace App\Models;
 
 use App\Models\Scopes\LatestScope;
 use Database\Factories\PaymentGatewayFactory;
-use Illuminate\Database\Eloquent\Attributes\Scope;
 use Illuminate\Database\Eloquent\Attributes\ScopedBy;
 use Illuminate\Database\Eloquent\Attributes\UseFactory;
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
@@ -50,12 +48,6 @@ class PaymentGateway extends Model
             'status' => 'bool',
             //        'gateway' => \App\Enums\PaymentGateways::class,
         ];
-    }
-
-    #[Scope]
-    protected function active(): Builder
-    {
-        return $this->where('status', true);
     }
 
     // _____________________________________________ method SECTION __________________________________________
