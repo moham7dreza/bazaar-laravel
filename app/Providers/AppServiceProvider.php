@@ -7,6 +7,7 @@ namespace App\Providers;
 use App\Broadcasting\WhatsappChannel;
 use App\Console\Commands\System\DataMigrationCommand;
 use App\Enums\ClientLocale;
+use App\Enums\Status;
 use App\Exceptions\ManagerConfigException;
 use App\Helpers\JalalianFactory;
 use App\Http\Filters\FiltersList;
@@ -348,6 +349,12 @@ final class AppServiceProvider extends ServiceProvider
         EloquentBuilder::macro('reserveFirstAvailable', fn (mixed $key, string|int|Carbon $duration = 60) => $this->get()->first(fn ($item) => $item->reserve($key, $duration)));
 
         EloquentBuilder::macro('c2c', fn () => c2c(getSqlWithBindings($this)));
+
+        EloquentBuilder::macro('getStrictTable', fn () => Str::afterLast($this->getModel()->getTable(), '.'));
+
+        EloquentBuilder::macro('parent', fn () => $this->whereNull('parent_id'));
+
+        EloquentBuilder::macro('active', fn () => $this->where('status', Status::Activated->value));
     }
 
     private function configureQueryBuilder(): void
