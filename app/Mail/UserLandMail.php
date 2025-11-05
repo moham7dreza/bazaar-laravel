@@ -12,6 +12,7 @@ use Illuminate\Mail\Mailables\Address;
 use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Support\Arr;
 
 class UserLandMail extends Mailable implements ShouldQueue
 {
@@ -29,7 +30,7 @@ class UserLandMail extends Mailable implements ShouldQueue
     public function envelope(): Envelope
     {
         return new Envelope(
-            from: new Address(\Illuminate\Support\Arr::get($this->from, '0.address'), \Illuminate\Support\Arr::get($this->from, '0.name')),
+            from: new Address(Arr::get($this->from, '0.address'), Arr::get($this->from, '0.name')),
             subject: $this->subject,
         );
     }
@@ -39,8 +40,8 @@ class UserLandMail extends Mailable implements ShouldQueue
         return new Content(
             view: 'mail',
             with: [
-                'subject' => \Illuminate\Support\Arr::get($this->details, 'subject'),
-                'body'    => \Illuminate\Support\Arr::get($this->details, 'body'),
+                'subject' => Arr::get($this->details, 'subject'),
+                'body'    => Arr::get($this->details, 'body'),
             ]
         );
     }

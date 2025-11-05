@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers;
 
+use Amiriun\SMS\DataContracts\SendSMSDTO;
 use Amiriun\SMS\Services\SMSService;
 use App\Enums\Sms\SmsSenderNumber;
 use App\Events\PackageSent;
@@ -31,25 +32,31 @@ class HomeController extends Controller
                 event(new PackageSent('delivered', 'olamide'));
 
                 // sample send sms
-                $data = new \Amiriun\SMS\DataContracts\SendSMSDTO();
+                $data = new SendSMSDTO();
                 $data->setSenderNumber(SmsSenderNumber::NUMBER_2->value); // also this can be set as default in config/sms.php
                 $data->setMessage('Hello, this is a test');
                 $data->setTo('09123000000');
                 $SMSService->send($data);
 
                 // sample send email
+                /*
                 Mail::to('test@example.com')
 //                    ->when(false)
                     ->send(new UserLandMail(
                         subject: 'welcome',
-                        from: getenv('MAIL_FROM_ADDRESS'),
+                        from: [
+                            [
+                                'address' => config()->string('mail.from.address'),
+                                'name'    => config()->string('mail.from.name'),
+                            ],
+                        ],
                         details: [
                             'subject' => 'test',
                             'body'    => 'test',
                         ],
                         files: [],
                     ));
-
+            */
             } catch (Exception $e)
             {
                 Log::error($e->getMessage());
