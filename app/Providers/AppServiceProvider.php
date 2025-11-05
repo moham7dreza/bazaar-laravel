@@ -38,7 +38,6 @@ use Illuminate\Pipeline\Hub;
 use Illuminate\Pipeline\Pipeline;
 use Illuminate\Routing\Route;
 use Illuminate\Support\Arr;
-use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Date;
 use Illuminate\Support\Facades\DB;
@@ -339,14 +338,14 @@ final class AppServiceProvider extends ServiceProvider
 
     private function configureCollection(): void
     {
-        Collection::macro('reserveFirstAvailable', fn (mixed $key, string|int|Carbon $duration = 60) => $this->first(fn ($item) => $item->reserve($key, $duration)));
+        Collection::macro('reserveFirstAvailable', fn (string $key, int $duration = 60) => $this->first(fn ($item) => $item->reserve($key, $duration)));
 
         Collection::macro('c2c', fn () => $this->toJson(JSON_PRETTY_PRINT));
     }
 
     private function configureEloquentBuilder(): void
     {
-        EloquentBuilder::macro('reserveFirstAvailable', fn (mixed $key, string|int|Carbon $duration = 60) => $this->get()->first(fn ($item) => $item->reserve($key, $duration)));
+        EloquentBuilder::macro('reserveFirstAvailable', fn (string $key, int $duration = 60) => $this->get()->first(fn ($item) => $item->reserve($key, $duration)));
 
         EloquentBuilder::macro('c2c', fn () => c2c(getSqlWithBindings($this)));
 
