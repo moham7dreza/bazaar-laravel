@@ -21,8 +21,7 @@ final class CategoryController extends Controller
         return Category::query()
             ->with('advertisements')
             ->has('advertisements')
-            ->whereNull('parent_id')
-            ->get()
+            ->paginate()
             ->toResourceCollection();
     }
 }
