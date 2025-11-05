@@ -355,6 +355,8 @@ final class AppServiceProvider extends ServiceProvider
         EloquentBuilder::macro('parent', fn () => $this->whereNull('parent_id'));
 
         EloquentBuilder::macro('active', fn () => $this->where('status', Status::Activated->value));
+
+        EloquentBuilder::macro('forAuth', fn () => $this->whereBelongsTo(auth()->user()));
     }
 
     private function configureQueryBuilder(): void
