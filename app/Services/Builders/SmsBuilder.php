@@ -8,12 +8,15 @@ use App\Enums\ClientLocale;
 use App\Helpers\ClientDomainService;
 use App\Models\User;
 use DateTimeInterface;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Date;
 use Illuminate\Support\Facades\Lang;
+use Illuminate\Support\Str;
 use Illuminate\Support\Traits\Conditionable;
 use Illuminate\Support\Uri;
 use InvalidArgumentException;
 use RuntimeException;
+use Throwable;
 
 final class SmsBuilder
 {
@@ -47,11 +50,22 @@ final class SmsBuilder
         $this->messageKey = $messageKey;
     }
 
+    /**
+     * @throws Throwable
+     */
     public static function make(string $messageKey): self
     {
-        throw_unless(str_starts_with($messageKey, 'sms.'), InvalidArgumentException::class, "The message key must start with 'sms.'.");
+        throw_unless(
+            Str::startsWith($messageKey, 'sms.'),
+            InvalidArgumentException::class,
+            "The message key must start with 'sms.'."
+        );
 
-        throw_unless(Lang::has($messageKey), InvalidArgumentException::class, "The [{$messageKey}] message key does not exist in translations.");
+        throw_unless(
+            Lang::has($messageKey),
+            InvalidArgumentException::class,
+            "The [{$messageKey}] message key does not exist in translations."
+        );
 
         return new self($messageKey);
     }
@@ -125,17 +139,22 @@ final class SmsBuilder
 
     public function withProductUtms(string $campaign = 'productsms'): self
     {
-        \Illuminate\Support\Arr::set($this->queryParams, 'utm_source', 'product');
-        \Illuminate\Support\Arr::set($this->queryParams, 'utm_medium', 'sms');
-        \Illuminate\Support\Arr::set($this->queryParams, 'utm_campaign', $campaign);
+        Arr::set($this->queryParams, 'utm_source', 'product');
+        Arr::set($this->queryParams, 'utm_medium', 'sms');
+        Arr::set($this->queryParams, 'utm_campaign', $campaign);
 
         return $this;
     }
 
+    /**
+     * @throws Throwable
+     */
     public function build(): string
     {
         $this->addTokenToQueryParams();
+
         $this->addLinkToMessageParams();
+
         $this->ensureAllPlaceholdersAreFilled();
 
         $body = __($this->messageKey, $this->messageParams, $this->locale->value);
@@ -145,29 +164,50 @@ final class SmsBuilder
             : $body;
     }
 
+    /**
+     * @throws Throwable
+     */
     private function addTokenToQueryParams(): void
     {
-        if ($this->withToken)
+        if ( ! $this->withToken)
         {
-            throw_unless($this->user, RuntimeException::class, 'User must be provided through the `path()` method to generate auth token.');
+            return;
+        }
 
-            $token = $this->user->createToken(
+        throw_unless(
+            $this->user,
+            RuntimeException::class,
+            'User must be provided through the `path()` method to generate auth token.'
+        );
+
+        $token = $this->user
+            ->createToken(
                 name: $this->tokenName,
                 abilities: $this->tokenScopes,
                 expiresAt: $this->tokenExpireAt,
-            )->plainTextToken;
-            \Illuminate\Support\Arr::set($this->queryParams, 'token', $token);
-        }
+            )
+            ->plainTextToken;
+
+        Arr::set($this->queryParams, 'token', $token);
     }
 
+    /**
+     * @throws Throwable
+     */
     private function addLinkToMessageParams(): void
     {
-        if (filled($this->path))
+        if (blank($this->path))
         {
-            throw_if(array_key_exists('link', $this->messageParams), RuntimeException::class, "The 'link' parameter is reserved and must not be provided in the parameters array.");
-
-            \Illuminate\Support\Arr::set($this->messageParams, 'link', $this->createShortlink());
+            return;
         }
+
+        throw_if(
+            array_key_exists('link', $this->messageParams),
+            RuntimeException::class,
+            "The 'link' parameter is reserved and must not be provided in the parameters array."
+        );
+
+        Arr::set($this->messageParams, 'link', $this->createShortlink());
     }
 
     private function createShortlink(): string
@@ -182,13 +222,23 @@ final class SmsBuilder
         return $uri->value();
     }
 
+    /**
+     * @throws Throwable
+     */
     private function ensureAllPlaceholdersAreFilled(): void
     {
         $rawMessage = __($this->messageKey, locale: $this->locale->value);
+
         preg_match_all('/:([a-zA-Z0-9_]+)/', $rawMessage, $matches);
-        $placeholders  = \Illuminate\Support\Arr::get($matches, 1);
+
+        $placeholders  = Arr::get($matches, 1);
+
         $missingParams = array_diff($placeholders, array_keys($this->messageParams));
 
-        throw_unless(blank($missingParams), RuntimeException::class, "Missing parameters for {$this->messageKey}: " . implode(', ', $missingParams));
+        throw_unless(
+            blank($missingParams),
+            RuntimeException::class,
+            "Missing parameters for {$this->messageKey}: " . implode(', ', $missingParams)
+        );
     }
 }
