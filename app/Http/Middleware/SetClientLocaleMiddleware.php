@@ -20,7 +20,7 @@ class SetClientLocaleMiddleware
 
             if (blank($lang))
             {
-                app()->setLocale(config()->string('app.locale', ClientLocale::FA->value));
+                app()->setLocale(config()->string('app.locale', ClientLocale::Farsi->value));
 
                 return $next($request);
             }

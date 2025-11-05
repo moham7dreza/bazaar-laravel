@@ -11,12 +11,12 @@ enum ClientLocale: string
 {
     use EnumDataListTrait;
 
-    case FA = 'fa';
-    case EN = 'en';
+    case Farsi   = 'fa';
+    case English = 'en';
 
     public const array NUMBER_MAP = [
-        1  => self::FA,
-        2  => self::EN,
+        1  => self::Farsi,
+        2  => self::English,
     ];
 
     public static function fromNumber(int $number): ?self
@@ -29,17 +29,17 @@ enum ClientLocale: string
         return match (app()->getLocale())
         {
 
-            self::FA->value => [
-                'timezone' => self::FA->timezone(),
-                'country'  => self::FA->country(),
-                'currency' => self::FA->currency(),
-                'flag'     => self::FA->flag(),
+            self::Farsi->value => [
+                'timezone' => self::Farsi->timezone(),
+                'country'  => self::Farsi->country(),
+                'currency' => self::Farsi->currency(),
+                'flag'     => self::Farsi->flag(),
             ],
-            self::EN->value => [
-                'timezone' => self::EN->timezone(),
-                'country'  => self::EN->country(),
-                'currency' => self::EN->currency(),
-                'flag'     => self::EN->flag(),
+            self::English->value => [
+                'timezone' => self::English->timezone(),
+                'country'  => self::English->country(),
+                'currency' => self::English->currency(),
+                'flag'     => self::English->flag(),
             ],
             default => [],
         };
@@ -56,8 +56,8 @@ enum ClientLocale: string
     {
         return match ($this)
         {
-            self::FA => 'Asia\Tehran',
-            self::EN => 'UTC',
+            self::Farsi   => 'Asia\Tehran',
+            self::English => 'UTC',
         };
     }
 
@@ -65,8 +65,8 @@ enum ClientLocale: string
     {
         return match ($this)
         {
-            self::FA => 'IR',
-            self::EN => 'US',
+            self::Farsi   => 'IR',
+            self::English => 'US',
         };
     }
 
@@ -74,8 +74,8 @@ enum ClientLocale: string
     {
         return match ($this)
         {
-            self::FA => 'IRT',
-            self::EN => 'USD',
+            self::Farsi   => 'IRT',
+            self::English => 'USD',
         };
     }
 
@@ -83,8 +83,8 @@ enum ClientLocale: string
     {
         return match ($this)
         {
-            self::FA => asset('images/flags/ir.svg'),
-            self::EN => asset('images/flags/usa.svg'),
+            self::Farsi   => asset('images/flags/ir.svg'),
+            self::English => asset('images/flags/usa.svg'),
         };
     }
 
@@ -92,8 +92,8 @@ enum ClientLocale: string
     {
         return match ($this)
         {
-            self::FA => 'fa_IR',
-            self::EN => 'en_US',
+            self::Farsi   => 'fa_IR',
+            self::English => 'en_US',
         };
     }
 }

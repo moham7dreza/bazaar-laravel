@@ -41,7 +41,8 @@ final class SmsBuilder
     private string $tokenName;
 
     private array $tokenScopes;
-    private ClientLocale $locale = ClientLocale::FA;
+
+    private ClientLocale $locale = ClientLocale::Farsi;
 
     private DateTimeInterface $tokenExpireAt;
 

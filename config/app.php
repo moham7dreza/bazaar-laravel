@@ -75,7 +75,7 @@ return [
     |
     */
 
-    'timezone' => env('APP_TIMEZONE', ClientLocale::FA->timezone()),
+    'timezone' => env('APP_TIMEZONE', ClientLocale::Farsi->timezone()),
 
     /*
     |--------------------------------------------------------------------------
@@ -88,11 +88,11 @@ return [
     |
     */
 
-    'locale' => env('APP_LOCALE', ClientLocale::EN->value),
+    'locale' => env('APP_LOCALE', ClientLocale::English->value),
 
-    'fallback_locale' => env('APP_FALLBACK_LOCALE', ClientLocale::FA->value),
+    'fallback_locale' => env('APP_FALLBACK_LOCALE', ClientLocale::Farsi->value),
 
-    'faker_locale' => env('APP_FAKER_LOCALE', ClientLocale::FA->label()),
+    'faker_locale' => env('APP_FAKER_LOCALE', ClientLocale::Farsi->label()),
 
     /*
     |--------------------------------------------------------------------------
