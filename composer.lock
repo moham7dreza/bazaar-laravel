@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "7922260aa05b0b3034faf7e465228372",
+    "content-hash": "a936ce208b83968e1dee2e42af87ebaa",
     "packages": [
         {
             "name": "afsakar/filament-otp-login",
@@ -8585,6 +8585,41 @@
                     "Modules\\Monitoring\\Tests\\": "tests/",
                     "Modules\\Monitoring\\Database\\Factories\\": "database/factories/",
                     "Modules\\Monitoring\\Database\\Seeders\\": "database/seeders/"
+                }
+            },
+            "license": [
+                "proprietary"
+            ],
+            "transport-options": {
+                "symlink": true,
+                "relative": true
+            }
+        },
+        {
+            "name": "modules/payment",
+            "version": "1.0",
+            "dist": {
+                "type": "path",
+                "url": "modules/payment",
+                "reference": "0d795c2b34914a66472060ccf261f7db96062124"
+            },
+            "require": {
+                "shetabit/payment": "^6.1"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Modules\\Payment\\Providers\\PaymentServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Modules\\Payment\\": "src/",
+                    "Modules\\Payment\\Tests\\": "tests/",
+                    "Modules\\Payment\\Database\\Factories\\": "database/factories/",
+                    "Modules\\Payment\\Database\\Seeders\\": "database/seeders/"
                 }
             },
             "license": [
