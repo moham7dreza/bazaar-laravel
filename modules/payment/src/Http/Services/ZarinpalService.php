@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Modules\Payment\Http\Services;
 
 use Illuminate\Http\Client\ConnectionException;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Http;
 use Modules\Payment\Models\Payment;
 
@@ -38,22 +39,22 @@ class ZarinpalService
         ]);
         $result = $response->json();
 
-        if (isset(\Illuminate\Support\Arr::get($result, 'data.code')) && 100 === \Illuminate\Support\Arr::get($result, 'data.code'))
+        if (100 === Arr::get($result, 'data.code'))
         {
             $payment = Payment::query()->create([
                 'user_id'          => $userId,
                 'advertisement_id' => $advertisementId,
                 'amount'           => $amount,
                 'description'      => $description,
-                'authority'        => \Illuminate\Support\Arr::get($result, 'data.authority'),
+                'authority'        => Arr::get($result, 'data.authority'),
                 'status'           => 'pending',
                 'gateway_response' => $result,
             ]);
 
             return [
                 'success'      => true,
-                'payement_url' => $this->baseUrl . '/pg/StartPay/' . \Illuminate\Support\Arr::get($result, 'data.authority'),
-                'authority'    => \Illuminate\Support\Arr::get($result, 'data.authority'),
+                'payment_url'  => $this->baseUrl . '/pg/StartPay/' . Arr::get($result, 'data.authority'),
+                'authority'    => Arr::get($result, 'data.authority'),
                 'payment_id'   => $payment->id,
             ];
         }
@@ -78,7 +79,7 @@ class ZarinpalService
 
         $result = $response->json();
 
-        if (isset(\Illuminate\Support\Arr::get($result, 'data.code')) && 100 === \Illuminate\Support\Arr::get($result, 'data.code'))
+        if (100 === Arr::get($result, 'data.code'))
         {
             $payment = Payment::query()->where('authority', $authority)->first();
 
@@ -86,9 +87,9 @@ class ZarinpalService
             {
                 $payment->update([
                     'status'           => 'paid',
-                    'ref_id'           => \Illuminate\Support\Arr::get($result, 'data.ref_id'),
-                    'card_pan'         => \Illuminate\Support\Arr::get($result, 'data.card_pan', null),
-                    'trace_no'         => \Illuminate\Support\Arr::get($result, 'data.trace_no', null),
+                    'ref_id'           => Arr::get($result, 'data.ref_id'),
+                    'card_pan'         => Arr::get($result, 'data.card_pan', null),
+                    'trace_no'         => Arr::get($result, 'data.trace_no', null),
                     'gateway_response' => $result,
                 ]);
 
