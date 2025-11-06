@@ -8,19 +8,17 @@ use Amiriun\SMS\DataContracts\SendSMSDTO;
 use Amiriun\SMS\Services\SMSService;
 use App\Enums\Sms\SmsSenderNumber;
 use App\Events\PackageSent;
-use App\Helpers\JalalianFactory;
-use App\Mail\UserLandMail;
 use Exception;
 use Illuminate\Http\Client\Batch;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Date;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Mail;
 
 class HomeController extends Controller
 {
-    public function __invoke(SMSService $SMSService)
+    public function __invoke(Request $request, SMSService $SMSService)
     {
         defer(static function () use ($SMSService): void {
             mongo_info('view', ['ip' => request()->ip(), 'url' => request()->url()], true);
@@ -57,6 +55,19 @@ class HomeController extends Controller
                         files: [],
                     ));
             */
+                // sample http batch requests
+                Http::batch(
+                    callback: fn (Batch $batch) => [
+                        $batch->get(config()->string('app.frontend_url')),
+                        $batch->get(config()->string('app.url')),
+                        //                $batch->get(config()->string('app.url') . '/super-admin'),
+                    ],
+                )->then(function (Batch $batch, array $results): void {
+                    logger('sample http batch request results', [
+                        'results' => $results,
+                    ]);
+                })->defer();
+
             } catch (Exception $e)
             {
                 Log::error($e->getMessage());
@@ -65,24 +76,11 @@ class HomeController extends Controller
 
         Log::warning('this is sample log to view queued jobs [{date}]', ['date' => Date::now()->toDateTimeString()]);
 
-        // sample http batch requests
-        Http::batch(
-            callback: fn (Batch $batch) => [
-                $batch->get(config()->string('app.frontend_url')),
-                $batch->get(config()->string('app.url')),
-                $batch->get(config()->string('app.url') . '/super-admin'),
-            ],
-        )->then(function (Batch $batch, array $results): void {
-            logger('sample http batch request results', [
-                'results' => $results,
-            ]);
-        })->defer();
-
         return new JsonResponse([
             'ServiceName'    => 'Bazaar Api',
             'ServiceVersion' => 'v1.0',
-            'HostName'       => \request()?->getHost(),
-            'Time'           => JalalianFactory::now()->toDateTimeString(),
+            'HostName'       => $request->getHost(),
+            'Time'           => Date::now()->toDateTimeString(),
             'Status'         => 'healthy',
         ]);
     }
