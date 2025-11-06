@@ -56,6 +56,7 @@ use Illuminate\Support\Uri;
 use Illuminate\Validation\InvokableValidationRule;
 use Illuminate\Validation\Rules\Email;
 use Illuminate\Validation\Rules\Password;
+use Monolog\Formatter\JsonFormatter;
 use Morilog\Jalali\Jalalian;
 use Throwable;
 
@@ -187,11 +188,16 @@ final class AppServiceProvider extends ServiceProvider
                 'duration'       => $event->time,
                 'sql'            => $event->sql,
                 'bindings'       => Str::replaceArray('?', $event->bindings, $event->sql),
-                'path'           => request()?->path(),
-                'req'            => request()?->all(),
+                'path'           => request()->path(),
+                'req'            => request()->all(),
             ]);
 
-            Log::warning('Long running queries detected', $connection->getQueryLog());
+            Log::build([
+                'driver'               => 'single',
+                'path'                 => storage_path('logs/query.log'),
+                'replace_placeholders' => true,
+                'formatter'            => JsonFormatter::class,
+            ])->warning('Long running queries detected', $connection->getQueryLog());
         });
     }
 
