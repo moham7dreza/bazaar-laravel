@@ -172,8 +172,6 @@ final class AppServiceProvider extends ServiceProvider
     private function configureGates(): void
     {
         Gate::before(static fn (?User $user) => $user?->isAdmin());
-
-        Gate::define('viewWebTinker', static fn (?User $user) => ! isEnvLocalOrTesting() ? $user?->isAdmin() : true);
     }
 
     private function logSlowQuery(): void
