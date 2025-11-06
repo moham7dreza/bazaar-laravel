@@ -51,7 +51,7 @@ class PaymentController extends Controller
         $authority = $request->get('Authority') ?? $request->get('authority');
         $status    = $request->get('Status')    ?? $request->get('status');
 
-        $failureRedirect = redirect(config()->string('app.frontend_url') . '/success-payment?Authority=&Status=OK');
+        $failureRedirect = redirect(config()->string('app.frontend_url') . '/success-payment?Authority=&Status=FAIL');
 
         if ( ! $authority || 'OK' !== $status)
         {
