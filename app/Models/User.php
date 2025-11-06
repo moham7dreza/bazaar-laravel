@@ -52,6 +52,7 @@ use Kenepa\ResourceLock\Models\Concerns\HasLocks;
 use Laravel\Sanctum\HasApiTokens;
 use Modules\Advertise\Models\Advertisement;
 use Modules\Advertise\Models\AdvertisementNote;
+use Modules\Payment\Models\Payment;
 use Spatie\Activitylog\LogOptions;
 use Spatie\Activitylog\Traits\LogsActivity;
 use Spatie\Permission\Traits\HasRoles;
@@ -240,6 +241,14 @@ final class User extends Authenticatable implements
     public function actionTags(): HasMany
     {
         return $this->hasMany(UserActionTag::class);
+    }
+
+    /**
+     * @return HasMany<Payment, $this>
+     */
+    public function payments(): HasMany
+    {
+        return $this->hasMany(Payment::class);
     }
 
     public function isAdmin(): bool
