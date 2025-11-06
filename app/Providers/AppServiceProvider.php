@@ -199,6 +199,8 @@ final class AppServiceProvider extends ServiceProvider
                 'formatter'            => JsonFormatter::class,
             ])->warning('Long running queries detected', $connection->getQueryLog());
         });
+
+        DB::disableQueryLog();
     }
 
     private function loadExtraMigrationsPath(): void
