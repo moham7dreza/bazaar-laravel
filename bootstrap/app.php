@@ -68,6 +68,8 @@ return Application::configure(basePath: dirname(__DIR__))
         ]);
 
     })
+    ->withSchedule(function (Schedule $schedule): void {
+    })
     ->withExceptions(function (Exceptions $exceptions): void {
 
         /**
