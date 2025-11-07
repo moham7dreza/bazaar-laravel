@@ -39,39 +39,6 @@ use Modules\Content\Http\Controllers\App\PageController as HomePageController;
  *      for better finding routes with simple search
  *      and better categorize route sections and find them.
  */
-when(isEnvStaging(), function (): void {
-});
-
-when(isEnvLocal(), static function (): void {
-    Route::post('idempotency', static fn () => logger('idempotency passed'))
-        ->middleware(Infinitypaul\Idempotency\Middleware\EnsureIdempotency::class)
-        ->name('idempotency');
-
-    Route::get('lock-test', static fn () => print 1)->block(
-        lockSeconds: 5,
-        waitSeconds: 5,
-    );
-
-    Route::get('test-mailables', static fn () => new App\Mail\UserLandMail(
-        subject: 'welcome',
-        from: [
-            [
-                'address' => config()->string('mail.from.address'),
-                'name'    => config()->string('mail.from.name'),
-            ],
-        ],
-        details: [
-            'subject' => 'test',
-            'body'    => 'test',
-        ],
-    ));
-});
-
-when(isEnvLocalOrTesting(), static function (): void {
-    Route::get('today/{date}', static fn ($date) => $date)
-        ->name('api.today.date');
-});
-
 Route::get('user', static fn (Request $request) => $request->user())
     ->name('api.user.info')
     ->middleware(['auth:sanctum', EnsureMobileIsVerified::class]);
@@ -364,3 +331,41 @@ Route::prefix('panel')
                     });
             });
     });
+
+/*
+|--------------------------------------------------------------------------
+| Environment specific Routes
+|--------------------------------------------------------------------------
+*/
+when(isEnvStaging(), function (): void {
+});
+
+when(isEnvLocal(), static function (): void {
+    Route::post('idempotency', static fn () => logger('idempotency passed'))
+        ->middleware(Infinitypaul\Idempotency\Middleware\EnsureIdempotency::class)
+        ->name('idempotency');
+
+    Route::get('lock-test', static fn () => print 1)->block(
+        lockSeconds: 5,
+        waitSeconds: 5,
+    );
+
+    Route::get('test-mailables', static fn () => new App\Mail\UserLandMail(
+        subject: 'welcome',
+        from: [
+            [
+                'address' => config()->string('mail.from.address'),
+                'name'    => config()->string('mail.from.name'),
+            ],
+        ],
+        details: [
+            'subject' => 'test',
+            'body'    => 'test',
+        ],
+    ));
+});
+
+when(isEnvLocalOrTesting(), static function (): void {
+    Route::get('today/{date}', static fn ($date) => $date)
+        ->name('api.today.date');
+});
