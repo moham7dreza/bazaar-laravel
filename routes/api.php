@@ -51,6 +51,20 @@ when(isEnvLocal(), static function (): void {
         lockSeconds: 5,
         waitSeconds: 5,
     );
+
+    Route::get('test-mailables', static fn () => new App\Mail\UserLandMail(
+        subject: 'welcome',
+        from: [
+            [
+                'address' => config()->string('mail.from.address'),
+                'name'    => config()->string('mail.from.name'),
+            ],
+        ],
+        details: [
+            'subject' => 'test',
+            'body'    => 'test',
+        ],
+    ));
 });
 
 when(isEnvLocalOrTesting(), static function (): void {
