@@ -28,7 +28,7 @@ class InventoryController extends Controller
 
     public function reserveItem($itemId, $quantity)
     {
-        return Item::query()->where('id', $itemId)
+        return Item::query()->whereKey($itemId)
             ->where('available_quantity', '>=', $quantity)
             ->existsOr(function () use ($itemId, $quantity): void {
                 throw new InsufficientStockException(
@@ -39,7 +39,7 @@ class InventoryController extends Controller
 
     public function updatePricing($itemId, $newPrice)
     {
-        return Item::query()->where('id', $itemId)
+        return Item::query()->whereKey($itemId)
             ->where('status', 'active')
             ->existsOr(function () use ($itemId) {
                 event(new PricingUpdateFailed($itemId));
