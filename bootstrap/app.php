@@ -39,6 +39,7 @@ return Application::configure(basePath: dirname(__DIR__))
             App\Http\Middleware\EnableDebugForDeveloper::class,
             Illuminate\Foundation\Http\Middleware\PreventRequestsDuringMaintenance::class,
             App\Http\Middleware\HttpsRedirectMiddleware::class,
+            Illuminate\Foundation\Http\Middleware\ConvertEmptyStringsToNull::class,
         ]);
 
         $middleware->api(prepend: [
