@@ -360,6 +360,10 @@ final class AppServiceProvider extends ServiceProvider
     {
         EloquentBuilder::macro('reserveFirstAvailable', fn (string $key, int $duration = 60) => $this->get()->first(fn ($item) => $item->reserve($key, $duration)));
 
+        /**
+         * copy to clipboard macro
+         * copy sql query to clipboard, useful for debugging.
+         */
         EloquentBuilder::macro('c2c', fn () => c2c(getSqlWithBindings($this)));
 
         EloquentBuilder::macro('getStrictTable', fn () => Str::afterLast($this->getModel()->getTable(), '.'));
