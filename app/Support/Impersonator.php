@@ -19,12 +19,14 @@ class Impersonator
     {
         throw_if(
             condition: $this->impersonating(),
-            exception: new AuthenticationException('Cannot impersonate while already impersonating')
+            exception: AuthenticationException::class,
+            parameters: 'Cannot impersonate while already impersonating'
         );
 
         throw_if(
             condition: ! auth()->check(),
-            exception: new AuthenticationException('Cannot impersonate without a currently authenticated user')
+            exception: AuthenticationException::class,
+            parameters: 'Cannot impersonate without a currently authenticated user'
         );
 
         session()->put($this->sessionName(), auth()->id());
