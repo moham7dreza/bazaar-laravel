@@ -58,6 +58,7 @@ use Illuminate\Validation\Rules\Email;
 use Illuminate\Validation\Rules\Password;
 use Monolog\Formatter\JsonFormatter;
 use Morilog\Jalali\Jalalian;
+use ReflectionClass;
 use Throwable;
 
 final class AppServiceProvider extends ServiceProvider
@@ -368,6 +369,13 @@ final class AppServiceProvider extends ServiceProvider
         EloquentBuilder::macro('active', fn () => $this->where('status', Status::Activated->value));
 
         EloquentBuilder::macro('forAuth', fn () => $this->whereBelongsTo(auth()->user()));
+
+        /**
+         * just in time macro for builder
+         * no query executed until you access the collection.
+         */
+        EloquentBuilder::macro('jit', fn () => new ReflectionClass($this->getModel()->newCollection())
+            ->newLazyProxy(fn () => $this->get()));
     }
 
     private function configureQueryBuilder(): void
