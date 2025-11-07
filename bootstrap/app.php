@@ -6,6 +6,7 @@ use App\Http\Responses\ApiJsonResponse;
 use BezhanSalleh\FilamentExceptions\FilamentExceptions;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Auth\AuthenticationException;
+use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Database\QueryException;
 use Illuminate\Foundation\Application;
