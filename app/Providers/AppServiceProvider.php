@@ -88,6 +88,7 @@ final class AppServiceProvider extends ServiceProvider
         $this->configureEmail();
         //        $this->configureVerifyEmail();
         $this->configureStringable();
+        $this->configureStr();
         $this->configureCollection();
         $this->configureEloquentBuilder();
         $this->configureQueryBuilder();
@@ -340,6 +341,11 @@ final class AppServiceProvider extends ServiceProvider
     private function configureStringable(): void
     {
         Stringable::macro('toJson', fn (?bool $associative = null, int $depth = 512, int $flags = 0) => json_decode($this->value(), $associative, $depth, $flags));
+    }
+
+    private function configureStr(): void
+    {
+        Str::macro('lowerSnake', static fn (string $str) => Str::lower(Str::snake($str)));
     }
 
     private function configureCollection(): void
