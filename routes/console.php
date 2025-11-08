@@ -6,6 +6,7 @@ use App\Console\Commands;
 use Cmsmaxinc\FilamentSystemVersions\Commands\CheckDependencyVersions;
 use Illuminate\Foundation\Inspiring;
 use Illuminate\Support\Facades\Artisan;
+use MeShaon\RequestAnalytics\Models\RequestAnalytics;
 use Modules\Monitoring\Commands\CheckVulnerabilitiesCommand;
 use Spatie\Backup\Commands\BackupCommand;
 use Spatie\Health\Commands as SpatieHealthCommands;
@@ -41,3 +42,6 @@ Schedule::command('queue:work --tries=2 --stop-when-empty')
 
 Schedule::command('metrics:commit')->hourly();
 Schedule::command('spy:clean', ['--days' => 30])->daily();
+Schedule::command('model:prune', [
+    '--model' => RequestAnalytics::class,
+])->monthly();

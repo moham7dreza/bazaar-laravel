@@ -50,6 +50,7 @@ use Illuminate\Support\Facades\Storage;
 use Jeffgreco13\FilamentBreezy\Traits\TwoFactorAuthenticatable;
 use Kenepa\ResourceLock\Models\Concerns\HasLocks;
 use Laravel\Sanctum\HasApiTokens;
+use MeShaon\RequestAnalytics\Contracts\CanAccessAnalyticsDashboard;
 use Modules\Advertise\Models\Advertisement;
 use Modules\Advertise\Models\AdvertisementNote;
 use Modules\Payment\Models\Payment;
@@ -67,7 +68,8 @@ final class User extends Authenticatable implements
     FilamentUser,
     HasAvatar,
     HasLocalePreference,
-    ShouldVerifiedMobile
+    ShouldVerifiedMobile,
+    CanAccessAnalyticsDashboard
 {
     //    use GeneratesUsernames;
     use HasApiTokens;
@@ -137,6 +139,11 @@ final class User extends Authenticatable implements
                 'suspended_at',
                 'suspended_until',
             ]);
+    }
+
+    public function canAccessAnalyticsDashboard(): bool
+    {
+        return $this->isAdmin();
     }
 
     public function canAccessPanel(Panel $panel): bool

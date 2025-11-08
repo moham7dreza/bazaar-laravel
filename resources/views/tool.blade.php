@@ -59,11 +59,14 @@
                                                     <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 10.5H21A7.5 7.5 0 0 0 13.5 3v7.5Z" />
                                                 </svg>
                                             </div>
-                                            <div>
+                                            <div class="flex flex-col gap-2">
                                                 <a target="_blank" href="{{$tool['url']}}" class="font-semibold text-gray-900">
                                                     {{trans($tool['title'])}}
                                                     <span class="absolute inset-0"></span>
                                                 </a>
+                                                <span class="px-1 text-xs font-light">
+                                                    {{trans($tool['description'])}}
+                                                </span>
                                             </div>
                                         </div>
                                     @endforeach
@@ -113,9 +116,14 @@
                         <div class="-my-6 divide-y divide-gray-500/10">
                             <div class="space-y-2 py-6">
                                 @foreach($tools as $tool)
-                                    <a href="{{$tool['url']}}" class="-mx-3 block rounded-lg px-3 py-2 text-base/7 font-semibold text-gray-900 hover:bg-gray-50">
-                                        {{trans($tool['title'])}}
-                                    </a>
+                                    <div class="flex flex-col">
+                                        <a href="{{$tool['url']}}" class="-mx-3 block rounded-lg px-3 py-2 text-base/7 font-semibold text-gray-900 hover:bg-gray-50">
+                                            {{trans($tool['title'])}}
+                                        </a>
+                                        <span class="ms-2 px-2 text-xs font-light">
+                                            {{$tool['description']}}
+                                        </span>
+                                    </div>
                                 @endforeach
                             </div>
                             <div class="py-6">
