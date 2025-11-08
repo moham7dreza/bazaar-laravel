@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Modules\Monitoring\Providers;
 
 use App\Models\User;
-use Illuminate\Support\Facades\Date;
 use Illuminate\Support\Facades\Gate;
 use Laravel\Telescope\IncomingEntry;
 use Laravel\Telescope\Telescope;
@@ -18,13 +17,7 @@ final class TelescopeServiceProvider extends TelescopeApplicationServiceProvider
      */
     public function register(): void
     {
-       if (Date::now()->isBetween(
-           today()->setTime(17, 0),
-           today()->addDay()->setTime(6, 0),
-       ))
-       {
-           Telescope::night();
-       }
+        Telescope::night();
 
         $this->hideSensitiveRequestDetails();
 
