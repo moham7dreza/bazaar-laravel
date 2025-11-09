@@ -193,3 +193,26 @@ if ( ! function_exists('c2c'))
         Illuminate\Support\Facades\Process::run($command)->throw();
     }
 }
+
+if ( ! function_exists('throw_exception'))
+{
+    /**
+     * @throws Throwable
+     */
+    function throw_exception($exception, string $message = ''): void
+    {
+        if (is_string($exception) && class_exists($exception))
+        {
+            $exception = empty($message) ? new $exception() : new $exception($message);
+        }
+
+        if ( ! $exception instanceof Throwable)
+        {
+            throw new InvalidArgumentException(
+                __('Parameter must be a Throwable instance or class name')
+            );
+        }
+
+        isEnvProduction() ? report($exception) : throw $exception;
+    }
+}
