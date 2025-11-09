@@ -2,10 +2,13 @@
 
 declare(strict_types=1);
 
+use App\Exceptions\HasCustomizedThrottling;
 use App\Http\Responses\ApiJsonResponse;
 use BezhanSalleh\FilamentExceptions\FilamentExceptions;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Auth\AuthenticationException;
+use Illuminate\Broadcasting\BroadcastException;
+use Illuminate\Cache\RateLimiting\Limit;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Database\QueryException;
@@ -140,5 +143,13 @@ return Application::configure(basePath: dirname(__DIR__))
             headers: $e->getHeaders(),
         ));
 
+        $exceptions->throttle(function (Throwable $e) {
+            return match (true)
+            {
+                $e instanceof BroadcastException      => Limit::perMinute(300),
+                $e instanceof HasCustomizedThrottling => $e->getLimit(),
+                default                               => Limit::perSecond(1),
+            };
+        });
     })
     ->create();
