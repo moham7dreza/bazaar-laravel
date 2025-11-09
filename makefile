@@ -506,3 +506,6 @@ fila-up:
 
 migration-linter:
 	php artisan migrate:lint --generate-baseline
+
+ports:
+	sudo fuser -k 3000/tcp && fuser -k 9000/tcp && fuser -k 2407/tcp
