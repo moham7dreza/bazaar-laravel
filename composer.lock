@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "3a4384da80c4aa19adf8022fc8bddc96",
+    "content-hash": "175809d6d4913417603cab117a3e534b",
     "packages": [
         {
             "name": "afsakar/filament-otp-login",
@@ -5551,16 +5551,16 @@
         },
         {
             "name": "justinrainbow/json-schema",
-            "version": "6.6.0",
+            "version": "6.6.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/jsonrainbow/json-schema.git",
-                "reference": "68ba7677532803cc0c5900dd5a4d730537f2b2f3"
+                "reference": "fd8e5c6b1badb998844ad34ce0abcd71a0aeb396"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/jsonrainbow/json-schema/zipball/68ba7677532803cc0c5900dd5a4d730537f2b2f3",
-                "reference": "68ba7677532803cc0c5900dd5a4d730537f2b2f3",
+                "url": "https://api.github.com/repos/jsonrainbow/json-schema/zipball/fd8e5c6b1badb998844ad34ce0abcd71a0aeb396",
+                "reference": "fd8e5c6b1badb998844ad34ce0abcd71a0aeb396",
                 "shasum": ""
             },
             "require": {
@@ -5620,9 +5620,9 @@
             ],
             "support": {
                 "issues": "https://github.com/jsonrainbow/json-schema/issues",
-                "source": "https://github.com/jsonrainbow/json-schema/tree/6.6.0"
+                "source": "https://github.com/jsonrainbow/json-schema/tree/6.6.1"
             },
-            "time": "2025-10-10T11:34:09+00:00"
+            "time": "2025-11-07T18:30:29+00:00"
         },
         {
             "name": "kenepa/resource-lock",
@@ -6937,16 +6937,16 @@
         },
         {
             "name": "laraveljutsu/zap",
-            "version": "v1.4.0",
+            "version": "v1.5.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/ludoguenet/zap-for-laravel.git",
-                "reference": "fdb8f015d404e637e732e6066779ffe62396069f"
+                "reference": "fadeadaef4720e86d92fa2a4dcfd0e06cb225288"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/ludoguenet/zap-for-laravel/zipball/fdb8f015d404e637e732e6066779ffe62396069f",
-                "reference": "fdb8f015d404e637e732e6066779ffe62396069f",
+                "url": "https://api.github.com/repos/ludoguenet/zap-for-laravel/zipball/fadeadaef4720e86d92fa2a4dcfd0e06cb225288",
+                "reference": "fadeadaef4720e86d92fa2a4dcfd0e06cb225288",
                 "shasum": ""
             },
             "require": {
@@ -6995,9 +6995,9 @@
             ],
             "support": {
                 "issues": "https://github.com/ludoguenet/zap-for-laravel/issues",
-                "source": "https://github.com/ludoguenet/zap-for-laravel/tree/v1.4.0"
+                "source": "https://github.com/ludoguenet/zap-for-laravel/tree/v1.5.0"
             },
-            "time": "2025-10-08T07:08:20+00:00"
+            "time": "2025-10-28T20:35:37+00:00"
         },
         {
             "name": "league/commonmark",
@@ -8620,7 +8620,7 @@
             "dist": {
                 "type": "path",
                 "url": "modules/monitoring",
-                "reference": "857c415981daedaaa5e12d66f1f6a68ad6a7584e"
+                "reference": "8b068a3a05c6ec1f92bb3d3c9a0e1d8c49b4e222"
             },
             "require": {
                 "directorytree/metrics": "^1.3",
@@ -8629,6 +8629,7 @@
                 "laravel/nightwatch": "^1.7",
                 "laravel/pulse": "^1.4",
                 "laravel/telescope": "^5.6",
+                "me-shaon/laravel-request-analytics": "^1.8",
                 "opcodesio/log-viewer": "^3.15",
                 "spatie/cpu-load-health-check": "^1.0",
                 "spatie/laravel-health": "^1.33",
@@ -20620,16 +20621,16 @@
         },
         {
             "name": "imanghafoori/laravel-microscope",
-            "version": "v1.0.427",
+            "version": "v1.0.428",
             "source": {
                 "type": "git",
                 "url": "https://github.com/imanghafoori1/laravel-microscope.git",
-                "reference": "f73eef0dc4105b6e3c5a1d8917aaa1ca6d901b4b"
+                "reference": "2bf6f5a5b5e07cda24ab9bb814e25b0296e0781e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/imanghafoori1/laravel-microscope/zipball/f73eef0dc4105b6e3c5a1d8917aaa1ca6d901b4b",
-                "reference": "f73eef0dc4105b6e3c5a1d8917aaa1ca6d901b4b",
+                "url": "https://api.github.com/repos/imanghafoori1/laravel-microscope/zipball/2bf6f5a5b5e07cda24ab9bb814e25b0296e0781e",
+                "reference": "2bf6f5a5b5e07cda24ab9bb814e25b0296e0781e",
                 "shasum": ""
             },
             "require": {
@@ -20686,9 +20687,9 @@
             ],
             "support": {
                 "issues": "https://github.com/imanghafoori1/laravel-microscope/issues",
-                "source": "https://github.com/imanghafoori1/laravel-microscope/tree/v1.0.427"
+                "source": "https://github.com/imanghafoori1/laravel-microscope/tree/v1.0.428"
             },
-            "time": "2025-10-19T06:08:13+00:00"
+            "time": "2025-11-08T22:44:20+00:00"
         },
         {
             "name": "imanghafoori/php-abstract-filesystem",
