@@ -203,7 +203,7 @@ if ( ! function_exists('throw_exception'))
     {
         if (is_string($exception) && class_exists($exception))
         {
-            $exception = empty($message) ? new $exception() : new $exception($message);
+            $exception = blank($message) ? new $exception() : new $exception($message);
         }
 
         if ( ! $exception instanceof Throwable)
