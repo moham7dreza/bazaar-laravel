@@ -282,7 +282,7 @@ pintd: ## Run PHP code style fixer to only modify the files that have uncommitte
 	vendor/bin/pint --dirty --parallel
 
 pintt: ## Run PHP code style fixer to simply inspect your code for style errors
-	vendor/bin/pint --test
+	vendor/bin/pint --test --parallel
 
 pint: ## Run PHP code style fixer
 	vendor/bin/pint --repair --parallel
