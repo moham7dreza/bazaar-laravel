@@ -66,8 +66,10 @@ class HomeController extends Controller
                     logger('sample http batch request results', [
                         'results' => $results,
                     ]);
-                })->defer();
-
+                })
+//                    ->defer()
+                    ->concurrency(2)
+                    ->send();
             } catch (Exception $e)
             {
                 Log::error($e->getMessage());
