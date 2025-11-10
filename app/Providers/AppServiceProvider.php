@@ -34,6 +34,7 @@ use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Http\Client\Response as HttpClientResponse;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Notifications\Messages\MailMessage;
+use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Pipeline\Hub;
 use Illuminate\Pipeline\Pipeline;
 use Illuminate\Routing\Route;
@@ -354,6 +355,22 @@ final class AppServiceProvider extends ServiceProvider
         Collection::macro('reserveFirstAvailable', fn (string $key, int $duration = 60) => $this->first(fn ($item) => $item->reserve($key, $duration)));
 
         Collection::macro('c2c', fn () => $this->toJson(JSON_PRETTY_PRINT));
+
+        Collection::macro('paginate', function (int $perPage, ?int $page = null, string $pageName = 'page'): LengthAwarePaginator {
+            $page = $page ?: LengthAwarePaginator::resolveCurrentPage($pageName);
+
+            return new LengthAwarePaginator(
+                items: $this->forPage($page, $perPage),
+                total: $this->count(),
+                perPage: $perPage,
+                currentPage: $page,
+                options: [
+                    'path'     => LengthAwarePaginator::resolveCurrentPath(),
+                    'pageName' => $pageName,
+                ]
+            );
+        });
+
     }
 
     private function configureEloquentBuilder(): void
