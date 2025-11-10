@@ -16,5 +16,6 @@ return [
         'unverified-email'  => 'Your email address is not verified.',
         'unverified-mobile' => 'Your mobile number is not verified.',
         'request-with-json' => 'Please send your request with json format.',
+        'too-many-attempts' => 'Too many requests. Please try again later.',
     ],
 ];
