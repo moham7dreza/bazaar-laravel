@@ -185,7 +185,7 @@ install: ## Initialize project
 	make setup
 	sudo cp .env.example .env
 	sudo cp .env.testing.example .env.testing
-	make githooks
+	make git-hooks
 	make dev
 
 ide: ## Generate IDE helper files
