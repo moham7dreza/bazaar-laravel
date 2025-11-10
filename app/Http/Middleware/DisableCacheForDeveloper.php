@@ -13,7 +13,7 @@ final class DisableCacheForDeveloper
 {
     public function handle(Request $request, Closure $next): Response
     {
-        $user = getUser();
+        $user = request()->user();
         if (
             $user
             && $request->hasHeader(RequestHeader::DISABLE_CACHE->value)

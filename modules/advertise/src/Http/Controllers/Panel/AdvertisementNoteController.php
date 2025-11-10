@@ -15,7 +15,7 @@ final class AdvertisementNoteController extends Controller
 {
     public function index(): JsonResponse
     {
-        $notes = getUser()
+        $notes = auth()->user()
             ->advertisementNotes()
             ->paginate(10);
 

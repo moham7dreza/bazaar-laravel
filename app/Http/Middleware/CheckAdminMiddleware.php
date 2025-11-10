@@ -13,8 +13,8 @@ final class CheckAdminMiddleware
 {
     public function handle(Request $request, Closure $next): Response
     {
-        $user = getUser();
-        if ( ! $user?->isAdmin())
+        $user = $request->user();
+        if ($user && ! $user->isAdmin())
         {
             return ApiJsonResponse::error(Response::HTTP_FORBIDDEN, __('response.general.forbidden'));
         }

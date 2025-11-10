@@ -31,7 +31,7 @@ final class RequestContext
 
     public function addUserContext(): void
     {
-        if ( ! $user = getUser())
+        if ( ! $user = auth()->user())
         {
             return;
         }

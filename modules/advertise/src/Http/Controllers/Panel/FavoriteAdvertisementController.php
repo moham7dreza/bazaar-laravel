@@ -19,8 +19,8 @@ final class FavoriteAdvertisementController extends Controller
      */
     public function index(): ResourceCollection
     {
-        return getUser()
-            ?->favoriteAdvertisements()
+        return auth()->user()
+            ->favoriteAdvertisements()
             ->with('category', 'city')
             ->paginate(10)
             ->toResourceCollection();
@@ -32,28 +32,28 @@ final class FavoriteAdvertisementController extends Controller
     public function store(Advertisement $advertisement): JsonResource|JsonResponse
     {
 
-        $user = getUser();
+        $user = auth()->user();
 
-        if ($user?->favoriteAdvertisements()->whereBelongsTo($advertisement)->exists())
+        if ($user->favoriteAdvertisements()->whereBelongsTo($advertisement)->exists())
         {
             return ApiJsonResponse::error(400, 'این آگهی قبلا نشان شده است');
         }
 
-        $user?->favoriteAdvertisements()->attach($advertisement->id);
+        $user->favoriteAdvertisements()->attach($advertisement->id);
 
         return $advertisement->toResource();
     }
 
     public function destroy(Advertisement $advertisement): JsonResponse
     {
-        $user = getUser();
+        $user = auth()->user();
 
-        if ( ! $user?->favoriteAdvertisements()->whereBelongsTo($advertisement)->exists())
+        if ( ! $user->favoriteAdvertisements()->whereBelongsTo($advertisement)->exists())
         {
             return ApiJsonResponse::error(400, 'این آگهی در لیست نشان شده ها نیست');
         }
 
-        $user?->favoriteAdvertisements()->detach($advertisement->id);
+        $user->favoriteAdvertisements()->detach($advertisement->id);
 
         return ApiJsonResponse::success(message: 'آگهی با موفقیت از نشان شده ها حذف شد');
     }

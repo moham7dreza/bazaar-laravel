@@ -10,19 +10,6 @@ use Illuminate\Database\Query\Builder as QueryBuilder;
 use Illuminate\Support\Str;
 use Modules\Monitoring\Jobs\MongoLogJob;
 
-if ( ! function_exists('getUser'))
-{
-    function getUser($request = null)
-    {
-        if (null === $request)
-        {
-            $request = request();
-        }
-
-        return $request->user();
-    }
-}
-
 if ( ! function_exists('is_array_filled'))
 {
     function is_array_filled(array $array): bool
@@ -128,7 +115,7 @@ if ( ! function_exists('userIdIs'))
 {
     function userIdIs(UserId ...$Ids): bool
     {
-        $currentUserId = getUser()?->id;
+        $currentUserId = request()->user()?->id;
         $resolvedCase  = is_int($currentUserId) ? UserId::tryFrom($currentUserId) : null;
 
         return $resolvedCase && in_array($resolvedCase, $Ids);

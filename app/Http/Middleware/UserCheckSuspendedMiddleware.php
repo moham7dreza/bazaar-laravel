@@ -13,8 +13,7 @@ final class UserCheckSuspendedMiddleware
 {
     public function handle(Request $request, Closure $next)
     {
-        $user = getUser();
-        if ($user?->isSuspended())
+        if ($request->user()?->isSuspended())
         {
             auth()->logout();
 

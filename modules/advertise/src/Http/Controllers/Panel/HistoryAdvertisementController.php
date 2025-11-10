@@ -19,8 +19,8 @@ final class HistoryAdvertisementController extends Controller
      */
     public function index(): ResourceCollection
     {
-        return getUser()
-            ?->viewedAdvertisements()
+        return auth()->user()
+            ->viewedAdvertisements()
             ->with('category', 'city')
             ->latest('pivot_updated_at')
             ->paginate(10)
@@ -29,14 +29,14 @@ final class HistoryAdvertisementController extends Controller
 
     public function store(Advertisement $advertisement): JsonResponse
     {
-        $user = getUser();
+        $user = auth()->user();
 
-        if ($user?->viewedAdvertisements()->whereBelongsTo($advertisement)->exists())
+        if ($user->viewedAdvertisements()->whereBelongsTo($advertisement)->exists())
         {
-            $user?->viewedAdvertisements()->updateExistingPivot($advertisement->id, ['updated_at' => Date::now()]);
+            $user->viewedAdvertisements()->updateExistingPivot($advertisement->id, ['updated_at' => Date::now()]);
         } else
         {
-            $user?->viewedAdvertisements()->attach($advertisement->id);
+            $user->viewedAdvertisements()->attach($advertisement->id);
         }
 
         return ApiJsonResponse::success(message: 'لیست تاریخچه بازدید بروز شد');

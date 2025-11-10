@@ -27,7 +27,7 @@ class SetClientLocaleMiddleware
 
             app()->setLocale($lang->value);
 
-            $user = getUser();
+            $user = $request->user();
 
             if (blank($user))
             {

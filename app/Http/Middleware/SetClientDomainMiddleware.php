@@ -14,7 +14,7 @@ class SetClientDomainMiddleware
 {
     public function handle(Request $request, Closure $next): Response
     {
-        $user = getUser();
+        $user = $request->user();
 
         if (blank($user))
         {
