@@ -55,8 +55,12 @@ final class AdvertisementController extends Controller
 
         Model::withoutTimestamps(static fn () => $advertisement->increment('view'));
 
-        $historyController = new HistoryAdvertisementController();
-        $historyController->store($advertisement);
+        if (auth()->check())
+        {
+            // TODO: make service
+            $historyController = new HistoryAdvertisementController();
+            $historyController->store($advertisement);
+        }
 
         /*
         $advertisement->withRelationshipAutoloading();
