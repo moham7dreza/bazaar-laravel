@@ -29,7 +29,7 @@ final class UserPermissionsMiddleware
             )->mapInto(UserPermission::class),
         );
 
-        $request->merge(['permissions' => $permissions]);
+        $request->merge(['cached_permissions' => $permissions]);
 
         return $next($request);
     }
