@@ -3,11 +3,9 @@
 declare(strict_types=1);
 
 use App\Enums\UserPermission;
-use App\Enums\UserRole;
 use App\Models\User;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Spatie\Permission\Models\Permission;
-use Spatie\Permission\Models\Role;
 use Tests\TestCase;
 use Tests\TestDataGenerator;
 
@@ -69,9 +67,9 @@ function asAnAuthenticatedUser(): TestCase
 
 function asAdminUser(User $user): TestCase
 {
-    Role::findOrCreate(UserRole::ADMIN->value);
-    Permission::findOrCreate(UserPermission::SEE_PANEL->value);
-    $user->assignRole(UserRole::ADMIN);
+    $user->givePermissionTo(
+        Permission::findOrCreate(UserPermission::SEE_PANEL->value)
+    );
 
     return test()->be($user);
 }
