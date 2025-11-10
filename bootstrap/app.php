@@ -73,6 +73,9 @@ return Application::configure(basePath: dirname(__DIR__))
             'auth:sanctum', 'verified', 'mobile-verified', 'admin',
         ]);
 
+        $middleware->appendToGroup('web', [
+            Illuminate\Foundation\Http\Middleware\VerifyCsrfToken::class,
+        ]);
     })
     ->withSchedule(function (Schedule $schedule): void {
     })
