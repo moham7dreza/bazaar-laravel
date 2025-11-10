@@ -7,7 +7,7 @@ namespace App\Http\Requests;
 use App\Enums\UserPermission;
 use App\Enums\UserRole;
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Validation\Rules\Enum;
+use Illuminate\Validation\Rule;
 
 final class SyncRolePermissionsRequest extends FormRequest
 {
@@ -19,9 +19,9 @@ final class SyncRolePermissionsRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'role'          => ['required', new Enum(UserRole::class)],
+            'role'          => ['required', Rule::enum(UserRole::class)],
             'permissions'   => ['required', 'array'],
-            'permissions.*' => ['required', new Enum(UserPermission::class)],
+            'permissions.*' => ['required', Rule::enum(UserPermission::class)],
         ];
     }
 }
