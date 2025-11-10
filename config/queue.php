@@ -78,6 +78,10 @@ return [
             'driver' => 'deferred',
         ],
 
+        'background' => [
+            'driver' => 'background',
+        ],
+
         'failover' => [
             'driver'      => 'failover',
             'connections' => [
