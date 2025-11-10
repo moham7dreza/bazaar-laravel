@@ -20,7 +20,7 @@ class HttpsRedirectMiddleware
             &&
             isEnvProduction()
         ) {
-            return redirect()->secure($request->getRequestUri());
+            return redirect()->secure($request->getRequestUri(), Response::HTTP_MOVED_PERMANENTLY);
         }
 
         return $next($request);
