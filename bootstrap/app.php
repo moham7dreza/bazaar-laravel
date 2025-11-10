@@ -43,6 +43,7 @@ return Application::configure(basePath: dirname(__DIR__))
             Illuminate\Foundation\Http\Middleware\PreventRequestsDuringMaintenance::class,
             App\Http\Middleware\HttpsRedirectMiddleware::class,
             Illuminate\Foundation\Http\Middleware\ConvertEmptyStringsToNull::class,
+            App\Http\Middleware\UserPermissionsMiddleware::class,
         ]);
 
         $middleware->api(prepend: [
