@@ -7,6 +7,12 @@ use App\Enums\ClientLocale;
 use App\Enums\Environment;
 
 return [
+    /**
+     * click on any file in the exception pages or stack traces
+     * to open your ide right to that line of code.
+     * works for PHPStorm, VSCode, Cusror, etc.
+     */
+    'editor' => env('APP_EDITOR', 'PHPStorm'),
 
     /*
     |--------------------------------------------------------------------------
