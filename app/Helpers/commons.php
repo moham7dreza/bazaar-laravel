@@ -211,3 +211,24 @@ if ( ! function_exists('forgetCachedPermissions'))
         app()->make(Spatie\Permission\PermissionRegistrar::class)->forgetCachedPermissions();
     }
 }
+
+if ( ! function_exists('parseCsvGenerator'))
+{
+    /**
+     * PHP generators allow us to process one row at a time without storing the entire dataset in memory.
+     *
+     * @param  $filePath
+     * @return Generator
+     */
+    function parseCsvGenerator($filePath): Generator
+    {
+        $handle = fopen($filePath, 'rb');
+
+        while (($data = fgetcsv($handle)) !== false)
+        {
+            yield $data; // Yield one row at a time
+        }
+
+        fclose($handle);
+    }
+}
