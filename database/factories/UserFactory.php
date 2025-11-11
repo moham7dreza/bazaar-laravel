@@ -78,10 +78,14 @@ class UserFactory extends Factory
 
     public function admin(): static
     {
-        return $this->state(fn (array $attributes) => [
-            'email'     => "admin-{$attributes['name']}@admin.com",
-            'user_type' => User::TypeAdmin,
-        ]);
+        return $this->state(function (array $attributes) {
+            $name = Arr::get($attributes, 'name');
+
+            return [
+                'email'     => "admin-{$name}@admin.com",
+                'user_type' => User::TypeAdmin,
+            ];
+        });
     }
 
     public function suspended(): static
