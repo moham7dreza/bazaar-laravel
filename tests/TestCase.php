@@ -6,6 +6,7 @@ namespace Tests;
 
 use App\Enums\StorageDisk;
 use Closure;
+use Database\Seeders\TestsReferenceDataSeeder;
 use Illuminate\Foundation\Testing\TestCase as BaseTestCase;
 use Illuminate\Support\Facades\Request;
 use Illuminate\Support\Facades\Storage;
@@ -62,6 +63,7 @@ abstract class TestCase extends BaseTestCase
         {
             $commands = [
                 'migrate --force',
+                'db:seed --class=' . class_basename(TestsReferenceDataSeeder::class),
             ];
 
             foreach ($commands as $command)
