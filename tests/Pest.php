@@ -5,7 +5,6 @@ declare(strict_types=1);
 use App\Enums\UserPermission;
 use App\Models\User;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
-use Spatie\Permission\Models\Permission;
 use Tests\TestCase;
 use Tests\TestDataGenerator;
 
@@ -68,7 +67,7 @@ function asAnAuthenticatedUser(): TestCase
 function asAdminUser(User $user): TestCase
 {
     $user->givePermissionTo(
-        Permission::findOrCreate(UserPermission::SeePanel->value)
+        UserPermission::SeePanel,
     );
 
     return test()->be($user);
