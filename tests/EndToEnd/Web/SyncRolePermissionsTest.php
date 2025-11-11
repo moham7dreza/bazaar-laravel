@@ -25,8 +25,9 @@ it('role is required when sync permissions', function (): void {
 });
 
 it('can assign permissions to specific role', function (): void {
-
+    // TODO: remove after fix seeder
     Permission::findOrCreate($permission = UserPermission::ManageUsers->value);
+    Role::findOrCreate(UserRole::Admin->value);
 
     asAdminUser($this->user)->putJson(route('web.permissions.sync'), [
         'role'        => $role = UserRole::Admin,
@@ -36,9 +37,8 @@ it('can assign permissions to specific role', function (): void {
     ])
         ->assertOk();
 
-    $permissions = Role::query()->firstWhere(['name' => $role])
-        ?->permissions()
-        ->pluck('name')
+    $permissions = $role->model()
+        ->getPermissionNames()
         ->intersect(UserPermission::values())
         ->isNotEmpty();
 

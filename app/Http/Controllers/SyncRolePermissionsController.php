@@ -9,7 +9,6 @@ use App\Enums\UserRole;
 use App\Http\Requests\SyncRolePermissionsRequest;
 use App\Http\Responses\ApiJsonResponse;
 use Illuminate\Http\JsonResponse;
-use Spatie\Permission\Models\Role;
 
 final class SyncRolePermissionsController extends Controller
 {
@@ -31,11 +30,11 @@ final class SyncRolePermissionsController extends Controller
         }
 
         // Assign permissions to role
-        $role = $request->enum('role', UserRole::class);
-
-        Role::query()->firstWhere(['name' => $role])?->syncPermissions(
-            $permissions->map->value->toArray()
-        );
+        $request->enum('role', UserRole::class)
+            ->model()
+            ->syncPermissions(
+                $permissions->map->value->toArray()
+            );
 
         return ApiJsonResponse::success(message: 'Permissions updated successfully');
     }
