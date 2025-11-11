@@ -10,7 +10,7 @@ return new class() extends Migration {
     public function up(): void
     {
         Schema::table('users', function (Blueprint $table): void {
-            $table->string('theme')->nullable()->default(App\Enums\Theme::DEFAULT->value);
+            $table->string('theme')->nullable()->default(App\Enums\Theme::Default->value);
             $table->string('theme_color')->nullable();
         });
     }

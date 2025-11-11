@@ -10,5 +10,5 @@ enum Unit: string
 {
     use EnumDataListTrait;
 
-    case UNKNOWN = 'unknown';
+    case Unknown = 'unknown';
 }

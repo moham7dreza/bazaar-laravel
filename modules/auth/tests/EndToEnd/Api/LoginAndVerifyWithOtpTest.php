@@ -45,7 +45,7 @@ it('can send otp with user', function (): void {
 
     $otp = Otp::query()->firstWhere([
         'login_id' => $user->mobile,
-        'type'     => NoticeType::SMS,
+        'type'     => NoticeType::Sms,
         'attempts' => 0,
         'user_id'  => $user->id,
     ]);
@@ -63,7 +63,7 @@ it('can send otp without user', function (): void {
 
     $otp = Otp::query()->firstWhere([
         'login_id' => $mobile,
-        'type'     => NoticeType::SMS,
+        'type'     => NoticeType::Sms,
         'attempts' => 0,
         'user_id'  => null,
     ]);
@@ -85,7 +85,7 @@ it('can verify otp without user', function (): void {
         'otp_code' => $otpCode,
         'token'    => $token,
         'used'     => false,
-        'type'     => NoticeType::SMS,
+        'type'     => NoticeType::Sms,
     ]);
 
     \Pest\Laravel\postJson(route('api.auth.verify-otp'), [
@@ -121,7 +121,7 @@ it('can verify otp with user', function (): void {
         'otp_code' => $otpCode,
         'token'    => $token,
         'used'     => false,
-        'type'     => NoticeType::SMS,
+        'type'     => NoticeType::Sms,
     ]);
 
     \Pest\Laravel\postJson(route('api.auth.verify-otp'), [

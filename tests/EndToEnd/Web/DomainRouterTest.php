@@ -15,5 +15,5 @@ it('can generate routes', function (): void {
         ->api->toBeUrl()
         ->web->toBeUrl()
         ->assets->toBeUrl()
-        ->environment->toBe(Environment::LOCAL->value);
+        ->environment->toBe(Environment::Local->value);
 });

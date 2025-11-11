@@ -25,7 +25,7 @@ it('generates routes for production environment', function (): void {
         'api'         => 'https://example.ir/api',
         'web'         => 'example.ir',
         'assets'      => 'https://example.ir',
-        'environment' => Environment::PRODUCTION->value,
+        'environment' => Environment::Production->value,
     ]);
 });
 
@@ -41,7 +41,7 @@ it('generates routes for staging environment', function (): void {
         'api'         => 'https://api.dev.example.com/api',
         'web'         => 'staging.dev.example.com',
         'assets'      => 'https://staging-cdn.dev.example.com',
-        'environment' => Environment::STAGING->value,
+        'environment' => Environment::Staging->value,
     ]);
 });
 
@@ -57,6 +57,6 @@ it('generates routes for local environment', function (): void {
         'api'         => 'http://bazaar.local/api',
         'web'         => 'http://localhost:3000',
         'assets'      => 'http://bazaar.local',
-        'environment' => Environment::LOCAL->value,
+        'environment' => Environment::Local->value,
     ]);
 });

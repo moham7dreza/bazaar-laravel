@@ -24,7 +24,7 @@ class UserLandMail extends Mailable implements ShouldQueue
         public $details,
         public $files = [],
     ) {
-        $this->onQueue(Queue::MAIL);
+        $this->onQueue(Queue::Mail);
     }
 
     public function envelope(): Envelope

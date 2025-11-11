@@ -41,7 +41,7 @@ it('can get all advertisements', function (): void {
 
     $response = \Pest\Laravel\getJson(route('api.advertisements.index', [
         'title' => 'adv',
-        'sort'  => Sort::NEWEST,
+        'sort'  => Sort::Newest,
     ]))->assertOk();
 
     expect($response->json('data'))->toHaveLength(1);

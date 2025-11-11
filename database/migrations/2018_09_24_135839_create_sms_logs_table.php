@@ -18,7 +18,7 @@ return new class() extends Migration {
             $table->string('connector', 30); // SmsProvider enum
             $table->string('type', 30); // SmsType enum
             $table->string('status')->nullable(); // SmsStatus enum
-            $table->string('message_type')->default(App\Enums\Sms\SmsMessageType::DEFAULT->value); // SmsMessageType enum
+            $table->string('message_type')->default(App\Enums\Sms\SmsMessageType::Default->value); // SmsMessageType enum
             $table->string('sender_number', 25)->index(); // SmsSenderNumber enum
             $table->string('to', 25)->index();
             $table->timestamp('sent_at')->useCurrent();

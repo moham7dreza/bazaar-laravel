@@ -16,7 +16,7 @@ it('role is required when sync permissions', function (): void {
 
     asAdminUser($this->user)->putJson(route('web.permissions.sync'), [
         'permissions' => [
-            UserPermission::MANAGE_USERS,
+            UserPermission::ManageUsers,
         ],
     ])->assertUnprocessable()
         ->assertJsonValidationErrors(['role'])
@@ -26,10 +26,10 @@ it('role is required when sync permissions', function (): void {
 
 it('can assign permissions to specific role', function (): void {
 
-    Permission::findOrCreate($permission = UserPermission::MANAGE_USERS->value);
+    Permission::findOrCreate($permission = UserPermission::ManageUsers->value);
 
     asAdminUser($this->user)->putJson(route('web.permissions.sync'), [
-        'role'        => $role = UserRole::ADMIN,
+        'role'        => $role = UserRole::Admin,
         'permissions' => [
             $permission,
         ],

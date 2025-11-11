@@ -10,6 +10,6 @@ enum SmsType: string
 {
     use EnumDataListTrait;
 
-    case SEND    = 'send';
-    case RECEIVE = 'receive';
+    case Send    = 'send';
+    case Receive = 'receive';
 }

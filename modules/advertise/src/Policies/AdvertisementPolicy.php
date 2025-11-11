@@ -21,7 +21,7 @@ final class AdvertisementPolicy
             return Response::allow();
         }
 
-        if ('forceDelete' !== $ability && $user->can(UserPermission::SEE_PANEL))
+        if ('forceDelete' !== $ability && $user->can(UserPermission::SeePanel))
         {
             return Response::allow();
         }
@@ -34,7 +34,7 @@ final class AdvertisementPolicy
      */
     public function viewAny(User $user): Response
     {
-        return $user->can(UserRole::WRITER) || $user->can(UserRole::EDITOR)
+        return $user->can(UserRole::Writer) || $user->can(UserRole::Editor)
             ? Response::allow()
             : Response::denyAsNotFound();
     }
@@ -54,7 +54,7 @@ final class AdvertisementPolicy
      */
     public function create(User $user): Response
     {
-        return $user->can(UserPermission::CREATE_AD)
+        return $user->can(UserPermission::CreateAd)
             ? Response::allow()
             : Response::denyAsNotFound();
     }
@@ -64,7 +64,7 @@ final class AdvertisementPolicy
      */
     public function update(User $user, Advertisement $advertisement): Response
     {
-        return $user->owns($advertisement) && $user->can(UserPermission::EDIT_AD)
+        return $user->owns($advertisement) && $user->can(UserPermission::EditAd)
             ? Response::allow()
             : Response::denyAsNotFound();
     }
@@ -75,7 +75,7 @@ final class AdvertisementPolicy
     public function delete(User $user, Advertisement $advertisement): Response
     {
         $check = $user->owns($advertisement)
-            && $user->can(UserPermission::DESTROY_AD)
+            && $user->can(UserPermission::DestroyAd)
             && (null === $advertisement->published_at || Date::now()->gt($advertisement->published_at));
 
         return $check
@@ -101,7 +101,7 @@ final class AdvertisementPolicy
 
     public function publish(User $user, Advertisement $advertisement)
     {
-        return $user->can(UserPermission::PUBLISH_AD)
+        return $user->can(UserPermission::PublishAd)
             ? Response::allow()
             : Response::denyAsNotFound();
     }

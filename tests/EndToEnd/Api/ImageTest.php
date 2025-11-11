@@ -11,7 +11,7 @@ it('can upload an image', function (): void {
     $payload = [
         'image'         => $file,
         'directory'     => 'uploads',
-        'upload_method' => ImageUploadMethod::METHOD_FIT_AND_SAVE->value,
+        'upload_method' => ImageUploadMethod::MethodFitAndSave->value,
         'width'         => 100,
         'height'        => 100,
     ];
@@ -26,7 +26,7 @@ it('can upload an image', function (): void {
 it('fails to upload without image', function (): void {
     $payload = [
         'directory'     => 'test-images',
-        'upload_method' => ImageUploadMethod::METHOD_FIT_AND_SAVE->value,
+        'upload_method' => ImageUploadMethod::MethodFitAndSave->value,
         'width'         => 100,
         'height'        => 100,
     ];

@@ -16,9 +16,9 @@ final class ImageUploadFactory
     {
         $className = match ($uploadMethod)
         {
-            ImageUploadMethod::METHOD_SAVE                  => SimpleImageUploaderService::class,
-            ImageUploadMethod::METHOD_FIT_AND_SAVE          => FitAndSaveImageUploaderService::class,
-            ImageUploadMethod::METHOD_CREATE_INDEX_AND_SAVE => CreateIndexAndSaveImageUploaderService::class,
+            ImageUploadMethod::MethodSave                  => SimpleImageUploaderService::class,
+            ImageUploadMethod::MethodFitAndSave            => FitAndSaveImageUploaderService::class,
+            ImageUploadMethod::MethodCreateIndexAndSave    => CreateIndexAndSaveImageUploaderService::class,
         };
 
         return self::resolve($className);

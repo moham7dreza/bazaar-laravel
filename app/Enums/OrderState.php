@@ -10,7 +10,7 @@ enum OrderState: string
 {
     use EnumDataListTrait;
 
-    case PENDING    = 'pending';
-    case PROCESSING = 'processing';
-    case SHIPPED    = 'shipped';
+    case Pending    = 'pending';
+    case Processing = 'processing';
+    case Shipped    = 'shipped';
 }

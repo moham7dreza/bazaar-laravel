@@ -6,26 +6,26 @@ namespace App\Enums;
 
 enum Environment: string
 {
-    case PRODUCTION = 'production';
-    case STAGING    = 'staging';
-    case TESTING    = 'testing';
-    case LOCAL      = 'local';
-    case LOCALHOST  = 'localhost';
+    case Production = 'production';
+    case Staging    = 'staging';
+    case Testing    = 'testing';
+    case Local      = 'local';
+    case Localhost  = 'localhost';
 
     public static function local(): array
     {
         return [
-            self::LOCAL->value,
-            self::LOCALHOST->value,
+            self::Local->value,
+            self::Localhost->value,
         ];
     }
 
     public static function localOrTesting(): array
     {
         return [
-            self::LOCAL->value,
-            self::LOCALHOST->value,
-            self::TESTING->value,
+            self::Local->value,
+            self::Localhost->value,
+            self::Testing->value,
         ];
     }
 }

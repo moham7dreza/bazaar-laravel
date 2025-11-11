@@ -10,8 +10,8 @@ enum Sort: string
 {
     use EnumDataListTrait;
 
-    case PRICE_ASC  = 'price_asc';
-    case PRICE_DESC = 'price_desc';
-    case NEWEST     = 'newest';
-    case OLDEST     = 'oldest';
+    case PriceAsc   = 'price_asc';
+    case PriceDesc  = 'price_desc';
+    case Newest     = 'newest';
+    case Oldest     = 'oldest';
 }

@@ -10,10 +10,10 @@ enum Queue: string
 {
     use EnumDataListTrait;
 
-    case DEFAULT   = 'default';
-    case HIGH      = 'high';
-    case LOW       = 'low';
-    case BACKUP    = 'backup';
-    case MAIL      = 'mail';
-    case MONGO_LOG = 'mongo-log';
+    case Default   = 'default';
+    case High      = 'high';
+    case Low       = 'low';
+    case Backup    = 'backup';
+    case Mail      = 'mail';
+    case MongoLog  = 'mongo-log';
 }

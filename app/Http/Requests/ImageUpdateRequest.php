@@ -34,9 +34,9 @@ final class ImageUpdateRequest extends FormRequest
     {
         return new ImageUploadDTO(
             image:              $this->file('image'),
-            uploadMethod:       $this->enum('upload_method', ImageUploadMethod::class, ImageUploadMethod::METHOD_SAVE),
+            uploadMethod:       $this->enum('upload_method', ImageUploadMethod::class, ImageUploadMethod::MethodSave),
             uploadDirectory:    $this->get('directory'),
-            currentImageSize:   $this->enum('current_image_size', ImageSize::class, ImageSize::MEDIUM),
+            currentImageSize:   $this->enum('current_image_size', ImageSize::class, ImageSize::Medium),
             width:              $this->get('width'),
             height:             $this->get('height'),
         );

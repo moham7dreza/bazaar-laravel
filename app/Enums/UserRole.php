@@ -10,7 +10,7 @@ enum UserRole: string
 {
     use EnumDataListTrait;
 
-    case ADMIN  = 'admin';
-    case WRITER = 'writer';
-    case EDITOR = 'editor';
+    case Admin  = 'admin';
+    case Writer = 'writer';
+    case Editor = 'editor';
 }

@@ -31,7 +31,7 @@ final class PermissionSeeder extends Seeder
 
     private function assignRoleToAdmin(): void
     {
-        $role_super_admin = Role::query()->where('name', UserRole::ADMIN)->first();
+        $role_super_admin = Role::query()->where('name', UserRole::Admin)->first();
 
         $role_super_admin->givePermissionTo(UserPermission::cases());
         $this->command->info('permissions assigned to admin role.');
@@ -47,7 +47,7 @@ final class PermissionSeeder extends Seeder
         auth()->loginUsingId($super_admin->id);
         $this->command->info('admin user logged in.');
 
-        $super_admin->assignRole(UserRole::ADMIN);
+        $super_admin->assignRole(UserRole::Admin);
         $this->command->info('role and permissions assigned to admin user.');
     }
 }

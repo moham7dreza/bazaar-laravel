@@ -10,8 +10,8 @@ enum RequestPlatform: string
 {
     use EnumDataListTrait;
 
-    case WEB    = 'web';
-    case SERVER = 'server';
-    case APP    = 'app';
-    case PWA    = 'pwa';
+    case Web    = 'web';
+    case Server = 'server';
+    case App    = 'app';
+    case Pwa    = 'pwa';
 }

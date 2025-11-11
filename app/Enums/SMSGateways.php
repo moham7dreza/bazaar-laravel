@@ -12,8 +12,8 @@ enum SMSGateways: int implements HasLabel
 {
     use EnumDataListTrait;
 
-    case KAVEHNEGAR = 1;
-    case SMS_IR     = 2;
+    case Kavehnegar = 1;
+    case SmsIr      = 2;
 
     public function configInputs(): array
     {

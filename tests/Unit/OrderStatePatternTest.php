@@ -9,11 +9,11 @@ it('can change order states', function (): void {
 
     $this->sut = new OrderContext();
 
-    expect($this->sut->getState())->toBe(OrderState::PENDING);
+    expect($this->sut->getState())->toBe(OrderState::Pending);
 
     $this->sut->proceedToNext();
     $this->sut->proceedToNext();
     $this->sut->proceedToNext();
 
-    expect($this->sut->getState())->toBe(OrderState::SHIPPED);
+    expect($this->sut->getState())->toBe(OrderState::Shipped);
 });

@@ -10,6 +10,6 @@ enum AdvertisementStatus: string
 {
     use EnumDataListTrait;
 
-    case AS_GOOD_AS_NEW = 'as_good_as_new';
-    case USED           = 'used';
+    case AsGoodAsNew    = 'as_good_as_new';
+    case Used           = 'used';
 }

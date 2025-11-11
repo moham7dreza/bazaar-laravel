@@ -6,7 +6,7 @@ namespace App\Enums\Image;
 
 enum ImageSize: string
 {
-    case SMALL  = 'small';
-    case MEDIUM = 'medium';
-    case LARGE  = 'large';
+    case Small  = 'small';
+    case Medium = 'medium';
+    case Large  = 'large';
 }

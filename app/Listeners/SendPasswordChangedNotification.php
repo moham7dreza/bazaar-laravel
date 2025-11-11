@@ -15,7 +15,7 @@ class SendPasswordChangedNotification extends QueuedListener
 {
     public function __construct()
     {
-        $this->onQueue(Queue::MAIL);
+        $this->onQueue(Queue::Mail);
     }
 
     public function middleware(UserUpdatedEvent $event)

@@ -23,8 +23,8 @@ function createUserWithRoleAndPermissions(UserRole $userRole): User
 
     match ($userRole)
     {
-        UserRole::WRITER => $role->givePermissionTo([UserPermission::CREATE_AD, UserPermission::EDIT_AD]),
-        UserRole::EDITOR => $role->givePermissionTo(UserPermission::ads()),
+        UserRole::Writer => $role->givePermissionTo([UserPermission::CreateAd, UserPermission::EditAd]),
+        UserRole::Editor => $role->givePermissionTo(UserPermission::ads()),
         default          => null,
     };
 
@@ -36,8 +36,8 @@ function createUserWithRoleAndPermissions(UserRole $userRole): User
 
 beforeEach(function (): void {
 
-    Role::query()->firstOrCreate(['name' => UserRole::WRITER]);
-    Role::query()->firstOrCreate(['name' => UserRole::EDITOR]);
+    Role::query()->firstOrCreate(['name' => UserRole::Writer]);
+    Role::query()->firstOrCreate(['name' => UserRole::Editor]);
 
     app(PermissionRegistrar::class)->forgetCachedPermissions();
 
@@ -45,7 +45,7 @@ beforeEach(function (): void {
 
 test('writer can access to advertisements', function (): void {
 
-    $writer = createUserWithRoleAndPermissions(UserRole::WRITER);
+    $writer = createUserWithRoleAndPermissions(UserRole::Writer);
 
     Advertisement::factory()->for($writer)->create();
 

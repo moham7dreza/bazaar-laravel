@@ -10,6 +10,6 @@ enum NoticeType: int
 {
     use EnumDataListTrait;
 
-    case SMS   = 0;
-    case EMAIL = 1;
+    case Sms   = 0;
+    case Email = 1;
 }

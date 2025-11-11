@@ -31,7 +31,7 @@ class HomeController extends Controller
 
                 // sample send sms
                 $data = new SendSMSDTO();
-                $data->setSenderNumber(SmsSenderNumber::NUMBER_2->value); // also this can be set as default in config/sms.php
+                $data->setSenderNumber(SmsSenderNumber::Number2->value); // also this can be set as default in config/sms.php
                 $data->setMessage('Hello, this is a test');
                 $data->setTo('09123000000');
                 $SMSService->send($data);

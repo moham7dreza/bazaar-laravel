@@ -10,15 +10,15 @@ enum RequestOs: string
 {
     use EnumDataListTrait;
 
-    case WEB     = 'web';
-    case IOS     = 'ios';
-    case ANDROID = 'android';
+    case Web     = 'web';
+    case Ios     = 'ios';
+    case Android = 'android';
 
     public static function mobiles(): array
     {
         return [
-            self::ANDROID->value,
-            self::IOS->value,
+            self::Android->value,
+            self::Ios->value,
         ];
     }
 }

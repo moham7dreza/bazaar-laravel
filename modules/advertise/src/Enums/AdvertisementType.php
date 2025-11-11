@@ -10,5 +10,5 @@ enum AdvertisementType: string
 {
     use EnumDataListTrait;
 
-    case CAR = 'car';
+    case Car = 'car';
 }

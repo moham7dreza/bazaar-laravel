@@ -16,7 +16,7 @@ final class DisableCacheForDeveloper
         $user = request()->user();
         if (
             $user
-            && $request->hasHeader(RequestHeader::DISABLE_CACHE->value)
+            && $request->hasHeader(RequestHeader::DisableCache->value)
             && in_array($user->mobile, config('developer.backends'), true)
         ) {
             config()?->set('cache.default');

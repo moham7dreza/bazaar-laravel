@@ -17,7 +17,7 @@ class UserSuspendClearJob implements ShouldQueue
     public function __construct(
         public readonly Collection $ids,
     ) {
-        $this->onQueue(Queue::LOW);
+        $this->onQueue(Queue::Low);
     }
 
     public function handle(): void

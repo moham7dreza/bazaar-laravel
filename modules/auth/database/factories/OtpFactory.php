@@ -25,7 +25,7 @@ final class OtpFactory extends Factory
             'user_id'  => User::factory(),
             'otp_code' => random_int(1000, 9999),
             'login_id' => fake()->email(),
-            'type'     => NoticeType::EMAIL,
+            'type'     => NoticeType::Email,
             'used'     => false,
             'attempts' => 1,
         ];

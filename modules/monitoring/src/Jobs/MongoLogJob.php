@@ -21,7 +21,7 @@ final class MongoLogJob implements ShouldQueue
         public readonly string $logKey,
     ) {
         $this->delay(Date::now()->addSeconds(5));
-        $this->onQueue(Queue::MONGO_LOG);
+        $this->onQueue(Queue::MongoLog);
     }
 
     public function handle(): void

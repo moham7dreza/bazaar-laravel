@@ -7,6 +7,7 @@ namespace App\Services\Image;
 use App\Data\DTOs\Image\ImageUploadDTO;
 use App\Enums\Image\ImageUploadMethod;
 use Exception;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Log;
 use Intervention\Image\Drivers\Gd\Driver;
 use Intervention\Image\ImageManager;
@@ -37,12 +38,12 @@ final class ImageService extends ImageToolsService
         try
         {
 
-            if (ImageUploadMethod::METHOD_CREATE_INDEX_AND_SAVE === $DTO->uploadMethod)
+            if (ImageUploadMethod::MethodCreateIndexAndSave === $DTO->uploadMethod)
             {
 
                 if ($DTO->currentImageSize && filled($image))
                 {
-                    \Illuminate\Support\Arr::set($image, 'currentImage', $DTO->currentImageSize);
+                    Arr::set($image, 'currentImage', $DTO->currentImageSize);
 
                     return $image;
                 }
@@ -110,15 +111,15 @@ final class ImageService extends ImageToolsService
 
                 (new ImageManager(new Driver()))
                     ->read($image->getRealPath())
-                    ->resizeDown(\Illuminate\Support\Arr::get($imageSize, 'width'), \Illuminate\Support\Arr::get($imageSize, 'height'))
+                    ->resizeDown(Arr::get($imageSize, 'width'), Arr::get($imageSize, 'height'))
                     ->save(public_path($this->getImageAddress()), null, $this->getImageFormat());
 
                 $indexArray[$sizeAlias] = $this->getImageAddress();
             }
 
-            \Illuminate\Support\Arr::set($images, 'indexArray', $indexArray);
-            \Illuminate\Support\Arr::set($images, 'directory', $this->getFinalImageDirectory());
-            \Illuminate\Support\Arr::set($images, 'currentImage', config('image-index.default-current-index-image'));
+            Arr::set($images, 'indexArray', $indexArray);
+            Arr::set($images, 'directory', $this->getFinalImageDirectory());
+            Arr::set($images, 'currentImage', config('image-index.default-current-index-image'));
 
             return $images;
 
@@ -152,7 +153,7 @@ final class ImageService extends ImageToolsService
     {
         try
         {
-            $directory = public_path(\Illuminate\Support\Arr::get($images, 'directory'));
+            $directory = public_path(Arr::get($images, 'directory'));
 
             return $this->deleteDirectoryAndFiles($directory);
 

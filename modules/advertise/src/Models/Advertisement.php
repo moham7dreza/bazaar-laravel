@@ -162,10 +162,10 @@ final class Advertisement extends Model
     {
         return match ($sort)
         {
-            Sort::PRICE_ASC  => $builder->oldest('price'),
-            Sort::PRICE_DESC => $builder->latest('price'),
-            Sort::NEWEST     => $builder->latest(),
-            Sort::OLDEST     => $builder->oldest(),
+            Sort::PriceAsc   => $builder->oldest('price'),
+            Sort::PriceDesc  => $builder->latest('price'),
+            Sort::Newest     => $builder->latest(),
+            Sort::Oldest     => $builder->oldest(),
         };
     }
 

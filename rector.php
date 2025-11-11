@@ -66,4 +66,5 @@ return RectorConfig::configure()
         RectorLaravel\Rector\MethodCall\UseComponentPropertyWithinCommandsRector::class,
         RectorLaravel\Rector\Class_\UseForwardsCallsTraitRector::class,
         RectorLaravel\Rector\MethodCall\WhereToWhereLikeRector::class,
+        Rector\CodingStyle\Rector\Enum_\EnumCaseToPascalCaseRector::class,
     ]);

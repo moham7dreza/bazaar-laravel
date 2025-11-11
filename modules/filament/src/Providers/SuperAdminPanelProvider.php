@@ -85,7 +85,7 @@ final class SuperAdminPanelProvider extends PanelProvider
                 \Hasnayeen\Themes\ThemesPlugin::make(),
                 \ShuvroRoy\FilamentSpatieLaravelBackup\FilamentSpatieLaravelBackupPlugin::make()
                     ->usingPolingInterval('10s')
-                    ->usingQueue(Queue::BACKUP->value)
+                    ->usingQueue(Queue::Backup->value)
                     ->noTimeout(),
                 \pxlrbt\FilamentEnvironmentIndicator\EnvironmentIndicatorPlugin::make()
                     ->visible(fn () => auth()->user()?->isAdmin())
@@ -101,7 +101,7 @@ final class SuperAdminPanelProvider extends PanelProvider
                         shouldRegisterNavigation: true,
                         hasAvatars: true,
                     )
-                    ->avatarUploadComponent(fn () => FileUpload::make('avatar_url')->disk(StorageDisk::PUBLIC->value))
+                    ->avatarUploadComponent(fn () => FileUpload::make('avatar_url')->disk(StorageDisk::Public->value))
                     ->enableTwoFactorAuthentication()
                     ->enableSanctumTokens(),
                 \pxlrbt\FilamentSpotlight\SpotlightPlugin::make(),

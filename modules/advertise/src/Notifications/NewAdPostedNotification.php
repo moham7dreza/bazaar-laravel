@@ -17,7 +17,7 @@ final class NewAdPostedNotification extends Notification implements ShouldQueue
     public function __construct(
         public $id,
     ) {
-        $this->onQueue(Queue::LOW);
+        $this->onQueue(Queue::Low);
     }
 
     public function via(object $notifiable): array

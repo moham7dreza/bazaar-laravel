@@ -12,7 +12,7 @@ class ProcessingState implements OrderStateInterface
 {
     public function __toString(): string
     {
-        return OrderState::PROCESSING->value;
+        return OrderState::Processing->value;
     }
     public function proceedToNext(OrderContext $context): void
     {

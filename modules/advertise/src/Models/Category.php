@@ -104,7 +104,7 @@ final class Category extends Model
 
     public function highestValue(): HasOneThrough
     {
-        return $this->values()->one()->where('type', AttributeType::NUMBER)->ofMany([
+        return $this->values()->one()->where('type', AttributeType::Number)->ofMany([
             'value' => 'max',
         ]);
     }

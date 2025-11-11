@@ -19,8 +19,8 @@ final class AuthSeeder extends Seeder
         Otp::factory(2)
             ->for($users->random()->first())
             ->sequence(
-                ['type' => NoticeType::EMAIL],
-                ['type' => NoticeType::SMS],
+                ['type' => NoticeType::Email],
+                ['type' => NoticeType::Sms],
             )->create();
 
         $this->command->alert('Relations seeded');

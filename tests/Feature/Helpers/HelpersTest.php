@@ -40,14 +40,14 @@ it('can conditionally modify values in a fluent instance', function (): void {
         'developer' => true,
         'posts'     => 25,
     ])
-        ->when($user->isAdmin(), fn (Fluent $input) => $input->set('role', UserRole::ADMIN->value))
+        ->when($user->isAdmin(), fn (Fluent $input) => $input->set('role', UserRole::Admin->value))
         ->unless($user->isAdmin(), fn (Fluent $input) => $input->except('posts'));
 
     expect($data->toArray())->toBe([
         'name'      => 'admin',
         'developer' => true,
         'posts'     => 25,
-        'role'      => UserRole::ADMIN->value,
+        'role'      => UserRole::Admin->value,
     ]);
 });
 

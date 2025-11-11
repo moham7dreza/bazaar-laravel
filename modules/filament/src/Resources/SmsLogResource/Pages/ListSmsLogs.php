@@ -22,7 +22,7 @@ final class ListSmsLogs extends ListRecords
         return [
             null        => Tab::make('All'),
             'delivered' => Tab::make()->query(fn (Builder $query) => $query->whereNotNull('delivered_at')),
-            'queued'    => Tab::make()->query(fn (Builder $query) => $query->where('status', SmsStatus::QUEUED)),
+            'queued'    => Tab::make()->query(fn (Builder $query) => $query->where('status', SmsStatus::Queued)),
         ];
     }
 

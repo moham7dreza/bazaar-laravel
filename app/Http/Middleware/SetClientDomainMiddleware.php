@@ -21,7 +21,7 @@ class SetClientDomainMiddleware
             return $next($request);
         }
 
-        $baseUrl = $request->header(RequestHeader::REFERER->value) ?: $request->header(RequestHeader::ORIGIN->value);
+        $baseUrl = $request->header(RequestHeader::Referer->value) ?: $request->header(RequestHeader::Origin->value);
 
         if (blank($baseUrl))
         {

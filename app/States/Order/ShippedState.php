@@ -12,7 +12,7 @@ class ShippedState implements OrderStateInterface
 {
     public function __toString(): string
     {
-        return OrderState::SHIPPED->value;
+        return OrderState::Shipped->value;
     }
     public function proceedToNext(OrderContext $context): void
     {

@@ -10,12 +10,12 @@ enum RequestHeader: string
 {
     use EnumDataListTrait;
 
-    case PLATFORM       = 'platform';
-    case ORIGIN         = 'origin';
-    case REFERER        = 'referer';
-    case OS             = 'os';
-    case DISABLE_CACHE  = 'x-disable-cache';
+    case Platform       = 'platform';
+    case Origin         = 'origin';
+    case Referer        = 'referer';
+    case Os             = 'os';
+    case DisableCache   = 'x-disable-cache';
 
-    case IDEMPOTENCY_KEY    = 'Idempotency-Key';
-    case IDEMPOTENCY_STATUS = 'Idempotency-Status';
+    case IdempotencyKey    = 'Idempotency-Key';
+    case IdempotencyStatus = 'Idempotency-Status';
 }

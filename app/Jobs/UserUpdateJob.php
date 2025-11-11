@@ -21,7 +21,7 @@ final class UserUpdateJob implements ShouldQueue
     public function __construct(
         public readonly array $ids,
     ) {
-        $this->onQueue(Queue::LOW);
+        $this->onQueue(Queue::Low);
     }
 
     public function middleware(): array
@@ -43,7 +43,7 @@ final class UserUpdateJob implements ShouldQueue
                 $user->updateQuietly(['is_active' => true]);
 
                 $data = new SendSMSDTO();
-                $data->setSenderNumber(SmsSenderNumber::NUMBER_1->value);
+                $data->setSenderNumber(SmsSenderNumber::Number1->value);
                 $data->setMessage('Hello, your account is activated');
                 $data->setTo($user->mobile);
 

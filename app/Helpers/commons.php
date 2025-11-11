@@ -67,7 +67,7 @@ if ( ! function_exists('isEnvTesting'))
 {
     function isEnvTesting(): bool
     {
-        return app()->environment(Environment::TESTING->value);
+        return app()->environment(Environment::Testing->value);
     }
 }
 
@@ -83,7 +83,7 @@ if ( ! function_exists('isEnvStaging'))
 {
     function isEnvStaging(): bool
     {
-        return app()->environment(Environment::STAGING->value);
+        return app()->environment(Environment::Staging->value);
     }
 }
 
@@ -91,7 +91,7 @@ if ( ! function_exists('isEnvProduction'))
 {
     function isEnvProduction(): bool
     {
-        return app()->environment(Environment::PRODUCTION->value);
+        return app()->environment(Environment::Production->value);
     }
 }
 

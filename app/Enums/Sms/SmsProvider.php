@@ -10,6 +10,6 @@ enum SmsProvider: string
 {
     use EnumDataListTrait;
 
-    case KAVENEGAR = 'kavenegar';
-    case DEBUG     = 'debug';
+    case Kavenegar = 'kavenegar';
+    case Debug     = 'debug';
 }

@@ -10,6 +10,6 @@ enum AttributeType: int
 {
     use EnumDataListTrait;
 
-    case TEXT   = 1;
-    case NUMBER = 2;
+    case Text   = 1;
+    case Number = 2;
 }

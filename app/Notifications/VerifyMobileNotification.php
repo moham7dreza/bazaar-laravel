@@ -16,7 +16,7 @@ class VerifyMobileNotification extends Notification implements ShouldQueue
 
     public function __construct()
     {
-        $this->onQueue(Queue::HIGH);
+        $this->onQueue(Queue::High);
     }
 
     public function via(object $notifiable): array

@@ -12,9 +12,9 @@ enum PaymentGateways: int implements HasLabel
 {
     use EnumDataListTrait;
 
-    case ZARRIN_PAL    = 1;
-    case ASAN_PARDAKHT = 2;
-    case BEH_PARDAKHT  = 3;
+    case ZarrinPal    = 1;
+    case AsanPardakht = 2;
+    case BehPardakht  = 3;
 
     public function configInputs(): array
     {

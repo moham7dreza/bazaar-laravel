@@ -12,7 +12,7 @@ class PendingState implements OrderStateInterface
 {
     public function __toString(): string
     {
-        return OrderState::PENDING->value;
+        return OrderState::Pending->value;
     }
     public function proceedToNext(OrderContext $context): void
     {

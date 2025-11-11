@@ -17,23 +17,23 @@ final readonly class DomainRouter
 
         return match ($this->getEnvironment($baseHost))
         {
-            Environment::PRODUCTION => [
+            Environment::Production => [
                 'api'         => "{$scheme}/api",
                 'web'         => $request->httpHost(),
                 'assets'      => str_replace('api', 'cdn', $scheme),
-                'environment' => Environment::PRODUCTION->value,
+                'environment' => Environment::Production->value,
             ],
-            Environment::STAGING => [
+            Environment::Staging => [
                 'api'         => "{$scheme}/api",
                 'web'         => str_replace('api', 'staging', $request->httpHost()),
                 'assets'      => str_replace('api', 'staging-cdn', $scheme),
-                'environment' => Environment::STAGING->value,
+                'environment' => Environment::Staging->value,
             ],
             default => [
                 'api'         => ClientDomain::Local->backendApi(),
                 'web'         => ClientDomain::Local->value,
                 'assets'      => ClientDomain::Local->backendUrl(),
-                'environment' => Environment::LOCAL->value,
+                'environment' => Environment::Local->value,
             ]
         };
     }
@@ -42,9 +42,9 @@ final readonly class DomainRouter
     {
         return match (true)
         {
-            str_contains($host, 'ir')  => Environment::PRODUCTION,
-            str_contains($host, 'dev') => Environment::STAGING,
-            default                    => Environment::LOCAL,
+            str_contains($host, 'ir')  => Environment::Production,
+            str_contains($host, 'dev') => Environment::Staging,
+            default                    => Environment::Local,
         };
     }
 }

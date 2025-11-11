@@ -20,7 +20,7 @@ class VulnerabilitiesFoundNotification extends Notification implements ShouldQue
     public function __construct(
         public readonly string $text,
     ) {
-        $this->onQueue(Queue::MAIL);
+        $this->onQueue(Queue::Mail);
     }
 
     /**

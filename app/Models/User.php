@@ -112,7 +112,7 @@ final class User extends Authenticatable implements
     ];
 
     protected $attributes = [
-        'theme'     => Theme::DRACULA->value,
+        'theme'     => Theme::Dracula->value,
         'is_active' => true,
         'user_type' => self::TYPE_USER,
     ];
@@ -158,7 +158,7 @@ final class User extends Authenticatable implements
 
     public function getFilamentAvatarUrl(): ?string
     {
-        return $this->avatar_url ? Storage::disk(StorageDisk::PUBLIC->value)->url($this->avatar_url) : null;
+        return $this->avatar_url ? Storage::disk(StorageDisk::Public->value)->url($this->avatar_url) : null;
     }
 
     /**
@@ -262,7 +262,7 @@ final class User extends Authenticatable implements
     {
         return self::TYPE_ADMIN === $this->user_type
             && ($this->hasVerifiedMobile() || $this->hasVerifiedEmail())
-            && ($this->checkPermissionTo(UserPermission::SEE_PANEL) || $this->hasRole(UserRole::ADMIN));
+            && ($this->checkPermissionTo(UserPermission::SeePanel) || $this->hasRole(UserRole::Admin));
     }
 
     // suspend section

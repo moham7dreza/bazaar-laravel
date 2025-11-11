@@ -55,7 +55,7 @@ final class Gallery extends Model
 
     protected function pruning(): void
     {
-        Storage::disk(StorageDisk::LOCAL->value)->delete($this->url);
+        Storage::disk(StorageDisk::Local->value)->delete($this->url);
     }
 
     // _____________________________________________ model related methods SECTION ______________________________

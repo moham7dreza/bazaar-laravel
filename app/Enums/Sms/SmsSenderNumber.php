@@ -10,6 +10,6 @@ enum SmsSenderNumber: string
 {
     use EnumDataListTrait;
 
-    case NUMBER_1 = '10009000';
-    case NUMBER_2 = '300024444';
+    case Number1 = '10009000';
+    case Number2 = '300024444';
 }

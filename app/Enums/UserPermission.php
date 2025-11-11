@@ -10,31 +10,31 @@ enum UserPermission: string
 {
     use EnumDataListTrait;
 
-    case SEE_PANEL    = 'see_panel';
-    case MANAGE_USERS = 'manage_users';
+    case SeePanel    = 'see_panel';
+    case ManageUsers = 'manage_users';
     // Advertisement
-    case EDIT_AD    = 'edit_ad';
-    case EDIT_ADS   = 'edit_ads';
-    case CREATE_AD  = 'create_ad';
-    case DESTROY_AD = 'destroy_ad';
-    case PUBLISH_AD = 'publish_ad';
+    case EditAd    = 'edit_ad';
+    case EditAds   = 'edit_ads';
+    case CreateAd  = 'create_ad';
+    case DestroyAd = 'destroy_ad';
+    case PublishAd = 'publish_ad';
 
     public static function ads(): array
     {
         return [
-            self::EDIT_AD,
-            self::EDIT_ADS,
-            self::CREATE_AD,
-            self::DESTROY_AD,
-            self::PUBLISH_AD,
+            self::EditAd,
+            self::EditAds,
+            self::CreateAd,
+            self::DestroyAd,
+            self::PublishAd,
         ];
     }
 
     public function isAdminLevel(): bool
     {
         $permissions = [
-            self::SEE_PANEL,
-            self::MANAGE_USERS,
+            self::SeePanel,
+            self::ManageUsers,
         ];
 
         return in_array($this, $permissions, true);

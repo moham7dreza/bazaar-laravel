@@ -10,6 +10,6 @@ enum SmsStatus: string
 {
     use EnumDataListTrait;
 
-    case SENT   = 'sent';
-    case QUEUED = 'queued';
+    case Sent   = 'sent';
+    case Queued = 'queued';
 }

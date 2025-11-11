@@ -19,8 +19,8 @@ class ClientDomainService
     {
         return match (app()->environment())
         {
-            Environment::LOCAL->value, Environment::TESTING->value => ClientDomain::Local,
-            Environment::STAGING->value => BaseUrlUtility::getBaseUrlForStaging(request()->host()),
+            Environment::Local->value, Environment::Testing->value => ClientDomain::Local,
+            Environment::Staging->value => BaseUrlUtility::getBaseUrlForStaging(request()->host()),
             default                     => ClientDomain::ProdIR,
         };
     }

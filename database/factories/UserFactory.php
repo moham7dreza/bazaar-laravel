@@ -31,7 +31,7 @@ class UserFactory extends Factory
             'email_verified_at' => Date::now(),
             'password'          => 'password',
             'remember_token'    => Str::random(10),
-            'theme'             => Theme::DRACULA->value,
+            'theme'             => Theme::Dracula->value,
             'suspended_at'      => fake()->optional(0.1)->dateTimeBetween('-30 days'),
             'suspended_until'   => fn (array $attributes) => Arr::get($attributes, 'suspended_at')
                 ? Date::parse(Arr::get($attributes, 'suspended_at'))->addWeek()
@@ -59,7 +59,7 @@ class UserFactory extends Factory
             if ( ! isEnvTesting())
             {
                 // $this->getRealProfilePhotoFor($user);
-                Storage::disk(StorageDisk::PUBLIC->value)
+                Storage::disk(StorageDisk::Public->value)
                     ->put(
                         $user->avatar_url,
                         file_get_contents(public_path($user->avatar_url))
@@ -108,7 +108,7 @@ class UserFactory extends Factory
         $response->throw();
 
         $imageName = 'profile-pic.jpg';
-        Storage::disk(StorageDisk::PUBLIC->value)
+        Storage::disk(StorageDisk::Public->value)
             ->put(
                 "images/{$imageName}",
                 $response->body()

@@ -35,7 +35,7 @@ final readonly class ConsumeOneTimePasswordService
                 'token'    => $token,
                 'otp_code' => $otpCode,
                 'login_id' => $mobile,
-                'type'     => NoticeType::SMS,
+                'type'     => NoticeType::Sms,
                 'attempts' => 0,
                 'user_id'  => $user?->id,
             ]

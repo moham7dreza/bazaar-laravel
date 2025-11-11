@@ -10,5 +10,5 @@ enum MenuPosition: string
 {
     use EnumDataListTrait;
 
-    case HEADER = 'header';
+    case Header = 'header';
 }

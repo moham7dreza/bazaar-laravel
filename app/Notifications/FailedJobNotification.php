@@ -20,7 +20,7 @@ class FailedJobNotification extends Notification implements ShouldQueue
     public function __construct(
         public readonly array $payload
     ) {
-        $this->onQueue(Queue::MAIL);
+        $this->onQueue(Queue::Mail);
     }
 
     /**

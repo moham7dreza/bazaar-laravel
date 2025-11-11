@@ -68,7 +68,7 @@ function asAnAuthenticatedUser(): TestCase
 function asAdminUser(User $user): TestCase
 {
     $user->givePermissionTo(
-        Permission::findOrCreate(UserPermission::SEE_PANEL->value)
+        Permission::findOrCreate(UserPermission::SeePanel->value)
     );
 
     return test()->be($user);
