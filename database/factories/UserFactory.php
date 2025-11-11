@@ -37,7 +37,7 @@ class UserFactory extends Factory
                 ? Date::parse(Arr::get($attributes, 'suspended_at'))->addWeek()
                 : null,
             'is_active'          => true,
-            'user_type'          => User::TYPE_USER,
+            'user_type'          => User::TypeUser,
             'mobile'             => '0912' . random_int(1000000, 9999999),
             'mobile_verified_at' => Date::now(),
             'city_id'            => City::factory(),
@@ -80,7 +80,7 @@ class UserFactory extends Factory
     {
         return $this->state(fn (array $attributes) => [
             'email'     => "admin-{$attributes['name']}@admin.com",
-            'user_type' => User::TYPE_ADMIN,
+            'user_type' => User::TypeAdmin,
         ]);
     }
 

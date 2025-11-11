@@ -85,9 +85,9 @@ final class User extends Authenticatable implements
     use SoftDeletes;
     use TwoFactorAuthenticatable;
 
-    const int TYPE_USER = 0;
+    const int TypeUser = 0;
 
-    const int TYPE_ADMIN = 1;
+    const int TypeAdmin = 1;
 
     protected $fillable = [
         'name',
@@ -114,7 +114,7 @@ final class User extends Authenticatable implements
     protected $attributes = [
         'theme'     => Theme::Dracula->value,
         'is_active' => true,
-        'user_type' => self::TYPE_USER,
+        'user_type' => self::TypeUser,
     ];
 
     protected static array $recordEvents = ['deleted', 'updated'];
@@ -260,7 +260,7 @@ final class User extends Authenticatable implements
 
     public function isAdmin(): bool
     {
-        return self::TYPE_ADMIN === $this->user_type
+        return self::TypeAdmin === $this->user_type
             && ($this->hasVerifiedMobile() || $this->hasVerifiedEmail())
             && ($this->checkPermissionTo(UserPermission::SeePanel) || $this->hasRole(UserRole::Admin));
     }
@@ -318,7 +318,7 @@ final class User extends Authenticatable implements
     #[Scope]
     protected function admin(Builder $query): Builder
     {
-        return $query->ofType(self::TYPE_ADMIN)
+        return $query->ofType(self::TypeAdmin)
             ->whereNotNull('mobile_verified_at');
     }
 
