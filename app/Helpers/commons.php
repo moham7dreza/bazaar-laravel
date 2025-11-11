@@ -203,3 +203,11 @@ if ( ! function_exists('throw_exception'))
         isEnvProduction() ? report($exception) : throw $exception;
     }
 }
+
+if ( ! function_exists('forgetCachedPermissions'))
+{
+    function forgetCachedPermissions(): void
+    {
+        app()->make(Spatie\Permission\PermissionRegistrar::class)->forgetCachedPermissions();
+    }
+}

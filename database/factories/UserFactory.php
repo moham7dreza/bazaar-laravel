@@ -79,10 +79,8 @@ class UserFactory extends Factory
     public function admin(): static
     {
         return $this->state(fn (array $attributes) => [
-            'name'      => 'admin',
-            'email'     => 'admin@admin.com',
+            'email'     => "admin-{$attributes['name']}@admin.com",
             'user_type' => User::TYPE_ADMIN,
-            'mobile'    => fake()->randomElement(config('developer.backends')),
         ]);
     }
 
