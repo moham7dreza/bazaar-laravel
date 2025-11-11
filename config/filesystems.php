@@ -17,7 +17,7 @@ return [
     |
     */
 
-    'default' => env('FILESYSTEM_DISK', StorageDisk::LOCAL->value),
+    'default' => env('FILESYSTEM_DISK', StorageDisk::Local->value),
 
     /*
     |--------------------------------------------------------------------------

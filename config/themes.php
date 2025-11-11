@@ -32,7 +32,7 @@ return [
     */
 
     'default' => [
-        'theme'       => App\Enums\Theme::DRACULA->value,
+        'theme'       => App\Enums\Theme::Dracula->value,
         'theme_color' => 'blue',
     ],
 ];

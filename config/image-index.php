@@ -7,20 +7,20 @@ use App\Enums\Image\ImageSize;
 return [
 
     'index-image-sizes' => [
-        ImageSize::LARGE->value => [
+        ImageSize::Large->value => [
             'width'  => 800,
             'height' => 600,
         ],
-        ImageSize::MEDIUM->value => [
+        ImageSize::Medium->value => [
             'width'  => 350,
             'height' => 350,
         ],
-        ImageSize::SMALL->value => [
+        ImageSize::Small->value => [
             'width'  => 80,
             'height' => 80,
         ],
     ],
-    'default-current-index-image' => ImageSize::MEDIUM->value,
+    'default-current-index-image' => ImageSize::Medium->value,
 
     'default-parent-upload-directory' => 'images',
 ];

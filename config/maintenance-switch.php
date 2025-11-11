@@ -41,7 +41,7 @@ return [
     |
     */
 
-    'permissions' => App\Enums\UserPermission::SEE_PANEL->value,
+    'permissions' => App\Enums\UserPermission::SeePanel->value,
 
     /*
     |--------------------------------------------------------------------------
@@ -53,7 +53,7 @@ return [
     |
     */
 
-    'role' => App\Enums\UserRole::ADMIN->value,
+    'role' => App\Enums\UserRole::Admin->value,
 
     /*
     |--------------------------------------------------------------------------

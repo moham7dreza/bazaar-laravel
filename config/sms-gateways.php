@@ -6,13 +6,13 @@ use App\Enums\SMSGateways;
 
 return [
     'keys' => [
-        SMSGateways::KAVEHNEGAR->value => [
+        SMSGateways::Kavehnegar->value => [
             'api_key' => [
                 'label' => 'api_key',
                 'rules' => ['string', 'required'],
             ],
         ],
-        SMSGateways::SMS_IR->value => [
+        SMSGateways::SmsIr->value => [
             'api_key' => [
                 'rules' => ['string', 'required'],
             ],

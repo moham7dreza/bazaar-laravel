@@ -115,7 +115,7 @@ return [
     | Default follows the standard practice of using 'Idempotency-Key'.
     |
     */
-    'header_name' => env('IDEMPOTENCY_HEADER_NAME', App\Enums\RequestHeader::IDEMPOTENCY_KEY->value),
+    'header_name' => env('IDEMPOTENCY_HEADER_NAME', App\Enums\RequestHeader::IdempotencyKey->value),
 
     /*
     |--------------------------------------------------------------------------

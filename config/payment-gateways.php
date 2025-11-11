@@ -6,13 +6,13 @@ use App\Enums\PaymentGateways;
 
 return [
     'keys' => [
-        PaymentGateways::ZARRIN_PAL->value => [
+        PaymentGateways::ZarrinPal->value => [
             'merchant_id' => [
                 'label' => 'merchant_id',
                 'rules' => ['string', 'required'],
             ],
         ],
-        PaymentGateways::ASAN_PARDAKHT->value => [
+        PaymentGateways::AsanPardakht->value => [
             'username' => [
                 'rules' => ['string', 'required'],
             ],
@@ -23,7 +23,7 @@ return [
                 'rules' => ['string', 'required'],
             ],
         ],
-        PaymentGateways::BEH_PARDAKHT->value => [
+        PaymentGateways::BehPardakht->value => [
             'terminalId' => [],
             'username'   => [],
             'password'   => [],

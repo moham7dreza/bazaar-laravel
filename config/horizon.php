@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-use App\Enums\Queue as QUEUE;
+use App\Enums\Queue as Q;
 use Illuminate\Support\Str;
 
 return [
@@ -186,7 +186,7 @@ return [
         'supervisor-1' => [
             'connection' => 'redis',
             'queue'      => [
-                QUEUE::DEFAULT->value,
+                Q::Default->value,
             ],
             'balance'             => 'auto',
             'autoScalingStrategy' => 'time',
@@ -205,10 +205,10 @@ return [
             'laravel' => [
                 'connection' => 'redis',
                 'queue'      => [
-                    QUEUE::HIGH->value,
-                    QUEUE::MAIL->value,
-                    QUEUE::DEFAULT->value,
-                    QUEUE::MONGO_LOG->value,
+                    Q::High->value,
+                    Q::Mail->value,
+                    Q::Default->value,
+                    Q::MongoLog->value,
                 ],
                 'balance'   => 'false',
                 'processes' => 16,
@@ -218,7 +218,7 @@ return [
             'long' => [
                 'connection' => 'redis',
                 'queue'      => [
-                    QUEUE::BACKUP->value,
+                    Q::Backup->value,
                 ],
                 'balance'   => 'false',
                 'processes' => 1,
@@ -267,12 +267,12 @@ return [
             'supervisor-1' => [
                 'connection' => 'redis',
                 'queue'      => [
-                    QUEUE::HIGH->value,
-                    QUEUE::DEFAULT->value,
-                    QUEUE::LOW->value,
-                    QUEUE::MAIL->value,
-                    QUEUE::MONGO_LOG->value,
-                    QUEUE::BACKUP->value,
+                    Q::High->value,
+                    Q::Default->value,
+                    Q::Low->value,
+                    Q::Mail->value,
+                    Q::MongoLog->value,
+                    Q::Backup->value,
                 ],
                 'balance'   => 'simple',
                 'processes' => 3,

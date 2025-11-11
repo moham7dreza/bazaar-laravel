@@ -47,7 +47,7 @@ return [
 
     'unlocker' => [
         'limited_access' => false,
-        'gate'           => App\Enums\UserPermission::SEE_PANEL->value,
+        'gate'           => App\Enums\UserPermission::SeePanel->value,
     ],
 
     /*

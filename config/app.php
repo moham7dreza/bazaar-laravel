@@ -32,7 +32,7 @@ return [
     |
     */
 
-    'env' => env('APP_ENV', Environment::LOCAL->value),
+    'env' => env('APP_ENV', Environment::Local->value),
 
     /*
     |--------------------------------------------------------------------------

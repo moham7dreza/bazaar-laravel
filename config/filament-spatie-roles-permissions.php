@@ -22,7 +22,7 @@ return [
     'scope_roles_to_tenant'       => true,
     'scope_premissions_to_tenant' => false,
 
-    'super_admin_role_name' => App\Enums\UserRole::ADMIN->value,
+    'super_admin_role_name' => App\Enums\UserRole::Admin->value,
 
     // Set as false to remove from navigation.
     'should_register_on_navigation' => [
