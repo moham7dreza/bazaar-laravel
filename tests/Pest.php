@@ -66,6 +66,9 @@ function asAnAuthenticatedUser(): TestCase
 
 function asAdminUser(User $user): TestCase
 {
+    // TODO: fix seeder and remove
+    Spatie\Permission\Models\Permission::findOrCreate(UserPermission::SeePanel->value);
+
     $user->givePermissionTo(
         UserPermission::SeePanel,
     );
