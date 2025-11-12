@@ -26,6 +26,7 @@ use Illuminate\Contracts\Config\Repository;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\Translation\Translator;
 use Illuminate\Database\Connection;
+use Illuminate\Database\Console\DumpCommand;
 use Illuminate\Database\Eloquent\Builder as EloquentBuilder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Events\QueryExecuted;
@@ -119,6 +120,8 @@ final class AppServiceProvider extends ServiceProvider
     private function configureCommands(): void
     {
         DB::prohibitDestructiveCommands(isEnvProduction());
+
+        DumpCommand::prohibit(isEnvProduction());
     }
 
     private function configureModel(): void
