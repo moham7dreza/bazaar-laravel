@@ -27,6 +27,7 @@ final class UserUpdateJob implements ShouldQueue
     public function middleware(): array
     {
         return [
+            //            new FailOnException(fn (\Throwable $e, mixed $job): bool => /* ... */),
             new FailOnException([
 
             ]),
