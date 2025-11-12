@@ -509,3 +509,7 @@ migration-linter:
 
 ports:
 	sudo fuser -k 3000/tcp && fuser -k 9000/tcp && fuser -k 2407/tcp
+
+upg:
+	composer update
+	npm update
