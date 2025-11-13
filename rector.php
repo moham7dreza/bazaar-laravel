@@ -54,6 +54,10 @@ return RectorConfig::configure()
     ->withCodingStyleLevel(0)
     ->withRootFiles()
     ->withMemoryLimit('2G')
+    ->withAttributesSets()
+    ->withFluentCallNewLine()
+    ->withParallel(maxNumberOfProcess: 10)
+    ->withRealPathReporting()
     ->withSets([
         LaravelLevelSetList::UP_TO_LARAVEL_120,
         LaravelSetList::ARRAY_STR_FUNCTIONS_TO_STATIC_CALL,
