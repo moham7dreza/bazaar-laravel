@@ -6,7 +6,6 @@ namespace Modules\Advertise\Http\Controllers\App;
 
 use App\Http\Controllers\Controller;
 use App\Http\Responses\ApiJsonResponse;
-use Illuminate\Container\Attributes\Give;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Resources\Json\JsonResource;
@@ -31,7 +30,6 @@ final class AdvertisementController extends Controller
      */
     public function index(
         AdvertisementListViewRequest $request,
-        #[Give(Search\AdvertisementEloquentAdvertisementSearchRepository::class)]
         Search\AdvertisementSearchRepository $repository
     ): ResourceCollection {
         $searchDTO = $request->getDTO();

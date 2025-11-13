@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Modules\Advertise\Models;
 
 use App\Concerns\ClearsResponseCache;
+use App\Concerns\Searchable;
 use App\Models\Geo\City;
 use App\Models\Scopes\LatestScope;
 use App\Models\Traits\Attributable;
@@ -48,6 +49,7 @@ final class Advertisement extends Model
     use ClearsResponseCache;
     use HasFactory;
     use Prunable;
+    use Searchable;
     use Sluggable;
     use SoftDeletes;
 
@@ -142,6 +144,34 @@ final class Advertisement extends Model
             'category_id',
             'id',
         );
+    }
+
+    public function toElasticsearchDocumentArray(): array
+    {
+        return [
+            'id'          => $this->id,
+            'title'       => $this->title,
+            'description' => $this->description,
+            'price'       => $this->price,
+            'tags'        => $this->tags ?? [],
+            'status'      => $this->status->value,
+            'created_at'  => $this->created_at?->toIso8601String(),
+        ];
+    }
+
+    public function getSearchIndex(): string
+    {
+        return $this->getTable();
+    }
+
+    public function getSearchType(): string
+    {
+        return '_doc';
+    }
+
+    public function toSearchArray(): array
+    {
+        return $this->toElasticsearchDocumentArray();
     }
 
     #[Scope]

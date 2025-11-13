@@ -12,7 +12,7 @@ use Modules\Advertise\DataContracts\AdvertisementSearchDTO;
 use Modules\Advertise\Models\Advertisement;
 use phpDocumentor\Reflection\Types\ClassString;
 
-readonly class AdvertisementEloquentAdvertisementSearchRepository implements AdvertisementSearchRepository
+final readonly class AdvertisementEloquentSearchRepository implements AdvertisementSearchRepository
 {
     public function search(AdvertisementSearchDTO $searchDTO): Collection
     {
