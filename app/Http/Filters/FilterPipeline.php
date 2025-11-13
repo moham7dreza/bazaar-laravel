@@ -18,7 +18,7 @@ class FilterPipeline
     ) {
     }
 
-    public function addFilter(FilterInterface $filter): FilterInterface
+    public function addFilter(Filter $filter): Filter
     {
         $this->filters[] = new $filter($this->request);
 

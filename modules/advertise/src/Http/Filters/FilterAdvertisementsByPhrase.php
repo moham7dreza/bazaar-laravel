@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Modules\Advertise\Http\Filters;
 
-use App\Contracts\Filter;
+use App\Http\Filters\Filter;
 use Closure;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Relations\Relation;

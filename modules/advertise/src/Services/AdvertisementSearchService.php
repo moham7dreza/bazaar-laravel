@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Modules\Advertise\Services;
 
-use App\Contracts\Filter;
+use App\Http\Filters\Filter;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\Pipeline;
