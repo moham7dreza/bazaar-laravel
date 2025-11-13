@@ -76,8 +76,11 @@ class AdvertisementBatchSeeder extends Seeder
 
                 $categoryId = $categories->random()->first()->id;
                 $cityId     = $cities->random()->first()->id;
-
-                if ( ! $categoryId || ! $cityId)
+                if ( ! $categoryId)
+                {
+                    continue;
+                }
+                if ( ! $cityId)
                 {
                     continue;
                 }

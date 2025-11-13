@@ -16,7 +16,7 @@ class PathNormalizer
         // Add protocol if missing
         if ( ! str_starts_with($url, $protocol . '://'))
         {
-            $url = $protocol . '://' . $url;
+            return $protocol . '://' . $url;
         }
 
         return $url;

@@ -19,7 +19,7 @@ return RectorConfig::configure()
     ->withImportNames()
     ->withPreparedSets(
         privatization: true,
-//        earlyReturn: true,
+        earlyReturn: true,
 //        strictBooleans: true,
     )
     ->withComposerBased(

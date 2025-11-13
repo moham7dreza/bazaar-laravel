@@ -56,8 +56,12 @@ final class JobLoggingServiceProvider extends ServiceProvider
 
     private function shouldSkipLogging(): bool
     {
-        return $this->app->runningUnitTests()
-            || config('performance-log.job_log_disabled');
+        if ($this->app->runningUnitTests())
+        {
+            return true;
+        }
+
+        return config()->boolean('performance-log.job_log_disabled');
         //            || !Lottery::odds(config('performance-log.job_log_sampling_rate'))->choose()
     }
 
