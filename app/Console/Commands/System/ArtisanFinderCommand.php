@@ -103,7 +103,7 @@ class ArtisanFinderCommand extends Command
 
     private function matchesSearchTerms(string $command, string $input): bool
     {
-        return array_all(explode(' ', $input), fn ($term) => str_contains($command, (string) $term));
+        return array_all(explode(' ', $input), fn ($term) => str_contains($command, $term));
     }
 
     private function isCommandValid($commands, $commandName): bool
