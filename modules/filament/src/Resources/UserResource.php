@@ -90,14 +90,14 @@ final class UserResource extends Resource
                         TextInput::make('password')
                             ->password()
                             ->required()
-                            ->dehydrated(fn ($state) => filled($state))
+                            ->dehydrated(fn ($state): bool => filled($state))
                             ->required(fn (string $context): bool => 'create' === $context)
                             ->maxLength(255),
                         TextInput::make('password_confirmation')
                             ->password()
                             ->required()
                             ->maxLength(255)
-                            ->dehydrated(fn ($state) => filled($state))
+                            ->dehydrated(fn ($state): bool => filled($state))
                             ->required(fn (string $context): bool => 'create' === $context)
                             ->same('password')
                             ->label('Confirm Password'),

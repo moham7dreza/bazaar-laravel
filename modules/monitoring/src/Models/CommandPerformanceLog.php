@@ -53,17 +53,17 @@ class CommandPerformanceLog extends Model
 
     protected function formattedRuntime(): Attribute
     {
-        return Attribute::make(get: fn () => number_format($this->runtime) . ' ms');
+        return Attribute::make(get: fn (): string => number_format($this->runtime) . ' ms');
     }
 
     protected function formattedMemoryUsage(): Attribute
     {
-        return Attribute::make(get: fn () => number_format($this->memory_usage) . ' bytes');
+        return Attribute::make(get: fn (): string => number_format($this->memory_usage) . ' bytes');
     }
 
     protected function formattedQueryTime(): Attribute
     {
-        return Attribute::make(get: fn () => number_format($this->query_time) . ' ms');
+        return Attribute::make(get: fn (): string => number_format($this->query_time) . ' ms');
     }
 
     #[Scope]

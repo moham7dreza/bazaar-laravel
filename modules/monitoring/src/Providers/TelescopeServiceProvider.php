@@ -23,7 +23,7 @@ final class TelescopeServiceProvider extends TelescopeApplicationServiceProvider
 
         $this->hideSensitiveRequestDetails();
 
-        Telescope::filter(fn (IncomingEntry $entry) => isEnvLocalOrTesting() ||
+        Telescope::filter(fn (IncomingEntry $entry): bool => isEnvLocalOrTesting() ||
             $entry->isReportableException()                                  ||
             $entry->isFailedRequest()                                        ||
             $entry->isFailedJob()                                            ||
@@ -43,7 +43,7 @@ final class TelescopeServiceProvider extends TelescopeApplicationServiceProvider
     #[Override]
     protected function gate(): void
     {
-        Gate::define('viewTelescope', static fn (?User $user) => ! isEnvLocalOrTesting() ? $user?->isAdmin() : true);
+        Gate::define('viewTelescope', static fn (?User $user): ?bool => ! isEnvLocalOrTesting() ? $user?->isAdmin() : true);
     }
 
     /**

@@ -20,7 +20,7 @@ final class CustomCurrentProcessesPerQueueCollector implements Collector
             ->value(fn () => collect(app(RedisQueueWorkloadRepository::class)->get())
                 ->sortBy('name')
                 ->values()
-                ->map(fn (array $workload) => [Arr::get($workload, 'processes'), [Arr::get($workload, 'name')]])
+                ->map(fn (array $workload): array => [Arr::get($workload, 'processes'), [Arr::get($workload, 'name')]])
                 ->all());
     }
 }

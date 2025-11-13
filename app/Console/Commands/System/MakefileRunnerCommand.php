@@ -106,12 +106,12 @@ class MakefileRunnerCommand extends Command
     {
         return search(
             label: 'Search for a script to run',
-            options: fn (string $value) => blank($value)
+            options: fn (string $value): array => blank($value)
                 ? array_keys($scripts) // Show all when empty
                 : array_values(
                     array_filter(
                         array_keys($scripts),
-                        fn ($script) => str_contains(mb_strtolower((string) $script), mb_strtolower($value))
+                        fn ($script): bool => str_contains(mb_strtolower((string) $script), mb_strtolower($value))
                     )
                 ),
             placeholder: 'E.g. test, build...',

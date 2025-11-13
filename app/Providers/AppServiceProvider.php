@@ -182,7 +182,7 @@ final class AppServiceProvider extends ServiceProvider
 
     private function configureGates(): void
     {
-        Gate::before(static fn (?User $user) => $user?->isAdmin());
+        Gate::before(static fn (?User $user): ?bool => $user?->isAdmin());
     }
 
     private function logSlowQuery(): void
@@ -240,7 +240,7 @@ final class AppServiceProvider extends ServiceProvider
 
     private function configureValidator(): void
     {
-        Validator::extend('mobile', static fn (string $attribute, mixed $value, array $parameters, Validator $validator) => ! ($validator->make(['password' => $value], [
+        Validator::extend('mobile', static fn (string $attribute, mixed $value, array $parameters, Validator $validator): bool => ! ($validator->make(['password' => $value], [
             'password' => 'numeric|digits:11|regex:/^09[0-9]{9}$/',
         ])->fails()));
 
@@ -350,7 +350,7 @@ final class AppServiceProvider extends ServiceProvider
 
     private function configureStringable(): void
     {
-        Stringable::macro('toJson', fn (?bool $associative = null, int $depth = 512, int $flags = 0) => json_decode($this->value(), $associative, $depth, $flags));
+        Stringable::macro('toJson', fn (?bool $associative = null, int $depth = 512, int $flags = 0): mixed => json_decode($this->value(), $associative, $depth, $flags));
     }
 
     private function configureStr(): void
@@ -403,7 +403,7 @@ final class AppServiceProvider extends ServiceProvider
          * just in time macro for builder
          * no query executed until you access the collection.
          */
-        EloquentBuilder::macro('jit', fn () => new ReflectionClass($this->getModel()->newCollection())
+        EloquentBuilder::macro('jit', fn (): object => new ReflectionClass($this->getModel()->newCollection())
             ->newLazyProxy(fn () => $this->get()));
     }
 
@@ -419,7 +419,7 @@ final class AppServiceProvider extends ServiceProvider
             new IgnoreBindingValidator(),
         ];
 
-        Route::macro('ignoreMissingBindings', fn () => true === Arr::get($this->action, 'ignoreMissingBindings'));
+        Route::macro('ignoreMissingBindings', fn (): bool => true === Arr::get($this->action, 'ignoreMissingBindings'));
     }
 
     private function configureBlueprint(): void
@@ -453,7 +453,7 @@ final class AppServiceProvider extends ServiceProvider
 
     private function bindSearchClient(): void
     {
-        $this->app->bind(Client::class, fn (Application $app) => ClientBuilder::create()
+        $this->app->bind(Client::class, fn (Application $app): Client => ClientBuilder::create()
             ->setHosts($app->make(Repository::class)->array('services.search.hosts'))
             ->build());
     }

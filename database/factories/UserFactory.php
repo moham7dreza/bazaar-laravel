@@ -72,7 +72,7 @@ class UserFactory extends Factory
 
     public function unverified(): static
     {
-        return $this->state(fn (array $attributes) => [
+        return $this->state(fn (array $attributes): array => [
             'email_verified_at'  => null,
             'mobile_verified_at' => null,
         ]);
@@ -92,7 +92,7 @@ class UserFactory extends Factory
 
     public function suspended(): static
     {
-        return $this->state(fn (array $attributes) => [
+        return $this->state(fn (array $attributes): array => [
             'suspended_at'    => Date::now(),
             'suspended_until' => Date::now()->addWeek(),
         ]);
@@ -106,7 +106,7 @@ class UserFactory extends Factory
      */
     private function getRealProfilePhotoFor(User $user): void
     {
-        $response = Http::retry(3, 100, fn ($e, $attempts) => $e instanceof ConnectionException)
+        $response = Http::retry(3, 100, fn ($e, $attempts): bool => $e instanceof ConnectionException)
             ->timeout(5)
             ->get('https://thispersondoesnotexist.com/');
         $response->throw();

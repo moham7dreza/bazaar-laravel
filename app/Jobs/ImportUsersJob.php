@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Jobs;
 
+use Illuminate\Foundation\Bus\PendingDispatch;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Queue\Queueable;
 use Illuminate\Http\Client\ConnectionException;
@@ -52,7 +53,7 @@ class ImportUsersJob implements ShouldQueue
         {
             $nextPage = $this->page + 1;
 
-            $batch->finally(fn () => dispatch(new ImportUsersJob($nextPage)));
+            $batch->finally(fn (): PendingDispatch => dispatch(new ImportUsersJob($nextPage)));
         }
         $batch->dispatch();
     }

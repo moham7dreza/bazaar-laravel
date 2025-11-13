@@ -108,6 +108,6 @@ final readonly class AdvertisementElasticSearchRepository implements Advertiseme
 
         return Advertisement::query()
             ->findMany($ids)
-            ->sortBy(fn (Advertisement $advertisement) => array_search($advertisement->getKey(), $ids, true));
+            ->sortBy(fn (Advertisement $advertisement): int|string|false => array_search($advertisement->getKey(), $ids, true));
     }
 }

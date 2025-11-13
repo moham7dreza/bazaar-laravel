@@ -13,7 +13,7 @@ final class PermissionManager
     {
         return collect($previousPerms)
             ->diffKeys($currentPerms)
-            ->map(fn ($granted, $permission) => [
+            ->map(fn ($granted, $permission): array => [
                 'permission'  => $permission,
                 'was_granted' => $granted,
                 'revoked_at'  => Date::now(),

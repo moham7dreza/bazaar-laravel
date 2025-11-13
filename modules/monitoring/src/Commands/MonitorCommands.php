@@ -363,7 +363,7 @@ class MonitorCommands extends Command
         // Daily performance table
         $this->components->info("\n📅 Daily Performance:");
 
-        $rows = $performance->map(fn ($day) => [
+        $rows = $performance->map(fn ($day): array => [
             $day->date,
             $day->executions,
             number_format($day->avg_runtime) . ' ms',
@@ -433,7 +433,7 @@ class MonitorCommands extends Command
         $this->components->info('Command Workload Overview');
         $this->components->info('=========================');
 
-        $rows = $workload->map(fn ($data) => [
+        $rows = $workload->map(fn ($data): array => [
             $data->category,
             $data->total_commands,
             $data->running_commands,
@@ -468,7 +468,7 @@ class MonitorCommands extends Command
             return;
         }
 
-        $rows = $running->map(fn (CommandPerformanceLog $command) => [
+        $rows = $running->map(fn (CommandPerformanceLog $command): array => [
             $command->id,
             $command->command,
             //                $command->category,
@@ -500,7 +500,7 @@ class MonitorCommands extends Command
             return;
         }
 
-        $rows = $slowCommands->map(fn (CommandPerformanceLog $command) => [
+        $rows = $slowCommands->map(fn (CommandPerformanceLog $command): array => [
             $command->command,
             //                $command->category,
             $command->formatted_runtime,

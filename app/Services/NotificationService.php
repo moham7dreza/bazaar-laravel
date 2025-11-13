@@ -31,7 +31,7 @@ final readonly class NotificationService
     public function formatNotifications($notifications)
     {
         return Collection::wrap($notifications)
-            ->map(fn ($notification) => [
+            ->map(fn ($notification): array => [
                 'id'        => $notification->id,
                 'message'   => $notification->content,
                 'timestamp' => $notification->created_at,

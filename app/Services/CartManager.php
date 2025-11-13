@@ -27,7 +27,7 @@ final readonly class CartManager
         $this->items
             ->forget(
                 collect($outOfStock)
-                    ->map(fn ($sku) => "product_{$sku}")
+                    ->map(fn ($sku): string => "product_{$sku}")
                     ->all()
             );
 

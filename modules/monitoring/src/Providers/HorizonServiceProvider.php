@@ -32,6 +32,6 @@ final class HorizonServiceProvider extends HorizonApplicationServiceProvider
     #[Override]
     protected function gate(): void
     {
-        Gate::define('viewHorizon', static fn (?User $user) => ! isEnvLocalOrTesting() ? $user?->isAdmin() : true);
+        Gate::define('viewHorizon', static fn (?User $user): ?bool => ! isEnvLocalOrTesting() ? $user?->isAdmin() : true);
     }
 }

@@ -37,7 +37,7 @@ final readonly class AdvertisementEloquentSearchRepository implements Advertisem
                         'tags',
                     ], 'like', '%' . $searchDTO->phrase . '%'))
                     ->when($searchDTO->ids, fn (Builder|Advertisement $builder) => $builder->whereIntegerInRaw('id', $searchDTO->ids))
-                    ->when($searchDTO->sort, fn (Builder|Advertisement $builder) => $builder->sortBy($searchDTO->sort))
+                    ->when($searchDTO->sort, fn (Builder|Advertisement $builder): Builder => $builder->sortBy($searchDTO->sort))
                     ->get()
             );
     }

@@ -63,7 +63,7 @@ final class RedisQueueWorkloadRepository implements WorkloadRepository
                 {
                     // Handle combined queues by splitting them
                     $splitQueues = collect(explode(',', $queueName))
-                        ->mapWithKeys(fn ($singleQueue) => [$singleQueue => $this->queue->connection($connection)->readyNow($singleQueue)]);
+                        ->mapWithKeys(fn ($singleQueue): array => [$singleQueue => $this->queue->connection($connection)->readyNow($singleQueue)]);
 
                     $splitQueues->each(function ($length, $singleQueue) use ($connection, $totalProcesses, &$combinedQueues): void {
                         if ( ! isset($combinedQueues[$singleQueue]))

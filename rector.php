@@ -39,9 +39,9 @@ return RectorConfig::configure()
     ])
     ->withPhpSets(php84: true)
     ->withPhpVersion(PhpVersion::PHP_84)
-    ->withTypeCoverageLevel(0)
+    ->withTypeCoverageLevel(10)
     ->withDeadCodeLevel(10)
-    ->withCodeQualityLevel(0)
+    ->withCodeQualityLevel(10)
     ->withImportNames(removeUnusedImports: true)
     ->withPreparedSets(
         privatization: true,

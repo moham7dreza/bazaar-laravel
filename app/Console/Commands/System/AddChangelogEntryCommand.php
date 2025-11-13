@@ -63,7 +63,7 @@ class AddChangelogEntryCommand extends Command
             $datetimeInput = text(
                 label: 'Date and time [YYYY-MM-DD HH:MM]',
                 default: $currentDatetime,
-                validate: fn ($value) => match (true)
+                validate: fn ($value): ?string => match (true)
                 {
                     filled($value) && ! Date::canBeCreatedFromFormat($value, 'Y-m-d H:i')                              => 'Invalid format. Please use YYYY-MM-DD HH:MM format (e.g. 2023-12-31 14:30)',
                     default                                                                                            => null
@@ -87,7 +87,7 @@ class AddChangelogEntryCommand extends Command
             label: 'Title of the change',
             placeholder: 'Be specific about what changed',
             required: true,
-            validate: fn ($value) => match (true)
+            validate: fn ($value): ?string => match (true)
             {
                 blank(mb_trim($value)) => 'Title cannot be empty',
                 default                => null
@@ -116,7 +116,7 @@ class AddChangelogEntryCommand extends Command
         $jiraTicket = text(
             label: 'Jira Ticket',
             placeholder: 'PROJ-123 or full URL (leave empty if none)',
-            validate: fn ($value) => match (true)
+            validate: fn ($value): ?string => match (true)
             {
                 filled($value) && ! $this->isValidJiraTicket($value)  => 'Invalid Jira ticket format. Use PROJ-123 or full Jira URL',
                 default                                               => null
@@ -126,7 +126,7 @@ class AddChangelogEntryCommand extends Command
         $mergeRequest = text(
             label: 'Merge Request URL or number',
             placeholder: '5072 or full URL (leave empty if none)',
-            validate: fn ($value) => match (true)
+            validate: fn ($value): ?string => match (true)
             {
                 filled($value) && ! $this->isValidMergeRequest($value)  => 'Invalid format. Use MR number or full GitLab MR URL',
                 default                                                 => null
@@ -142,7 +142,7 @@ class AddChangelogEntryCommand extends Command
             label: 'Description of the change',
             placeholder: 'Describe what changed and why...',
             required: true,
-            validate: fn ($value) => match (true)
+            validate: fn ($value): ?string => match (true)
             {
                 blank(mb_trim($value)) => 'Description cannot be empty',
                 default                => null

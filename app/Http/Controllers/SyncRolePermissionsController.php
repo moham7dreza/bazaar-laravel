@@ -21,7 +21,7 @@ final class SyncRolePermissionsController extends Controller
 
         // Verify admin-level permissions
         $requiresAdminPrivileges = $permissions
-            ->filter(fn (UserPermission $permission) => $permission->isAdminLevel())
+            ->filter(fn (UserPermission $permission): bool => $permission->isAdminLevel())
             ->isNotEmpty();
 
         if ($requiresAdminPrivileges && ! $request->user()->isAdmin())

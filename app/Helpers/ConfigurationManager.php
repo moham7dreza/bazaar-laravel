@@ -21,7 +21,7 @@ final readonly class ConfigurationManager
     {
         return collect($configs)
             ->map(fn ($config) => Arr::from($config))
-            ->reduce(fn ($carry, $item) => array_merge($carry, $item), []);
+            ->reduce(fn ($carry, $item): array => array_merge($carry, $item), []);
     }
 
     public function sanitizeAndStore($configuration, array $schema)
@@ -35,7 +35,7 @@ final readonly class ConfigurationManager
         return $data;
     }
 
-    private function validateSettings(array $settings)
+    private function validateSettings(array $settings): bool
     {
         return true;
     }

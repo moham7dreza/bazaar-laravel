@@ -28,7 +28,7 @@ if ( ! function_exists('getImageList'))
         $images = is_string($image) ? [$image] : $image;
 
         return is_array($images)
-            ? collect($images)->map(fn ($path) => asset($path))->unique()->all()
+            ? collect($images)->map(fn ($path): string => asset($path))->unique()->all()
             : asset($images);
     }
 

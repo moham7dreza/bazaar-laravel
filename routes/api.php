@@ -35,6 +35,7 @@ use Modules\Content\Http\Controllers\Admin\MenuController;
 use Modules\Content\Http\Controllers\Admin\PageController;
 use Modules\Content\Http\Controllers\App\MenuController as HomeMenuController;
 use Modules\Content\Http\Controllers\App\PageController as HomePageController;
+use Psr\Log\LoggerInterface;
 
 /**
  * Note: Route names are hard coded and repeated in every route
@@ -362,7 +363,7 @@ when(isEnvStaging(), function (): void {
 });
 
 when(isEnvLocal(), static function (): void {
-    Route::post('idempotency', static fn () => logger('idempotency passed'))
+    Route::post('idempotency', static fn (): ?LoggerInterface => logger('idempotency passed'))
         ->middleware(EnsureIdempotency::class)
         ->name('idempotency');
 
@@ -371,7 +372,7 @@ when(isEnvLocal(), static function (): void {
         waitSeconds: 5,
     );
 
-    Route::get('test-mailables', static fn () => new UserLandMail(
+    Route::get('test-mailables', static fn (): UserLandMail => new UserLandMail(
         subject: 'welcome',
         from: [
             [

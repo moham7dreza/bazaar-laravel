@@ -22,7 +22,7 @@ final class UserBatchUpdateCommand extends Command
             ->select('id')
             ->lazyById(100, 'id') // Get 100 users at a time from DB
             ->chunk(100) // Group into chunks of 100 users
-            ->map(fn (LazyCollection $users) => new UserUpdateJob($users->pluck('id')->all()))
+            ->map(fn (LazyCollection $users): UserUpdateJob => new UserUpdateJob($users->pluck('id')->all()))
             ->chunk(200); // Group jobs into batches of 200
 
         // Now dispatch each batch of 200 jobs

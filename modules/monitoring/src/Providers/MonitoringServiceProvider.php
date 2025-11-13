@@ -35,12 +35,12 @@ final class MonitoringServiceProvider extends ServiceProvider
 
     private function configureGates(): void
     {
-        Gate::define('viewPulse', static fn (?User $user) => ! isEnvLocalOrTesting() ? $user?->isAdmin() : true);
+        Gate::define('viewPulse', static fn (?User $user): ?bool => ! isEnvLocalOrTesting() ? $user?->isAdmin() : true);
     }
 
     private function configurePulse(): void
     {
-        Pulse::user(fn (User $user) => [
+        Pulse::user(fn (User $user): array => [
             'name'   => $user->name,
             'extra'  => $user->email,
             'avatar' => $user->avatar_url,
@@ -49,7 +49,7 @@ final class MonitoringServiceProvider extends ServiceProvider
 
     private function configureNightwatch(): void
     {
-        Nightwatch::user(fn (User $user) => [
+        Nightwatch::user(fn (User $user): array => [
             'name'     => $user->name,
             'username' => $user->email,
         ]);

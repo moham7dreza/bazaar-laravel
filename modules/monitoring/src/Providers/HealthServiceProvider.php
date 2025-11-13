@@ -37,7 +37,7 @@ final class HealthServiceProvider extends ServiceProvider
 
     public function boot(): void
     {
-        Gate::define('viewHealth', static fn (?User $user) => ! isEnvLocalOrTesting() ? $user?->isAdmin() : true);
+        Gate::define('viewHealth', static fn (?User $user): ?bool => ! isEnvLocalOrTesting() ? $user?->isAdmin() : true);
 
         $this->runHealthChecks();
     }

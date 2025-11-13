@@ -88,8 +88,8 @@ class ArtisanFinderCommand extends Command
         $input = 'Exact Match' === $method ? text('Search part of command') : null;
 
         $commandsTitles = $commands->keys()
-            ->reject(fn (string $command) => $command === $this->signature)
-            ->when($input, fn (Collection $commands) => $commands->filter(fn ($command) => $this->matchesSearchTerms($command, $input)))
+            ->reject(fn (string $command): bool => $command === $this->signature)
+            ->when($input, fn (Collection $commands) => $commands->filter(fn ($command): bool => $this->matchesSearchTerms($command, $input)))
             ->values()
             ->all();
 
@@ -103,7 +103,7 @@ class ArtisanFinderCommand extends Command
 
     private function matchesSearchTerms(string $command, string $input): bool
     {
-        return array_all(explode(' ', $input), fn ($term) => str_contains($command, $term));
+        return array_all(explode(' ', $input), fn ($term): bool => str_contains($command, (string) $term));
     }
 
     private function isCommandValid($commands, $commandName): bool
@@ -139,8 +139,8 @@ class ArtisanFinderCommand extends Command
 
     private function buildPlaceholderText($arguments, $options): string
     {
-        $argsList    = implode(' ', array_map(static fn ($arg) => $arg->getName() . ($arg->isRequired() ? '*' : ''), $arguments));
-        $optionsList = implode(' ', array_map(static fn ($opt) => '--' . $opt->getName() . ($opt->isValueRequired() ? '*' : ''), $options));
+        $argsList    = implode(' ', array_map(static fn ($arg): string => $arg->getName() . ($arg->isRequired() ? '*' : ''), $arguments));
+        $optionsList = implode(' ', array_map(static fn ($opt): string => '--' . $opt->getName() . ($opt->isValueRequired() ? '*' : ''), $options));
 
         return mb_trim("{$argsList} {$optionsList}");
     }

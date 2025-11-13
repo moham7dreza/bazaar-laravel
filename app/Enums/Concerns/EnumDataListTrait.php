@@ -10,7 +10,7 @@ trait EnumDataListTrait
 {
     public static function list(): array
     {
-        return array_map(static fn ($i) => ['name' => $i->name, 'value' => $i->value], self::cases());
+        return array_map(static fn ($i): array => ['name' => $i->name, 'value' => $i->value], self::cases());
     }
 
     public static function values(): array

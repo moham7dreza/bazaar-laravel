@@ -27,19 +27,19 @@ final readonly class SettingsManager
 
     public function getActivePaymentGateway(array $gateways)
     {
-        return Arr::sole($gateways, static fn ($gateway) => true === Arr::get($gateway, 'enabled'));
+        return Arr::sole($gateways, static fn ($gateway): bool => true === Arr::get($gateway, 'enabled'));
     }
 
     public function getPrimaryContact(array $contacts)
     {
-        return Arr::sole($contacts, static fn ($contact) => true === Arr::get($contact, 'is_primary'));
+        return Arr::sole($contacts, static fn ($contact): bool => true === Arr::get($contact, 'is_primary'));
     }
 
     public function findDeprecatedSettings(array $currentSettings, array $supportedSettings): Collection
     {
         return collect($currentSettings)
             ->diffKeys($supportedSettings)
-            ->map(fn ($value, $key) => [
+            ->map(fn ($value, $key): array => [
                 'setting'       => $key,
                 'current_value' => $value,
                 'deprecated_at' => Date::now(),

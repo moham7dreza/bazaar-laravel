@@ -28,7 +28,7 @@ final class HealthCheckController extends Controller
     {
         $this->registerChecks();
 
-        $result = array_map(fn ($check) => $this->newHealthStatusDto($check->run(), $check->getName())->toArray(), $this->healthChecker->registeredChecks()->toArray());
+        $result = array_map(fn ($check): array => $this->newHealthStatusDto($check->run(), $check->getName())->toArray(), $this->healthChecker->registeredChecks()->toArray());
 
         return ApiJsonResponse::success($result, message: __('response.general.successful'));
     }

@@ -107,7 +107,7 @@ class UnhydratedBuilder extends EloquentBuilder
         }
 
         $orders = collect($this->query->orders)
-            ->map(fn ($order) => [
+            ->map(fn ($order): array => [
                 'column'    => Arr::get($order, 'column'),
                 'direction' => Arr::get($order, 'direction'),
             ]);

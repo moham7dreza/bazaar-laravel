@@ -35,16 +35,16 @@ final class AdvertisementResource extends JsonResource
             'user_id'     => $this->user_id,
             //            'allCategories' => $this->getAllCategories($this->category),
             'category' => $this->category,
-            'gallery'  => $this->images->map(fn (Gallery $image) => [
+            'gallery'  => $this->images->map(fn (Gallery $image): array => [
                 'id'  => $image->id,
                 'url' => $image->url,
             ]),
-            'category_attributes' => $categoryAttributes->map(fn (CategoryAttribute $attribute) => [
+            'category_attributes' => $categoryAttributes->map(fn (CategoryAttribute $attribute): array => [
                 'id'   => $attribute->id,
                 'name' => $attribute->name,
                 'unit' => $attribute->unit,
             ]),
-            'category_values' => $categoryValues->map(fn (CategoryValue $value) => [
+            'category_values' => $categoryValues->map(fn (CategoryValue $value): array => [
                 'id'    => $value->id,
                 'value' => $value->value,
             ]),

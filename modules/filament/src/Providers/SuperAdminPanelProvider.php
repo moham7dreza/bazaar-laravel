@@ -131,7 +131,7 @@ final class SuperAdminPanelProvider extends PanelProvider
                         shouldRegisterNavigation: true,
                         hasAvatars: true,
                     )
-                    ->avatarUploadComponent(fn () => FileUpload::make('avatar_url')->disk(StorageDisk::Public->value))
+                    ->avatarUploadComponent(fn (): FileUpload => FileUpload::make('avatar_url')->disk(StorageDisk::Public->value))
                     ->enableTwoFactorAuthentication()
                     ->enableSanctumTokens(),
                 SpotlightPlugin::make(),
@@ -179,7 +179,7 @@ final class SuperAdminPanelProvider extends PanelProvider
 
     private function configureTable(): void
     {
-        Table::configureUsing(static fn (Table $table) => $table
+        Table::configureUsing(static fn (Table $table): bool => $table
             ->striped()
             ->persistFiltersInSession()
             ->persistSearchInSession()
@@ -199,7 +199,7 @@ final class SuperAdminPanelProvider extends PanelProvider
         return once(
             fn () => collect(config('tools'))->except('backend-admin')
                 ->map(
-                    fn (array $tool) => NavigationItem::make()
+                    fn (array $tool): NavigationItem => NavigationItem::make()
                         ->label(fn (): string => trans(Arr::get($tool, 'title')))
                         ->url(Arr::get($tool, 'url'), shouldOpenInNewTab: true)
                         ->icon(Arr::get($tool, 'heroicon'))
