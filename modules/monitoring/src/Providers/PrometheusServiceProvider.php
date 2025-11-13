@@ -72,13 +72,19 @@ final class PrometheusServiceProvider extends ServiceProvider
 
     public function registerQueueCollectors(array $queues = [], ?string $connection = null): self
     {
-        Prometheus::registerCollectorClasses([
-            QueueCollector\QueueSizeCollector::class,
-            QueueCollector\QueuePendingJobsCollector::class,
-            QueueCollector\QueueDelayedJobsCollector::class,
-            QueueCollector\QueueReservedJobsCollector::class,
-            QueueCollector\QueueOldestPendingJobCollector::class,
-        ]);
+        Prometheus::registerCollectorClasses(
+            collectors: [
+                QueueCollector\QueueSizeCollector::class,
+                QueueCollector\QueuePendingJobsCollector::class,
+                QueueCollector\QueueDelayedJobsCollector::class,
+                QueueCollector\QueueReservedJobsCollector::class,
+                QueueCollector\QueueOldestPendingJobCollector::class,
+            ],
+            constructorParameters: [
+                'connection' => $connection,
+                'queues'     => $queues,
+            ]
+        );
 
         return $this;
     }
