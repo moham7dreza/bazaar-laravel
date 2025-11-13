@@ -13,7 +13,7 @@ use Illuminate\Http\Resources\Json\ResourceCollection;
 use Illuminate\Support\Facades\Date;
 use Illuminate\Support\Facades\Log;
 use Modules\Advertise\Http\Controllers\Panel\HistoryAdvertisementController;
-use Modules\Advertise\Http\Requests\App\AdvertisementGridViewRequest;
+use Modules\Advertise\Http\Requests\App\AdvertisementListViewRequest;
 use Modules\Advertise\Models\Advertisement;
 use Modules\Advertise\Repositories\AdvertisementReadRepository;
 use Spatie\QueryBuilder\AllowedFilter;
@@ -28,7 +28,7 @@ final class AdvertisementController extends Controller
      *
      * @throws Throwable
      */
-    public function index(AdvertisementGridViewRequest $request, AdvertisementReadRepository $repository): ResourceCollection
+    public function index(AdvertisementListViewRequest $request, AdvertisementReadRepository $repository): ResourceCollection
     {
         info('search log [{date}].', ['date' => Date::now()->toDateTimeString()]);
 

@@ -9,7 +9,7 @@ use Illuminate\Validation\Rule;
 use Modules\Advertise\DataContracts\AdvertisementSearchDTO;
 use Modules\Advertise\Enums\Sort;
 
-final class AdvertisementGridViewRequest extends FormRequest
+final class AdvertisementListViewRequest extends FormRequest
 {
     public function authorize(): bool
     {
@@ -22,6 +22,7 @@ final class AdvertisementGridViewRequest extends FormRequest
             'phrase'   => ['string'],
             'sort'     => [Rule::enum(Sort::class)],
             'per_page' => ['integer'],
+            'page'     => ['integer'],
             'ids'      => ['array', Rule::exists('advertisements', 'id')->whereNull('deleted_at')],
         ];
     }
@@ -32,6 +33,7 @@ final class AdvertisementGridViewRequest extends FormRequest
             phrase: $this->str('phrase')->value(),
             sort: $this->enum('sort', Sort::class, Sort::Newest),
             perPage: $this->integer('per_page', 24),
+            page: $this->integer('page', 24),
             ids: $this->array('ids'),
         );
     }
