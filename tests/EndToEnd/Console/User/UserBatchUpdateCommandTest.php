@@ -13,7 +13,7 @@ use Tests\TestGroup;
 
 use function Pest\Laravel\artisan;
 
-pest()->group(TestGroup::MANUAL);
+pest()->group(TestGroup::Manual);
 
 test('can batch update 1000 users', function (): void {
 

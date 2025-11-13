@@ -11,7 +11,7 @@ use Tests\TestGroup;
 use function Pest\Laravel\assertGreaterThan;
 use function Pest\Laravel\assertTrue;
 
-pest()->group(TestGroup::MANUAL);
+pest()->group(TestGroup::Manual);
 
 it('can get backend url details from front api', function (): void {
 

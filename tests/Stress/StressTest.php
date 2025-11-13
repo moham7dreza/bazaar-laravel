@@ -6,7 +6,7 @@ use Tests\TestGroup;
 
 use function Pest\Stressless\stress;
 
-pest()->group(TestGroup::MANUAL);
+pest()->group(TestGroup::Manual);
 
 it('has a fast response time', function (): void {
     $result = stress('http://bazaar.local')

@@ -6,7 +6,7 @@ namespace Tests;
 
 class TestGroup
 {
-    public const MAIN_FLOW = 'main-flow';
+    public const string MainFlow = 'main-flow';
 
-    public const MANUAL    = 'manual';
+    public const string Manual   = 'manual';
 }

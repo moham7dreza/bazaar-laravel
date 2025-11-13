@@ -7,7 +7,7 @@ use Tests\TestGroup;
 
 use function Pest\Laravel\getJson;
 
-pest()->group(TestGroup::MANUAL);
+pest()->group(TestGroup::Manual);
 
 it('test next js api', function (): void {
 
