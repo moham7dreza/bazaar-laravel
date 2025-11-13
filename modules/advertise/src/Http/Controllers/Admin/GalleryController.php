@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Modules\Advertise\Http\Controllers\Admin;
 
+use Illuminate\Support\Arr;
 use App\Http\Controllers\Controller;
 use App\Http\Responses\ApiJsonResponse;
 use App\Services\Image\ImageService;
@@ -39,7 +40,7 @@ final class GalleryController extends Controller
 
         if ($result = $imageService->upload($request->getDTO()))
         {
-            \Illuminate\Support\Arr::set($inputs, 'url', $result);
+            Arr::set($inputs, 'url', $result);
         } else
         {
             return ApiJsonResponse::error(500, message: __('response.image.upload failed'));
@@ -66,7 +67,7 @@ final class GalleryController extends Controller
         $inputs = $request->all();
         if ($result = $imageService->update($request->getDTO(), $gallery->url))
         {
-            \Illuminate\Support\Arr::set($inputs, 'url', $result);
+            Arr::set($inputs, 'url', $result);
         } else
         {
             return ApiJsonResponse::error(500, message: __('response.image.upload failed'));

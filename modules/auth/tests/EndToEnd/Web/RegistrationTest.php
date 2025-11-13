@@ -2,6 +2,7 @@
 
 declare(strict_types=1);
 
+use function Pest\Laravel\assertAuthenticated;
 use function Pest\Laravel\post;
 
 test('new users can register', function (): void {
@@ -13,6 +14,6 @@ test('new users can register', function (): void {
         'mobile'                => '09141234567',
     ]);
 
-    Pest\Laravel\assertAuthenticated();
+    assertAuthenticated();
     $response->assertNoContent();
 });

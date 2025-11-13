@@ -2,13 +2,15 @@
 
 declare(strict_types=1);
 
+use function Pest\Laravel\getJson;
+use function Pest\Laravel\assertModelExists;
 use App\Models\Geo\City;
 
 it('can get all active cities', function (): void {
 
     $city = City::factory()->create();
 
-    $response = \Pest\Laravel\getJson(route('api.cities.index'))->assertOk();
+    $response = getJson(route('api.cities.index'))->assertOk();
 
     expect($response->json('data'))->toHaveLength(1);
 
@@ -19,5 +21,5 @@ it('can get all active cities', function (): void {
         ->name->toBeString()
         ->status->toBeBool();
 
-    Pest\Laravel\assertModelExists($city);
+    assertModelExists($city);
 });

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Services\Image\Upload;
 
+use Illuminate\Support\Arr;
 use App\Data\DTOs\Image\ImageUploadDTO;
 use App\Helpers\TimeUtility;
 use App\Services\Image\ImageService;
@@ -57,15 +58,15 @@ final readonly class CreateIndexAndSaveImageUploaderService implements ImageUplo
                 $this->imageService->provider();
 
                 Image::read($DTO->image->getRealPath())
-                    ->resizeDown(\Illuminate\Support\Arr::get($imageSize, 'width'), \Illuminate\Support\Arr::get($imageSize, 'height'))
+                    ->resizeDown(Arr::get($imageSize, 'width'), Arr::get($imageSize, 'height'))
                     ->save(public_path($this->imageService->getImageAddress()), $this->imageService->getImageFormat());
 
                 $indexArray[$sizeAlias] = $this->imageService->getImageAddress();
             }
 
-            \Illuminate\Support\Arr::set($images, 'indexArray', $indexArray);
-            \Illuminate\Support\Arr::set($images, 'directory', $this->imageService->getFinalImageDirectory());
-            \Illuminate\Support\Arr::set($images, 'currentImage', config('image-index.default-current-index-image'));
+            Arr::set($images, 'indexArray', $indexArray);
+            Arr::set($images, 'directory', $this->imageService->getFinalImageDirectory());
+            Arr::set($images, 'currentImage', config('image-index.default-current-index-image'));
 
             return $images;
 

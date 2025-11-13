@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Console\Commands\System;
 
+use Illuminate\Support\Arr;
 use Exception;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Cache;
@@ -184,9 +185,9 @@ final class CacheUiLaravelCommand extends Command
 
                     // Try to unserialize to get the actual key
                     $data = unserialize($serialized);
-                    if (is_array($data) && null !== \Illuminate\Support\Arr::get($data, 'key'))
+                    if (is_array($data) && null !== Arr::get($data, 'key'))
                     {
-                        $keys[] = \Illuminate\Support\Arr::get($data, 'key');
+                        $keys[] = Arr::get($data, 'key');
                     } else
                     {
                         // Fallback to filename if we can't extract the key
@@ -312,7 +313,7 @@ final class CacheUiLaravelCommand extends Command
 
                     // Try to unserialize to get the data
                     $data = unserialize($serialized);
-                    if (is_array($data) && null !== \Illuminate\Support\Arr::get($data, 'key') && \Illuminate\Support\Arr::get($data, 'key') === $key)
+                    if (is_array($data) && null !== Arr::get($data, 'key') && Arr::get($data, 'key') === $key)
                     {
                         return File::delete($file->getPathname());
                     }

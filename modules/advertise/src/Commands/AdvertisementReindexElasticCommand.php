@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Modules\Advertise\Commands;
 
-use Elastic\Elasticsearch;
+use Elastic\Elasticsearch\Client;
 use Illuminate\Console\Command;
 use Modules\Advertise\Models\Advertisement;
 
@@ -16,7 +16,7 @@ class AdvertisementReindexElasticCommand extends Command
 
     protected $description = 'Command description';
 
-    public function handle(Elasticsearch\Client $elasticsearch): int
+    public function handle(Client $elasticsearch): int
     {
         info('Indexing all ads. This might take a while...');
 

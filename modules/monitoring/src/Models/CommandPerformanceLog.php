@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Modules\Monitoring\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Attributes\Scope;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Casts\AsFluent;
@@ -15,7 +16,7 @@ use Modules\Monitoring\Enums\CommandLoggingStatus;
 
 class CommandPerformanceLog extends Model
 {
-    use \Illuminate\Database\Eloquent\Factories\HasFactory;
+    use HasFactory;
     use Prunable;
 
     protected $guarded = [];
@@ -64,13 +65,6 @@ class CommandPerformanceLog extends Model
     {
         return Attribute::make(get: fn () => number_format($this->query_time) . ' ms');
     }
-
-    /** @attribute category */
-//    public function getCategoryAttribute(): string
-//    {
-//        $parts = explode(':', $this->command, 2);
-//        return count($parts) > 1 ? $parts[0] : 'general';
-//    }
 
     #[Scope]
     protected function byCategory($query, string $category)

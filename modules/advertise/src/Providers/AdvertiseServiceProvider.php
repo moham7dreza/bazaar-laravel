@@ -5,13 +5,15 @@ declare(strict_types=1);
 namespace Modules\Advertise\Providers;
 
 use Database\Seeders\DatabaseSeeder;
-use Elastic\Elasticsearch;
+use Elastic\Elasticsearch\Client;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Support\ServiceProvider;
 use Modules\Advertise\Commands\AdvertisementLadderCommand;
 use Modules\Advertise\Commands\AdvertisementReindexElasticCommand;
 use Modules\Advertise\Database\Seeders\AdvertiseSeeder;
-use Modules\Advertise\Repositories\Search;
+use Modules\Advertise\Repositories\Search\AdvertisementElasticSearchRepository;
+use Modules\Advertise\Repositories\Search\AdvertisementEloquentSearchRepository;
+use Modules\Advertise\Repositories\Search\AdvertisementSearchRepository;
 use Override;
 
 final class AdvertiseServiceProvider extends ServiceProvider
@@ -42,14 +44,14 @@ final class AdvertiseServiceProvider extends ServiceProvider
 
     private function bindSearchRepository(): void
     {
-         $this->app->bind(function (Application $app): Search\AdvertisementSearchRepository {
+         $this->app->bind(function (Application $app): AdvertisementSearchRepository {
             if ( ! config()->boolean('services.search.enabled'))
             {
-                return new Search\AdvertisementEloquentSearchRepository();
+                return new AdvertisementEloquentSearchRepository();
             }
 
-            return new Search\AdvertisementElasticSearchRepository(
-                $app->make(Elasticsearch\Client::class)
+            return new AdvertisementElasticSearchRepository(
+                $app->make(Client::class)
             );
         });
     }

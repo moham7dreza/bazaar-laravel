@@ -2,6 +2,10 @@
 
 declare(strict_types=1);
 
+use Tests\UnitTestCase;
+use Spatie\Permission\Models\Permission;
+use Illuminate\Validation\ValidationException;
+use Illuminate\Foundation\Http\FormRequest;
 use App\Enums\UserPermission;
 use App\Models\User;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
@@ -12,7 +16,7 @@ pest()->extend(TestCase::class)
     ->use(DatabaseTransactions::class)
     ->in('Feature', 'EndToEnd', '../modules/*/tests/Feature', '../modules/*/tests/EndToEnd');
 
-pest()->extend(Tests\UnitTestCase::class)
+pest()->extend(UnitTestCase::class)
     ->in('Arch', 'Unit', '../modules/*/tests/Arch', '../modules/*/tests/Unit');
 
 expect()->extend(
@@ -67,7 +71,7 @@ function asAnAuthenticatedUser(): TestCase
 function asAdminUser(User $user): TestCase
 {
     // TODO: fix seeder and remove
-    Spatie\Permission\Models\Permission::findOrCreate(UserPermission::SeePanel->value);
+    Permission::findOrCreate(UserPermission::SeePanel->value);
 
     $user->givePermissionTo(
         UserPermission::SeePanel,
@@ -81,7 +85,7 @@ function asAdminUser(User $user): TestCase
  * It will return an empty array if validation succeeds or an array of failed parameter names
  * in case of validation failures.
  *
- * @param  class-string<Illuminate\Foundation\Http\FormRequest>  $class
+ * @param class-string<FormRequest> $class
  *
  * @throws ReflectionException
  */
@@ -94,7 +98,7 @@ function validateFormRequest(string $class, array $parameters): array
         app($class);
 
         return [];
-    } catch (Illuminate\Validation\ValidationException $e)
+    } catch (ValidationException $e)
     {
         return $e->validator->errors()->keys();
     }

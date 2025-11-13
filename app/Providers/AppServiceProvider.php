@@ -20,7 +20,8 @@ use App\Rules\ValidateNationalCodeRule;
 use App\Services\Manager;
 use App\Services\TranslationService;
 use Carbon\CarbonImmutable;
-use Elastic\Elasticsearch;
+use Elastic\Elasticsearch\Client;
+use Elastic\Elasticsearch\ClientBuilder;
 use Filament\Notifications\Auth\VerifyEmail;
 use Illuminate\Console\Scheduling\Event;
 use Illuminate\Contracts\Config\Repository;
@@ -452,7 +453,7 @@ final class AppServiceProvider extends ServiceProvider
 
     private function bindSearchClient(): void
     {
-        $this->app->bind(Elasticsearch\Client::class, fn (Application $app) => Elasticsearch\ClientBuilder::create()
+        $this->app->bind(Client::class, fn (Application $app) => ClientBuilder::create()
             ->setHosts($app->make(Repository::class)->array('services.search.hosts'))
             ->build());
     }

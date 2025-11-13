@@ -7,8 +7,10 @@ use App\Http\Controllers\App\Home\CityController;
 use App\Http\Controllers\ImageController;
 use App\Http\Middleware\EnsureMobileIsVerified;
 use App\Http\Middleware\MetricsLoggerMiddleware;
+use App\Mail\UserLandMail;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use Infinitypaul\Idempotency\Middleware\EnsureIdempotency;
 use Modules\Advertise\Http\Controllers\Admin\AdvertisementController;
 use Modules\Advertise\Http\Controllers\Admin\CategoryAttributeController;
 use Modules\Advertise\Http\Controllers\Admin\CategoryController;
@@ -66,16 +68,35 @@ Route::prefix('auth')
 | Primary Routes
 |--------------------------------------------------------------------------
 */
-Route::get('categories', [HomeCategoryController::class, 'index'])
-    ->name('api.categories.index');
-Route::get('menus', [HomeMenuController::class, 'index'])
-    ->name('api.menus.index');
-Route::get('pages', [HomePageController::class, 'index'])
-    ->name('api.pages.index');
-Route::get('states', [HomeStateController::class, 'index'])
-    ->name('api.states.index');
-Route::get('cities', [CityController::class, 'index'])
-    ->name('api.cities.index');
+Route::controller(HomeCategoryController::class)
+    ->group(function (): void {
+        Route::get('categories', 'index')
+            ->name('api.categories.index');
+    });
+
+Route::controller(HomeMenuController::class)
+    ->group(function (): void {
+        Route::get('menus', 'index')
+            ->name('api.menus.index');
+    });
+
+Route::controller(HomePageController::class)
+    ->group(function (): void {
+        Route::get('pages', 'index')
+            ->name('api.pages.index');
+    });
+
+Route::controller(HomeStateController::class)
+    ->group(function (): void {
+        Route::get('states', 'index')
+            ->name('api.states.index');
+    });
+
+Route::controller(CityController::class)
+    ->group(function (): void {
+        Route::get('cities', 'index')
+            ->name('api.cities.index');
+    });
 /*
 |--------------------------------------------------------------------------
 | Advertisement Routes
@@ -342,7 +363,7 @@ when(isEnvStaging(), function (): void {
 
 when(isEnvLocal(), static function (): void {
     Route::post('idempotency', static fn () => logger('idempotency passed'))
-        ->middleware(Infinitypaul\Idempotency\Middleware\EnsureIdempotency::class)
+        ->middleware(EnsureIdempotency::class)
         ->name('idempotency');
 
     Route::get('lock-test', static fn () => print 1)->block(
@@ -350,7 +371,7 @@ when(isEnvLocal(), static function (): void {
         waitSeconds: 5,
     );
 
-    Route::get('test-mailables', static fn () => new App\Mail\UserLandMail(
+    Route::get('test-mailables', static fn () => new UserLandMail(
         subject: 'welcome',
         from: [
             [

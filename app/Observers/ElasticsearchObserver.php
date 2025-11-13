@@ -4,12 +4,13 @@ declare(strict_types=1);
 
 namespace App\Observers;
 
+use Elastic\Elasticsearch\Client;
 use Elastic\Elasticsearch;
 
 final readonly class ElasticsearchObserver
 {
     public function __construct(
-        private Elasticsearch\Client $elasticsearchClient
+        private Client $elasticsearchClient
     ) {
     }
 

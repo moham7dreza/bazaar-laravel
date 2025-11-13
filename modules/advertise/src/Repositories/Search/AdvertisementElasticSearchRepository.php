@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Modules\Advertise\Repositories\Search;
 
-use Elastic\Elasticsearch;
+use Elastic\Elasticsearch\Client;
 use Elastic\Elasticsearch\Exception\ClientResponseException;
 use Elastic\Elasticsearch\Exception\ServerResponseException;
 use Illuminate\Database\Eloquent\Collection;
@@ -16,7 +16,7 @@ use Modules\Advertise\Models\Advertisement;
 final readonly class AdvertisementElasticSearchRepository implements AdvertisementSearchRepository
 {
     public function __construct(
-        private Elasticsearch\Client $elasticsearch,
+        private Client $elasticsearch,
     ) {
     }
 

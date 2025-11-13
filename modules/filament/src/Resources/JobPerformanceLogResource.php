@@ -4,6 +4,19 @@ declare(strict_types=1);
 
 namespace Modules\Filament\Resources;
 
+use Modules\Filament\Resources\JobPerformanceLogResource\Widgets\StatsOverview;
+use Filament\Forms\Components\Section;
+use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\DatePicker;
+use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Filters\QueryBuilder;
+use Filament\Tables\Filters\QueryBuilder\Constraints\TextConstraint;
+use Filament\Tables\Filters\QueryBuilder\Constraints\NumberConstraint;
+use Filament\Tables\Filters\QueryBuilder\Constraints\DateConstraint;
+use Filament\Tables\Enums\FiltersLayout;
+use Filament\Tables\Actions\ViewAction;
+use Modules\Filament\Resources\JobPerformanceLogResource\Pages\ListJobPerformanceLogs;
+use Modules\Filament\Resources\JobPerformanceLogResource\Pages\ViewJobPerformanceLog;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
@@ -42,7 +55,7 @@ final class JobPerformanceLogResource extends Resource
     public static function getWidgets(): array
     {
         return [
-            JobPerformanceLogResource\Widgets\StatsOverview::class,
+            StatsOverview::class,
         ];
     }
 
@@ -51,43 +64,43 @@ final class JobPerformanceLogResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\Section::make()
+                Section::make()
                     ->translateLabel()
                     ->columns()
                     ->schema([
-                        Forms\Components\TextInput::make('job')
+                        TextInput::make('job')
                             ->required()
                             ->string()
                             ->translateLabel(),
-                        Forms\Components\TextInput::make('connection')
+                        TextInput::make('connection')
                             ->required()
                             ->string()
                             ->translateLabel(),
-                        Forms\Components\TextInput::make('queue')
+                        TextInput::make('queue')
                             ->required()
                             ->string()
                             ->translateLabel(),
-                        Forms\Components\TextInput::make('attempts')
+                        TextInput::make('attempts')
                             ->required()
                             ->string()
                             ->translateLabel(),
-                        Forms\Components\DatePicker::make('started_at')
+                        DatePicker::make('started_at')
                             ->required()
                             ->date()
                             ->translateLabel(),
-                        Forms\Components\TextInput::make('query_time')
+                        TextInput::make('query_time')
                             ->required()
                             ->numeric()
                             ->translateLabel(),
-                        Forms\Components\TextInput::make('query_count')
+                        TextInput::make('query_count')
                             ->required()
                             ->numeric()
                             ->translateLabel(),
-                        Forms\Components\TextInput::make('runtime')
+                        TextInput::make('runtime')
                             ->required()
                             ->numeric()
                             ->translateLabel(),
-                        Forms\Components\TextInput::make('memory_usage')
+                        TextInput::make('memory_usage')
                             ->required()
                             ->numeric()
                             ->translateLabel(),
@@ -100,34 +113,34 @@ final class JobPerformanceLogResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('job')->translateLabel()->sortable()->searchable(),
-                Tables\Columns\TextColumn::make('queue')->translateLabel()->sortable()->searchable(),
-                Tables\Columns\TextColumn::make('connection')->translateLabel()->sortable()->searchable(),
-                Tables\Columns\TextColumn::make('attempts')->translateLabel()->sortable(),
-                Tables\Columns\TextColumn::make('query_time')->translateLabel()->sortable(),
-                Tables\Columns\TextColumn::make('query_count')->translateLabel()->sortable(),
-                Tables\Columns\TextColumn::make('memory_usage')->translateLabel()->sortable(),
-                Tables\Columns\TextColumn::make('runtime')->translateLabel()->sortable(),
-                Tables\Columns\TextColumn::make('started_at')->translateLabel()->sortable(),
+                TextColumn::make('job')->translateLabel()->sortable()->searchable(),
+                TextColumn::make('queue')->translateLabel()->sortable()->searchable(),
+                TextColumn::make('connection')->translateLabel()->sortable()->searchable(),
+                TextColumn::make('attempts')->translateLabel()->sortable(),
+                TextColumn::make('query_time')->translateLabel()->sortable(),
+                TextColumn::make('query_count')->translateLabel()->sortable(),
+                TextColumn::make('memory_usage')->translateLabel()->sortable(),
+                TextColumn::make('runtime')->translateLabel()->sortable(),
+                TextColumn::make('started_at')->translateLabel()->sortable(),
             ])
             ->filters([
-                Tables\Filters\QueryBuilder::make()
+                QueryBuilder::make()
                     ->constraints([
-                        Constraints\TextConstraint::make('job')->translateLabel(),
-                        Constraints\TextConstraint::make('connection')->translateLabel(),
-                        Constraints\TextConstraint::make('queue')->translateLabel(),
-                        Constraints\NumberConstraint::make('attempts')->translateLabel(),
-                        Constraints\NumberConstraint::make('query_time')->translateLabel(),
-                        Constraints\NumberConstraint::make('query_count')->translateLabel(),
-                        Constraints\NumberConstraint::make('memory_usage')->translateLabel(),
-                        Constraints\NumberConstraint::make('runtime')->translateLabel(),
-                        Constraints\DateConstraint::make('started_at')->translateLabel(),
+                        TextConstraint::make('job')->translateLabel(),
+                        TextConstraint::make('connection')->translateLabel(),
+                        TextConstraint::make('queue')->translateLabel(),
+                        NumberConstraint::make('attempts')->translateLabel(),
+                        NumberConstraint::make('query_time')->translateLabel(),
+                        NumberConstraint::make('query_count')->translateLabel(),
+                        NumberConstraint::make('memory_usage')->translateLabel(),
+                        NumberConstraint::make('runtime')->translateLabel(),
+                        DateConstraint::make('started_at')->translateLabel(),
                     ])
                     ->constraintPickerColumns(),
-            ], layout: Tables\Enums\FiltersLayout::AboveContentCollapsible)
+            ], layout: FiltersLayout::AboveContentCollapsible)
             ->deferFilters()
             ->actions([
-                Tables\Actions\ViewAction::make(),
+                ViewAction::make(),
             ], position: ActionsPosition::BeforeColumns)
             ->bulkActions([
 
@@ -146,8 +159,8 @@ final class JobPerformanceLogResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => JobPerformanceLogResource\Pages\ListJobPerformanceLogs::route('/'),
-            'view'  => JobPerformanceLogResource\Pages\ViewJobPerformanceLog::route('/{record}'),
+            'index' => ListJobPerformanceLogs::route('/'),
+            'view'  => ViewJobPerformanceLog::route('/{record}'),
         ];
     }
 

@@ -13,6 +13,9 @@ use Modules\Advertise\Models\CategoryAttribute;
 use Modules\Advertise\Models\CategoryValue;
 use Modules\Advertise\Models\Gallery;
 
+use function Pest\Laravel\assertModelExists;
+use function Pest\Laravel\getJson;
+
 beforeEach(function (): void {
 
     $this->advertisement = Advertisement::factory()
@@ -31,7 +34,7 @@ beforeEach(function (): void {
 
 afterEach(function (): void {
 
-    \Pest\Laravel\assertModelExists($this->advertisement);
+    assertModelExists($this->advertisement);
 });
 
 it('can get all advertisements', function (): void {
@@ -39,7 +42,7 @@ it('can get all advertisements', function (): void {
     $queries = collect();
     DB::listen($queries->push(...));
 
-    $response = \Pest\Laravel\getJson(route('api.advertisements.index', [
+    $response = getJson(route('api.advertisements.index', [
         'title' => 'adv',
         'sort'  => Sort::Newest,
     ]))->assertOk();
@@ -55,7 +58,7 @@ it('can get all advertisements', function (): void {
 
 it('can show a single advertisement', function (): void {
 
-    $response = \Pest\Laravel\getJson(route('api.advertisements.show', $this->advertisement->id))->assertOk();
+    $response = getJson(route('api.advertisements.show', $this->advertisement->id))->assertOk();
 
     $data = $response->json('data');
 

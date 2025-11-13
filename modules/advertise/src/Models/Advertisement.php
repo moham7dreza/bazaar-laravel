@@ -26,6 +26,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasManyThrough;
+use Illuminate\Database\Eloquent\Relations\Pivot;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\Date;
 use Modules\Advertise\Database\Factories\AdvertisementFactory;
@@ -94,7 +95,7 @@ final class Advertisement extends Model
     }
 
     /**
-     * @return BelongsToMany<User, $this, \Illuminate\Database\Eloquent\Relations\Pivot>
+     * @return BelongsToMany<User, $this, Pivot>
      */
     public function favoritedByUsers(): BelongsToMany
     {
@@ -102,7 +103,7 @@ final class Advertisement extends Model
     }
 
     /**
-     * @return BelongsToMany<CategoryValue, $this, \Illuminate\Database\Eloquent\Relations\Pivot>
+     * @return BelongsToMany<CategoryValue, $this, Pivot>
      */
     public function categoryValues(): BelongsToMany
     {
@@ -126,7 +127,7 @@ final class Advertisement extends Model
     }
 
     /**
-     * @return BelongsToMany<User, $this, \Illuminate\Database\Eloquent\Relations\Pivot>
+     * @return BelongsToMany<User, $this, Pivot>
      */
     public function viewedByUsers(): BelongsToMany
     {

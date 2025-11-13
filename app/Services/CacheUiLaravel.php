@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Services;
 
+use Illuminate\Support\Facades\File;
+use Symfony\Component\Finder\SplFileInfo;
 use Exception;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
@@ -66,14 +68,14 @@ final class CacheUiLaravel
         {
             $cachePath = config('cache.stores.file.path', storage_path('framework/cache/data'));
 
-            if ( ! \Illuminate\Support\Facades\File::exists($cachePath))
+            if ( ! File::exists($cachePath))
             {
                 return [];
             }
 
-            $files = \Illuminate\Support\Facades\File::allFiles($cachePath);
+            $files = File::allFiles($cachePath);
 
-            return array_map(fn (\Symfony\Component\Finder\SplFileInfo $file) => $file->getFilename(), $files);
+            return array_map(fn (SplFileInfo $file) => $file->getFilename(), $files);
         } catch (Exception)
         {
             return [];

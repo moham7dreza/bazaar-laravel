@@ -2,6 +2,8 @@
 
 declare(strict_types=1);
 
+use function Pest\Laravel\getJson;
+use function Pest\Laravel\assertModelExists;
 use Modules\Advertise\Models\Advertisement;
 use Modules\Advertise\Models\Category;
 
@@ -15,7 +17,7 @@ it('can get all parent categories', function (): void {
 
     expect($category->parent_id)->not->toBeNull();
 
-    $response = \Pest\Laravel\getJson(route('api.categories.index'))->assertOk();
+    $response = getJson(route('api.categories.index'))->assertOk();
 
     expect($response->json('data'))->toHaveLength(1);
 
@@ -27,5 +29,5 @@ it('can get all parent categories', function (): void {
         ->slug->toBeString()
         ->icon->toBeString();
 
-    Pest\Laravel\assertModelExists($category);
+    assertModelExists($category);
 });

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Modules\Monitoring\Collectors\Horizon;
 
+use Illuminate\Support\Arr;
 use Modules\Monitoring\Repositories\RedisQueueWorkloadRepository;
 use Spatie\Prometheus\Collectors\Collector;
 use Spatie\Prometheus\Facades\Prometheus;
@@ -19,7 +20,7 @@ final class CustomCurrentQueueWaitCollector implements Collector
             ->value(fn () => collect(app(RedisQueueWorkloadRepository::class)->get())
                 ->sortBy('name')
                 ->values()
-                ->map(fn (array $workload) => [\Illuminate\Support\Arr::get($workload, 'wait'), [\Illuminate\Support\Arr::get($workload, 'name')]])
+                ->map(fn (array $workload) => [Arr::get($workload, 'wait'), [Arr::get($workload, 'name')]])
                 ->all());
     }
 }

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Orders;
 
+use Illuminate\Support\Arr;
 use Illuminate\Database\Query\Builder;
 
 final class Sort
@@ -26,7 +27,7 @@ final class Sort
         {
             $sortOrder = 'ASC';
 
-            if ('-' === \Illuminate\Support\Arr::get($sortField, 0))
+            if ('-' === Arr::get($sortField, 0))
             {
                 $sortOrder = 'DESC';
                 $sortField = mb_substr($sortField, 1);

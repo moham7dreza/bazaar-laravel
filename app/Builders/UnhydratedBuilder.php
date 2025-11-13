@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Builders;
 
+use Illuminate\Support\Arr;
 use Closure;
 use Illuminate\Contracts\Pagination\CursorPaginator;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
@@ -107,8 +108,8 @@ class UnhydratedBuilder extends EloquentBuilder
 
         $orders = collect($this->query->orders)
             ->map(fn ($order) => [
-                'column'    => \Illuminate\Support\Arr::get($order, 'column'),
-                'direction' => \Illuminate\Support\Arr::get($order, 'direction'),
+                'column'    => Arr::get($order, 'column'),
+                'direction' => Arr::get($order, 'direction'),
             ]);
 
         $cursor = $cursor instanceof Cursor

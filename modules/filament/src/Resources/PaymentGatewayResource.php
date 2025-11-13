@@ -4,6 +4,17 @@ declare(strict_types=1);
 
 namespace Modules\Filament\Resources;
 
+use Filament\Forms\Components\Toggle;
+use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Columns\IconColumn;
+use Filament\Tables\Actions\EditAction;
+use Filament\Tables\Actions\BulkActionGroup;
+use Filament\Tables\Actions\DeleteBulkAction;
+use Modules\Filament\Resources\PaymentGatewayResource\Pages\ListPaymentGateways;
+use Modules\Filament\Resources\PaymentGatewayResource\Pages\CreatePaymentGateway;
+use Modules\Filament\Resources\PaymentGatewayResource\Pages\EditPaymentGateway;
+use Filament\Forms\Components\Select;
+use Filament\Forms\Components\Section;
 use App\Enums\PaymentGateways;
 use App\Models\PaymentGateway;
 use Filament\Forms;
@@ -34,7 +45,7 @@ final class PaymentGatewayResource extends Resource
             ->schema([
                 ...self::getConfigInputs(),
 
-                Forms\Components\Toggle::make('status')
+                Toggle::make('status')
                     ->required(),
             ]);
     }
@@ -44,19 +55,19 @@ final class PaymentGatewayResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('gateway')
+                TextColumn::make('gateway')
                     ->formatStateUsing(fn ($state): string => __('payment-gateways.' . $state)),
 
-                Tables\Columns\IconColumn::make('status')
+                IconColumn::make('status')
                     ->boolean(),
-                Tables\Columns\TextColumn::make('sort_order')
+                TextColumn::make('sort_order')
                     ->numeric()
                     ->sortable(),
-                Tables\Columns\TextColumn::make('created_at')
+                TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
-                Tables\Columns\TextColumn::make('updated_at')
+                TextColumn::make('updated_at')
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
@@ -65,12 +76,12 @@ final class PaymentGatewayResource extends Resource
 
             ])
             ->actions([
-                Tables\Actions\EditAction::make(),
+                EditAction::make(),
 
             ])
             ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
+                BulkActionGroup::make([
+                    DeleteBulkAction::make(),
                 ]),
             ]);
     }
@@ -79,9 +90,9 @@ final class PaymentGatewayResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index'  => PaymentGatewayResource\Pages\ListPaymentGateways::route('/'),
-            'create' => PaymentGatewayResource\Pages\CreatePaymentGateway::route('/create'),
-            'edit'   => PaymentGatewayResource\Pages\EditPaymentGateway::route('/{record}/edit'),
+            'index'  => ListPaymentGateways::route('/'),
+            'create' => CreatePaymentGateway::route('/create'),
+            'edit'   => EditPaymentGateway::route('/{record}/edit'),
         ];
     }
 
@@ -89,12 +100,12 @@ final class PaymentGatewayResource extends Resource
     {
         return [
 
-            Forms\Components\Select::make('gateway')
+            Select::make('gateway')
                 ->options(PaymentGateways::class)
                 ->required()
                 ->live(),
 
-            Forms\Components\Section::make('gateway config')
+            Section::make('gateway config')
                 ->schema(
                     fn (Get $get) => $get('gateway') > 0
                     ? PaymentGateways::from($get('gateway'))->configInputs()

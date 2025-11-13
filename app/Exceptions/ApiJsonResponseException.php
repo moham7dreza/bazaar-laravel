@@ -8,6 +8,7 @@ use App\Http\Responses\ApiJsonResponse;
 use Exception;
 use Illuminate\Contracts\Support\Responsable;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Arr;
 
 final class ApiJsonResponseException extends Exception implements Responsable
 {
@@ -23,7 +24,7 @@ final class ApiJsonResponseException extends Exception implements Responsable
             $this->messages = $messages;
         }
 
-        parent::__construct(\Illuminate\Support\Arr::get($this->messages, 0, ''));
+        parent::__construct(Arr::get($this->messages, 0, ''));
     }
 
     public function toResponse($request): JsonResponse

@@ -10,6 +10,7 @@ use App\Services\Image\ImageService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Http\Resources\Json\ResourceCollection;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\DB;
 use Modules\Advertise\Http\Requests\Admin\StoreAdvertisementRequest;
 use Modules\Advertise\Http\Requests\Admin\UpdateAdvertisementRequest;
@@ -46,7 +47,7 @@ final class AdvertisementController extends Controller
             $result = $imageService->createIndexAndSave($request->image);
             if ($result)
             {
-                \Illuminate\Support\Arr::set($inputs, 'image', $result);
+                Arr::set($inputs, 'image', $result);
             } else
             {
                 return ApiJsonResponse::error(500, message: __('response.image.upload failed'));
@@ -54,7 +55,7 @@ final class AdvertisementController extends Controller
         }
 
         $ad = DB::transaction(static function () use ($inputs, $request) {
-            \Illuminate\Support\Arr::forget($inputs, 'category_value_id');
+            Arr::forget($inputs, 'category_value_id');
             $ad = Advertisement::query()->create($inputs);
 
             $request->whenFilled('category_value_id', function (string $input) use ($ad): void {
@@ -87,7 +88,7 @@ final class AdvertisementController extends Controller
         {
             if (filled($advertisement->image))
             {
-                $imageService->deleteDirectoryAndFiles(\Illuminate\Support\Arr::get($advertisement->image, 'directory'));
+                $imageService->deleteDirectoryAndFiles(Arr::get($advertisement->image, 'directory'));
             }
             $imageService->setExclusiveDirectory('images' . DIRECTORY_SEPARATOR . 'advertisement-images');
             $result = $imageService->createIndexAndSave($request->image);
@@ -95,14 +96,14 @@ final class AdvertisementController extends Controller
             {
                 return ApiJsonResponse::error(500, message: __('response.image.upload failed'));
             }
-            \Illuminate\Support\Arr::set($inputs, 'image', $result);
+            Arr::set($inputs, 'image', $result);
         } else
         {
-            if (null !== \Illuminate\Support\Arr::get($inputs, 'currentImage') && filled($advertisement->image))
+            if (null !== Arr::get($inputs, 'currentImage') && filled($advertisement->image))
             {
                 $image                 = $advertisement->image;
-                \Illuminate\Support\Arr::set($image, 'currentImage', \Illuminate\Support\Arr::get($inputs, 'currentImage'));
-                \Illuminate\Support\Arr::set($inputs, 'image', $image);
+                Arr::set($image, 'currentImage', Arr::get($inputs, 'currentImage'));
+                Arr::set($inputs, 'image', $image);
             }
         }
         $advertisement->update($inputs);

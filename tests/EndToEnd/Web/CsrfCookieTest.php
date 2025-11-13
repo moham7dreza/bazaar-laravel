@@ -4,9 +4,11 @@ declare(strict_types=1);
 
 namespace Tests\EndToEnd;
 
+use function Pest\Laravel\get;
+
 it('can get csrf cookie', function (): void {
 
-    $response = \Pest\Laravel\get(route('sanctum.csrf-cookie'));
+    $response = get(route('sanctum.csrf-cookie'));
 
     expect($response->assertNoContent());
 });

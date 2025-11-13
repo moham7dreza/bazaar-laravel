@@ -4,12 +4,13 @@ declare(strict_types=1);
 
 namespace Modules\Advertise\Database\Factories;
 
+use Modules\Advertise\Models\CategoryValue;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Modules\Advertise\Enums\ValueType;
 use Modules\Advertise\Models\CategoryAttribute;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\Modules\Advertise\Models\CategoryValue>
+ * @extends Factory<CategoryValue>
  */
 final class CategoryValueFactory extends Factory
 {

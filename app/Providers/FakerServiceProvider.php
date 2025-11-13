@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Providers;
 
+use App\Faker\ImageFakesProvider;
+use App\Faker\CommonFakesProvider;
 use App\Faker;
 use Faker\Factory;
 use Faker\Generator;
@@ -17,8 +19,8 @@ class FakerServiceProvider extends ServiceProvider
     {
         $this->app->singleton(function (): Generator {
             $faker = Factory::create();
-            $faker->addProvider(new Faker\ImageFakesProvider($faker));
-            $faker->addProvider(new Faker\CommonFakesProvider($faker));
+            $faker->addProvider(new ImageFakesProvider($faker));
+            $faker->addProvider(new CommonFakesProvider($faker));
 
             return $faker;
         });

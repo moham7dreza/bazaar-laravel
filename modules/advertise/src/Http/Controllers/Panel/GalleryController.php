@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Modules\Advertise\Http\Controllers\Panel;
 
+use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Arr;
 use App\Http\Controllers\Controller;
 use App\Http\Responses\ApiJsonResponse;
 use App\Services\Image\ImageService;
@@ -22,7 +24,7 @@ final class GalleryController extends Controller
      */
     public function index(Advertisement $advertisement): JsonResource
     {
-        \Illuminate\Support\Facades\Gate::authorize('view', $advertisement);
+        Gate::authorize('view', $advertisement);
 
         return Gallery::query()
             ->whereBelongsTo($advertisement)
@@ -35,10 +37,10 @@ final class GalleryController extends Controller
      */
     public function store(StoreGalleryRequest $request, ImageService $imageService, Advertisement $advertisement): JsonResource|JsonResponse
     {
-        \Illuminate\Support\Facades\Gate::authorize('view', $advertisement);
+        Gate::authorize('view', $advertisement);
 
         $inputs                     = $request->all();
-        \Illuminate\Support\Arr::set($inputs, 'advertisement_id', $advertisement->id);
+        Arr::set($inputs, 'advertisement_id', $advertisement->id);
 
         if ($request->hasFile('url'))
         {
@@ -46,7 +48,7 @@ final class GalleryController extends Controller
             $result = $imageService->createIndexAndSave($request->url);
             if ($result)
             {
-                \Illuminate\Support\Arr::set($inputs, 'url', $result);
+                Arr::set($inputs, 'url', $result);
             } else
             {
                 return ApiJsonResponse::error(500, message: 'خطا در اپلود تصویر');
@@ -61,7 +63,7 @@ final class GalleryController extends Controller
      */
     public function show(Gallery $gallery): JsonResource
     {
-        \Illuminate\Support\Facades\Gate::authorize('view', $gallery->advertisement);
+        Gate::authorize('view', $gallery->advertisement);
 
         return $gallery->toResource();
     }
@@ -71,14 +73,14 @@ final class GalleryController extends Controller
      */
     public function update(UpdateGalleryRequest $request, Gallery $gallery, ImageService $imageService)
     {
-        \Illuminate\Support\Facades\Gate::authorize('view', $gallery->advertisement);
+        Gate::authorize('view', $gallery->advertisement);
 
         $inputs = $request->all();
         if ($request->hasFile('url'))
         {
             if (filled($gallery->url))
             {
-                $imageService->deleteDirectoryAndFiles(\Illuminate\Support\Arr::get($gallery->url, 'directory'));
+                $imageService->deleteDirectoryAndFiles(Arr::get($gallery->url, 'directory'));
             }
             $imageService->setExclusiveDirectory('images' . DIRECTORY_SEPARATOR . 'user-advertisement-images-gallery');
             $result = $imageService->createIndexAndSave($request->url);
@@ -86,14 +88,14 @@ final class GalleryController extends Controller
             {
                 return ApiJsonResponse::error(500, message: 'خطا در فرایند اپلود');
             }
-            \Illuminate\Support\Arr::set($inputs, 'url', $result);
+            Arr::set($inputs, 'url', $result);
         } else
         {
-            if (null !== \Illuminate\Support\Arr::get($inputs, 'currentImage') && filled($gallery->url))
+            if (null !== Arr::get($inputs, 'currentImage') && filled($gallery->url))
             {
                 $image                 = $gallery->url;
-                \Illuminate\Support\Arr::get($image, 'currentImage', \Illuminate\Support\Arr::get($inputs, 'currentImage'));
-                \Illuminate\Support\Arr::set($inputs, 'url', $image);
+                Arr::get($image, 'currentImage', Arr::get($inputs, 'currentImage'));
+                Arr::set($inputs, 'url', $image);
             }
         }
 
@@ -104,7 +106,7 @@ final class GalleryController extends Controller
 
     public function destroy(Gallery $gallery): JsonResponse
     {
-        \Illuminate\Support\Facades\Gate::authorize('view', $gallery->advertisement);
+        Gate::authorize('view', $gallery->advertisement);
 
         $gallery->delete();
 

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Helpers;
 
+use Illuminate\Support\Arr;
 use Illuminate\Support\Number;
 use Illuminate\Support\Str;
 
@@ -11,9 +12,9 @@ final class NotificationFormatter
 {
     public function formatInventoryAlert($product): string
     {
-        return 'INVENTORY ALERT: Only ' . Number::spell(\Illuminate\Support\Arr::get($product, 'stock_remaining'), until: 5) .
-            ' units of ' . \Illuminate\Support\Arr::get($product, 'name') . ' remain in stock. The minimum threshold is ' .
-            Number::spell(\Illuminate\Support\Arr::get($product, 'min_threshold'), until: 5) . ' units.';
+        return 'INVENTORY ALERT: Only ' . Number::spell(Arr::get($product, 'stock_remaining'), until: 5) .
+            ' units of ' . Arr::get($product, 'name') . ' remain in stock. The minimum threshold is ' .
+            Number::spell(Arr::get($product, 'min_threshold'), until: 5) . ' units.';
     }
 
     public function formatActivityUpdate($activity): string

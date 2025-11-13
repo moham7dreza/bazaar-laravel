@@ -2,6 +2,7 @@
 
 declare(strict_types=1);
 
+use function Pest\Laravel\postJson;
 use App\Enums\Image\ImageUploadMethod;
 use Illuminate\Http\UploadedFile;
 
@@ -16,7 +17,7 @@ it('can upload an image', function (): void {
         'height'        => 100,
     ];
 
-    $imagePath = \Pest\Laravel\postJson(route('api.images.store'), $payload)->assertOk()->content();
+    $imagePath = postJson(route('api.images.store'), $payload)->assertOk()->content();
 
     expect(file_exists($imagePath))->toBeTrue();
 
@@ -30,6 +31,6 @@ it('fails to upload without image', function (): void {
         'width'         => 100,
         'height'        => 100,
     ];
-    $response = \Pest\Laravel\postJson(route('api.images.store'), $payload);
+    $response = postJson(route('api.images.store'), $payload);
     $response->assertUnprocessable();
 });

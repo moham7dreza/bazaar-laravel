@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Tests;
 
+use function Pest\Laravel\artisan;
 use App\Enums\StorageDisk;
 use Closure;
 use Database\Seeders\TestsReferenceDataSeeder;
@@ -71,7 +72,7 @@ abstract class TestCase extends BaseTestCase
 
             foreach ($commands as $command)
             {
-                \Pest\Laravel\artisan($command);
+                artisan($command);
             }
 
             self::$migrated = true;

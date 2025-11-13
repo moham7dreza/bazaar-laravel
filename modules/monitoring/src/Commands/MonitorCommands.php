@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Modules\Monitoring\Commands;
 
+use Illuminate\Support\Arr;
 use Illuminate\Console\Command;
 use Modules\Monitoring\Models\CommandPerformanceLog;
 use Modules\Monitoring\Services\Command\CommandMonitoringService;
@@ -280,14 +281,14 @@ class MonitorCommands extends Command
         $this->components->info("Statistics for: {$commandName}");
         $this->components->info('==================' . str_repeat('=', mb_strlen($commandName)));
 
-        if ( ! \Illuminate\Support\Arr::get($statistics, 'statistics') || 0 === \Illuminate\Support\Arr::get($statistics, 'statistics')->total_runs)
+        if ( ! Arr::get($statistics, 'statistics') || 0 === Arr::get($statistics, 'statistics')->total_runs)
         {
             $this->error("No data found for command: {$commandName}");
 
             return;
         }
 
-        $stats = \Illuminate\Support\Arr::get($statistics, 'statistics');
+        $stats = Arr::get($statistics, 'statistics');
 
         // Display summary statistics
         $this->components->info("\n📊 Summary Statistics:");
@@ -301,14 +302,14 @@ class MonitorCommands extends Command
         // Display recent runs
         $this->components->info("\n🕒 Recent Runs (Last 10):");
 
-        if (\Illuminate\Support\Arr::get($statistics, 'recent_runs')->isEmpty())
+        if (Arr::get($statistics, 'recent_runs')->isEmpty())
         {
             $this->line('No recent runs found.');
 
             return;
         }
 
-        $rows = \Illuminate\Support\Arr::get($statistics, 'recent_runs')->map(function (CommandPerformanceLog $run) {
+        $rows = Arr::get($statistics, 'recent_runs')->map(function (CommandPerformanceLog $run) {
             $status = ! $run->isRunning()
                 ? '<fg=green>✓</>'
                 : '<fg=red>✗</>';

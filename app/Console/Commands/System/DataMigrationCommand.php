@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Console\Commands\System;
 
+use Illuminate\Support\Composer;
 use Illuminate\Database\Console\Migrations\MigrateMakeCommand;
 use Override;
 
@@ -19,7 +20,7 @@ class DataMigrationCommand extends MigrateMakeCommand
 
     public function __construct()
     {
-        parent::__construct(app('migration.creator'), app(\Illuminate\Support\Composer::class));
+        parent::__construct(app('migration.creator'), app(Composer::class));
     }
 
     #[Override]

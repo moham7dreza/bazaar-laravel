@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Casts;
 
+use Illuminate\Support\Arr;
 use App\Data\ValueObjects\Address;
 use Illuminate\Contracts\Database\Eloquent\CastsAttributes;
 use Illuminate\Contracts\Database\Eloquent\SerializesCastableAttributes;
@@ -15,8 +16,8 @@ class AsAddress implements CastsAttributes, SerializesCastableAttributes
     public function get(Model $model, string $key, mixed $value, array $attributes): Address
     {
         return new Address(
-            \Illuminate\Support\Arr::get($attributes, 'address_line_one'),
-            \Illuminate\Support\Arr::get($attributes, 'address_line_two')
+            Arr::get($attributes, 'address_line_one'),
+            Arr::get($attributes, 'address_line_two')
         );
     }
 

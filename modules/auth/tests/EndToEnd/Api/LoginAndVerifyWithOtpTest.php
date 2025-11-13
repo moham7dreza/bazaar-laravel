@@ -2,6 +2,9 @@
 
 declare(strict_types=1);
 
+use Illuminate\Support\Facades\Event;
+use function Pest\Laravel\postJson;
+use function Pest\Laravel\assertAuthenticated;
 use App\Models\User;
 use Illuminate\Auth\Events\Registered;
 use Modules\Auth\Enums\NoticeType;
@@ -9,7 +12,7 @@ use Modules\Auth\Models\Otp;
 
 it('can register new user', function (): void {
 
-    Illuminate\Support\Facades\Event::fake();
+    Event::fake();
 
     $userData = [
         'name'                  => 'Test User',
@@ -19,7 +22,7 @@ it('can register new user', function (): void {
         'mobile'                => '09120000000',
     ];
 
-    \Pest\Laravel\postJson(route('api.auth.register'), $userData)->assertNoContent();
+    postJson(route('api.auth.register'), $userData)->assertNoContent();
 
     $user = User::query()->firstWhere([
         'name'   => 'Test User',
@@ -29,16 +32,16 @@ it('can register new user', function (): void {
 
     expect($user)->not->toBeNull();
 
-    Pest\Laravel\assertAuthenticated();
+    assertAuthenticated();
 
-    Illuminate\Support\Facades\Event::assertDispatchedTimes(Registered::class);
+    Event::assertDispatchedTimes(Registered::class);
 });
 
 it('can send otp with user', function (): void {
 
     $user = User::factory()->create();
 
-    $response = \Pest\Laravel\postJson(route('api.auth.send-otp'), [
+    $response = postJson(route('api.auth.send-otp'), [
         'mobile' => $user->mobile,
     ])
         ->assertOk();
@@ -56,7 +59,7 @@ it('can send otp with user', function (): void {
 
 it('can send otp without user', function (): void {
 
-    $response = \Pest\Laravel\postJson(route('api.auth.send-otp'), [
+    $response = postJson(route('api.auth.send-otp'), [
         'mobile' => $mobile = '09120000001',
     ])
         ->assertOk();
@@ -74,7 +77,7 @@ it('can send otp without user', function (): void {
 
 it('can verify otp without user', function (): void {
 
-    Illuminate\Support\Facades\Event::fake();
+    Event::fake();
 
     $mobile  = '09120000002';
     $otpCode = '1234';
@@ -88,7 +91,7 @@ it('can verify otp without user', function (): void {
         'type'     => NoticeType::Sms,
     ]);
 
-    \Pest\Laravel\postJson(route('api.auth.verify-otp'), [
+    postJson(route('api.auth.verify-otp'), [
         'mobile' => $mobile,
         'otp'    => $otpCode,
         'token'  => $token,
@@ -101,14 +104,14 @@ it('can verify otp without user', function (): void {
 
     expect($user)->not->toBeNull();
 
-    Pest\Laravel\assertAuthenticated();
+    assertAuthenticated();
 
-    Illuminate\Support\Facades\Event::assertDispatchedTimes(Registered::class);
+    Event::assertDispatchedTimes(Registered::class);
 });
 
 it('can verify otp with user', function (): void {
 
-    Illuminate\Support\Facades\Event::fake();
+    Event::fake();
 
     $user = User::factory()->create();
 
@@ -124,14 +127,14 @@ it('can verify otp with user', function (): void {
         'type'     => NoticeType::Sms,
     ]);
 
-    \Pest\Laravel\postJson(route('api.auth.verify-otp'), [
+    postJson(route('api.auth.verify-otp'), [
         'mobile' => $mobile,
         'otp'    => $otpCode,
         'token'  => $token,
     ])
         ->assertOk();
 
-    Pest\Laravel\assertAuthenticated();
+    assertAuthenticated();
 
-    Illuminate\Support\Facades\Event::assertDispatchedTimes(Registered::class);
+    Event::assertDispatchedTimes(Registered::class);
 });

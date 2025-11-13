@@ -15,7 +15,7 @@ use Illuminate\Support\Facades\Log;
 use Modules\Advertise\Http\Controllers\Panel\HistoryAdvertisementController;
 use Modules\Advertise\Http\Requests\App\AdvertisementListViewRequest;
 use Modules\Advertise\Models\Advertisement;
-use Modules\Advertise\Repositories\Search;
+use Modules\Advertise\Repositories\Search\AdvertisementSearchRepository;
 use Spatie\QueryBuilder\AllowedFilter;
 use Spatie\QueryBuilder\Enums\FilterOperator;
 use Spatie\QueryBuilder\QueryBuilder;
@@ -30,7 +30,7 @@ final class AdvertisementController extends Controller
      */
     public function index(
         AdvertisementListViewRequest $request,
-        Search\AdvertisementSearchRepository $repository
+        AdvertisementSearchRepository $repository
     ): ResourceCollection {
         $searchDTO = $request->getDTO();
 

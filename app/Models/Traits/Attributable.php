@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Models\Traits;
 
+use Illuminate\Support\Arr;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Concerns\HasRelationships;
 use Illuminate\Database\Eloquent\Model;
@@ -53,8 +54,8 @@ trait Attributable
     {
         foreach ($values as $value)
         {
-            \Illuminate\Support\Arr::set($value, 'attributable_id', $this->getKey());
-            \Illuminate\Support\Arr::set($value, 'attributable', $this::class);
+            Arr::set($value, 'attributable_id', $this->getKey());
+            Arr::set($value, 'attributable', $this::class);
 
             $this->attributes()->create($value);
         }

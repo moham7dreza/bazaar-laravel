@@ -2,6 +2,9 @@
 
 declare(strict_types=1);
 
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Process;
+use Spatie\Permission\PermissionRegistrar;
 use App\Enums\Environment;
 use App\Enums\UserId;
 use App\Models\User;
@@ -35,7 +38,7 @@ if ( ! function_exists('ondemand_info'))
 {
     function ondemand_info(string $message, array $context = [], string $file = 'custom'): void
     {
-        Illuminate\Support\Facades\Log::build([
+        Log::build([
             'driver' => 'single',
             'path'   => storage_path('logs/' . $file . '.log'),
             'level'  => 'info',
@@ -177,7 +180,7 @@ if ( ! function_exists('c2c'))
             throw new RuntimeException('Unsupported operating system for clipboard operations');
         }
 
-        Illuminate\Support\Facades\Process::run($command)->throw();
+        Process::run($command)->throw();
     }
 }
 
@@ -208,7 +211,7 @@ if ( ! function_exists('forgetCachedPermissions'))
 {
     function forgetCachedPermissions(): void
     {
-        app()->make(Spatie\Permission\PermissionRegistrar::class)->forgetCachedPermissions();
+        app()->make(PermissionRegistrar::class)->forgetCachedPermissions();
     }
 }
 
@@ -224,7 +227,7 @@ if ( ! function_exists('parseCsvGenerator'))
     {
         $handle = fopen($filePath, 'rb');
 
-        while (($data = fgetcsv($handle)) !== false)
+        while (($data = fgetcsv($handle, escape: '\\')) !== false)
         {
             yield $data; // Yield one row at a time
         }

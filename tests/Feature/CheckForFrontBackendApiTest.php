@@ -2,6 +2,11 @@
 
 declare(strict_types=1);
 
+use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\Log;
+use function Pest\Laravel\assertGreaterThan;
+use function Pest\Laravel\assertTrue;
 use Illuminate\Support\Fluent;
 use Tests\TestGroup;
 
@@ -9,18 +14,18 @@ pest()->group(TestGroup::MANUAL);
 
 it('can get backend url details from front api', function (): void {
 
-    Illuminate\Support\Facades\Http::record();
+    Http::record();
 
-    $result = Illuminate\Support\Facades\Http::get(config('app.frontend_url') . '/api/backend')->json();
+    $result = Http::get(config('app.frontend_url') . '/api/backend')->json();
 
     $result = Fluent::make($result);
 
-    expect(Illuminate\Support\Arr::get($result->data, 'backend_url'))->toBeUrl();
+    expect(Arr::get($result->data, 'backend_url'))->toBeUrl();
 
     $apiCallCount             = 0;
     $allStatusCodesSuccessful = true;
 
-    Illuminate\Support\Facades\Http::recorded(static function ($request, $response) use (&$apiCallCount, &$allStatusCodesSuccessful): void {
+    Http::recorded(static function ($request, $response) use (&$apiCallCount, &$allStatusCodesSuccessful): void {
         $apiCallCount++;
 
         // Check response status
@@ -30,13 +35,13 @@ it('can get backend url details from front api', function (): void {
         }
 
         // Log the interaction for debugging
-        Illuminate\Support\Facades\Log::debug('API Call', [
+        Log::debug('API Call', [
             'url'    => $request->url(),
             'method' => $request->method(),
             'status' => $response->status(),
         ]);
     });
 
-    Pest\Laravel\assertGreaterThan(0, $apiCallCount, 'No API calls were made');
-    Pest\Laravel\assertTrue($allStatusCodesSuccessful, 'Some API calls failed');
+    assertGreaterThan(0, $apiCallCount, 'No API calls were made');
+    assertTrue($allStatusCodesSuccessful, 'Some API calls failed');
 });

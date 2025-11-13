@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Concerns;
 
+use Elastic\Elasticsearch\Client;
 use App\Observers\ElasticsearchObserver;
 use Elastic\Elasticsearch;
 
@@ -18,7 +19,7 @@ trait Searchable
         }
     }
 
-    public function elasticsearchIndex(Elasticsearch\Client $elasticsearchClient): void
+    public function elasticsearchIndex(Client $elasticsearchClient): void
     {
         $elasticsearchClient->index([
             'index' => $this->getTable(),
@@ -28,7 +29,7 @@ trait Searchable
         ]);
     }
 
-    public function elasticsearchDelete(Elasticsearch\Client $elasticsearchClient): void
+    public function elasticsearchDelete(Client $elasticsearchClient): void
     {
         $elasticsearchClient->delete([
             'index' => $this->getTable(),

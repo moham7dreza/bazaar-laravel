@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Modules\Filament\Resources\PaymentGatewayResource\Pages;
 
+use Filament\Actions\CreateAction;
 use Filament\Actions;
 use Filament\Resources\Pages\ListRecords;
 use Modules\Filament\Resources\PaymentGatewayResource;
@@ -15,7 +16,7 @@ final class ListPaymentGateways extends ListRecords
     protected function getHeaderActions(): array
     {
         return [
-            Actions\CreateAction::make(),
+            CreateAction::make(),
         ];
     }
 }

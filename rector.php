@@ -16,11 +16,15 @@ return RectorConfig::configure()
     ->withTypeCoverageLevel(0)
     ->withDeadCodeLevel(0)
     ->withCodeQualityLevel(0)
-//    ->withImportNames()
+    ->withImportNames()
     ->withPreparedSets(
         privatization: true,
 //        earlyReturn: true,
 //        strictBooleans: true,
+    )
+    ->withComposerBased(
+        phpunit: true,
+        laravel: true,
     )
     ->withSets([
         RectorLaravel\Set\LaravelLevelSetList::UP_TO_LARAVEL_120,

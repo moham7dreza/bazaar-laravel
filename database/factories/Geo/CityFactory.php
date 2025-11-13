@@ -4,10 +4,11 @@ declare(strict_types=1);
 
 namespace Database\Factories\Geo;
 
+use App\Models\Geo\City;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Geo\City>
+ * @extends Factory<City>
  */
 class CityFactory extends Factory
 {

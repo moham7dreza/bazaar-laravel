@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Stacks;
 
+use Illuminate\Support\Arr;
 use http\Exception\InvalidArgumentException;
 use JsonException;
 use Redis;
@@ -20,7 +21,7 @@ class HistoryStack
      */
     public function push(array $event, int $userId): void
     {
-        $id = \Illuminate\Support\Arr::get($event, 'data.todo_id');
+        $id = Arr::get($event, 'data.todo_id');
         $this->redis->lPush(
             "history:todos:{$id}:{$userId}",
             json_encode($event, JSON_THROW_ON_ERROR)

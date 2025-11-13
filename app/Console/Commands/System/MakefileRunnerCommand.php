@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Console\Commands\System;
 
+use Illuminate\Support\Arr;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\File;
 
@@ -76,13 +77,13 @@ class MakefileRunnerCommand extends Command
                     $scripts[$currentScript] = mb_trim($currentDescription);
                 }
 
-                $currentScript      = \Illuminate\Support\Arr::get($matches, 1);
+                $currentScript      = Arr::get($matches, 1);
                 $currentDescription = '';
 
                 // Check for inline comment
                 if (preg_match('/#\s*(.+)$/', $trimmed, $commentMatches))
                 {
-                    $currentDescription = \Illuminate\Support\Arr::get($commentMatches, 1);
+                    $currentDescription = Arr::get($commentMatches, 1);
                 }
             }
             // Found a comment line

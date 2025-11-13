@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Relations\Pivot;
 use Afsakar\FilamentOtpLogin\Models\Contracts\CanLoginDirectly;
 use App\Concerns\GeneratesUsernames;
 use App\Concerns\InteractWithSensitiveColumns;
@@ -170,7 +171,7 @@ final class User extends Authenticatable implements
     }
 
     /**
-     * @return BelongsToMany<Advertisement, $this, \Illuminate\Database\Eloquent\Relations\Pivot>
+     * @return BelongsToMany<Advertisement, $this, Pivot>
      */
     public function favoriteAdvertisements(): BelongsToMany
     {
@@ -186,7 +187,7 @@ final class User extends Authenticatable implements
     }
 
     /**
-     * @return BelongsToMany<Advertisement, $this, \Illuminate\Database\Eloquent\Relations\Pivot>
+     * @return BelongsToMany<Advertisement, $this, Pivot>
      */
     public function viewedAdvertisements(): BelongsToMany
     {

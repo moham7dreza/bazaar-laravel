@@ -3,8 +3,11 @@
 declare(strict_types=1);
 
 use Illuminate\Support\Facades\Http;
+use Tests\TestGroup;
 
-pest()->group(Tests\TestGroup::MANUAL);
+use function Pest\Laravel\getJson;
+
+pest()->group(TestGroup::MANUAL);
 
 it('test next js api', function (): void {
 
@@ -21,5 +24,5 @@ it('test next js api', function (): void {
 
 it('can get today', function (): void {
 
-    \Pest\Laravel\getJson(route('api.today.date', today()))->ddBody();
+    getJson(route('api.today.date', today()))->ddBody();
 });

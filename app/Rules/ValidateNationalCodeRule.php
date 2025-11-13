@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Rules;
 
+use Illuminate\Support\Arr;
 use Closure;
 use Illuminate\Contracts\Validation\ValidationRule;
 
@@ -54,7 +55,7 @@ class ValidateNationalCodeRule implements ValidationRule
                 $lastDigit = 11 - ($divideRemaining);
             }
 
-            if ((int) \Illuminate\Support\Arr::get($nationalCode, 9) !== $lastDigit)
+            if ((int) Arr::get($nationalCode, 9) !== $lastDigit)
             {
                 $fail(trans('validation.national_code', ['attribute' => $attribute]));
             }

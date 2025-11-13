@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Database\Factories;
 
+use App\Models\SmsLog;
 use App\Enums\Sms\SmsMessageType;
 use App\Enums\Sms\SmsProvider;
 use App\Enums\Sms\SmsSenderNumber;
@@ -14,7 +15,7 @@ use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Facades\Date;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\SmsLog>
+ * @extends Factory<SmsLog>
  */
 class SmsLogFactory extends Factory
 {

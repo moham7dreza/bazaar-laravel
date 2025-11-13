@@ -9,6 +9,7 @@ use App\Models\User;
 use Exception;
 use Illuminate\Container\Attributes\Context;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Date;
 use Illuminate\Support\Facades\DB;
@@ -52,7 +53,7 @@ class AdvertisementBatchSeeder extends Seeder
 
         foreach ($users as $user)
         {
-            $userId = \Illuminate\Support\Arr::get($user, 'id');
+            $userId = Arr::get($user, 'id');
             $this->command->info("user {$userId} is processing");
             // need for check ad depth
             //            $userAdIds = [];

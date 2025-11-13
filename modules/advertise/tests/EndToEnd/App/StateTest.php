@@ -2,6 +2,8 @@
 
 declare(strict_types=1);
 
+use function Pest\Laravel\getJson;
+use function Pest\Laravel\assertModelExists;
 use Modules\Advertise\Models\State;
 
 it('can get all parent states', function (): void {
@@ -12,7 +14,7 @@ it('can get all parent states', function (): void {
 
     expect($state->parent_id)->not->toBeNull();
 
-    $response = \Pest\Laravel\getJson(route('api.states.index'))->assertOk();
+    $response = getJson(route('api.states.index'))->assertOk();
 
     expect($response->json('data'))->toHaveLength(1);
 
@@ -24,5 +26,5 @@ it('can get all parent states', function (): void {
         ->icon->toBeString()
         ->children->toBeArray();
 
-    Pest\Laravel\assertModelExists($state);
+    assertModelExists($state);
 });

@@ -2,6 +2,8 @@
 
 declare(strict_types=1);
 
+use function Pest\Laravel\getJson;
+use function Pest\Laravel\assertModelExists;
 use Modules\Content\Models\Menu;
 
 it('can get all parent menus', function (): void {
@@ -12,7 +14,7 @@ it('can get all parent menus', function (): void {
 
     expect($menu->parent_id)->not->toBeNull();
 
-    $response = \Pest\Laravel\getJson(route('api.menus.index'))->assertOk();
+    $response = getJson(route('api.menus.index'))->assertOk();
 
     expect($response->json('data'))->toHaveLength(1);
 
@@ -28,5 +30,5 @@ it('can get all parent menus', function (): void {
         ->status->toBeBool()
         ->icon->toBeString();
 
-    Pest\Laravel\assertModelExists($menu);
+    assertModelExists($menu);
 });

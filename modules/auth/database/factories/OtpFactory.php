@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Modules\Auth\Database\Factories;
 
+use Modules\Auth\Models\Otp;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
@@ -11,7 +12,7 @@ use Modules\Auth\Enums\NoticeType;
 use Random\RandomException;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\Modules\Auth\Models\Otp>
+ * @extends Factory<Otp>
  */
 final class OtpFactory extends Factory
 {

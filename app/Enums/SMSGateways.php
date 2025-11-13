@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Enums;
 
+use Illuminate\Support\Arr;
 use App\Enums\Concerns\EnumDataListTrait;
 use Filament\Forms\Components\TextInput;
 use Filament\Support\Contracts\HasLabel;
@@ -21,8 +22,8 @@ enum SMSGateways: int implements HasLabel
 
         return array_map(function ($config, $key) {
             $name  = "config.{$key}";
-            $label = \Illuminate\Support\Arr::get($config, 'label', $key);
-            $rules = \Illuminate\Support\Arr::get($config, 'rules', []);
+            $label = Arr::get($config, 'label', $key);
+            $rules = Arr::get($config, 'rules', []);
 
             return TextInput::make($name)
                 ->label($label)

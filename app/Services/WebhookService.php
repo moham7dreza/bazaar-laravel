@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Services;
 
+use Illuminate\Support\Arr;
 use App\Exceptions\InvalidWebhookException;
 use Illuminate\Support\Str;
 
@@ -29,8 +30,8 @@ class WebhookService
 
         foreach ($integrations as $service => $config)
         {
-            if (null !== \Illuminate\Support\Arr::get($config, 'callback_url') &&
-                Str::isUrl(\Illuminate\Support\Arr::get($config, 'callback_url'), ['https']))
+            if (null !== Arr::get($config, 'callback_url') &&
+                Str::isUrl(Arr::get($config, 'callback_url'), ['https']))
             {
                 $validated[$service] = $config;
             }

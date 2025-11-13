@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Modules\Monitoring\Providers;
 
+use Modules\Monitoring\Commands\CheckVulnerabilitiesCommand;
+use Modules\Monitoring\Commands\MonitorCommands;
 use App\Models\User;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\ServiceProvider;
@@ -15,8 +17,8 @@ use Override;
 final class MonitoringServiceProvider extends ServiceProvider
 {
     private const array COMMANDS = [
-        Commands\CheckVulnerabilitiesCommand::class,
-        Commands\MonitorCommands::class,
+        CheckVulnerabilitiesCommand::class,
+        MonitorCommands::class,
     ];
 
     #[Override]

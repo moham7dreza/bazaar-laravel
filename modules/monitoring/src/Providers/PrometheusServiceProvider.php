@@ -78,7 +78,7 @@ final class PrometheusServiceProvider extends ServiceProvider
             QueueCollector\QueueDelayedJobsCollector::class,
             QueueCollector\QueueReservedJobsCollector::class,
             QueueCollector\QueueOldestPendingJobCollector::class,
-        ], compact('connection', 'queues'));
+        ]);
 
         return $this;
     }

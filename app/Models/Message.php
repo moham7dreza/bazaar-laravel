@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use App\Models\Scopes\LatestScope;
 use Illuminate\Database\Eloquent\Attributes\ScopedBy;
 use Illuminate\Database\Eloquent\Builder;
@@ -15,7 +16,7 @@ use Illuminate\Support\Facades\Date;
 #[ScopedBy([LatestScope::class])]
 class Message extends Model
 {
-    use \Illuminate\Database\Eloquent\Factories\HasFactory;
+    use HasFactory;
     use Prunable;
     // _____________________________________________ use section ________________________________________________
     //

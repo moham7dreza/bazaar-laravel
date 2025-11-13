@@ -2,6 +2,7 @@
 
 declare(strict_types=1);
 
+use function Pest\Laravel\assertModelExists;
 use Modules\Advertise\Models\Category;
 use Modules\Advertise\Models\CategoryAttribute;
 
@@ -29,5 +30,5 @@ it('can get category attributes from app', function (): void {
         ->updated_at->toBeString()
         ->category->toBeArray();
 
-    Pest\Laravel\assertModelExists($category);
+    assertModelExists($category);
 });

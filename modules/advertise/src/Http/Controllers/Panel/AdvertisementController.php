@@ -12,6 +12,7 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Http\Resources\Json\ResourceCollection;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Gate;
 use Modules\Advertise\Enums\AdvertisementPublishStatus;
 use Modules\Advertise\Http\Requests\App\StoreAdvertisementRequest;
@@ -68,7 +69,7 @@ final class AdvertisementController extends Controller
             $result = $imageService->createIndexAndSave($request->image);
             if ($result)
             {
-                \Illuminate\Support\Arr::set($inputs, 'image', $result);
+                Arr::set($inputs, 'image', $result);
             } else
             {
                 return ApiJsonResponse::error(500, message: 'خطا در اپلود عکس');
@@ -125,7 +126,7 @@ final class AdvertisementController extends Controller
         {
             if (filled($advertisement->image))
             {
-                $imageService->deleteDirectoryAndFiles(\Illuminate\Support\Arr::get($advertisement->image, 'directory'));
+                $imageService->deleteDirectoryAndFiles(Arr::get($advertisement->image, 'directory'));
             }
             $imageService->setExclusiveDirectory('images' . DIRECTORY_SEPARATOR . 'user-advertisement-images');
             $result = $imageService->createIndexAndSave($request->image);
@@ -133,14 +134,14 @@ final class AdvertisementController extends Controller
             {
                 return ApiJsonResponse::error(500, message: 'خطا در فرایند اپلود');
             }
-            \Illuminate\Support\Arr::set($inputs, 'image', $result);
+            Arr::set($inputs, 'image', $result);
         } else
         {
-            if (null !== \Illuminate\Support\Arr::get($inputs, 'currentImage') && filled($advertisement->image))
+            if (null !== Arr::get($inputs, 'currentImage') && filled($advertisement->image))
             {
                 $image                 = $advertisement->image;
-                \Illuminate\Support\Arr::set($image, 'currentImage', \Illuminate\Support\Arr::get($inputs, 'currentImage'));
-                \Illuminate\Support\Arr::set($inputs, 'image', $image);
+                Arr::set($image, 'currentImage', Arr::get($inputs, 'currentImage'));
+                Arr::set($inputs, 'image', $image);
             }
         }
         $advertisement->update($inputs);

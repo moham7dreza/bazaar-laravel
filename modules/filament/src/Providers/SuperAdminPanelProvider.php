@@ -4,6 +4,38 @@ declare(strict_types=1);
 
 namespace Modules\Filament\Providers;
 
+use Filament\Pages\Dashboard;
+use Filament\Widgets\AccountWidget;
+use Filament\Widgets\FilamentInfoWidget;
+use Cmsmaxinc\FilamentSystemVersions\Filament\Widgets\DependencyWidget;
+use Awcodes\Overlook\Widgets\OverlookWidget;
+use Hasnayeen\Themes\Http\Middleware\SetTheme;
+use Hasnayeen\Themes\ThemesPlugin;
+use ShuvroRoy\FilamentSpatieLaravelBackup\FilamentSpatieLaravelBackupPlugin;
+use pxlrbt\FilamentEnvironmentIndicator\EnvironmentIndicatorPlugin;
+use Rmsramos\Activitylog\ActivitylogPlugin;
+use CharrafiMed\GlobalSearchModal\GlobalSearchModalPlugin;
+use Althinect\FilamentSpatieRolesPermissions\FilamentSpatieRolesPermissionsPlugin;
+use Mvenghaus\FilamentScheduleMonitor\FilamentPlugin;
+use Vormkracht10\FilamentMails\FilamentMailsPlugin;
+use TomatoPHP\FilamentPWA\FilamentPWAPlugin;
+use Jeffgreco13\FilamentBreezy\BreezyCore;
+use pxlrbt\FilamentSpotlight\SpotlightPlugin;
+use Awcodes\Overlook\OverlookPlugin;
+use Leandrocfe\FilamentApexCharts\FilamentApexChartsPlugin;
+use BezhanSalleh\FilamentExceptions\FilamentExceptionsPlugin;
+use Kenepa\ResourceLock\ResourceLockPlugin;
+use Afsakar\FilamentOtpLogin\FilamentOtpLoginPlugin;
+use Statikbe\FilamentTranslationManager\FilamentChainedTranslationManagerPlugin;
+use TomatoPHP\FilamentMediaManager\FilamentMediaManagerPlugin;
+use GeoSot\FilamentEnvEditor\FilamentEnvEditorPlugin;
+use Brickx\MaintenanceSwitch\MaintenanceSwitchPlugin;
+use Swis\Filament\Backgrounds\FilamentBackgroundsPlugin;
+use Awcodes\FilamentQuickCreate\QuickCreatePlugin;
+use Modules\Filament\Resources\UserResource;
+use Cmsmaxinc\FilamentErrorPages\FilamentErrorPagesPlugin;
+use Vormkracht10\FilamentMails\Facades\FilamentMails;
+use Statikbe\FilamentTranslationManager\FilamentTranslationManager;
 use App\Enums\ClientLocale;
 use App\Enums\Queue;
 use App\Enums\StorageDisk;
@@ -58,14 +90,14 @@ final class SuperAdminPanelProvider extends PanelProvider
             ->discoverResources(in: base_path('modules/filament/src/Resources'), for: 'Modules\\Filament\\Resources')
             ->discoverPages(in: base_path('modules/filament/src/Pages'), for: 'Modules\\Filament\\Pages')
             ->pages([
-                Pages\Dashboard::class,
+                Dashboard::class,
             ])
             ->discoverWidgets(in: base_path('modules/filament/src/Widgets'), for: 'Modules\\Filament\\Widgets')
             ->widgets([
-                Widgets\AccountWidget::class,
-                Widgets\FilamentInfoWidget::class,
-                \Cmsmaxinc\FilamentSystemVersions\Filament\Widgets\DependencyWidget::make(),
-                \Awcodes\Overlook\Widgets\OverlookWidget::class,
+                AccountWidget::class,
+                FilamentInfoWidget::class,
+                DependencyWidget::make(),
+                OverlookWidget::class,
             ])
             ->middleware([
                 EncryptCookies::class,
@@ -77,26 +109,26 @@ final class SuperAdminPanelProvider extends PanelProvider
                 SubstituteBindings::class,
                 DisableBladeIconComponents::class,
                 DispatchServingFilamentEvent::class,
-                \Hasnayeen\Themes\Http\Middleware\SetTheme::class,
+                SetTheme::class,
             ])
             ->authMiddleware([
                 Authenticate::class,
             ])->plugins([
-                \Hasnayeen\Themes\ThemesPlugin::make(),
-                \ShuvroRoy\FilamentSpatieLaravelBackup\FilamentSpatieLaravelBackupPlugin::make()
+                ThemesPlugin::make(),
+                FilamentSpatieLaravelBackupPlugin::make()
                     ->usingPolingInterval('10s')
                     ->usingQueue(Queue::Backup->value)
                     ->noTimeout(),
-                \pxlrbt\FilamentEnvironmentIndicator\EnvironmentIndicatorPlugin::make()
+                EnvironmentIndicatorPlugin::make()
                     ->visible(fn () => auth()->user()?->isAdmin())
                     ->showGitBranch(),
-                \Rmsramos\Activitylog\ActivitylogPlugin::make(),
-                \CharrafiMed\GlobalSearchModal\GlobalSearchModalPlugin::make(),
-                \Althinect\FilamentSpatieRolesPermissions\FilamentSpatieRolesPermissionsPlugin::make(),
-                \Mvenghaus\FilamentScheduleMonitor\FilamentPlugin::make(),
-                \Vormkracht10\FilamentMails\FilamentMailsPlugin::make(),
-                \TomatoPHP\FilamentPWA\FilamentPWAPlugin::make(),
-                \Jeffgreco13\FilamentBreezy\BreezyCore::make()
+                ActivitylogPlugin::make(),
+                GlobalSearchModalPlugin::make(),
+                FilamentSpatieRolesPermissionsPlugin::make(),
+                FilamentPlugin::make(),
+                FilamentMailsPlugin::make(),
+                FilamentPWAPlugin::make(),
+                BreezyCore::make()
                     ->myProfile(
                         shouldRegisterNavigation: true,
                         hasAvatars: true,
@@ -104,8 +136,8 @@ final class SuperAdminPanelProvider extends PanelProvider
                     ->avatarUploadComponent(fn () => FileUpload::make('avatar_url')->disk(StorageDisk::Public->value))
                     ->enableTwoFactorAuthentication()
                     ->enableSanctumTokens(),
-                \pxlrbt\FilamentSpotlight\SpotlightPlugin::make(),
-                \Awcodes\Overlook\OverlookPlugin::make()
+                SpotlightPlugin::make(),
+                OverlookPlugin::make()
                     ->sort(2)
                     ->columns([
                         'default' => 1,
@@ -115,26 +147,26 @@ final class SuperAdminPanelProvider extends PanelProvider
                         'xl'      => 5,
                         '2xl'     => null,
                     ]),
-                \Leandrocfe\FilamentApexCharts\FilamentApexChartsPlugin::make(),
-                \BezhanSalleh\FilamentExceptions\FilamentExceptionsPlugin::make(),
-                \Kenepa\ResourceLock\ResourceLockPlugin::make(),
-                \Afsakar\FilamentOtpLogin\FilamentOtpLoginPlugin::make(),
-                \Statikbe\FilamentTranslationManager\FilamentChainedTranslationManagerPlugin::make(),
-                \TomatoPHP\FilamentMediaManager\FilamentMediaManagerPlugin::make(),
-                \GeoSot\FilamentEnvEditor\FilamentEnvEditorPlugin::make()
+                FilamentApexChartsPlugin::make(),
+                FilamentExceptionsPlugin::make(),
+                ResourceLockPlugin::make(),
+                FilamentOtpLoginPlugin::make(),
+                FilamentChainedTranslationManagerPlugin::make(),
+                FilamentMediaManagerPlugin::make(),
+                FilamentEnvEditorPlugin::make()
                     ->navigationGroup('Settings')
                     ->navigationIcon('heroicon-o-cog-8-tooth'),
-                \Brickx\MaintenanceSwitch\MaintenanceSwitchPlugin::make(),
-                \Swis\Filament\Backgrounds\FilamentBackgroundsPlugin::make(),
-                \Awcodes\FilamentQuickCreate\QuickCreatePlugin::make()
+                MaintenanceSwitchPlugin::make(),
+                FilamentBackgroundsPlugin::make(),
+                QuickCreatePlugin::make()
                     ->slideOver()
                     ->keyBindings(['command+shift+a', 'ctrl+shift+a'])
                     ->includes([
-                        \Modules\Filament\Resources\UserResource::class,
+                        UserResource::class,
                     ]),
-                \Cmsmaxinc\FilamentErrorPages\FilamentErrorPagesPlugin::make(),
+                FilamentErrorPagesPlugin::make(),
             ])
-            ->routes(fn () => \Vormkracht10\FilamentMails\Facades\FilamentMails::routes())
+            ->routes(fn () => FilamentMails::routes())
             ->navigationItems($this->getNavItems());
     }
 
@@ -142,7 +174,7 @@ final class SuperAdminPanelProvider extends PanelProvider
     {
         $this->configureLanguageSwitch();
 
-        \Statikbe\FilamentTranslationManager\FilamentTranslationManager::setLocales(ClientLocale::values());
+        FilamentTranslationManager::setLocales(ClientLocale::values());
 
         $this->configureTable();
     }

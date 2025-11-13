@@ -2,6 +2,7 @@
 
 declare(strict_types=1);
 
+use Illuminate\Support\Arr;
 use App\Actions\User\UpdateUserSecretAction;
 use App\Models\User;
 
@@ -13,6 +14,6 @@ test('UpdateUserSecretAction updates user mobile number', function (): void {
 
     $updatedUser = UpdateUserSecretAction::dispatch($user, 'password', $password = '123456');
 
-    expect(Illuminate\Support\Arr::get($updatedUser->secrets, 'password'))->toBe($password)
-        ->and(Illuminate\Support\Arr::get($user->fresh()->secrets, 'password'))->toBe($password);
+    expect(Arr::get($updatedUser->secrets, 'password'))->toBe($password)
+        ->and(Arr::get($user->fresh()->secrets, 'password'))->toBe($password);
 });

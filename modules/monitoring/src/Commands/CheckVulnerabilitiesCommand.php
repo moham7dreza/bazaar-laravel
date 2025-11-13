@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Modules\Monitoring\Commands;
 
+use Illuminate\Support\Arr;
 use App\Notifications\VulnerabilitiesFoundNotification;
 use Illuminate\Console\Command;
 use JsonException;
@@ -19,7 +20,7 @@ final class CheckVulnerabilitiesCommand extends Command
      */
     public function handle(): int
     {
-        $vulnerabilities = \Illuminate\Support\Arr::get(json_decode(shell_exec('composer audit --format=json'), true, 512, JSON_THROW_ON_ERROR), 'advisories', []);
+        $vulnerabilities = Arr::get(json_decode(shell_exec('composer audit --format=json'), true, 512, JSON_THROW_ON_ERROR), 'advisories', []);
 
         if (count($vulnerabilities) > 0)
         {

@@ -4,13 +4,14 @@ declare(strict_types=1);
 
 namespace Database\Factories;
 
+use App\Models\PaymentGateway;
 use App\Enums\PaymentGateways;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Arr;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\PaymentGateway>
+ * @extends Factory<PaymentGateway>
  */
 class PaymentGatewayFactory extends Factory
 {
