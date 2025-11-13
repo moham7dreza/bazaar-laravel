@@ -21,7 +21,7 @@ enum SMSGateways: int implements HasLabel
         $keys = config('sms-gateways.keys.' . $this->value);
 
         return array_map(function ($config, $key) {
-            $name  = "config.{$key}";
+            $name  = 'config.' . $key;
             $label = Arr::get($config, 'label', $key);
             $rules = Arr::get($config, 'rules', []);
 

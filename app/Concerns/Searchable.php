@@ -10,6 +10,7 @@ use Elastic\Elasticsearch\Client;
 trait Searchable
 {
     abstract public function toElasticsearchDocumentArray(): array;
+
     public static function bootSearchable(): void
     {
         if (config()->boolean('services.search.enabled'))

@@ -128,12 +128,14 @@ final class AdvertisementController extends Controller
             {
                 $imageService->deleteDirectoryAndFiles(Arr::get($advertisement->image, 'directory'));
             }
+
             $imageService->setExclusiveDirectory('images' . DIRECTORY_SEPARATOR . 'user-advertisement-images');
             $result = $imageService->createIndexAndSave($request->image);
             if (false === $result)
             {
                 return ApiJsonResponse::error(500, message: 'خطا در فرایند اپلود');
             }
+
             Arr::set($inputs, 'image', $result);
         } else
         {
@@ -144,6 +146,7 @@ final class AdvertisementController extends Controller
                 Arr::set($inputs, 'image', $image);
             }
         }
+
         $advertisement->update($inputs);
 
         $request->whenFilled('category_values', function (string $input) use ($advertisement): void {

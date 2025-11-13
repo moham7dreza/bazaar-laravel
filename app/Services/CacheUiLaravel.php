@@ -18,7 +18,7 @@ final class CacheUiLaravel
     public function getAllKeys(?string $store = null): array
     {
         $storeName = $store ?? config('cache.default');
-        $driver    = config("cache.stores.{$storeName}.driver");
+        $driver    = config(sprintf('cache.stores.%s.driver', $storeName));
 
         return match ($driver)
         {

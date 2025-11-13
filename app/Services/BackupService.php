@@ -26,7 +26,7 @@ class BackupService
 
             $response = Http::timeout(300)->get($backupUrl);
 
-            throw_if($response->failed(), BackupDownloadException::class, "Failed to retrieve backup from {$backupUrl}");
+            throw_if($response->failed(), BackupDownloadException::class, 'Failed to retrieve backup from ' . $backupUrl);
 
             $fileSize = $response->header('Content-Length');
             $this->logBackupStart($backupUrl, $fileSize);
@@ -41,10 +41,10 @@ class BackupService
 
             return true;
 
-        } catch (Exception $e)
+        } catch (Exception $exception)
         {
-            $this->logBackupError($backupUrl, $e->getMessage());
-            throw new BackupProcessingException("Backup operation failed: {$e->getMessage()}");
+            $this->logBackupError($backupUrl, $exception->getMessage());
+            throw new BackupProcessingException('Backup operation failed: ' . $exception->getMessage());
         }
     }
 
@@ -63,7 +63,7 @@ class BackupService
                 if ($response->successful())
                 {
                     Storage::disk(StorageDisk::Media->value)->writeStream(
-                        "library/{$filename}",
+                        'library/' . $filename,
                         $response->resource()
                     );
 

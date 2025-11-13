@@ -72,6 +72,7 @@ final class GalleryController extends Controller
         {
             return ApiJsonResponse::error(500, message: __('response.image.upload failed'));
         }
+
         $gallery->update($inputs);
 
         return $gallery->toResource(GalleryResource::class);

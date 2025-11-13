@@ -26,9 +26,13 @@ use Override;
 final class PaymentGatewayResource extends Resource
 {
     protected static ?string $model                = PaymentGateway::class;
+
     protected static ?string $navigationGroup      = 'Sale';
+
     protected static ?string $navigationIcon       = 'heroicon-o-shopping-bag';
+
     protected static ?string $recordTitleAttribute = 'gateway';
+
     protected static ?int $navigationSort          = 1;
 
     #[Override]
@@ -36,6 +40,7 @@ final class PaymentGatewayResource extends Resource
     {
         return __('Payment Gateways');
     }
+
     #[Override]
     public static function form(Form $form): Form
     {

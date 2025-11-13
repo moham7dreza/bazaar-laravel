@@ -18,7 +18,7 @@ final readonly class BaseUrlUtility
 
         if ($targetFrontEndForStaging)
         {
-            return ClientDomain::tryFrom("https://{$targetFrontEndForStaging}.dev");
+            return ClientDomain::tryFrom(sprintf('https://%s.dev', $targetFrontEndForStaging));
         }
 
         return ClientDomain::ProdIR;

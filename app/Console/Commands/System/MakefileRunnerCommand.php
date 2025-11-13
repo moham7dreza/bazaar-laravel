@@ -14,6 +14,7 @@ use function Laravel\Prompts\select;
 class MakefileRunnerCommand extends Command
 {
     protected $signature   = 'make:run';
+
     protected $description = 'Search and run Makefile scripts';
 
     public function handle()
@@ -124,7 +125,7 @@ class MakefileRunnerCommand extends Command
         $options = [];
         foreach ($scripts as $script => $desc)
         {
-            $options[$script] = blank($desc) ? $script : "{$script} - {$desc}";
+            $options[$script] = blank($desc) ? $script : sprintf('%s - %s', $script, $desc);
         }
 
         return select(
@@ -136,12 +137,12 @@ class MakefileRunnerCommand extends Command
 
     protected function runScript(string $script): void
     {
-        $this->components->info("Running: make {$script}");
+        $this->components->info('Running: make ' . $script);
         $this->newLine();
 
-        passthru("make {$script}", $result);
+        passthru('make ' . $script, $result);
 
         $this->newLine();
-        $this->components->info("Finished with exit code: {$result}");
+        $this->components->info('Finished with exit code: ' . $result);
     }
 }

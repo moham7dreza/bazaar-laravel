@@ -35,7 +35,7 @@ final class Sort
 
             if (in_array($sortField, $supportedFields, true))
             {
-                $query->orderBy("{$tableName}.{$sortField}", $sortOrder);
+                $query->orderBy(sprintf('%s.%s', $tableName, $sortField), $sortOrder);
             }
         }
     }

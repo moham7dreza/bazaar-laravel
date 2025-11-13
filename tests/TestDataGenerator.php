@@ -50,6 +50,6 @@ final class TestDataGenerator
 
     private function ensureKeyIsInValidRange(int $key, int $from = 1, int $to = 9): void
     {
-        throw_if($key < $from || $key > $to, RuntimeException::class, "\$key must be {$from}-{$to}");
+        throw_if($key < $from || $key > $to, RuntimeException::class, sprintf('$key must be %d-%d', $from, $to));
     }
 }

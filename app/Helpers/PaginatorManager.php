@@ -28,6 +28,7 @@ final class PaginatorManager
 
         return $paginator;
     }
+
     private function calculateSideLinks(LengthAwarePaginator $paginator): int
     {
         return match (true)

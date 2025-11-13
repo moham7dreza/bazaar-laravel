@@ -18,13 +18,13 @@ final readonly class DomainRouter
         return match ($this->getEnvironment($baseHost))
         {
             Environment::Production => [
-                'api'         => "{$scheme}/api",
+                'api'         => $scheme . '/api',
                 'web'         => $request->httpHost(),
                 'assets'      => str_replace('api', 'cdn', $scheme),
                 'environment' => Environment::Production->value,
             ],
             Environment::Staging => [
-                'api'         => "{$scheme}/api",
+                'api'         => $scheme . '/api',
                 'web'         => str_replace('api', 'staging', $request->httpHost()),
                 'assets'      => str_replace('api', 'staging-cdn', $scheme),
                 'environment' => Environment::Staging->value,

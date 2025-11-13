@@ -70,9 +70,9 @@ final readonly class CreateIndexAndSaveImageUploaderService implements ImageUplo
 
             return $images;
 
-        } catch (Exception $e)
+        } catch (Exception $exception)
         {
-            Log::error($e->getMessage());
+            Log::error($exception->getMessage());
 
             return null;
         }

@@ -228,7 +228,7 @@ final class AppServiceProvider extends ServiceProvider
                 return;
             }
 
-            ondemand_info("Missing translation key: *** ( {$key} ) ***", file: 'translation');
+            ondemand_info(sprintf('Missing translation key: *** ( %s ) ***', $key), file: 'translation');
 
             // Only update JSON translation files (skip PHP array files)
             if ( ! str_contains($key, '.'))

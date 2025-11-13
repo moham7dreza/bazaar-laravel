@@ -11,7 +11,7 @@ final class TranslationService
 {
     public function addMissingKeyToJsonLangFile(string $key, string $locale): void
     {
-        $path = lang_path("{$locale}.json");
+        $path = lang_path($locale . '.json');
 
         // Skip if key contains dots (file-based translations)
         if (str_contains($key, '.'))
@@ -36,9 +36,9 @@ final class TranslationService
                     json_encode($translations, JSON_THROW_ON_ERROR | JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES)
                 );
             }
-        } catch (Exception $e)
+        } catch (Exception $exception)
         {
-            Log::error("Failed to update translations key '{$key}' for '{$locale}.json': " . $e->getMessage());
+            Log::error(sprintf("Failed to update translations key '%s' for '%s.json': ", $key, $locale) . $exception->getMessage());
         }
     }
 }

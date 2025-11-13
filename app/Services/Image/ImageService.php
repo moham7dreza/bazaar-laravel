@@ -25,9 +25,9 @@ final class ImageService extends ImageToolsService
 
             return ImageUploadFactory::make($DTO->uploadMethod)?->handle($DTO);
 
-        } catch (Exception $e)
+        } catch (Exception $exception)
         {
-            Log::error($e->getMessage());
+            Log::error($exception->getMessage());
 
             return null;
         }
@@ -66,9 +66,9 @@ final class ImageService extends ImageToolsService
 
             return ImageUploadFactory::make($DTO->uploadMethod)?->handle($DTO);
 
-        } catch (Exception $e)
+        } catch (Exception $exception)
         {
-            Log::error($e->getMessage());
+            Log::error($exception->getMessage());
 
             return null;
         }
@@ -123,9 +123,9 @@ final class ImageService extends ImageToolsService
 
             return $images;
 
-        } catch (Exception $e)
+        } catch (Exception $exception)
         {
-            Log::error($e->getMessage());
+            Log::error($exception->getMessage());
 
             return null;
         }
@@ -141,9 +141,9 @@ final class ImageService extends ImageToolsService
             }
 
             return true;
-        } catch (Exception $e)
+        } catch (Exception $exception)
         {
-            Log::error($e->getMessage());
+            Log::error($exception->getMessage());
 
             return false;
         }
@@ -157,9 +157,9 @@ final class ImageService extends ImageToolsService
 
             return $this->deleteDirectoryAndFiles($directory);
 
-        } catch (Exception $e)
+        } catch (Exception $exception)
         {
-            Log::error($e->getMessage());
+            Log::error($exception->getMessage());
 
             return false;
         }
@@ -187,9 +187,9 @@ final class ImageService extends ImageToolsService
 
             return rmdir($directory);
 
-        } catch (Exception $e)
+        } catch (Exception $exception)
         {
-            Log::error($e->getMessage());
+            Log::error($exception->getMessage());
 
             return false;
         }

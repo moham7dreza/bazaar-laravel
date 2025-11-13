@@ -34,9 +34,9 @@ final readonly class PaymentGateway
 
             // Process payment...
 
-        } catch (InvalidArgumentException $e)
+        } catch (InvalidArgumentException $invalidArgumentException)
         {
-            throw new RuntimeException('Invalid payment configuration: ' . $e->getMessage());
+            throw new RuntimeException('Invalid payment configuration: ' . $invalidArgumentException->getMessage());
         }
 
         return true;

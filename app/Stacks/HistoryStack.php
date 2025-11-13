@@ -23,7 +23,7 @@ class HistoryStack
     {
         $id = Arr::get($event, 'data.todo_id');
         $this->redis->lPush(
-            "history:todos:{$id}:{$userId}",
+            sprintf('history:todos:%s:%d', $id, $userId),
             json_encode($event, JSON_THROW_ON_ERROR)
         );
     }
@@ -33,7 +33,7 @@ class HistoryStack
      */
     public function pop(int $todoId, int $userId): array
     {
-        $eventJson = $this->redis->lpop("history:todos:{$todoId}:{$userId}");
+        $eventJson = $this->redis->lpop(sprintf('history:todos:%d:%d', $todoId, $userId));
 
         throw_unless($eventJson, InvalidArgumentException::class, 'Event not found in redis');
 

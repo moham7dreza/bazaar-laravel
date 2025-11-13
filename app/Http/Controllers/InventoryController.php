@@ -17,7 +17,7 @@ class InventoryController extends Controller
         return Item::query()->where('code', $itemCode)
             ->where('quantity', '>', 0)
             ->existsOr(function () use ($itemCode) {
-                Log::warning("Stock check attempted for unavailable item: {$itemCode}");
+                Log::warning('Stock check attempted for unavailable item: ' . $itemCode);
 
                 return new JsonResponse([
                     'in_stock' => false,
@@ -32,7 +32,7 @@ class InventoryController extends Controller
             ->where('available_quantity', '>=', $quantity)
             ->existsOr(function () use ($itemId, $quantity): void {
                 throw new InsufficientStockException(
-                    "Cannot reserve {$quantity} units of item {$itemId}"
+                    sprintf('Cannot reserve %s units of item %s', $quantity, $itemId)
                 );
             });
     }

@@ -12,7 +12,7 @@ final class AssetManager
 
     public function validateAsset(string $filename)
     {
-        return array_any($this->imageFormats, fn ($format) => Str::is("*.{$format}", $filename, true));
+        return array_any($this->imageFormats, fn ($format) => Str::is('*.' . $format, $filename, true));
     }
 
     public function processMediaUploads(array $files)

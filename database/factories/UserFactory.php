@@ -84,7 +84,7 @@ class UserFactory extends Factory
             $name = Arr::get($attributes, 'name');
 
             return [
-                'email'     => "admin-{$name}@admin.com",
+                'email'     => sprintf('admin-%s@admin.com', $name),
                 'user_type' => User::TypeAdmin,
             ];
         });
@@ -114,9 +114,9 @@ class UserFactory extends Factory
         $imageName = 'profile-pic.jpg';
         Storage::disk(StorageDisk::Public->value)
             ->put(
-                "images/{$imageName}",
+                'images/' . $imageName,
                 $response->body()
             );
-        $user->update(['avatar_url' => "images/{$imageName}"]);
+        $user->update(['avatar_url' => 'images/' . $imageName]);
     }
 }

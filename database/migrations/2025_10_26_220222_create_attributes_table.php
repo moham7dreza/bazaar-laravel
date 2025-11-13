@@ -20,6 +20,7 @@ return new class() extends Migration {
             {
                 $table->unsignedBigInteger('attributable_id');
             }
+
             $table->string('attributable');
             $table->timestamps();
         });

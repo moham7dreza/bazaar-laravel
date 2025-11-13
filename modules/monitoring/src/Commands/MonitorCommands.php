@@ -99,8 +99,8 @@ class MonitorCommands extends Command
         $failedData = $monitor->getFailedCommandsPerHour($hours, $category);
 
         $title = $category
-            ? "Failed Commands Per Hour - Category: {$category} (Last {$hours}h)"
-            : "Failed Commands Per Hour (Last {$hours}h)";
+            ? sprintf('Failed Commands Per Hour - Category: %s (Last %sh)', $category, $hours)
+            : sprintf('Failed Commands Per Hour (Last %sh)', $hours);
 
         $this->components->info($title);
         $this->components->info(str_repeat('=', mb_strlen($title)));
@@ -116,8 +116,8 @@ class MonitorCommands extends Command
         $peakHour    = $failedData->sortByDesc('failed_count')->first();
 
         $this->components->info("\n📈 Summary:");
-        $this->components->line("Total Failed Commands: <comment>{$totalFailed}</comment>");
-        $this->components->line("Peak Failure Hour: <comment>{$peakHour->hour} - {$peakHour->failed_count} failures</comment>");
+        $this->components->line(sprintf('Total Failed Commands: <comment>%s</comment>', $totalFailed));
+        $this->components->line(sprintf('Peak Failure Hour: <comment>%s - %s failures</comment>', $peakHour->hour, $peakHour->failed_count));
         $this->components->line('Average Failures/Hour: <comment>' . number_format($totalFailed / $failedData->count(), 1) . '</comment>');
 
         $this->components->info("\n🕒 Hourly Breakdown:");
@@ -127,7 +127,7 @@ class MonitorCommands extends Command
 
             return [
                 $hour->hour,
-                "{$trend} {$hour->failed_count}",
+                sprintf('%s %s', $trend, $hour->failed_count),
                 $hour->most_failed_command ?: 'N/A',
                 $hour->failed_count > 0 ? number_format($hour->failure_rate * 100, 1) . '%' : '0%',
             ];
@@ -142,7 +142,7 @@ class MonitorCommands extends Command
         {
             $this->info("\n🚨 Top Failing Commands:");
             $topFailing->each(function ($command): void {
-                $this->line(" - <comment>{$command->command}</comment>: {$command->failure_count} failures");
+                $this->line(sprintf(' - <comment>%s</comment>: %s failures', $command->command, $command->failure_count));
             });
         }
     }
@@ -155,8 +155,8 @@ class MonitorCommands extends Command
         $rateData = $monitor->getCommandsPerMinute($minutes, $category);
 
         $title = $category
-            ? "Commands Execution Rate - Category: {$category} (Last {$minutes}m)"
-            : "Commands Execution Rate (Last {$minutes}m)";
+            ? sprintf('Commands Execution Rate - Category: %s (Last %sm)', $category, $minutes)
+            : sprintf('Commands Execution Rate (Last %sm)', $minutes);
 
         $this->components->info($title);
         $this->components->info(str_repeat('=', mb_strlen($title)));
@@ -173,8 +173,8 @@ class MonitorCommands extends Command
         $avgPerMinute  = $totalCommands / $rateData->count();
 
         $this->components->info("\n📈 Summary:");
-        $this->components->line("Total Commands Executed: <comment>{$totalCommands}</comment>");
-        $this->components->line("Peak Execution: <comment>{$peakMinute->minute} - {$peakMinute->command_count} commands</comment>");
+        $this->components->line(sprintf('Total Commands Executed: <comment>%s</comment>', $totalCommands));
+        $this->components->line(sprintf('Peak Execution: <comment>%s - %s commands</comment>', $peakMinute->minute, $peakMinute->command_count));
         $this->components->line('Average Rate: <comment>' . number_format($avgPerMinute, 1) . ' commands/minute</comment>');
 
         $this->components->info("\n⏱️  Minute-by-Minute Rate:");
@@ -194,7 +194,7 @@ class MonitorCommands extends Command
 
             return [
                 $interval->interval,
-                "{$trend} {$interval->total_commands}",
+                sprintf('%s %s', $trend, $interval->total_commands),
                 number_format($interval->avg_commands, 1),
                 $this->getTrafficLight($interval->avg_commands, $avgPerMinute),
             ];
@@ -206,7 +206,7 @@ class MonitorCommands extends Command
         $busiestMinutes = $rateData->sortByDesc('command_count')->take(5);
         $this->components->info("\n🔥 Busiest Minutes:");
         $busiestMinutes->each(function ($minute): void {
-            $this->line(" - <comment>{$minute->minute}</comment>: {$minute->command_count} commands");
+            $this->line(sprintf(' - <comment>%s</comment>: %s commands', $minute->minute, $minute->command_count));
         });
     }
 
@@ -219,8 +219,8 @@ class MonitorCommands extends Command
         $recentCommands = $monitor->getRecentCommands($limit, $category, $status);
 
         $title = 'Recent Commands' .
-            ($category ? " - Category: {$category}" : '') .
-            ('all' !== $status ? " - Status: {$status}" : '');
+            ($category ? ' - Category: ' . $category : '') .
+            ('all' !== $status ? ' - Status: ' . $status : '');
 
         $this->components->info($title);
         $this->components->info(str_repeat('=', mb_strlen($title)));
@@ -264,7 +264,7 @@ class MonitorCommands extends Command
         $running   = $recentCommands->where('status', 'started')->count();
 
         $this->components->info("\n📊 Summary of Last {$limit} Commands:");
-        $this->components->line("Completed: <fg=green>{$completed}</> | Failed: <fg=red>{$failed}</> | Running: <fg=yellow>{$running}</>");
+        $this->components->line(sprintf('Completed: <fg=green>%d</> | Failed: <fg=red>%d</> | Running: <fg=yellow>%d</>', $completed, $failed, $running));
 
         if ($failed > 0)
         {
@@ -278,12 +278,12 @@ class MonitorCommands extends Command
         $commandName = $this->option('statistics');
         $statistics  = $monitor->getCommandStatistics($commandName);
 
-        $this->components->info("Statistics for: {$commandName}");
+        $this->components->info('Statistics for: ' . $commandName);
         $this->components->info('==================' . str_repeat('=', mb_strlen($commandName)));
 
         if ( ! Arr::get($statistics, 'statistics') || 0 === Arr::get($statistics, 'statistics')->total_runs)
         {
-            $this->error("No data found for command: {$commandName}");
+            $this->error('No data found for command: ' . $commandName);
 
             return;
         }
@@ -292,7 +292,7 @@ class MonitorCommands extends Command
 
         // Display summary statistics
         $this->components->info("\n📊 Summary Statistics:");
-        $this->components->line("Total Runs: <comment>{$stats->total_runs}</comment>");
+        $this->components->line(sprintf('Total Runs: <comment>%s</comment>', $stats->total_runs));
         $this->components->line('Average Runtime: <comment>' . number_format($stats->avg_runtime) . ' ms</comment>');
         $this->components->line('Min Runtime: <comment>' . number_format($stats->min_runtime) . ' ms</comment>');
         $this->components->line('Max Runtime: <comment>' . number_format($stats->max_runtime) . ' ms</comment>');
@@ -340,12 +340,12 @@ class MonitorCommands extends Command
         $days        = $this->ask('Number of days to analyze', 30);
         $performance = $monitor->getCategoryPerformance($category, $days);
 
-        $this->components->info("Performance Trends for Category: {$category} (Last {$days} days)");
+        $this->components->info(sprintf('Performance Trends for Category: %s (Last %s days)', $category, $days));
         $this->components->info('==========================================' . str_repeat('=', mb_strlen((string) $category) + mb_strlen($days)));
 
         if ($performance->isEmpty())
         {
-            $this->warn("No performance data found for category: {$category} in the last {$days} days");
+            $this->warn(sprintf('No performance data found for category: %s in the last %s days', $category, $days));
 
             return;
         }
@@ -356,7 +356,7 @@ class MonitorCommands extends Command
         $avgMemory       = $performance->avg('avg_memory');
 
         $this->components->info("\n📈 Summary:");
-        $this->components->line("Total Executions: <comment>{$totalExecutions}</comment>");
+        $this->components->line(sprintf('Total Executions: <comment>%s</comment>', $totalExecutions));
         $this->components->line('Average Runtime: <comment>' . number_format($avgRuntime) . ' ms</comment>');
         $this->components->line('Average Memory: <comment>' . number_format($avgMemory) . ' bytes</comment>');
 
@@ -382,7 +382,7 @@ class MonitorCommands extends Command
 
         $this->components->line('Best Runtime: <comment>' . number_format($minRuntime) . ' ms</comment>');
         $this->components->line('Worst Runtime: <comment>' . number_format($maxRuntime) . ' ms</comment>');
-        $this->components->line("Performance Trend: <comment>{$trend}</comment>");
+        $this->components->line(sprintf('Performance Trend: <comment>%s</comment>', $trend));
     }
 
     protected function calculateTrend(array $runtimes): string
@@ -404,6 +404,7 @@ class MonitorCommands extends Command
         {
             return '📈 Getting slower (+' . number_format($change, 1) . '%)';
         }
+
         if ($change < -10)
         {
             return '📉 Getting faster (' . number_format($change, 1) . '%)';
@@ -422,7 +423,7 @@ class MonitorCommands extends Command
 
         foreach ($categories as $category)
         {
-            $this->line("- {$category}");
+            $this->line('- ' . $category);
         }
     }
 
@@ -487,7 +488,7 @@ class MonitorCommands extends Command
         $slowCommands = $monitor->getSlowCommands($category);
 
         $title = $category
-            ? "Slow Commands in Category: {$category}"
+            ? 'Slow Commands in Category: ' . $category
             : 'Slow Commands (> 5 minutes)';
 
         $this->components->info($title);
@@ -526,12 +527,12 @@ class MonitorCommands extends Command
         $category = $this->option('category');
         $commands = $monitor->getCommandsByCategory($category);
 
-        $this->components->info("Commands in Category: {$category}");
+        $this->components->info('Commands in Category: ' . $category);
         $this->components->info('==============================' . str_repeat('=', mb_strlen($category)));
 
         if ($commands->isEmpty())
         {
-            $this->info("No commands found in category: {$category}");
+            $this->info('No commands found in category: ' . $category);
 
             return;
         }
@@ -565,6 +566,7 @@ class MonitorCommands extends Command
         {
         return '🔴 High';
         }
+
         if ($current > $average * 1.2)
         {
         return '🟡 Medium';

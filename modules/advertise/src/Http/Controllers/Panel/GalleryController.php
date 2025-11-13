@@ -82,12 +82,14 @@ final class GalleryController extends Controller
             {
                 $imageService->deleteDirectoryAndFiles(Arr::get($gallery->url, 'directory'));
             }
+
             $imageService->setExclusiveDirectory('images' . DIRECTORY_SEPARATOR . 'user-advertisement-images-gallery');
             $result = $imageService->createIndexAndSave($request->url);
             if (false === $result)
             {
                 return ApiJsonResponse::error(500, message: 'خطا در فرایند اپلود');
             }
+
             Arr::set($inputs, 'url', $result);
         } else
         {

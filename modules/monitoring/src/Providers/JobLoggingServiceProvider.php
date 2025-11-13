@@ -26,6 +26,7 @@ final class JobLoggingServiceProvider extends ServiceProvider
         MongoLogJob::class,
         PackageSent::class,
     ];
+
     private float $startTime;
 
     private int $startMemory;
@@ -43,6 +44,7 @@ final class JobLoggingServiceProvider extends ServiceProvider
         {
             return;
         }
+
         $this->handleJobProcessing();
         $this->handleJobProcessed();
         $this->handleJobQueued();
@@ -74,6 +76,7 @@ final class JobLoggingServiceProvider extends ServiceProvider
                 {
                     return;
                 }
+
                 $this->startTime      = microtime(true);
                 $this->startMemory    = memory_get_usage();
                 $this->queryCount     = 0;
@@ -83,9 +86,9 @@ final class JobLoggingServiceProvider extends ServiceProvider
                     $this->queryCount++;
                     $this->totalQueryTime += $query->time;
                 });
-            } catch (Exception $e)
+            } catch (Exception $exception)
             {
-                report($e);
+                report($exception);
             }
         });
     }
@@ -119,9 +122,9 @@ final class JobLoggingServiceProvider extends ServiceProvider
                 ];
 
                 JobPerformanceLog::query()->create($data);
-            } catch (Exception $e)
+            } catch (Exception $exception)
             {
-                report($e);
+                report($exception);
             }
         });
     }
@@ -130,7 +133,7 @@ final class JobLoggingServiceProvider extends ServiceProvider
     {
         Event::listen(static function (JobQueued $event): void {
             $job = $event->job::class;
-            context()->push('queued_job_history', "Job queued: {$job}");
+            context()->push('queued_job_history', 'Job queued: ' . $job);
         });
     }
 
@@ -138,7 +141,7 @@ final class JobLoggingServiceProvider extends ServiceProvider
     {
         Event::listen(static function (JobFailed $event): void {
             $job = $event->job::class;
-            context()->push('failed_job_history', "Job failed: {$job}");
+            context()->push('failed_job_history', 'Job failed: ' . $job);
 
             $payload = [
                 'exception' => $event->exception->getMessage(),

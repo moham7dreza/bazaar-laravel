@@ -14,6 +14,7 @@ class ProcessingState implements OrderStateInterface
     {
         return OrderState::Processing->value;
     }
+
     public function proceedToNext(OrderContext $context): void
     {
         $context->setState(new ShippedState());

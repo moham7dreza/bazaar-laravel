@@ -90,12 +90,14 @@ final class AdvertisementController extends Controller
             {
                 $imageService->deleteDirectoryAndFiles(Arr::get($advertisement->image, 'directory'));
             }
+
             $imageService->setExclusiveDirectory('images' . DIRECTORY_SEPARATOR . 'advertisement-images');
             $result = $imageService->createIndexAndSave($request->image);
             if (false === $result)
             {
                 return ApiJsonResponse::error(500, message: __('response.image.upload failed'));
             }
+
             Arr::set($inputs, 'image', $result);
         } else
         {
@@ -106,6 +108,7 @@ final class AdvertisementController extends Controller
                 Arr::set($inputs, 'image', $image);
             }
         }
+
         $advertisement->update($inputs);
 
         $request->whenFilled('category_value_id', function (string $input) use ($advertisement): void {

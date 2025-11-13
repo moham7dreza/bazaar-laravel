@@ -22,7 +22,7 @@ final class UserPermissionsMiddleware
         }
 
         $permissions = cache()->remember(
-            "user:permissions:{$user->id}",
+            'user:permissions:' . $user->id,
             Date::now()->addHour(),
             fn () => collect(
                 $user->getPermissionNames()

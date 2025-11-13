@@ -55,6 +55,7 @@ final readonly class AdvertisementElasticSearchRepository implements Advertiseme
                 'match_all' => (object) [],
             ]);
         }
+
         // ID filtering
         if (filled($searchDTO->ids))
         {
@@ -68,8 +69,9 @@ final readonly class AdvertisementElasticSearchRepository implements Advertiseme
                 ],
             ]);
         }
+
         // Sorting
-        if ($searchDTO->sort)
+        if (null !== $searchDTO->sort)
         {
             switch ($searchDTO->sort)
             {
@@ -89,6 +91,7 @@ final readonly class AdvertisementElasticSearchRepository implements Advertiseme
                     break;
             }
         }
+
         // Pagination
         Arr::set($body, 'from', ($searchDTO->page - 1) * $searchDTO->perPage);
         Arr::set($body, 'size', $searchDTO->perPage);

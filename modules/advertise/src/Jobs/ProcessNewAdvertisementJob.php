@@ -31,7 +31,7 @@ final class ProcessNewAdvertisementJob implements ShouldQueue, ShouldNotifyOnFai
     public function middleware(): array
     {
         return [
-            new WithoutOverlapping("ad-processing-{$this->id}"),
+            new WithoutOverlapping('ad-processing-' . $this->id),
             new RateLimited('ad-notifications'),
             new ThrottlesExceptions(3, 60)->backoff(30),
         ];

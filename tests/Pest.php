@@ -25,7 +25,7 @@ expect()->extend(
     function (string $enum) {
         expect($enum)->toBeEnum();
         $resolved = $enum::tryFrom($this->value);
-        expect($resolved)->toBeInstanceOf($enum, "'{$this->value}' is not defined in '{$enum}' enum.");
+        expect($resolved)->toBeInstanceOf($enum, sprintf("'%s' is not defined in '%s' enum.", $this->value, $enum));
 
         return $this;
     }
@@ -98,8 +98,8 @@ function validateFormRequest(string $class, array $parameters): array
         app($class);
 
         return [];
-    } catch (ValidationException $e)
+    } catch (ValidationException $validationException)
     {
-        return $e->validator->errors()->keys();
+        return $validationException->validator->errors()->keys();
     }
 }

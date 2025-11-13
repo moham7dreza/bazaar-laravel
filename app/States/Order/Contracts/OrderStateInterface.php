@@ -9,5 +9,6 @@ use App\States\Order\Handler\OrderContext;
 interface OrderStateInterface
 {
     public function __toString(): string;
+
     public function proceedToNext(OrderContext $context);
 }

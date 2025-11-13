@@ -62,7 +62,7 @@ final class SmsBuilder
         throw_unless(
             Lang::has($messageKey),
             InvalidArgumentException::class,
-            "The [{$messageKey}] message key does not exist in translations."
+            sprintf('The [%s] message key does not exist in translations.', $messageKey)
         );
 
         return new self($messageKey);
@@ -158,7 +158,7 @@ final class SmsBuilder
         $body = __($this->messageKey, $this->messageParams, $this->locale->value);
 
         return is_int($this->messageTemplate)
-            ? __("sms.templates.{$this->messageTemplate}", ['body' => $body], $this->locale->value)
+            ? __('sms.templates.' . $this->messageTemplate, ['body' => $body], $this->locale->value)
             : $body;
     }
 
@@ -236,7 +236,7 @@ final class SmsBuilder
         throw_unless(
             blank($missingParams),
             RuntimeException::class,
-            "Missing parameters for {$this->messageKey}: " . implode(', ', $missingParams)
+            sprintf('Missing parameters for %s: ', $this->messageKey) . implode(', ', $missingParams)
         );
     }
 }

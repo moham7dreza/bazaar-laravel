@@ -25,7 +25,7 @@ class AdvertisementBatchSeeder extends Seeder
         ?Collection $users,
     ): void {
 
-        if ( ! $users)
+        if (null === $users)
         {
             $users = collect(User::all()->modelKeys());
             if ($users->isEmpty())
@@ -33,6 +33,7 @@ class AdvertisementBatchSeeder extends Seeder
                 $users = User::factory(5)->create();
             }
         }
+
         $this->createAdsForUsers($users->toArray());
     }
 
@@ -54,7 +55,7 @@ class AdvertisementBatchSeeder extends Seeder
         foreach ($users as $user)
         {
             $userId = Arr::get($user, 'id');
-            $this->command->info("user {$userId} is processing");
+            $this->command->info(sprintf('user %s is processing', $userId));
             // need for check ad depth
             //            $userAdIds = [];
 
@@ -80,6 +81,7 @@ class AdvertisementBatchSeeder extends Seeder
                 {
                     continue;
                 }
+
                 if ( ! $cityId)
                 {
                     continue;
@@ -108,7 +110,7 @@ class AdvertisementBatchSeeder extends Seeder
                     'updated_at'   => Date::now()->toDateTimeString(),
                 ];
 
-                $this->command->info("ads {$adId} is processing");
+                $this->command->info(sprintf('ads %s is processing', $adId));
 
                 //                $userAdIds[$adId] = $adId;
                 $adId++;
@@ -118,7 +120,7 @@ class AdvertisementBatchSeeder extends Seeder
         }
 
         $adsToBeInserts = count($ads);
-        $this->command->info("total {$adsToBeInserts} ads should be processed");
+        $this->command->info(sprintf('total %d ads should be processed', $adsToBeInserts));
 
         // insert in chunks of 5000
         foreach (array_chunk($ads, 5000) as $chunk)

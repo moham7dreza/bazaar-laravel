@@ -22,7 +22,7 @@ enum PaymentGateways: int implements HasLabel
         $keys = config('payment-gateways.keys.' . $this->value);
 
         return array_map(function ($config, $key) {
-            $name  = "config.{$key}";
+            $name  = 'config.' . $key;
             $label = Arr::get($config, 'label', $key);
             $rules = Arr::get($config, 'rules', []);
 

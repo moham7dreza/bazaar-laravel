@@ -152,12 +152,12 @@ class AddChangelogEntryCommand extends Command
         // Format the entry
         $formattedDatetime = $datetime->format('Y-m-d H:i');
         $entry             = "\n\n### [{$formattedDatetime}] - {$title}\n\n";
-        $entry .= "- **Author**: {$author}\n";
-        $entry .= "- **Category**: {$category}\n";
-        $entry .= "- **Impact**: {$impact}\n";
+        $entry .= sprintf('- **Author**: %s%s', $author, PHP_EOL);
+        $entry .= sprintf('- **Category**: %s%s', $category, PHP_EOL);
+        $entry .= sprintf('- **Impact**: %s%s', $impact, PHP_EOL);
         $entry .= '- **Jira Ticket**: ' . $this->formatJiraTicket($jiraTicket) . "\n";
         $entry .= '- **Merge Request**: ' . $this->formatMergeRequest($mergeRequest) . "\n";
-        $entry .= "\n{$description}\n";
+        $entry .= PHP_EOL . $description . PHP_EOL;
         $entry .= "\n---";
 
         // Show preview and confirm
@@ -244,7 +244,7 @@ class AddChangelogEntryCommand extends Command
             $project = Arr::get($matches, 1);
             $ticket  = Arr::get($matches, 2);
 
-            return "https://your-jira-domain.com/browse/{$project}-{$ticket}";
+            return sprintf('https://your-jira-domain.com/browse/%s-%s', $project, $ticket);
         }
 
         return $input;
@@ -262,13 +262,13 @@ class AddChangelogEntryCommand extends Command
         {
             $mrNumber = Arr::get($matches, 1);
 
-            return "[!{$mrNumber}](https://github.com/moham7dreza/bazaar-laravel/pull/{$mrNumber})";
+            return sprintf('[!%s](https://github.com/moham7dreza/bazaar-laravel/pull/%s)', $mrNumber, $mrNumber);
         }
 
         // If numeric, format as MR link
         if (is_numeric($input))
         {
-            return "[!{$input}](https://github.com/moham7dreza/bazaar-laravel/pull/{$input})";
+            return sprintf('[!%s](https://github.com/moham7dreza/bazaar-laravel/pull/%s)', $input, $input);
         }
 
         return $input;

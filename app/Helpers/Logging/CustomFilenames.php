@@ -21,7 +21,7 @@ class CustomFilenames
             if ($handler instanceof RotatingFileHandler)
             {
                 $sapi = PHP_SAPI;
-                $handler->setFilenameFormat("{filename}-{$sapi}-{date}", 'Y-m-d');
+                $handler->setFilenameFormat(sprintf('{filename}-%s-{date}', $sapi), 'Y-m-d');
             }
         }
     }

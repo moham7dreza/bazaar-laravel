@@ -14,6 +14,7 @@ class PendingState implements OrderStateInterface
     {
         return OrderState::Pending->value;
     }
+
     public function proceedToNext(OrderContext $context): void
     {
         $context->setState(new ProcessingState());

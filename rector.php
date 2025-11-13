@@ -51,7 +51,7 @@ return RectorConfig::configure()
         phpunit: true,
         laravel: true,
     )
-    ->withCodingStyleLevel(0)
+    ->withCodingStyleLevel(10)
     ->withRootFiles()
     ->withMemoryLimit('2G')
     ->withAttributesSets()

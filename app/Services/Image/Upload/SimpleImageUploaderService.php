@@ -33,9 +33,9 @@ final readonly class SimpleImageUploaderService implements ImageUploader
 
             return $this->imageService->getImageAddress();
 
-        } catch (Exception $e)
+        } catch (Exception $exception)
         {
-            Log::error($e->getMessage());
+            Log::error($exception->getMessage());
 
             return null;
         }

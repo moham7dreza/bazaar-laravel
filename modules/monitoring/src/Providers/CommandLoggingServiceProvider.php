@@ -39,6 +39,7 @@ final class CommandLoggingServiceProvider extends ServiceProvider
     private int $queryCount;
 
     private float $totalQueryTime;
+
     private ?CommandPerformanceLog $log = null;
 
     public function boot(): void
@@ -94,9 +95,9 @@ final class CommandLoggingServiceProvider extends ServiceProvider
                 ];
 
                 $this->log = CommandPerformanceLog::query()->create($data);
-            } catch (Exception $e)
+            } catch (Exception $exception)
             {
-                report($e);
+                report($exception);
             }
         });
     }
@@ -124,9 +125,9 @@ final class CommandLoggingServiceProvider extends ServiceProvider
                     'query_count'  => $this->queryCount,
                     'query_time'   => round($this->totalQueryTime), // milliseconds
                 ]);
-            } catch (Exception $e)
+            } catch (Exception $exception)
             {
-                report($e);
+                report($exception);
             }
         });
     }

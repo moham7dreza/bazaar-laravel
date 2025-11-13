@@ -103,7 +103,7 @@ class ArtisanFinderCommand extends Command
 
     private function matchesSearchTerms(string $command, string $input): bool
     {
-        return array_all(explode(' ', $input), fn ($term): bool => str_contains($command, (string) $term));
+        return array_all(explode(' ', $input), fn ($term): bool => str_contains($command, $term));
     }
 
     private function isCommandValid($commands, $commandName): bool
@@ -114,12 +114,12 @@ class ArtisanFinderCommand extends Command
     private function confirmCommandClassPath($command): bool
     {
         $commandClass = $command::class;
-        info("Command: {$command->getName()}");
-        warning("Class: {$commandClass}");
+        info('Command: ' . $command->getName());
+        warning('Class: ' . $commandClass);
 
         if ($command->getDescription())
         {
-            info("Description: {$command->getDescription()}");
+            info('Description: ' . $command->getDescription());
         }
 
         return confirm('Do you want to continue?');
@@ -142,7 +142,7 @@ class ArtisanFinderCommand extends Command
         $argsList    = implode(' ', array_map(static fn ($arg): string => $arg->getName() . ($arg->isRequired() ? '*' : ''), $arguments));
         $optionsList = implode(' ', array_map(static fn ($opt): string => '--' . $opt->getName() . ($opt->isValueRequired() ? '*' : ''), $options));
 
-        return mb_trim("{$argsList} {$optionsList}");
+        return mb_trim(sprintf('%s %s', $argsList, $optionsList));
     }
 
     private function getUserInput(string $placeholderText): array

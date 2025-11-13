@@ -31,9 +31,9 @@ final class CacheUiLaravelCommand extends Command
     {
         $storeName    = $this->option('store') ?? config('cache-ui-laravel.default_store', config('cache.default'));
         $this->store  = Cache::store($storeName);
-        $this->driver = config("cache.stores.{$storeName}.driver");
+        $this->driver = config(sprintf('cache.stores.%s.driver', $storeName));
 
-        info("📦 Cache driver: {$this->driver}");
+        info('📦 Cache driver: ' . $this->driver);
 
         $keys = $this->getCacheKeys();
 
@@ -65,7 +65,7 @@ final class CacheUiLaravelCommand extends Command
         }
 
         $this->newLine();
-        $this->components->line("📝 <fg=cyan>Key:</>      {$selectedKey}");
+        $this->components->line('📝 <fg=cyan>Key:</>      ' . $selectedKey);
         $this->newLine();
 
         $confirmed = confirm(
@@ -101,12 +101,12 @@ final class CacheUiLaravelCommand extends Command
 
         if ($deleted)
         {
-            info("🗑️  The key '{$selectedKey}' has been successfully deleted");
+            info(sprintf("🗑️  The key '%s' has been successfully deleted", $selectedKey));
 
             return self::SUCCESS;
         }
 
-        error("❌ Could not delete the key '{$selectedKey}'");
+        error(sprintf("❌ Could not delete the key '%s'", $selectedKey));
 
         return self::FAILURE;
     }
@@ -140,9 +140,9 @@ final class CacheUiLaravelCommand extends Command
 
                 return $key;
             }, $keys);
-        } catch (Exception $e)
+        } catch (Exception $exception)
         {
-            error('Error getting Redis keys: ' . $e->getMessage());
+            error('Error getting Redis keys: ' . $exception->getMessage());
 
             return [];
         }
@@ -201,9 +201,9 @@ final class CacheUiLaravelCommand extends Command
             }
 
             return $keys;
-        } catch (Exception $e)
+        } catch (Exception $exception)
         {
-            error('Error getting file system keys: ' . $e->getMessage());
+            error('Error getting file system keys: ' . $exception->getMessage());
 
             return [];
         }
@@ -216,9 +216,9 @@ final class CacheUiLaravelCommand extends Command
             $table = config('cache.stores.database.table', 'cache');
 
             return DB::table($table)->pluck('key')->toArray();
-        } catch (Exception $e)
+        } catch (Exception $exception)
         {
-            error('Error getting database keys: ' . $e->getMessage());
+            error('Error getting database keys: ' . $exception->getMessage());
 
             return [];
         }
@@ -235,7 +235,7 @@ final class CacheUiLaravelCommand extends Command
 
     private function handleUnsupportedDriver(): array
     {
-        error("⚠️  The driver '{$this->driver}' is not currently supported.");
+        error(sprintf("⚠️  The driver '%s' is not currently supported.", $this->driver));
         info('Supported drivers: redis, file, database');
 
         return [];

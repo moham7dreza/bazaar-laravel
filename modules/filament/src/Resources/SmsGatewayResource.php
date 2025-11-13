@@ -26,15 +26,21 @@ use Override;
 final class SmsGatewayResource extends Resource
 {
     protected static ?string $model                = SmsGateway::class;
+
     protected static ?string $navigationGroup      = 'Sale';
+
     protected static ?string $navigationIcon       = 'heroicon-o-chat-bubble-bottom-center-text';
+
     protected static ?string $recordTitleAttribute = 'gateway';
+
     protected static ?int $navigationSort          = 2;
+
     #[Override]
     public static function getNavigationLabel(): string
     {
         return __('SMS Gateways');
     }
+
     #[Override]
     public static function form(Form $form): Form
     {

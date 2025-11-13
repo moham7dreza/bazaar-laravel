@@ -14,6 +14,7 @@ class ShippedState implements OrderStateInterface
     {
         return OrderState::Shipped->value;
     }
+
     public function proceedToNext(OrderContext $context): void
     {
 //        logger("⚠️ Order already shipped! Cannot proceed further.\n");

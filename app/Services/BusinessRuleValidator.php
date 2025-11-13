@@ -30,7 +30,7 @@ final class BusinessRuleValidator
 
         foreach ($validations as $type => $isValid)
         {
-            throw_unless($isValid, ValidationException::class, "Exactly one {$type} fee required");
+            throw_unless($isValid, ValidationException::class, sprintf('Exactly one %s fee required', $type));
         }
 
         return $items;

@@ -55,6 +55,7 @@ class ImportUsersJob implements ShouldQueue
 
             $batch->finally(fn (): PendingDispatch => dispatch(new ImportUsersJob($nextPage)));
         }
+
         $batch->dispatch();
     }
 }

@@ -59,6 +59,7 @@ final class CategoryValue extends Model
             'type'   => ValueType::class,
         ];
     }
+
     // _____________________________________________ method SECTION __________________________________________
 
 }

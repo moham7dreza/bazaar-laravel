@@ -69,7 +69,7 @@ class CommandPerformanceLog extends Model
     #[Scope]
     protected function byCategory($query, string $category)
     {
-        return $query->where('command', 'like', "{$category}%");
+        return $query->where('command', 'like', $category . '%');
     }
 
     #[Scope]

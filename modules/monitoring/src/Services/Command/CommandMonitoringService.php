@@ -120,7 +120,7 @@ class CommandMonitoringService
 
         if ($category)
         {
-            $query->where('command', 'like', "{$category}:%");
+            $query->where('command', 'like', $category . ':%');
         }
 
         return $query->get();
@@ -140,7 +140,7 @@ class CommandMonitoringService
 
         if ($category)
         {
-            $query->where('command', 'like', "{$category}:%");
+            $query->where('command', 'like', $category . ':%');
         }
 
         return $query->get();
@@ -158,7 +158,7 @@ class CommandMonitoringService
 
         if ($category)
         {
-            $query->whereLike('command', "{$category}:%");
+            $query->whereLike('command', $category . ':%');
         }
 
         return $query->get();
@@ -170,7 +170,7 @@ class CommandMonitoringService
 
         if ($category)
         {
-            $query->whereLike('command', "{$category}:%");
+            $query->whereLike('command', $category . ':%');
         }
 
         if ('all' !== $status)
