@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 use Rector\CodingStyle\Rector\Enum_\EnumCaseToPascalCaseRector;
 use Rector\Config\RectorConfig;
+use Rector\ValueObject\PhpVersion;
 use RectorLaravel\Rector\ArrayDimFetch\ArrayToArrGetRector;
 use RectorLaravel\Rector\Class_\LivewireComponentComputedMethodToComputedAttributeRector;
 use RectorLaravel\Rector\Class_\LivewireComponentQueryStringToUrlAttributeRector;
@@ -36,7 +37,8 @@ return RectorConfig::configure()
         __DIR__ . '/routes',
         __DIR__ . '/tests',
     ])
-    ->withPhpSets()
+    ->withPhpSets(php84: true)
+    ->withPhpVersion(PhpVersion::PHP_84)
     ->withTypeCoverageLevel(0)
     ->withDeadCodeLevel(0)
     ->withCodeQualityLevel(0)
@@ -51,6 +53,7 @@ return RectorConfig::configure()
     )
     ->withCodingStyleLevel(0)
     ->withRootFiles()
+    ->withMemoryLimit('2G')
     ->withSets([
         LaravelLevelSetList::UP_TO_LARAVEL_120,
         LaravelSetList::ARRAY_STR_FUNCTIONS_TO_STATIC_CALL,
