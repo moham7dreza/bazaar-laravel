@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "9d7a9da52173717670e6565ab09489d6",
+    "content-hash": "d790106db2e1b0e06608667a16a894d3",
     "packages": [
         {
             "name": "afsakar/filament-otp-login",
@@ -9242,6 +9242,88 @@
                 }
             ],
             "time": "2024-05-09T08:44:51+00:00"
+        },
+        {
+            "name": "muhammadsadeeq/laravel-activitylog-ui",
+            "version": "v1.2.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/MuhammadSadeeq/laravel-activitylog-ui.git",
+                "reference": "fdaf8725effe8171085a6042efe1f089e64452e4"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/MuhammadSadeeq/laravel-activitylog-ui/zipball/fdaf8725effe8171085a6042efe1f089e64452e4",
+                "reference": "fdaf8725effe8171085a6042efe1f089e64452e4",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/contracts": "^10.0|^11.0|^12.0",
+                "php": "^8.1",
+                "spatie/laravel-activitylog": "^4.8"
+            },
+            "require-dev": {
+                "orchestra/testbench": "^8.0|^9.0|^10.0",
+                "phpunit/phpunit": "^10.1"
+            },
+            "suggest": {
+                "barryvdh/laravel-dompdf": "Required for exporting activity logs to PDF format.",
+                "maatwebsite/excel": "Required for exporting activity logs to XLSX format."
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "MuhammadSadeeq\\ActivitylogUi\\ActivitylogUiServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "MuhammadSadeeq\\ActivitylogUi\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Muhammad Sadeeq",
+                    "email": "afridi.sadeeq.m@gmail.com",
+                    "role": "Developer"
+                }
+            ],
+            "description": "A beautiful, modern UI for Spatie's Activity Log with advanced filtering, analytics, and real-time features.",
+            "homepage": "https://github.com/MuhammadSadeeq/laravel-activitylog-ui",
+            "keywords": [
+                "Audit",
+                "activity-log",
+                "activitylog",
+                "alpinejs",
+                "analytics",
+                "audit-log",
+                "chartjs",
+                "csv",
+                "dashboard",
+                "excel",
+                "export",
+                "laravel",
+                "laravel-activitylog",
+                "laravel-package",
+                "logging",
+                "monitoring",
+                "pdf",
+                "spatie",
+                "tailwind",
+                "timeline",
+                "ui"
+            ],
+            "support": {
+                "issues": "https://github.com/MuhammadSadeeq/laravel-activitylog-ui/issues",
+                "source": "https://github.com/MuhammadSadeeq/laravel-activitylog-ui/tree/v1.2.0"
+            },
+            "time": "2025-08-04T10:24:32+00:00"
         },
         {
             "name": "munafio/chatify",

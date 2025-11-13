@@ -165,4 +165,13 @@ return [
         'group'          => 'Tools',
         'sort'           => 10,
     ],
+    'activitylog-ui' => [
+        'title'          => 'Activity Logs',
+        'description'    => 'Activity Log UI panel',
+        'url'            => '/activitylog-ui',
+        'heroicon'       => 'heroicon-o-folder-open',
+        'icon'           => null,
+        'group'          => 'Tools',
+        'sort'           => 11,
+    ],
 ];
