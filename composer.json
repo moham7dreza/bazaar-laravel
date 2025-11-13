@@ -26,7 +26,7 @@
         "amiriun/sms": "dev-master",
         "christophrumpel/artisan-benchmark": "^0.0.4",
         "cviebrock/eloquent-sluggable": "^12.0",
-        "dedoc/scramble": "^0.12",
+        "dedoc/scramble": "^0.13",
         "doctrine/dbal": "^4.2",
         "dyrynda/laravel-cascade-soft-deletes": "^4.0",
         "elasticsearch/elasticsearch": "^8.0",
