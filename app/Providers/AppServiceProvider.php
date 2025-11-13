@@ -451,7 +451,7 @@ final class AppServiceProvider extends ServiceProvider
     private function bindSearchClient(): void
     {
         $this->app->bind(Elasticsearch\Client::class, fn (Application $app) => Elasticsearch\ClientBuilder::create()
-            ->setHosts($app['config']->array('services.search.hosts'))
+            ->setHosts($app->make(Repository::class)->array('services.search.hosts'))
             ->build());
     }
 }

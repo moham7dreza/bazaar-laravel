@@ -40,7 +40,7 @@ final class AdvertiseServiceProvider extends ServiceProvider
 
     private function bindSearchRepository(): void
     {
-        $this->app->bind(Search\AdvertisementSearchRepository::class, function (Application $app) {
+         $this->app->bind(function (Application $app): Search\AdvertisementSearchRepository {
             if ( ! config()->boolean('services.search.enabled'))
             {
                 return new Search\AdvertisementEloquentSearchRepository();

@@ -43,30 +43,30 @@ final readonly class AdvertisementElasticSearchRepository implements Advertiseme
         // Phrase logic
         if ($searchDTO->phrase)
         {
-            $body['query'] = [
+            Arr::set($body, 'query', [
                 'multi_match' => [
                     'fields' => ['title^5', 'description', 'tags'],
                     'query'  => $searchDTO->phrase,
                 ],
-            ];
+            ]);
         } else
         {
-            $body['query'] = [
+            Arr::set($body, 'query', [
                 'match_all' => (object) [],
-            ];
+            ]);
         }
         // ID filtering
-        if ( ! empty($searchDTO->ids))
+        if (filled($searchDTO->ids))
         {
             $idFilter = [
                 'terms' => ['_id' => $searchDTO->ids],
             ];
-            $body['query'] = [
+            Arr::set($body, 'query', [
                 'bool' => [
-                    'must'   => $body['query'],
+                    'must'   => Arr::get($body, 'query'),
                     'filter' => [$idFilter],
                 ],
-            ];
+            ]);
         }
         // Sorting
         if ($searchDTO->sort)
@@ -74,24 +74,24 @@ final readonly class AdvertisementElasticSearchRepository implements Advertiseme
             switch ($searchDTO->sort)
             {
                 case Sort::PriceAsc:
-                    $body['sort'] = [['price' => ['order' => 'asc']]];
+                    Arr::set($body, 'sort', [['price' => ['order' => 'asc']]]);
                     break;
                 case Sort::PriceDesc:
-                    $body['sort'] = [['price' => ['order' => 'desc']]];
+                    Arr::set($body, 'sort', [['price' => ['order' => 'desc']]]);
                     break;
                 case Sort::Newest:
-                    $body['sort'] = [['created_at' => ['order' => 'desc']]];
+                    Arr::set($body, 'sort', [['created_at' => ['order' => 'desc']]]);
                     break;
                 case Sort::Oldest:
-                    $body['sort'] = [['created_at' => ['order' => 'asc']]];
+                    Arr::set($body, 'sort', [['created_at' => ['order' => 'asc']]]);
                     break;
                 default:
                     break;
             }
         }
         // Pagination
-        $body['from'] = ($searchDTO->page - 1) * $searchDTO->perPage;
-        $body['size'] = $searchDTO->perPage;
+        Arr::set($body, 'from', ($searchDTO->page - 1) * $searchDTO->perPage);
+        Arr::set($body, 'size', $searchDTO->perPage);
 
         $params = [
             'index' => $model->getSearchIndex(),
@@ -104,9 +104,10 @@ final readonly class AdvertisementElasticSearchRepository implements Advertiseme
 
     private function buildCollection(array $items): Collection
     {
-        $ids = Arr::pluck($items['hits']['hits'], '_id');
+        $ids = Arr::pluck(Arr::get($items, 'hits.hits'), '_id');
 
-        return Advertisement::findMany($ids)
+        return Advertisement::query()
+            ->findMany($ids)
             ->sortBy(fn (Advertisement $advertisement) => array_search($advertisement->getKey(), $ids, true));
     }
 }

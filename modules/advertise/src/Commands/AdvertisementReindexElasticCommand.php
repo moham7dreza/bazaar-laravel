@@ -20,7 +20,7 @@ class AdvertisementReindexElasticCommand extends Command
     {
         info('Indexing all ads. This might take a while...');
 
-        foreach (Advertisement::cursor() as $advertise)
+        foreach (Advertisement::query()->cursor() as $advertise)
         {
             $elasticsearch->index([
                 'index' => $advertise->getSearchIndex(),
