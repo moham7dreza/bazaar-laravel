@@ -6,6 +6,7 @@ namespace Modules\Advertise\Http\Controllers\App;
 
 use App\Http\Controllers\Controller;
 use App\Http\Responses\ApiJsonResponse;
+use Illuminate\Container\Attributes\Give;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Resources\Json\JsonResource;
@@ -15,7 +16,7 @@ use Illuminate\Support\Facades\Log;
 use Modules\Advertise\Http\Controllers\Panel\HistoryAdvertisementController;
 use Modules\Advertise\Http\Requests\App\AdvertisementListViewRequest;
 use Modules\Advertise\Models\Advertisement;
-use Modules\Advertise\Repositories\AdvertisementReadRepository;
+use Modules\Advertise\Repositories\Search;
 use Spatie\QueryBuilder\AllowedFilter;
 use Spatie\QueryBuilder\Enums\FilterOperator;
 use Spatie\QueryBuilder\QueryBuilder;
@@ -28,14 +29,19 @@ final class AdvertisementController extends Controller
      *
      * @throws Throwable
      */
-    public function index(AdvertisementListViewRequest $request, AdvertisementReadRepository $repository): ResourceCollection
-    {
-        info('search log [{date}].', ['date' => Date::now()->toDateTimeString()]);
+    public function index(
+        AdvertisementListViewRequest $request,
+        #[Give(Search\AdvertisementEloquentAdvertisementSearchRepository::class)]
+        Search\AdvertisementSearchRepository $repository
+    ): ResourceCollection {
+        $searchDTO = $request->getDTO();
 
-        $advertisements = $repository->search($request->getDTO());
-
-        return $advertisements
-            ->items
+        return $repository
+            ->search($searchDTO)
+            ->paginate(
+                perPage: $searchDTO->perPage,
+                page: $searchDTO->page,
+            )
             ->toResourceCollection();
     }
 

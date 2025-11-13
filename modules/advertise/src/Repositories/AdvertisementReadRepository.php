@@ -10,27 +10,10 @@ use App\Models\Scopes\LatestScope;
 use DateTimeInterface;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\DB;
-use Modules\Advertise\DataContracts\AdvertisementSearchDTO;
 use Modules\Advertise\Models\Advertisement;
-use Modules\Advertise\Services\AdvertisementSearchService;
 
 final readonly class AdvertisementReadRepository
 {
-    public function __construct(
-        private AdvertisementSearchService $advertisementSearchService
-    ) {
-    }
-
-    public function search(AdvertisementSearchDTO $searchDTO): PaginatedListViewDTO
-    {
-        $items = $this->advertisementSearchService->getAdvertisements(
-            builder: $this->baseQuery(),
-            searchDTO: $searchDTO,
-        );
-
-        return new PaginatedListViewDTO($items);
-    }
-
     public function columnCounts(string $column): array
     {
         return $this->baseQuery()

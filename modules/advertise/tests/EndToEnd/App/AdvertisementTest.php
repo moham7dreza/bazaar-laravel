@@ -50,7 +50,7 @@ it('can get all advertisements', function (): void {
 
     assertAdv($data, $this->advertisement->id);
 
-    expect($queries)->toHaveCount(7);
+    expect($queries)->toHaveCount(6);
 });
 
 it('can show a single advertisement', function (): void {

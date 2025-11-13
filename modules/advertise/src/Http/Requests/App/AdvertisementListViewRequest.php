@@ -33,7 +33,7 @@ final class AdvertisementListViewRequest extends FormRequest
             phrase: $this->str('phrase')->value(),
             sort: $this->enum('sort', Sort::class, Sort::Newest),
             perPage: $this->integer('per_page', 24),
-            page: $this->integer('page', 24),
+            page: $this->integer('page', 1),
             ids: $this->array('ids'),
         );
     }
