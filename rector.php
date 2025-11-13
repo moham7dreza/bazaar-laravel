@@ -20,12 +20,12 @@ return RectorConfig::configure()
     ->withPreparedSets(
         privatization: true,
         earlyReturn: true,
-//        strictBooleans: true,
     )
     ->withComposerBased(
         phpunit: true,
         laravel: true,
     )
+    ->withCodingStyleLevel(0)
     ->withSets([
         RectorLaravel\Set\LaravelLevelSetList::UP_TO_LARAVEL_120,
         RectorLaravel\Set\LaravelSetList::ARRAY_STR_FUNCTIONS_TO_STATIC_CALL,
