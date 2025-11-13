@@ -14,34 +14,6 @@ use Laravel\Horizon\WaitTimeCalculator;
 final class RedisQueueWorkloadRepository implements WorkloadRepository
 {
     /**
-     * The queue factory implementation.
-     *
-     * @var QueueFactory
-     */
-    public $queue;
-
-    /**
-     * The wait time calculator instance.
-     *
-     * @var WaitTimeCalculator
-     */
-    public $waitTime;
-
-    /**
-     * The master supervisor repository implementation.
-     *
-     * @var MasterSupervisorRepository
-     */
-    private $masters;
-
-    /**
-     * The supervisor repository implementation.
-     *
-     * @var SupervisorRepository
-     */
-    private $supervisors;
-
-    /**
      * Create a new repository instance.
      *
      * @param  QueueFactory  $queue
@@ -51,15 +23,23 @@ final class RedisQueueWorkloadRepository implements WorkloadRepository
      * @return void
      */
     public function __construct(
-        QueueFactory $queue,
-        WaitTimeCalculator $waitTime,
-        MasterSupervisorRepository $masters,
-        SupervisorRepository $supervisors
+        /**
+         * The queue factory implementation.
+         */
+        public QueueFactory $queue,
+        /**
+         * The wait time calculator instance.
+         */
+        public WaitTimeCalculator $waitTime,
+        /**
+         * The master supervisor repository implementation.
+         */
+        private readonly MasterSupervisorRepository $masters,
+        /**
+         * The supervisor repository implementation.
+         */
+        private readonly SupervisorRepository $supervisors
     ) {
-        $this->queue       = $queue;
-        $this->masters     = $masters;
-        $this->waitTime    = $waitTime;
-        $this->supervisors = $supervisors;
     }
 
     /**

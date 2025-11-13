@@ -6,6 +6,7 @@ namespace Modules\Advertise\Http\Resources\Admin;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\ResourceCollection;
+use Override;
 
 final class AdvertisementCollection extends ResourceCollection
 {
@@ -14,6 +15,7 @@ final class AdvertisementCollection extends ResourceCollection
      *
      * @return array<int|string, mixed>
      */
+    #[Override]
     public function toArray(Request $request): array
     {
         return [

@@ -6,7 +6,7 @@ namespace App\Services;
 
 use Illuminate\Support\Collection;
 
-final class CartManager
+final readonly class CartManager
 {
     private Collection $items;
 

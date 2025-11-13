@@ -12,23 +12,14 @@ final class AssetManager
 
     public function validateAsset(string $filename)
     {
-        foreach ($this->imageFormats as $format)
-        {
-            if (Str::is("*.{$format}", $filename, true))
-            {
-                return true;
-            }
-        }
-
-        return false;
+        return array_any($this->imageFormats, fn ($format) => Str::is("*.{$format}", $filename, true));
     }
 
     public function processMediaUploads(array $files)
     {
-        return collect($files)->filter(function ($file) {
+        return collect($files)->filter(fn ($file) =>
             // Match media-specific files (e.g., MEDIA-*.*)
-            return Str::is('MEDIA-*.*', $file, true);
-        });
+            Str::is('MEDIA-*.*', $file, true));
     }
 
     public function categorizeAsset(string $filename)

@@ -6,6 +6,7 @@ namespace Modules\Filament\Widgets;
 
 use Filament\Support\RawJs;
 use Leandrocfe\FilamentApexCharts\Widgets\ApexChartWidget;
+use Override;
 
 final class RevenueChart extends ApexChartWidget
 {
@@ -33,6 +34,7 @@ final class RevenueChart extends ApexChartWidget
      * Chart options (series, labels, types, size, animations...)
      * https://apexcharts.com/docs/options.
      */
+    #[Override]
     protected function getOptions(): array
     {
         return [

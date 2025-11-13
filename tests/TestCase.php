@@ -10,6 +10,7 @@ use Database\Seeders\TestsReferenceDataSeeder;
 use Illuminate\Foundation\Testing\TestCase as BaseTestCase;
 use Illuminate\Support\Facades\Request;
 use Illuminate\Support\Facades\Storage;
+use Override;
 use ReflectionFunction;
 
 abstract class TestCase extends BaseTestCase
@@ -21,12 +22,14 @@ abstract class TestCase extends BaseTestCase
 
     private static bool $migrated         = false;
 
+    #[Override]
     public static function tearDownAfterClass(): void
     {
         parent::tearDownAfterClass();
         static::$dataContainer = [];
     }
 
+    #[Override]
     protected function setUp(): void
     {
         parent::setUp();

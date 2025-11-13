@@ -8,9 +8,11 @@ use App\Faker;
 use Faker\Factory;
 use Faker\Generator;
 use Illuminate\Support\ServiceProvider;
+use Override;
 
 class FakerServiceProvider extends ServiceProvider
 {
+    #[Override]
     public function register(): void
     {
         $this->app->singleton(function (): Generator {

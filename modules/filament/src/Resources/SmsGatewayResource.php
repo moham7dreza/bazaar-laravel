@@ -12,6 +12,7 @@ use Filament\Forms\Get;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
+use Override;
 
 final class SmsGatewayResource extends Resource
 {
@@ -20,10 +21,12 @@ final class SmsGatewayResource extends Resource
     protected static ?string $navigationIcon       = 'heroicon-o-chat-bubble-bottom-center-text';
     protected static ?string $recordTitleAttribute = 'gateway';
     protected static ?int $navigationSort          = 2;
+    #[Override]
     public static function getNavigationLabel(): string
     {
         return __('SMS Gateways');
     }
+    #[Override]
     public static function form(Form $form): Form
     {
         return $form
@@ -35,6 +38,7 @@ final class SmsGatewayResource extends Resource
             ]);
     }
 
+    #[Override]
     public static function table(Table $table): Table
     {
         return $table
@@ -69,6 +73,7 @@ final class SmsGatewayResource extends Resource
             ]);
     }
 
+    #[Override]
     public static function getPages(): array
     {
         return [

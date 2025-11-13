@@ -6,11 +6,13 @@ namespace Modules\Filament\Widgets;
 
 use Filament\Widgets\StatsOverviewWidget as BaseWidget;
 use Filament\Widgets\StatsOverviewWidget\Stat;
+use Override;
 
 final class StatsOverviewWidget extends BaseWidget
 {
     protected static ?int $sort = 1;
 
+    #[Override]
     protected function getCards(): array
     {
         return [

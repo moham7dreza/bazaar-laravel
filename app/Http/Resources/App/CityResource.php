@@ -6,6 +6,7 @@ namespace App\Http\Resources\App;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
+use Override;
 
 class CityResource extends JsonResource
 {
@@ -14,6 +15,7 @@ class CityResource extends JsonResource
      *
      * @return array<string, mixed>
      */
+    #[Override]
     public function toArray(Request $request): array
     {
         return [
@@ -23,6 +25,7 @@ class CityResource extends JsonResource
         ];
     }
 
+    #[Override]
     public function with($request)
     {
         return [

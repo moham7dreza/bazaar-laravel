@@ -11,7 +11,7 @@ use App\Models\User;
 use Illuminate\Database\Eloquent\Builder;
 use Modules\Advertise\Models\Advertisement;
 
-final class UserReadRepository
+final readonly class UserReadRepository
 {
     private Builder $baseQuery;
 

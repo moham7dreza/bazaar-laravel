@@ -10,6 +10,7 @@ use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Override;
 
 final class SmsLogResource extends Resource
 {
@@ -28,11 +29,13 @@ final class SmsLogResource extends Resource
 //        return static::getModel()::count();
 //    }
 
+    #[Override]
     public static function getNavigationLabel(): string
     {
         return __('Sms Logs');
     }
 
+    #[Override]
     public static function getWidgets(): array
     {
         return [
@@ -40,6 +43,7 @@ final class SmsLogResource extends Resource
         ];
     }
 
+    #[Override]
     public static function table(Table $table): Table
     {
         return $table
@@ -68,6 +72,7 @@ final class SmsLogResource extends Resource
             ]);
     }
 
+    #[Override]
     public static function getPages(): array
     {
         return [
@@ -76,6 +81,7 @@ final class SmsLogResource extends Resource
         ];
     }
 
+    #[Override]
     public static function getEloquentQuery(): Builder
     {
         return parent::getEloquentQuery()->latest('sent_at')

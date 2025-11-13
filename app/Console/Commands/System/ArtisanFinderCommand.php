@@ -103,15 +103,7 @@ class ArtisanFinderCommand extends Command
 
     private function matchesSearchTerms(string $command, string $input): bool
     {
-        foreach (explode(' ', $input) as $term)
-        {
-            if ( ! str_contains($command, $term))
-            {
-                return false;
-            }
-        }
-
-        return true;
+        return array_all(explode(' ', $input), fn ($term) => str_contains($command, (string) $term));
     }
 
     private function isCommandValid($commands, $commandName): bool
@@ -121,7 +113,7 @@ class ArtisanFinderCommand extends Command
 
     private function confirmCommandClassPath($command): bool
     {
-        $commandClass = get_class($command);
+        $commandClass = $command::class;
         info("Command: {$command->getName()}");
         warning("Class: {$commandClass}");
 
@@ -173,7 +165,7 @@ class ArtisanFinderCommand extends Command
             $argValue = $userValues[$index] ?? null;
             if ( ! in_array($argValue, [null, '-', ''], true))
             {
-                $commandParameters[$argName] = str_contains($argValue, ',') ? explode(',', $argValue) : $argValue;
+                $commandParameters[$argName] = str_contains((string) $argValue, ',') ? explode(',', (string) $argValue) : $argValue;
             }
         }
 
@@ -182,7 +174,7 @@ class ArtisanFinderCommand extends Command
             $optionValue = $userValues[count($arguments) + $index] ?? null;
             if ( ! in_array($optionValue, [null, '-', ''], true))
             {
-                $commandParameters['--' . $optName] = str_contains($optionValue, ',') ? explode(',', $optionValue) : $optionValue;
+                $commandParameters['--' . $optName] = str_contains((string) $optionValue, ',') ? explode(',', (string) $optionValue) : $optionValue;
             }
         }
 

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Modules\Filament\Widgets;
 
 use Leandrocfe\FilamentApexCharts\Widgets\ApexChartWidget;
+use Override;
 
 final class UsersChart extends ApexChartWidget
 {
@@ -32,6 +33,7 @@ final class UsersChart extends ApexChartWidget
      * Chart options (series, labels, types, size, animations...)
      * https://apexcharts.com/docs/options.
      */
+    #[Override]
     protected function getOptions(): array
     {
         return [

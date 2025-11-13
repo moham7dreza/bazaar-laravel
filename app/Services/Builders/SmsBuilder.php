@@ -22,8 +22,6 @@ final class SmsBuilder
 {
     use Conditionable;
 
-    private string $messageKey;
-
     private array $messageParams = [];
 
     private ?int $messageTemplate = 2;
@@ -46,9 +44,8 @@ final class SmsBuilder
 
     private DateTimeInterface $tokenExpireAt;
 
-    private function __construct(string $messageKey)
+    private function __construct(private string $messageKey)
     {
-        $this->messageKey = $messageKey;
     }
 
     /**

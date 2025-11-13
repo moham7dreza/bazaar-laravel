@@ -12,6 +12,7 @@ use Filament\Forms\Get;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
+use Override;
 
 final class PaymentGatewayResource extends Resource
 {
@@ -21,10 +22,12 @@ final class PaymentGatewayResource extends Resource
     protected static ?string $recordTitleAttribute = 'gateway';
     protected static ?int $navigationSort          = 1;
 
+    #[Override]
     public static function getNavigationLabel(): string
     {
         return __('Payment Gateways');
     }
+    #[Override]
     public static function form(Form $form): Form
     {
         return $form
@@ -36,6 +39,7 @@ final class PaymentGatewayResource extends Resource
             ]);
     }
 
+    #[Override]
     public static function table(Table $table): Table
     {
         return $table
@@ -71,6 +75,7 @@ final class PaymentGatewayResource extends Resource
             ]);
     }
 
+    #[Override]
     public static function getPages(): array
     {
         return [

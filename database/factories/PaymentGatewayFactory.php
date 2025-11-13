@@ -7,6 +7,7 @@ namespace Database\Factories;
 use App\Enums\PaymentGateways;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Support\Arr;
 
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\PaymentGateway>
@@ -18,11 +19,9 @@ class PaymentGatewayFactory extends Factory
         return [
             'gateway'    => PaymentGateways::random(),
             'owner_type' => fake()->randomElement([User::class]),
-            'owner_id'   => function (array $attributes) {
-                return match (\Illuminate\Support\Arr::get($attributes, 'owner_type'))
-                {
-                    User::class => UserFactory::new()->create()->id,
-                };
+            'owner_id'   => fn (array $attributes) => match (Arr::get($attributes, 'owner_type'))
+            {
+                User::class => UserFactory::new()->create()->id,
             },
             'config' => [
                 'merchant_id'  => fake()->uuid(),

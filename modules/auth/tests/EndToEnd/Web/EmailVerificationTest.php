@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 use App\Models\User;
 use Illuminate\Auth\Events\Verified;
+use Illuminate\Support\Facades\Date;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\URL;
 
@@ -16,8 +17,8 @@ test('email can be verified', function (): void {
 
     $verificationUrl = URL::temporarySignedRoute(
         'verification.verify',
-        Illuminate\Support\Facades\Date::now()->addMinutes(60),
-        ['id' => $user->id, 'hash' => sha1($user->email)]
+        Date::now()->addMinutes(60),
+        ['id' => $user->id, 'hash' => sha1((string) $user->email)]
     );
 
     $response = asUser($user)->get($verificationUrl);
@@ -34,7 +35,7 @@ test('email is not verified with invalid hash', function (): void {
 
     $verificationUrl = URL::temporarySignedRoute(
         'verification.verify',
-        Illuminate\Support\Facades\Date::now()->addMinutes(60),
+        Date::now()->addMinutes(60),
         ['id' => $user->id, 'hash' => sha1('wrong-email')]
     );
 

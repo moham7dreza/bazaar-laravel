@@ -7,8 +7,9 @@ namespace App\States\Order\Handler;
 use App\Enums\OrderState;
 use App\States\Order\Contracts\OrderStateInterface;
 use App\States\Order\PendingState;
+use Stringable;
 
-class OrderContext
+class OrderContext implements Stringable
 {
     private OrderStateInterface $state;
 

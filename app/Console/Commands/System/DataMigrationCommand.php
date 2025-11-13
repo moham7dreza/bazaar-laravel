@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Console\Commands\System;
 
 use Illuminate\Database\Console\Migrations\MigrateMakeCommand;
+use Override;
 
 class DataMigrationCommand extends MigrateMakeCommand
 {
@@ -21,6 +22,7 @@ class DataMigrationCommand extends MigrateMakeCommand
         parent::__construct(app('migration.creator'), app(\Illuminate\Support\Composer::class));
     }
 
+    #[Override]
     public function handle(): int
     {
         $this->getDefinition()

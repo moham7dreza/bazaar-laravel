@@ -7,9 +7,11 @@ namespace Modules\Auth\Providers;
 use Database\Seeders\DatabaseSeeder;
 use Illuminate\Support\ServiceProvider;
 use Modules\Auth\Database\Seeders\AuthSeeder;
+use Override;
 
 final class AuthServiceProvider extends ServiceProvider
 {
+    #[Override]
     public function register(): void
     {
         $this->setupSeeders();

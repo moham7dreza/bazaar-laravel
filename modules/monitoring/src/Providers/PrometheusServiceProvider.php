@@ -8,12 +8,14 @@ use App\Enums\Queue;
 use App\Models\User;
 use Illuminate\Support\ServiceProvider;
 use Modules\Monitoring\Collectors\Horizon as CustomHorizonCollectors;
+use Override;
 use Spatie\Prometheus\Collectors\Horizon as HorizonCollectors;
 use Spatie\Prometheus\Collectors\Queue as QueueCollector;
 use Spatie\Prometheus\Facades\Prometheus;
 
 final class PrometheusServiceProvider extends ServiceProvider
 {
+    #[Override]
     public function register(): void
     {
 

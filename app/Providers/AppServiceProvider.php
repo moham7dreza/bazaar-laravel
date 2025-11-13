@@ -61,11 +61,13 @@ use Illuminate\Validation\Rules\Email;
 use Illuminate\Validation\Rules\Password;
 use Monolog\Formatter\JsonFormatter;
 use Morilog\Jalali\Jalalian;
+use Override;
 use ReflectionClass;
 use Throwable;
 
 final class AppServiceProvider extends ServiceProvider
 {
+    #[Override]
     public function register(): void
     {
         $this->bindSearchClient();

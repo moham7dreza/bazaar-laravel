@@ -16,6 +16,7 @@ use Illuminate\Support\Facades\Date;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
+use Override;
 use Random\RandomException;
 
 class UserFactory extends Factory
@@ -51,6 +52,7 @@ class UserFactory extends Factory
         ];
     }
 
+    #[Override]
     public function configure(): static
     {
         return $this->afterMaking(function (User $user): void {

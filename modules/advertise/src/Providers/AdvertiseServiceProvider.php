@@ -12,6 +12,7 @@ use Modules\Advertise\Commands\AdvertisementLadderCommand;
 use Modules\Advertise\Commands\AdvertisementReindexElasticCommand;
 use Modules\Advertise\Database\Seeders\AdvertiseSeeder;
 use Modules\Advertise\Repositories\Search;
+use Override;
 
 final class AdvertiseServiceProvider extends ServiceProvider
 {
@@ -20,6 +21,7 @@ final class AdvertiseServiceProvider extends ServiceProvider
         AdvertisementReindexElasticCommand::class,
     ];
 
+    #[Override]
     public function register(): void
     {
         $this->commands(self::COMMANDS);

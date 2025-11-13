@@ -13,6 +13,7 @@ use Filament\Tables\Filters\QueryBuilder\Constraints;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Modules\Monitoring\Models\JobPerformanceLog;
+use Override;
 
 final class JobPerformanceLogResource extends Resource
 {
@@ -31,11 +32,13 @@ final class JobPerformanceLogResource extends Resource
 //        return static::getModel()::count();
 //    }
 
+    #[Override]
     public static function getNavigationLabel(): string
     {
         return __('Job Logs');
     }
 
+    #[Override]
     public static function getWidgets(): array
     {
         return [
@@ -43,6 +46,7 @@ final class JobPerformanceLogResource extends Resource
         ];
     }
 
+    #[Override]
     public static function form(Form $form): Form
     {
         return $form
@@ -91,6 +95,7 @@ final class JobPerformanceLogResource extends Resource
             ]);
     }
 
+    #[Override]
     public static function table(Table $table): Table
     {
         return $table
@@ -129,6 +134,7 @@ final class JobPerformanceLogResource extends Resource
             ]);
     }
 
+    #[Override]
     public static function getRelations(): array
     {
         return [
@@ -136,6 +142,7 @@ final class JobPerformanceLogResource extends Resource
         ];
     }
 
+    #[Override]
     public static function getPages(): array
     {
         return [
@@ -144,6 +151,7 @@ final class JobPerformanceLogResource extends Resource
         ];
     }
 
+    #[Override]
     public static function getEloquentQuery(): Builder
     {
         return parent::getEloquentQuery()

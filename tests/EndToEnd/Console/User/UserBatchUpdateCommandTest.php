@@ -22,9 +22,7 @@ test('can batch update 1000 users', function (): void {
     // 1000 records => 100 records per job => 10 * 100 = 1000
     Bus::assertBatched(static fn (PendingBatch $batch) => 10 === $batch->jobs->count());
 
-    Bus::assertBatched(static function (PendingBatch $batch) {
-        return $batch->jobs->each(function (App\Jobs\UserUpdateJob $job): void {
-            100 === count(array_intersect($job->ids, App\Models\User::query()->pluck('id')->toArray()));
-        });
-    });
+    Bus::assertBatched(static fn (PendingBatch $batch) => $batch->jobs->each(function (App\Jobs\UserUpdateJob $job): void {
+        100 === count(array_intersect($job->ids, App\Models\User::query()->pluck('id')->toArray()));
+    }));
 });

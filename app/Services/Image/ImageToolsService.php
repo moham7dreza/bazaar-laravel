@@ -62,7 +62,7 @@ class ImageToolsService
         if (filled($this->image))
         {
 
-            $this->setImageName(pathinfo($this->image->getClientOriginalName(), PATHINFO_FILENAME));
+            $this->setImageName(pathinfo((string) $this->image->getClientOriginalName(), PATHINFO_FILENAME));
         }
     }
 

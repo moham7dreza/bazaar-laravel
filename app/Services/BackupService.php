@@ -54,7 +54,7 @@ class BackupService
 
         foreach ($mediaUrls as $url)
         {
-            $filename = basename(parse_url($url, PHP_URL_PATH));
+            $filename = basename(parse_url((string) $url, PHP_URL_PATH));
 
             try
             {

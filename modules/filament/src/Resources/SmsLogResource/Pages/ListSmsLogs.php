@@ -10,6 +10,7 @@ use Filament\Resources\Components\Tab;
 use Filament\Resources\Pages\ListRecords;
 use Illuminate\Database\Eloquent\Builder;
 use Modules\Filament\Resources\SmsLogResource;
+use Override;
 
 final class ListSmsLogs extends ListRecords
 {
@@ -26,6 +27,7 @@ final class ListSmsLogs extends ListRecords
         ];
     }
 
+    #[Override]
     protected function getHeaderWidgets(): array
     {
         return SmsLogResource::getWidgets();

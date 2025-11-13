@@ -9,6 +9,7 @@ use Filament\Resources\Components\Tab;
 use Filament\Resources\Pages\ListRecords;
 use Illuminate\Database\Eloquent\Builder;
 use Modules\Filament\Resources\JobPerformanceLogResource;
+use Override;
 
 final class ListJobPerformanceLogs extends ListRecords
 {
@@ -31,6 +32,7 @@ final class ListJobPerformanceLogs extends ListRecords
         ];
     }
 
+    #[Override]
     protected function getHeaderWidgets(): array
     {
         return JobPerformanceLogResource::getWidgets();

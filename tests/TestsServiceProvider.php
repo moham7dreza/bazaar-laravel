@@ -8,9 +8,11 @@ use Illuminate\Support\Facades\ParallelTesting;
 use Illuminate\Support\Facades\Request;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Testing\TestResponse;
+use Override;
 
 final class TestsServiceProvider extends ServiceProvider
 {
+    #[Override]
     public function register(): void
     {
     }

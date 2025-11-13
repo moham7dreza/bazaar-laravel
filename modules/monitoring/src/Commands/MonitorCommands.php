@@ -180,7 +180,7 @@ class MonitorCommands extends Command
 
         // Group by 5-minute intervals for better readability
         $groupedData = $rateData->groupBy(function ($item) {
-            return mb_substr($item->minute, 0, 15) . '0'; // Group by 10-minute intervals
+            return mb_substr((string) $item->minute, 0, 15) . '0'; // Group by 10-minute intervals
         })->map(fn ($group) => (object) [
             'interval'       => $group->first()->minute,
             'total_commands' => $group->sum('command_count'),
@@ -340,7 +340,7 @@ class MonitorCommands extends Command
         $performance = $monitor->getCategoryPerformance($category, $days);
 
         $this->components->info("Performance Trends for Category: {$category} (Last {$days} days)");
-        $this->components->info('==========================================' . str_repeat('=', mb_strlen($category) + mb_strlen($days)));
+        $this->components->info('==========================================' . str_repeat('=', mb_strlen((string) $category) + mb_strlen($days)));
 
         if ($performance->isEmpty())
         {

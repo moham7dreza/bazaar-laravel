@@ -11,11 +11,11 @@ class Uppercase implements CastsAttributes
 {
     public function get(Model $model, string $key, mixed $value, array $attributes): mixed
     {
-        return mb_strtoupper($value);
+        return mb_strtoupper((string) $value);
     }
 
     public function set(Model $model, string $key, mixed $value, array $attributes): mixed
     {
-        return mb_strtolower($value);
+        return mb_strtolower((string) $value);
     }
 }

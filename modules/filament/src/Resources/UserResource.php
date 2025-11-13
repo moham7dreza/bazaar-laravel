@@ -15,6 +15,7 @@ use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Malzariey\FilamentDaterangepickerFilter\Filters\DateRangeFilter;
 use Modules\Filament\Resources\UserResource\Widgets\StatsOverview;
+use Override;
 use pxlrbt\FilamentExcel\Actions\Tables\ExportBulkAction;
 use Rmsramos\Activitylog\Actions\ActivityLogTimelineTableAction;
 use Rmsramos\Activitylog\RelationManagers\ActivitylogRelationManager;
@@ -36,11 +37,13 @@ final class UserResource extends Resource
 //        return static::getModel()::count();
 //    }
 
+    #[Override]
     public static function getNavigationLabel(): string
     {
         return __('Users');
     }
 
+    #[Override]
     public static function getWidgets(): array
     {
         return [
@@ -48,6 +51,7 @@ final class UserResource extends Resource
         ];
     }
 
+    #[Override]
     public static function form(Form $form): Form
     {
         return $form
@@ -127,6 +131,7 @@ final class UserResource extends Resource
             ]);
     }
 
+    #[Override]
     public static function table(Table $table): Table
     {
         return $table
@@ -182,6 +187,7 @@ final class UserResource extends Resource
             ]);
     }
 
+    #[Override]
     public static function getRelations(): array
     {
         return [
@@ -189,6 +195,7 @@ final class UserResource extends Resource
         ];
     }
 
+    #[Override]
     public static function getPages(): array
     {
         return [
@@ -198,6 +205,7 @@ final class UserResource extends Resource
         ];
     }
 
+    #[Override]
     public static function getGloballySearchableAttributes(): array
     {
         return ['name', 'email', 'mobile'];

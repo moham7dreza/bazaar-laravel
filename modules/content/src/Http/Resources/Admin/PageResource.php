@@ -6,6 +6,7 @@ namespace Modules\Content\Http\Resources\Admin;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
+use Override;
 
 final class PageResource extends JsonResource
 {
@@ -14,6 +15,7 @@ final class PageResource extends JsonResource
      *
      * @return array<string, mixed>
      */
+    #[Override]
     public function toArray(Request $request): array
     {
         return [

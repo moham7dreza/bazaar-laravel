@@ -6,11 +6,13 @@ namespace Modules\Filament\Widgets;
 
 use Cmsmaxinc\FilamentSystemVersions\Filament\Widgets\DependencyStat;
 use Filament\Widgets\StatsOverviewWidget as BaseWidget;
+use Override;
 
 final class VersionStatsWidget extends BaseWidget
 {
     protected static ?int $sort = 0;
 
+    #[Override]
     protected function getStats(): array
     {
         return [

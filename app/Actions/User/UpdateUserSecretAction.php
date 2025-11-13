@@ -6,6 +6,7 @@ namespace App\Actions\User;
 
 use App\Actions\Abstracts\Action;
 use App\Models\User;
+use Override;
 
 class UpdateUserSecretAction extends Action
 {
@@ -27,6 +28,7 @@ class UpdateUserSecretAction extends Action
         return $this->user;
     }
 
+    #[Override]
     public function authorize(): bool
     {
         return true;

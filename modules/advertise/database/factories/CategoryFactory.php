@@ -6,6 +6,7 @@ namespace Modules\Advertise\Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Modules\Advertise\Models\Category;
+use Override;
 
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\Modules\Advertise\Models\Category>
@@ -23,6 +24,7 @@ final class CategoryFactory extends Factory
         ];
     }
 
+    #[Override]
     public function configure(): self
     {
         return $this->afterMaking(function (Category $category): void {

@@ -10,6 +10,7 @@ use Illuminate\Support\ServiceProvider;
 use Laravel\Nightwatch\Facades\Nightwatch;
 use Laravel\Pulse\Facades\Pulse;
 use Modules\Monitoring\Commands;
+use Override;
 
 final class MonitoringServiceProvider extends ServiceProvider
 {
@@ -18,6 +19,7 @@ final class MonitoringServiceProvider extends ServiceProvider
         Commands\MonitorCommands::class,
     ];
 
+    #[Override]
     public function register(): void
     {
         $this->commands(self::COMMANDS);

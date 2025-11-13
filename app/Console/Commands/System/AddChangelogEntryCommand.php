@@ -6,6 +6,7 @@ namespace App\Console\Commands\System;
 
 use Exception;
 use Illuminate\Console\Command;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Date;
 use Illuminate\Support\Facades\File;
 
@@ -74,7 +75,7 @@ class AddChangelogEntryCommand extends Command
                 $datetime = blank($datetimeInput)
                     ? Date::now()
                     : Date::createFromFormat('Y-m-d H:i', $datetimeInput);
-            } catch (Exception $e)
+            } catch (Exception)
             {
                 error('Invalid datetime format. Please try again.');
                 $datetime = null;
@@ -193,7 +194,7 @@ class AddChangelogEntryCommand extends Command
     protected function isValidJiraTicket($input): bool
     {
         // Check for ticket format (PROJ-123)
-        if (preg_match('/^[A-Za-z]+-\d+$/', $input))
+        if (preg_match('/^[A-Za-z]+-\d+$/', (string) $input))
         {
             return true;
         }
@@ -201,7 +202,7 @@ class AddChangelogEntryCommand extends Command
         // Check for Jira URL format
         if (filter_var($input, FILTER_VALIDATE_URL))
         {
-            return (bool) preg_match('/\/browse\/[A-Za-z]+-\d+$/', $input);
+            return (bool) preg_match('/\/browse\/[A-Za-z]+-\d+$/', (string) $input);
         }
 
         return false;
@@ -218,7 +219,7 @@ class AddChangelogEntryCommand extends Command
         // Check for GitLab MR URL format
         if (filter_var($input, FILTER_VALIDATE_URL))
         {
-            return (bool) preg_match('/\/merge_requests\/\d+/', $input);
+            return (bool) preg_match('/\/merge_requests\/\d+/', (string) $input);
         }
 
         return false;
@@ -238,10 +239,10 @@ class AddChangelogEntryCommand extends Command
         }
 
         // If it's in PROJ-123 format, convert to URL
-        if (preg_match('/^([A-Za-z]+)-(\d+)$/', $input, $matches))
+        if (preg_match('/^([A-Za-z]+)-(\d+)$/', (string) $input, $matches))
         {
-            $project = \Illuminate\Support\Arr::get($matches, 1);
-            $ticket  = \Illuminate\Support\Arr::get($matches, 2);
+            $project = Arr::get($matches, 1);
+            $ticket  = Arr::get($matches, 2);
 
             return "https://your-jira-domain.com/browse/{$project}-{$ticket}";
         }
@@ -257,9 +258,9 @@ class AddChangelogEntryCommand extends Command
         }
 
         // Extract MR number if URL provided
-        if (preg_match('/merge_requests\/(\d+)/', $input, $matches))
+        if (preg_match('/merge_requests\/(\d+)/', (string) $input, $matches))
         {
-            $mrNumber = \Illuminate\Support\Arr::get($matches, 1);
+            $mrNumber = Arr::get($matches, 1);
 
             return "[!{$mrNumber}](https://github.com/moham7dreza/bazaar-laravel/pull/{$mrNumber})";
         }

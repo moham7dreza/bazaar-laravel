@@ -109,7 +109,7 @@ final class ImageService extends ImageToolsService
                 $this->setImageName($currentImageName);
                 $this->provider();
 
-                (new ImageManager(new Driver()))
+                new ImageManager(new Driver())
                     ->read($image->getRealPath())
                     ->resizeDown(Arr::get($imageSize, 'width'), Arr::get($imageSize, 'height'))
                     ->save(public_path($this->getImageAddress()), null, $this->getImageFormat());

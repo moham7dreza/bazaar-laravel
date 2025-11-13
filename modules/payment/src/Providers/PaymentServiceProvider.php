@@ -7,11 +7,13 @@ namespace Modules\Payment\Providers;
 use Database\Seeders\DatabaseSeeder;
 use Illuminate\Support\ServiceProvider;
 use Modules\Payment\Database\Seeders\PaymentSeeder;
+use Override;
 
 class PaymentServiceProvider extends ServiceProvider
 {
     private const array COMMANDS = [];
 
+    #[Override]
     public function register(): void
     {
         $this->commands(self::COMMANDS);

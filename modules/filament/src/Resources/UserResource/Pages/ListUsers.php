@@ -10,6 +10,7 @@ use Filament\Resources\Components\Tab;
 use Filament\Resources\Pages\ListRecords;
 use Illuminate\Database\Eloquent\Builder;
 use Modules\Filament\Resources\UserResource;
+use Override;
 use pxlrbt\FilamentExcel\Actions\Pages\ExportAction;
 
 final class ListUsers extends ListRecords
@@ -36,6 +37,7 @@ final class ListUsers extends ListRecords
         ];
     }
 
+    #[Override]
     protected function getHeaderWidgets(): array
     {
         return UserResource::getWidgets();

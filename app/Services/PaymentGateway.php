@@ -8,13 +8,10 @@ use Illuminate\Support\Arr;
 use InvalidArgumentException;
 use RuntimeException;
 
-final class PaymentGateway
+final readonly class PaymentGateway
 {
-    private array $config;
-
-    public function __construct(array $config)
+    public function __construct(private array $config)
     {
-        $this->config = $config;
     }
 
     public function processPayment(float $amount): bool

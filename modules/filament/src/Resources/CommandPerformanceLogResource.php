@@ -13,6 +13,7 @@ use Filament\Tables\Filters\QueryBuilder\Constraints;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Modules\Monitoring\Models\CommandPerformanceLog;
+use Override;
 
 final class CommandPerformanceLogResource extends Resource
 {
@@ -31,11 +32,13 @@ final class CommandPerformanceLogResource extends Resource
 //        return static::getModel()::count();
 //    }
 
+    #[Override]
     public static function getNavigationLabel(): string
     {
         return __('Command Logs');
     }
 
+    #[Override]
     public static function getWidgets(): array
     {
         return [
@@ -43,6 +46,7 @@ final class CommandPerformanceLogResource extends Resource
         ];
     }
 
+    #[Override]
     public static function form(Form $form): Form
     {
         return $form
@@ -75,6 +79,7 @@ final class CommandPerformanceLogResource extends Resource
             ]);
     }
 
+    #[Override]
     public static function table(Table $table): Table
     {
         return $table
@@ -108,6 +113,7 @@ final class CommandPerformanceLogResource extends Resource
             ]);
     }
 
+    #[Override]
     public static function getRelations(): array
     {
         return [
@@ -115,6 +121,7 @@ final class CommandPerformanceLogResource extends Resource
         ];
     }
 
+    #[Override]
     public static function getPages(): array
     {
         return [
@@ -123,6 +130,7 @@ final class CommandPerformanceLogResource extends Resource
         ];
     }
 
+    #[Override]
     public static function getEloquentQuery(): Builder
     {
         return parent::getEloquentQuery()

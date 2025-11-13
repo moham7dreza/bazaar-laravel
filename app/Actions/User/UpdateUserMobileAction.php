@@ -7,6 +7,7 @@ namespace App\Actions\User;
 use App\Actions\Abstracts\Action;
 use App\Models\User;
 use InvalidArgumentException;
+use Override;
 
 class UpdateUserMobileAction extends Action
 {
@@ -27,6 +28,7 @@ class UpdateUserMobileAction extends Action
         return $this->user->fresh();
     }
 
+    #[Override]
     public function authorize(): bool
     {
         return true;

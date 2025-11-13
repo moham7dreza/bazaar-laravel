@@ -8,6 +8,7 @@ use Filament\Widgets\Concerns\InteractsWithPageTable;
 use Filament\Widgets\StatsOverviewWidget as BaseWidget;
 use Filament\Widgets\StatsOverviewWidget\Stat;
 use Modules\Filament\Resources\SmsLogResource\Pages\ListSmsLogs;
+use Override;
 
 final class StatsOverview extends BaseWidget
 {
@@ -20,6 +21,7 @@ final class StatsOverview extends BaseWidget
         return ListSmsLogs::class;
     }
 
+    #[Override]
     protected function getStats(): array
     {
         $deliveryRate = 0;

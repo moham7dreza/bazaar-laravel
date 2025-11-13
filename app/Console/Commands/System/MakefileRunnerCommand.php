@@ -110,7 +110,7 @@ class MakefileRunnerCommand extends Command
                 : array_values(
                     array_filter(
                         array_keys($scripts),
-                        fn ($script) => str_contains(mb_strtolower($script), mb_strtolower($value))
+                        fn ($script) => str_contains(mb_strtolower((string) $script), mb_strtolower($value))
                     )
                 ),
             placeholder: 'E.g. test, build...',

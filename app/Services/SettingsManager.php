@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\Date;
 use Illuminate\Support\Fluent;
 use Throwable;
 
-final class SettingsManager
+final readonly class SettingsManager
 {
     private Fluent $settings;
 

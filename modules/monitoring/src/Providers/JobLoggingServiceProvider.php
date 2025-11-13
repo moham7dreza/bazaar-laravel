@@ -122,7 +122,7 @@ final class JobLoggingServiceProvider extends ServiceProvider
     private function handleJobQueued(): void
     {
         Event::listen(static function (Events\JobQueued $event): void {
-            $job = get_class($event->job);
+            $job = $event->job::class;
             context()->push('queued_job_history', "Job queued: {$job}");
         });
     }
@@ -130,7 +130,7 @@ final class JobLoggingServiceProvider extends ServiceProvider
     private function handleJobFailed(): void
     {
         Event::listen(static function (Events\JobFailed $event): void {
-            $job = get_class($event->job);
+            $job = $event->job::class;
             context()->push('failed_job_history', "Job failed: {$job}");
 
             $payload = [

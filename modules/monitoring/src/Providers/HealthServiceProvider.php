@@ -7,6 +7,7 @@ namespace Modules\Monitoring\Providers;
 use App\Models\User;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\ServiceProvider;
+use Override;
 use Spatie\CpuLoadHealthCheck\CpuLoadCheck;
 use Spatie\Health\Checks\Checks;
 use Spatie\Health\Facades\Health;
@@ -14,6 +15,7 @@ use Spatie\SecurityAdvisoriesHealthCheck\SecurityAdvisoriesCheck;
 
 final class HealthServiceProvider extends ServiceProvider
 {
+    #[Override]
     public function register(): void
     {
     }

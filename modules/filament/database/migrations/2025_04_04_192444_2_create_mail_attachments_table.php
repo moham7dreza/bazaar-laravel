@@ -18,7 +18,7 @@ return new class() extends Migration {
             $table->string('uuid');
             $table->string('filename');
             $table->string('mime');
-            $table->boolean('inline', false);
+            $table->boolean('inline');
             $table->bigInteger('size');
             $table->timestamps();
         });

@@ -53,15 +53,20 @@ final class Menu extends Model
     }
 
     // _____________________________________________ relations SECTION __________________________________________
-
+    /**
+     * @return HasMany<Menu, $this>
+     */
     public function children(): HasMany
     {
-        return $this->hasMany(__CLASS__, 'parent_id');
+        return $this->hasMany(self::class, 'parent_id');
     }
 
+    /**
+     * @return BelongsTo<Menu, $this>
+     */
     public function parent(): BelongsTo
     {
-        return $this->belongsTo(__CLASS__, 'parent_id')->withDefault(['name' => __('Unknown parent')]);
+        return $this->belongsTo(self::class, 'parent_id')->withDefault(['name' => __('Unknown parent')]);
     }
 
     #[Scope]

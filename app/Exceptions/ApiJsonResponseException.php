@@ -11,16 +11,13 @@ use Illuminate\Http\JsonResponse;
 
 final class ApiJsonResponseException extends Exception implements Responsable
 {
-    private readonly int $status;
     private readonly array $messages;
 
-    public function __construct(int $status, array $messages)
+    public function __construct(private readonly int $status, array $messages)
     {
-        $this->status = $status;
-
         if (blank($messages))
         {
-            $this->messages = $this->getDefaultMessageForStatus($status);
+            $this->messages = $this->getDefaultMessageForStatus($this->status);
         } else
         {
             $this->messages = $messages;

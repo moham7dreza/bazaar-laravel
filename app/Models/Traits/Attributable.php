@@ -38,7 +38,7 @@ trait Attributable
             'title'           => $title,
             'value'           => $value,
             'attributable_id' => $this->getKey(),
-            'attributable'    => get_class($this),
+            'attributable'    => $this::class,
         ];
 
         return $this->attributes()->create($attributes);
@@ -54,7 +54,7 @@ trait Attributable
         foreach ($values as $value)
         {
             \Illuminate\Support\Arr::set($value, 'attributable_id', $this->getKey());
-            \Illuminate\Support\Arr::set($value, 'attributable', get_class($this));
+            \Illuminate\Support\Arr::set($value, 'attributable', $this::class);
 
             $this->attributes()->create($value);
         }
@@ -147,6 +147,6 @@ trait Attributable
     {
         return $this->attributes()
             ->where('attributable_id', $this->getKey())
-            ->where('attributable', get_class($this));
+            ->where('attributable', $this::class);
     }
 }

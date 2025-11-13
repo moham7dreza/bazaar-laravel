@@ -10,6 +10,7 @@ use Modules\Advertise\Models\Advertisement;
 use Modules\Advertise\Models\CategoryAttribute;
 use Modules\Advertise\Models\CategoryValue;
 use Modules\Advertise\Models\Gallery;
+use Override;
 
 final class AdvertisementResource extends JsonResource
 {
@@ -18,6 +19,7 @@ final class AdvertisementResource extends JsonResource
      *
      * @return array<string, mixed>
      */
+    #[Override]
     public function toArray(Request $request): array
     {
         /** @var Advertisement $this */
@@ -76,6 +78,7 @@ final class AdvertisementResource extends JsonResource
         ];
     }
 
+    #[Override]
     public function with($request)
     {
         return [

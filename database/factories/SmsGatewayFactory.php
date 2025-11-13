@@ -5,11 +5,13 @@ declare(strict_types=1);
 namespace Database\Factories;
 
 use App\Enums\SMSGateways;
+use App\Models\SmsGateway;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Support\Arr;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\SmsGateway>
+ * @extends Factory<SmsGateway>
  */
 class SmsGatewayFactory extends Factory
 {
@@ -18,11 +20,9 @@ class SmsGatewayFactory extends Factory
         return [
             'gateway'    => SMSGateways::random(),
             'owner_type' => fake()->randomElement([User::class]),
-            'owner_id'   => function (array $attributes) {
-                return match (\Illuminate\Support\Arr::get($attributes, 'owner_type'))
-                {
-                    User::class => UserFactory::new()->create()->id,
-                };
+            'owner_id'   => fn (array $attributes) => match (Arr::get($attributes, 'owner_type'))
+            {
+                User::class => UserFactory::new()->create()->id,
             },
             'config' => [
                 'merchant_id'  => fake()->uuid(),
