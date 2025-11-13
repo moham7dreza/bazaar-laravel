@@ -17,7 +17,8 @@
         "spatie/security-advisories-health-check": "^1.2",
         "directorytree/metrics": "^1.3",
         "farayaz/laravel-spy": "^1.2",
-        "me-shaon/laravel-request-analytics": "^1.8"
+        "me-shaon/laravel-request-analytics": "^1.8",
+        "muhammadsadeeq/laravel-activitylog-ui": "^1.2"
     },
 	"autoload": {
 		"psr-4": {
