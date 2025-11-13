@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace App\Casts;
 
-use Illuminate\Support\Arr;
 use App\Data\ValueObjects\Address;
 use Illuminate\Contracts\Database\Eloquent\CastsAttributes;
 use Illuminate\Contracts\Database\Eloquent\SerializesCastableAttributes;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Arr;
 use InvalidArgumentException;
 
 class AsAddress implements CastsAttributes, SerializesCastableAttributes

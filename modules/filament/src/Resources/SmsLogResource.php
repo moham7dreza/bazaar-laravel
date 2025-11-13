@@ -4,18 +4,17 @@ declare(strict_types=1);
 
 namespace Modules\Filament\Resources;
 
-use Modules\Filament\Resources\SmsLogResource\Widgets\StatsOverview;
-use Filament\Tables\Columns\TextColumn;
-use Filament\Tables\Actions\BulkActionGroup;
-use Filament\Tables\Actions\DeleteBulkAction;
-use Modules\Filament\Resources\SmsLogResource\Pages\ListSmsLogs;
-use Modules\Filament\Resources\SmsLogResource\Pages\ViewSmsLog;
 use App\Models\SmsLog;
 use Filament\Resources\Resource;
-use Filament\Tables;
+use Filament\Tables\Actions\BulkActionGroup;
+use Filament\Tables\Actions\DeleteBulkAction;
+use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Modules\Filament\Resources\SmsLogResource\Pages\ListSmsLogs;
+use Modules\Filament\Resources\SmsLogResource\Pages\ViewSmsLog;
+use Modules\Filament\Resources\SmsLogResource\Widgets\StatsOverview;
 use Override;
 
 final class SmsLogResource extends Resource

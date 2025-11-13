@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Console\Commands\System;
 
-use Illuminate\Support\Composer;
 use Illuminate\Database\Console\Migrations\MigrateMakeCommand;
+use Illuminate\Support\Composer;
 use Override;
 
 class DataMigrationCommand extends MigrateMakeCommand

@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Modules\Advertise\Database\Factories;
 
-use Modules\Advertise\Models\Gallery;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Modules\Advertise\Models\Advertisement;
+use Modules\Advertise\Models\Gallery;
 
 /**
  * @extends Factory<Gallery>

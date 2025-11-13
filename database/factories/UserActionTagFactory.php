@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Database\Factories;
 
-use App\Models\UserActionTag;
 use App\Models\User;
+use App\Models\UserActionTag;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**

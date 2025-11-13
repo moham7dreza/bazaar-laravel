@@ -4,16 +4,15 @@ declare(strict_types=1);
 
 namespace Modules\Monitoring\Providers;
 
-use Illuminate\Queue\Events\JobProcessing;
-use Illuminate\Queue\Events\JobProcessed;
-use Illuminate\Queue\Events\JobQueued;
-use Illuminate\Queue\Events\JobFailed;
 use App\Events\PackageSent;
 use App\Jobs\Contracts\ShouldNotifyOnFailures;
 use App\Notifications\FailedJobNotification;
 use Exception;
 use Illuminate\Database\Events\QueryExecuted;
-use Illuminate\Queue\Events;
+use Illuminate\Queue\Events\JobFailed;
+use Illuminate\Queue\Events\JobProcessed;
+use Illuminate\Queue\Events\JobProcessing;
+use Illuminate\Queue\Events\JobQueued;
 use Illuminate\Support\Facades\Date;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Event;

@@ -4,11 +4,10 @@ declare(strict_types=1);
 
 namespace Modules\Filament\Resources\UserResource\Pages;
 
-use Filament\Actions\ViewAction;
 use Filament\Actions\DeleteAction;
 use Filament\Actions\ForceDeleteAction;
 use Filament\Actions\RestoreAction;
-use Filament\Actions;
+use Filament\Actions\ViewAction;
 use Filament\Resources\Pages\EditRecord;
 use Kenepa\ResourceLock\Resources\Pages\Concerns\UsesResourceLock;
 use Modules\Filament\Resources\UserResource;

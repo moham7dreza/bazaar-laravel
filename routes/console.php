@@ -3,7 +3,6 @@
 declare(strict_types=1);
 
 use App\Console\Commands\User\UserSuspendClearCommand;
-use App\Console\Commands;
 use Cmsmaxinc\FilamentSystemVersions\Commands\CheckDependencyVersions;
 use Illuminate\Foundation\Inspiring;
 use Illuminate\Support\Facades\Artisan;

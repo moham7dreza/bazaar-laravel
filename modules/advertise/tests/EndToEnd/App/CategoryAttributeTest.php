@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-use function Pest\Laravel\assertModelExists;
 use Modules\Advertise\Models\Category;
 use Modules\Advertise\Models\CategoryAttribute;
 
+use function Pest\Laravel\assertModelExists;
 use function Pest\Laravel\getJson;
 
 it('can get category attributes from app', function (): void {

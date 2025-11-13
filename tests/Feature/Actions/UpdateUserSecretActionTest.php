@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-use Illuminate\Support\Arr;
 use App\Actions\User\UpdateUserSecretAction;
 use App\Models\User;
+use Illuminate\Support\Arr;
 
 test('UpdateUserSecretAction updates user mobile number', function (): void {
 

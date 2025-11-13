@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace Modules\Monitoring\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use App\Models\Scopes\LatestScope;
 use Illuminate\Database\Eloquent\Attributes\Scope;
 use Illuminate\Database\Eloquent\Attributes\ScopedBy;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Prunable;
 use Illuminate\Support\Facades\Date;

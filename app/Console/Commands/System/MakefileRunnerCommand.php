@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Console\Commands\System;
 
-use Illuminate\Support\Arr;
 use Illuminate\Console\Command;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\File;
 
 use function Laravel\Prompts\search;

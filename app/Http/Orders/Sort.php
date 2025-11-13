@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Http\Orders;
 
-use Illuminate\Support\Arr;
 use Illuminate\Database\Query\Builder;
+use Illuminate\Support\Arr;
 
 final class Sort
 {

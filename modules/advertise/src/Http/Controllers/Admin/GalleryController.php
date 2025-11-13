@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace Modules\Advertise\Http\Controllers\Admin;
 
-use Illuminate\Support\Arr;
 use App\Http\Controllers\Controller;
 use App\Http\Responses\ApiJsonResponse;
 use App\Services\Image\ImageService;
 use Illuminate\Http\Resources\Json\ResourceCollection;
+use Illuminate\Support\Arr;
 use Modules\Advertise\Http\Requests\Admin\StoreGalleryRequest;
 use Modules\Advertise\Http\Requests\Admin\UpdateGalleryRequest;
 use Modules\Advertise\Http\Resources\Admin\GalleryCollection;

@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Modules\Advertise\Models;
 
-use Illuminate\Database\Eloquent\Relations\Pivot;
 use App\Models\Scopes\LatestScope;
 use Illuminate\Database\Eloquent\Attributes\ScopedBy;
 use Illuminate\Database\Eloquent\Attributes\UseFactory;
@@ -14,6 +13,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\Pivot;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Modules\Advertise\Database\Factories\CategoryValueFactory;
 use Modules\Advertise\Enums\ValueType;

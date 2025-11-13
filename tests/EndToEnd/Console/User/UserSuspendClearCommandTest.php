@@ -2,13 +2,14 @@
 
 declare(strict_types=1);
 
-use Illuminate\Support\Facades\Queue;
-use Illuminate\Support\Facades\Date;
-use function Pest\Laravel\travelTo;
-use function Pest\Laravel\artisan;
 use App\Console\Commands\User\UserSuspendClearCommand;
 use App\Jobs\UserSuspendClearJob;
 use App\Models\User;
+use Illuminate\Support\Facades\Date;
+use Illuminate\Support\Facades\Queue;
+
+use function Pest\Laravel\artisan;
+use function Pest\Laravel\travelTo;
 
 test('schedule user suspend clear job pushed', function (): void {
 

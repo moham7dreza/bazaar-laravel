@@ -4,27 +4,24 @@ declare(strict_types=1);
 
 namespace Modules\Filament\Resources;
 
-use Modules\Filament\Resources\JobPerformanceLogResource\Widgets\StatsOverview;
+use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\Section;
 use Filament\Forms\Components\TextInput;
-use Filament\Forms\Components\DatePicker;
-use Filament\Tables\Columns\TextColumn;
-use Filament\Tables\Filters\QueryBuilder;
-use Filament\Tables\Filters\QueryBuilder\Constraints\TextConstraint;
-use Filament\Tables\Filters\QueryBuilder\Constraints\NumberConstraint;
-use Filament\Tables\Filters\QueryBuilder\Constraints\DateConstraint;
-use Filament\Tables\Enums\FiltersLayout;
-use Filament\Tables\Actions\ViewAction;
-use Modules\Filament\Resources\JobPerformanceLogResource\Pages\ListJobPerformanceLogs;
-use Modules\Filament\Resources\JobPerformanceLogResource\Pages\ViewJobPerformanceLog;
-use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
-use Filament\Tables;
+use Filament\Tables\Actions\ViewAction;
+use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Enums\ActionsPosition;
-use Filament\Tables\Filters\QueryBuilder\Constraints;
+use Filament\Tables\Enums\FiltersLayout;
+use Filament\Tables\Filters\QueryBuilder;
+use Filament\Tables\Filters\QueryBuilder\Constraints\DateConstraint;
+use Filament\Tables\Filters\QueryBuilder\Constraints\NumberConstraint;
+use Filament\Tables\Filters\QueryBuilder\Constraints\TextConstraint;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
+use Modules\Filament\Resources\JobPerformanceLogResource\Pages\ListJobPerformanceLogs;
+use Modules\Filament\Resources\JobPerformanceLogResource\Pages\ViewJobPerformanceLog;
+use Modules\Filament\Resources\JobPerformanceLogResource\Widgets\StatsOverview;
 use Modules\Monitoring\Models\JobPerformanceLog;
 use Override;
 

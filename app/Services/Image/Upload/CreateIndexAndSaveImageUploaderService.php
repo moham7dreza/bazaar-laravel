@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace App\Services\Image\Upload;
 
-use Illuminate\Support\Arr;
 use App\Data\DTOs\Image\ImageUploadDTO;
 use App\Helpers\TimeUtility;
 use App\Services\Image\ImageService;
 use Exception;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Log;
 use Intervention\Image\Laravel\Facades\Image;
 

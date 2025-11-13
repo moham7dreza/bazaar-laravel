@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Modules\Advertise\Database\Factories;
 
-use Modules\Advertise\Models\State;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Modules\Advertise\Models\State;
 
 /**
  * @extends Factory<State>

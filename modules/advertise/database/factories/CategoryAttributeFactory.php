@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace Modules\Advertise\Database\Factories;
 
-use Modules\Advertise\Models\CategoryAttribute;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Modules\Advertise\Enums\AttributeType;
 use Modules\Advertise\Enums\Unit;
 use Modules\Advertise\Models\Category;
+use Modules\Advertise\Models\CategoryAttribute;
 
 /**
  * @extends Factory<CategoryAttribute>

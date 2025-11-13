@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace App\Console\Commands\System;
 
-use Illuminate\Support\Arr;
 use Exception;
 use Illuminate\Console\Command;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;

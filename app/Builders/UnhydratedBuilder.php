@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Builders;
 
-use Illuminate\Support\Arr;
 use Closure;
 use Illuminate\Contracts\Pagination\CursorPaginator;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
@@ -12,6 +11,7 @@ use Illuminate\Database\Eloquent\Builder as EloquentBuilder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Pagination\Cursor;
 use Illuminate\Pagination\Paginator;
+use Illuminate\Support\Arr;
 use Throwable;
 
 class UnhydratedBuilder extends EloquentBuilder

@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace App\Rules;
 
-use Illuminate\Support\Arr;
 use Closure;
 use Illuminate\Contracts\Validation\ValidationRule;
+use Illuminate\Support\Arr;
 
 class ValidateNationalCodeRule implements ValidationRule
 {

@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Modules\Filament\Resources\UserResource\Pages;
 
 use Filament\Actions\CreateAction;
-use Filament\Actions;
 use Filament\Pages\Concerns\ExposesTableToWidgets;
 use Filament\Resources\Components\Tab;
 use Filament\Resources\Pages\ListRecords;

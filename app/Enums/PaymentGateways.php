@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace App\Enums;
 
-use Illuminate\Support\Arr;
 use App\Enums\Concerns\EnumDataListTrait;
 use Filament\Forms\Components\TextInput;
 use Filament\Support\Contracts\HasLabel;
+use Illuminate\Support\Arr;
 
 enum PaymentGateways: int implements HasLabel
 {

@@ -2,13 +2,14 @@
 
 declare(strict_types=1);
 
-use Illuminate\Support\Facades\Event;
-use function Pest\Laravel\postJson;
-use function Pest\Laravel\assertAuthenticated;
 use App\Models\User;
 use Illuminate\Auth\Events\Registered;
+use Illuminate\Support\Facades\Event;
 use Modules\Auth\Enums\NoticeType;
 use Modules\Auth\Models\Otp;
+
+use function Pest\Laravel\assertAuthenticated;
+use function Pest\Laravel\postJson;
 
 it('can register new user', function (): void {
 

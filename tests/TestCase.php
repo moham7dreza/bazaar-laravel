@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Tests;
 
-use function Pest\Laravel\artisan;
 use App\Enums\StorageDisk;
 use Closure;
 use Database\Seeders\TestsReferenceDataSeeder;
@@ -13,6 +12,8 @@ use Illuminate\Support\Facades\Request;
 use Illuminate\Support\Facades\Storage;
 use Override;
 use ReflectionFunction;
+
+use function Pest\Laravel\artisan;
 
 abstract class TestCase extends BaseTestCase
 {

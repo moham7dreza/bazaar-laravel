@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Modules\Monitoring\Commands;
 
-use Illuminate\Support\Arr;
 use App\Notifications\VulnerabilitiesFoundNotification;
 use Illuminate\Console\Command;
+use Illuminate\Support\Arr;
 use JsonException;
 
 final class CheckVulnerabilitiesCommand extends Command

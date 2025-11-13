@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Modules\Monitoring\Commands;
 
-use Illuminate\Support\Arr;
 use Illuminate\Console\Command;
+use Illuminate\Support\Arr;
 use Modules\Monitoring\Models\CommandPerformanceLog;
 use Modules\Monitoring\Services\Command\CommandMonitoringService;
 

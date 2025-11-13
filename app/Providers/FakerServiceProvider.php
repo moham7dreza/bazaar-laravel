@@ -4,9 +4,8 @@ declare(strict_types=1);
 
 namespace App\Providers;
 
-use App\Faker\ImageFakesProvider;
 use App\Faker\CommonFakesProvider;
-use App\Faker;
+use App\Faker\ImageFakesProvider;
 use Faker\Factory;
 use Faker\Generator;
 use Illuminate\Support\ServiceProvider;

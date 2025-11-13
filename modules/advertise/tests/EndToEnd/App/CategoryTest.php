@@ -2,10 +2,11 @@
 
 declare(strict_types=1);
 
-use function Pest\Laravel\getJson;
-use function Pest\Laravel\assertModelExists;
 use Modules\Advertise\Models\Advertisement;
 use Modules\Advertise\Models\Category;
+
+use function Pest\Laravel\assertModelExists;
+use function Pest\Laravel\getJson;
 
 it('can get all parent categories', function (): void {
 

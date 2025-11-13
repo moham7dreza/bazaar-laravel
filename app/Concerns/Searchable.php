@@ -4,9 +4,8 @@ declare(strict_types=1);
 
 namespace App\Concerns;
 
-use Elastic\Elasticsearch\Client;
 use App\Observers\ElasticsearchObserver;
-use Elastic\Elasticsearch;
+use Elastic\Elasticsearch\Client;
 
 trait Searchable
 {

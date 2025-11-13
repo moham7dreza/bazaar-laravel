@@ -2,9 +2,10 @@
 
 declare(strict_types=1);
 
-use function Pest\Laravel\postJson;
 use App\Enums\Image\ImageUploadMethod;
 use Illuminate\Http\UploadedFile;
+
+use function Pest\Laravel\postJson;
 
 it('can upload an image', function (): void {
     $file = UploadedFile::fake()->image('test.jpg', 100, 100);

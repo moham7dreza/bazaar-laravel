@@ -2,10 +2,11 @@
 
 declare(strict_types=1);
 
-use function Pest\Laravel\post;
+use App\Models\User;
+
 use function Pest\Laravel\assertAuthenticated;
 use function Pest\Laravel\assertGuest;
-use App\Models\User;
+use function Pest\Laravel\post;
 
 beforeEach(function (): void {
     $this->user = User::factory()->create();

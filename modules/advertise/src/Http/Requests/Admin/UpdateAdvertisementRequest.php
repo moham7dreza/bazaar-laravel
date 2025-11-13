@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Modules\Advertise\Http\Requests\Admin;
 
-use Illuminate\Contracts\Validation\ValidationRule;
 use App\Enums\Image\ImageSize;
+use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 use Modules\Advertise\Enums\AdvertisementPublishStatus;

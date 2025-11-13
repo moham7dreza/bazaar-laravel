@@ -4,10 +4,9 @@ declare(strict_types=1);
 
 namespace Modules\Monitoring\Providers;
 
-use Illuminate\Console\Events\CommandStarting;
-use Illuminate\Console\Events\CommandFinished;
 use Exception;
-use Illuminate\Console\Events;
+use Illuminate\Console\Events\CommandFinished;
+use Illuminate\Console\Events\CommandStarting;
 use Illuminate\Database\Events\QueryExecuted;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Event;

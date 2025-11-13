@@ -2,15 +2,15 @@
 
 declare(strict_types=1);
 
-use Tests\UnitTestCase;
-use Spatie\Permission\Models\Permission;
-use Illuminate\Validation\ValidationException;
-use Illuminate\Foundation\Http\FormRequest;
 use App\Enums\UserPermission;
 use App\Models\User;
+use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
+use Illuminate\Validation\ValidationException;
+use Spatie\Permission\Models\Permission;
 use Tests\TestCase;
 use Tests\TestDataGenerator;
+use Tests\UnitTestCase;
 
 pest()->extend(TestCase::class)
     ->use(DatabaseTransactions::class)
@@ -85,7 +85,7 @@ function asAdminUser(User $user): TestCase
  * It will return an empty array if validation succeeds or an array of failed parameter names
  * in case of validation failures.
  *
- * @param class-string<FormRequest> $class
+ * @param  class-string<FormRequest>  $class
  *
  * @throws ReflectionException
  */

@@ -2,15 +2,16 @@
 
 declare(strict_types=1);
 
-use Tests\TestGroup;
+use App\Console\Commands\User\UserBatchUpdateCommand;
 use App\Jobs\UserUpdateJob;
 use App\Models\User;
-use function Pest\Laravel\artisan;
-use App\Console\Commands\User\UserBatchUpdateCommand;
 use Database\Seeders\UserBatchSeeder;
 use Illuminate\Bus\PendingBatch;
 use Illuminate\Support\Facades\Bus;
 use Illuminate\Support\Facades\Queue;
+use Tests\TestGroup;
+
+use function Pest\Laravel\artisan;
 
 pest()->group(TestGroup::MANUAL);
 

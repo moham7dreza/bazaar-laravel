@@ -4,39 +4,36 @@ declare(strict_types=1);
 
 namespace Modules\Filament\Resources;
 
-use Filament\Forms\Components\Section;
-use Filament\Forms\Components\TextInput;
-use Filament\Forms\Components\Select;
+use App\Models\User;
 use Filament\Forms\Components\DateTimePicker;
+use Filament\Forms\Components\Section;
+use Filament\Forms\Components\Select;
+use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
+use Filament\Forms\Form;
+use Filament\Resources\Resource;
+use Filament\Tables\Actions\BulkActionGroup;
+use Filament\Tables\Actions\DeleteBulkAction;
+use Filament\Tables\Actions\EditAction;
 use Filament\Tables\Columns\TextColumn;
-use Filament\Tables\Filters\SelectFilter;
+use Filament\Tables\Enums\ActionsPosition;
+use Filament\Tables\Enums\FiltersLayout;
 use Filament\Tables\Filters\Filter;
 use Filament\Tables\Filters\QueryBuilder;
 use Filament\Tables\Filters\QueryBuilder\Constraints\TextConstraint;
-use Filament\Tables\Enums\FiltersLayout;
-use STS\FilamentImpersonate\Tables\Actions\Impersonate;
-use Filament\Tables\Actions\EditAction;
-use Filament\Tables\Actions\BulkActionGroup;
-use Filament\Tables\Actions\DeleteBulkAction;
-use Modules\Filament\Resources\UserResource\Pages\ListUsers;
-use Modules\Filament\Resources\UserResource\Pages\CreateUser;
-use Modules\Filament\Resources\UserResource\Pages\EditUser;
-use App\Models\User;
-use Filament\Forms;
-use Filament\Forms\Form;
-use Filament\Resources\Resource;
-use Filament\Tables;
-use Filament\Tables\Enums\ActionsPosition;
-use Filament\Tables\Filters\QueryBuilder\Constraints;
+use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Malzariey\FilamentDaterangepickerFilter\Filters\DateRangeFilter;
+use Modules\Filament\Resources\UserResource\Pages\CreateUser;
+use Modules\Filament\Resources\UserResource\Pages\EditUser;
+use Modules\Filament\Resources\UserResource\Pages\ListUsers;
 use Modules\Filament\Resources\UserResource\Widgets\StatsOverview;
 use Override;
 use pxlrbt\FilamentExcel\Actions\Tables\ExportBulkAction;
 use Rmsramos\Activitylog\Actions\ActivityLogTimelineTableAction;
 use Rmsramos\Activitylog\RelationManagers\ActivitylogRelationManager;
+use STS\FilamentImpersonate\Tables\Actions\Impersonate;
 
 final class UserResource extends Resource
 {

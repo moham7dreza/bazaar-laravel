@@ -4,25 +4,23 @@ declare(strict_types=1);
 
 namespace Modules\Filament\Resources;
 
-use Filament\Forms\Components\Toggle;
-use Filament\Tables\Columns\TextColumn;
-use Filament\Tables\Columns\IconColumn;
-use Filament\Tables\Actions\EditAction;
-use Filament\Tables\Actions\BulkActionGroup;
-use Filament\Tables\Actions\DeleteBulkAction;
-use Modules\Filament\Resources\PaymentGatewayResource\Pages\ListPaymentGateways;
-use Modules\Filament\Resources\PaymentGatewayResource\Pages\CreatePaymentGateway;
-use Modules\Filament\Resources\PaymentGatewayResource\Pages\EditPaymentGateway;
-use Filament\Forms\Components\Select;
-use Filament\Forms\Components\Section;
 use App\Enums\PaymentGateways;
 use App\Models\PaymentGateway;
-use Filament\Forms;
+use Filament\Forms\Components\Section;
+use Filament\Forms\Components\Select;
+use Filament\Forms\Components\Toggle;
 use Filament\Forms\Form;
 use Filament\Forms\Get;
 use Filament\Resources\Resource;
-use Filament\Tables;
+use Filament\Tables\Actions\BulkActionGroup;
+use Filament\Tables\Actions\DeleteBulkAction;
+use Filament\Tables\Actions\EditAction;
+use Filament\Tables\Columns\IconColumn;
+use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
+use Modules\Filament\Resources\PaymentGatewayResource\Pages\CreatePaymentGateway;
+use Modules\Filament\Resources\PaymentGatewayResource\Pages\EditPaymentGateway;
+use Modules\Filament\Resources\PaymentGatewayResource\Pages\ListPaymentGateways;
 use Override;
 
 final class PaymentGatewayResource extends Resource

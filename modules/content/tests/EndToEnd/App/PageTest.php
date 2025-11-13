@@ -2,9 +2,10 @@
 
 declare(strict_types=1);
 
-use function Pest\Laravel\getJson;
-use function Pest\Laravel\assertModelExists;
 use Modules\Content\Models\Page;
+
+use function Pest\Laravel\assertModelExists;
+use function Pest\Laravel\getJson;
 
 it('can get all pages', function (): void {
 

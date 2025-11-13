@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Tests;
 
-use PHPUnit\Framework\TestCase;
 use Illuminate\Contracts\Console\Kernel;
 use Illuminate\Support\Facades\DB;
+use PHPUnit\Framework\TestCase;
 
 class UnitTestCase extends TestCase
 {
