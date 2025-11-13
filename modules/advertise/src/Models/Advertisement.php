@@ -32,7 +32,6 @@ use Illuminate\Support\Facades\Date;
 use Modules\Advertise\Database\Factories\AdvertisementFactory;
 use Modules\Advertise\Enums\AdvertisementPublishStatus;
 use Modules\Advertise\Enums\AdvertisementStatus;
-use Modules\Advertise\Enums\AdvertisementType;
 use Modules\Advertise\Enums\Sort;
 use Modules\Advertise\Http\Resources\App\AdvertisementCollection;
 use Modules\Advertise\Http\Resources\App\AdvertisementResource;

@@ -11,8 +11,6 @@ use App\Models\PaymentGateway;
 use App\Models\SmsGateway;
 use App\Models\SmsLog;
 use App\Models\User;
-use Illuminate\Container\Attributes\Context;
-use Illuminate\Database\Eloquent\Factories\Sequence;
 use Illuminate\Database\Seeder;
 
 final class TopToDownSeeder extends Seeder

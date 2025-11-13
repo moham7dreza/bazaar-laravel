@@ -7,7 +7,6 @@ namespace App\Console\Commands\User;
 use App\Jobs\UserSuspendClearJob;
 use App\Models\User;
 use Illuminate\Console\Command;
-use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Date;
 use Illuminate\Support\LazyCollection;
 

@@ -9,7 +9,6 @@ use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\ServiceProvider;
 use Laravel\Nightwatch\Facades\Nightwatch;
 use Laravel\Pulse\Facades\Pulse;
-use Modules\Monitoring\Commands;
 use Modules\Monitoring\Commands\CheckVulnerabilitiesCommand;
 use Modules\Monitoring\Commands\MonitorCommands;
 use Override;
