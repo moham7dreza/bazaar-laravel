@@ -50,7 +50,6 @@ use Statikbe\FilamentTranslationManager\FilamentChainedTranslationManagerPlugin;
 use Statikbe\FilamentTranslationManager\FilamentTranslationManager;
 use Swis\Filament\Backgrounds\FilamentBackgroundsPlugin;
 use TomatoPHP\FilamentMediaManager\FilamentMediaManagerPlugin;
-use TomatoPHP\FilamentPWA\FilamentPWAPlugin;
 use Vormkracht10\FilamentMails\Facades\FilamentMails;
 use Vormkracht10\FilamentMails\FilamentMailsPlugin;
 
@@ -119,7 +118,6 @@ final class SuperAdminPanelProvider extends PanelProvider
                 FilamentSpatieRolesPermissionsPlugin::make(),
                 FilamentPlugin::make(),
                 FilamentMailsPlugin::make(),
-                FilamentPWAPlugin::make(),
                 BreezyCore::make()
                     ->myProfile(
                         shouldRegisterNavigation: true,

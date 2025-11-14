@@ -31,7 +31,6 @@
         "stechstudio/filament-impersonate": "^3.15",
         "swisnl/filament-backgrounds": "^1.1",
         "tomatophp/filament-media-manager": "^1.1",
-        "tomatophp/filament-pwa": "^1.0",
         "vormkracht10/filament-mails": "^2.3"
     },
 	"autoload": {
