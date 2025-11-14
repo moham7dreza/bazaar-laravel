@@ -859,79 +859,6 @@
             "time": "2024-05-10T17:15:19+00:00"
         },
         {
-            "name": "brickx/maintenance-switch",
-            "version": "1.0.3",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/Keysaw/maintenance-switch.git",
-                "reference": "8fbabe0610e2bbb78a250a39f27d14037f9a702c"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/Keysaw/maintenance-switch/zipball/8fbabe0610e2bbb78a250a39f27d14037f9a702c",
-                "reference": "8fbabe0610e2bbb78a250a39f27d14037f9a702c",
-                "shasum": ""
-            },
-            "require": {
-                "filament/filament": "^3.0",
-                "illuminate/contracts": "^9.0|^10.0|^11.0|^12.0",
-                "php": "^8.1",
-                "spatie/laravel-package-tools": "^1.16"
-            },
-            "require-dev": {
-                "laravel/pint": "^1.13",
-                "nunomaduro/collision": "^7.9",
-                "orchestra/testbench": "^8.10",
-                "pestphp/pest": "^2.18",
-                "pestphp/pest-plugin-arch": "^2.3",
-                "pestphp/pest-plugin-laravel": "^2.2",
-                "pestphp/pest-plugin-livewire": "^2.1"
-            },
-            "type": "library",
-            "extra": {
-                "laravel": {
-                    "providers": [
-                        "Brickx\\MaintenanceSwitch\\MaintenanceSwitchServiceProvider"
-                    ]
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "Brickx\\MaintenanceSwitch\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Florian PLAMONT",
-                    "email": "keysaw@brickx.fr",
-                    "role": "Developer"
-                }
-            ],
-            "description": "Simple plugin to toggle maintenance mode from Filament Panels.",
-            "homepage": "https://github.com/Keysaw/maintenance-switch",
-            "keywords": [
-                "brickx",
-                "filament",
-                "laravel",
-                "maintenance"
-            ],
-            "support": {
-                "issues": "https://github.com/Keysaw/maintenance-switch/issues",
-                "source": "https://github.com/Keysaw/maintenance-switch"
-            },
-            "funding": [
-                {
-                    "url": "https://github.com/Brickx",
-                    "type": "github"
-                }
-            ],
-            "time": "2025-03-11T10:08:18+00:00"
-        },
-        {
             "name": "calebporzio/sushi",
             "version": "v2.5.3",
             "source": {
@@ -8642,7 +8569,7 @@
             "dist": {
                 "type": "path",
                 "url": "modules/filament",
-                "reference": "cadfaafec7460982350a9f0184c57b234dfd5b77"
+                "reference": "dc12028a99770d43bb8912ef636c23c6b1a0bd66"
             },
             "require": {
                 "althinect/filament-spatie-roles-permissions": "^2.3",
@@ -8650,7 +8577,6 @@
                 "awcodes/overlook": "^2.2",
                 "bezhansalleh/filament-exceptions": "^2.1",
                 "bezhansalleh/filament-language-switch": "^3.1",
-                "brickx/maintenance-switch": "^1.0",
                 "charrafimed/global-search-modal": "^3.7",
                 "cmsmaxinc/filament-error-pages": "^1.0",
                 "cmsmaxinc/filament-system-versions": "^1.0",

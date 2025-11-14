@@ -13,7 +13,6 @@ use Awcodes\Overlook\OverlookPlugin;
 use Awcodes\Overlook\Widgets\OverlookWidget;
 use BezhanSalleh\FilamentExceptions\FilamentExceptionsPlugin;
 use BezhanSalleh\FilamentLanguageSwitch\LanguageSwitch;
-use Brickx\MaintenanceSwitch\MaintenanceSwitchPlugin;
 use CharrafiMed\GlobalSearchModal\GlobalSearchModalPlugin;
 use Cmsmaxinc\FilamentErrorPages\FilamentErrorPagesPlugin;
 use Cmsmaxinc\FilamentSystemVersions\Filament\Widgets\DependencyWidget;
@@ -152,7 +151,6 @@ final class SuperAdminPanelProvider extends PanelProvider
                 FilamentEnvEditorPlugin::make()
                     ->navigationGroup('Settings')
                     ->navigationIcon('heroicon-o-cog-8-tooth'),
-                MaintenanceSwitchPlugin::make(),
                 FilamentBackgroundsPlugin::make(),
                 QuickCreatePlugin::make()
                     ->slideOver()
