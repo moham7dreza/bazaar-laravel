@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Modules\Filament\Providers;
 
-use Afsakar\FilamentOtpLogin\FilamentOtpLoginPlugin;
 use Althinect\FilamentSpatieRolesPermissions\FilamentSpatieRolesPermissionsPlugin;
 use App\Enums\ClientLocale;
 use App\Enums\Queue;
@@ -148,7 +147,6 @@ final class SuperAdminPanelProvider extends PanelProvider
                 FilamentApexChartsPlugin::make(),
                 FilamentExceptionsPlugin::make(),
                 ResourceLockPlugin::make(),
-                FilamentOtpLoginPlugin::make(),
                 FilamentChainedTranslationManagerPlugin::make(),
                 FilamentMediaManagerPlugin::make(),
                 FilamentEnvEditorPlugin::make()
