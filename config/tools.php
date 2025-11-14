@@ -174,4 +174,13 @@ return [
         'group'          => 'Tools',
         'sort'           => 11,
     ],
+    'vantage' => [
+        'title'          => 'Vantage',
+        'description'    => 'Tracks and monitors your queue jobs',
+        'url'            => '/vantage',
+        'heroicon'       => 'heroicon-o-square-3-stack-3d',
+        'icon'           => null,
+        'group'          => 'Tools',
+        'sort'           => 12,
+    ],
 ];

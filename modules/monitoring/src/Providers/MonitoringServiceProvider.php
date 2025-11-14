@@ -36,6 +36,8 @@ final class MonitoringServiceProvider extends ServiceProvider
     private function configureGates(): void
     {
         Gate::define('viewPulse', static fn (?User $user): ?bool => ! isEnvLocalOrTesting() ? $user?->isAdmin() : true);
+
+        Gate::define('viewVantage', static fn (?User $user): ?bool => ! isEnvLocalOrTesting() ? $user?->isAdmin() : true);
     }
 
     private function configurePulse(): void
