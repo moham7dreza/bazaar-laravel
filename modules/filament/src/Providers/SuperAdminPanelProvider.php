@@ -30,8 +30,6 @@ use Filament\Tables\Table;
 use Filament\Widgets\AccountWidget;
 use Filament\Widgets\FilamentInfoWidget;
 use GeoSot\FilamentEnvEditor\FilamentEnvEditorPlugin;
-use Hasnayeen\Themes\Http\Middleware\SetTheme;
-use Hasnayeen\Themes\ThemesPlugin;
 use Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse;
 use Illuminate\Cookie\Middleware\EncryptCookies;
 use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
@@ -105,12 +103,10 @@ final class SuperAdminPanelProvider extends PanelProvider
                 SubstituteBindings::class,
                 DisableBladeIconComponents::class,
                 DispatchServingFilamentEvent::class,
-                SetTheme::class,
             ])
             ->authMiddleware([
                 Authenticate::class,
             ])->plugins([
-                ThemesPlugin::make(),
                 FilamentSpatieLaravelBackupPlugin::make()
                     ->usingPolingInterval('10s')
                     ->usingQueue(Queue::Backup->value)

@@ -4651,81 +4651,6 @@
             "time": "2025-08-22T14:27:06+00:00"
         },
         {
-            "name": "hasnayeen/themes",
-            "version": "v3.0.24",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/Hasnayeen/themes.git",
-                "reference": "4ee2899fc8e9d565cb4daad6bf84ff9b36fe29ae"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/Hasnayeen/themes/zipball/4ee2899fc8e9d565cb4daad6bf84ff9b36fe29ae",
-                "reference": "4ee2899fc8e9d565cb4daad6bf84ff9b36fe29ae",
-                "shasum": ""
-            },
-            "require": {
-                "filament/filament": "^3.0",
-                "php": "^8.1",
-                "spatie/laravel-package-tools": "^1.15.0"
-            },
-            "require-dev": {
-                "laravel/pint": "^1.0",
-                "nunomaduro/collision": "^7.9",
-                "nunomaduro/larastan": "^2.0.1",
-                "orchestra/testbench": "^8.0|^9.0",
-                "pestphp/pest": "^2.0",
-                "pestphp/pest-plugin-arch": "^2.0",
-                "pestphp/pest-plugin-laravel": "^2.0",
-                "phpstan/extension-installer": "^1.1",
-                "phpstan/phpstan-deprecation-rules": "^1.0",
-                "phpstan/phpstan-phpunit": "^1.0"
-            },
-            "type": "library",
-            "extra": {
-                "laravel": {
-                    "providers": [
-                        "Hasnayeen\\Themes\\ThemesServiceProvider"
-                    ]
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "Hasnayeen\\Themes\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Hasnayeen",
-                    "email": "searching.nehal@gmail.com",
-                    "role": "Developer"
-                }
-            ],
-            "description": "Themes for Filament panels",
-            "homepage": "https://github.com/hasnayeen/themes",
-            "keywords": [
-                "Hasnayeen",
-                "filament",
-                "laravel",
-                "themes"
-            ],
-            "support": {
-                "issues": "https://github.com/hasnayeen/themes/issues",
-                "source": "https://github.com/hasnayeen/themes"
-            },
-            "funding": [
-                {
-                    "url": "https://github.com/Hasnayeen",
-                    "type": "github"
-                }
-            ],
-            "time": "2025-02-27T05:00:18+00:00"
-        },
-        {
             "name": "houdaslassi/vantage",
             "version": "v0.1.11",
             "source": {
@@ -8569,7 +8494,7 @@
             "dist": {
                 "type": "path",
                 "url": "modules/filament",
-                "reference": "dc12028a99770d43bb8912ef636c23c6b1a0bd66"
+                "reference": "a48c659bde92bc7a6e2ae4c2f9f412950cad9fc9"
             },
             "require": {
                 "althinect/filament-spatie-roles-permissions": "^2.3",
@@ -8582,7 +8507,6 @@
                 "cmsmaxinc/filament-system-versions": "^1.0",
                 "filament/filament": "3.3",
                 "geo-sot/filament-env-editor": "^0.0.7",
-                "hasnayeen/themes": "^3.0",
                 "infinityxtech/filament-world-map-widget": "^1.0",
                 "jeffgreco13/filament-breezy": "^2.6",
                 "kenepa/resource-lock": "^2.1",
