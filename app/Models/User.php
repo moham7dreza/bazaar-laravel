@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Models;
 
-use Afsakar\FilamentOtpLogin\Models\Contracts\CanLoginDirectly;
 use App\Concerns\InteractWithSensitiveColumns;
 use App\Concerns\MustVerifyMobile;
 use App\Contracts\MustVerifyMobile as ShouldVerifiedMobile;
@@ -64,7 +63,6 @@ use Zap\Models\Concerns\HasSchedules;
 #[UseResourceCollection(UserCollection::class)]
 #[ScopedBy([LatestScope::class])]
 final class User extends Authenticatable implements
-    CanLoginDirectly,
     FilamentUser,
     HasAvatar,
     HasLocalePreference,
@@ -149,11 +147,6 @@ final class User extends Authenticatable implements
     public function canAccessPanel(Panel $panel): bool
     {
         return $this->isAdmin();
-    }
-
-    public function canLoginDirectly(): bool
-    {
-        return str($this->email)->is('admin@admin.com');
     }
 
     public function getFilamentAvatarUrl(): ?string

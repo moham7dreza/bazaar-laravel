@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Modules\Filament\Providers;
 
-use Afsakar\FilamentOtpLogin\FilamentOtpLoginPlugin;
 use Althinect\FilamentSpatieRolesPermissions\FilamentSpatieRolesPermissionsPlugin;
 use App\Enums\ClientLocale;
 use App\Enums\Queue;
@@ -14,7 +13,6 @@ use Awcodes\Overlook\OverlookPlugin;
 use Awcodes\Overlook\Widgets\OverlookWidget;
 use BezhanSalleh\FilamentExceptions\FilamentExceptionsPlugin;
 use BezhanSalleh\FilamentLanguageSwitch\LanguageSwitch;
-use Brickx\MaintenanceSwitch\MaintenanceSwitchPlugin;
 use CharrafiMed\GlobalSearchModal\GlobalSearchModalPlugin;
 use Cmsmaxinc\FilamentErrorPages\FilamentErrorPagesPlugin;
 use Cmsmaxinc\FilamentSystemVersions\Filament\Widgets\DependencyWidget;
@@ -32,8 +30,6 @@ use Filament\Tables\Table;
 use Filament\Widgets\AccountWidget;
 use Filament\Widgets\FilamentInfoWidget;
 use GeoSot\FilamentEnvEditor\FilamentEnvEditorPlugin;
-use Hasnayeen\Themes\Http\Middleware\SetTheme;
-use Hasnayeen\Themes\ThemesPlugin;
 use Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse;
 use Illuminate\Cookie\Middleware\EncryptCookies;
 use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
@@ -53,8 +49,6 @@ use ShuvroRoy\FilamentSpatieLaravelBackup\FilamentSpatieLaravelBackupPlugin;
 use Statikbe\FilamentTranslationManager\FilamentChainedTranslationManagerPlugin;
 use Statikbe\FilamentTranslationManager\FilamentTranslationManager;
 use Swis\Filament\Backgrounds\FilamentBackgroundsPlugin;
-use TomatoPHP\FilamentMediaManager\FilamentMediaManagerPlugin;
-use TomatoPHP\FilamentPWA\FilamentPWAPlugin;
 use Vormkracht10\FilamentMails\Facades\FilamentMails;
 use Vormkracht10\FilamentMails\FilamentMailsPlugin;
 
@@ -107,12 +101,10 @@ final class SuperAdminPanelProvider extends PanelProvider
                 SubstituteBindings::class,
                 DisableBladeIconComponents::class,
                 DispatchServingFilamentEvent::class,
-                SetTheme::class,
             ])
             ->authMiddleware([
                 Authenticate::class,
             ])->plugins([
-                ThemesPlugin::make(),
                 FilamentSpatieLaravelBackupPlugin::make()
                     ->usingPolingInterval('10s')
                     ->usingQueue(Queue::Backup->value)
@@ -125,7 +117,6 @@ final class SuperAdminPanelProvider extends PanelProvider
                 FilamentSpatieRolesPermissionsPlugin::make(),
                 FilamentPlugin::make(),
                 FilamentMailsPlugin::make(),
-                FilamentPWAPlugin::make(),
                 BreezyCore::make()
                     ->myProfile(
                         shouldRegisterNavigation: true,
@@ -148,13 +139,10 @@ final class SuperAdminPanelProvider extends PanelProvider
                 FilamentApexChartsPlugin::make(),
                 FilamentExceptionsPlugin::make(),
                 ResourceLockPlugin::make(),
-                FilamentOtpLoginPlugin::make(),
                 FilamentChainedTranslationManagerPlugin::make(),
-                FilamentMediaManagerPlugin::make(),
                 FilamentEnvEditorPlugin::make()
                     ->navigationGroup('Settings')
                     ->navigationIcon('heroicon-o-cog-8-tooth'),
-                MaintenanceSwitchPlugin::make(),
                 FilamentBackgroundsPlugin::make(),
                 QuickCreatePlugin::make()
                     ->slideOver()
