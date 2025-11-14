@@ -30,7 +30,6 @@
         "statikbe/laravel-filament-chained-translation-manager": "^3.3",
         "stechstudio/filament-impersonate": "^3.15",
         "swisnl/filament-backgrounds": "^1.1",
-        "tomatophp/filament-media-manager": "^1.1",
         "vormkracht10/filament-mails": "^2.3"
     },
 	"autoload": {

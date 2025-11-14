@@ -49,7 +49,6 @@ use ShuvroRoy\FilamentSpatieLaravelBackup\FilamentSpatieLaravelBackupPlugin;
 use Statikbe\FilamentTranslationManager\FilamentChainedTranslationManagerPlugin;
 use Statikbe\FilamentTranslationManager\FilamentTranslationManager;
 use Swis\Filament\Backgrounds\FilamentBackgroundsPlugin;
-use TomatoPHP\FilamentMediaManager\FilamentMediaManagerPlugin;
 use Vormkracht10\FilamentMails\Facades\FilamentMails;
 use Vormkracht10\FilamentMails\FilamentMailsPlugin;
 
@@ -141,7 +140,6 @@ final class SuperAdminPanelProvider extends PanelProvider
                 FilamentExceptionsPlugin::make(),
                 ResourceLockPlugin::make(),
                 FilamentChainedTranslationManagerPlugin::make(),
-                FilamentMediaManagerPlugin::make(),
                 FilamentEnvEditorPlugin::make()
                     ->navigationGroup('Settings')
                     ->navigationIcon('heroicon-o-cog-8-tooth'),
