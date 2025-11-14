@@ -29,7 +29,10 @@ final class PrometheusServiceProvider extends ServiceProvider
 
         $this->registerCustomHorizonCollectors();
 
-        $this->registerQueueCollectors(Queue::values());
+        $this->registerQueueCollectors(
+            queues: Queue::values(),
+            connection: null,
+        );
     }
 
     public function registerGauges(): void
@@ -38,7 +41,7 @@ final class PrometheusServiceProvider extends ServiceProvider
             ->label('status')
             ->helpText('This is the number of users in our app')
             ->namespace('app')
-            ->value(fn () => [
+            ->value(fn (): array => [
                 [User::query()->where('is_active', 1)->count(), ['active']],
                 [User::query()->where('is_active', 0)->count(), ['inactive']],
             ]);
@@ -70,7 +73,7 @@ final class PrometheusServiceProvider extends ServiceProvider
         return $this;
     }
 
-    public function registerQueueCollectors(array $queues = [], ?string $connection = null): self
+    public function registerQueueCollectors(array $queues, ?string $connection): self
     {
         Prometheus::registerCollectorClasses(
             collectors: [

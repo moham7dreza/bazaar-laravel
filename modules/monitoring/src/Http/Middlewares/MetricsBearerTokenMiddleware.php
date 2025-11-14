@@ -14,6 +14,11 @@ final class MetricsBearerTokenMiddleware
 {
     public function handle(Request $request, Closure $next)
     {
+        if (isEnvLocal())
+        {
+            return $next($request);
+        }
+
         $bearerToken = $request->bearerToken();
 
         $enabled = PrometheusConfig::isEnabled() && PrometheusConfig::isConfigured();
