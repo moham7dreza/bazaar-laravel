@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Modules\Advertise\Http\Requests\App;
 
+use Cknow\Money\Rules\Money;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
@@ -48,7 +49,7 @@ final class StoreAdvertisementRequest extends FormRequest
             'city_id'          => ['required', 'min:1', 'max:100000000', 'regex:/^[0-9]+$/u', 'exists:cities,id'],
             'contact'          => ['nullable', 'max:255', 'min:2'],
             'image'            => ['nullable', 'max:2000', 'image', 'mimes:png,jpg,jpeg,gif'],
-            'price'            => ['nullable', 'numeric'],
+            'price'            => ['nullable', new Money()],
             'tags'             => ['nullable'],
             'lng'              => ['nullable', 'numeric'],
             'lat'              => ['nullable', 'numeric'],

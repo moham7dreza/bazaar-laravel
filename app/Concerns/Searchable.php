@@ -19,7 +19,7 @@ trait Searchable
         }
     }
 
-    public function elasticsearchIndex(Client $elasticsearchClient): void
+    public function elasticSearchIndex(Client $elasticsearchClient): void
     {
         $elasticsearchClient->index([
             'index' => $this->getTable(),
@@ -29,7 +29,7 @@ trait Searchable
         ]);
     }
 
-    public function elasticsearchDelete(Client $elasticsearchClient): void
+    public function elasticSearchDelete(Client $elasticsearchClient): void
     {
         $elasticsearchClient->delete([
             'index' => $this->getTable(),
