@@ -74,7 +74,7 @@ enum ClientLocale: string
     {
         return match ($this)
         {
-            self::Farsi   => 'IRT',
+            self::Farsi   => 'IRR',
             self::English => 'USD',
         };
     }
