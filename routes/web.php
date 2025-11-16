@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\Route;
 
 require __DIR__ . '/auth.php';
 
-when(isEnvLocal(), function (): void {
+when(app()->isLocal(), function (): void {
 });
 
 Route::fallback(FallbackController::class);

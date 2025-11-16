@@ -14,7 +14,7 @@ final class MetricsBearerTokenMiddleware
 {
     public function handle(Request $request, Closure $next)
     {
-        if (isEnvLocal())
+        if (app()->isLocal())
         {
             return $next($request);
         }

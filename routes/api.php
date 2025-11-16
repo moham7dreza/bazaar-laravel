@@ -362,7 +362,7 @@ Route::prefix('panel')
 when(isEnvStaging(), function (): void {
 });
 
-when(isEnvLocal(), static function (): void {
+when(app()->isLocal(), static function (): void {
     Route::post('idempotency', static fn (): ?LoggerInterface => logger('idempotency passed'))
         ->middleware(EnsureIdempotency::class)
         ->name('idempotency');

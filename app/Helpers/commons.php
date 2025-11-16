@@ -75,14 +75,6 @@ if ( ! function_exists('isEnvTesting'))
     }
 }
 
-if ( ! function_exists('isEnvLocal'))
-{
-    function isEnvLocal(): bool
-    {
-        return app()->environment(Environment::local());
-    }
-}
-
 if ( ! function_exists('isEnvStaging'))
 {
     function isEnvStaging(): bool
