@@ -124,23 +124,23 @@ final class AppServiceProvider extends ServiceProvider
 
     private function configureCommands(): void
     {
-        DB::prohibitDestructiveCommands(isEnvProduction());
+        DB::prohibitDestructiveCommands(app()->isProduction());
 
-        DumpCommand::prohibit(isEnvProduction());
+        DumpCommand::prohibit(app()->isProduction());
     }
 
     private function configureModel(): void
     {
         Model::automaticallyEagerLoadRelationships();
 
-        Model::shouldBeStrict( ! isEnvProduction());
+        Model::shouldBeStrict( ! app()->isProduction());
 
         Model::unguard();
     }
 
     private function configureUrl(): void
     {
-        URL::forceHttps(isEnvProduction());
+        URL::forceHttps(app()->isProduction());
 //        URL::useOrigin('');
     }
 

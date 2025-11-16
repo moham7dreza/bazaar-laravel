@@ -91,14 +91,6 @@ if ( ! function_exists('isEnvStaging'))
     }
 }
 
-if ( ! function_exists('isEnvProduction'))
-{
-    function isEnvProduction(): bool
-    {
-        return app()->environment(Environment::Production->value);
-    }
-}
-
 if ( ! function_exists('isEnvLocalOrTesting'))
 {
     function isEnvLocalOrTesting(): bool
@@ -204,7 +196,7 @@ if ( ! function_exists('throw_exception'))
             );
         }
 
-        isEnvProduction() ? report($exception) : throw $exception;
+        app()->isProduction() ? report($exception) : throw $exception;
     }
 }
 

@@ -120,7 +120,7 @@ return Application::configure(basePath: dirname(__DIR__))
             {
                 $model = str($previous->getModel())->afterLast('\\');
 
-                $message = isEnvProduction() ? 'Record Not Found.' : "{$model} Not Found.";
+                $message = app()->isProduction() ? 'Record Not Found.' : "{$model} Not Found.";
 
                 return ApiJsonResponse::error(Response::HTTP_NOT_FOUND, $message);
             }
