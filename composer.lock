@@ -2567,16 +2567,16 @@
         },
         {
             "name": "dedoc/scramble",
-            "version": "v0.13.3",
+            "version": "v0.13.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/dedoc/scramble.git",
-                "reference": "fe275b8dbe5ab70d79e375b5b29c62385409f5e6"
+                "reference": "773f9d41b68a9bd52120648e55068bfbe9be567e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/dedoc/scramble/zipball/fe275b8dbe5ab70d79e375b5b29c62385409f5e6",
-                "reference": "fe275b8dbe5ab70d79e375b5b29c62385409f5e6",
+                "url": "https://api.github.com/repos/dedoc/scramble/zipball/773f9d41b68a9bd52120648e55068bfbe9be567e",
+                "reference": "773f9d41b68a9bd52120648e55068bfbe9be567e",
                 "shasum": ""
             },
             "require": {
@@ -2635,7 +2635,7 @@
             ],
             "support": {
                 "issues": "https://github.com/dedoc/scramble/issues",
-                "source": "https://github.com/dedoc/scramble/tree/v0.13.3"
+                "source": "https://github.com/dedoc/scramble/tree/v0.13.4"
             },
             "funding": [
                 {
@@ -2643,7 +2643,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2025-11-12T12:16:47+00:00"
+            "time": "2025-11-16T07:10:35+00:00"
         },
         {
             "name": "dflydev/dot-access-data",
@@ -2722,16 +2722,16 @@
         },
         {
             "name": "directorytree/metrics",
-            "version": "v1.4.1",
+            "version": "v1.5.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/DirectoryTree/Metrics.git",
-                "reference": "56fd72ed502cce27249fbaf55cfd9b2428b0b902"
+                "reference": "82d285e123469734db191db18e15ddceefab43ce"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/DirectoryTree/Metrics/zipball/56fd72ed502cce27249fbaf55cfd9b2428b0b902",
-                "reference": "56fd72ed502cce27249fbaf55cfd9b2428b0b902",
+                "url": "https://api.github.com/repos/DirectoryTree/Metrics/zipball/82d285e123469734db191db18e15ddceefab43ce",
+                "reference": "82d285e123469734db191db18e15ddceefab43ce",
                 "shasum": ""
             },
             "require": {
@@ -2743,7 +2743,8 @@
             "require-dev": {
                 "laravel/pint": "^1.0",
                 "orchestra/testbench": "^7.0|^8.0|^9.0|^10.0",
-                "pestphp/pest": "^1.0|^2.0|^3.0"
+                "pestphp/pest": "^1.0|^2.0|^3.0",
+                "pestphp/pest-plugin-laravel": "^1.0|^2.0|^3.0"
             },
             "type": "library",
             "extra": {
@@ -2777,9 +2778,9 @@
             "description": "Record metrics in your Laravel application",
             "support": {
                 "issues": "https://github.com/DirectoryTree/Metrics/issues",
-                "source": "https://github.com/DirectoryTree/Metrics/tree/v1.4.1"
+                "source": "https://github.com/DirectoryTree/Metrics/tree/v1.5.0"
             },
-            "time": "2025-11-03T00:29:39+00:00"
+            "time": "2025-11-15T20:07:49+00:00"
         },
         {
             "name": "doctrine/dbal",
@@ -7103,16 +7104,16 @@
         },
         {
             "name": "laraveljutsu/zap",
-            "version": "v1.5.0",
+            "version": "1.7.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/ludoguenet/zap-for-laravel.git",
-                "reference": "fadeadaef4720e86d92fa2a4dcfd0e06cb225288"
+                "reference": "10237dc17caaba33bf7d0a18b1c7ba98a2cc64b8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/ludoguenet/zap-for-laravel/zipball/fadeadaef4720e86d92fa2a4dcfd0e06cb225288",
-                "reference": "fadeadaef4720e86d92fa2a4dcfd0e06cb225288",
+                "url": "https://api.github.com/repos/ludoguenet/zap-for-laravel/zipball/10237dc17caaba33bf7d0a18b1c7ba98a2cc64b8",
+                "reference": "10237dc17caaba33bf7d0a18b1c7ba98a2cc64b8",
                 "shasum": ""
             },
             "require": {
@@ -7121,8 +7122,8 @@
             "require-dev": {
                 "larastan/larastan": "^3.0",
                 "laravel/pint": "^1.20",
-                "orchestra/testbench": "^9.10",
-                "pestphp/pest": "^3.7"
+                "orchestra/testbench": "^10.0",
+                "pestphp/pest": "^4.0"
             },
             "type": "library",
             "extra": {
@@ -7161,9 +7162,9 @@
             ],
             "support": {
                 "issues": "https://github.com/ludoguenet/zap-for-laravel/issues",
-                "source": "https://github.com/ludoguenet/zap-for-laravel/tree/v1.5.0"
+                "source": "https://github.com/ludoguenet/zap-for-laravel/tree/1.7.0"
             },
-            "time": "2025-10-28T20:35:37+00:00"
+            "time": "2025-11-15T22:35:39+00:00"
         },
         {
             "name": "league/commonmark",
@@ -9051,16 +9052,16 @@
         },
         {
             "name": "mongodb/mongodb",
-            "version": "2.1.1",
+            "version": "2.1.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/mongodb/mongo-php-library.git",
-                "reference": "f399d24905dd42f97dfe0af9706129743ef247ac"
+                "reference": "0a2472ba9cbb932f7e43a8770aedb2fc30612a67"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/mongodb/mongo-php-library/zipball/f399d24905dd42f97dfe0af9706129743ef247ac",
-                "reference": "f399d24905dd42f97dfe0af9706129743ef247ac",
+                "url": "https://api.github.com/repos/mongodb/mongo-php-library/zipball/0a2472ba9cbb932f7e43a8770aedb2fc30612a67",
+                "reference": "0a2472ba9cbb932f7e43a8770aedb2fc30612a67",
                 "shasum": ""
             },
             "require": {
@@ -9076,7 +9077,7 @@
             "require-dev": {
                 "doctrine/coding-standard": "^12.0",
                 "phpunit/phpunit": "^10.5.35",
-                "rector/rector": "^1.2",
+                "rector/rector": "^2.1.4",
                 "squizlabs/php_codesniffer": "^3.7",
                 "vimeo/psalm": "6.5.*"
             },
@@ -9122,9 +9123,9 @@
             ],
             "support": {
                 "issues": "https://github.com/mongodb/mongo-php-library/issues",
-                "source": "https://github.com/mongodb/mongo-php-library/tree/2.1.1"
+                "source": "https://github.com/mongodb/mongo-php-library/tree/2.1.2"
             },
-            "time": "2025-08-13T20:50:05+00:00"
+            "time": "2025-10-06T12:12:40+00:00"
         },
         {
             "name": "monolog/monolog",
@@ -21001,7 +21002,7 @@
         },
         {
             "name": "filament/upgrade",
-            "version": "v4.2.1",
+            "version": "v4.2.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/filamentphp/upgrade.git",
@@ -23669,12 +23670,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/Roave/SecurityAdvisories.git",
-                "reference": "ccc4996aff4ff810b514472932f677753ee5d8a4"
+                "reference": "6c7e6e7ebf679f9228c82ec3f7a432b4e8df538e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Roave/SecurityAdvisories/zipball/ccc4996aff4ff810b514472932f677753ee5d8a4",
-                "reference": "ccc4996aff4ff810b514472932f677753ee5d8a4",
+                "url": "https://api.github.com/repos/Roave/SecurityAdvisories/zipball/6c7e6e7ebf679f9228c82ec3f7a432b4e8df538e",
+                "reference": "6c7e6e7ebf679f9228c82ec3f7a432b4e8df538e",
                 "shasum": ""
             },
             "conflict": {
@@ -23790,6 +23791,7 @@
                 "codeigniter4/shield": "<1.0.0.0-beta8",
                 "codiad/codiad": "<=2.8.4",
                 "codingms/additional-tca": ">=1.7,<1.15.17|>=1.16,<1.16.9",
+                "codingms/modules": "<4.3.11|>=5,<5.7.4|>=6,<6.4.2|>=7,<7.5.5",
                 "commerceteam/commerce": ">=0.9.6,<0.9.9",
                 "components/jquery": ">=1.0.3,<3.5",
                 "composer/composer": "<1.10.27|>=2,<2.2.24|>=2.3,<2.7.7",
@@ -24278,7 +24280,7 @@
                 "prestashop/ps_emailsubscription": "<2.6.1",
                 "prestashop/ps_facetedsearch": "<3.4.1",
                 "prestashop/ps_linklist": "<3.1",
-                "privatebin/privatebin": "<1.4|>=1.5,<1.7.4|>=1.7.7,<2.0.2",
+                "privatebin/privatebin": "<1.4|>=1.5,<1.7.4|>=1.7.7,<2.0.3",
                 "processwire/processwire": "<=3.0.246",
                 "propel/propel": ">=2.0.0.0-alpha1,<=2.0.0.0-alpha7",
                 "propel/propel1": ">=1,<=1.7.1",
@@ -24322,7 +24324,7 @@
                 "setasign/fpdi": "<2.6.4",
                 "sfroemken/url_redirect": "<=1.2.1",
                 "sheng/yiicms": "<1.2.1",
-                "shopware/core": "<6.6.10.7-dev|>=6.7,<6.7.3.1-dev",
+                "shopware/core": "<6.6.10.9-dev|>=6.7,<6.7.4.1-dev",
                 "shopware/platform": "<6.6.10.7-dev|>=6.7,<6.7.3.1-dev",
                 "shopware/production": "<=6.3.5.2",
                 "shopware/shopware": "<=5.7.17|>=6.7,<6.7.2.1-dev",
@@ -24652,7 +24654,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2025-11-12T14:06:11+00:00"
+            "time": "2025-11-14T21:05:13+00:00"
         },
         {
             "name": "sebastian/cli-parser",
