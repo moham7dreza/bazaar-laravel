@@ -5,19 +5,16 @@
 	"version": "1.0",
 	"license": "proprietary",
 	"require": {
-        "afsakar/filament-otp-login": "^1.3",
         "althinect/filament-spatie-roles-permissions": "^2.3",
         "awcodes/filament-quick-create": "^3.6",
         "awcodes/overlook": "^2.2",
         "bezhansalleh/filament-exceptions": "^2.1",
         "bezhansalleh/filament-language-switch": "^3.1",
-        "brickx/maintenance-switch": "^1.0",
         "charrafimed/global-search-modal": "^3.7",
         "cmsmaxinc/filament-error-pages": "^1.0",
         "cmsmaxinc/filament-system-versions": "^1.0",
         "filament/filament": "3.3",
         "geo-sot/filament-env-editor": "^0.0.7",
-        "hasnayeen/themes": "^3.0",
         "infinityxtech/filament-world-map-widget": "^1.0",
         "jeffgreco13/filament-breezy": "^2.6",
         "kenepa/resource-lock": "^2.1",
@@ -33,8 +30,6 @@
         "statikbe/laravel-filament-chained-translation-manager": "^3.3",
         "stechstudio/filament-impersonate": "^3.15",
         "swisnl/filament-backgrounds": "^1.1",
-        "tomatophp/filament-media-manager": "^1.1",
-        "tomatophp/filament-pwa": "^1.0",
         "vormkracht10/filament-mails": "^2.3"
     },
 	"autoload": {
