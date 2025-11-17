@@ -96,6 +96,8 @@ return [
 
     'locale' => env('APP_LOCALE', ClientLocale::English->value),
 
+    'currency' => env('APP_CURRENCY', ClientLocale::Farsi->currency()),
+
     'fallback_locale' => env('APP_FALLBACK_LOCALE', ClientLocale::Farsi->value),
 
     'faker_locale' => env('APP_FAKER_LOCALE', ClientLocale::Farsi->label()),

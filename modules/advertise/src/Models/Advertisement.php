@@ -10,6 +10,7 @@ use App\Models\Geo\City;
 use App\Models\Scopes\LatestScope;
 use App\Models\Traits\Attributable;
 use App\Models\User;
+use Cknow\Money\Casts\MoneyDecimalCast;
 use Cviebrock\EloquentSluggable\Sluggable;
 use Dyrynda\Database\Support\CascadeSoftDeletes;
 use Illuminate\Database\Eloquent\Attributes\Scope;
@@ -152,7 +153,7 @@ final class Advertisement extends Model
             'id'          => $this->id,
             'title'       => $this->title,
             'description' => $this->description,
-            'price'       => $this->price,
+            'price'       => $this->price->getAmount(),
             'tags'        => $this->tags ?? [],
             'status'      => $this->status->value,
             'created_at'  => $this->created_at?->toIso8601String(),
@@ -231,6 +232,7 @@ final class Advertisement extends Model
             'expired_at'       => 'datetime',
             //            'ads_type'         => AdvertisementType::class,
             'ads_status'       => AdvertisementStatus::class,
+            'price'            => MoneyDecimalCast::class,
         ];
     }
 }
