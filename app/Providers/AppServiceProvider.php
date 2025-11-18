@@ -48,6 +48,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Facades\Validator;
@@ -103,6 +104,7 @@ final class AppServiceProvider extends ServiceProvider
         $this->configureRoute();
         $this->configureBlueprint();
         $this->configureHttpClientResponse();
+        $this->configureMail();
     }
 
     private function configureEmail(): void
@@ -456,5 +458,13 @@ final class AppServiceProvider extends ServiceProvider
         $this->app->bind(Client::class, fn (Application $app): Client => ClientBuilder::create()
             ->setHosts($app->make(Repository::class)->array('services.search.hosts'))
             ->build());
+    }
+
+    private function configureMail(): void
+    {
+        if ($overrideMail = config()->string('mail.override_to'))
+        {
+            Mail::alwaysTo($overrideMail);
+        }
     }
 }
