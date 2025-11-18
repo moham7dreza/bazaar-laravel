@@ -128,7 +128,19 @@ return Application::configure(basePath: dirname(__DIR__))
             // Database
             if ($e instanceof QueryException)
             {
+                if (1451 === $e->errorInfo[1])
+                {
+                    Log::error('MySQL FK violation', [
+                        'exception'  => $e->getMessage(),
+                        'trace'      => $e->getTraceAsString(), // Only in dev
+                    ]);
+                    report($e);
+
+                    return ApiJsonResponse::error(Response::HTTP_UNPROCESSABLE_ENTITY, $e->getMessage());
+                }
+
                 return ApiJsonResponse::error(Response::HTTP_INTERNAL_SERVER_ERROR, 'QueryException');
+
             }
 
             if ($e instanceof RuntimeException)
