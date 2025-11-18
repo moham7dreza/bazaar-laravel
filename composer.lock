@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "9d7a9da52173717670e6565ab09489d6",
+    "content-hash": "8b4ba02de9d56b08679ca1d3c5e7317f",
     "packages": [
         {
             "name": "afsakar/filament-otp-login",
@@ -272,6 +272,149 @@
                 "source": "https://github.com/AnourValar/eloquent-serialize/tree/1.3.4"
             },
             "time": "2025-07-30T15:45:57+00:00"
+        },
+        {
+            "name": "ashallendesign/email-utilities",
+            "version": "v1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/ash-jc-allen/email-utilities.git",
+                "reference": "c958f7e3dadf9106bb65c579971f9ccfbb8c91a2"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/ash-jc-allen/email-utilities/zipball/c958f7e3dadf9106bb65c579971f9ccfbb8c91a2",
+                "reference": "c958f7e3dadf9106bb65c579971f9ccfbb8c91a2",
+                "shasum": ""
+            },
+            "require": {
+                "ashallendesign/laravel-config-validator": "^2.9",
+                "illuminate/validation": "^11.0|^12.0",
+                "php": "^8.3"
+            },
+            "require-dev": {
+                "friendsofphp/php-cs-fixer": "^3.88",
+                "larastan/larastan": "^3.0",
+                "orchestra/testbench": "^9.0|^10.0",
+                "phpunit/phpunit": "^11.0"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "AshAllenDesign\\EmailUtilities\\EmailUtilitiesProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "AshAllenDesign\\EmailUtilities\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Ash Allen",
+                    "email": "mail@ashallendesign.co.uk"
+                }
+            ],
+            "description": "A Laravel package containing some useful utilities for working with email addresses.",
+            "homepage": "https://github.com/ash-jc-allen/email-utilities",
+            "keywords": [
+                "ashallendesign",
+                "email",
+                "email-utilities",
+                "laravel"
+            ],
+            "support": {
+                "issues": "https://github.com/ash-jc-allen/email-utilities/issues",
+                "source": "https://github.com/ash-jc-allen/email-utilities/tree/v1.0.0"
+            },
+            "funding": [
+                {
+                    "url": "https://github.com/ash-jc-allen",
+                    "type": "github"
+                }
+            ],
+            "time": "2025-10-27T17:28:42+00:00"
+        },
+        {
+            "name": "ashallendesign/laravel-config-validator",
+            "version": "v2.9.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/ash-jc-allen/laravel-config-validator.git",
+                "reference": "ab11ba1bc19f8a2e3dbc308c6db42747ab072382"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/ash-jc-allen/laravel-config-validator/zipball/ab11ba1bc19f8a2e3dbc308c6db42747ab072382",
+                "reference": "ab11ba1bc19f8a2e3dbc308c6db42747ab072382",
+                "shasum": ""
+            },
+            "require": {
+                "ext-json": "*",
+                "illuminate/console": "^10.0|^11.0|^12.0",
+                "illuminate/container": "^10.0|^11.0|^12.0",
+                "illuminate/validation": "^10.0|^11.0|^12.0",
+                "illuminate/view": "^10.0|^11.0|^12.0",
+                "nunomaduro/termwind": "^1.6|^2.0",
+                "php": "^8.2"
+            },
+            "require-dev": {
+                "larastan/larastan": "^1.0|^2.0|^3.0",
+                "mockery/mockery": "^1.0",
+                "orchestra/testbench": "^8.0|^9.0|^10.0",
+                "phpunit/phpunit": "^9.0|^10.5|^11.5.3"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "aliases": {
+                        "ConfigValidator": "AshAllenDesign\\ConfigValidator\\Facades\\ConfigValidator"
+                    },
+                    "providers": [
+                        "AshAllenDesign\\ConfigValidator\\Providers\\ConfigValidatorProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "AshAllenDesign\\ConfigValidator\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Ash Allen",
+                    "email": "mail@ashallendesign.co.uk"
+                }
+            ],
+            "description": "A package for validating your Laravel app's config.",
+            "homepage": "https://github.com/ash-jc-allen/laravel-config-validator",
+            "keywords": [
+                "ashallendesign",
+                "config",
+                "laravel",
+                "validation"
+            ],
+            "support": {
+                "issues": "https://github.com/ash-jc-allen/laravel-config-validator/issues",
+                "source": "https://github.com/ash-jc-allen/laravel-config-validator/tree/v2.9.0"
+            },
+            "funding": [
+                {
+                    "url": "https://github.com/ash-jc-allen",
+                    "type": "github"
+                }
+            ],
+            "time": "2025-10-17T19:41:36+00:00"
         },
         {
             "name": "awcodes/filament-quick-create",

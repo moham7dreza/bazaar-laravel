@@ -24,6 +24,7 @@
         "ext-mongodb": "*",
         "ext-pcntl": "*",
         "amiriun/sms": "dev-master",
+        "ashallendesign/email-utilities": "^1.0",
         "christophrumpel/artisan-benchmark": "^0.0.4",
         "cviebrock/eloquent-sluggable": "^12.0",
         "dedoc/scramble": "^0.13",
