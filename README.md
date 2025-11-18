@@ -63,3 +63,5 @@
 5. cron jobs for scheduled tasks
 6. fix gates for tools (horizon panel and more)
 7. fix global latest scope for models
+8. upgrade filament and tailwind to v4
+9. use laravel money and replace usages
