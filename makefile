@@ -513,3 +513,6 @@ ports:
 upg:
 	composer update
 	npm update
+
+git-blame-ignore:
+	git config blame.ignoreRevsFile .git-blame-ignore-revs
