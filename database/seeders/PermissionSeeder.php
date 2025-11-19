@@ -40,17 +40,17 @@ final class PermissionSeeder extends Seeder
 
         $this->command->info('permissions assigned to admin role.');
 
-        $super_admin = User::factory()->admin()->create();
+        $admin = User::factory()->admin()->create();
 
-        context()->add(ContextItem::Admin, $super_admin);
+        context()->add(ContextItem::Admin, $admin);
 
         $this->command->info('admin user ok.');
 
-        auth()->loginUsingId($super_admin->id);
+        auth()->loginUsingId($admin->id);
 
         $this->command->info('admin user logged in.');
 
-        $super_admin->assignRole(UserRole::Admin);
+        $admin->assignRole(UserRole::Admin);
 
         $this->command->info('role and permissions assigned to admin user.');
     }
