@@ -40,18 +40,31 @@ final class PermissionSeeder extends Seeder
 
         $this->command->info('permissions assigned to admin role.');
 
-        $admin = User::factory()->admin()->create();
+        $admin = $this->getAdmin();
 
         context()->add(ContextItem::Admin, $admin);
 
         $this->command->info('admin user ok.');
 
-        auth()->loginUsingId($admin->id);
-
-        $this->command->info('admin user logged in.');
-
         $admin->assignRole(UserRole::Admin);
 
         $this->command->info('role and permissions assigned to admin user.');
+
+        auth()->login($admin, remember: true);
+
+        $this->command->info('admin user logged in.');
+    }
+
+    private function getAdmin(): User
+    {
+        if ( ! User::query()->where('email', $adminEmail = 'admin@admin.com')->exists())
+        {
+            return User::factory()->create([
+                'email'     => $adminEmail,
+                'user_type' => User::TypeAdmin,
+            ]);
+        }
+
+        return User::factory()->admin()->create();
     }
 }
