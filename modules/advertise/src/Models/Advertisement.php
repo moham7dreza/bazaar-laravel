@@ -10,7 +10,7 @@ use App\Models\Geo\City;
 use App\Models\Scopes\LatestScope;
 use App\Models\Traits\Attributable;
 use App\Models\User;
-use Cknow\Money\Casts\MoneyDecimalCast;
+use Cknow\Money\Casts\MoneyIntegerCast;
 use Cviebrock\EloquentSluggable\Sluggable;
 use Dyrynda\Database\Support\CascadeSoftDeletes;
 use Illuminate\Database\Eloquent\Attributes\Scope;
@@ -232,7 +232,7 @@ final class Advertisement extends Model
             'expired_at'       => 'datetime',
             //            'ads_type'         => AdvertisementType::class,
             'ads_status'       => AdvertisementStatus::class,
-            'price'            => MoneyDecimalCast::class,
+            'price'            => MoneyIntegerCast::class,
         ];
     }
 }
