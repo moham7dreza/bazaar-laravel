@@ -11,7 +11,6 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Process;
 use Illuminate\Support\Str;
 use Modules\Monitoring\Jobs\MongoLogJob;
-use Spatie\Permission\PermissionRegistrar;
 
 if ( ! function_exists('is_array_filled'))
 {
@@ -186,14 +185,6 @@ if ( ! function_exists('throw_exception'))
         }
 
         app()->isProduction() ? report($exception) : throw $exception;
-    }
-}
-
-if ( ! function_exists('forgetCachedPermissions'))
-{
-    function forgetCachedPermissions(): void
-    {
-        app()->make(PermissionRegistrar::class)->forgetCachedPermissions();
     }
 }
 

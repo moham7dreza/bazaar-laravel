@@ -5,24 +5,26 @@ declare(strict_types=1);
 namespace Database\Seeders;
 
 use App\Classes\ContextItem;
-use App\Enums\UserPermission;
-use App\Enums\UserRole;
 use App\Models\User;
+use App\Services\RolePermissionService;
 use Illuminate\Database\Seeder;
-use Spatie\Permission\Models\Permission;
-use Spatie\Permission\Models\Role;
 
 final class PermissionSeeder extends Seeder
 {
+    public function __construct(
+        private readonly RolePermissionService $rolePermissionService,
+    ) {
+    }
+
     public function run(): void
     {
-        forgetCachedPermissions();
+        $this->rolePermissionService->forgetCachedPermissions();
 
-        UserPermission::totalCases()->each(static fn (UserPermission $permission) => Permission::query()->firstOrCreate(['name' => $permission]));
+        $this->rolePermissionService->seedPermissions();
 
         $this->command->info('permissions created.');
 
-        UserRole::totalCases()->each(static fn (UserRole $role) => Role::query()->firstOrCreate(['name' => $role]));
+        $this->rolePermissionService->seedRoles();
 
         $this->command->info('roles created.');
 
@@ -36,17 +38,19 @@ final class PermissionSeeder extends Seeder
             return;
         }
 
-        UserRole::Admin->model()->givePermissionTo(UserPermission::cases());
+        $this->rolePermissionService->syncAdminRolePermissions();
 
         $this->command->info('permissions assigned to admin role.');
 
-        $admin = User::factory()->admin()->create();
+        $admin = User::factory()->create([
+            'name' => 'admin',
+        ]);
 
         context()->add(ContextItem::Admin, $admin);
 
         $this->command->info('admin user ok.');
 
-        $admin->assignRole(UserRole::Admin);
+        $this->rolePermissionService->assignAdminRole($admin);
 
         $this->command->info('role and permissions assigned to admin user.');
 
