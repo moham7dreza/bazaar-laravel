@@ -81,10 +81,14 @@ class UserFactory extends Factory
     public function admin(): static
     {
         return $this->state(function (array $attributes) {
-            $name = Arr::get($attributes, 'name');
+            $name = str(
+                Arr::get($attributes, 'name')
+            )
+                ->lower()
+                ->slug();
 
             return [
-                'email'     => sprintf('admin-%s@admin.com', $name),
+                'email'     => sprintf('%s-admin@admin.com', $name),
                 'user_type' => User::TypeAdmin,
             ];
         });
