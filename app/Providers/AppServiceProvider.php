@@ -462,7 +462,7 @@ final class AppServiceProvider extends ServiceProvider
 
     private function configureMail(): void
     {
-        if ($overrideMail = config()->string('mail.override_to'))
+        if ($overrideMail = config('mail.override_to'))
         {
             Mail::alwaysTo($overrideMail);
         }
