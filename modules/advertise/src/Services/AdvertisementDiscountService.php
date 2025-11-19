@@ -5,35 +5,25 @@ declare(strict_types=1);
 namespace Modules\Advertise\Services;
 
 use Cknow\Money\Money;
-use Modules\Advertise\Models\Advertisement;
 
 class AdvertisementDiscountService
 {
     public function getDiscount(
-        int $advertisementId,
+        Money $advertisementPrice,
         int $couponPercentage,
     ): Money {
-        return money($this->getAdvertisementPrice($advertisementId))
+        return $advertisementPrice
             ->multiply($couponPercentage)
             ->divide(100);
     }
 
     public function getFinalPrice(
-        int $advertisementId,
+        Money $advertisementPrice,
         int $couponPercentage,
     ): Money {
-        $advertisementPrice = $this->getAdvertisementPrice($advertisementId);
+        $discount = $this->getDiscount($advertisementPrice, $couponPercentage);
 
-        $discount = $this->getDiscount($advertisementId, $couponPercentage);
-
-        return money($advertisementPrice)
+        return $advertisementPrice
             ->subtract($discount);
-    }
-
-    private function getAdvertisementPrice(int $advertisementId): int
-    {
-        return once(fn () => Advertisement::query()
-            ->whereKey($advertisementId)
-            ->value('price'));
     }
 }
