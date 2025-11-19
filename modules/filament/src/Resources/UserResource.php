@@ -21,7 +21,6 @@ use Filament\Tables\Enums\FiltersLayout;
 use Filament\Tables\Filters\Filter;
 use Filament\Tables\Filters\QueryBuilder;
 use Filament\Tables\Filters\QueryBuilder\Constraints\TextConstraint;
-use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Malzariey\FilamentDaterangepickerFilter\Filters\DateRangeFilter;
@@ -135,9 +134,6 @@ final class UserResource extends Resource
                             ->translateLabel()
                             ->columns()
                             ->schema([
-                                Toggle::make('user_type')
-                                    ->required()
-                                    ->translateLabel(),
                                 Toggle::make('is_active')
                                     ->required()
                                     ->translateLabel(),
@@ -154,7 +150,6 @@ final class UserResource extends Resource
                 TextColumn::make('name')->translateLabel()->sortable()->searchable(),
                 TextColumn::make('email')->translateLabel()->sortable()->searchable(),
                 TextColumn::make('mobile')->translateLabel()->searchable(),
-                TextColumn::make('user_type')->translateLabel()->sortable()->badge(),
                 TextColumn::make('is_active')->translateLabel()->sortable()->badge(),
                 TextColumn::make('suspended_at')->jalaliDate()->translateLabel(),
                 TextColumn::make('suspended_until')->jalaliDate()->translateLabel(),
@@ -164,14 +159,6 @@ final class UserResource extends Resource
             ])
             ->filters([
                 DateRangeFilter::make('suspended_at'),
-                SelectFilter::make('user_type')
-                    ->translateLabel()
-                    ->options([
-                        '0' => 'User',
-                        '1' => 'Admin',
-                    ])
-                    ->multiple()
-                    ->searchable(),
                 Filter::make('mobile_verified_at')
                     ->label('not verified mobile')
                     ->translateLabel()

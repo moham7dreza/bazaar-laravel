@@ -30,8 +30,6 @@ final readonly class ContextItem
 
     const string UserId = 'user_id';
 
-    const string UserType = 'user_type';
-
     const string Session = 'session';
 
     const string Admin = 'admin';

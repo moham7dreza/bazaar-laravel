@@ -9,7 +9,7 @@ use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
 
 beforeEach(function (): void {
-    $this->user = User::factory()->admin()->create();
+    $this->user = User::factory()->create();
 });
 
 it('role is required when sync permissions', function (): void {

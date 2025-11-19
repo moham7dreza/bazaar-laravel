@@ -38,7 +38,6 @@ class UserFactory extends Factory
                 ? Date::parse(Arr::get($attributes, 'suspended_at'))->addWeek()
                 : null,
             'is_active'          => true,
-            'user_type'          => User::TypeUser,
             'mobile'             => '0912' . random_int(1000000, 9999999),
             'mobile_verified_at' => Date::now(),
             'city_id'            => City::factory(),
@@ -58,15 +57,17 @@ class UserFactory extends Factory
         return $this->afterMaking(function (User $user): void {
             // ...
         })->afterCreating(function (User $user): void {
-            if ( ! isEnvTesting())
+            if (app()->runningUnitTests())
             {
-                // $this->getRealProfilePhotoFor($user);
-                Storage::disk(StorageDisk::Public->value)
-                    ->put(
-                        $user->avatar_url,
-                        file_get_contents(public_path($user->avatar_url))
-                    );
+                return;
             }
+
+            // $this->getRealProfilePhotoFor($user);
+            Storage::disk(StorageDisk::Public->value)
+                ->put(
+                    $user->avatar_url,
+                    file_get_contents(public_path($user->avatar_url))
+                );
         });
     }
 
@@ -80,17 +81,8 @@ class UserFactory extends Factory
 
     public function admin(): static
     {
-        return $this->state(function (array $attributes) {
-            $name = str(
-                Arr::get($attributes, 'name')
-            )
-                ->lower()
-                ->slug();
-
-            return [
-                'email'     => sprintf('%s-admin@admin.com', $name),
-                'user_type' => User::TypeAdmin,
-            ];
+        return $this->afterCreating(function (User $user): void {
+            $user->makeAdmin();
         });
     }
 

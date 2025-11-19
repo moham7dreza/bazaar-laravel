@@ -73,9 +73,7 @@ function asAdminUser(User $user): TestCase
     // TODO: fix seeder and remove
     Permission::findOrCreate(UserPermission::SeePanel->value);
 
-    $user->givePermissionTo(
-        UserPermission::SeePanel,
-    );
+    $user->makeAdmin();
 
     return test()->be($user);
 }

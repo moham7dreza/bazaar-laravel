@@ -13,7 +13,6 @@ use App\Enums\ClientLocale;
 use App\Enums\StorageDisk;
 use App\Enums\Theme;
 use App\Enums\UserPermission;
-use App\Enums\UserRole;
 use App\Events\UserUpdatedEvent;
 use App\Helpers\ClientLocaleService;
 use App\Http\Resources\Admin\User\UserCollection;
@@ -85,10 +84,6 @@ final class User extends Authenticatable implements
     use SoftDeletes;
     use TwoFactorAuthenticatable;
 
-    const int TypeUser = 0;
-
-    const int TypeAdmin = 1;
-
     protected $fillable = [
         'name',
         'email',
@@ -96,7 +91,6 @@ final class User extends Authenticatable implements
         'mobile',
         'mobile_verified_at',
         'city_id',
-        'user_type',
         'is_active',
         'suspended_at',
         'suspended_until',
@@ -114,7 +108,6 @@ final class User extends Authenticatable implements
     protected $attributes = [
         'theme'     => Theme::Dracula->value,
         'is_active' => true,
-        'user_type' => self::TypeUser,
     ];
 
     protected static array $recordEvents = ['deleted', 'updated'];
@@ -134,7 +127,6 @@ final class User extends Authenticatable implements
             ->logOnly([
                 'email',
                 'mobile',
-                'user_type',
                 'is_active',
                 'suspended_at',
                 'suspended_until',
@@ -153,7 +145,7 @@ final class User extends Authenticatable implements
 
     public function canLoginDirectly(): bool
     {
-        return str($this->email)->is('admin@admin.com');
+        return $this->isAdmin();
     }
 
     public function getFilamentAvatarUrl(): ?string
@@ -260,9 +252,9 @@ final class User extends Authenticatable implements
 
     public function isAdmin(): bool
     {
-        return self::TypeAdmin === $this->user_type
-            && ($this->hasVerifiedMobile() || $this->hasVerifiedEmail())
-            && ($this->checkPermissionTo(UserPermission::SeePanel) || $this->hasRole(UserRole::Admin));
+        return $this->can(
+            UserPermission::SeePanel,
+        );
     }
 
     // suspend section
@@ -315,11 +307,11 @@ final class User extends Authenticatable implements
         return $this->locale ? ClientLocale::fromNumber($this->locale) : null;
     }
 
-    #[Scope]
-    protected function admin(Builder $query): Builder
+    public function makeAdmin(): void
     {
-        return $query->ofType(self::TypeAdmin)
-            ->whereNotNull('mobile_verified_at');
+        $this->givePermissionTo(
+            UserPermission::SeePanel,
+        );
     }
 
     #[Scope]
@@ -327,12 +319,6 @@ final class User extends Authenticatable implements
     {
         return $query->whereNotNull('suspended_at')
             ->where('suspended_until', '>=', Date::now());
-    }
-
-    #[Scope]
-    protected function ofType(Builder $query, int $type): void
-    {
-        $query->where('user_type', $type);
     }
 
     #[Scope]

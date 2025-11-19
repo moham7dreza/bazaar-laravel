@@ -25,7 +25,6 @@ final class ListUsers extends ListRecords
             null        => Tab::make('All'),
             'Suspended' => Tab::make()->query(fn (Builder $query) => $query->suspended()),
             'Inactive'  => Tab::make()->query(fn (Builder $query) => $query->where('is_active', 0)),
-            'Admin'     => Tab::make()->query(fn (Builder $query) => $query->admin()),
         ];
     }
 
