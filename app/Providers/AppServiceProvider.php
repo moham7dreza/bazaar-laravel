@@ -216,7 +216,7 @@ final class AppServiceProvider extends ServiceProvider
 
     private function loadExtraMigrationsPath(): void
     {
-        if ( ! isEnvTesting())
+        if ( ! app()->runningUnitTests())
         {
             $this->loadMigrationsFrom(__DIR__ . '/../..' . DataMigrationCommand::PATH);
         }

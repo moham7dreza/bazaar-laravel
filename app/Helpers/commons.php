@@ -66,14 +66,6 @@ if ( ! function_exists('mongo_info'))
     }
 }
 
-if ( ! function_exists('isEnvTesting'))
-{
-    function isEnvTesting(): bool
-    {
-        return app()->environment(Environment::Testing->value);
-    }
-}
-
 if ( ! function_exists('isEnvStaging'))
 {
     function isEnvStaging(): bool
