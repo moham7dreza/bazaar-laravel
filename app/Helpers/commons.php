@@ -78,7 +78,7 @@ if ( ! function_exists('isEnvLocalOrTesting'))
 {
     function isEnvLocalOrTesting(): bool
     {
-        return app()->environment(Environment::localOrTesting());
+        return app()->isLocal() || app()->runningUnitTests();
     }
 }
 
