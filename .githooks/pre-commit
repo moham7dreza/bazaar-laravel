@@ -1,8 +1,11 @@
 #!/bin/bash
 
-echo "Run Pint on uncommited files..."
-vendor/bin/pint --dirty --parallel
-echo "Done!"
+# --------------------------------------------------------------------------
+# Pint
+# --------------------------------------------------------------------------
+echo "[ pre-commit ] 🔄 Running Pint on dirty files - $(date '+%H:%M:%S')"
+./vendor/bin/pint --dirty --parallel
+echo "[ pre-commit ] ✅ Pint finished - $(date '+%H:%M:%S')"
 
 # Define your whitelist of allowed author names and emails
 allowed_names=("Mohamadreza Rezaei")

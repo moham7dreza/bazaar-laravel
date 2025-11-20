@@ -1,16 +1,30 @@
 #!/bin/bash
 
-echo "Run tests..."
+# Do not change order of tool
+# 1. pint
+# 2. rector
+# 3. tests
+
+# --------------------------------------------------------------------------
+# Pint
+# --------------------------------------------------------------------------
+echo "[ pre-push ] 🔄 Running Pint - $(date '+%H:%M:%S')"
+./vendor/bin/pint --parallel
+echo "[ pre-push ] ✅ Pint finished - $(date '+%H:%M:%S')"
+
+# --------------------------------------------------------------------------
+# Rector
+# --------------------------------------------------------------------------
+echo "[ pre-push ] 🔄 Running Rector - $(date '+%H:%M:%S')"
+./vendor/bin/rector
+echo "[ pre-push ] ✅ Rector finished - $(date '+%H:%M:%S')"
+
+# --------------------------------------------------------------------------
+# Tests
+# --------------------------------------------------------------------------
+echo "[ pre-push ] 🔄 Running Tests - $(date '+%H:%M:%S')"
 php artisan test --parallel
-echo "Done!"
-
-echo "Run Rector..."
-vendor/bin/rector
-echo "Done!"
-
-echo "Run Pint..."
-vendor/bin/pint --test --parallel
-echo "Done!"
+echo "[ pre-push ] ✅ Tests finished - $(date '+%H:%M:%S')"
 
 # Get the branch being pushed
 current_branch=$(git symbolic-ref --short HEAD)
