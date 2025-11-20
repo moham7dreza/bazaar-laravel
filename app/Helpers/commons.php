@@ -80,7 +80,12 @@ if ( ! function_exists('isEnvLocalOrTesting'))
 {
     function isEnvLocalOrTesting(): bool
     {
-        return app()->isLocal() || app()->runningUnitTests();
+        if (app()->isLocal())
+        {
+            return true;
+        }
+
+        return app()->runningUnitTests();
     }
 }
 
