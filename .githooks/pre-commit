@@ -1,7 +1,7 @@
 #!/bin/bash
 
 echo "Run Pint on uncommited files..."
-make pintd
+vendor/bin/pint --dirty --parallel
 echo "Done!"
 
 # Define your whitelist of allowed author names and emails

@@ -104,7 +104,8 @@
         "post-root-package-install": [
             "@php -r \"file_exists('.env') || copy('.env.example', '.env');\"",
             "@php -r \"file_exists('.env.testing') || copy('.env.testing.example', '.env.testing');\"",
-            "make git-hooks"
+            "git config core.hooksPath .githooks",
+            "git config blame.ignoreRevsFile .git-blame-ignore-revs"
         ],
         "post-create-project-cmd": [
             "@php artisan key:generate --ansi",

@@ -1,15 +1,15 @@
 #!/bin/bash
 
 echo "Run tests..."
-make testp
+php artisan test --parallel
 echo "Done!"
 
 echo "Run Rector..."
-make rector
+vendor/bin/rector
 echo "Done!"
 
 echo "Run Pint..."
-make pint
+vendor/bin/pint --test --parallel
 echo "Done!"
 
 # Get the branch being pushed
