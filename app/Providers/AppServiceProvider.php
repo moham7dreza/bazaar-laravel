@@ -9,6 +9,7 @@ use App\Console\Commands\System\DataMigrationCommand;
 use App\Enums\ClientLocale;
 use App\Enums\Status;
 use App\Exceptions\ManagerConfigException;
+use App\Helpers\ClientDomainService;
 use App\Helpers\JalalianFactory;
 use App\Http\Filters\FiltersList;
 use App\Http\Filters\Image\ImageThumbnailResizeFilter;
@@ -143,7 +144,10 @@ final class AppServiceProvider extends ServiceProvider
     private function configureUrl(): void
     {
         URL::forceHttps(app()->isProduction());
-//        URL::useOrigin('');
+
+        URL::useOrigin(
+            ClientDomainService::getDomainWithFallBack()->value
+        );
     }
 
     private function configureHttp(): void
