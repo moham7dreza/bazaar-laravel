@@ -47,22 +47,24 @@ if ( ! function_exists('ondemand_info'))
 
 if ( ! function_exists('mongo_info'))
 {
-    function mongo_info($log_key, $data, $queueable = false): void
-    {
-        if ( ! $data || isEnvTesting())
+    function mongo_info(
+        string $log_key,
+        array $data,
+        bool $queueable = false
+    ): void {
+        if (app()->runningUnitTests())
         {
             return;
         }
 
-        try
+        if ($queueable)
         {
-            $dispatch = $queueable ? 'dispatch' : 'dispatchSync';
-
             dispatch(new MongoLogJob($data, $log_key));
-        } catch (Exception)
-        {
 
+            return;
         }
+
+        dispatch_sync(new MongoLogJob($data, $log_key));
     }
 }
 
