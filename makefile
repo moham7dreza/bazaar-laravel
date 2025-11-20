@@ -140,37 +140,37 @@ db-telescope: ## Run Telescope DB migrations
 # Tests
 # --------------------------------------------------------------------------
 
-testr: ## Run tests in random order
+test-r: ## Run tests in random order
 	${ENTRYPOINT} php artisan config:clear --ansi
 	${ENTRYPOINT} php artisan migrate --force --env=testing
 	${ENTRYPOINT} php artisan test --profile --compact --order-by random
 
-testrf: ## Recreate test db and run tests in random order
+test-rf: ## Recreate test db and run tests in random order
 	${ENTRYPOINT} php artisan config:clear --ansi
 	${ENTRYPOINT} php artisan migrate:fresh --force --env=testing
 	${ENTRYPOINT} php artisan test --profile --compact --order-by random
 
-testp: ## Run tests in parallel
+test-p: ## Run tests in parallel
 	${ENTRYPOINT} php artisan config:clear --ansi
 	${ENTRYPOINT} php artisan migrate --force --env=testing
 	${ENTRYPOINT} php artisan test --parallel
 
-testpf: ## Recreate test DB and run parallel tests
+test-pf: ## Recreate test DB and run parallel tests
 	${ENTRYPOINT} php artisan config:clear --ansi
 	${ENTRYPOINT} php artisan migrate --force --env=testing
 	${ENTRYPOINT} php artisan test --parallel --recreate-databases
 
-testcov: ## Generate code coverage report
+test-cov: ## Generate code coverage report
 	${ENTRYPOINT} php artisan config:clear --ansi
 	${ENTRYPOINT} php artisan migrate --force --env=testing
 	${ENTRYPOINT} php artisan test --coverage --compact --min=30 --coverage-clover=tests/coverage@tests.xml
 
-typecov: ## Generate type coverage report
+test-type-cov: ## Generate type coverage report
 	${ENTRYPOINT} php artisan config:clear --ansi
 	${ENTRYPOINT} php artisan migrate --force --env=testing
 	${ENTRYPOINT} php artisan test --type-coverage --compact --min=94 --type-coverage-json=tests/type-coverage@tests.json
 
-testls: ## list tests
+test-ls: ## list tests
 	${ENTRYPOINT} php artisan test --list-tests
 
 # --------------------------------------------------------------------------
@@ -186,7 +186,7 @@ clean: ## Clear all caches
 	${ENTRYPOINT} php artisan permission:cache-reset
 	${ENTRYPOINT} php artisan debugbar:clear
 
-deepclean: ## Deep clean application
+deep-clean: ## Deep clean application
 	${ENTRYPOINT} php artisan activitylog:clean
 	${ENTRYPOINT} php artisan mail:prune
 	${ENTRYPOINT} php artisan telescope:clear
@@ -213,10 +213,10 @@ cache: ## Cache system files
 # Pint
 # --------------------------------------------------------------------------
 
-pintd: ## Run PHP code style fixer to only modify the files that have uncommitted changes
+pint-dirty: ## Run PHP code style fixer to only modify the files that have uncommitted changes
 	vendor/bin/pint --dirty --parallel
 
-pintt: ## Run PHP code style fixer to simply inspect your code for style errors
+pint-test: ## Run PHP code style fixer to simply inspect your code for style errors
 	vendor/bin/pint --test --parallel
 
 pint: ## Run PHP code style fixer
@@ -300,7 +300,7 @@ reload: ## Update and refresh application
 dev: ## Full development setup
 	make reload
 	make checkup
-	make testr
+	make test-r
 	make next-reload
 	make start
 
@@ -367,16 +367,16 @@ checks: ## Run fearless refactoring, it does a lot of smart checks to find certa
 	#${ENTRYPOINT} php artisan list:models
 
 checkup: ## Run necessary tools to check code and code style
-	make pintt
+	make pint-test
 	# make checks
-	make rectort
+	make rector-test
 	# make phpstan
 	make migration-linter
 
 health:
 	composer du
 	${ENTRYPOINT} php artisan route:list
-	${ENTRYPOINT} php artisan test
+	make test-r
 
 migration-linter:
 	${ENTRYPOINT} php artisan migrate:lint --generate-baseline
@@ -388,10 +388,10 @@ migration-linter:
 phpstan: ## Run phpstan analysis
 	vendor/bin/phpstan analyse --memory-limit=2G
 
-phpstang: ## Run phpstan analysis and generate baseline
+phpstan-baseline: ## Run phpstan analysis and generate baseline
 	vendor/bin/phpstan analyse --memory-limit=2G --generate-baseline
 
-rectort: ## Run rector analysis
+rector-test: ## Run rector analysis
 	vendor/bin/rector process --dry-run
 
 rector: ## Run rector analysis and change files
