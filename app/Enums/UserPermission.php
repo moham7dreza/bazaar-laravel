@@ -20,6 +20,7 @@ enum UserPermission: string
     case DestroyAd = 'destroy_ad';
     case PublishAd = 'publish_ad';
 
+    // TODO should be removed after seeder fix
     public static function ads(): array
     {
         return [
