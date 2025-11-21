@@ -20,7 +20,7 @@ final class CacheAnalyticsService
         Event::listen(function (CacheHit $event): void {
             $this->trackCacheOperation('hit', [
                 'cache_key' => $event->key,
-                'store'     => $event->store ?? 'default',
+                'store'     => $event->storeName ?? 'default',
                 'timestamp' => Date::now(),
             ]);
         });
@@ -28,7 +28,7 @@ final class CacheAnalyticsService
         Event::listen(function (CacheMissed $event): void {
             $this->trackCacheOperation('miss', [
                 'cache_key' => $event->key,
-                'store'     => $event->store ?? 'default',
+                'store'     => $event->storeName ?? 'default',
                 'timestamp' => Date::now(),
             ]);
         });
@@ -37,7 +37,7 @@ final class CacheAnalyticsService
             $this->trackCacheOperation('write', [
                 'cache_key'      => $event->key,
                 'expiry_seconds' => $event->seconds,
-                'store'          => $event->store ?? 'default',
+                'store'          => $event->storeName ?? 'default',
                 'timestamp'      => Date::now(),
             ]);
         });
@@ -45,7 +45,7 @@ final class CacheAnalyticsService
         Event::listen(function (KeyForgotten $event): void {
             $this->trackCacheOperation('delete', [
                 'cache_key' => $event->key,
-                'store'     => $event->store ?? 'default',
+                'store'     => $event->storeName ?? 'default',
                 'timestamp' => Date::now(),
             ]);
         });
