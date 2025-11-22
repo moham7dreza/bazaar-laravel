@@ -6,11 +6,15 @@ use App\Enums\UserPermission;
 use App\Models\User;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
+use Illuminate\Foundation\Testing\WithCachedConfig;
+use Illuminate\Foundation\Testing\WithCachedRoutes;
 use Illuminate\Validation\ValidationException;
 use Spatie\Permission\Models\Permission;
 use Tests\TestCase;
 use Tests\TestDataGenerator;
 use Tests\UnitTestCase;
+
+pest()->use(WithCachedRoutes::class, WithCachedConfig::class);
 
 pest()->extend(TestCase::class)
     ->use(DatabaseTransactions::class)
