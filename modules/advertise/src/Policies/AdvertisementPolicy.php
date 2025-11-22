@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Modules\Advertise\Policies;
 
 use App\Enums\UserPermission;
-use App\Enums\UserRole;
 use App\Models\User;
 use Illuminate\Auth\Access\Response;
 use Illuminate\Support\Facades\Date;
@@ -21,7 +20,7 @@ final class AdvertisementPolicy
             return Response::allow();
         }
 
-        if ('forceDelete' !== $ability && $user->can(UserPermission::SeePanel))
+        if ('forceDelete' !== $ability)
         {
             return Response::allow();
         }
@@ -34,7 +33,7 @@ final class AdvertisementPolicy
      */
     public function viewAny(User $user): Response
     {
-        return $user->can(UserRole::Writer) || $user->can(UserRole::Editor)
+        return $user->can(UserPermission::EditAds)
             ? Response::allow()
             : Response::denyAsNotFound();
     }
@@ -99,7 +98,7 @@ final class AdvertisementPolicy
 
     }
 
-    public function publish(User $user, Advertisement $advertisement)
+    public function publish(User $user, Advertisement $advertisement): Response
     {
         return $user->can(UserPermission::PublishAd)
             ? Response::allow()
