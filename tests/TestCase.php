@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace Tests;
 
+use App\Console\Commands\System\SyncRoleHasPermissionsCommand;
 use App\Enums\StorageDisk;
 use Closure;
 use Database\Seeders\TestsReferenceDataSeeder;
 use Illuminate\Foundation\Testing\TestCase as BaseTestCase;
-use Illuminate\Support\Facades\Storage;
 use Override;
 use ReflectionFunction;
 
@@ -41,10 +41,7 @@ abstract class TestCase extends BaseTestCase
 
         $this->migrateAndSeed();
 
-        foreach (StorageDisk::cases() as $case)
-        {
-            Storage::fake($case->value);
-        }
+        StorageDisk::setDisksAsFake();
     }
 
     public function addToDataContainer(Closure $callback, ?string $key = null)
@@ -67,15 +64,9 @@ abstract class TestCase extends BaseTestCase
     {
         if ( ! self::$migrated && ! isRunningTestsInParallel())
         {
-            $commands = [
-                'migrate --force',
-                'db:seed --class=' . class_basename(TestsReferenceDataSeeder::class),
-            ];
-
-            foreach ($commands as $command)
-            {
-                artisan($command);
-            }
+            artisan('migrate', ['--force' => true]);
+            artisan('db:seed', ['--class' => TestsReferenceDataSeeder::class]);
+            artisan(SyncRoleHasPermissionsCommand::class, ['--sync' => true]);
 
             self::$migrated = true;
         }
