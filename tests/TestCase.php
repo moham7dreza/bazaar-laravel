@@ -8,7 +8,6 @@ use App\Enums\StorageDisk;
 use Closure;
 use Database\Seeders\TestsReferenceDataSeeder;
 use Illuminate\Foundation\Testing\TestCase as BaseTestCase;
-use Illuminate\Support\Facades\Request;
 use Illuminate\Support\Facades\Storage;
 use Override;
 use ReflectionFunction;
@@ -66,7 +65,7 @@ abstract class TestCase extends BaseTestCase
 
     private function migrateAndSeed(): void
     {
-        if ( ! self::$migrated && ! $this->isRunningInParallel())
+        if ( ! self::$migrated && ! isRunningTestsInParallel())
         {
             $commands = [
                 'migrate --force',
@@ -80,10 +79,5 @@ abstract class TestCase extends BaseTestCase
 
             self::$migrated = true;
         }
-    }
-
-    private function isRunningInParallel(): bool
-    {
-        return filled(Request::server('LARAVEL_PARALLEL_TESTING'));
     }
 }

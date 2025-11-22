@@ -5,18 +5,11 @@ declare(strict_types=1);
 namespace Tests;
 
 use Illuminate\Support\Facades\ParallelTesting;
-use Illuminate\Support\Facades\Request;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Testing\TestResponse;
-use Override;
 
 final class TestsServiceProvider extends ServiceProvider
 {
-    #[Override]
-    public function register(): void
-    {
-    }
-
     public function boot(): void
     {
         $this->configureParallelTests();
@@ -26,7 +19,7 @@ final class TestsServiceProvider extends ServiceProvider
 
     private function configureParallelTests(): void
     {
-        if ($this->isRunningTestsInParallel())
+        if (isRunningTestsInParallel())
         {
             ParallelTesting::setUpTestCase(function ($testCase, int $token): void {
             });
@@ -42,15 +35,5 @@ final class TestsServiceProvider extends ServiceProvider
                 'messages',
             ],
         ]));
-    }
-
-    private function isRunningTestsInParallel(): bool
-    {
-        if ($this->app->runningUnitTests() && filled(Request::server('LARAVEL_PARALLEL_TESTING')))
-        {
-            return true;
-        }
-
-        return $this->app->runningInConsole() && in_array('--parallel', Request::server('argv'), true);
     }
 }

@@ -207,3 +207,21 @@ if ( ! function_exists('parseCsvGenerator'))
         fclose($handle);
     }
 }
+
+if ( ! function_exists('parseJsonGenerator'))
+{
+    function isRunningTestsInParallel(): bool
+    {
+        if (
+            app()->runningUnitTests() &&
+            filled(
+                request()->server('LARAVEL_PARALLEL_TESTING')
+            )
+        ) {
+            return true;
+        }
+
+        return app()->runningInConsole() &&
+            in_array('--parallel', request()->server('argv'), true);
+    }
+}
