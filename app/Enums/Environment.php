@@ -10,4 +10,9 @@ enum Environment: string
     case Staging    = 'staging';
     case Testing    = 'testing';
     case Local      = 'local';
+
+    public function is(): bool|string
+    {
+        return app()->environment($this->value);
+    }
 }
