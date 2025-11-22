@@ -5,47 +5,11 @@ declare(strict_types=1);
 namespace Tests\EndToEnd\Api\Panel;
 
 use App\Enums\UserPermission;
-use App\Enums\UserRole;
 use App\Models\User;
 use Modules\Advertise\Models\Advertisement;
-use Spatie\Permission\Models\Permission;
-use Spatie\Permission\Models\Role;
-use Spatie\Permission\PermissionRegistrar;
-
-function createUserWithRoleAndPermissions(UserRole $userRole): User
-{
-    collect(UserPermission::ads())->each(static fn (UserPermission $permission) => Permission::query()->firstOrCreate(['name' => $permission]));
-
-    $role = Role::query()->firstOrCreate(['name' => $userRole]);
-
-    $user = User::factory()->create();
-    $user->assignRole($role);
-
-    match ($userRole)
-    {
-        UserRole::Writer => $role->givePermissionTo([UserPermission::CreateAd, UserPermission::EditAd]),
-        UserRole::Editor => $role->givePermissionTo(UserPermission::ads()),
-        default          => null,
-    };
-
-    $user->load('roles.permissions');
-    $user->refresh();
-
-    return $user;
-}
-
-beforeEach(function (): void {
-
-    Role::query()->firstOrCreate(['name' => UserRole::Writer]);
-    Role::query()->firstOrCreate(['name' => UserRole::Editor]);
-
-    app(PermissionRegistrar::class)->forgetCachedPermissions();
-
-});
 
 test('writer can access to advertisements', function (): void {
-
-    $writer = createUserWithRoleAndPermissions(UserRole::Writer);
+    $writer = User::factory()->create()->givePermissionTo(UserPermission::EditAds);
 
     Advertisement::factory()->for($writer)->create();
 
