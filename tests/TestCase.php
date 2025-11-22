@@ -37,11 +37,11 @@ abstract class TestCase extends BaseTestCase
 
         $this->withoutVite();
 
-        cache()->flush();
+        $this->clearCache();
 
         $this->migrateAndSeed();
 
-        StorageDisk::setDisksAsFake();
+        $this->setStorageDisksAsFake();
     }
 
     public function addToDataContainer(Closure $callback, ?string $key = null)
@@ -58,6 +58,16 @@ abstract class TestCase extends BaseTestCase
         }
 
         return static::$dataContainer[$key];
+    }
+
+    private function setStorageDisksAsFake(): void
+    {
+        StorageDisk::setDisksAsFake();
+    }
+
+    private function clearCache(): void
+    {
+        cache()->flush();
     }
 
     private function migrateAndSeed(): void
