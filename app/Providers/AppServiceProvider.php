@@ -425,6 +425,30 @@ final class AppServiceProvider extends ServiceProvider
         ));
 
         EloquentBuilder::macro('getCacheKey', fn (): string => 'eloquent_' . md5($this->toSql() . serialize($this->getBindings())));
+
+        EloquentBuilder::macro('rememberPaginate', fn (
+            int $perPage     = 15,
+            array $columns   = ['*'],
+            string $pageName = 'page',
+            ?int $page       = null,
+            int $duration    = 60,
+            ?string $key     = null
+        ): LengthAwarePaginator => cache()->remember(
+            key: $key ?: $this->generatePaginateCacheKey($perPage, $page),
+            ttl: $duration,
+            callback: fn () => $this->paginate($perPage, $columns, $pageName, $page)
+        ));
+
+        EloquentBuilder::macro('generatePaginateCacheKey', fn (
+            int $perPage,
+            ?int $page = null
+        ): string => sprintf(
+            'eloquent_paginate_%s_%s_%s_%s',
+            $this->getModel()->getTable(),
+            $perPage,
+            $page ?: request()->integer('page', 1),
+            md5($this->toSql() . serialize($this->getBindings()))
+        ));
     }
 
     private function configureQueryBuilder(): void
