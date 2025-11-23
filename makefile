@@ -31,6 +31,50 @@ PHP_NPM = $(DOCKER_COMPOSE) run --rm php npm
 PHP_PINT = $(DOCKER_COMPOSE) run -T --rm php ./vendor/bin/pint
 
 # --------------------------------------------------------------------------
+# OS Detection
+# --------------------------------------------------------------------------
+UNAME_S := $(shell uname -s)
+
+# Set OS-specific variables
+ifeq ($(UNAME_S),Linux)
+    OS = linux
+    NEXTJS_PATH = /var/www/bazaar-next
+    CD_CMD = cd
+    EXEC_CMD =
+else ifeq ($(UNAME_S),Darwin)
+    OS = macos
+    NEXTJS_PATH = /Users/mohammadreza/Documents/GitHub/bazaar-next
+    CD_CMD = cd
+    EXEC_CMD =
+else
+    OS = windows
+    # Windows paths - adjust based on your setup
+    ifneq (,$(findstring Microsoft,$(shell uname -r)))
+        # WSL2
+        NEXTJS_PATH = /var/www/bazaar-next
+        CD_CMD = cd
+        EXEC_CMD =
+    else ifneq (,$(findstring MINGW,$(UNAME_S)))
+        # Git Bash / MinGW
+        NEXTJS_PATH = /c/var/www/bazaar-next
+        CD_CMD = cd
+        EXEC_CMD =
+    else
+        # Native Windows CMD
+        NEXTJS_PATH = C:\var\www\bazaar-next
+        CD_CMD = cd /d
+        EXEC_CMD = cmd /C
+    endif
+endif
+
+os-info: ## Show OS detection info
+	@echo "OS: $(OS)"
+	@echo "UNAME_S: $(UNAME_S)"
+	@echo "Next.js Path: $(NEXTJS_PATH)"
+	@echo "CD Command: $(CD_CMD)"
+	@echo "Exec Command: $(EXEC_CMD)"
+
+# --------------------------------------------------------------------------
 # Make menus
 # --------------------------------------------------------------------------
 search: ## Search for a command
@@ -110,13 +154,16 @@ test: ## Run tests
 # Next js
 # --------------------------------------------------------------------------
 next-init: ## Initialize Next.js project
-	cd /var/www/bazaar-next && npm run init
+	@echo "Running on $(OS)"
+	$(CD_CMD) "$(NEXTJS_PATH)" && $(EXEC_CMD) npm run init
 
 next-reload: ## pull, install and run Next.js dev server
-	cd /var/www/bazaar-next && npm run reload
+	@echo "Running on $(OS)"
+	$(CD_CMD) "$(NEXTJS_PATH)" && $(EXEC_CMD) npm run reload
 
 next-dev: ## Run Next.js dev server
-	cd /var/www/bazaar-next && npm run dev
+	@echo "Running on $(OS)"
+	$(CD_CMD) "$(NEXTJS_PATH)" && $(EXEC_CMD) npm run dev
 
 # --------------------------------------------------------------------------
 # Database
