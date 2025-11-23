@@ -411,6 +411,19 @@ final class AppServiceProvider extends ServiceProvider
          */
         EloquentBuilder::macro('jit', fn (): object => new ReflectionClass($this->getModel()->newCollection())
             ->newLazyProxy(fn () => $this->get()));
+
+        EloquentBuilder::macro('remember', fn (int $duration, ?string $key = null): \Illuminate\Database\Eloquent\Collection => cache()->remember(
+            key: $key ?: $this->getCacheKey(),
+            ttl: $duration,
+            callback: fn () => $this->get()
+        ));
+
+        EloquentBuilder::macro('rememberForever', fn (?string $key = null): \Illuminate\Database\Eloquent\Collection => cache()->rememberForever(
+            key: $key ?: $this->getCacheKey(),
+            callback: fn () => $this->get()
+        ));
+
+        EloquentBuilder::macro('getCacheKey', fn () => 'eloquent_' . md5($this->toSql() . serialize($this->getBindings())));
     }
 
     private function configureQueryBuilder(): void
