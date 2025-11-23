@@ -31,6 +31,7 @@ use Illuminate\Contracts\Translation\Translator;
 use Illuminate\Database\Connection;
 use Illuminate\Database\Console\DumpCommand;
 use Illuminate\Database\Eloquent\Builder as EloquentBuilder;
+use Illuminate\Database\Eloquent\Collection as EloquentCollection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Events\QueryExecuted;
 use Illuminate\Database\Query\Builder as QueryBuilder;
@@ -43,7 +44,7 @@ use Illuminate\Pipeline\Hub;
 use Illuminate\Pipeline\Pipeline;
 use Illuminate\Routing\Route;
 use Illuminate\Support\Arr;
-use Illuminate\Support\Collection;
+use Illuminate\Support\Collection as SupportCollection;
 use Illuminate\Support\Facades\Date;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Gate;
@@ -99,7 +100,7 @@ final class AppServiceProvider extends ServiceProvider
         //        $this->configureVerifyEmail();
         $this->configureStringable();
         $this->configureStr();
-        $this->configureCollection();
+        $this->configureSupportCollection();
         $this->configureEloquentBuilder();
         $this->configureQueryBuilder();
         $this->configureRoute();
@@ -364,13 +365,13 @@ final class AppServiceProvider extends ServiceProvider
         Str::macro('lowerSnake', static fn (string $str) => Str::lower(Str::snake($str)));
     }
 
-    private function configureCollection(): void
+    private function configureSupportCollection(): void
     {
-        Collection::macro('reserveFirstAvailable', fn (string $key, int $duration = 60) => $this->first(fn ($item) => $item->reserve($key, $duration)));
+        SupportCollection::macro('reserveFirstAvailable', fn (string $key, int $duration = 60) => $this->first(fn ($item) => $item->reserve($key, $duration)));
 
-        Collection::macro('c2c', fn () => $this->toJson(JSON_PRETTY_PRINT));
+        SupportCollection::macro('c2c', fn () => $this->toJson(JSON_PRETTY_PRINT));
 
-        Collection::macro('paginate', function (int $perPage, ?int $page = null, string $pageName = 'page'): LengthAwarePaginator {
+        SupportCollection::macro('paginate', function (int $perPage, ?int $page = null, string $pageName = 'page'): LengthAwarePaginator {
             $page = $page ?: LengthAwarePaginator::resolveCurrentPage($pageName);
 
             return new LengthAwarePaginator(
@@ -412,18 +413,18 @@ final class AppServiceProvider extends ServiceProvider
         EloquentBuilder::macro('jit', fn (): object => new ReflectionClass($this->getModel()->newCollection())
             ->newLazyProxy(fn () => $this->get()));
 
-        EloquentBuilder::macro('remember', fn (int $duration, ?string $key = null): \Illuminate\Database\Eloquent\Collection => cache()->remember(
+        EloquentBuilder::macro('remember', fn (int $duration, ?string $key = null): EloquentCollection => cache()->remember(
             key: $key ?: $this->getCacheKey(),
             ttl: $duration,
             callback: fn () => $this->get()
         ));
 
-        EloquentBuilder::macro('rememberForever', fn (?string $key = null): \Illuminate\Database\Eloquent\Collection => cache()->rememberForever(
+        EloquentBuilder::macro('rememberForever', fn (?string $key = null): EloquentCollection => cache()->rememberForever(
             key: $key ?: $this->getCacheKey(),
             callback: fn () => $this->get()
         ));
 
-        EloquentBuilder::macro('getCacheKey', fn () => 'eloquent_' . md5($this->toSql() . serialize($this->getBindings())));
+        EloquentBuilder::macro('getCacheKey', fn (): string => 'eloquent_' . md5($this->toSql() . serialize($this->getBindings())));
     }
 
     private function configureQueryBuilder(): void
