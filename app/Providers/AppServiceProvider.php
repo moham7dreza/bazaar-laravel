@@ -413,18 +413,29 @@ final class AppServiceProvider extends ServiceProvider
         EloquentBuilder::macro('jit', fn (): object => new ReflectionClass($this->getModel()->newCollection())
             ->newLazyProxy(fn () => $this->get()));
 
-        EloquentBuilder::macro('remember', fn (int $duration, ?string $key = null): EloquentCollection => cache()->remember(
+        EloquentBuilder::macro('remember', fn (
+            int $duration,
+            ?string $key = null,
+            array $tags  = [],
+        ): EloquentCollection => (empty($tags) ? cache() : cache()->tags($tags))->remember(
             key: $key ?: $this->getCacheKey(),
             ttl: $duration,
             callback: fn () => $this->get()
         ));
 
-        EloquentBuilder::macro('rememberForever', fn (?string $key = null): EloquentCollection => cache()->rememberForever(
+        EloquentBuilder::macro('rememberForever', fn (
+            ?string $key = null,
+            array $tags  = [],
+        ): EloquentCollection => (empty($tags) ? cache() : cache()->tags($tags))->rememberForever(
             key: $key ?: $this->getCacheKey(),
             callback: fn () => $this->get()
         ));
 
-        EloquentBuilder::macro('getCacheKey', fn (): string => 'eloquent_' . md5($this->toSql() . serialize($this->getBindings())));
+        EloquentBuilder::macro('getCacheKey', fn (): string => sprintf(
+            'eloquent_%s_%s',
+            $this->getModel()->getTable(),
+            md5($this->toSql() . serialize($this->getBindings()))
+        ));
 
         EloquentBuilder::macro('rememberPaginate', fn (
             int $perPage     = 15,
@@ -432,14 +443,15 @@ final class AppServiceProvider extends ServiceProvider
             string $pageName = 'page',
             ?int $page       = null,
             int $duration    = 60,
-            ?string $key     = null
-        ): LengthAwarePaginator => cache()->remember(
-            key: $key ?: $this->generatePaginateCacheKey($perPage, $page),
+            ?string $key     = null,
+            array $tags      = [],
+        ): LengthAwarePaginator => (empty($tags) ? cache() : cache()->tags($tags))->remember(
+            key: $key ?: $this->getPaginateCacheKey($perPage, $page),
             ttl: $duration,
             callback: fn () => $this->paginate($perPage, $columns, $pageName, $page)
         ));
 
-        EloquentBuilder::macro('generatePaginateCacheKey', fn (
+        EloquentBuilder::macro('getPaginateCacheKey', fn (
             int $perPage,
             ?int $page = null
         ): string => sprintf(
