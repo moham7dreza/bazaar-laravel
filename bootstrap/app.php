@@ -2,6 +2,7 @@
 
 declare(strict_types=1);
 
+use App\Enums\UserPermission as P;
 use App\Exceptions\HasCustomizedThrottling;
 use App\Http\Responses\ApiJsonResponse;
 use BezhanSalleh\FilamentExceptions\FilamentExceptions;
@@ -75,6 +76,7 @@ return Application::configure(basePath: dirname(__DIR__))
             'auth:sanctum',
             'verified',
             'mobile-verified',
+            P::SeePanel->middleware(),
         ]);
 
         $middleware->appendToGroup('web', [

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Enums;
 
 use App\Enums\Concerns\EnumDataListTrait;
+use Spatie\Permission\Middleware\PermissionMiddleware;
 use Spatie\Permission\Models\Permission;
 
 enum UserPermission: string
@@ -33,5 +34,10 @@ enum UserPermission: string
     public function model(): Permission
     {
         return Permission::findByName($this->value);
+    }
+
+    public function middleware(): string
+    {
+        return PermissionMiddleware::using($this);
     }
 }
