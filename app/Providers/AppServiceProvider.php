@@ -23,6 +23,7 @@ use Carbon\CarbonImmutable;
 use Elastic\Elasticsearch\Client;
 use Elastic\Elasticsearch\ClientBuilder;
 use Filament\Notifications\Auth\VerifyEmail;
+use Illuminate\Cache\RateLimiting\Limit;
 use Illuminate\Console\Scheduling\Event;
 use Illuminate\Contracts\Config\Repository;
 use Illuminate\Contracts\Foundation\Application;
@@ -36,6 +37,7 @@ use Illuminate\Database\Events\QueryExecuted;
 use Illuminate\Database\Query\Builder as QueryBuilder;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Http\Client\Response as HttpClientResponse;
+use Illuminate\Http\Request;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Pagination\LengthAwarePaginator;
@@ -51,6 +53,7 @@ use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Notification;
+use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Vite;
@@ -106,6 +109,7 @@ final class AppServiceProvider extends ServiceProvider
         $this->configureBlueprint();
         $this->configureHttpClientResponse();
         $this->configureMail();
+        $this->configureRateLimiter();
     }
 
     private function configureEmail(): void
@@ -522,5 +526,23 @@ final class AppServiceProvider extends ServiceProvider
         {
             Mail::alwaysTo($overrideMail);
         }
+    }
+
+    private function configureRateLimiter(): void
+    {
+        RateLimiter::for('global', static fn (
+            Request $request
+        ) => Limit::perMinute(100)->by($request->ip()));
+
+        RateLimiter::for('api-custom', static fn (
+            Request $request
+        ) => Limit::perMinute(60)->by($request->user()?->id ?: $request->ip()));
+
+        RateLimiter::for('auth', static fn () => Limit::perMinute(5));
+
+        RateLimiter::for('otp-request', static fn (Request $request) => [
+            Limit::perMinutes(2, 5)
+                ->by($request->get('mobile') ?: $request->ip()),
+        ]);
     }
 }

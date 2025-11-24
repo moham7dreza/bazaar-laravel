@@ -44,7 +44,10 @@ use Psr\Log\LoggerInterface;
  */
 Route::get('user', static fn (Request $request) => $request->user())
     ->name('api.user.info')
-    ->middleware(['auth:sanctum', EnsureMobileIsVerified::class]);
+    ->middleware([
+        'auth:sanctum',
+        'throttle:api-custom',
+    ]);
 /*
 |--------------------------------------------------------------------------
 | Auth Routes
@@ -53,7 +56,7 @@ Route::get('user', static fn (Request $request) => $request->user())
 Route::prefix('auth')
     ->middleware([
         'guest',
-        'throttle:10,1',
+        'throttle:otp-request',
     ])
     ->group(function (): void {
         Route::post('register', RegisteredUserController::class)
@@ -69,34 +72,37 @@ Route::prefix('auth')
 | Primary Routes
 |--------------------------------------------------------------------------
 */
-Route::controller(HomeCategoryController::class)
+Route::middleware('throttle:api-custom')
     ->group(function (): void {
-        Route::get('categories', 'index')
-            ->name('api.categories.index');
-    });
+        Route::controller(HomeCategoryController::class)
+            ->group(function (): void {
+                Route::get('categories', 'index')
+                    ->name('api.categories.index');
+            });
 
-Route::controller(HomeMenuController::class)
-    ->group(function (): void {
-        Route::get('menus', 'index')
-            ->name('api.menus.index');
-    });
+        Route::controller(HomeMenuController::class)
+            ->group(function (): void {
+                Route::get('menus', 'index')
+                    ->name('api.menus.index');
+            });
 
-Route::controller(HomePageController::class)
-    ->group(function (): void {
-        Route::get('pages', 'index')
-            ->name('api.pages.index');
-    });
+        Route::controller(HomePageController::class)
+            ->group(function (): void {
+                Route::get('pages', 'index')
+                    ->name('api.pages.index');
+            });
 
-Route::controller(HomeStateController::class)
-    ->group(function (): void {
-        Route::get('states', 'index')
-            ->name('api.states.index');
-    });
+        Route::controller(HomeStateController::class)
+            ->group(function (): void {
+                Route::get('states', 'index')
+                    ->name('api.states.index');
+            });
 
-Route::controller(CityController::class)
-    ->group(function (): void {
-        Route::get('cities', 'index')
-            ->name('api.cities.index');
+        Route::controller(CityController::class)
+            ->group(function (): void {
+                Route::get('cities', 'index')
+                    ->name('api.cities.index');
+            });
     });
 /*
 |--------------------------------------------------------------------------
@@ -104,7 +110,10 @@ Route::controller(CityController::class)
 |--------------------------------------------------------------------------
 */
 Route::prefix('advertisements')
-    ->middleware('cache-response:120')
+    ->middleware([
+        'cache-response:120',
+        'throttle:api-custom',
+    ])
     ->group(function (): void {
         Route::controller(HomeAdvertisementController::class)
             ->group(function (): void {
@@ -150,7 +159,10 @@ Route::prefix('images')
 |--------------------------------------------------------------------------
 */
 Route::prefix('admin')
-    ->middleware([/* 'auth', 'admin' */])
+    ->middleware([
+        'throttle:api-custom',
+        'administrator',
+    ])
     ->group(function (): void {
         /*
         |--------------------------------------------------------------------------
@@ -259,6 +271,7 @@ Route::prefix('admin')
 Route::prefix('panel')
     ->middleware([
         'auth:sanctum',
+        'throttle:api-custom',
         EnsureMobileIsVerified::class,
     ])
     ->group(function (): void {
