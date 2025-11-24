@@ -12,6 +12,7 @@ class SetClientLocaleMiddleware
 {
     public function handle(Request $request, Closure $next)
     {
+        // TODO: handle with cookie or header
         if ($request->route()?->hasParameter('lang'))
         {
             $lang = ClientLocale::tryFrom($request->route('lang'));

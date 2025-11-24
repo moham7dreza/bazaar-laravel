@@ -146,9 +146,12 @@ final class AppServiceProvider extends ServiceProvider
     {
         URL::forceHttps(app()->isProduction());
 
+        // TODO
+        /*
         URL::useOrigin(
             ClientDomainService::getDomainWithFallBack()->value
         );
+        */
     }
 
     private function configureHttp(): void
