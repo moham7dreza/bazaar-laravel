@@ -4,8 +4,12 @@
 # Pint
 # --------------------------------------------------------------------------
 echo "[ pre-commit ] 🔄 Running Pint on dirty files - $(date '+%H:%M:%S')"
-./vendor/bin/pint --dirty --parallel
+./vendor/bin/pint --dirty --parallel --bail
 echo "[ pre-commit ] ✅ Pint finished - $(date '+%H:%M:%S')"
+
+if [ $? -ne 0 ]; then
+    exit 1
+fi
 
 # Define your whitelist of allowed author names and emails
 allowed_names=("Mohamadreza Rezaei")

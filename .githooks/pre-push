@@ -2,8 +2,9 @@
 
 # Do not change order of tool
 # 1. pint
-# 2. rector
-# 3. tests
+# 2. linter
+# 3. rector
+# 4. tests
 
 # --------------------------------------------------------------------------
 # Pint
@@ -11,6 +12,13 @@
 echo "[ pre-push ] 🔄 Running Pint - $(date '+%H:%M:%S')"
 ./vendor/bin/pint --parallel
 echo "[ pre-push ] ✅ Pint finished - $(date '+%H:%M:%S')"
+
+# --------------------------------------------------------------------------
+# Migration linter
+# --------------------------------------------------------------------------
+echo "[ pre-push ] 🔄 Running Migration linter - $(date '+%H:%M:%S')"
+php artisan migrate:lint --compact
+echo "[ pre-push ] ✅ Migration linter finished - $(date '+%H:%M:%S')"
 
 # --------------------------------------------------------------------------
 # Rector
@@ -25,6 +33,10 @@ echo "[ pre-push ] ✅ Rector finished - $(date '+%H:%M:%S')"
 echo "[ pre-push ] 🔄 Running Tests - $(date '+%H:%M:%S')"
 php artisan test --parallel
 echo "[ pre-push ] ✅ Tests finished - $(date '+%H:%M:%S')"
+
+if [ $? -ne 0 ]; then
+  exit 1
+fi
 
 # Get the branch being pushed
 current_branch=$(git symbolic-ref --short HEAD)
