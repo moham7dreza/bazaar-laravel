@@ -11,7 +11,9 @@ use Illuminate\Broadcasting\BroadcastException;
 use Illuminate\Cache\RateLimiting\Limit;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Database\MultipleRecordsFoundException;
 use Illuminate\Database\QueryException;
+use Illuminate\Database\RecordsNotFoundException;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
@@ -81,12 +83,11 @@ return Application::configure(basePath: dirname(__DIR__))
     ->withSchedule(function (Schedule $schedule): void {
     })
     ->withExceptions(function (Exceptions $exceptions): void {
-
         /**
          * to avoid redirect user to login when user:
          * 1. did not set `Accept: application/json` header
          * 2. user was unauthenticated.
-         * solution: enforce json response
+         * solution: enforce JSON response
          */
         $exceptions->shouldRenderJsonWhen(fn () => request()->is('api/*') || request()->expectsJson());
 
@@ -95,26 +96,21 @@ return Application::configure(basePath: dirname(__DIR__))
         });
 
         $exceptions->renderable(function (Throwable $e) {
-
-            // Authorization
             if ($e instanceof AuthorizationException)
             {
                 return ApiJsonResponse::error(Response::HTTP_FORBIDDEN, 'AuthorizationException');
             }
 
-            // Access Denied
             if ($e instanceof AccessDeniedHttpException)
             {
                 return ApiJsonResponse::error(Response::HTTP_FORBIDDEN, 'AccessDeniedHttpException');
             }
 
-            // Auth
             if ($e instanceof AuthenticationException)
             {
-                //                return ApiJsonResponse::error(Response::HTTP_UNAUTHORIZED, 'Unauthenticated');
+                return ApiJsonResponse::error(Response::HTTP_UNAUTHORIZED, 'Unauthenticated');
             }
 
-            // Model Not Found
             $previous = $e->getPrevious();
             if ($previous instanceof ModelNotFoundException)
             {
@@ -125,34 +121,38 @@ return Application::configure(basePath: dirname(__DIR__))
                 return ApiJsonResponse::error(Response::HTTP_NOT_FOUND, $message);
             }
 
-            // Database
             if ($e instanceof QueryException)
             {
                 if (1451 === $e->errorInfo[1])
                 {
                     Log::error('MySQL FK violation', [
                         'exception'  => $e->getMessage(),
-                        'trace'      => $e->getTraceAsString(), // Only in dev
+                        'trace'      => $e->getTraceAsString(),
                     ]);
                     report($e);
 
-                    return ApiJsonResponse::error(Response::HTTP_UNPROCESSABLE_ENTITY, $e->getMessage());
+                    return ApiJsonResponse::error(Response::HTTP_UNPROCESSABLE_ENTITY, 'Unprocessable Entity');
                 }
 
-                return ApiJsonResponse::error(Response::HTTP_INTERNAL_SERVER_ERROR, 'QueryException');
-
+                return ApiJsonResponse::error(Response::HTTP_INTERNAL_SERVER_ERROR, 'Query Exception');
             }
 
-            if ($e instanceof RuntimeException)
+            if ($e instanceof ValidationException)
             {
-                return ApiJsonResponse::error(Response::HTTP_INTERNAL_SERVER_ERROR, $e->getMessage());
+                return ApiJsonResponse::error(Response::HTTP_UNPROCESSABLE_ENTITY, $e->getMessage());
             }
 
-            // for other exceptions
-            if ( ! $e instanceof ValidationException)
+            if ($e instanceof RecordsNotFoundException)
             {
-                //                return ApiJsonResponse::error(Response::HTTP_INTERNAL_SERVER_ERROR, 'Server Error');
+                return ApiJsonResponse::error(Response::HTTP_NOT_FOUND, 'Records not found.');
             }
+
+            if ($e instanceof MultipleRecordsFoundException)
+            {
+                return ApiJsonResponse::error(Response::HTTP_UNPROCESSABLE_ENTITY, 'Multiple Records found, Only one record allowed.');
+            }
+
+            return ApiJsonResponse::error(Response::HTTP_INTERNAL_SERVER_ERROR, 'Unexpected error.');
         });
 
         $exceptions->map(fn (ThrottleRequestsException $e) => new ThrottleRequestsException(
