@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "8b4ba02de9d56b08679ca1d3c5e7317f",
+    "content-hash": "39b0203413814069a635a8ea01b2d2ae",
     "packages": [
         {
             "name": "afsakar/filament-otp-login",
@@ -25833,16 +25833,16 @@
         },
         {
             "name": "sufyandev/laravel-migration-linter",
-            "version": "v1.4.1",
+            "version": "2.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/muhammad-sufyan5/sufyan-laravel-migration-lint-package.git",
-                "reference": "77fba2aeff8fca378770f6efb8826f6328b924e9"
+                "reference": "8494bac2bf134e30fc8e606aaf334d1e6d0a968c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/muhammad-sufyan5/sufyan-laravel-migration-lint-package/zipball/77fba2aeff8fca378770f6efb8826f6328b924e9",
-                "reference": "77fba2aeff8fca378770f6efb8826f6328b924e9",
+                "url": "https://api.github.com/repos/muhammad-sufyan5/sufyan-laravel-migration-lint-package/zipball/8494bac2bf134e30fc8e606aaf334d1e6d0a968c",
+                "reference": "8494bac2bf134e30fc8e606aaf334d1e6d0a968c",
                 "shasum": ""
             },
             "require": {
@@ -25896,7 +25896,7 @@
                 "issues": "https://github.com/muhammad-sufyan5/sufyan-laravel-migration-lint-package/issues",
                 "source": "https://github.com/muhammad-sufyan5/sufyan-laravel-migration-lint-package"
             },
-            "time": "2025-11-17T10:40:06+00:00"
+            "time": "2025-11-20T10:38:07+00:00"
         },
         {
             "name": "ta-tikoma/phpunit-architecture-test",

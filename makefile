@@ -418,14 +418,17 @@ checkup: ## Run necessary tools to check code and code style
 	# make checks
 	make rector-test
 	# make phpstan
-	make migration-linter
+	make migrate-lint
 
 health:
 	composer du
 	${ENTRYPOINT} php artisan route:list
 	make test-r
 
-migration-linter:
+migrate-lint:
+	${ENTRYPOINT} php artisan migrate:lint
+
+migrate-lint-baseline:
 	${ENTRYPOINT} php artisan migrate:lint --generate-baseline
 
 # --------------------------------------------------------------------------
