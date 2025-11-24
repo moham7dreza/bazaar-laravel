@@ -225,3 +225,16 @@ if ( ! function_exists('parseJsonGenerator'))
             in_array('--parallel', request()->server('argv'), true);
     }
 }
+
+if ( ! function_exists('prepareDateForBatchInsert'))
+{
+    function prepareDateForBatchInsert(array $records): array
+    {
+        return collect($records)
+            ->map(fn ($record) => array_merge($record, [
+                'created_at' => now(),
+                'updated_at' => now(),
+            ]))
+            ->toArray();
+    }
+}
