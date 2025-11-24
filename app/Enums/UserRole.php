@@ -44,4 +44,14 @@ enum UserRole: string
     {
         return collect($this->permissions())->map->value->toArray();
     }
+
+    public function rateLimit(): int
+    {
+        return match ($this)
+        {
+            self::Admin  => 100,
+            self::Writer => 50,
+            self::Editor => 50,
+        };
+    }
 }

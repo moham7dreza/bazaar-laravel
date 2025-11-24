@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Http\Middleware;
+namespace App\Http\Middleware\Throttle;
 
 use App\Http\Responses\ApiJsonResponse;
 use Closure;
