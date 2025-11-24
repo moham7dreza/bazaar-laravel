@@ -32,9 +32,9 @@ class SyncRoleHasPermissionsCommand extends Command implements Isolatable
             $newPermissions     = array_diff($permissions, $currentPermissions);
             $removedPermissions = array_diff($currentPermissions, $permissions);
 
-            if(empty($newPermissions) && empty($removedPermissions))
+            if(blank($newPermissions) && blank($removedPermissions))
             {
-                info("{$role->value}'s permissions not changed");
+                info($role->value . "'s permissions not changed");
                 continue;
             }
 
@@ -52,6 +52,7 @@ class SyncRoleHasPermissionsCommand extends Command implements Isolatable
             {
                 continue;
             }
+
             if($shouldSync)
             {
                 $roleModel->syncPermissions($permissions);
@@ -59,7 +60,7 @@ class SyncRoleHasPermissionsCommand extends Command implements Isolatable
             elseif (filled($newPermissions))
             {
                 $roleModel->givePermissionTo($newPermissions);
-                info("{$role->value} has new permissions : " . implode(', ', $newPermissions));
+                info($role->value . ' has new permissions : ' . implode(', ', $newPermissions));
             }
         }
 

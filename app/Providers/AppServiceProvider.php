@@ -417,7 +417,7 @@ final class AppServiceProvider extends ServiceProvider
             int $duration,
             ?string $key = null,
             array $tags  = [],
-        ): EloquentCollection => (empty($tags) ? cache() : cache()->tags($tags))->remember(
+        ): EloquentCollection => (blank($tags) ? cache() : cache()->tags($tags))->remember(
             key: $key ?: $this->getCacheKey(),
             ttl: $duration,
             callback: fn () => $this->get()
@@ -426,7 +426,7 @@ final class AppServiceProvider extends ServiceProvider
         EloquentBuilder::macro('rememberForever', fn (
             ?string $key = null,
             array $tags  = [],
-        ): EloquentCollection => (empty($tags) ? cache() : cache()->tags($tags))->rememberForever(
+        ): EloquentCollection => (blank($tags) ? cache() : cache()->tags($tags))->rememberForever(
             key: $key ?: $this->getCacheKey(),
             callback: fn () => $this->get()
         ));
@@ -445,7 +445,7 @@ final class AppServiceProvider extends ServiceProvider
             int $duration    = 60,
             ?string $key     = null,
             array $tags      = [],
-        ): LengthAwarePaginator => (empty($tags) ? cache() : cache()->tags($tags))->remember(
+        ): LengthAwarePaginator => (blank($tags) ? cache() : cache()->tags($tags))->remember(
             key: $key ?: $this->getPaginateCacheKey($perPage, $page),
             ttl: $duration,
             callback: fn () => $this->paginate($perPage, $columns, $pageName, $page)

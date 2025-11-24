@@ -231,10 +231,10 @@ if ( ! function_exists('prepareDateForBatchInsert'))
     function prepareDateForBatchInsert(array $records): array
     {
         return collect($records)
-            ->map(fn ($record) => array_merge($record, [
+            ->map(fn ($record): array => array_merge($record, [
                 'created_at' => now(),
                 'updated_at' => now(),
             ]))
-            ->toArray();
+            ->all();
     }
 }
