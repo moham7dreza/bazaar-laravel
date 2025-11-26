@@ -28,7 +28,7 @@ class RateLimitByRoleMiddleware
             $user->hasRole(R::Writer) => [R::Writer->value, R::Writer->rateLimit()],
             default                   => ['guest', 20],
         };
-        $key = "rate:{$role}:" . $request->user()->id;
+        $key = sprintf('rate:%s:', $role) . $request->user()->id;
 
         if (RateLimiter::tooManyAttempts($key, $maxAttempts))
         {

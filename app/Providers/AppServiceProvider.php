@@ -540,7 +540,7 @@ final class AppServiceProvider extends ServiceProvider
 
         RateLimiter::for('auth', static fn () => Limit::perMinute(5));
 
-        RateLimiter::for('otp-request', static fn (Request $request) => [
+        RateLimiter::for('otp-request', static fn (Request $request): array => [
             Limit::perMinutes(2, 5)
                 ->by($request->get('mobile') ?: $request->ip()),
         ]);

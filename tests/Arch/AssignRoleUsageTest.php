@@ -2,6 +2,8 @@
 
 declare(strict_types=1);
 
+use Illuminate\Support\Arr;
+
 /**
  * This test fails if any test file directly calls assignRole or syncRoles on the User model.
  *
@@ -12,7 +14,7 @@ test('no test should call assignRole or syncRoles on User model directly', funct
     $testsPath = base_path('tests');
 
     // Use single grep with extended regex for better performance
-    $output = shell_exec("grep -rnE -- '->(assignRole|syncRoles)' {$testsPath} 2>/dev/null");
+    $output = shell_exec(sprintf("grep -rnE -- '->(assignRole|syncRoles)' %s 2>/dev/null", $testsPath));
 
     if ( ! $output)
     {
@@ -21,7 +23,7 @@ test('no test should call assignRole or syncRoles on User model directly', funct
         return;
     }
 
-    $lines      = array_filter(explode("\n", $output), fn ($line) => ! empty(mb_trim($line)));
+    $lines      = array_filter(explode("\n", $output), fn ($line): bool => filled(mb_trim($line)));
     $violations = [];
 
     foreach ($lines as $line)
@@ -54,7 +56,7 @@ test('no test should call assignRole or syncRoles on User model directly', funct
         ];
     }
 
-    if (empty($violations))
+    if (blank($violations))
     {
         expect([])->toBe([]);
 
@@ -82,9 +84,9 @@ function buildViolationMessage(array $violations): string
     {
         $message .= sprintf(
             "  %s:%s\n    %s\n\n",
-            $violation['file'],
-            $violation['line'],
-            $violation['code']
+            Arr::get($violation, 'file'),
+            Arr::get($violation, 'line'),
+            Arr::get($violation, 'code')
         );
     }
 
