@@ -20,6 +20,7 @@ use App\Rules\ValidateNationalCodeRule;
 use App\Services\Manager;
 use App\Services\TranslationService;
 use Carbon\CarbonImmutable;
+use DateTimeInterface;
 use Elastic\Elasticsearch\Client;
 use Elastic\Elasticsearch\ClientBuilder;
 use Filament\Notifications\Auth\VerifyEmail;
@@ -409,6 +410,10 @@ final class AppServiceProvider extends ServiceProvider
         EloquentBuilder::macro('parent', fn () => $this->whereNull('parent_id'));
 
         EloquentBuilder::macro('active', fn () => $this->where('status', Status::Activated->value));
+
+        EloquentBuilder::macro('createdAfter', fn (
+            DateTimeInterface $dateTime
+        ) => $this->where('created_at', '>', $dateTime));
 
         EloquentBuilder::macro('forAuth', fn () => $this->whereBelongsTo(auth()->user()));
 
