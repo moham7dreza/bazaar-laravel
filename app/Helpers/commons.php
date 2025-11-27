@@ -214,9 +214,7 @@ if ( ! function_exists('parseJsonGenerator'))
     {
         if (
             app()->runningUnitTests() &&
-            filled(
-                request()->server('LARAVEL_PARALLEL_TESTING')
-            )
+            (bool) request()->server('LARAVEL_PARALLEL_TESTING')
         ) {
             return true;
         }
