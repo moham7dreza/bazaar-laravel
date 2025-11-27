@@ -22,7 +22,7 @@ final class RateLimitApiMiddleware
             return ApiJsonResponse::error(Response::HTTP_TOO_MANY_REQUESTS, __('response.general.too-many-attempts'));
         }
 
-        cache()->put($key, $attempts + 1, Date::now()->addMinute());
+        cache()->put($key, $attempts + 1, Date::now()->plus(minutes: 1));
 
         $response = $next($request);
 

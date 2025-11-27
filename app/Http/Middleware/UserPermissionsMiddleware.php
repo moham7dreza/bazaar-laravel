@@ -27,7 +27,7 @@ final class UserPermissionsMiddleware
 
         $permissions = cache()->remember(
             'user:permissions:' . $user->id,
-            Date::now()->addHour(),
+            Date::now()->plus(hours: 1),
             fn () => $mappedPermissions,
         );
 
