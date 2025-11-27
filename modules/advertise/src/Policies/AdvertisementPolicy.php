@@ -7,26 +7,16 @@ namespace Modules\Advertise\Policies;
 use App\Enums\UserPermission;
 use App\Models\User;
 use Illuminate\Auth\Access\Response;
-use Illuminate\Support\Facades\Date;
 use Modules\Advertise\Models\Advertisement;
 
 final class AdvertisementPolicy
 {
-    // run before all other policy checks
-    public function before(User $user, string $ability): Response
+    /*
+    public function before(User $user, string $ability): void
     {
-        if ($user->isAdmin())
-        {
-            return Response::allow();
-        }
 
-        if ('forceDelete' !== $ability)
-        {
-            return Response::allow();
-        }
-
-        return Response::denyAsNotFound();
     }
+    */
 
     /**
      * Determine whether the user can view any models.
@@ -75,7 +65,7 @@ final class AdvertisementPolicy
     {
         $check = $user->owns($advertisement)
             && $user->can(UserPermission::DestroyAd)
-            && (null === $advertisement->published_at || Date::now()->gt($advertisement->published_at));
+            && ! $advertisement->isLive();
 
         return $check
             ? Response::allow()

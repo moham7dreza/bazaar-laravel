@@ -28,8 +28,7 @@ final class AdvertisementController extends Controller
      */
     public function index(): ResourceCollection
     {
-        // TODO: fix policy and revert
-        //        Gate::authorize('viewAny', Advertisement::class);
+        Gate::authorize('viewAny', Advertisement::class);
 
         return Advertisement::query()
             ->forAuth()

@@ -174,6 +174,11 @@ final class Advertisement extends Model
         return $this->toElasticsearchDocumentArray();
     }
 
+    public function isLive(): bool
+    {
+        return (bool) $this->published_at?->lt(Date::now());
+    }
+
     #[Scope]
     protected function inCategory(Builder $builder, int $categoryId): Builder
     {

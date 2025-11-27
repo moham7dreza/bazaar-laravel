@@ -195,7 +195,8 @@ final class AppServiceProvider extends ServiceProvider
 
     private function configureGates(): void
     {
-        Gate::before(static fn (?User $user): ?bool => $user?->isAdmin());
+        // TODO fix
+//        Gate::before(static fn (?User $user): ?bool => $user?->isAdmin());
     }
 
     private function logSlowQuery(): void
