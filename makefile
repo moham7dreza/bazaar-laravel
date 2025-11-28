@@ -457,6 +457,10 @@ vendor-routes: ## Show list of routes that are registered by packages
 filament-up:
 	vendor/bin/filament-v4
 
+toon:
+	${ENTRYPOINT} php artisan toon:convert $(filter-out $@,$(MAKECMDGOALS)) --decode --pretty
+%:
+
 # --------------------------------------------------------------------------
 # Linux
 # --------------------------------------------------------------------------
@@ -621,3 +625,7 @@ find-ip: ## Find local IP address
 upgrade:
 	composer update
 	npm update
+
+# --------------------------------------------------------------------------
+# End
+# --------------------------------------------------------------------------

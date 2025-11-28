@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "39b0203413814069a635a8ea01b2d2ae",
+    "content-hash": "b6185688111d238561f8de8c35c3a3ba",
     "packages": [
         {
             "name": "afsakar/filament-otp-login",
@@ -13295,6 +13295,132 @@
                 }
             ],
             "time": "2025-02-25T09:09:36+00:00"
+        },
+        {
+            "name": "sbsaga/toon",
+            "version": "v1.1.5",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/sbsaga/toon.git",
+                "reference": "8c0dda0f12b08d25b1073c43176899d2deabde94"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/sbsaga/toon/zipball/8c0dda0f12b08d25b1073c43176899d2deabde94",
+                "reference": "8c0dda0f12b08d25b1073c43176899d2deabde94",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/support": "^9.0|^10.0|^11.0|^12.0",
+                "php": ">=8.1"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^10.0"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "aliases": {
+                        "Toon": "Sbsaga\\Toon\\Facades\\Toon"
+                    },
+                    "providers": [
+                        "Sbsaga\\Toon\\ToonServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Sbsaga\\Toon\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Sagar S. Bhedodkar",
+                    "email": "sagarbhedodkar456@gmail.com",
+                    "homepage": "https://github.com/sbsaga",
+                    "role": "Developer"
+                }
+            ],
+            "description": "🧠 TOON for Laravel — a compact, human-readable, and token-efficient data format for AI prompts & LLM contexts. Perfect for ChatGPT, Gemini, Claude, Mistral, and OpenAI integrations (JSON ⇄ TOON).",
+            "homepage": "https://github.com/sbsaga/toon",
+            "keywords": [
+                "ChatGpt",
+                "Gemini",
+                "ai",
+                "ai-developer-tools",
+                "ai-for-laravel",
+                "ai-integration",
+                "ai-laravel-package",
+                "ai-prompt",
+                "ai-tools",
+                "anthropic",
+                "chatgpt-for-laravel",
+                "claude",
+                "claude-for-laravel",
+                "compact-json",
+                "context-compression",
+                "context-optimizer",
+                "converter",
+                "data",
+                "data-compression",
+                "data-formatter",
+                "data-transformer",
+                "formatter",
+                "gemini-for-laravel",
+                "gpt",
+                "gpt3",
+                "gpt4",
+                "human-readable-format",
+                "json",
+                "laravel",
+                "laravel-ai",
+                "laravel-anthropic",
+                "laravel-chatgpt",
+                "laravel-gemini",
+                "laravel-mistral",
+                "laravel-openai",
+                "laravel-package",
+                "laravel-toon",
+                "laravel10",
+                "laravel11",
+                "laravel12",
+                "laravel9",
+                "llm",
+                "llm-for-laravel",
+                "llm-tools",
+                "mistral",
+                "object-notation",
+                "openai",
+                "openai-for-laravel",
+                "parser",
+                "php",
+                "php8",
+                "prompt",
+                "prompt-compression",
+                "prompt-engineering",
+                "prompt-optimization",
+                "sbsaga",
+                "serialization",
+                "serialization-format",
+                "token",
+                "token-efficient",
+                "token-optimizer",
+                "token-saver",
+                "toon",
+                "toon-laravel",
+                "yaml-alternative"
+            ],
+            "support": {
+                "chat": "https://github.com/sbsaga",
+                "docs": "https://github.com/sbsaga/toon#readme",
+                "issues": "https://github.com/sbsaga/toon/issues",
+                "source": "https://github.com/sbsaga/toon"
+            },
+            "time": "2025-11-10T15:39:58+00:00"
         },
         {
             "name": "seld/jsonlint",

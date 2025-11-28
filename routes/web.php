@@ -11,9 +11,6 @@ use Illuminate\Support\Facades\Route;
 
 require __DIR__ . '/auth.php';
 
-when(app()->isLocal(), function (): void {
-});
-
 Route::fallback(FallbackController::class);
 
 Route::get('/', HomeController::class)
@@ -42,3 +39,17 @@ Route::prefix('image')
         Route::post('store', 'store')
             ->name('web.image.store');
     });
+
+when(app()->isLocal(), function (): void {
+    Route::get('/toon-benchmark', function () {
+        $json        = json_decode(file_get_contents(base_path('pint.json')), true);
+        $jsonEncoded = json_encode($json, JSON_PRETTY_PRINT);
+        $toonEncoded = Toon::convert($json);
+
+        return [
+            'json_size'      => mb_strlen($jsonEncoded),
+            'toon_size'      => mb_strlen($toonEncoded),
+            'saving_percent' => 100 - (mb_strlen($toonEncoded) / mb_strlen($jsonEncoded) * 100),
+        ];
+    });
+});
