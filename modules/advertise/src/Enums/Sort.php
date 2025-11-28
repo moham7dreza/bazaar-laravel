@@ -11,7 +11,10 @@ enum Sort: string
     use EnumDataListTrait;
 
     case PriceAsc   = 'price_asc';
+
     case PriceDesc  = 'price_desc';
+
     case Newest     = 'newest';
+
     case Oldest     = 'oldest';
 }

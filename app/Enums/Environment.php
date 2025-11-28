@@ -7,8 +7,11 @@ namespace App\Enums;
 enum Environment: string
 {
     case Production = 'production';
+
     case Staging    = 'staging';
+
     case Testing    = 'testing';
+
     case Local      = 'local';
 
     public function is(): bool|string

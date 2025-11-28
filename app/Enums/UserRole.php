@@ -13,7 +13,9 @@ enum UserRole: string
     use EnumDataListTrait;
 
     case Admin  = 'admin';
+
     case Writer = 'writer';
+
     case Editor = 'editor';
 
     public function model(): Role

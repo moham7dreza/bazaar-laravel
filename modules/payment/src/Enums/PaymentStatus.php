@@ -11,6 +11,8 @@ enum PaymentStatus: int
     use EnumDataListTrait;
 
     case Pending = 1;
+
     case Paid    = 2;
+
     case Failed  = 3;
 }

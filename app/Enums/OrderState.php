@@ -11,6 +11,8 @@ enum OrderState: string
     use EnumDataListTrait;
 
     case Pending    = 'pending';
+
     case Processing = 'processing';
+
     case Shipped    = 'shipped';
 }

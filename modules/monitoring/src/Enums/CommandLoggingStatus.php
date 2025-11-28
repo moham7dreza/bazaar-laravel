@@ -11,5 +11,6 @@ enum CommandLoggingStatus: string
     use EnumDataListTrait;
 
     case Started   = 'started';
+
     case Completed = 'completed';
 }

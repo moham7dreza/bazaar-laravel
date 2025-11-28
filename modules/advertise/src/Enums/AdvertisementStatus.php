@@ -11,5 +11,6 @@ enum AdvertisementStatus: string
     use EnumDataListTrait;
 
     case AsGoodAsNew    = 'as_good_as_new';
+
     case Used           = 'used';
 }

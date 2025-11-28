@@ -45,12 +45,19 @@ use Modules\Advertise\Policies\AdvertisementPolicy;
 final class Advertisement extends Model
 {
     use Attributable;
+
     use CascadeSoftDeletes;
+
     use ClearsResponseCache;
+
     use HasFactory;
+
     use Prunable;
+
     use Searchable;
+
     use Sluggable;
+
     use SoftDeletes;
 
     protected $guarded = ['id'];

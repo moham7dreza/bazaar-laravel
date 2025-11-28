@@ -17,7 +17,9 @@ use Illuminate\Support\Arr;
 class UserLandMail extends Mailable implements ShouldQueue
 {
     use Queueable;
+
     use SerializesModels;
+
     public function __construct(
         public $subject,
         public $from,

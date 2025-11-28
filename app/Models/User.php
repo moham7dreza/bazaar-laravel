@@ -72,16 +72,27 @@ final class User extends Authenticatable implements
 {
     //    use GeneratesUsernames;
     use HasApiTokens;
+
     use HasFactory;
+
     use HasLocks;
+
     use HasMetrics;
+
     use HasRoles;
+
     use HasSchedules;
+
     use InteractWithSensitiveColumns;
+
     use LogsActivity;
+
     use MustVerifyMobile;
+
     use Notifiable;
+
     use SoftDeletes;
+
     use TwoFactorAuthenticatable;
 
     protected $fillable = [

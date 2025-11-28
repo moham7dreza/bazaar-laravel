@@ -17,7 +17,9 @@ use Illuminate\Queue\Middleware\FailOnException;
 final class UserUpdateJob implements ShouldQueue
 {
     use Batchable;
+
     use Queueable;
+
     public function __construct(
         public readonly array $ids,
     ) {

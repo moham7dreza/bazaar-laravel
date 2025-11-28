@@ -11,5 +11,6 @@ enum Status: int
     use EnumDataListTrait;
 
     case Activated   = 1;
+
     case Disabled    = 0;
 }

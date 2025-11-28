@@ -13,12 +13,18 @@ enum UserPermission: string
     use EnumDataListTrait;
 
     case SeePanel    = 'see_panel';
+
     case ManageUsers = 'manage_users';
+
     // Advertisement
     case EditAd    = 'edit_ad';
+
     case EditAds   = 'edit_ads';
+
     case CreateAd  = 'create_ad';
+
     case DestroyAd = 'destroy_ad';
+
     case PublishAd = 'publish_ad';
 
     public function isAdminLevel(): bool

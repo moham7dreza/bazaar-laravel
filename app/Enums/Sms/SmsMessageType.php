@@ -11,5 +11,6 @@ enum SmsMessageType: string
     use EnumDataListTrait;
 
     case Default   = 'default';
+
     case LoginOtp  = 'login-otp';
 }

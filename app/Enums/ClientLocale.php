@@ -12,6 +12,7 @@ enum ClientLocale: string
     use EnumDataListTrait;
 
     case Farsi   = 'fa';
+
     case English = 'en';
 
     public const array NUMBER_MAP = [

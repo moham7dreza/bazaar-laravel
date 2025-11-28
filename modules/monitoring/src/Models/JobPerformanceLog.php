@@ -17,6 +17,7 @@ use Illuminate\Support\Facades\Date;
 final class JobPerformanceLog extends Model
 {
     use HasFactory;
+
     use Prunable;
 
     public const UPDATED_AT = null;

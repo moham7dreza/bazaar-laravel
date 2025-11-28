@@ -12,9 +12,13 @@ enum StorageDisk: string
     use EnumDataListTrait;
 
     case Local   = 'local';
+
     case Public  = 'public';
+
     case Private = 'private';
+
     case Backups = 'backups';
+
     case Media   = 'media';
 
     public static function setDisksAsFake(): void

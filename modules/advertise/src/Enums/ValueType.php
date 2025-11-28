@@ -11,5 +11,6 @@ enum ValueType: int
     use EnumDataListTrait;
 
     case Text   = 1;
+
     case Number = 2;
 }

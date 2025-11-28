@@ -11,6 +11,8 @@ enum AdvertisementPublishStatus: int
     use EnumDataListTrait;
 
     case Inactive = 0;
+
     case Active   = 1;
+
     case Pending  = 2;
 }

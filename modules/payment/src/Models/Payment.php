@@ -30,7 +30,9 @@ use Modules\Payment\Http\Resources\PaymentResource;
 class Payment extends Model
 {
     use HasFactory;
+
     use Prunable;
+
     use SoftDeletes;
 
     protected $guarded = ['id'];

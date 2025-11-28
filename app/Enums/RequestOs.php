@@ -11,7 +11,9 @@ enum RequestOs: string
     use EnumDataListTrait;
 
     case Web     = 'web';
+
     case Ios     = 'ios';
+
     case Android = 'android';
 
     public static function mobiles(): array
