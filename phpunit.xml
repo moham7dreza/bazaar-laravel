@@ -17,11 +17,12 @@
             <directory>modules</directory>
         </include>
     </source>
-    <coverage>
-        <report>
-            <clover outputFile="tests/coverage@tests.xml"/>
-        </report>
-    </coverage>
+<!--    TODO -->
+<!--    <coverage>-->
+<!--        <report>-->
+<!--            <clover outputFile="tests/coverage@tests.xml"/>-->
+<!--        </report>-->
+<!--    </coverage>-->
     <groups>
         <exclude>
             <group>manual</group> <!-- These tests are not required to be run automatically -->
