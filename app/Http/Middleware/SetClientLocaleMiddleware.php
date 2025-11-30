@@ -20,6 +20,8 @@ class SetClientLocaleMiddleware
 
         $lang = ClientLocale::tryFrom($request->route('lang'));
 
+        config()->set('app.timezone', $lang->timezone()->value);
+
         $request->route()->forgetParameter('lang');
 
         if (blank($lang))

@@ -52,12 +52,12 @@ enum ClientLocale: string
         return false !== $key ? $key : throw new RuntimeException('Case is missing in NUMBER_MAP: ' . $this->value);
     }
 
-    public function timezone(): string
+    public function timezone(): Timezone
     {
         return match ($this)
         {
-            self::Farsi   => 'Asia\Tehran',
-            self::English => 'UTC',
+            self::Farsi   => Timezone::Tehran,
+            self::English => Timezone::UTC,
         };
     }
 

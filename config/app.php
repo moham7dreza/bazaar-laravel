@@ -81,7 +81,7 @@ return [
     |
     */
 
-    'timezone' => env('APP_TIMEZONE', ClientLocale::Farsi->timezone()),
+    'timezone' => env('APP_TIMEZONE', ClientLocale::Farsi->timezone()->value),
 
     /*
     |--------------------------------------------------------------------------
