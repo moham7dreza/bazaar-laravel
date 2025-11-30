@@ -29,7 +29,6 @@ enum ClientLocale: string
     {
         return match (app()->getLocale())
         {
-
             self::Farsi->value => [
                 'timezone' => self::Farsi->timezone(),
                 'country'  => self::Farsi->country(),

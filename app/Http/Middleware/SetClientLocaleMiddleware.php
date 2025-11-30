@@ -13,33 +13,37 @@ class SetClientLocaleMiddleware
     public function handle(Request $request, Closure $next)
     {
         // TODO: handle with cookie or header
-        if ($request->route()?->hasParameter('lang'))
+        if ( ! $request->route()->hasParameter('lang'))
         {
-            $lang = ClientLocale::tryFrom($request->route('lang'));
+            return $next($request);
+        }
 
-            $request->route()->forgetParameter('lang');
+        $lang = ClientLocale::tryFrom($request->route('lang'));
 
-            if (blank($lang))
-            {
-                app()->setLocale(config()->string('app.locale', ClientLocale::Farsi->value));
+        $request->route()->forgetParameter('lang');
 
-                return $next($request);
-            }
+        if (blank($lang))
+        {
+            app()->setLocale(
+                config()->string('app.locale', ClientLocale::Farsi->value)
+            );
 
-            app()->setLocale($lang->value);
+            return $next($request);
+        }
 
-            $user = $request->user();
+        app()->setLocale($lang->value);
 
-            if (blank($user))
-            {
-                return $next($request);
-            }
+        $user = $request->user();
 
-            if ($user->locale !== $lang->toNumber())
-            {
-                $user->locale = $lang->toNumber();
-                $user->saveQuietly();
-            }
+        if (blank($user))
+        {
+            return $next($request);
+        }
+
+        if ($user->locale !== $lang->toNumber())
+        {
+            $user->locale = $lang->toNumber();
+            $user->saveQuietly();
         }
 
         return $next($request);
