@@ -1,15 +1,34 @@
 #!/bin/bash
 
-# --------------------------------------------------------------------------
-# Pint
-# --------------------------------------------------------------------------
-echo "[ pre-commit ] 🔄 Running Pint on dirty files - $(date '+%H:%M:%S')"
-./vendor/bin/pint --dirty --parallel --bail
-echo "[ pre-commit ] ✅ Pint finished - $(date '+%H:%M:%S')"
+# Get the branch being pushed
+current_branch=$(git symbolic-ref --short HEAD)
 
-if [ $? -ne 0 ]; then
-    exit 1
+# Define allowed branch patterns
+allowed_patterns=("^feature/" "^bugfix/" "^hotfix/" "^improve/" "^staging/" "^master$")
+
+# Check if the branch name matches any of the allowed patterns
+matched=false
+for pattern in "${allowed_patterns[@]}"; do
+  if [[ "$current_branch" =~ $pattern ]]; then
+    matched=true
+    break
+  fi
+done
+
+if [ "$matched" = false ]; then
+  echo "Error: Branch '$current_branch' is not allowed to commit. Allowed patterns are: ${allowed_patterns[*]}"
+  exit 1
 fi
+
+PHP_CONTAINER=$(docker compose ps -q laravel.test 2>/dev/null)
+
+run_cmd() {
+    if [ -n "$PHP_CONTAINER" ]; then
+        docker compose exec -T laravel.test "$@"
+    else
+        "$@"
+    fi
+}
 
 # Define your whitelist of allowed author names and emails
 allowed_names=("Mohamadreza Rezaei")
@@ -28,6 +47,49 @@ fi
 # Check if the author email is in the allowed list
 if [[ ! " ${allowed_emails[@]} " =~ " ${author_email} " ]]; then
   echo "Error: Author email '${author_email}' is not allowed."
+  exit 1
+fi
+echo "Pint"
+# Run Pint and capture output
+pint_output=$(run_cmd vendor/bin/pint --parallel --dirty 2>&1)
+pint_exit_code=$?
+
+# Display the output
+echo "$pint_output"
+
+# If Pint failed, exit
+if [ $pint_exit_code -ne 0 ]; then
+  exit 1
+fi
+
+# Parse Pint output to find fixed files and stage them
+fixed_files=$(echo "$pint_output" | grep -E "^  ✓ [^ ]+" | sed -E 's/^  ✓ ([^ ]+).*$/\1/')
+if [ -n "$fixed_files" ]; then
+  echo ""
+  echo "Auto-staging Pint fixed files:"
+  while IFS= read -r file; do
+    if [ -n "$file" ]; then
+      echo "  Staging: $file"
+      git add "$file"
+    fi
+  done <<< "$fixed_files"
+  echo ""
+fi
+echo "Tests"
+run_cmd php artisan test
+test_exit_code=$?
+
+# If Test failed, exit
+if [ $test_exit_code -ne 0 ]; then
+  exit 1
+fi
+
+echo "Rector"
+run_cmd vendor/bin/rector process --dry-run
+rector_exit_code=$?
+
+# If Test failed, exit
+if [ $rector_exit_code -ne 0 ]; then
   exit 1
 fi
 
