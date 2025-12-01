@@ -63,6 +63,7 @@
         "filament/upgrade": "^4.0",
         "imanghafoori/laravel-microscope": "^1.0",
         "larastan/larastan": "^3.0",
+        "laravel/boost": "^1.8",
         "laravel/breeze": "^2.0",
         "laravel/pail": "^1.2",
         "laravel/pint": "^1.21",
@@ -100,7 +101,8 @@
         ],
         "post-update-cmd": [
             "@php artisan vendor:publish --tag=laravel-assets --ansi --force",
-            "@php artisan filament:assets"
+            "@php artisan filament:assets",
+            "@php artisan boost:update --ansi"
         ],
         "post-root-package-install": [
             "@php -r \"file_exists('.env') || copy('.env.example', '.env');\"",
