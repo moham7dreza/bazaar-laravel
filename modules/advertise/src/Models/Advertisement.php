@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace Modules\Advertise\Models;
 
+use App\Concerns\Attributable;
 use App\Concerns\ClearsResponseCache;
 use App\Concerns\Searchable;
 use App\Models\Geo\City;
 use App\Models\Scopes\LatestScope;
-use App\Models\Traits\Attributable;
 use App\Models\User;
 use Cviebrock\EloquentSluggable\Sluggable;
 use Dyrynda\Database\Support\CascadeSoftDeletes;

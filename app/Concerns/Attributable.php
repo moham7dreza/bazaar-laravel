@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Models\Traits;
+namespace App\Concerns;
 
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Concerns\HasRelationships;
