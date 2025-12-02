@@ -29,6 +29,7 @@ PHP_ARTISAN = $(DOCKER_COMPOSE) run --rm php ${ENTRYPOINT} php artisan
 PHP_COMPOSER = $(DOCKER_COMPOSE) run --rm -it php composer
 PHP_NPM = $(DOCKER_COMPOSE) run --rm php npm
 PHP_PINT = $(DOCKER_COMPOSE) run -T --rm php ./vendor/bin/pint
+PHP_VERSION=php8.4
 
 # --------------------------------------------------------------------------
 # OS Detection
@@ -445,23 +446,27 @@ rector-test: ## Run rector analysis
 	vendor/bin/rector process --dry-run
 
 rector: ## Run rector analysis and change files
-	vendor/bin/rector
+	vendor/bin/rector process
 
 # --------------------------------------------------------------------------
 # Boost
 # --------------------------------------------------------------------------
 boost-install:
-	php artisan boost:mcp
+	${ENTRYPOINT} php artisan boost:mcp
 
 boost-update:
-	php artisan boost:update --ansi
+	${ENTRYPOINT} php artisan boost:update --ansi
 
 # --------------------------------------------------------------------------
 # Others
 # --------------------------------------------------------------------------
 
+upgrade:
+	composer update
+	npm update
+
 vendor-routes: ## Show list of routes that are registered by packages
-	ç php artisan route:list --only-vendor
+	${ENTRYPOINT} php artisan route:list --only-vendor
 
 filament-up:
 	vendor/bin/filament-v4
@@ -478,6 +483,19 @@ post-update-cmd:
 # --------------------------------------------------------------------------
 # Linux
 # --------------------------------------------------------------------------
+php-extensions:
+	sudo apt install ${PHP_VERSION}-{dev,pcov,xdebug,sqlite3,cli,soap,fpm,xml,curl,cgi,mysql,mysqlnd,gd,bz2,ldap,pgsql,opcache,zip,intl,common,bcmath,imagick,xmlrpc,readline,memcached,redis,mbstring,apcu,xml,dom,memcache,mongodb}
+
+php-reload:
+	sudo systemctl reload nginx
+	sudo systemctl reload ${PHP_VERSION}-fpm
+
+permissions:
+	sudo chmod -R 777 storage
+
+ports:
+	sudo fuser -k 3000/tcp && fuser -k 9000/tcp && fuser -k 2407/tcp
+
 fix-permissions: ## Fix project directory permissions
 	@printf "${COLOR_BLUE}▶ Fixing file and directory permissions...${COLOR_RESET}\n"
 	@sudo chown -R $(USER):$(USER) .
@@ -544,7 +562,7 @@ setup: ## Configure Nginx for bazaar.local
 	@sudo ln -sf /etc/nginx/sites-available/bazaar /etc/nginx/sites-enabled/
 	@sudo nginx -t
 	@sudo systemctl reload nginx
-	@sudo systemctl reload php8.4-fpm
+	@sudo systemctl reload ${PHP_VERSION}-fpm
 	@if ! grep -q "bazaar.local" /etc/hosts; then \
 		sudo sed -i '1s/^/127.0.0.1 bazaar.local\n/' /etc/hosts; \
 		printf "${COLOR_GREEN}✓ Added bazaar.local to /etc/hosts${COLOR_RESET}\n"; \
@@ -604,19 +622,6 @@ setup-horizon: ## Configure Supervisor for Laravel horizon
 	fi
 	@printf "${COLOR_GREEN}✓ Laravel horizon setup completed!${COLOR_RESET}\n"
 
-php-extensions:
-	sudo apt install php8.4-{dev,pcov,xdebug,sqlite3,cli,soap,fpm,xml,curl,cgi,mysql,mysqlnd,gd,bz2,ldap,pgsql,opcache,zip,intl,common,bcmath,imagick,xmlrpc,readline,memcached,redis,mbstring,apcu,xml,dom,memcache,mongodb}
-
-php-reload:
-	sudo systemctl reload nginx
-	sudo systemctl reload php8.4-fpm
-
-permissions:
-	sudo chmod -R 777 storage
-
-ports:
-	sudo fuser -k 3000/tcp && fuser -k 9000/tcp && fuser -k 2407/tcp
-
 serve-ip: find-ip ## serve project in local network
 	@echo "Starting Laravel development server on http://$(IP):8080"
 	@php -S $(IP):8080 -t public
@@ -635,10 +640,6 @@ find-ip: ## Find local IP address
 		echo "Could not detect IP address, falling back to 127.0.0.1"; \
 		$(eval IP := 127.0.0.1) \
 	fi
-
-upgrade:
-	composer update
-	npm update
 
 # --------------------------------------------------------------------------
 # End
