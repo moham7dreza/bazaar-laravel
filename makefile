@@ -390,7 +390,7 @@ git-blame-ignore:
 # Health
 # --------------------------------------------------------------------------
 
-checks: ## Run fearless refactoring, it does a lot of smart checks to find certain errors.
+microscope: ## Run fearless refactoring, it does a lot of smart checks to find certain errors.
 	${ENTRYPOINT} php artisan check:views
 	${ENTRYPOINT} php artisan check:routes
 	#${ENTRYPOINT} php artisan check:psr4
@@ -414,14 +414,15 @@ checks: ## Run fearless refactoring, it does a lot of smart checks to find certa
 	${ENTRYPOINT} php artisan enforce:helper_functions
 	#${ENTRYPOINT} php artisan list:models
 
-checkup: ## Run necessary tools to check code and code style
+app-checkup: ## Run necessary tools to check code and code style
 	make pint-test
 	# make checks
 	make rector-test
 	# make phpstan
 	make migrate-lint
+	make test-p
 
-health:
+app-health:
 	composer du
 	${ENTRYPOINT} php artisan route:list
 	make test-r
