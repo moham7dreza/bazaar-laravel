@@ -416,7 +416,6 @@ microscope: ## Run fearless refactoring, it does a lot of smart checks to find c
 
 app-checkup: ## Run necessary tools to check code and code style
 	make pint-test
-	# make checks
 	make rector-test
 	# make phpstan
 	make migrate-lint
@@ -424,8 +423,8 @@ app-checkup: ## Run necessary tools to check code and code style
 
 app-fix:
 	make pint
-	make checks
 	make rector
+	make test-p
 
 app-health:
 	composer du
