@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Enums;
 
-use App\Enums\Concerns\EnumDataListTrait;
+use App\Concerns\EnumDataListTrait;
 use App\Enums\UserPermission as P;
 use Spatie\Permission\Models\Role;
 

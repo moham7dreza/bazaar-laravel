@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Enums;
 
-use App\Enums\Concerns\EnumDataListTrait;
+use App\Concerns\EnumDataListTrait;
 
 enum Queue: string
 {
