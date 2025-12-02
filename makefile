@@ -461,7 +461,7 @@ boost-update:
 # --------------------------------------------------------------------------
 
 vendor-routes: ## Show list of routes that are registered by packages
-	${ENTRYPOINT} php artisan route:list --only-vendor
+	ç php artisan route:list --only-vendor
 
 filament-up:
 	vendor/bin/filament-v4
@@ -469,6 +469,11 @@ filament-up:
 toon:
 	${ENTRYPOINT} php artisan toon:convert $(filter-out $@,$(MAKECMDGOALS)) --decode --pretty
 %:
+
+post-update-cmd:
+	${ENTRYPOINT} php artisan vendor:publish --tag=laravel-assets --ansi --force
+	${ENTRYPOINT} php artisan filament:assets
+	${ENTRYPOINT} php artisan boost:update --ansi
 
 # --------------------------------------------------------------------------
 # Linux
