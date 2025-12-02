@@ -78,7 +78,8 @@
         "roave/security-advisories": "dev-latest",
         "spatie/laravel-cronless-schedule": "^1.2",
         "spatie/laravel-ignition": "^2.4",
-        "sufyandev/laravel-migration-linter": "^2.0"
+        "sufyandev/laravel-migration-linter": "^2.0",
+        "volt-test/laravel-performance-testing": "^1.2"
     },
     "autoload": {
         "psr-4": {

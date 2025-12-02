@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "e0e09591c0f4ffb22c70484c930ed500",
+    "content-hash": "9469e25c4de193b420e3099ea849f274",
     "packages": [
         {
             "name": "afsakar/filament-otp-login",
@@ -2867,16 +2867,16 @@
         },
         {
             "name": "directorytree/metrics",
-            "version": "v1.5.0",
+            "version": "v1.6.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/DirectoryTree/Metrics.git",
-                "reference": "82d285e123469734db191db18e15ddceefab43ce"
+                "reference": "9b32efd5a2c1215bcb318190042e65cdcd8aaa3a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/DirectoryTree/Metrics/zipball/82d285e123469734db191db18e15ddceefab43ce",
-                "reference": "82d285e123469734db191db18e15ddceefab43ce",
+                "url": "https://api.github.com/repos/DirectoryTree/Metrics/zipball/9b32efd5a2c1215bcb318190042e65cdcd8aaa3a",
+                "reference": "9b32efd5a2c1215bcb318190042e65cdcd8aaa3a",
                 "shasum": ""
             },
             "require": {
@@ -2923,9 +2923,9 @@
             "description": "Record metrics in your Laravel application",
             "support": {
                 "issues": "https://github.com/DirectoryTree/Metrics/issues",
-                "source": "https://github.com/DirectoryTree/Metrics/tree/v1.5.0"
+                "source": "https://github.com/DirectoryTree/Metrics/tree/v1.6.0"
             },
-            "time": "2025-11-15T20:07:49+00:00"
+            "time": "2025-12-02T03:52:04+00:00"
         },
         {
             "name": "doctrine/dbal",
@@ -5194,16 +5194,16 @@
         },
         {
             "name": "inspector-apm/inspector-laravel",
-            "version": "4.17.0",
+            "version": "4.18.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/inspector-apm/inspector-laravel.git",
-                "reference": "3820132b61cd48f63680cc4d0dac4dfa75e0c1bb"
+                "reference": "1089508b377facbff5ea5d76842766b75036fc96"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/inspector-apm/inspector-laravel/zipball/3820132b61cd48f63680cc4d0dac4dfa75e0c1bb",
-                "reference": "3820132b61cd48f63680cc4d0dac4dfa75e0c1bb",
+                "url": "https://api.github.com/repos/inspector-apm/inspector-laravel/zipball/1089508b377facbff5ea5d76842766b75036fc96",
+                "reference": "1089508b377facbff5ea5d76842766b75036fc96",
                 "shasum": ""
             },
             "require": {
@@ -5259,9 +5259,9 @@
             ],
             "support": {
                 "issues": "https://github.com/inspector-apm/inspector-laravel/issues",
-                "source": "https://github.com/inspector-apm/inspector-laravel/tree/4.17.0"
+                "source": "https://github.com/inspector-apm/inspector-laravel/tree/4.18.0"
             },
-            "time": "2025-11-27T21:30:37+00:00"
+            "time": "2025-12-01T11:09:00+00:00"
         },
         {
             "name": "inspector-apm/inspector-php",
@@ -5874,21 +5874,21 @@
         },
         {
             "name": "justinrainbow/json-schema",
-            "version": "6.6.2",
+            "version": "6.6.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/jsonrainbow/json-schema.git",
-                "reference": "3c25fe750c1599716ef26aa997f7c026cee8c4b7"
+                "reference": "134e98916fa2f663afa623970af345cd788e8967"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/jsonrainbow/json-schema/zipball/3c25fe750c1599716ef26aa997f7c026cee8c4b7",
-                "reference": "3c25fe750c1599716ef26aa997f7c026cee8c4b7",
+                "url": "https://api.github.com/repos/jsonrainbow/json-schema/zipball/134e98916fa2f663afa623970af345cd788e8967",
+                "reference": "134e98916fa2f663afa623970af345cd788e8967",
                 "shasum": ""
             },
             "require": {
                 "ext-json": "*",
-                "marc-mabe/php-enum": "^4.0",
+                "marc-mabe/php-enum": "^4.4",
                 "php": "^7.2 || ^8.0"
             },
             "require-dev": {
@@ -5943,9 +5943,9 @@
             ],
             "support": {
                 "issues": "https://github.com/jsonrainbow/json-schema/issues",
-                "source": "https://github.com/jsonrainbow/json-schema/tree/6.6.2"
+                "source": "https://github.com/jsonrainbow/json-schema/tree/6.6.3"
             },
-            "time": "2025-11-28T15:24:03+00:00"
+            "time": "2025-12-02T10:21:33+00:00"
         },
         {
             "name": "kenepa/resource-lock",
@@ -9889,20 +9889,20 @@
         },
         {
             "name": "nette/utils",
-            "version": "v4.0.9",
+            "version": "v4.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/nette/utils.git",
-                "reference": "505a30ad386daa5211f08a318e47015b501cad30"
+                "reference": "fa1f0b8261ed150447979eb22e373b7b7ad5a8e0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nette/utils/zipball/505a30ad386daa5211f08a318e47015b501cad30",
-                "reference": "505a30ad386daa5211f08a318e47015b501cad30",
+                "url": "https://api.github.com/repos/nette/utils/zipball/fa1f0b8261ed150447979eb22e373b7b7ad5a8e0",
+                "reference": "fa1f0b8261ed150447979eb22e373b7b7ad5a8e0",
                 "shasum": ""
             },
             "require": {
-                "php": "8.0 - 8.5"
+                "php": "8.2 - 8.5"
             },
             "conflict": {
                 "nette/finder": "<3",
@@ -9925,7 +9925,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "4.0-dev"
+                    "dev-master": "4.1-dev"
                 }
             },
             "autoload": {
@@ -9972,9 +9972,9 @@
             ],
             "support": {
                 "issues": "https://github.com/nette/utils/issues",
-                "source": "https://github.com/nette/utils/tree/v4.0.9"
+                "source": "https://github.com/nette/utils/tree/v4.1.0"
             },
-            "time": "2025-10-31T00:45:47+00:00"
+            "time": "2025-12-01T17:49:23+00:00"
         },
         {
             "name": "nicmart/tree",
@@ -21143,16 +21143,16 @@
         },
         {
             "name": "driftingly/rector-laravel",
-            "version": "2.1.3",
+            "version": "2.1.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/driftingly/rector-laravel.git",
-                "reference": "2f1e9c3997bf45592d58916f0cedd775e844b9c6"
+                "reference": "45507a8006e5c24356eec71c14f8296ecf6abcbc"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/driftingly/rector-laravel/zipball/2f1e9c3997bf45592d58916f0cedd775e844b9c6",
-                "reference": "2f1e9c3997bf45592d58916f0cedd775e844b9c6",
+                "url": "https://api.github.com/repos/driftingly/rector-laravel/zipball/45507a8006e5c24356eec71c14f8296ecf6abcbc",
+                "reference": "45507a8006e5c24356eec71c14f8296ecf6abcbc",
                 "shasum": ""
             },
             "require": {
@@ -21173,9 +21173,9 @@
             "description": "Rector upgrades rules for Laravel Framework",
             "support": {
                 "issues": "https://github.com/driftingly/rector-laravel/issues",
-                "source": "https://github.com/driftingly/rector-laravel/tree/2.1.3"
+                "source": "https://github.com/driftingly/rector-laravel/tree/2.1.5"
             },
-            "time": "2025-11-04T18:32:57+00:00"
+            "time": "2025-12-02T00:54:29+00:00"
         },
         {
             "name": "fakerphp/faker",
@@ -24108,16 +24108,16 @@
         },
         {
             "name": "rector/rector",
-            "version": "2.2.9",
+            "version": "2.2.11",
             "source": {
                 "type": "git",
                 "url": "https://github.com/rectorphp/rector.git",
-                "reference": "0b8e49ec234877b83244d2ecd0df7a4c16471f05"
+                "reference": "7bd21a40b0332b93d4bfee284093d7400696902d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/rectorphp/rector/zipball/0b8e49ec234877b83244d2ecd0df7a4c16471f05",
-                "reference": "0b8e49ec234877b83244d2ecd0df7a4c16471f05",
+                "url": "https://api.github.com/repos/rectorphp/rector/zipball/7bd21a40b0332b93d4bfee284093d7400696902d",
+                "reference": "7bd21a40b0332b93d4bfee284093d7400696902d",
                 "shasum": ""
             },
             "require": {
@@ -24156,7 +24156,7 @@
             ],
             "support": {
                 "issues": "https://github.com/rectorphp/rector/issues",
-                "source": "https://github.com/rectorphp/rector/tree/2.2.9"
+                "source": "https://github.com/rectorphp/rector/tree/2.2.11"
             },
             "funding": [
                 {
@@ -24164,7 +24164,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2025-11-28T14:21:22+00:00"
+            "time": "2025-12-02T11:23:46+00:00"
         },
         {
             "name": "roave/security-advisories",
@@ -24172,12 +24172,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/Roave/SecurityAdvisories.git",
-                "reference": "3f393e137e490ecb2ac77989a692129c31192de7"
+                "reference": "6e9ea9dcd100b6dcc0b1cdfc139df3695ad73e38"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Roave/SecurityAdvisories/zipball/3f393e137e490ecb2ac77989a692129c31192de7",
-                "reference": "3f393e137e490ecb2ac77989a692129c31192de7",
+                "url": "https://api.github.com/repos/Roave/SecurityAdvisories/zipball/6e9ea9dcd100b6dcc0b1cdfc139df3695ad73e38",
+                "reference": "6e9ea9dcd100b6dcc0b1cdfc139df3695ad73e38",
                 "shasum": ""
             },
             "conflict": {
@@ -24469,7 +24469,7 @@
                 "georgringer/news": "<1.3.3",
                 "geshi/geshi": "<=1.0.9.1",
                 "getformwork/formwork": "<2.2",
-                "getgrav/grav": "<1.7.46",
+                "getgrav/grav": "<1.11.0.0-beta1",
                 "getkirby/cms": "<3.9.8.3-dev|>=3.10,<3.10.1.2-dev|>=4,<4.7.1|>=5,<5.1.4",
                 "getkirby/kirby": "<3.9.8.3-dev|>=3.10,<3.10.1.2-dev|>=4,<4.7.1",
                 "getkirby/panel": "<2.5.14",
@@ -25160,7 +25160,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2025-11-26T00:22:38+00:00"
+            "time": "2025-12-02T01:33:57+00:00"
         },
         {
             "name": "sebastian/cli-parser",
@@ -26490,6 +26490,133 @@
                 }
             ],
             "time": "2025-01-07T00:10:26+00:00"
+        },
+        {
+            "name": "volt-test/laravel-performance-testing",
+            "version": "v1.2.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/volt-test/laravel-performance-testing.git",
+                "reference": "6ceb42c2e3b7e6e232d3743ac0e361ce8492ec0a"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/volt-test/laravel-performance-testing/zipball/6ceb42c2e3b7e6e232d3743ac0e361ce8492ec0a",
+                "reference": "6ceb42c2e3b7e6e232d3743ac0e361ce8492ec0a",
+                "shasum": ""
+            },
+            "require": {
+                "ext-pcntl": "*",
+                "illuminate/support": "^10.0|^11.0|^12.0",
+                "php": "^8.2",
+                "volt-test/php-sdk": "^1.0.0"
+            },
+            "require-dev": {
+                "friendsofphp/php-cs-fixer": "^3.14",
+                "orchestra/testbench": "^10.0",
+                "phpstan/phpstan": "^1.10",
+                "phpstan/phpstan-deprecation-rules": "^1.1",
+                "phpunit/phpunit": "^11.5.3"
+            },
+            "suggest": {
+                "phpunit/phpunit": "Required for PHPUnit integration features."
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "aliases": {
+                        "VoltTest": "VoltTest\\Laravel\\Facades\\VoltTest"
+                    },
+                    "providers": [
+                        "VoltTest\\Laravel\\VoltTestServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "VoltTest\\Laravel\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Islam ElWafa",
+                    "email": "islam@volt-test.com"
+                }
+            ],
+            "description": "A Laravel package for performance testing with VoltTest",
+            "keywords": [
+                "laravel",
+                "load-testing",
+                "performance-testing",
+                "stress-testing",
+                "volt-test"
+            ],
+            "support": {
+                "issues": "https://github.com/volt-test/laravel-performance-testing/issues",
+                "source": "https://github.com/volt-test/laravel-performance-testing/tree/1.2.0"
+            },
+            "time": "2025-11-22T13:15:59+00:00"
+        },
+        {
+            "name": "volt-test/php-sdk",
+            "version": "1.1.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/volt-test/php-sdk.git",
+                "reference": "64c42c4164afd0d2f8c5a4ed4468f9146790926b"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/volt-test/php-sdk/zipball/64c42c4164afd0d2f8c5a4ed4468f9146790926b",
+                "reference": "64c42c4164afd0d2f8c5a4ed4468f9146790926b",
+                "shasum": ""
+            },
+            "require": {
+                "ext-curl": "*",
+                "ext-json": "*",
+                "ext-pcntl": "*",
+                "php": "^8.0"
+            },
+            "require-dev": {
+                "friendsofphp/php-cs-fixer": "^3.51",
+                "phpstan/phpstan": "^1.10",
+                "phpunit/phpunit": "^11.5"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "VoltTest\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "elwafa",
+                    "email": "islam@volt-test.com"
+                }
+            ],
+            "description": "Volt Test PHP SDK - A performance testing tool for PHP Developers",
+            "homepage": "https://php.volt-test.com",
+            "keywords": [
+                "http",
+                "load-testing",
+                "performance-testing",
+                "php-sdk",
+                "stress-testing",
+                "volt-test"
+            ],
+            "support": {
+                "issues": "https://github.com/volt-test/php-sdk/issues",
+                "source": "https://github.com/volt-test/php-sdk/"
+            },
+            "time": "2025-07-11T18:30:13+00:00"
         }
     ],
     "aliases": [],

@@ -11,6 +11,7 @@ use Illuminate\Validation\ValidationException;
 use Tests\TestCase;
 use Tests\TestDataGenerator;
 use Tests\UnitTestCase;
+use VoltTest\Laravel\Testing\PerformanceTestCase;
 
 pest()->use(WithCachedRoutes::class, WithCachedConfig::class);
 
@@ -20,6 +21,9 @@ pest()->extend(TestCase::class)
 
 pest()->extend(UnitTestCase::class)
     ->in('Arch', 'Unit', '../modules/*/tests/Arch', '../modules/*/tests/Unit');
+
+pest()->extend(PerformanceTestCase::class)
+    ->in('Performance', '../modules/*/tests/Performance');
 
 expect()->extend(
     'toBeDefinedInEnum',
