@@ -208,7 +208,7 @@ if ( ! function_exists('parseCsvGenerator'))
     }
 }
 
-if ( ! function_exists('parseJsonGenerator'))
+if ( ! function_exists('isRunningTestsInParallel'))
 {
     function isRunningTestsInParallel(): bool
     {
