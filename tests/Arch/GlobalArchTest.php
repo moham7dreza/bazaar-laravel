@@ -2,6 +2,20 @@
 
 declare(strict_types=1);
 
+use App\Http\Controllers\Controller;
+use App\Http\Controllers\ImageController;
+use App\Models\NotificationLog;
+use App\Models\Scopes\LatestScope;
+use App\Models\Scopes\WithDeletedRecordsScope;
+use App\Models\SmsLog;
+use App\Models\User;
+use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
+use Modules\Monitoring\Models\CommandPerformanceLog;
+use Modules\Monitoring\Models\DevLog;
+use Modules\Monitoring\Models\JobPerformanceLog;
+
 arch()
     ->expect('App')
     ->toUseStrictTypes()
@@ -10,17 +24,17 @@ arch()
 arch()
     ->expect('App\Models')
     ->toBeClasses()
-    ->toExtend('Illuminate\Database\Eloquent\Model')
+    ->toExtend(Model::class)
 //    ->toOnlyBeUsedIn('App\Repositories')
     ->ignoring([
-        'App\Models\Scopes\LatestScope',
-        'App\Models\Scopes\WithDeletedRecordsScope',
+        LatestScope::class,
+        WithDeletedRecordsScope::class,
     ]);
 
 arch()
     ->expect('App\Http\Controllers')
     ->toBeClasses()
-    ->toExtend(App\Http\Controllers\Controller::class);
+    ->toExtend(Controller::class);
 
 arch()
     ->expect('App\Enums')
@@ -36,7 +50,7 @@ arch('globals')
 
 arch()
     ->expect('App\Jobs')
-    ->toImplement('Illuminate\Contracts\Queue\ShouldQueue');
+    ->toImplement(ShouldQueue::class);
 
 arch()
     ->expect('App')
@@ -55,7 +69,7 @@ arch()
 //    ->toOnlyUse('Illuminate\Database');
 
 arch()
-    ->expect('App\Http\Controllers\Image')
+    ->expect(ImageController::class)
     ->toHaveMethods(['store', 'update']);
 
 arch()
@@ -68,19 +82,19 @@ arch()
 
 arch()
     ->expect('App\Models')
-    ->toUseTrait('Illuminate\Database\Eloquent\SoftDeletes')
+    ->toUseTrait(SoftDeletes::class)
     ->ignoring([
-        'Modules\Monitoring\Models\CommandPerformanceLog',
-        'Modules\Monitoring\Models\JobPerformanceLog',
-        'Modules\Monitoring\Models\DevLog',
-        'App\Models\Monitor\SmsLog',
-        'App\Models\Monitor\NotificationLog',
-        'App\Models\User',
+        CommandPerformanceLog::class,
+        JobPerformanceLog::class,
+        DevLog::class,
+        SmsLog::class,
+        NotificationLog::class,
+        User::class,
     ]);
 
-// arch()
-//    ->expect('App')
-//    ->toUseStrictTypes();
+ arch()
+     ->expect('App')
+     ->toUseStrictTypes();
 
 arch()->preset()->laravel();
 arch()->preset()->php();

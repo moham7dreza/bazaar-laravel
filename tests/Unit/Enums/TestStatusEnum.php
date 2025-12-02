@@ -10,7 +10,7 @@ enum TestStatusEnum: string
 {
     use EnumTranslatable;
 
-    case DRAFT     = 'draft';
-    case PENDING   = 'pending';
-    case PUBLISHED = 'published';
+    case Draft     = 'draft';
+    case Pending   = 'pending';
+    case Published = 'published';
 }

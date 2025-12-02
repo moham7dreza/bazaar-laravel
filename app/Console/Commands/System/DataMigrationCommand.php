@@ -20,7 +20,7 @@ class DataMigrationCommand extends MigrateMakeCommand
 
     public function __construct()
     {
-        parent::__construct(app('migration.creator'), app(Composer::class));
+        parent::__construct(resolve('migration.creator'), resolve(Composer::class));
     }
 
     #[Override]

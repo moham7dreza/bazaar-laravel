@@ -57,7 +57,7 @@ enum ClientLocale: string
         return match ($this)
         {
             self::Farsi   => Timezone::Tehran,
-            self::English => Timezone::UTC,
+            self::English => Timezone::Utc,
         };
     }
 

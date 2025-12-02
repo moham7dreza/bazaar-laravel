@@ -96,7 +96,7 @@ function validateFormRequest(string $class, array $parameters): array
     {
         $request = request()->create('/', 'POST', $parameters);
         app()->bind('request', fn () => $request);
-        app($class);
+        resolve($class);
 
         return [];
     } catch (ValidationException $validationException)

@@ -8,7 +8,7 @@ use Modules\Advertise\Models\Advertisement;
 
 beforeEach(function (): void {
 
-    $this->sut = app(UserReadRepository::class);
+    $this->sut = resolve(UserReadRepository::class);
 });
 
 it('can load all users with latest advertisement posted dates', function (): void {

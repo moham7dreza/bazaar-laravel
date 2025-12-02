@@ -18,7 +18,7 @@ class IgnoreBindingValidator implements ValidatorInterface
             return true;
         }
 
-        $router = app(Registrar::class);
+        $router = resolve(Registrar::class);
 
         $route = (clone $route)->bind($request);
 

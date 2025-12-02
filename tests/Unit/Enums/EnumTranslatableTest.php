@@ -2,6 +2,7 @@
 
 declare(strict_types=1);
 
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\App;
 use Tests\Unit\Enums\TestStatusEnum;
 
@@ -17,7 +18,7 @@ it('can get translation key for enum', function (): void {
 });
 
 it('can get translation key for enum case', function (): void {
-    $enum = TestStatusEnum::DRAFT;
+    $enum = TestStatusEnum::Draft;
     $key  = $enum->transKey();
 
     expect($key)->toBe('enums.test_statuses.draft');
@@ -25,19 +26,19 @@ it('can get translation key for enum case', function (): void {
 
 it('can translate enum value in current locale', function (): void {
     App::setLocale('en');
-    $enum = TestStatusEnum::DRAFT;
+    $enum = TestStatusEnum::Draft;
 
     expect($enum->trans())->toBe('Draft');
 });
 
 it('can translate enum value in specific locale', function (): void {
-    $enum = TestStatusEnum::DRAFT;
+    $enum = TestStatusEnum::Draft;
 
     expect($enum->trans('en'))->toBe('Draft');
 });
 
 it('can get all translations for enum case', function (): void {
-    $enum            = TestStatusEnum::DRAFT;
+    $enum            = TestStatusEnum::Draft;
     $allTranslations = $enum->allTrans();
 
     expect($allTranslations)->toBe([
@@ -48,7 +49,7 @@ it('can get all translations for enum case', function (): void {
 
 it('can get enum as object with value and translated name', function (): void {
     App::setLocale('en');
-    $enum   = TestStatusEnum::DRAFT;
+    $enum   = TestStatusEnum::Draft;
     $object = $enum->object();
 
     expect($object)->toBe([
@@ -80,19 +81,19 @@ it('returns translated names based on current locale', function (): void {
 });
 
 it('can get object with translated name in different locale', function (): void {
-    $enum = TestStatusEnum::PENDING;
+    $enum = TestStatusEnum::Pending;
 
     App::setLocale('en');
-    expect($enum->object()['name'])->toBe('Pending');
+    expect(Arr::get($enum->object(), 'name'))->toBe('Pending');
 
     App::setLocale('fa');
-    expect($enum->object()['name'])->toBe('در انتظار');
+    expect(Arr::get($enum->object(), 'name'))->toBe('در انتظار');
 });
 
 it('can get all translations for all enum cases', function (): void {
-    $draft     = TestStatusEnum::DRAFT;
-    $pending   = TestStatusEnum::PENDING;
-    $published = TestStatusEnum::PUBLISHED;
+    $draft     = TestStatusEnum::Draft;
+    $pending   = TestStatusEnum::Pending;
+    $published = TestStatusEnum::Published;
 
     expect($draft->allTrans())->toBe([
         'fa' => 'پیش نویس',

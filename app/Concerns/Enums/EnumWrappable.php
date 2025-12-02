@@ -10,7 +10,7 @@ trait EnumWrappable
 {
     public static function wrap(BackedEnum|string|null $enum, bool $strict = true): ?BackedEnum
     {
-        if (empty($enum))
+        if (blank($enum))
         {
             return null;
         }

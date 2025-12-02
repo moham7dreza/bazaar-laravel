@@ -6,6 +6,6 @@ namespace App\Enums;
 
 enum Timezone: string
 {
-    case UTC    = 'UTC';
+    case Utc    = 'UTC';
     case Tehran = 'Asia/Tehran';
 }

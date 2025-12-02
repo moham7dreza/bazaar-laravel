@@ -4,10 +4,11 @@ declare(strict_types=1);
 
 namespace Tests\Unit\Enums;
 
+use BackedEnum;
 use ValueError;
 
 it('can wrap an enum instance', function (): void {
-    $enum    = SimpleEnum::FIRST;
+    $enum    = SimpleEnum::First;
     $wrapped = SimpleEnum::wrap($enum);
 
     expect($wrapped)->toBe($enum)
@@ -17,7 +18,7 @@ it('can wrap an enum instance', function (): void {
 it('can wrap a string value to enum', function (): void {
     $wrapped = SimpleEnum::wrap('first');
 
-    expect($wrapped)->toBe(SimpleEnum::FIRST)
+    expect($wrapped)->toBe(SimpleEnum::First)
         ->and($wrapped)->toBeInstanceOf(SimpleEnum::class);
 });
 
@@ -34,7 +35,7 @@ it('returns null when wrapping empty string', function (): void {
 });
 
 it('throws exception when wrapping invalid value in strict mode', function (): void {
-    expect(fn () => SimpleEnum::wrap('invalid', true))
+    expect(fn (): ?BackedEnum => SimpleEnum::wrap('invalid', true))
         ->toThrow(ValueError::class);
 });
 

@@ -7,7 +7,7 @@ use Tests\Unit\Enums\SimpleEnum;
 it('can get all enum case names', function (): void {
     $names = SimpleEnum::names();
 
-    expect($names)->toBe(['FIRST', 'SECOND', 'THIRD']);
+    expect($names)->toBe(['First', 'Second', 'Third']);
 });
 
 it('can get all enum values', function (): void {
@@ -20,9 +20,9 @@ it('can convert enum to array', function (): void {
     $array = SimpleEnum::toArray();
 
     expect($array)->toBe([
-        'first'  => 'FIRST',
-        'second' => 'SECOND',
-        'third'  => 'THIRD',
+        'first'  => 'First',
+        'second' => 'Second',
+        'third'  => 'Third',
     ]);
 });
 
@@ -40,20 +40,20 @@ it('can get a random enum value', function (): void {
 });
 
 it('can get random case excluding specific values', function (): void {
-    $random = SimpleEnum::randomCase(SimpleEnum::FIRST);
+    $random = SimpleEnum::randomCase(SimpleEnum::First);
 
-    expect($random)->not->toBe(SimpleEnum::FIRST)
+    expect($random)->not->toBe(SimpleEnum::First)
         ->and($random)->toBeInstanceOf(SimpleEnum::class);
 });
 
 it('can get random case excluding array of values', function (): void {
-    $random = SimpleEnum::randomCase([SimpleEnum::FIRST, SimpleEnum::SECOND]);
+    $random = SimpleEnum::randomCase([SimpleEnum::First, SimpleEnum::Second]);
 
-    expect($random)->toBe(SimpleEnum::THIRD);
+    expect($random)->toBe(SimpleEnum::Third);
 });
 
 it('can get random value excluding specific values', function (): void {
-    $randomValue = SimpleEnum::randomValue([SimpleEnum::FIRST, SimpleEnum::SECOND]);
+    $randomValue = SimpleEnum::randomValue([SimpleEnum::First, SimpleEnum::Second]);
 
     expect($randomValue)->toBe('third');
 });
@@ -61,6 +61,6 @@ it('can get random value excluding specific values', function (): void {
 it('can get random case excluding string values', function (): void {
     $random = SimpleEnum::randomCase('first');
 
-    expect($random)->not->toBe(SimpleEnum::FIRST)
+    expect($random)->not->toBe(SimpleEnum::First)
         ->and($random)->toBeInstanceOf(SimpleEnum::class);
 });

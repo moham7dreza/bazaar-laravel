@@ -236,7 +236,7 @@ final class AppServiceProvider extends ServiceProvider
 
     private function handleMissingTrans(): void
     {
-        app(Translator::class)->handleMissingKeysUsing(function (string $key, array $replacements, ?string $locale): void {
+        resolve(Translator::class)->handleMissingKeysUsing(function (string $key, array $replacements, ?string $locale): void {
             if (blank($key))
             {
                 return;
@@ -247,7 +247,7 @@ final class AppServiceProvider extends ServiceProvider
             // Only update JSON translation files (skip PHP array files)
             if ( ! str_contains($key, '.'))
             {
-                app(TranslationService::class)->addMissingKeyToJsonLangFile($key, $locale);
+                resolve(TranslationService::class)->addMissingKeyToJsonLangFile($key, $locale);
             }
         });
     }

@@ -27,7 +27,7 @@ class FilterPipeline
 
     public function process()
     {
-        return app(Pipeline::class)
+        return resolve(Pipeline::class)
             ->send($this->builder)
             ->through($this->filters)
             ->withinTransaction()

@@ -10,7 +10,7 @@ enum SimpleEnum: string
 {
     use EnumArrayable;
 
-    case FIRST  = 'first';
-    case SECOND = 'second';
-    case THIRD  = 'third';
+    case First  = 'first';
+    case Second = 'second';
+    case Third  = 'third';
 }

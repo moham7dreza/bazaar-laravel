@@ -42,10 +42,10 @@ trait EnumArrayable
     public static function randomCase(BackedEnum|array|string|null $except = null): self
     {
         $cases = self::cases();
-        if ( ! empty($except))
+        if (filled($except))
         {
             $except = Arr::map(Arr::wrap($except), fn ($value) => $value instanceof BackedEnum ? $value->value : $value);
-            $cases  = Arr::where($cases, fn ($case) => ! in_array($case->value, $except));
+            $cases  = Arr::where($cases, fn ($case): bool => ! in_array($case->value, $except));
         }
 
         // This will throw an exception if the cases array is empty:

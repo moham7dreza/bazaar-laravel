@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Concerns\Enums;
 
+use Illuminate\Support\Arr;
+
 trait EnumTranslatable
 {
     use EnumArrayable;
@@ -97,7 +99,7 @@ trait EnumTranslatable
         // Pattern: Modules\{ModuleName}\...
         if (preg_match('/\\\\Modules\\\\([^\\\\]+)\\\\/', $enumClass, $matches))
         {
-            return mb_strtolower($matches[1]);
+            return mb_strtolower((string) Arr::get($matches, 1));
         }
 
         return null;
