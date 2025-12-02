@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "9469e25c4de193b420e3099ea849f274",
+    "content-hash": "846520f4e446b14092093be37fd889d5",
     "packages": [
         {
             "name": "afsakar/filament-otp-login",
@@ -20315,6 +20315,133 @@
             "time": "2024-11-21T01:49:47+00:00"
         },
         {
+            "name": "volt-test/laravel-performance-testing",
+            "version": "v1.2.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/volt-test/laravel-performance-testing.git",
+                "reference": "6ceb42c2e3b7e6e232d3743ac0e361ce8492ec0a"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/volt-test/laravel-performance-testing/zipball/6ceb42c2e3b7e6e232d3743ac0e361ce8492ec0a",
+                "reference": "6ceb42c2e3b7e6e232d3743ac0e361ce8492ec0a",
+                "shasum": ""
+            },
+            "require": {
+                "ext-pcntl": "*",
+                "illuminate/support": "^10.0|^11.0|^12.0",
+                "php": "^8.2",
+                "volt-test/php-sdk": "^1.0.0"
+            },
+            "require-dev": {
+                "friendsofphp/php-cs-fixer": "^3.14",
+                "orchestra/testbench": "^10.0",
+                "phpstan/phpstan": "^1.10",
+                "phpstan/phpstan-deprecation-rules": "^1.1",
+                "phpunit/phpunit": "^11.5.3"
+            },
+            "suggest": {
+                "phpunit/phpunit": "Required for PHPUnit integration features."
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "aliases": {
+                        "VoltTest": "VoltTest\\Laravel\\Facades\\VoltTest"
+                    },
+                    "providers": [
+                        "VoltTest\\Laravel\\VoltTestServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "VoltTest\\Laravel\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Islam ElWafa",
+                    "email": "islam@volt-test.com"
+                }
+            ],
+            "description": "A Laravel package for performance testing with VoltTest",
+            "keywords": [
+                "laravel",
+                "load-testing",
+                "performance-testing",
+                "stress-testing",
+                "volt-test"
+            ],
+            "support": {
+                "issues": "https://github.com/volt-test/laravel-performance-testing/issues",
+                "source": "https://github.com/volt-test/laravel-performance-testing/tree/1.2.0"
+            },
+            "time": "2025-11-22T13:15:59+00:00"
+        },
+        {
+            "name": "volt-test/php-sdk",
+            "version": "1.1.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/volt-test/php-sdk.git",
+                "reference": "64c42c4164afd0d2f8c5a4ed4468f9146790926b"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/volt-test/php-sdk/zipball/64c42c4164afd0d2f8c5a4ed4468f9146790926b",
+                "reference": "64c42c4164afd0d2f8c5a4ed4468f9146790926b",
+                "shasum": ""
+            },
+            "require": {
+                "ext-curl": "*",
+                "ext-json": "*",
+                "ext-pcntl": "*",
+                "php": "^8.0"
+            },
+            "require-dev": {
+                "friendsofphp/php-cs-fixer": "^3.51",
+                "phpstan/phpstan": "^1.10",
+                "phpunit/phpunit": "^11.5"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "VoltTest\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "elwafa",
+                    "email": "islam@volt-test.com"
+                }
+            ],
+            "description": "Volt Test PHP SDK - A performance testing tool for PHP Developers",
+            "homepage": "https://php.volt-test.com",
+            "keywords": [
+                "http",
+                "load-testing",
+                "performance-testing",
+                "php-sdk",
+                "stress-testing",
+                "volt-test"
+            ],
+            "support": {
+                "issues": "https://github.com/volt-test/php-sdk/issues",
+                "source": "https://github.com/volt-test/php-sdk/"
+            },
+            "time": "2025-07-11T18:30:13+00:00"
+        },
+        {
             "name": "vormkracht10/filament-mails",
             "version": "v2.3.8",
             "source": {
@@ -26490,133 +26617,6 @@
                 }
             ],
             "time": "2025-01-07T00:10:26+00:00"
-        },
-        {
-            "name": "volt-test/laravel-performance-testing",
-            "version": "v1.2.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/volt-test/laravel-performance-testing.git",
-                "reference": "6ceb42c2e3b7e6e232d3743ac0e361ce8492ec0a"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/volt-test/laravel-performance-testing/zipball/6ceb42c2e3b7e6e232d3743ac0e361ce8492ec0a",
-                "reference": "6ceb42c2e3b7e6e232d3743ac0e361ce8492ec0a",
-                "shasum": ""
-            },
-            "require": {
-                "ext-pcntl": "*",
-                "illuminate/support": "^10.0|^11.0|^12.0",
-                "php": "^8.2",
-                "volt-test/php-sdk": "^1.0.0"
-            },
-            "require-dev": {
-                "friendsofphp/php-cs-fixer": "^3.14",
-                "orchestra/testbench": "^10.0",
-                "phpstan/phpstan": "^1.10",
-                "phpstan/phpstan-deprecation-rules": "^1.1",
-                "phpunit/phpunit": "^11.5.3"
-            },
-            "suggest": {
-                "phpunit/phpunit": "Required for PHPUnit integration features."
-            },
-            "type": "library",
-            "extra": {
-                "laravel": {
-                    "aliases": {
-                        "VoltTest": "VoltTest\\Laravel\\Facades\\VoltTest"
-                    },
-                    "providers": [
-                        "VoltTest\\Laravel\\VoltTestServiceProvider"
-                    ]
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "VoltTest\\Laravel\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Islam ElWafa",
-                    "email": "islam@volt-test.com"
-                }
-            ],
-            "description": "A Laravel package for performance testing with VoltTest",
-            "keywords": [
-                "laravel",
-                "load-testing",
-                "performance-testing",
-                "stress-testing",
-                "volt-test"
-            ],
-            "support": {
-                "issues": "https://github.com/volt-test/laravel-performance-testing/issues",
-                "source": "https://github.com/volt-test/laravel-performance-testing/tree/1.2.0"
-            },
-            "time": "2025-11-22T13:15:59+00:00"
-        },
-        {
-            "name": "volt-test/php-sdk",
-            "version": "1.1.1",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/volt-test/php-sdk.git",
-                "reference": "64c42c4164afd0d2f8c5a4ed4468f9146790926b"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/volt-test/php-sdk/zipball/64c42c4164afd0d2f8c5a4ed4468f9146790926b",
-                "reference": "64c42c4164afd0d2f8c5a4ed4468f9146790926b",
-                "shasum": ""
-            },
-            "require": {
-                "ext-curl": "*",
-                "ext-json": "*",
-                "ext-pcntl": "*",
-                "php": "^8.0"
-            },
-            "require-dev": {
-                "friendsofphp/php-cs-fixer": "^3.51",
-                "phpstan/phpstan": "^1.10",
-                "phpunit/phpunit": "^11.5"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "VoltTest\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "elwafa",
-                    "email": "islam@volt-test.com"
-                }
-            ],
-            "description": "Volt Test PHP SDK - A performance testing tool for PHP Developers",
-            "homepage": "https://php.volt-test.com",
-            "keywords": [
-                "http",
-                "load-testing",
-                "performance-testing",
-                "php-sdk",
-                "stress-testing",
-                "volt-test"
-            ],
-            "support": {
-                "issues": "https://github.com/volt-test/php-sdk/issues",
-                "source": "https://github.com/volt-test/php-sdk/"
-            },
-            "time": "2025-07-11T18:30:13+00:00"
         }
     ],
     "aliases": [],
