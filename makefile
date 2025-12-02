@@ -422,6 +422,11 @@ app-checkup: ## Run necessary tools to check code and code style
 	make migrate-lint
 	make test-p
 
+app-fix:
+	make pint
+	make checks
+	make rector
+
 app-health:
 	composer du
 	${ENTRYPOINT} php artisan route:list
