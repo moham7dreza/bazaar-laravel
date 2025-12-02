@@ -26,6 +26,9 @@
 <!--            <clover outputFile="tests/coverage@tests.xml"/>-->
 <!--        </report>-->
 <!--    </coverage>-->
+    <logging>
+        <junit outputFile="build/report.junit.xml"/>
+    </logging>
     <groups>
         <exclude>
             <group>manual</group> <!-- These tests are not required to be run automatically -->
