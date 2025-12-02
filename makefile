@@ -400,7 +400,7 @@ microscope: ## Run fearless refactoring, it does a lot of smart checks to find c
 	${ENTRYPOINT} php artisan check:bad_practices
 	${ENTRYPOINT} php artisan check:compact
 	${ENTRYPOINT} php artisan check:blade_queries
-	${ENTRYPOINT} php artisan check:action_comments
+	#${ENTRYPOINT} php artisan check:action_comments
 	#${ENTRYPOINT} php artisan check:extract_blades
 	${ENTRYPOINT} php artisan pp:route
 	${ENTRYPOINT} php artisan check:generate
@@ -409,7 +409,7 @@ microscope: ## Run fearless refactoring, it does a lot of smart checks to find c
 	#${ENTRYPOINT} php artisan check:gates
 	${ENTRYPOINT} php artisan check:dynamic_where
 	${ENTRYPOINT} php artisan check:aliases
-	#${ENTRYPOINT} php artisan check:dead_controllers
+	${ENTRYPOINT} php artisan check:dead_controllers
 	#${ENTRYPOINT} php artisan check:generic_docblocks
 	${ENTRYPOINT} php artisan enforce:helper_functions
 	#${ENTRYPOINT} php artisan list:models
@@ -422,6 +422,7 @@ app-checkup: ## Run necessary tools to check code and code style
 	make test-p
 
 app-fix:
+	make microscope
 	make pint
 	make rector
 	make test-p
