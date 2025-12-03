@@ -27,6 +27,7 @@
         "ashallendesign/email-utilities": "^1.0",
         "christophrumpel/artisan-benchmark": "^0.0.4",
         "cviebrock/eloquent-sluggable": "^12.0",
+        "cybercog/laravel-ban": "^4.10",
         "dedoc/scramble": "^0.13",
         "doctrine/dbal": "^4.2",
         "dyrynda/laravel-cascade-soft-deletes": "^4.0",

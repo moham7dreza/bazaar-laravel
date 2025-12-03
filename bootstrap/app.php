@@ -57,19 +57,27 @@ return Application::configure(basePath: dirname(__DIR__))
             App\Http\Middleware\SetClientDomainMiddleware::class,
             App\Http\Middleware\SetClientLocaleMiddleware::class,
             App\Http\Middleware\SanitizeInputMiddleware::class,
+            Cog\Laravel\Ban\Http\Middleware\ForbidBannedUser::class,
+            Cog\Laravel\Ban\Http\Middleware\LogsOutBannedUser::class,
         ]);
 
         $middleware->alias([
             'verified'           => App\Http\Middleware\EnsureEmailIsVerified::class,
             'mobile-verified'    => App\Http\Middleware\EnsureMobileIsVerified::class,
             'dev'                => App\Http\Middleware\OnlyAllowDevelopersMiddleware::class,
+            // sanctum
             'abilities'          => Laravel\Sanctum\Http\Middleware\CheckAbilities::class,
             'ability'            => Laravel\Sanctum\Http\Middleware\CheckForAnyAbility::class,
+            // role permission
             'role'               => Spatie\Permission\Middleware\RoleMiddleware::class,
             'permission'         => Spatie\Permission\Middleware\PermissionMiddleware::class,
             'role-or-permission' => Spatie\Permission\Middleware\RoleOrPermissionMiddleware::class,
+            // response cache
             'cache-response'     => Spatie\ResponseCache\Middlewares\CacheResponse::class,
             'uncache-response'   => Spatie\ResponseCache\Middlewares\DoNotCacheResponse::class,
+            // ban
+            'forbid-banned-user'   => Cog\Laravel\Ban\Http\Middleware\ForbidBannedUser::class,
+            'logs-out-banned-user' => Cog\Laravel\Ban\Http\Middleware\LogsOutBannedUser::class,
         ]);
 
         $middleware->appendToGroup('administrator', [
@@ -84,6 +92,7 @@ return Application::configure(basePath: dirname(__DIR__))
         ]);
     })
     ->withSchedule(function (Schedule $schedule): void {
+        $schedule->command('ban:delete-expired')->everyMinute();
     })
     ->withExceptions(function (Exceptions $exceptions): void {
         /**
