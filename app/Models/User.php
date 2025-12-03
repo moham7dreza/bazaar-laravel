@@ -19,6 +19,8 @@ use App\Http\Resources\Admin\User\UserCollection;
 use App\Http\Resources\Admin\User\UserResource;
 use App\Models\Geo\City;
 use App\Models\Scopes\LatestScope;
+use Cog\Contracts\Ban\Bannable as BannableInterface;
+use Cog\Laravel\Ban\Traits\Bannable;
 use Database\Factories\UserFactory;
 use DateTimeInterface;
 use DirectoryTree\Metrics\HasMetrics;
@@ -68,8 +70,10 @@ final class User extends Authenticatable implements
     HasAvatar,
     HasLocalePreference,
     ShouldVerifiedMobile,
-    CanAccessAnalyticsDashboard
+    CanAccessAnalyticsDashboard,
+    BannableInterface
 {
+    use Bannable;
     //    use GeneratesUsernames;
     use HasApiTokens;
 
@@ -162,6 +166,11 @@ final class User extends Authenticatable implements
     public function getFilamentAvatarUrl(): ?string
     {
         return $this->avatar_url ? Storage::disk(StorageDisk::Public->value)->url($this->avatar_url) : null;
+    }
+
+    public function shouldApplyBannedAtScope(): true
+    {
+        return true;
     }
 
     /**
