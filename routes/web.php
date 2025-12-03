@@ -17,10 +17,7 @@ Route::get('/', HomeController::class)
     ->name('web.welcome');
 
 Route::middleware([
-    /*
-    App\Http\Middleware\OnlyAllowDevelopersMiddleware::class,
-    App\Http\Middleware\CheckAdminMiddleware::class,
-    */
+
 ])
     ->group(function (): void {
         Route::view('tool', 'tool')
