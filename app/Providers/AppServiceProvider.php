@@ -110,6 +110,7 @@ final class AppServiceProvider extends ServiceProvider
         $this->configureHttpClientResponse();
         $this->configureMail();
         $this->configureRateLimiter();
+        $this->configureCommandsToRunOnReload();
     }
 
     private function configureEmail(): void
@@ -549,5 +550,12 @@ final class AppServiceProvider extends ServiceProvider
             Limit::perMinutes(2, 5)
                 ->by($request->get('mobile') ?: $request->ip()),
         ]);
+    }
+
+    private function configureCommandsToRunOnReload(): void
+    {
+        $this->reloads('reverb:restart');
+        $this->reloads('pulse:restart');
+        $this->reloads('octane:reload');
     }
 }

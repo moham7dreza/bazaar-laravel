@@ -303,7 +303,7 @@ serve: ## Start basic servers
 		"${ENTRYPOINT} php artisan nightwatch:agent"
 
 stop: ## Stop all servers
-	${ENTRYPOINT} php artisan octane:stop
+	${ENTRYPOINT} php artisan octane:reload
 	${ENTRYPOINT} php artisan reverb:restart
 	${ENTRYPOINT} php artisan queue:restart
 	${ENTRYPOINT} php artisan pulse:restart
