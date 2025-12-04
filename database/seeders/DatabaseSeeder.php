@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Database\Seeders;
 
-use App\Console\Commands\System\SyncRoleHasPermissionsCommand;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
@@ -17,7 +16,7 @@ final class DatabaseSeeder extends Seeder
     public function run(): void
     {
         $this->call([
-            SyncRoleHasPermissionsCommand::class,
+
         ]);
 
         if ( ! app()->isProduction())
