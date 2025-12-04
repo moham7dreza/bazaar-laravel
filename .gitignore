@@ -32,9 +32,6 @@ public/sitemap.xml
 frankenphp
 frankenphp-worker.php
 
-tests/coverage@tests.xml
-tests/type-coverage@tests.json
-
 phpstan-baseline.neon
 *.log
 .DS_Store

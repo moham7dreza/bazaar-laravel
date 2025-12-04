@@ -202,11 +202,11 @@ test-pf: ## Recreate test DB and run parallel tests
 
 test-cov: ## Generate code coverage report
 	${ENTRYPOINT} php artisan config:clear --ansi
-	${ENTRYPOINT} php artisan test --coverage --compact --min=30 --coverage-clover=tests/coverage@tests.xml
+	${ENTRYPOINT} php artisan test --coverage --compact --min=30 --coverage-clover=build/coverage@tests.xml
 
 test-type-cov: ## Generate type coverage report
 	${ENTRYPOINT} php artisan config:clear --ansi
-	${ENTRYPOINT} php artisan test --type-coverage --compact --min=94 --type-coverage-json=tests/type-coverage@tests.json
+	${ENTRYPOINT} php artisan test --type-coverage --compact --min=94 --type-coverage-json=build/type-coverage@tests.json
 
 test-ls: ## list tests
 	${ENTRYPOINT} php artisan test --list-tests
