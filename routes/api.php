@@ -5,10 +5,11 @@ declare(strict_types=1);
 use App\Http\Controllers\Admin\User\UserController;
 use App\Http\Controllers\App\Home\CityController;
 use App\Http\Controllers\ImageController;
-use App\Http\Middleware\EnsureMobileIsVerified;
 use App\Http\Middleware\MetricsLoggerMiddleware;
 use App\Mail\UserLandMail;
+use Illuminate\Auth\Middleware\RedirectIfAuthenticated;
 use Illuminate\Http\Request;
+use Illuminate\Routing\Middleware\ThrottleRequests;
 use Illuminate\Support\Facades\Route;
 use Infinitypaul\Idempotency\Middleware\EnsureIdempotency;
 use Modules\Advertise\Http\Controllers\Admin\AdvertisementController;
@@ -36,6 +37,7 @@ use Modules\Content\Http\Controllers\Admin\PageController;
 use Modules\Content\Http\Controllers\App\MenuController as HomeMenuController;
 use Modules\Content\Http\Controllers\App\PageController as HomePageController;
 use Psr\Log\LoggerInterface;
+use Spatie\ResponseCache\Middlewares\CacheResponse;
 
 /**
  * Note: Route names are hard coded and repeated in every route
@@ -44,10 +46,7 @@ use Psr\Log\LoggerInterface;
  */
 Route::get('user', static fn (Request $request) => $request->user())
     ->name('api.user.info')
-    ->middleware([
-        'auth:sanctum',
-        'throttle:api-custom',
-    ]);
+    ->middleware('user');
 /*
 |--------------------------------------------------------------------------
 | Auth Routes
@@ -55,8 +54,8 @@ Route::get('user', static fn (Request $request) => $request->user())
 */
 Route::prefix('auth')
     ->middleware([
-        'guest',
-        'throttle:otp-request',
+        RedirectIfAuthenticated::class,
+        ThrottleRequests::using('otp-request'),
     ])
     ->group(function (): void {
         Route::post('register', RegisteredUserController::class)
@@ -72,8 +71,9 @@ Route::prefix('auth')
 | Primary Routes
 |--------------------------------------------------------------------------
 */
-Route::middleware('throttle:api-custom')
-    ->group(function (): void {
+Route::middleware(
+    ThrottleRequests::using('api-custom')
+)->group(function (): void {
         Route::controller(HomeCategoryController::class)
             ->group(function (): void {
                 Route::get('categories', 'index')
@@ -111,8 +111,8 @@ Route::middleware('throttle:api-custom')
 */
 Route::prefix('advertisements')
     ->middleware([
-        'cache-response:120',
-        'throttle:api-custom',
+        CacheResponse::using(120, 'advertisements'),
+        ThrottleRequests::using('api-custom'),
     ])
     ->group(function (): void {
         Route::controller(HomeAdvertisementController::class)
@@ -146,6 +146,9 @@ Route::prefix('advertisements')
 |--------------------------------------------------------------------------
 */
 Route::prefix('images')
+    ->middleware(
+        ThrottleRequests::using('api-custom')
+    )
     ->controller(ImageController::class)
     ->group(function (): void {
         Route::post('store', 'store')
@@ -159,10 +162,7 @@ Route::prefix('images')
 |--------------------------------------------------------------------------
 */
 Route::prefix('admin')
-    ->middleware([
-        'throttle:api-custom',
-        'administrator',
-    ])
+    ->middleware('administrator')
     ->group(function (): void {
         /*
         |--------------------------------------------------------------------------
@@ -269,11 +269,7 @@ Route::prefix('admin')
 |--------------------------------------------------------------------------
 */
 Route::prefix('panel')
-    ->middleware([
-        'auth:sanctum',
-        'throttle:api-custom',
-        EnsureMobileIsVerified::class,
-    ])
+    ->middleware('user')
     ->group(function (): void {
         /*
         |--------------------------------------------------------------------------

@@ -4,10 +4,14 @@ declare(strict_types=1);
 
 use App\Enums\UserPermission as P;
 use App\Exceptions\HasCustomizedThrottling;
+use App\Http\Middleware\EnsureMobileIsVerified;
 use App\Http\Responses\ApiJsonResponse;
 use BezhanSalleh\FilamentExceptions\FilamentExceptions;
+use Cog\Laravel\Ban\Console\Commands\DeleteExpiredBans;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Auth\AuthenticationException;
+use Illuminate\Auth\Middleware\Authenticate;
+use Illuminate\Auth\Middleware\EnsureEmailIsVerified;
 use Illuminate\Broadcasting\BroadcastException;
 use Illuminate\Cache\RateLimiting\Limit;
 use Illuminate\Console\Scheduling\Schedule;
@@ -19,6 +23,7 @@ use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
 use Illuminate\Http\Exceptions\ThrottleRequestsException;
+use Illuminate\Routing\Middleware\ThrottleRequests;
 use Illuminate\Support\Facades\Date;
 use Illuminate\Validation\ValidationException;
 use Symfony\Component\HttpFoundation\Response;
@@ -62,8 +67,7 @@ return Application::configure(basePath: dirname(__DIR__))
         ]);
 
         $middleware->alias([
-            'verified'           => App\Http\Middleware\EnsureEmailIsVerified::class,
-            'mobile-verified'    => App\Http\Middleware\EnsureMobileIsVerified::class,
+            'verified'           => EnsureMobileIsVerified::class,
             'dev'                => App\Http\Middleware\OnlyAllowDevelopersMiddleware::class,
             // sanctum
             'abilities'          => Laravel\Sanctum\Http\Middleware\CheckAbilities::class,
@@ -81,10 +85,18 @@ return Application::configure(basePath: dirname(__DIR__))
         ]);
 
         $middleware->appendToGroup('administrator', [
-            'auth:sanctum',
-            'verified',
-            'mobile-verified',
+            Authenticate::using('sanctum'),
+            EnsureMobileIsVerified::class,
+            EnsureEmailIsVerified::class,
             P::SeePanel->middleware(),
+            ThrottleRequests::using('api-custom'),
+        ]);
+
+        $middleware->appendToGroup('user', [
+            Authenticate::using('sanctum'),
+            EnsureMobileIsVerified::class,
+            EnsureEmailIsVerified::class,
+            ThrottleRequests::using('api-custom'),
         ]);
 
         $middleware->appendToGroup('web', [
@@ -92,7 +104,7 @@ return Application::configure(basePath: dirname(__DIR__))
         ]);
     })
     ->withSchedule(function (Schedule $schedule): void {
-        $schedule->command('ban:delete-expired')->everyMinute();
+        $schedule->command(DeleteExpiredBans::class)->everyMinute();
     })
     ->withExceptions(function (Exceptions $exceptions): void {
         /**
