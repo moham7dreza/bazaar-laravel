@@ -23,7 +23,7 @@
 <!--    TODO -->
 <!--    <coverage>-->
 <!--        <report>-->
-<!--            <clover outputFile="tests/coverage@tests.xml"/>-->
+<!--            <clover outputFile="build/coverage@tests.xml"/>-->
 <!--        </report>-->
 <!--    </coverage>-->
     <logging>
