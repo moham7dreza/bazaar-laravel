@@ -64,6 +64,7 @@ return Application::configure(basePath: dirname(__DIR__))
             App\Http\Middleware\SanitizeInputMiddleware::class,
             Cog\Laravel\Ban\Http\Middleware\ForbidBannedUser::class,
             Cog\Laravel\Ban\Http\Middleware\LogsOutBannedUser::class,
+            ThrottleRequests::using('api-custom'),
         ]);
 
         $middleware->alias([
@@ -89,14 +90,12 @@ return Application::configure(basePath: dirname(__DIR__))
             EnsureMobileIsVerified::class,
             EnsureEmailIsVerified::class,
             P::SeePanel->middleware(),
-            ThrottleRequests::using('api-custom'),
         ]);
 
         $middleware->appendToGroup('user', [
             Authenticate::using('sanctum'),
             EnsureMobileIsVerified::class,
             EnsureEmailIsVerified::class,
-            ThrottleRequests::using('api-custom'),
         ]);
 
         $middleware->appendToGroup('web', [
