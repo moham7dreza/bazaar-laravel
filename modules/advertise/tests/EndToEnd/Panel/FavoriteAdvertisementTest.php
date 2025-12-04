@@ -105,7 +105,7 @@ it('cannot favorite same advertisement twice', function (): void {
 
     asUser($user)
         ->postJson(route('api.panel.users.advertisements.favorite.store', $advertisement))
-        ->assertStatus(422); // or 409 depending on implementation
+        ->assertUnprocessable(); // or 409 depending on implementation
 });
 
 it('can favorite multiple different advertisements', function (): void {

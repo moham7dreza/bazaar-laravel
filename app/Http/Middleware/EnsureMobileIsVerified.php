@@ -17,7 +17,7 @@ final class EnsureMobileIsVerified
 {
     public static function redirectTo($route): string
     {
-        return __CLASS__ . ':' . $route;
+        return self::class . ':' . $route;
     }
 
     public function handle(Request $request, Closure $next, ?string $redirectToRoute = null): JsonResponse|RedirectResponse

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Tests\EndToEnd\Api\Admin;
 
 use App\Models\User;
+use Illuminate\Support\Arr;
 
 use function Pest\Laravel\assertModelExists;
 
@@ -37,11 +38,11 @@ it('can create user', function (): void {
         ->assertCreated();
 
     expect($response->json('data'))
-        ->name->toBe($payload['name'])
-        ->email->toBe($payload['email'])
-        ->mobile->toBe($payload['mobile']);
+        ->name->toBe(Arr::get($payload, 'name'))
+        ->email->toBe(Arr::get($payload, 'email'))
+        ->mobile->toBe(Arr::get($payload, 'mobile'));
 
-    $user = User::query()->firstWhere('email', $payload['email']);
+    $user = User::query()->firstWhere('email', Arr::get($payload, 'email'));
 
     assertModelExists($user);
 });
@@ -73,14 +74,14 @@ it('can update user', function (): void {
         ->assertOk();
 
     expect($response->json('data'))
-        ->name->toBe($payload['name'])
-        ->email->toBe($payload['email'])
-        ->mobile->toBe($payload['mobile']);
+        ->name->toBe(Arr::get($payload, 'name'))
+        ->email->toBe(Arr::get($payload, 'email'))
+        ->mobile->toBe(Arr::get($payload, 'mobile'));
 
     $user->refresh();
 
-    expect($user->name)->toBe($payload['name'])
-        ->and($user->email)->toBe($payload['email']);
+    expect($user->name)->toBe(Arr::get($payload, 'name'))
+        ->and($user->email)->toBe(Arr::get($payload, 'email'));
 });
 
 it('can delete user', function (): void {
@@ -90,7 +91,8 @@ it('can delete user', function (): void {
         ->deleteJson(route('api.admin.users.user.destroy', $user))
         ->assertNoContent();
 
-    expect(User::find($user->id))->toBeNull();
+    expect(User::query()
+        ->find($user->id))->toBeNull();
 });
 
 it('admin can view other admin users', function (): void {

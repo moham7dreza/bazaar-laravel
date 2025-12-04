@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Tests\EndToEnd\Api\Panel;
 
 use App\Models\User;
+use Illuminate\Support\Arr;
 use Modules\Advertise\Models\Advertisement;
 use Modules\Advertise\Models\Gallery;
 
@@ -45,13 +46,13 @@ it('can create gallery for advertisement', function (): void {
         ->assertCreated();
 
     expect($response->json('data'))
-        ->url->toBe($payload['url'])
-        ->position->toBe($payload['position'])
+        ->url->toBe(Arr::get($payload, 'url'))
+        ->position->toBe(Arr::get($payload, 'position'))
         ->advertisement_id->toBe($advertisement->id);
 
     $gallery = Gallery::query()->firstWhere([
         'advertisement_id' => $advertisement->id,
-        'url'              => $payload['url'],
+        'url'              => Arr::get($payload, 'url'),
     ]);
 
     assertModelExists($gallery);
@@ -87,13 +88,13 @@ it('can update gallery', function (): void {
         ->assertOk();
 
     expect($response->json('data'))
-        ->url->toBe($payload['url'])
-        ->position->toBe($payload['position']);
+        ->url->toBe(Arr::get($payload, 'url'))
+        ->position->toBe(Arr::get($payload, 'position'));
 
     $gallery->refresh();
 
-    expect($gallery->url)->toBe($payload['url'])
-        ->and($gallery->position)->toBe($payload['position']);
+    expect($gallery->url)->toBe(Arr::get($payload, 'url'))
+        ->and($gallery->position)->toBe(Arr::get($payload, 'position'));
 });
 
 it('can delete gallery', function (): void {

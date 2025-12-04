@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Tests\EndToEnd\Api\Panel;
 
 use App\Models\User;
+use Illuminate\Support\Arr;
 use Modules\Advertise\Models\Advertisement;
 use Modules\Advertise\Models\AdvertisementNote;
 
@@ -38,12 +39,12 @@ it('can create note for advertisement', function (): void {
         ->assertCreated();
 
     expect($response->json('data'))
-        ->note->toBe($payload['note'])
+        ->note->toBe(Arr::get($payload, 'note'))
         ->advertisement_id->toBe($advertisement->id);
 
     assertDatabaseHas('advertisement_notes', [
         'advertisement_id' => $advertisement->id,
-        'note'             => $payload['note'],
+        'note'             => Arr::get($payload, 'note'),
     ]);
 });
 
@@ -97,7 +98,8 @@ it('can delete all notes for advertisement', function (): void {
         ->deleteJson(route('api.panel.advertisements.note.destroy', $advertisement))
         ->assertNoContent();
 
-    expect(AdvertisementNote::where('advertisement_id', $advertisement->id)->count())->toBe(0);
+    expect(AdvertisementNote::query()
+        ->where('advertisement_id', $advertisement->id)->count())->toBe(0);
 });
 
 it('cannot access other users notes when listing all', function (): void {
@@ -121,7 +123,8 @@ it('cannot access other users notes when listing all', function (): void {
 
     foreach ($notes as $note)
     {
-        $ad = Advertisement::find($note['advertisement_id']);
+        $ad = Advertisement::query()
+            ->find(Arr::get($note, 'advertisement_id'));
         expect($ad->user_id)->toBe($user->id);
     }
 });
