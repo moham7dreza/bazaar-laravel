@@ -83,10 +83,13 @@ final class PrometheusServiceProvider extends ServiceProvider
                 QueueCollector\QueueReservedJobsCollector::class,
                 QueueCollector\QueueOldestPendingJobCollector::class,
             ],
+            /*
+             * TODO: why rector remove this
             constructorParameters: [
                 'connection' => $connection,
                 'queues'     => $queues,
             ]
+            */
         );
 
         return $this;
