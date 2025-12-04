@@ -22,8 +22,8 @@ final class AdvertisementFactory extends Factory
     public function definition(): array
     {
         return [
-            'title'            => fake()->title(),
-            'description'      => fake()->text(),
+            'title'            => persian_faker()->sentence(),
+            'description'      => persian_faker()->text(),
             'ads_type'         => AdvertisementType::random(),
             'ads_status'       => AdvertisementStatus::random(),
             'category_id'      => Category::factory(),

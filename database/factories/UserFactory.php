@@ -27,18 +27,19 @@ class UserFactory extends Factory
     public function definition(): array
     {
         return [
-            'name'              => fake()->name(),
+            'name'              => persian_faker()->name(),
             'email'             => fake()->unique()->safeEmail(),
             'email_verified_at' => Date::now(),
             'password'          => 'password',
             'remember_token'    => Str::random(10),
             'theme'             => Theme::Dracula->value,
+            // TODO remove
             'suspended_at'      => fake()->optional(0.1)->dateTimeBetween('-30 days'),
             'suspended_until'   => fn (array $attributes) => Arr::get($attributes, 'suspended_at')
                 ? Date::parse(Arr::get($attributes, 'suspended_at'))->addWeek()
                 : null,
             'is_active'          => true,
-            'mobile'             => '0912' . random_int(1000000, 9999999),
+            'mobile'             => persian_faker()->cellPhone(),
             'mobile_verified_at' => Date::now(),
             'city_id'            => City::factory(),
             'avatar_url'         => '/images/admin.jpg',
@@ -86,6 +87,7 @@ class UserFactory extends Factory
         });
     }
 
+    // TODO remove
     public function suspended(): static
     {
         return $this->state(fn (array $attributes): array => [

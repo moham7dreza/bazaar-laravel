@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "ae4a1d8466913bc86cefe616f16b6509",
+    "content-hash": "888f6a6bc4526afec003427c06c4601a",
     "packages": [
         {
             "name": "afsakar/filament-otp-login",
@@ -20870,6 +20870,65 @@
         }
     ],
     "packages-dev": [
+        {
+            "name": "amyavari/persian-faker-php",
+            "version": "v1.3.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/amyavari/persian-faker-php.git",
+                "reference": "a6beecf74a00420d6598e22ec36375d2b7d38b8a"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/amyavari/persian-faker-php/zipball/a6beecf74a00420d6598e22ec36375d2b7d38b8a",
+                "reference": "a6beecf74a00420d6598e22ec36375d2b7d38b8a",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^8.2.0"
+            },
+            "require-dev": {
+                "dg/bypass-finals": "^1.9",
+                "laravel/pint": "^1.18.1",
+                "mockery/mockery": "^1.6",
+                "nunomaduro/mock-final-classes": "^1.2",
+                "phpstan/phpstan": "^1.12.7",
+                "phpunit/phpunit": "^11.5",
+                "rector/rector": "^1.2.8",
+                "symfony/var-dumper": "^7.1.6"
+            },
+            "type": "library",
+            "autoload": {
+                "files": [
+                    "./src/helpers.php"
+                ],
+                "psr-4": {
+                    "AliYavari\\PersianFaker\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Ali Mohammad Yavari",
+                    "email": "ali.m.yavari70@gmail.com"
+                }
+            ],
+            "description": "This is an extension for fakerphp/faker to support Persian language",
+            "keywords": [
+                "dev",
+                "faker",
+                "persian",
+                "php"
+            ],
+            "support": {
+                "issues": "https://github.com/amyavari/persian-faker-php/issues",
+                "source": "https://github.com/amyavari/persian-faker-php/tree/v1.3.1"
+            },
+            "time": "2025-09-06T08:56:41+00:00"
+        },
         {
             "name": "barryvdh/laravel-debugbar",
             "version": "v3.16.1",

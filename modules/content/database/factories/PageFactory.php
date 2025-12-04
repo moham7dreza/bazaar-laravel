@@ -17,7 +17,7 @@ final class PageFactory extends Factory
     public function definition(): array
     {
         return [
-            'title'  => fake()->title(),
+            'title'  => persian_faker()->sentence(),
             'body'   => fake()->randomHtml(),
             'status' => true,
             'slug'   => fn (array $attributes) => Str::slug(Arr::get($attributes, 'title')),
