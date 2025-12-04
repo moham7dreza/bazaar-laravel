@@ -54,14 +54,3 @@
 1. apply required changes in .env.testing file
 2. run `make testpf` for create test databases and run tests parallel
 3. if you set up `coverage` engine like Xdebug, you can get coverage report
-
-## Tasks
-1. refactor image upload operations in controllers
-2. define Repositories for important actions
-3. complete end-to-end tests for api routes
-4. complete enums for status, types and more
-5. cron jobs for scheduled tasks
-6. fix gates for tools (horizon panel and more)
-7. fix global latest scope for models
-8. upgrade filament and tailwind to v4
-9. use laravel money and replace usages
