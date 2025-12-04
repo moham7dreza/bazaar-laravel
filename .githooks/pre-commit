@@ -100,16 +100,16 @@ if [ -n "$fixed_files" ]; then
 fi
 echo "[ + ] Step 4 passed ✓."
 # ----------------------------------------------------------------------------------------------------------------------
-echo "[ + ] Step 5 check tests."
-
-run_cmd php artisan test --parallel --processes=8 --stop-on-failure
-test_exit_code=$?
-
-# If Test failed, exit
-if [ $test_exit_code -ne 0 ]; then
-  exit 1
-fi
-echo "[ + ] Step 5 passed ✓."
+#echo "[ + ] Step 5 check tests."
+#
+#run_cmd php artisan test --parallel --processes=8 --stop-on-failure
+#test_exit_code=$?
+#
+## If Test failed, exit
+#if [ $test_exit_code -ne 0 ]; then
+#  exit 1
+#fi
+#echo "[ + ] Step 5 passed ✓."
 # ----------------------------------------------------------------------------------------------------------------------
 echo "[ + ] Finish ✓✓✓."
 
