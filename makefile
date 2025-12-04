@@ -190,32 +190,26 @@ db-telescope: ## Run Telescope DB migrations
 
 test-r: ## Run tests in random order
 	${ENTRYPOINT} php artisan config:clear --ansi
-	${ENTRYPOINT} php artisan migrate --force --env=testing
 	${ENTRYPOINT} php artisan test --profile --compact --order-by random
 
 test-rf: ## Recreate test db and run tests in random order
 	${ENTRYPOINT} php artisan config:clear --ansi
-	${ENTRYPOINT} php artisan migrate:fresh --force --env=testing
 	${ENTRYPOINT} php artisan test --profile --compact --order-by random
 
 test-p: ## Run tests in parallel
 	${ENTRYPOINT} php artisan config:clear --ansi
-	${ENTRYPOINT} php artisan migrate --force --env=testing
 	${ENTRYPOINT} php artisan test --parallel
 
 test-pf: ## Recreate test DB and run parallel tests
 	${ENTRYPOINT} php artisan config:clear --ansi
-	${ENTRYPOINT} php artisan migrate --force --env=testing
 	${ENTRYPOINT} php artisan test --parallel --recreate-databases
 
 test-cov: ## Generate code coverage report
 	${ENTRYPOINT} php artisan config:clear --ansi
-	${ENTRYPOINT} php artisan migrate --force --env=testing
 	${ENTRYPOINT} php artisan test --coverage --compact --min=30 --coverage-clover=tests/coverage@tests.xml
 
 test-type-cov: ## Generate type coverage report
 	${ENTRYPOINT} php artisan config:clear --ansi
-	${ENTRYPOINT} php artisan migrate --force --env=testing
 	${ENTRYPOINT} php artisan test --type-coverage --compact --min=94 --type-coverage-json=tests/type-coverage@tests.json
 
 test-ls: ## list tests
@@ -415,17 +409,21 @@ microscope: ## Run fearless refactoring, it does a lot of smart checks to find c
 	#${ENTRYPOINT} php artisan list:models
 
 app-checkup: ## Run necessary tools to check code and code style
-	make pint-test
 	make rector-test
+	make pint-test
 	# make phpstan
 	make migrate-lint
 	make test-p
 
 app-fix:
 	make microscope
-	make pint
 	make rector
+	make pint
 	make test-p
+
+app-quick-fix:
+	make rector
+	make pint
 
 app-health:
 	composer du
