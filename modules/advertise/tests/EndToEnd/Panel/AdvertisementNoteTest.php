@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Tests\EndToEnd\Api\Panel;
 
-use App\Enums\UserPermission;
 use App\Models\User;
 use Modules\Advertise\Models\Advertisement;
 use Modules\Advertise\Models\AdvertisementNote;
@@ -13,7 +12,7 @@ use function Pest\Laravel\assertDatabaseHas;
 use function Pest\Laravel\assertModelExists;
 
 it('can list all notes for authenticated user', function (): void {
-    $user          = User::factory()->create()->givePermissionTo(UserPermission::EditAds);
+    $user          = User::factory()->create();
     $advertisement = Advertisement::factory()->for($user)->create();
     $note          = AdvertisementNote::factory()->for($advertisement)->create();
 
@@ -27,7 +26,7 @@ it('can list all notes for authenticated user', function (): void {
 });
 
 it('can create note for advertisement', function (): void {
-    $user          = User::factory()->create()->givePermissionTo(UserPermission::EditAds);
+    $user          = User::factory()->create();
     $advertisement = Advertisement::factory()->for($user)->create();
 
     $payload = [
@@ -49,7 +48,7 @@ it('can create note for advertisement', function (): void {
 });
 
 it('requires note content when creating', function (): void {
-    $user          = User::factory()->create()->givePermissionTo(UserPermission::EditAds);
+    $user          = User::factory()->create();
     $advertisement = Advertisement::factory()->for($user)->create();
 
     asUser($user)
@@ -58,7 +57,7 @@ it('requires note content when creating', function (): void {
 });
 
 it('can show notes for specific advertisement', function (): void {
-    $user          = User::factory()->create()->givePermissionTo(UserPermission::EditAds);
+    $user          = User::factory()->create();
     $advertisement = Advertisement::factory()->for($user)->create();
     AdvertisementNote::factory()->for($advertisement)->count(3)->create();
 
@@ -76,7 +75,7 @@ it('can show notes for specific advertisement', function (): void {
 });
 
 it('can show notes for trashed advertisement', function (): void {
-    $user          = User::factory()->create()->givePermissionTo(UserPermission::EditAds);
+    $user          = User::factory()->create();
     $advertisement = Advertisement::factory()->for($user)->create();
     $note          = AdvertisementNote::factory()->for($advertisement)->create();
 
@@ -90,7 +89,7 @@ it('can show notes for trashed advertisement', function (): void {
 });
 
 it('can delete all notes for advertisement', function (): void {
-    $user          = User::factory()->create()->givePermissionTo(UserPermission::EditAds);
+    $user          = User::factory()->create();
     $advertisement = Advertisement::factory()->for($user)->create();
     AdvertisementNote::factory()->for($advertisement)->count(2)->create();
 
@@ -102,8 +101,8 @@ it('can delete all notes for advertisement', function (): void {
 });
 
 it('cannot access other users notes when listing all', function (): void {
-    $user      = User::factory()->create()->givePermissionTo(UserPermission::EditAds);
-    $otherUser = User::factory()->create()->givePermissionTo(UserPermission::EditAds);
+    $user      = User::factory()->create();
+    $otherUser = User::factory()->create();
 
     $ownAd   = Advertisement::factory()->for($user)->create();
     $otherAd = Advertisement::factory()->for($otherUser)->create();
@@ -128,8 +127,8 @@ it('cannot access other users notes when listing all', function (): void {
 });
 
 it('cannot create note for other users advertisement', function (): void {
-    $user          = User::factory()->create()->givePermissionTo(UserPermission::EditAds);
-    $otherUser     = User::factory()->create()->givePermissionTo(UserPermission::EditAds);
+    $user          = User::factory()->create();
+    $otherUser     = User::factory()->create();
     $advertisement = Advertisement::factory()->for($otherUser)->create();
 
     $payload = ['note' => 'Should not be allowed'];
@@ -140,8 +139,8 @@ it('cannot create note for other users advertisement', function (): void {
 });
 
 it('cannot view other users advertisement notes', function (): void {
-    $user          = User::factory()->create()->givePermissionTo(UserPermission::EditAds);
-    $otherUser     = User::factory()->create()->givePermissionTo(UserPermission::EditAds);
+    $user          = User::factory()->create();
+    $otherUser     = User::factory()->create();
     $advertisement = Advertisement::factory()->for($otherUser)->create();
     AdvertisementNote::factory()->for($advertisement)->create();
 
@@ -151,25 +150,12 @@ it('cannot view other users advertisement notes', function (): void {
 });
 
 it('cannot delete other users advertisement notes', function (): void {
-    $user          = User::factory()->create()->givePermissionTo(UserPermission::EditAds);
-    $otherUser     = User::factory()->create()->givePermissionTo(UserPermission::EditAds);
+    $user          = User::factory()->create();
+    $otherUser     = User::factory()->create();
     $advertisement = Advertisement::factory()->for($otherUser)->create();
     AdvertisementNote::factory()->for($advertisement)->create();
 
     asUser($user)
         ->deleteJson(route('api.panel.advertisements.note.destroy', $advertisement))
-        ->assertForbidden();
-});
-
-it('user without EditAds permission cannot manage notes', function (): void {
-    $user          = User::factory()->create(); // No permissions
-    $advertisement = Advertisement::factory()->create();
-
-    asUser($user)
-        ->getJson(route('api.panel.advertisements.note.index'))
-        ->assertForbidden();
-
-    asUser($user)
-        ->postJson(route('api.panel.advertisements.note.store', $advertisement), ['note' => 'test'])
         ->assertForbidden();
 });

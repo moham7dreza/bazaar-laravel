@@ -4,16 +4,14 @@ declare(strict_types=1);
 
 namespace Tests\EndToEnd\Api\Panel;
 
-use App\Enums\UserPermission;
 use App\Models\User;
-use Illuminate\Support\Arr;
 use Modules\Advertise\Models\Advertisement;
 use Modules\Advertise\Models\Gallery;
 
 use function Pest\Laravel\assertModelExists;
 
 it('can list advertisement galleries', function (): void {
-    $user          = User::factory()->create()->givePermissionTo(UserPermission::EditAds);
+    $user          = User::factory()->create();
     $advertisement = Advertisement::factory()->for($user)->create();
     $gallery       = Gallery::factory()->for($advertisement)->create();
 
@@ -34,7 +32,7 @@ it('can list advertisement galleries', function (): void {
 });
 
 it('can create gallery for advertisement', function (): void {
-    $user          = User::factory()->create()->givePermissionTo(UserPermission::EditAds);
+    $user          = User::factory()->create();
     $advertisement = Advertisement::factory()->for($user)->create();
 
     $payload = [
@@ -47,20 +45,20 @@ it('can create gallery for advertisement', function (): void {
         ->assertCreated();
 
     expect($response->json('data'))
-        ->url->toBe(Arr::get($payload, 'url'))
-        ->position->toBe(Arr::get($payload, 'position'))
+        ->url->toBe($payload['url'])
+        ->position->toBe($payload['position'])
         ->advertisement_id->toBe($advertisement->id);
 
     $gallery = Gallery::query()->firstWhere([
         'advertisement_id' => $advertisement->id,
-        'url'              => Arr::get($payload, 'url'),
+        'url'              => $payload['url'],
     ]);
 
     assertModelExists($gallery);
 });
 
 it('can show specific gallery', function (): void {
-    $user          = User::factory()->create()->givePermissionTo(UserPermission::EditAds);
+    $user          = User::factory()->create();
     $advertisement = Advertisement::factory()->for($user)->create();
     $gallery       = Gallery::factory()->for($advertisement)->create();
 
@@ -75,7 +73,7 @@ it('can show specific gallery', function (): void {
 });
 
 it('can update gallery', function (): void {
-    $user          = User::factory()->create()->givePermissionTo(UserPermission::EditAds);
+    $user          = User::factory()->create();
     $advertisement = Advertisement::factory()->for($user)->create();
     $gallery       = Gallery::factory()->for($advertisement)->create();
 
@@ -89,17 +87,17 @@ it('can update gallery', function (): void {
         ->assertOk();
 
     expect($response->json('data'))
-        ->url->toBe(Arr::get($payload, 'url'))
-        ->position->toBe(Arr::get($payload, 'position'));
+        ->url->toBe($payload['url'])
+        ->position->toBe($payload['position']);
 
     $gallery->refresh();
 
-    expect($gallery->url)->toBe(Arr::get($payload, 'url'))
-        ->and($gallery->position)->toBe(Arr::get($payload, 'position'));
+    expect($gallery->url)->toBe($payload['url'])
+        ->and($gallery->position)->toBe($payload['position']);
 });
 
 it('can delete gallery', function (): void {
-    $user          = User::factory()->create()->givePermissionTo(UserPermission::EditAds);
+    $user          = User::factory()->create();
     $advertisement = Advertisement::factory()->for($user)->create();
     $gallery       = Gallery::factory()->for($advertisement)->create();
 
@@ -107,13 +105,12 @@ it('can delete gallery', function (): void {
         ->deleteJson(route('api.panel.advertisements.gallery.destroy', $gallery))
         ->assertNoContent();
 
-    expect(Gallery::query()
-        ->find($gallery->id))->toBeNull();
+    expect(Gallery::query()->find($gallery->id))->toBeNull();
 });
 
 it('cannot access other users gallery', function (): void {
-    $user          = User::factory()->create()->givePermissionTo(UserPermission::EditAds);
-    $otherUser     = User::factory()->create()->givePermissionTo(UserPermission::EditAds);
+    $user          = User::factory()->create();
+    $otherUser     = User::factory()->create();
     $advertisement = Advertisement::factory()->for($otherUser)->create();
 
     asUser($user)

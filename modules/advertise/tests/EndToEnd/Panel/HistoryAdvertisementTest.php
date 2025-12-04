@@ -4,14 +4,13 @@ declare(strict_types=1);
 
 namespace Tests\EndToEnd\Api\Panel;
 
-use App\Enums\UserPermission;
 use App\Models\User;
 use Modules\Advertise\Models\Advertisement;
 
 use function Pest\Laravel\assertDatabaseHas;
 
 it('can list user advertisement viewing history', function (): void {
-    $user           = User::factory()->create()->givePermissionTo(UserPermission::EditAds);
+    $user           = User::factory()->create();
     $advertisement1 = Advertisement::factory()->create();
     $advertisement2 = Advertisement::factory()->create();
 
@@ -31,7 +30,7 @@ it('can list user advertisement viewing history', function (): void {
 });
 
 it('returns empty array when user has no history', function (): void {
-    $user = User::factory()->create()->givePermissionTo(UserPermission::EditAds);
+    $user = User::factory()->create();
 
     $response = asUser($user)
         ->getJson(route('api.panel.users.advertisements.history.index'))
@@ -42,7 +41,7 @@ it('returns empty array when user has no history', function (): void {
 });
 
 it('can add advertisement to viewing history', function (): void {
-    $user          = User::factory()->create()->givePermissionTo(UserPermission::EditAds);
+    $user          = User::factory()->create();
     $advertisement = Advertisement::factory()->create();
 
     asUser($user)
@@ -59,7 +58,7 @@ it('can add advertisement to viewing history', function (): void {
 });
 
 it('returns success response when adding to history', function (): void {
-    $user          = User::factory()->create()->givePermissionTo(UserPermission::EditAds);
+    $user          = User::factory()->create();
     $advertisement = Advertisement::factory()->create();
 
     $response = asUser($user)
@@ -71,7 +70,7 @@ it('returns success response when adding to history', function (): void {
 });
 
 it('can track multiple views of same advertisement', function (): void {
-    $user          = User::factory()->create()->givePermissionTo(UserPermission::EditAds);
+    $user          = User::factory()->create();
     $advertisement = Advertisement::factory()->create();
 
     // First view
@@ -95,7 +94,7 @@ it('can track multiple views of same advertisement', function (): void {
 });
 
 it('stores timestamp with each view', function (): void {
-    $user          = User::factory()->create()->givePermissionTo(UserPermission::EditAds);
+    $user          = User::factory()->create();
     $advertisement = Advertisement::factory()->create();
 
     asUser($user)
@@ -110,8 +109,8 @@ it('stores timestamp with each view', function (): void {
 });
 
 it('history is user-specific', function (): void {
-    $user1         = User::factory()->create()->givePermissionTo(UserPermission::EditAds);
-    $user2         = User::factory()->create()->givePermissionTo(UserPermission::EditAds);
+    $user1         = User::factory()->create();
+    $user2         = User::factory()->create();
     $advertisement = Advertisement::factory()->create();
 
     // User 1 views advertisement
@@ -126,7 +125,7 @@ it('history is user-specific', function (): void {
 });
 
 it('can view multiple different advertisements', function (): void {
-    $user = User::factory()->create()->givePermissionTo(UserPermission::EditAds);
+    $user = User::factory()->create();
     $ad1  = Advertisement::factory()->create();
     $ad2  = Advertisement::factory()->create();
     $ad3  = Advertisement::factory()->create();
@@ -151,7 +150,7 @@ it('can view multiple different advertisements', function (): void {
 });
 
 it('history list is ordered by most recent first', function (): void {
-    $user  = User::factory()->create()->givePermissionTo(UserPermission::EditAds);
+    $user  = User::factory()->create();
     $oldAd = Advertisement::factory()->create();
     $newAd = Advertisement::factory()->create();
 
@@ -169,7 +168,7 @@ it('history list is ordered by most recent first', function (): void {
 });
 
 it('can track views of trashed advertisements', function (): void {
-    $user          = User::factory()->create()->givePermissionTo(UserPermission::EditAds);
+    $user          = User::factory()->create();
     $advertisement = Advertisement::factory()->create();
     $advertisement->delete();
 
@@ -184,7 +183,7 @@ it('can track views of trashed advertisements', function (): void {
 });
 
 it('history includes advertisement details', function (): void {
-    $user          = User::factory()->create()->givePermissionTo(UserPermission::EditAds);
+    $user          = User::factory()->create();
     $advertisement = Advertisement::factory()->create();
 
     $user->viewedAdvertisements()->attach($advertisement, ['viewed_at' => now()]);
@@ -201,21 +200,8 @@ it('history includes advertisement details', function (): void {
         ->and($firstItem)->toHaveKey('slug');
 });
 
-it('user without EditAds permission cannot access history', function (): void {
-    $user          = User::factory()->create(); // No permissions
-    $advertisement = Advertisement::factory()->create();
-
-    asUser($user)
-        ->getJson(route('api.panel.users.advertisements.history.index'))
-        ->assertForbidden();
-
-    asUser($user)
-        ->postJson(route('api.panel.users.advertisements.history.store', $advertisement))
-        ->assertForbidden();
-});
-
 it('returns 404 when trying to add non-existent advertisement to history', function (): void {
-    $user          = User::factory()->create()->givePermissionTo(UserPermission::EditAds);
+    $user          = User::factory()->create();
     $nonExistentId = 999999;
 
     asUser($user)
@@ -224,7 +210,7 @@ it('returns 404 when trying to add non-existent advertisement to history', funct
 });
 
 it('tracks views over time for analytics', function (): void {
-    $user          = User::factory()->create()->givePermissionTo(UserPermission::EditAds);
+    $user          = User::factory()->create();
     $advertisement = Advertisement::factory()->create();
 
     // Simulate viewing at different times

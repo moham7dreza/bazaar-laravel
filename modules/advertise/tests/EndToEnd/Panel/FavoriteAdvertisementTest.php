@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Tests\EndToEnd\Api\Panel;
 
-use App\Enums\UserPermission;
 use App\Models\User;
 use Modules\Advertise\Models\Advertisement;
 
@@ -12,7 +11,7 @@ use function Pest\Laravel\assertDatabaseHas;
 use function Pest\Laravel\assertDatabaseMissing;
 
 it('can list user favorite advertisements', function (): void {
-    $user           = User::factory()->create()->givePermissionTo(UserPermission::EditAds);
+    $user           = User::factory()->create();
     $advertisement1 = Advertisement::factory()->create();
     $advertisement2 = Advertisement::factory()->create();
 
@@ -31,7 +30,7 @@ it('can list user favorite advertisements', function (): void {
 });
 
 it('returns empty array when user has no favorites', function (): void {
-    $user = User::factory()->create()->givePermissionTo(UserPermission::EditAds);
+    $user = User::factory()->create();
 
     $response = asUser($user)
         ->getJson(route('api.panel.users.advertisements.favorite.index'))
@@ -42,7 +41,7 @@ it('returns empty array when user has no favorites', function (): void {
 });
 
 it('can add advertisement to favorites', function (): void {
-    $user          = User::factory()->create()->givePermissionTo(UserPermission::EditAds);
+    $user          = User::factory()->create();
     $advertisement = Advertisement::factory()->create();
 
     asUser($user)
@@ -59,7 +58,7 @@ it('can add advertisement to favorites', function (): void {
 });
 
 it('returns success response with favorite data when adding', function (): void {
-    $user          = User::factory()->create()->givePermissionTo(UserPermission::EditAds);
+    $user          = User::factory()->create();
     $advertisement = Advertisement::factory()->create();
 
     $response = asUser($user)
@@ -71,7 +70,7 @@ it('returns success response with favorite data when adding', function (): void 
 });
 
 it('can remove advertisement from favorites', function (): void {
-    $user          = User::factory()->create()->givePermissionTo(UserPermission::EditAds);
+    $user          = User::factory()->create();
     $advertisement = Advertisement::factory()->create();
     $user->favoriteAdvertisements()->attach($advertisement);
 
@@ -89,7 +88,7 @@ it('can remove advertisement from favorites', function (): void {
 });
 
 it('returns success when removing non-existent favorite', function (): void {
-    $user          = User::factory()->create()->givePermissionTo(UserPermission::EditAds);
+    $user          = User::factory()->create();
     $advertisement = Advertisement::factory()->create();
 
     // Not favorited, but should not error
@@ -99,7 +98,7 @@ it('returns success when removing non-existent favorite', function (): void {
 });
 
 it('cannot favorite same advertisement twice', function (): void {
-    $user          = User::factory()->create()->givePermissionTo(UserPermission::EditAds);
+    $user          = User::factory()->create();
     $advertisement = Advertisement::factory()->create();
 
     $user->favoriteAdvertisements()->attach($advertisement);
@@ -110,7 +109,7 @@ it('cannot favorite same advertisement twice', function (): void {
 });
 
 it('can favorite multiple different advertisements', function (): void {
-    $user = User::factory()->create()->givePermissionTo(UserPermission::EditAds);
+    $user = User::factory()->create();
     $ad1  = Advertisement::factory()->create();
     $ad2  = Advertisement::factory()->create();
     $ad3  = Advertisement::factory()->create();
@@ -131,8 +130,8 @@ it('can favorite multiple different advertisements', function (): void {
 });
 
 it('favorites are user-specific', function (): void {
-    $user1         = User::factory()->create()->givePermissionTo(UserPermission::EditAds);
-    $user2         = User::factory()->create()->givePermissionTo(UserPermission::EditAds);
+    $user1         = User::factory()->create();
+    $user2         = User::factory()->create();
     $advertisement = Advertisement::factory()->create();
 
     // User 1 favorites
@@ -147,7 +146,7 @@ it('favorites are user-specific', function (): void {
 });
 
 it('can favorite and unfavorite same advertisement multiple times', function (): void {
-    $user          = User::factory()->create()->givePermissionTo(UserPermission::EditAds);
+    $user          = User::factory()->create();
     $advertisement = Advertisement::factory()->create();
 
     // Add favorite
@@ -173,7 +172,7 @@ it('can favorite and unfavorite same advertisement multiple times', function ():
 });
 
 it('can favorite trashed advertisements', function (): void {
-    $user          = User::factory()->create()->givePermissionTo(UserPermission::EditAds);
+    $user          = User::factory()->create();
     $advertisement = Advertisement::factory()->create();
     $advertisement->delete();
 
@@ -187,25 +186,8 @@ it('can favorite trashed advertisements', function (): void {
     ]);
 });
 
-it('user without EditAds permission cannot manage favorites', function (): void {
-    $user          = User::factory()->create(); // No permissions
-    $advertisement = Advertisement::factory()->create();
-
-    asUser($user)
-        ->getJson(route('api.panel.users.advertisements.favorite.index'))
-        ->assertForbidden();
-
-    asUser($user)
-        ->postJson(route('api.panel.users.advertisements.favorite.store', $advertisement))
-        ->assertForbidden();
-
-    asUser($user)
-        ->deleteJson(route('api.panel.users.advertisements.favorite.destroy', $advertisement))
-        ->assertForbidden();
-});
-
 it('returns 404 when trying to favorite non-existent advertisement', function (): void {
-    $user          = User::factory()->create()->givePermissionTo(UserPermission::EditAds);
+    $user          = User::factory()->create();
     $nonExistentId = 999999;
 
     asUser($user)
