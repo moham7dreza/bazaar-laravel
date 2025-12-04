@@ -1,11 +1,7 @@
 #!make
 
 .DEFAULT_GOAL := search
-.PHONY: help fix-permissions setup build ps up down down-volumes restart \
-        composer tinker artisan npm migration migrate horizon install-laravel \
-        format format-all test next-init next-dev install ide \
-        dbfresh stop testp testpf clean deepclean cache pint start serve \
-        reload dev prod
+.PHONY: help
 
 # Colors
 COLOR_RESET = \033[0m
@@ -296,13 +292,6 @@ serve: ## Start basic servers
 		"${ENTRYPOINT} php artisan pail --timeout=86400" \
 		"${ENTRYPOINT} php artisan nightwatch:agent"
 
-stop: ## Stop all servers
-	${ENTRYPOINT} php artisan octane:reload
-	${ENTRYPOINT} php artisan reverb:restart
-	${ENTRYPOINT} php artisan queue:restart
-	${ENTRYPOINT} php artisan pulse:restart
-	${ENTRYPOINT} php artisan horizon:terminate
-
 # --------------------------------------------------------------------------
 # Setup
 # --------------------------------------------------------------------------
@@ -325,6 +314,7 @@ reload: ## Update and refresh application
 	git pull
 	composer install
 	${ENTRYPOINT} php artisan down --refresh=15
+	${ENTRYPOINT} php artisan reload
 	make clean
 	${ENTRYPOINT} php artisan responsecache:clear
 	${ENTRYPOINT} php artisan modules:sync
@@ -335,6 +325,19 @@ reload: ## Update and refresh application
 	npm install && npm run build
 	${ENTRYPOINT} php artisan schedule:run
 	${ENTRYPOINT} php artisan backup:list
+	${ENTRYPOINT} php artisan scramble:analyze
+	make ide
+	${ENTRYPOINT} php artisan up
+
+reload-quick: ## Update and refresh application
+	git pull
+	composer install
+	${ENTRYPOINT} php artisan down --refresh=15
+	${ENTRYPOINT} php artisan reload
+	${ENTRYPOINT} php artisan responsecache:clear
+	${ENTRYPOINT} php artisan modules:sync
+	${ENTRYPOINT} php artisan migrate --force
+	${ENTRYPOINT} php artisan schedule-monitor:sync
 	${ENTRYPOINT} php artisan scramble:analyze
 	make ide
 	${ENTRYPOINT} php artisan up

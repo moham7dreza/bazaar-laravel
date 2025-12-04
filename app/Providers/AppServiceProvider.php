@@ -554,8 +554,6 @@ final class AppServiceProvider extends ServiceProvider
 
     private function configureCommandsToRunOnReload(): void
     {
-        $this->reloads('reverb:restart');
-        $this->reloads('pulse:restart');
-        $this->reloads('octane:reload');
+        $this->reloads('permission:cache-reset');
     }
 }
