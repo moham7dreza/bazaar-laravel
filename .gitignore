@@ -43,3 +43,4 @@ migration-linter-baseline.json
 .junie
 .cursor
 build
+resources/js/wayfinder
