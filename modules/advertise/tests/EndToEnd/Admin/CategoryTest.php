@@ -11,8 +11,7 @@ use Modules\Advertise\Models\Category;
 use function Pest\Laravel\assertModelExists;
 
 beforeEach(function (): void {
-    $this->admin = User::factory()->create();
-    $this->admin->makeAdmin();
+    $this->admin = User::factory()->admin()->create();
 });
 
 it('can list all categories', function (): void {

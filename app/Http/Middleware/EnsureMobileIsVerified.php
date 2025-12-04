@@ -6,6 +6,7 @@ namespace App\Http\Middleware;
 
 use App\Contracts\MustVerifyMobile;
 use Closure;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -19,7 +20,7 @@ final class EnsureMobileIsVerified
         return __CLASS__ . ':' . $route;
     }
 
-    public function handle(Request $request, Closure $next, ?string $redirectToRoute = null): Response|RedirectResponse
+    public function handle(Request $request, Closure $next, ?string $redirectToRoute = null): JsonResponse|RedirectResponse
     {
         if ( ! $request->user() ||
             ($request->user() instanceof MustVerifyMobile &&
