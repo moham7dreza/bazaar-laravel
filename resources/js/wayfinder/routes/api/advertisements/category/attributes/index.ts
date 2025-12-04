@@ -1,0 +1,74 @@
+import { queryParams, type RouteQueryOptions, type RouteDefinition, applyUrlDefaults } from './../../../../../wayfinder'
+/**
+* @see \Modules\Advertise\Http\Controllers\App\CategoryAttributeController::__invoke
+* @see modules/advertise/src/Http/Controllers/App/CategoryAttributeController.php:18
+* @route '/api/advertisements/category/{category}/attributes'
+*/
+export const index = (args: { category: number | { id: number } } | [category: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteDefinition<'get'> => ({
+    url: index.url(args, options),
+    method: 'get',
+})
+
+index.definition = {
+    methods: ["get","head"],
+    url: '/api/advertisements/category/{category}/attributes',
+} satisfies RouteDefinition<["get","head"]>
+
+/**
+* @see \Modules\Advertise\Http\Controllers\App\CategoryAttributeController::__invoke
+* @see modules/advertise/src/Http/Controllers/App/CategoryAttributeController.php:18
+* @route '/api/advertisements/category/{category}/attributes'
+*/
+index.url = (args: { category: number | { id: number } } | [category: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions) => {
+    if (typeof args === 'string' || typeof args === 'number') {
+        args = { category: args }
+    }
+
+    if (typeof args === 'object' && !Array.isArray(args) && 'id' in args) {
+        args = { category: args.id }
+    }
+
+    if (Array.isArray(args)) {
+        args = {
+            category: args[0],
+        }
+    }
+
+    args = applyUrlDefaults(args)
+
+    const parsedArgs = {
+        category: typeof args.category === 'object'
+        ? args.category.id
+        : args.category,
+    }
+
+    return index.definition.url
+            .replace('{category}', parsedArgs.category.toString())
+            .replace(/\/+$/, '') + queryParams(options)
+}
+
+/**
+* @see \Modules\Advertise\Http\Controllers\App\CategoryAttributeController::__invoke
+* @see modules/advertise/src/Http/Controllers/App/CategoryAttributeController.php:18
+* @route '/api/advertisements/category/{category}/attributes'
+*/
+index.get = (args: { category: number | { id: number } } | [category: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteDefinition<'get'> => ({
+    url: index.url(args, options),
+    method: 'get',
+})
+
+/**
+* @see \Modules\Advertise\Http\Controllers\App\CategoryAttributeController::__invoke
+* @see modules/advertise/src/Http/Controllers/App/CategoryAttributeController.php:18
+* @route '/api/advertisements/category/{category}/attributes'
+*/
+index.head = (args: { category: number | { id: number } } | [category: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteDefinition<'head'> => ({
+    url: index.url(args, options),
+    method: 'head',
+})
+
+const attributes = {
+    index: Object.assign(index, index),
+}
+
+export default attributes
