@@ -21,10 +21,12 @@ use App\Services\Manager;
 use App\Services\TranslationService;
 use Carbon\CarbonImmutable;
 use DateTimeInterface;
+use Dedoc\Scramble\Scramble;
 use DirectoryTree\Metrics\Facades\Metrics;
 use Elastic\Elasticsearch\Client;
 use Elastic\Elasticsearch\ClientBuilder;
 use Filament\Notifications\Auth\VerifyEmail;
+use Illuminate\Auth\Notifications\ResetPassword;
 use Illuminate\Cache\RateLimiting\Limit;
 use Illuminate\Console\Scheduling\Event;
 use Illuminate\Contracts\Config\Repository;
@@ -113,6 +115,13 @@ final class AppServiceProvider extends ServiceProvider
         $this->configureRateLimiter();
         $this->configureCommandsToRunOnReload();
         $this->configureMetrics();
+        $this->configureScramble();
+        $this->configureResetPassword();
+    }
+
+    public function configureResetPassword(): void
+    {
+        ResetPassword::createUrlUsing(fn (User $notifiable, string $token): string => config('app.frontend_url') . "/password-reset/{$token}?email={$notifiable->getEmailForPasswordReset()}");
     }
 
     private function configureEmail(): void
@@ -566,5 +575,10 @@ final class AppServiceProvider extends ServiceProvider
     private function configureMetrics(): void
     {
         Metrics::capture();
+    }
+
+    private function configureScramble(): void
+    {
+        Scramble::routes(fn (Route $route): bool => str_starts_with($route->uri(), 'api'));
     }
 }
