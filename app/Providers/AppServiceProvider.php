@@ -550,6 +550,10 @@ final class AppServiceProvider extends ServiceProvider
             Limit::perMinutes(2, 5)
                 ->by($request->get('mobile') ?: $request->ip()),
         ]);
+
+        RateLimiter::for('uploads', fn (Request $request) => $request->user()?->isPremium()
+                ? Limit::none()
+                : Limit::perMinute(10));
     }
 
     private function configureCommandsToRunOnReload(): void

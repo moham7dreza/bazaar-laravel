@@ -26,7 +26,9 @@ enum UserPermission: string
     case DestroyAd = 'destroy_ad';
 
     case PublishAd = 'publish_ad';
+    case Upload    = 'upload';
 
+    // TODO
     public function isAdminLevel(): bool
     {
         $permissions = [

@@ -36,6 +36,7 @@ return Application::configure(basePath: dirname(__DIR__))
         commands: __DIR__ . '/../routes/console.php',
         channels: __DIR__ . '/../routes/channels.php',
         health: '/up',
+        // TODO setup version 1
         //        then: function () {
         //            Route::middleware('api')
         //                ->prefix('api/v1')
@@ -119,6 +120,7 @@ return Application::configure(basePath: dirname(__DIR__))
         });
 
         $exceptions->renderable(function (Throwable $e) {
+            // TODO refactor
             if ($e instanceof AuthorizationException)
             {
                 return ApiJsonResponse::error(Response::HTTP_FORBIDDEN, 'AuthorizationException');

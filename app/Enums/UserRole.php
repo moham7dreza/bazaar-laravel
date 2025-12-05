@@ -18,6 +18,8 @@ enum UserRole: string
 
     case Editor = 'editor';
 
+    case Premium = 'premium';
+
     public function model(): Role
     {
         return Role::findByName($this->value);
@@ -39,6 +41,9 @@ enum UserRole: string
                 P::DestroyAd,
                 P::PublishAd,
             ],
+            self::Premium => [
+                P::Upload,
+            ],
         };
     }
 
@@ -51,9 +56,10 @@ enum UserRole: string
     {
         return match ($this)
         {
-            self::Admin  => 100,
-            self::Writer => 50,
-            self::Editor => 50,
+            self::Admin   => 100,
+            self::Writer  => 50,
+            self::Editor  => 50,
+            self::Premium => 1000,
         };
     }
 }

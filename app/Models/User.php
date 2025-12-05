@@ -277,6 +277,13 @@ final class User extends Authenticatable implements
         );
     }
 
+    public function isPremium(): bool
+    {
+        return $this->can(
+            UserPermission::Upload,
+        );
+    }
+
     // TODO remove suspend from user
     // suspend section
 
