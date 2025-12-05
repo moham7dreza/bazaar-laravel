@@ -7,6 +7,7 @@ namespace Database\Seeders;
 use App\Classes\ContextItem;
 use App\Models\Geo\City;
 use App\Models\Holiday;
+use App\Models\Item;
 use App\Models\PaymentGateway;
 use App\Models\SmsGateway;
 use App\Models\SmsLog;
@@ -45,6 +46,9 @@ final class TopToDownSeeder extends Seeder
 
         // geo
         City::factory(5)->insert();
+
+        // item
+        Item::factory(5)->insert();
 
         $this->command->alert('Relations seeded');
     }

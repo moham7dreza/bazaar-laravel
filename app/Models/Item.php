@@ -9,11 +9,14 @@ use Illuminate\Database\Eloquent\Attributes\ScopedBy;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use WooServ\LaravelObjectId\Concerns\HasObjectIds;
 
 #[ScopedBy([LatestScope::class])]
 class Item extends Model
 {
     use HasFactory;
+
+    use HasObjectIds;
 
     use SoftDeletes;
 

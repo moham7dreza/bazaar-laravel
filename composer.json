@@ -56,7 +56,8 @@
         "spatie/laravel-data": "^4.18",
         "spatie/laravel-query-builder": "^6.3",
         "spatie/laravel-responsecache": "^7.6",
-        "volt-test/laravel-performance-testing": "^1.2"
+        "volt-test/laravel-performance-testing": "^1.2",
+        "wooserv/laravel-objectid": "^1.0"
     },
     "require-dev": {
         "amyavari/persian-faker-php": "^1.3",
