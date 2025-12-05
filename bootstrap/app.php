@@ -8,6 +8,7 @@ use App\Http\Middleware\EnsureMobileIsVerified;
 use App\Http\Responses\ApiJsonResponse;
 use BezhanSalleh\FilamentExceptions\FilamentExceptions;
 use Cog\Laravel\Ban\Console\Commands\DeleteExpiredBans;
+use DirectoryTree\Metrics\Commands\CommitMetrics;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Auth\Middleware\Authenticate;
@@ -105,6 +106,8 @@ return Application::configure(basePath: dirname(__DIR__))
     })
     ->withSchedule(function (Schedule $schedule): void {
         $schedule->command(DeleteExpiredBans::class)->everyMinute();
+
+        $schedule->command(CommitMetrics::class)->hourly();
     })
     ->withExceptions(function (Exceptions $exceptions): void {
         /**

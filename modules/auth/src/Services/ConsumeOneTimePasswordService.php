@@ -7,10 +7,13 @@ namespace Modules\Auth\Services;
 use Amiriun\SMS\DataContracts\SendSMSDTO;
 use Amiriun\SMS\Services\SMSService;
 use App\Models\User;
+use Exception;
+use Illuminate\Support\Facades\Date;
 use Illuminate\Support\Str;
 use Modules\Auth\Enums\NoticeType;
 use Modules\Auth\Models\Otp;
 use Random\RandomException;
+use Throwable;
 
 final readonly class ConsumeOneTimePasswordService
 {
@@ -21,10 +24,19 @@ final readonly class ConsumeOneTimePasswordService
 
     /**
      * @throws RandomException
+     * @throws Throwable
      */
     public function prepareAndSend($mobile): array
     {
         $user = User::query()->firstWhere('mobile', $mobile);
+
+        throw_unless($user, Exception::class);
+
+        metric('auth:otp')
+            ->date(Date::today())
+            ->measurable($user)
+            ->hourly()
+            ->record();
 
         $otpCode = random_int(1000, 9999);
         $token   = Str::random(60);

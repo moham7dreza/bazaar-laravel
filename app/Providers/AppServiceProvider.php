@@ -21,6 +21,7 @@ use App\Services\Manager;
 use App\Services\TranslationService;
 use Carbon\CarbonImmutable;
 use DateTimeInterface;
+use DirectoryTree\Metrics\Facades\Metrics;
 use Elastic\Elasticsearch\Client;
 use Elastic\Elasticsearch\ClientBuilder;
 use Filament\Notifications\Auth\VerifyEmail;
@@ -111,6 +112,7 @@ final class AppServiceProvider extends ServiceProvider
         $this->configureMail();
         $this->configureRateLimiter();
         $this->configureCommandsToRunOnReload();
+        $this->configureMetrics();
     }
 
     private function configureEmail(): void
@@ -559,5 +561,10 @@ final class AppServiceProvider extends ServiceProvider
     private function configureCommandsToRunOnReload(): void
     {
         $this->reloads('permission:cache-reset');
+    }
+
+    private function configureMetrics(): void
+    {
+        Metrics::capture();
     }
 }
