@@ -56,6 +56,7 @@ use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Notification;
+use Illuminate\Support\Facades\Queue;
 use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Facades\Validator;
@@ -117,6 +118,7 @@ final class AppServiceProvider extends ServiceProvider
         $this->configureMetrics();
         $this->configureScramble();
         $this->configureResetPassword();
+        $this->configureQueue();
     }
 
     public function configureResetPassword(): void
@@ -580,5 +582,10 @@ final class AppServiceProvider extends ServiceProvider
     private function configureScramble(): void
     {
         Scramble::routes(fn (Route $route): bool => str_starts_with($route->uri(), 'api'));
+    }
+
+    private function configureQueue(): void
+    {
+        Queue::withoutInterruptionPolling();
     }
 }
