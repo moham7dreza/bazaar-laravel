@@ -6,6 +6,7 @@ use App\Console\Commands\User\UserSuspendClearCommand;
 use Cmsmaxinc\FilamentSystemVersions\Commands\CheckDependencyVersions;
 use Illuminate\Foundation\Inspiring;
 use Illuminate\Support\Facades\Artisan;
+use Illuminate\Support\Facades\Queue;
 use MeShaon\RequestAnalytics\Models\RequestAnalytics;
 use Modules\Monitoring\Commands\CheckVulnerabilitiesCommand;
 use Spatie\Backup\Commands\BackupCommand;
@@ -45,3 +46,11 @@ Schedule::command('spy:clean', ['--days' => 30])->daily();
 Schedule::command('model:prune', [
     '--model' => RequestAnalytics::class,
 ])->monthly();
+
+Schedule::call(function (): void {
+    Queue::pause(connection: 'redis', queue: App\Enums\Queue::Backup->value);
+})->at('02:00');
+
+Schedule::call(function (): void {
+    Queue::resume(connection: 'redis', queue: App\Enums\Queue::Backup->value);
+})->at('02:30');

@@ -118,7 +118,7 @@ final class AppServiceProvider extends ServiceProvider
         $this->configureMetrics();
         $this->configureScramble();
         $this->configureResetPassword();
-        $this->configureQueue();
+        // $this->configureQueue();
     }
 
     public function configureResetPassword(): void
