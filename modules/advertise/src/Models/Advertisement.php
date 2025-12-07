@@ -36,6 +36,7 @@ use Modules\Advertise\Enums\Sort;
 use Modules\Advertise\Http\Resources\App\AdvertisementCollection;
 use Modules\Advertise\Http\Resources\App\AdvertisementResource;
 use Modules\Advertise\Policies\AdvertisementPolicy;
+use Safemood\MagicScopes\Traits\HasMagicScopes;
 
 #[UsePolicy(AdvertisementPolicy::class)]
 #[UseFactory(AdvertisementFactory::class)]
@@ -51,6 +52,8 @@ final class Advertisement extends Model
     use ClearsResponseCache;
 
     use HasFactory;
+
+    use HasMagicScopes;
 
     use Prunable;
 
