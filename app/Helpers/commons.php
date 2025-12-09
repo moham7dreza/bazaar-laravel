@@ -10,6 +10,7 @@ use Illuminate\Database\Query\Builder as QueryBuilder;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Process;
 use Illuminate\Support\Str;
+use Laravel\Sanctum\Sanctum;
 use Modules\Monitoring\Jobs\MongoLogJob;
 
 if ( ! function_exists('is_array_filled'))
@@ -234,5 +235,13 @@ if ( ! function_exists('prepareDateForBatchInsert'))
                 'updated_at' => now(),
             ]))
             ->all();
+    }
+}
+
+if ( ! function_exists('appUrl'))
+{
+    function appUrl(): string
+    {
+        return Sanctum::currentApplicationUrlWithPort();
     }
 }
