@@ -7,6 +7,7 @@ use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Foundation\Testing\WithCachedConfig;
 use Illuminate\Foundation\Testing\WithCachedRoutes;
+use Illuminate\Support\Facades\Http;
 use Illuminate\Validation\ValidationException;
 use Tests\TestCase;
 use Tests\TestDataGenerator;
@@ -17,6 +18,9 @@ pest()->use(WithCachedRoutes::class, WithCachedConfig::class);
 
 pest()->extend(TestCase::class)
     ->use(DatabaseTransactions::class)
+    ->beforeEach(function (): void {
+        Http::preventStrayRequests();
+    })
     ->in('Feature', 'EndToEnd', '../modules/*/tests/Feature', '../modules/*/tests/EndToEnd');
 
 pest()->extend(UnitTestCase::class)
