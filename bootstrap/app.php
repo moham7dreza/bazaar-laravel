@@ -24,7 +24,6 @@ use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
 use Illuminate\Http\Exceptions\ThrottleRequestsException;
-use Illuminate\Routing\Middleware\ThrottleRequests;
 use Illuminate\Support\Facades\Date;
 use Illuminate\Validation\ValidationException;
 use Symfony\Component\HttpFoundation\Response;
@@ -47,26 +46,27 @@ return Application::configure(basePath: dirname(__DIR__))
     )
     ->withMiddleware(function (Middleware $middleware): void {
         $middleware->statefulApi();
+
+        $middleware->throttleApi('api-custom', true);
+
+        $middleware->trustHosts();
+
         $middleware->append([
             App\Http\Middleware\UserCheckSuspendedMiddleware::class,
             App\Http\Middleware\EnableDebugForDeveloper::class,
-            Illuminate\Foundation\Http\Middleware\PreventRequestsDuringMaintenance::class,
             App\Http\Middleware\HttpsRedirectMiddleware::class,
-            Illuminate\Foundation\Http\Middleware\ConvertEmptyStringsToNull::class,
             App\Http\Middleware\UserPermissionsMiddleware::class,
         ]);
 
         $middleware->api(prepend: [
             Laravel\Sanctum\Http\Middleware\EnsureFrontendRequestsAreStateful::class,
-            //            \App\Http\Middleware\RequireJsonMiddleware::class,
+            App\Http\Middleware\RequireJsonMiddleware::class,
             App\Http\Middleware\ApiRequestLoggerMiddleware::class,
-            //            \App\Http\Middleware\OnlyAllowValidHostsMiddleware::class,
             App\Http\Middleware\SetClientDomainMiddleware::class,
             App\Http\Middleware\SetClientLocaleMiddleware::class,
             App\Http\Middleware\SanitizeInputMiddleware::class,
             Cog\Laravel\Ban\Http\Middleware\ForbidBannedUser::class,
             Cog\Laravel\Ban\Http\Middleware\LogsOutBannedUser::class,
-            ThrottleRequests::using('api-custom'),
         ]);
 
         $middleware->alias([
@@ -98,10 +98,6 @@ return Application::configure(basePath: dirname(__DIR__))
             Authenticate::using('sanctum'),
             EnsureMobileIsVerified::class,
             EnsureEmailIsVerified::class,
-        ]);
-
-        $middleware->appendToGroup('web', [
-            Illuminate\Foundation\Http\Middleware\VerifyCsrfToken::class,
         ]);
     })
     ->withSchedule(function (Schedule $schedule): void {

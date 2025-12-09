@@ -141,4 +141,5 @@ return [
         'store'  => env('APP_MAINTENANCE_STORE', 'database'),
     ],
 
+    'trusted_hosts' => explode(',', env('APP_TRUSTED_HOSTS')),
 ];
