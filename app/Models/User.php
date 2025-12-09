@@ -363,7 +363,7 @@ final class User extends Authenticatable implements
     {
         return Attribute::make(
             get: fn () => $this->relationLoaded('advertisements') ? $this->advertisements()->exists() : null,
-        );
+        )->shouldCache();
     }
 
     protected function casts(): array
