@@ -14,20 +14,36 @@ use Tests\TestDataGenerator;
 use Tests\UnitTestCase;
 use VoltTest\Laravel\Testing\PerformanceTestCase;
 
-pest()->use(WithCachedRoutes::class, WithCachedConfig::class);
-
-pest()->extend(TestCase::class)
+pest()
+    ->extend(TestCase::class)
     ->use(DatabaseTransactions::class)
+    ->use(WithCachedConfig::class)
+    ->use(WithCachedRoutes::class)
     ->beforeEach(function (): void {
         Http::preventStrayRequests();
     })
-    ->in('Feature', 'EndToEnd', '../modules/*/tests/Feature', '../modules/*/tests/EndToEnd');
+    ->in(
+        'Feature',
+        'EndToEnd',
+        '../modules/*/tests/Feature',
+        '../modules/*/tests/EndToEnd'
+    );
 
-pest()->extend(UnitTestCase::class)
-    ->in('Arch', 'Unit', '../modules/*/tests/Arch', '../modules/*/tests/Unit');
+pest()
+    ->extend(UnitTestCase::class)
+    ->in(
+        'Arch',
+        'Unit',
+        '../modules/*/tests/Arch',
+        '../modules/*/tests/Unit'
+    );
 
-pest()->extend(PerformanceTestCase::class)
-    ->in('Performance', '../modules/*/tests/Performance');
+pest()
+    ->extend(PerformanceTestCase::class)
+    ->in(
+        'Performance',
+        '../modules/*/tests/Performance'
+    );
 
 expect()->extend(
     'toBeDefinedInEnum',
