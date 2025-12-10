@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "566a1dc3443e247f0e1d7b8f9df613e3",
+    "content-hash": "bd5ea53bfb3219c7079889d7e0b48458",
     "packages": [
         {
             "name": "afsakar/filament-otp-login",
@@ -23423,6 +23423,83 @@
                 "source": "https://github.com/mockery/mockery"
             },
             "time": "2024-05-16T03:13:13+00:00"
+        },
+        {
+            "name": "mrpunyapal/laravel-extended-commands",
+            "version": "1.2.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/MrPunyapal/laravel-extended-commands.git",
+                "reference": "999cc3b62f18e5aaf3fbb6d3eff5622c08be3325"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/MrPunyapal/laravel-extended-commands/zipball/999cc3b62f18e5aaf3fbb6d3eff5622c08be3325",
+                "reference": "999cc3b62f18e5aaf3fbb6d3eff5622c08be3325",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/contracts": "^11.0||^12.0",
+                "php": "^8.3|^8.4|^8.5",
+                "spatie/laravel-package-tools": "^1.16"
+            },
+            "require-dev": {
+                "larastan/larastan": "^2.9||^3.0",
+                "laravel/pint": "^1.14",
+                "nunomaduro/collision": "^8.1.1||^7.10.0",
+                "orchestra/testbench": "^10.0.0||^9.0.0||^8.22.0",
+                "pestphp/pest": "^3.0||^4.0",
+                "pestphp/pest-plugin-arch": "^3.0||^4.0",
+                "pestphp/pest-plugin-laravel": "^3.0||^4.0",
+                "phpstan/extension-installer": "^1.3||^2.0",
+                "phpstan/phpstan-deprecation-rules": "^1.1||^2.0",
+                "phpstan/phpstan-phpunit": "^1.3||^2.0"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "MrPunyapal\\LaravelExtendedCommands\\LaravelExtendedCommandsServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "MrPunyapal\\LaravelExtendedCommands\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Punyapal Shah",
+                    "email": "mrpunyapal@gmail.com",
+                    "role": "Developer"
+                }
+            ],
+            "description": "This package will have some commands which are not available in laravel.",
+            "homepage": "https://github.com/mrpunyapal/laravel-extended-commands",
+            "keywords": [
+                "Make commands",
+                "Punyapal Shah",
+                "dev",
+                "laravel",
+                "laravel-extended-commands",
+                "make Builder"
+            ],
+            "support": {
+                "issues": "https://github.com/MrPunyapal/laravel-extended-commands/issues",
+                "source": "https://github.com/MrPunyapal/laravel-extended-commands/tree/1.2.2"
+            },
+            "funding": [
+                {
+                    "url": "https://github.com/MrPunyapal",
+                    "type": "github"
+                }
+            ],
+            "time": "2025-12-10T13:16:52+00:00"
         },
         {
             "name": "nunomaduro/collision",

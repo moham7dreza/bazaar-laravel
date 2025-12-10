@@ -75,6 +75,7 @@
         "laravel/pail": "^1.2",
         "laravel/pint": "^1.21",
         "mockery/mockery": "^1.6",
+        "mrpunyapal/laravel-extended-commands": "^1.2",
         "nunomaduro/collision": "^8.0",
         "pestphp/pest": "^4.0",
         "pestphp/pest-plugin-faker": "^4.0",
