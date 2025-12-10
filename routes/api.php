@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 use App\Http\Controllers\Admin\User\UserController;
 use App\Http\Controllers\App\Home\CityController;
+use App\Http\Controllers\Examples\ExceptionExampleController;
 use App\Http\Controllers\ImageController;
 use App\Http\Middleware\MetricsLoggerMiddleware;
 use App\Mail\UserLandMail;
@@ -74,36 +75,36 @@ Route::prefix('auth')
 |--------------------------------------------------------------------------
 */
 Route::prefix('')->group(function (): void {
-        Route::controller(HomeCategoryController::class)
-            ->group(function (): void {
-                Route::get('categories', 'index')
-                    ->name('api.categories.index');
-            });
+    Route::controller(HomeCategoryController::class)
+        ->group(function (): void {
+            Route::get('categories', 'index')
+                ->name('api.categories.index');
+        });
 
-        Route::controller(HomeMenuController::class)
-            ->group(function (): void {
-                Route::get('menus', 'index')
-                    ->name('api.menus.index');
-            });
+    Route::controller(HomeMenuController::class)
+        ->group(function (): void {
+            Route::get('menus', 'index')
+                ->name('api.menus.index');
+        });
 
-        Route::controller(HomePageController::class)
-            ->group(function (): void {
-                Route::get('pages', 'index')
-                    ->name('api.pages.index');
-            });
+    Route::controller(HomePageController::class)
+        ->group(function (): void {
+            Route::get('pages', 'index')
+                ->name('api.pages.index');
+        });
 
-        Route::controller(HomeStateController::class)
-            ->group(function (): void {
-                Route::get('states', 'index')
-                    ->name('api.states.index');
-            });
+    Route::controller(HomeStateController::class)
+        ->group(function (): void {
+            Route::get('states', 'index')
+                ->name('api.states.index');
+        });
 
-        Route::controller(CityController::class)
-            ->group(function (): void {
-                Route::get('cities', 'index')
-                    ->name('api.cities.index');
-            });
-    });
+    Route::controller(CityController::class)
+        ->group(function (): void {
+            Route::get('cities', 'index')
+                ->name('api.cities.index');
+        });
+});
 /*
 |--------------------------------------------------------------------------
 | Advertisement Routes
@@ -416,6 +417,8 @@ when(app()->isLocal(), static function (): void {
             'body'    => 'test',
         ],
     ));
+
+    Route::get('new-exception-sysyem', [ExceptionExampleController::class, 'basicException']);
 });
 
 when(isEnvLocalOrTesting(), static function (): void {
