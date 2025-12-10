@@ -154,8 +154,7 @@ final class JobLoggingServiceProvider extends ServiceProvider
 
             if ($event->job instanceof ShouldNotifyOnFailures)
             {
-
-                admin()?->notify(new FailedJobNotification($payload));
+                admin()->notify(new FailedJobNotification($payload));
             }
         });
     }

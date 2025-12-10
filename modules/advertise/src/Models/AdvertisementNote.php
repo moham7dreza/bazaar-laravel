@@ -22,7 +22,9 @@ final class AdvertisementNote extends Model
 {
     // _____________________________________________ use SECTION ________________________________________________
     use HasFactory;
+
     use Prunable;
+
     use SoftDeletes;
 
     // _____________________________________________ props SECTION ______________________________________________

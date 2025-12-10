@@ -25,7 +25,7 @@ final class AdvertiseSeeder extends Seeder
         $parentStates = State::factory(5)->create();
         State::factory(5)
             ->for($parentStates->random()->first(), 'parent')
-            ->create();
+            ->insert();
 
         // Ad
         $parentCategories = Category::factory(5)
@@ -34,7 +34,7 @@ final class AdvertiseSeeder extends Seeder
 
         Category::factory()
             ->for($parentCategories->random()->first(), 'parent')
-            ->create();
+            ->insert();
 
         Advertisement::factory(12)
             ->for($parentCategories->random()->first())
@@ -43,6 +43,6 @@ final class AdvertiseSeeder extends Seeder
             ->hasAttached($users->random(2), relationship: 'favoritedByUsers')
             ->hasAttached($users->random(2), relationship: 'viewedByUsers')
             ->hasAttached(CategoryValue::factory(2)->create(), relationship: 'categoryValues')
-            ->create();
+            ->insert();
     }
 }

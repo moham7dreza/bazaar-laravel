@@ -16,8 +16,8 @@ final class CategoryFactory extends Factory
     public function definition(): array
     {
         return [
-            'name'        => fake()->name(),
-            'description' => fake()->text(),
+            'name'        => persian_faker()->word(),
+            'description' => persian_faker()->text(),
             'icon'        => 'fa fa-car',
             'parent_id'   => null,
             'status'      => true,

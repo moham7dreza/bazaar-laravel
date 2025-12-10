@@ -81,7 +81,7 @@ return [
     |
     */
 
-    'timezone' => env('APP_TIMEZONE', ClientLocale::Farsi->timezone()),
+    'timezone' => env('APP_TIMEZONE', ClientLocale::Farsi->timezone()->value),
 
     /*
     |--------------------------------------------------------------------------
@@ -95,6 +95,8 @@ return [
     */
 
     'locale' => env('APP_LOCALE', ClientLocale::English->value),
+
+    'available_locales' => env('APP_LOCALES', ClientLocale::values()),
 
     'currency' => env('APP_CURRENCY', ClientLocale::Farsi->currency()),
 
@@ -141,4 +143,5 @@ return [
         'store'  => env('APP_MAINTENANCE_STORE', 'database'),
     ],
 
+    'trusted_hosts' => explode(',', env('APP_TRUSTED_HOSTS', ClientDomain::Local->backendUrl())),
 ];

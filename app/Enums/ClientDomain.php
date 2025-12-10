@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Enums;
 
-use App\Enums\Concerns\EnumDataListTrait;
+use App\Concerns\EnumDataListTrait;
 use RuntimeException;
 
 enum ClientDomain: string
@@ -12,10 +12,15 @@ enum ClientDomain: string
     use EnumDataListTrait;
 
     case Staging                = 'https://bazaar.dev';
+
     case ProdIR                 = 'https://www.bazaar.ir';
+
     case ProdApp                = 'https://bazaar.app';
+
     case Local                  = 'http://localhost:3000';
+
     case LocalAdminPanel        = 'http://localhost:3000/admin';
+
     case LocalSuperAdminPanel   = 'http://bazaar.local/super-admin';
 
     public const array NUMBER_MAP = [

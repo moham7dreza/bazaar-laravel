@@ -4,7 +4,8 @@ declare(strict_types=1);
 
 namespace App\Enums;
 
-use App\Enums\Concerns\EnumDataListTrait;
+use App\Concerns\EnumDataListTrait;
+use Spatie\Permission\Middleware\PermissionMiddleware;
 use Spatie\Permission\Models\Permission;
 
 enum UserPermission: string
@@ -12,25 +13,22 @@ enum UserPermission: string
     use EnumDataListTrait;
 
     case SeePanel    = 'see_panel';
+
     case ManageUsers = 'manage_users';
+
     // Advertisement
     case EditAd    = 'edit_ad';
+
     case EditAds   = 'edit_ads';
+
     case CreateAd  = 'create_ad';
+
     case DestroyAd = 'destroy_ad';
+
     case PublishAd = 'publish_ad';
+    case Upload    = 'upload';
 
-    public static function ads(): array
-    {
-        return [
-            self::EditAd,
-            self::EditAds,
-            self::CreateAd,
-            self::DestroyAd,
-            self::PublishAd,
-        ];
-    }
-
+    // TODO
     public function isAdminLevel(): bool
     {
         $permissions = [
@@ -44,5 +42,10 @@ enum UserPermission: string
     public function model(): Permission
     {
         return Permission::findByName($this->value);
+    }
+
+    public function middleware(): string
+    {
+        return PermissionMiddleware::using($this);
     }
 }

@@ -32,6 +32,8 @@ final class RegisteredUserController extends Controller
 
         auth()->login($user);
 
+        metric('auth:signups')->record();
+
         return response()->noContent();
     }
 }

@@ -157,7 +157,9 @@ return [
 
         Watchers\EventWatcher::class => [
             'enabled' => env('TELESCOPE_EVENT_WATCHER', true),
-            'ignore'  => [],
+            'ignore'  => [
+                Guanguans\LaravelSoar\Events\OutputtedEvent::class,
+            ],
         ],
 
         Watchers\ExceptionWatcher::class => env('TELESCOPE_EXCEPTION_WATCHER', true),
@@ -173,7 +175,7 @@ return [
 
         Watchers\LogWatcher::class => [
             'enabled' => env('TELESCOPE_LOG_WATCHER', true),
-            'level'   => 'error',
+            'level'   => 'warning',
         ],
 
         Watchers\MailWatcher::class => env('TELESCOPE_MAIL_WATCHER', true),

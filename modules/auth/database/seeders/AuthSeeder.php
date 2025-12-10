@@ -21,7 +21,7 @@ final class AuthSeeder extends Seeder
             ->sequence(
                 ['type' => NoticeType::Email],
                 ['type' => NoticeType::Sms],
-            )->create();
+            )->insert();
 
         $this->command->alert('Relations seeded');
     }

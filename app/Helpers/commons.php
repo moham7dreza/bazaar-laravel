@@ -10,8 +10,8 @@ use Illuminate\Database\Query\Builder as QueryBuilder;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Process;
 use Illuminate\Support\Str;
+use Laravel\Sanctum\Sanctum;
 use Modules\Monitoring\Jobs\MongoLogJob;
-use Spatie\Permission\PermissionRegistrar;
 
 if ( ! function_exists('is_array_filled'))
 {
@@ -48,38 +48,24 @@ if ( ! function_exists('ondemand_info'))
 
 if ( ! function_exists('mongo_info'))
 {
-    function mongo_info($log_key, $data, $queueable = false): void
-    {
-        if ( ! $data || isEnvTesting())
+    function mongo_info(
+        string $log_key,
+        array $data,
+        bool $queueable = false
+    ): void {
+        if (app()->runningUnitTests())
         {
             return;
         }
 
-        try
+        if ($queueable)
         {
-            $dispatch = $queueable ? 'dispatch' : 'dispatchSync';
-
             dispatch(new MongoLogJob($data, $log_key));
-        } catch (Exception)
-        {
 
+            return;
         }
-    }
-}
 
-if ( ! function_exists('isEnvTesting'))
-{
-    function isEnvTesting(): bool
-    {
-        return app()->environment(Environment::Testing->value);
-    }
-}
-
-if ( ! function_exists('isEnvLocal'))
-{
-    function isEnvLocal(): bool
-    {
-        return app()->environment(Environment::local());
+        dispatch_sync(new MongoLogJob($data, $log_key));
     }
 }
 
@@ -91,19 +77,16 @@ if ( ! function_exists('isEnvStaging'))
     }
 }
 
-if ( ! function_exists('isEnvProduction'))
-{
-    function isEnvProduction(): bool
-    {
-        return app()->environment(Environment::Production->value);
-    }
-}
-
 if ( ! function_exists('isEnvLocalOrTesting'))
 {
     function isEnvLocalOrTesting(): bool
     {
-        return app()->environment(Environment::localOrTesting());
+        if (app()->isLocal())
+        {
+            return true;
+        }
+
+        return app()->runningUnitTests();
     }
 }
 
@@ -128,12 +111,9 @@ if ( ! function_exists('userIdIs'))
 
 if ( ! function_exists('admin'))
 {
-    function admin(): ?User
+    function admin(): User
     {
-        $user = User::query()->find(UserId::Admin->value)
-            ?? User::query()->admin()->first();
-
-        return $user?->isAdmin() ? $user : null;
+        return User::query()->find(UserId::Admin->value);
     }
 }
 
@@ -204,15 +184,7 @@ if ( ! function_exists('throw_exception'))
             );
         }
 
-        isEnvProduction() ? report($exception) : throw $exception;
-    }
-}
-
-if ( ! function_exists('forgetCachedPermissions'))
-{
-    function forgetCachedPermissions(): void
-    {
-        app()->make(PermissionRegistrar::class)->forgetCachedPermissions();
+        app()->isProduction() ? report($exception) : throw $exception;
     }
 }
 
@@ -234,5 +206,42 @@ if ( ! function_exists('parseCsvGenerator'))
         }
 
         fclose($handle);
+    }
+}
+
+if ( ! function_exists('isRunningTestsInParallel'))
+{
+    function isRunningTestsInParallel(): bool
+    {
+        if (
+            app()->runningUnitTests() &&
+            (bool) request()->server('LARAVEL_PARALLEL_TESTING')
+        ) {
+            return true;
+        }
+
+        return app()->runningInConsole() &&
+            in_array('--parallel', request()->server('argv'), true);
+    }
+}
+
+if ( ! function_exists('prepareDateForBatchInsert'))
+{
+    function prepareDateForBatchInsert(array $records): array
+    {
+        return collect($records)
+            ->map(fn ($record): array => array_merge($record, [
+                'created_at' => now(),
+                'updated_at' => now(),
+            ]))
+            ->all();
+    }
+}
+
+if ( ! function_exists('appUrl'))
+{
+    function appUrl(): string
+    {
+        return Sanctum::currentApplicationUrlWithPort();
     }
 }

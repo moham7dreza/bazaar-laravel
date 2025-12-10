@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace Modules\Advertise\Models;
 
+use App\Concerns\Attributable;
 use App\Concerns\ClearsResponseCache;
 use App\Concerns\Searchable;
 use App\Models\Geo\City;
 use App\Models\Scopes\LatestScope;
-use App\Models\Traits\Attributable;
 use App\Models\User;
 use Cknow\Money\Casts\MoneyIntegerCast;
 use Cviebrock\EloquentSluggable\Sluggable;
@@ -37,6 +37,7 @@ use Modules\Advertise\Enums\Sort;
 use Modules\Advertise\Http\Resources\App\AdvertisementCollection;
 use Modules\Advertise\Http\Resources\App\AdvertisementResource;
 use Modules\Advertise\Policies\AdvertisementPolicy;
+use Safemood\MagicScopes\Traits\HasMagicScopes;
 
 #[UsePolicy(AdvertisementPolicy::class)]
 #[UseFactory(AdvertisementFactory::class)]
@@ -46,12 +47,21 @@ use Modules\Advertise\Policies\AdvertisementPolicy;
 final class Advertisement extends Model
 {
     use Attributable;
+
     use CascadeSoftDeletes;
+
     use ClearsResponseCache;
+
     use HasFactory;
+
+    use HasMagicScopes;
+
     use Prunable;
+
     use Searchable;
+
     use Sluggable;
+
     use SoftDeletes;
 
     protected $guarded = ['id'];
@@ -175,6 +185,11 @@ final class Advertisement extends Model
         return $this->toElasticsearchDocumentArray();
     }
 
+    public function isLive(): bool
+    {
+        return (bool) $this->published_at?->lt(Date::now());
+    }
+
     #[Scope]
     protected function inCategory(Builder $builder, int $categoryId): Builder
     {
@@ -228,8 +243,8 @@ final class Advertisement extends Model
             'is_special'       => 'bool',
             'is_ladder'        => 'bool',
             'willing_to_trade' => 'bool',
-            'published_at'     => 'datetime',
-            'expired_at'       => 'datetime',
+            'published_at'     => 'immutable_datetime',
+            'expired_at'       => 'immutable_datetime',
             //            'ads_type'         => AdvertisementType::class,
             'ads_status'       => AdvertisementStatus::class,
             'price'            => MoneyIntegerCast::class,

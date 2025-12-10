@@ -51,7 +51,7 @@ final class TelescopeServiceProvider extends TelescopeApplicationServiceProvider
      */
     private function hideSensitiveRequestDetails(): void
     {
-        if (isEnvLocal())
+        if (app()->isLocal())
         {
             return;
         }

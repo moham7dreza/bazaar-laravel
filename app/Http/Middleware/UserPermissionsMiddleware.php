@@ -21,13 +21,17 @@ final class UserPermissionsMiddleware
             return $next($request);
         }
 
+        $mappedPermissions = collect(
+            $user->getPermissionNames()
+        )->mapInto(UserPermission::class);
+
         $permissions = cache()->remember(
             'user:permissions:' . $user->id,
             Date::now()->addHour(),
-            fn () => collect(
-                $user->getPermissionNames()
-            )->mapInto(UserPermission::class),
+            fn () => $mappedPermissions,
         );
+
+        // context()->remember('user-permissions', fn () => $mappedPermissions);
 
         $request->merge(['cached_permissions' => $permissions]);
 

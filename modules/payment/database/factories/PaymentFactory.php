@@ -21,11 +21,11 @@ class PaymentFactory extends Factory
             'user_id'          => User::factory(),
             'advertisement_id' => Advertisement::factory(),
             'amount'           => fake()->randomFloat(2, 1000, 999999),
-            'description'      => fake()->realText(),
+            'description'      => persian_faker()->text(),
             'status'           => PaymentStatus::Pending,
             'authority'        => fake()->uuid(),
             'ref_id'           => fake()->uuid(),
-            'card_pan'         => fake()->creditCardNumber(),
+            'card_pan'         => persian_faker()->cardNumber(),
             'trace_no'         => fake()->uuid(),
             'gateway_response' => null,
         ];

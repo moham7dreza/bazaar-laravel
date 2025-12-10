@@ -111,4 +111,8 @@ return [
         'name'    => env('MAIL_FROM_NAME', 'Example'),
     ],
 
+    /**
+     * Used to restrict sending to one address in a test-live environment.
+     */
+    'override_to' => env('MAIL_OVERRIDE_TO'),
 ];

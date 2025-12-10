@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Helpers;
 
-use Carbon\CarbonImmutable;
 use DateTimeInterface;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Date;
 use MongoDB\BSON\ObjectId;
 use MongoDB\BSON\UTCDateTime;
@@ -18,7 +18,7 @@ final class TimeUtility
         return '01' === JalalianFactory::fromGregorian($date)?->format('d');
     }
 
-    public static function isLastDayOfJalaliMonth(DateTimeInterface|string|int|null $date): bool
+    public static function isLastDayOfJalaliMonth(DateTimeInterface $date): bool
     {
         $clonedDate = clone $date;
 
@@ -65,12 +65,12 @@ final class TimeUtility
         return CalendarUtils::strftime('Y_m_d_H_i_s');
     }
 
-    public static function convertMongoUTCDateTimeToCarbon(UTCDateTime $date): CarbonImmutable
+    public static function convertMongoUTCDateTimeToCarbon(UTCDateTime $date): Carbon
     {
         return Date::createFromTimestamp(self::getMongoTimestamp($date));
     }
 
-    public static function convertMongoObjectIdToCarbon(string $id): CarbonImmutable
+    public static function convertMongoObjectIdToCarbon(string $id): Carbon
     {
         return Date::createFromTimestamp(new ObjectId($id)->getTimestamp());
     }

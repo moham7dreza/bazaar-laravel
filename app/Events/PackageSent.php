@@ -13,8 +13,11 @@ use Illuminate\Queue\SerializesModels;
 class PackageSent implements ShouldBroadcast
 {
     use Dispatchable;
+
     use InteractsWithSockets;
+
     use SerializesModels;
+
     public function __construct(
         public string $status,
         public string $deliveryHandler

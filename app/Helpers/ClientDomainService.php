@@ -24,4 +24,11 @@ class ClientDomainService
             default                     => ClientDomain::ProdIR,
         };
     }
+
+    public static function getDomainWithFallBack(): ClientDomain
+    {
+        return auth()->check() ?
+            self::getUserDomainWithFallback(auth()->user()) :
+            self::getFallbackDomain();
+    }
 }

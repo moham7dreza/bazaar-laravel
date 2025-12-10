@@ -2,24 +2,24 @@
 
 declare(strict_types=1);
 
+use App\Enums\UserPermission as P;
 use App\Exceptions\HasCustomizedThrottling;
+use App\Http\Middleware\EnsureMobileIsVerified;
 use App\Http\Responses\ApiJsonResponse;
 use BezhanSalleh\FilamentExceptions\FilamentExceptions;
-use Illuminate\Auth\Access\AuthorizationException;
-use Illuminate\Auth\AuthenticationException;
+use Cog\Laravel\Ban\Console\Commands\DeleteExpiredBans;
+use DirectoryTree\Metrics\Commands\CommitMetrics;
+use Illuminate\Auth\Middleware\Authenticate;
+use Illuminate\Auth\Middleware\EnsureEmailIsVerified;
 use Illuminate\Broadcasting\BroadcastException;
 use Illuminate\Cache\RateLimiting\Limit;
 use Illuminate\Console\Scheduling\Schedule;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Database\QueryException;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
 use Illuminate\Http\Exceptions\ThrottleRequestsException;
 use Illuminate\Support\Facades\Date;
-use Illuminate\Validation\ValidationException;
-use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 
 return Application::configure(basePath: dirname(__DIR__))
     ->withRouting(
@@ -28,6 +28,7 @@ return Application::configure(basePath: dirname(__DIR__))
         commands: __DIR__ . '/../routes/console.php',
         channels: __DIR__ . '/../routes/channels.php',
         health: '/up',
+        // TODO setup version 1
         //        then: function () {
         //            Route::middleware('api')
         //                ->prefix('api/v1')
@@ -37,29 +38,35 @@ return Application::configure(basePath: dirname(__DIR__))
     )
     ->withMiddleware(function (Middleware $middleware): void {
         $middleware->statefulApi();
+        $middleware->throttleApi('api-custom', true);
+        $middleware->trustHosts();
+        $middleware->preventRequestsDuringMaintenance([
+            '/register',
+            '/register/*',
+            '/terms',
+            '/privacy',
+        ]);
+
         $middleware->append([
             App\Http\Middleware\UserCheckSuspendedMiddleware::class,
             App\Http\Middleware\EnableDebugForDeveloper::class,
-            Illuminate\Foundation\Http\Middleware\PreventRequestsDuringMaintenance::class,
             App\Http\Middleware\HttpsRedirectMiddleware::class,
-            Illuminate\Foundation\Http\Middleware\ConvertEmptyStringsToNull::class,
             App\Http\Middleware\UserPermissionsMiddleware::class,
         ]);
 
         $middleware->api(prepend: [
             Laravel\Sanctum\Http\Middleware\EnsureFrontendRequestsAreStateful::class,
-            //            \App\Http\Middleware\RequireJsonMiddleware::class,
+            App\Http\Middleware\RequireJsonMiddleware::class,
             App\Http\Middleware\ApiRequestLoggerMiddleware::class,
-            //            \App\Http\Middleware\OnlyAllowValidHostsMiddleware::class,
             App\Http\Middleware\SetClientDomainMiddleware::class,
             App\Http\Middleware\SetClientLocaleMiddleware::class,
             App\Http\Middleware\SanitizeInputMiddleware::class,
+            Cog\Laravel\Ban\Http\Middleware\ForbidBannedUser::class,
+            Cog\Laravel\Ban\Http\Middleware\LogsOutBannedUser::class,
         ]);
 
         $middleware->alias([
-            'verified'           => App\Http\Middleware\EnsureEmailIsVerified::class,
-            'mobile-verified'    => App\Http\Middleware\EnsureMobileIsVerified::class,
-            'admin'              => App\Http\Middleware\CheckAdminMiddleware::class,
+            'verified'           => EnsureMobileIsVerified::class,
             'dev'                => App\Http\Middleware\OnlyAllowDevelopersMiddleware::class,
             'abilities'          => Laravel\Sanctum\Http\Middleware\CheckAbilities::class,
             'ability'            => Laravel\Sanctum\Http\Middleware\CheckForAnyAbility::class,
@@ -71,23 +78,23 @@ return Application::configure(basePath: dirname(__DIR__))
         ]);
 
         $middleware->appendToGroup('administrator', [
-            'auth:sanctum', 'verified', 'mobile-verified', 'admin',
+            Authenticate::using('sanctum'),
+            EnsureMobileIsVerified::class,
+            EnsureEmailIsVerified::class,
+            P::SeePanel->middleware(),
         ]);
 
-        $middleware->appendToGroup('web', [
-            Illuminate\Foundation\Http\Middleware\VerifyCsrfToken::class,
+        $middleware->appendToGroup('user', [
+            Authenticate::using('sanctum'),
+            EnsureMobileIsVerified::class,
+            EnsureEmailIsVerified::class,
         ]);
     })
     ->withSchedule(function (Schedule $schedule): void {
+        $schedule->command(DeleteExpiredBans::class)->everyMinute();
+        $schedule->command(CommitMetrics::class)->hourly();
     })
     ->withExceptions(function (Exceptions $exceptions): void {
-
-        /**
-         * to avoid redirect user to login when user:
-         * 1. did not set `Accept: application/json` header
-         * 2. user was unauthenticated.
-         * solution: enforce json response
-         */
         $exceptions->shouldRenderJsonWhen(fn () => request()->is('api/*') || request()->expectsJson());
 
         $exceptions->reportable(function (Throwable $e): void {
@@ -95,58 +102,28 @@ return Application::configure(basePath: dirname(__DIR__))
         });
 
         $exceptions->renderable(function (Throwable $e) {
+            $responseData = App\Exceptions\ExceptionMapper::map($e);
 
-            // Authorization
-            if ($e instanceof AuthorizationException)
+            if ($e instanceof QueryException && 1451 === $e->errorInfo[1])
             {
-                return ApiJsonResponse::error(Response::HTTP_FORBIDDEN, 'AuthorizationException');
+                Log::error('MySQL FK violation', [
+                    'exception' => $e->getMessage(),
+                    'trace'     => $e->getTraceAsString(),
+                ]);
+                report($e);
             }
 
-            // Access Denied
-            if ($e instanceof AccessDeniedHttpException)
-            {
-                return ApiJsonResponse::error(Response::HTTP_FORBIDDEN, 'AccessDeniedHttpException');
-            }
-
-            // Auth
-            if ($e instanceof AuthenticationException)
-            {
-                //                return ApiJsonResponse::error(Response::HTTP_UNAUTHORIZED, 'Unauthenticated');
-            }
-
-            // Model Not Found
-            $previous = $e->getPrevious();
-            if ($previous instanceof ModelNotFoundException)
-            {
-                $model = str($previous->getModel())->afterLast('\\');
-
-                $message = isEnvProduction() ? 'Record Not Found.' : "{$model} Not Found.";
-
-                return ApiJsonResponse::error(Response::HTTP_NOT_FOUND, $message);
-            }
-
-            // Database
-            if ($e instanceof QueryException)
-            {
-                return ApiJsonResponse::error(Response::HTTP_INTERNAL_SERVER_ERROR, 'QueryException');
-            }
-
-            if ($e instanceof RuntimeException)
-            {
-                return ApiJsonResponse::error(Response::HTTP_INTERNAL_SERVER_ERROR, $e->getMessage());
-            }
-
-            // for other exceptions
-            if ( ! $e instanceof ValidationException)
-            {
-                //                return ApiJsonResponse::error(Response::HTTP_INTERNAL_SERVER_ERROR, 'Server Error');
-            }
+            return ApiJsonResponse::error($responseData['status'], $responseData['message']);
         });
 
-        $exceptions->map(fn (ThrottleRequestsException $e) => new ThrottleRequestsException(
-            message: 'Too Many Attempts. Please try again in ' . Date::make($e->getHeaders()['X-RateLimit-Reset'])?->fromNow(),
-            headers: $e->getHeaders(),
-        ));
+        $exceptions->map(function (ThrottleRequestsException $e) {
+            $resetTime = Date::make($e->getHeaders()['X-RateLimit-Reset'])?->fromNow();
+
+            return new ThrottleRequestsException(
+                message: "Too Many Attempts. Please try again in {$resetTime}",
+                headers: $e->getHeaders(),
+            );
+        });
 
         $exceptions->throttle(function (Throwable $e) {
             return match (true)

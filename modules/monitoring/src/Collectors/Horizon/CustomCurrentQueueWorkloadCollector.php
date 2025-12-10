@@ -17,7 +17,7 @@ final class CustomCurrentQueueWorkloadCollector implements Collector
             ->name('horizon_queue_current_workload')
             ->label('queue')
             ->helpText('Current workload of all queues')
-            ->value(fn () => collect(app(RedisQueueWorkloadRepository::class)->get())
+            ->value(fn () => collect(resolve(RedisQueueWorkloadRepository::class)->get())
                 ->sortBy('name')
                 ->values()
                 ->map(fn (array $workload): array => [Arr::get($workload, 'length'), [Arr::get($workload, 'name')]])

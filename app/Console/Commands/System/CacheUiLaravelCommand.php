@@ -7,7 +7,6 @@ namespace App\Console\Commands\System;
 use Exception;
 use Illuminate\Console\Command;
 use Illuminate\Support\Arr;
-use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
 
@@ -30,7 +29,7 @@ final class CacheUiLaravelCommand extends Command
     public function handle(): int
     {
         $storeName    = $this->option('store') ?? config('cache-ui-laravel.default_store', config('cache.default'));
-        $this->store  = Cache::store($storeName);
+        $this->store  = cache()->store($storeName);
         $this->driver = config(sprintf('cache.stores.%s.driver', $storeName));
 
         info('📦 Cache driver: ' . $this->driver);

@@ -35,7 +35,7 @@ final class GalleryObserver implements ShouldHandleEventsAfterCommit
         if ( ! app()->runningUnitTests() && filled($images = $gallery->url))
         {
 
-            app(ImageService::class)->deleteIndex($images);
+            resolve(ImageService::class)->deleteIndex($images);
         }
     }
 }

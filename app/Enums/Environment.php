@@ -7,25 +7,15 @@ namespace App\Enums;
 enum Environment: string
 {
     case Production = 'production';
+
     case Staging    = 'staging';
+
     case Testing    = 'testing';
+
     case Local      = 'local';
-    case Localhost  = 'localhost';
 
-    public static function local(): array
+    public function is(): bool|string
     {
-        return [
-            self::Local->value,
-            self::Localhost->value,
-        ];
-    }
-
-    public static function localOrTesting(): array
-    {
-        return [
-            self::Local->value,
-            self::Localhost->value,
-            self::Testing->value,
-        ];
+        return app()->environment($this->value);
     }
 }

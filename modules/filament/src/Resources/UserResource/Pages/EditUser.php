@@ -17,6 +17,7 @@ use STS\FilamentImpersonate\Pages\Actions\Impersonate;
 final class EditUser extends EditRecord
 {
     use FilamentRedirect;
+
     use UsesResourceLock;
 
     protected static string $resource = UserResource::class;

@@ -32,7 +32,6 @@ class UpdateUserMobileAction extends Action
     public function authorize(): bool
     {
         return true;
-        //        return auth()->user()->isAdmin();
     }
 
     private function validateMobile(): void

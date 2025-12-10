@@ -37,6 +37,5 @@ final class RequestContext
         }
 
         context()->add(ContextItem::UserId, $user->id);
-        context()->add(ContextItem::UserType, $user->user_type);
     }
 }

@@ -16,10 +16,10 @@ final class ContentSeeder extends Seeder
         $parentMenus = Menu::factory(5)->create();
         Menu::factory(5)
             ->for($parentMenus->random()->first(), 'parent')
-            ->create();
+            ->insert();
 
         // Page
-        Page::factory(5)->create();
+        Page::factory(5)->insert();
 
         $this->command->alert('Relations seeded');
     }

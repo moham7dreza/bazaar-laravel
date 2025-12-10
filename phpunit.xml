@@ -10,6 +10,9 @@
         <testsuite name="EndToEnd">
             <directory>tests/EndToEnd</directory>
         </testsuite>
+        <testsuite name="Performance">
+            <directory>tests/Performance</directory>
+        </testsuite>
     <testsuite name="Modules"><directory>./modules/*/tests</directory></testsuite></testsuites>
     <source>
         <include>
@@ -17,11 +20,15 @@
             <directory>modules</directory>
         </include>
     </source>
-    <coverage>
-        <report>
-            <clover outputFile="tests/coverage@tests.xml"/>
-        </report>
-    </coverage>
+<!--    TODO -->
+<!--    <coverage>-->
+<!--        <report>-->
+<!--            <clover outputFile="build/coverage@tests.xml"/>-->
+<!--        </report>-->
+<!--    </coverage>-->
+    <logging>
+        <junit outputFile="build/report.junit.xml"/>
+    </logging>
     <groups>
         <exclude>
             <group>manual</group> <!-- These tests are not required to be run automatically -->

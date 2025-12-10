@@ -18,7 +18,7 @@ class HttpsRedirectMiddleware
         if (
             ! $request->isSecure()
             &&
-            isEnvProduction()
+            app()->isProduction()
         ) {
             return redirect()->secure($request->getRequestUri(), Response::HTTP_MOVED_PERMANENTLY);
         }

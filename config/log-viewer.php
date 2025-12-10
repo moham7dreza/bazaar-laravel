@@ -75,8 +75,6 @@ return [
 
     'middleware' => [
         'web',
-        //        \App\Http\Middleware\OnlyAllowDevelopersMiddleware::class,
-        //        \App\Http\Middleware\CheckAdminMiddleware::class,
         Opcodes\LogViewer\Http\Middleware\AuthorizeLogViewer::class,
     ],
 

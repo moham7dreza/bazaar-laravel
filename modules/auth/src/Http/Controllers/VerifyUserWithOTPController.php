@@ -52,6 +52,12 @@ final class VerifyUserWithOTPController extends Controller
 
         $user = User::query()->firstWhere('mobile', $request->mobile);
 
+        metric('auth:verify')
+            ->date(Date::today())
+            ->measurable($user)
+            ->hourly()
+            ->record();
+
         if ( ! $user)
         {
 

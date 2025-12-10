@@ -3,6 +3,7 @@
 declare(strict_types=1);
 
 use App\Models\User;
+use DirectoryTree\Metrics\Facades\Metrics;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Support\Facades\Event;
 use Modules\Auth\Enums\NoticeType;
@@ -14,6 +15,7 @@ use function Pest\Laravel\postJson;
 it('can register new user', function (): void {
 
     Event::fake();
+    Metrics::fake();
 
     $userData = [
         'name'                  => 'Test User',
@@ -36,9 +38,13 @@ it('can register new user', function (): void {
     assertAuthenticated();
 
     Event::assertDispatchedTimes(Registered::class);
+
+    Metrics::assertRecorded('auth:signups');
 });
 
 it('can send otp with user', function (): void {
+
+    Metrics::fake();
 
     $user = User::factory()->create();
 
@@ -56,6 +62,8 @@ it('can send otp with user', function (): void {
 
     expect($otp)->not->toBeNull()
         ->and($otp?->token)->toBe($response->json('data.token'));
+
+    Metrics::assertRecorded('auth:otp');
 });
 
 it('can send otp without user', function (): void {
@@ -79,6 +87,7 @@ it('can send otp without user', function (): void {
 it('can verify otp without user', function (): void {
 
     Event::fake();
+    Metrics::fake();
 
     $mobile  = '09120000002';
     $otpCode = '1234';
@@ -108,6 +117,8 @@ it('can verify otp without user', function (): void {
     assertAuthenticated();
 
     Event::assertDispatchedTimes(Registered::class);
+
+    Metrics::assertRecorded('auth:verify');
 });
 
 it('can verify otp with user', function (): void {

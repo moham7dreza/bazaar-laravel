@@ -11,5 +11,6 @@ use Illuminate\Database\Eloquent\Model;
 class ChFavorite extends Model
 {
     use HasFactory;
+
     use UUID;
 }

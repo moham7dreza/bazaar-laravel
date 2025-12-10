@@ -6,6 +6,7 @@ use App\Enums\Image\ImageUploadMethod;
 use Illuminate\Http\UploadedFile;
 
 use function Pest\Laravel\postJson;
+use function Pest\Laravel\putJson;
 
 it('can upload an image', function (): void {
     $file = UploadedFile::fake()->image('test.jpg', 100, 100);
@@ -33,5 +34,34 @@ it('fails to upload without image', function (): void {
         'height'        => 100,
     ];
     $response = postJson(route('api.images.store'), $payload);
+    $response->assertUnprocessable();
+});
+
+it('can update an image', function (): void {
+    $file = UploadedFile::fake()->image('updated.jpg', 200, 200);
+
+    $payload = [
+        'image'         => $file,
+        'directory'     => 'uploads',
+        'upload_method' => ImageUploadMethod::MethodFitAndSave->value,
+        'width'         => 200,
+        'height'        => 200,
+    ];
+
+    $imagePath = putJson(route('api.images.destroy'), $payload)->assertOk()->content();
+
+    expect(file_exists($imagePath))->toBeTrue();
+
+    unlink($imagePath);
+});
+
+it('fails to update without image', function (): void {
+    $payload = [
+        'directory'     => 'test-images',
+        'upload_method' => ImageUploadMethod::MethodFitAndSave->value,
+        'width'         => 200,
+        'height'        => 200,
+    ];
+    $response = putJson(route('api.images.destroy'), $payload);
     $response->assertUnprocessable();
 });

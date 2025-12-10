@@ -11,5 +11,6 @@ use Illuminate\Database\Eloquent\Model;
 class ChMessage extends Model
 {
     use HasFactory;
+
     use UUID;
 }

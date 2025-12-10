@@ -31,8 +31,11 @@ final class Category extends Model
 {
     // _____________________________________________ use SECTION ________________________________________________
     use CascadeSoftDeletes;
+
     use HasFactory;
+
     use Sluggable;
+
     use SoftDeletes;
 
     // _____________________________________________ props SECTION ______________________________________________

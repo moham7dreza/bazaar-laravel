@@ -13,13 +13,14 @@ use App\Enums\ClientLocale;
 use App\Enums\StorageDisk;
 use App\Enums\Theme;
 use App\Enums\UserPermission;
-use App\Enums\UserRole;
 use App\Events\UserUpdatedEvent;
 use App\Helpers\ClientLocaleService;
 use App\Http\Resources\Admin\User\UserCollection;
 use App\Http\Resources\Admin\User\UserResource;
 use App\Models\Geo\City;
 use App\Models\Scopes\LatestScope;
+use Cog\Contracts\Ban\Bannable as BannableInterface;
+use Cog\Laravel\Ban\Traits\Bannable;
 use Database\Factories\UserFactory;
 use DateTimeInterface;
 use DirectoryTree\Metrics\HasMetrics;
@@ -69,25 +70,34 @@ final class User extends Authenticatable implements
     HasAvatar,
     HasLocalePreference,
     ShouldVerifiedMobile,
-    CanAccessAnalyticsDashboard
+    CanAccessAnalyticsDashboard,
+    BannableInterface
 {
+    use Bannable;
     //    use GeneratesUsernames;
     use HasApiTokens;
+
     use HasFactory;
+
     use HasLocks;
+
     use HasMetrics;
+
     use HasRoles;
+
     use HasSchedules;
+
     use InteractWithSensitiveColumns;
+
     use LogsActivity;
+
     use MustVerifyMobile;
+
     use Notifiable;
+
     use SoftDeletes;
+
     use TwoFactorAuthenticatable;
-
-    const int TypeUser = 0;
-
-    const int TypeAdmin = 1;
 
     protected $fillable = [
         'name',
@@ -96,7 +106,6 @@ final class User extends Authenticatable implements
         'mobile',
         'mobile_verified_at',
         'city_id',
-        'user_type',
         'is_active',
         'suspended_at',
         'suspended_until',
@@ -114,7 +123,6 @@ final class User extends Authenticatable implements
     protected $attributes = [
         'theme'     => Theme::Dracula->value,
         'is_active' => true,
-        'user_type' => self::TypeUser,
     ];
 
     protected static array $recordEvents = ['deleted', 'updated'];
@@ -134,7 +142,6 @@ final class User extends Authenticatable implements
             ->logOnly([
                 'email',
                 'mobile',
-                'user_type',
                 'is_active',
                 'suspended_at',
                 'suspended_until',
@@ -153,12 +160,17 @@ final class User extends Authenticatable implements
 
     public function canLoginDirectly(): bool
     {
-        return str($this->email)->is('admin@admin.com');
+        return $this->isAdmin();
     }
 
     public function getFilamentAvatarUrl(): ?string
     {
         return $this->avatar_url ? Storage::disk(StorageDisk::Public->value)->url($this->avatar_url) : null;
+    }
+
+    public function shouldApplyBannedAtScope(): true
+    {
+        return true;
     }
 
     /**
@@ -260,11 +272,19 @@ final class User extends Authenticatable implements
 
     public function isAdmin(): bool
     {
-        return self::TypeAdmin === $this->user_type
-            && ($this->hasVerifiedMobile() || $this->hasVerifiedEmail())
-            && ($this->checkPermissionTo(UserPermission::SeePanel) || $this->hasRole(UserRole::Admin));
+        return $this->can(
+            UserPermission::SeePanel,
+        );
     }
 
+    public function isPremium(): bool
+    {
+        return $this->can(
+            UserPermission::Upload,
+        );
+    }
+
+    // TODO remove suspend from user
     // suspend section
 
     public function isSuspended(): bool
@@ -315,24 +335,19 @@ final class User extends Authenticatable implements
         return $this->locale ? ClientLocale::fromNumber($this->locale) : null;
     }
 
-    #[Scope]
-    protected function admin(Builder $query): Builder
+    public function makeAdmin(): void
     {
-        return $query->ofType(self::TypeAdmin)
-            ->whereNotNull('mobile_verified_at');
+        $this->givePermissionTo(
+            UserPermission::SeePanel,
+        );
     }
 
+    // TODO remove
     #[Scope]
     protected function suspended(Builder $query): Builder
     {
         return $query->whereNotNull('suspended_at')
             ->where('suspended_until', '>=', Date::now());
-    }
-
-    #[Scope]
-    protected function ofType(Builder $query, int $type): void
-    {
-        $query->where('user_type', $type);
     }
 
     #[Scope]
@@ -348,7 +363,7 @@ final class User extends Authenticatable implements
     {
         return Attribute::make(
             get: fn () => $this->relationLoaded('advertisements') ? $this->advertisements()->exists() : null,
-        );
+        )->shouldCache();
     }
 
     protected function casts(): array

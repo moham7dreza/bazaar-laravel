@@ -21,7 +21,7 @@ final class MenuFactory extends Factory
     public function definition(): array
     {
         return [
-            'title'     => fake()->title(),
+            'title'     => persian_faker()->word(),
             'url'       => fake()->url(),
             'icon'      => 'fa fa-car',
             'position'  => MenuPosition::random(),

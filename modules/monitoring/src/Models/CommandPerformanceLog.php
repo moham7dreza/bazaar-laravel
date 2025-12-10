@@ -17,6 +17,7 @@ use Modules\Monitoring\Enums\CommandLoggingStatus;
 class CommandPerformanceLog extends Model
 {
     use HasFactory;
+
     use Prunable;
 
     protected $guarded = [];

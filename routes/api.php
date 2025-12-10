@@ -5,10 +5,11 @@ declare(strict_types=1);
 use App\Http\Controllers\Admin\User\UserController;
 use App\Http\Controllers\App\Home\CityController;
 use App\Http\Controllers\ImageController;
-use App\Http\Middleware\EnsureMobileIsVerified;
 use App\Http\Middleware\MetricsLoggerMiddleware;
 use App\Mail\UserLandMail;
+use Illuminate\Auth\Middleware\RedirectIfAuthenticated;
 use Illuminate\Http\Request;
+use Illuminate\Routing\Middleware\ThrottleRequests;
 use Illuminate\Support\Facades\Route;
 use Infinitypaul\Idempotency\Middleware\EnsureIdempotency;
 use Modules\Advertise\Http\Controllers\Admin\AdvertisementController;
@@ -36,6 +37,7 @@ use Modules\Content\Http\Controllers\Admin\PageController;
 use Modules\Content\Http\Controllers\App\MenuController as HomeMenuController;
 use Modules\Content\Http\Controllers\App\PageController as HomePageController;
 use Psr\Log\LoggerInterface;
+use Spatie\ResponseCache\Middlewares\CacheResponse;
 
 /**
  * Note: Route names are hard coded and repeated in every route
@@ -44,7 +46,7 @@ use Psr\Log\LoggerInterface;
  */
 Route::get('user', static fn (Request $request) => $request->user())
     ->name('api.user.info')
-    ->middleware(['auth:sanctum', EnsureMobileIsVerified::class]);
+    ->middleware('user');
 /*
 |--------------------------------------------------------------------------
 | Auth Routes
@@ -52,15 +54,17 @@ Route::get('user', static fn (Request $request) => $request->user())
 */
 Route::prefix('auth')
     ->middleware([
-        'guest',
-        'throttle:10,1',
+        RedirectIfAuthenticated::class,
+        ThrottleRequests::using('otp-request'),
     ])
     ->group(function (): void {
         Route::post('register', RegisteredUserController::class)
             ->name('api.auth.register');
+
         Route::post('send-otp', RegisteredUserWithOTPController::class)
             ->name('api.auth.send-otp')
             ->middleware(MetricsLoggerMiddleware::class);
+
         Route::post('verify-otp', VerifyUserWithOTPController::class)
             ->name('api.auth.verify-otp');
     });
@@ -69,34 +73,36 @@ Route::prefix('auth')
 | Primary Routes
 |--------------------------------------------------------------------------
 */
-Route::controller(HomeCategoryController::class)
-    ->group(function (): void {
-        Route::get('categories', 'index')
-            ->name('api.categories.index');
-    });
+Route::prefix('')->group(function (): void {
+        Route::controller(HomeCategoryController::class)
+            ->group(function (): void {
+                Route::get('categories', 'index')
+                    ->name('api.categories.index');
+            });
 
-Route::controller(HomeMenuController::class)
-    ->group(function (): void {
-        Route::get('menus', 'index')
-            ->name('api.menus.index');
-    });
+        Route::controller(HomeMenuController::class)
+            ->group(function (): void {
+                Route::get('menus', 'index')
+                    ->name('api.menus.index');
+            });
 
-Route::controller(HomePageController::class)
-    ->group(function (): void {
-        Route::get('pages', 'index')
-            ->name('api.pages.index');
-    });
+        Route::controller(HomePageController::class)
+            ->group(function (): void {
+                Route::get('pages', 'index')
+                    ->name('api.pages.index');
+            });
 
-Route::controller(HomeStateController::class)
-    ->group(function (): void {
-        Route::get('states', 'index')
-            ->name('api.states.index');
-    });
+        Route::controller(HomeStateController::class)
+            ->group(function (): void {
+                Route::get('states', 'index')
+                    ->name('api.states.index');
+            });
 
-Route::controller(CityController::class)
-    ->group(function (): void {
-        Route::get('cities', 'index')
-            ->name('api.cities.index');
+        Route::controller(CityController::class)
+            ->group(function (): void {
+                Route::get('cities', 'index')
+                    ->name('api.cities.index');
+            });
     });
 /*
 |--------------------------------------------------------------------------
@@ -104,28 +110,38 @@ Route::controller(CityController::class)
 |--------------------------------------------------------------------------
 */
 Route::prefix('advertisements')
-    ->middleware('cache-response:120')
     ->group(function (): void {
         Route::controller(HomeAdvertisementController::class)
             ->group(function (): void {
                 Route::get('/', 'index')
-                    ->name('api.advertisements.index');
+                    ->name('api.advertisements.index')
+                    ->middleware(
+                        CacheResponse::using(120, 'advertisements', 'plp')
+                    );
+
                 // test route for query builder
                 // /api/advertisements/query-builder?filter[title]=Prof&filter[price]=200&sort=-price
                 Route::get('query-builder', 'queryBuilder');
+
                 Route::get('{advertisement}', 'show')
                     ->name('api.advertisements.show')
+                    ->middleware(
+                        CacheResponse::using(180, 'advertisement', 'pdp')
+                    )
                     ->withTrashed();
             });
+
         Route::controller(HomeAdvertisementGalleryController::class)
             ->group(function (): void {
                 Route::get('{advertisement}/gallery', 'index')
                     ->name('api.advertisements.gallery.index');
             });
+
         Route::prefix('category')
             ->group(function (): void {
                 Route::get('{category}/attributes', HomeCategoryAttributeController::class)
                     ->name('api.advertisements.category.attributes.index');
+
                 Route::get('{categoryAttribute}/values', HomeCategoryValueController::class)
                     ->name('api.advertisements.category.values.index');
             });
@@ -141,6 +157,7 @@ Route::prefix('images')
     ->group(function (): void {
         Route::post('store', 'store')
             ->name('api.images.store');
+
         Route::put('update', 'update')
             ->name('api.images.destroy');
     });
@@ -150,7 +167,7 @@ Route::prefix('images')
 |--------------------------------------------------------------------------
 */
 Route::prefix('admin')
-    ->middleware([/* 'auth', 'admin' */])
+    ->middleware('administrator')
     ->group(function (): void {
         /*
         |--------------------------------------------------------------------------
@@ -167,6 +184,7 @@ Route::prefix('admin')
                         'update'  => 'api.admin.advertisements.category.update',
                         'destroy' => 'api.admin.advertisements.category.destroy',
                     ]);
+
                 Route::apiResource('{advertisement}/gallery', GalleryController::class)
                     ->names([
                         'index'   => 'api.admin.advertisements.gallery.index',
@@ -175,6 +193,7 @@ Route::prefix('admin')
                         'update'  => 'api.admin.advertisements.gallery.update',
                         'destroy' => 'api.admin.advertisements.gallery.destroy',
                     ]);
+
                 Route::apiResource('state', StateController::class)
                     ->names([
                         'index'   => 'api.admin.advertisements.state.index',
@@ -183,6 +202,7 @@ Route::prefix('admin')
                         'update'  => 'api.admin.advertisements.state.update',
                         'destroy' => 'api.admin.advertisements.state.destroy',
                     ]);
+
                 Route::apiResource('category-attribute', CategoryAttributeController::class)
                     ->names([
                         'index'   => 'api.admin.advertisements.category-attributes.index',
@@ -191,6 +211,7 @@ Route::prefix('admin')
                         'update'  => 'api.admin.advertisements.category-attributes.update',
                         'destroy' => 'api.admin.advertisements.category-attributes.destroy',
                     ]);
+
                 Route::apiResource('category-value', CategoryValueController::class)
                     ->names([
                         'index'   => 'api.admin.advertisements.category-value.index',
@@ -199,6 +220,7 @@ Route::prefix('admin')
                         'update'  => 'api.admin.advertisements.category-value.update',
                         'destroy' => 'api.admin.advertisements.category-value.destroy',
                     ]);
+
                 Route::apiResource('advertisement', AdvertisementController::class)
                     ->names([
                         'index'   => 'api.admin.advertisements.advertisement.index',
@@ -224,6 +246,7 @@ Route::prefix('admin')
                         'update'  => 'api.admin.content.menu.update',
                         'destroy' => 'api.admin.content.menu.destroy',
                     ]);
+
                 Route::apiResource('page', PageController::class)
                     ->names([
                         'index'   => 'api.admin.content.page.index',
@@ -257,10 +280,7 @@ Route::prefix('admin')
 |--------------------------------------------------------------------------
 */
 Route::prefix('panel')
-    ->middleware([
-        'auth:sanctum',
-        EnsureMobileIsVerified::class,
-    ])
+    ->middleware('user')
     ->group(function (): void {
         /*
         |--------------------------------------------------------------------------
@@ -278,6 +298,7 @@ Route::prefix('panel')
                         'destroy' => 'api.panel.advertisements.advertisement.destroy',
                     ])
                     ->withTrashed(['show', 'update']);
+
                 /*
                 |--------------------------------------------------------------------------
                 | Gallery Routes
@@ -288,14 +309,18 @@ Route::prefix('panel')
                     ->group(function (): void {
                         Route::get('{advertisement}', 'index')
                             ->name('api.panel.advertisements.gallery.index');
+
                         Route::post('{advertisement}/store', 'store')
                             ->name('api.panel.advertisements.gallery.store');
+
                         Route::get('show/{gallery}', 'show')
                             ->name('api.panel.advertisements.gallery.show')
                             ->withTrashed();
+
                         Route::put('{gallery}', 'update')
                             ->name('api.panel.advertisements.gallery.update')
                             ->withTrashed();
+
                         Route::delete('{gallery}', 'destroy')
                             ->name('api.panel.advertisements.gallery.destroy');
                     });
@@ -309,11 +334,14 @@ Route::prefix('panel')
                     ->group(function (): void {
                         Route::post('{advertisement}/store', 'store')
                             ->name('api.panel.advertisements.note.store');
+
                         Route::get('/', 'index')
                             ->name('api.panel.advertisements.note.index');
+
                         Route::get('{advertisement}/show', 'show')
                             ->name('api.panel.advertisements.note.show')
                             ->withTrashed();
+
                         Route::delete('{advertisement}/destroy', 'destroy')
                             ->name('api.panel.advertisements.note.destroy');
                     });
@@ -332,8 +360,10 @@ Route::prefix('panel')
                             ->group(function (): void {
                                 Route::get('/', 'index')
                                     ->name('api.panel.users.advertisements.favorite.index');
+
                                 Route::post('{advertisement}', 'store')
                                     ->name('api.panel.users.advertisements.favorite.store');
+
                                 Route::delete('{advertisement}', 'destroy')
                                     ->name('api.panel.users.advertisements.favorite.destroy');
                             });
@@ -347,6 +377,7 @@ Route::prefix('panel')
                             ->group(function (): void {
                                 Route::get('/', 'index')
                                     ->name('api.panel.users.advertisements.history.index');
+
                                 Route::post('{advertisement}', 'store')
                                     ->name('api.panel.users.advertisements.history.store');
                             });
@@ -362,7 +393,7 @@ Route::prefix('panel')
 when(isEnvStaging(), function (): void {
 });
 
-when(isEnvLocal(), static function (): void {
+when(app()->isLocal(), static function (): void {
     Route::post('idempotency', static fn (): ?LoggerInterface => logger('idempotency passed'))
         ->middleware(EnsureIdempotency::class)
         ->name('idempotency');

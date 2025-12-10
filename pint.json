@@ -267,5 +267,9 @@
         "yoda_style": true,
         "use_arrow_functions": true,
         "void_return": true
-    }
+    },
+    "exclude": [
+        "vendor",
+        "resources"
+    ]
 }

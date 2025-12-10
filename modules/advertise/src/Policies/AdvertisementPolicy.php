@@ -5,36 +5,25 @@ declare(strict_types=1);
 namespace Modules\Advertise\Policies;
 
 use App\Enums\UserPermission;
-use App\Enums\UserRole;
 use App\Models\User;
 use Illuminate\Auth\Access\Response;
-use Illuminate\Support\Facades\Date;
 use Modules\Advertise\Models\Advertisement;
 
 final class AdvertisementPolicy
 {
-    // run before all other policy checks
-    public function before(User $user, string $ability): Response
+    /*
+    public function before(User $user, string $ability): void
     {
-        if ($user->isAdmin())
-        {
-            return Response::allow();
-        }
 
-        if ('forceDelete' !== $ability && $user->can(UserPermission::SeePanel))
-        {
-            return Response::allow();
-        }
-
-        return Response::denyAsNotFound();
     }
+    */
 
     /**
      * Determine whether the user can view any models.
      */
     public function viewAny(User $user): Response
     {
-        return $user->can(UserRole::Writer) || $user->can(UserRole::Editor)
+        return $user->can(UserPermission::EditAds)
             ? Response::allow()
             : Response::denyAsNotFound();
     }
@@ -76,7 +65,7 @@ final class AdvertisementPolicy
     {
         $check = $user->owns($advertisement)
             && $user->can(UserPermission::DestroyAd)
-            && (null === $advertisement->published_at || Date::now()->gt($advertisement->published_at));
+            && ! $advertisement->isLive();
 
         return $check
             ? Response::allow()
@@ -99,7 +88,7 @@ final class AdvertisementPolicy
 
     }
 
-    public function publish(User $user, Advertisement $advertisement)
+    public function publish(User $user, Advertisement $advertisement): Response
     {
         return $user->can(UserPermission::PublishAd)
             ? Response::allow()

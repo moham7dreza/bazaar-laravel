@@ -17,7 +17,9 @@ use Illuminate\Support\Facades\Date;
 class Message extends Model
 {
     use HasFactory;
+
     use Prunable;
+
     // _____________________________________________ use section ________________________________________________
     //
     use SoftDeletes;

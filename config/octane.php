@@ -206,7 +206,7 @@ return [
     |
     */
 
-    'garbage' => 50,
+    'garbage' => env('OCTANE_GARBAGE_COLLECTION_THRESHOLD_MB', 50),
 
     /*
     |--------------------------------------------------------------------------
@@ -219,6 +219,6 @@ return [
     |
     */
 
-    'max_execution_time' => 30,
+    'max_execution_time' => env('OCTANE_MAX_EXECUTION_TIME', 30),
 
 ];

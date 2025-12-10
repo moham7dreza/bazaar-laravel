@@ -31,6 +31,6 @@ final class ImageUploadFactory
             return null;
         }
 
-        return app($className);
+        return resolve($className);
     }
 }

@@ -13,11 +13,12 @@
 4. `REDIS` with php redis ext and `MONGO` (pecl install mongodb)
 
 ### HELP
-1. use `make` to search useful `runtime` commands
-2. use `php artisan find` to search `artisan` commands
-3. use `php artisan schedule:test` to search `schdule` commands
-4. use `php artisan docs` to search `laravel` document topics
-5. use `php artisan changelog` to add new change log entry to __CHANGELOG.md file
+1. use `make` to search useful `runtime` commands.
+2. use `php artisan find` to search `artisan` commands.
+3. use `php artisan schedule:test` to search `schdule` commands.
+4. use `php artisan docs` to search `laravel` document topics.
+5. use `php artisan changelog` to add new change log entry to __CHANGELOG.md file.
+6. use `php artisan reload` to restart queue workers, reverb server, horizon, pulse and octane workers.
 
 ### Guide
 1. use `php artisan make:data-migration` to make data migrations when changing database states (not running in testing env)
@@ -54,12 +55,3 @@
 1. apply required changes in .env.testing file
 2. run `make testpf` for create test databases and run tests parallel
 3. if you set up `coverage` engine like Xdebug, you can get coverage report
-
-## Tasks
-1. refactor image upload operations in controllers
-2. define Repositories for important actions
-3. complete end-to-end tests for api routes
-4. complete enums for status, types and more
-5. cron jobs for scheduled tasks
-6. fix gates for tools (horizon panel and more)
-7. fix global latest scope for models

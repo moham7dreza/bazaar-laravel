@@ -20,9 +20,14 @@ use App\Rules\ValidateNationalCodeRule;
 use App\Services\Manager;
 use App\Services\TranslationService;
 use Carbon\CarbonImmutable;
+use DateTimeInterface;
+use Dedoc\Scramble\Scramble;
+use DirectoryTree\Metrics\Facades\Metrics;
 use Elastic\Elasticsearch\Client;
 use Elastic\Elasticsearch\ClientBuilder;
 use Filament\Notifications\Auth\VerifyEmail;
+use Illuminate\Auth\Notifications\ResetPassword;
+use Illuminate\Cache\RateLimiting\Limit;
 use Illuminate\Console\Scheduling\Event;
 use Illuminate\Contracts\Config\Repository;
 use Illuminate\Contracts\Foundation\Application;
@@ -30,11 +35,13 @@ use Illuminate\Contracts\Translation\Translator;
 use Illuminate\Database\Connection;
 use Illuminate\Database\Console\DumpCommand;
 use Illuminate\Database\Eloquent\Builder as EloquentBuilder;
+use Illuminate\Database\Eloquent\Collection as EloquentCollection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Events\QueryExecuted;
 use Illuminate\Database\Query\Builder as QueryBuilder;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Http\Client\Response as HttpClientResponse;
+use Illuminate\Http\Request;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Pagination\LengthAwarePaginator;
@@ -42,13 +49,15 @@ use Illuminate\Pipeline\Hub;
 use Illuminate\Pipeline\Pipeline;
 use Illuminate\Routing\Route;
 use Illuminate\Support\Arr;
-use Illuminate\Support\Collection;
+use Illuminate\Support\Collection as SupportCollection;
 use Illuminate\Support\Facades\Date;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Notification;
+use Illuminate\Support\Facades\Queue;
+use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Vite;
@@ -97,12 +106,24 @@ final class AppServiceProvider extends ServiceProvider
         //        $this->configureVerifyEmail();
         $this->configureStringable();
         $this->configureStr();
-        $this->configureCollection();
+        $this->configureSupportCollection();
         $this->configureEloquentBuilder();
         $this->configureQueryBuilder();
         $this->configureRoute();
         $this->configureBlueprint();
         $this->configureHttpClientResponse();
+        $this->configureMail();
+        $this->configureRateLimiter();
+        $this->configureCommandsToRunOnReload();
+        $this->configureMetrics();
+        $this->configureScramble();
+        $this->configureResetPassword();
+        // $this->configureQueue();
+    }
+
+    public function configureResetPassword(): void
+    {
+        ResetPassword::createUrlUsing(fn (User $notifiable, string $token): string => config('app.frontend_url') . "/password-reset/{$token}?email={$notifiable->getEmailForPasswordReset()}");
     }
 
     private function configureEmail(): void
@@ -124,24 +145,30 @@ final class AppServiceProvider extends ServiceProvider
 
     private function configureCommands(): void
     {
-        DB::prohibitDestructiveCommands(isEnvProduction());
+        DB::prohibitDestructiveCommands(app()->isProduction());
 
-        DumpCommand::prohibit(isEnvProduction());
+        DumpCommand::prohibit(app()->isProduction());
     }
 
     private function configureModel(): void
     {
         Model::automaticallyEagerLoadRelationships();
 
-        Model::shouldBeStrict( ! isEnvProduction());
+        Model::shouldBeStrict( ! app()->isProduction());
 
         Model::unguard();
     }
 
     private function configureUrl(): void
     {
-        URL::forceHttps(isEnvProduction());
-//        URL::useOrigin('');
+        URL::forceHttps(app()->isProduction());
+
+        // TODO
+        /*
+        URL::useOrigin(
+            ClientDomainService::getDomainWithFallBack()->value
+        );
+        */
     }
 
     private function configureHttp(): void
@@ -182,7 +209,8 @@ final class AppServiceProvider extends ServiceProvider
 
     private function configureGates(): void
     {
-        Gate::before(static fn (?User $user): ?bool => $user?->isAdmin());
+        // TODO fix
+//        Gate::before(static fn (?User $user): ?bool => $user?->isAdmin());
     }
 
     private function logSlowQuery(): void
@@ -214,7 +242,7 @@ final class AppServiceProvider extends ServiceProvider
 
     private function loadExtraMigrationsPath(): void
     {
-        if ( ! isEnvTesting())
+        if ( ! app()->runningUnitTests())
         {
             $this->loadMigrationsFrom(__DIR__ . '/../..' . DataMigrationCommand::PATH);
         }
@@ -222,7 +250,7 @@ final class AppServiceProvider extends ServiceProvider
 
     private function handleMissingTrans(): void
     {
-        app(Translator::class)->handleMissingKeysUsing(function (string $key, array $replacements, ?string $locale): void {
+        resolve(Translator::class)->handleMissingKeysUsing(function (string $key, array $replacements, ?string $locale): void {
             if (blank($key))
             {
                 return;
@@ -233,7 +261,7 @@ final class AppServiceProvider extends ServiceProvider
             // Only update JSON translation files (skip PHP array files)
             if ( ! str_contains($key, '.'))
             {
-                app(TranslationService::class)->addMissingKeyToJsonLangFile($key, $locale);
+                resolve(TranslationService::class)->addMissingKeyToJsonLangFile($key, $locale);
             }
         });
     }
@@ -358,13 +386,13 @@ final class AppServiceProvider extends ServiceProvider
         Str::macro('lowerSnake', static fn (string $str) => Str::lower(Str::snake($str)));
     }
 
-    private function configureCollection(): void
+    private function configureSupportCollection(): void
     {
-        Collection::macro('reserveFirstAvailable', fn (string $key, int $duration = 60) => $this->first(fn ($item) => $item->reserve($key, $duration)));
+        SupportCollection::macro('reserveFirstAvailable', fn (string $key, int $duration = 60) => $this->first(fn ($item) => $item->reserve($key, $duration)));
 
-        Collection::macro('c2c', fn () => $this->toJson(JSON_PRETTY_PRINT));
+        SupportCollection::macro('c2c', fn () => $this->toJson(JSON_PRETTY_PRINT));
 
-        Collection::macro('paginate', function (int $perPage, ?int $page = null, string $pageName = 'page'): LengthAwarePaginator {
+        SupportCollection::macro('paginate', function (int $perPage, ?int $page = null, string $pageName = 'page'): LengthAwarePaginator {
             $page = $page ?: LengthAwarePaginator::resolveCurrentPage($pageName);
 
             return new LengthAwarePaginator(
@@ -397,6 +425,10 @@ final class AppServiceProvider extends ServiceProvider
 
         EloquentBuilder::macro('active', fn () => $this->where('status', Status::Activated->value));
 
+        EloquentBuilder::macro('createdAfter', fn (
+            DateTimeInterface $dateTime
+        ) => $this->where('created_at', '>', $dateTime));
+
         EloquentBuilder::macro('forAuth', fn () => $this->whereBelongsTo(auth()->user()));
 
         /**
@@ -405,6 +437,55 @@ final class AppServiceProvider extends ServiceProvider
          */
         EloquentBuilder::macro('jit', fn (): object => new ReflectionClass($this->getModel()->newCollection())
             ->newLazyProxy(fn () => $this->get()));
+
+        EloquentBuilder::macro('remember', fn (
+            int $duration,
+            ?string $key = null,
+            array $tags  = [],
+        ): EloquentCollection => (blank($tags) ? cache() : cache()->tags($tags))->remember(
+            key: $key ?: $this->getCacheKey(),
+            ttl: $duration,
+            callback: fn () => $this->get()
+        ));
+
+        EloquentBuilder::macro('rememberForever', fn (
+            ?string $key = null,
+            array $tags  = [],
+        ): EloquentCollection => (blank($tags) ? cache() : cache()->tags($tags))->rememberForever(
+            key: $key ?: $this->getCacheKey(),
+            callback: fn () => $this->get()
+        ));
+
+        EloquentBuilder::macro('getCacheKey', fn (): string => sprintf(
+            'eloquent_%s_%s',
+            $this->getModel()->getTable(),
+            md5($this->toSql() . serialize($this->getBindings()))
+        ));
+
+        EloquentBuilder::macro('rememberPaginate', fn (
+            int $perPage     = 15,
+            array $columns   = ['*'],
+            string $pageName = 'page',
+            ?int $page       = null,
+            int $duration    = 60,
+            ?string $key     = null,
+            array $tags      = [],
+        ): LengthAwarePaginator => (blank($tags) ? cache() : cache()->tags($tags))->remember(
+            key: $key ?: $this->getPaginateCacheKey($perPage, $page),
+            ttl: $duration,
+            callback: fn () => $this->paginate($perPage, $columns, $pageName, $page)
+        ));
+
+        EloquentBuilder::macro('getPaginateCacheKey', fn (
+            int $perPage,
+            ?int $page = null
+        ): string => sprintf(
+            'eloquent_paginate_%s_%s_%s_%s',
+            $this->getModel()->getTable(),
+            $perPage,
+            $page ?: request()->integer('page', 1),
+            md5($this->toSql() . serialize($this->getBindings()))
+        ));
     }
 
     private function configureQueryBuilder(): void
@@ -456,5 +537,55 @@ final class AppServiceProvider extends ServiceProvider
         $this->app->bind(Client::class, fn (Application $app): Client => ClientBuilder::create()
             ->setHosts($app->make(Repository::class)->array('services.search.hosts'))
             ->build());
+    }
+
+    private function configureMail(): void
+    {
+        if ($overrideMail = config('mail.override_to'))
+        {
+            Mail::alwaysTo($overrideMail);
+        }
+    }
+
+    private function configureRateLimiter(): void
+    {
+        RateLimiter::for('global', static fn (
+            Request $request
+        ) => Limit::perMinute(100)->by($request->ip()));
+
+        RateLimiter::for('api-custom', static fn (
+            Request $request
+        ) => Limit::perMinute(60)->by($request->user()?->id ?: $request->ip()));
+
+        RateLimiter::for('auth', static fn () => Limit::perMinute(5));
+
+        RateLimiter::for('otp-request', static fn (Request $request): array => [
+            Limit::perMinutes(2, 5)
+                ->by($request->get('mobile') ?: $request->ip()),
+        ]);
+
+        RateLimiter::for('uploads', fn (Request $request) => $request->user()?->isPremium()
+                ? Limit::none()
+                : Limit::perMinute(10));
+    }
+
+    private function configureCommandsToRunOnReload(): void
+    {
+        $this->reloads('permission:cache-reset');
+    }
+
+    private function configureMetrics(): void
+    {
+        Metrics::capture();
+    }
+
+    private function configureScramble(): void
+    {
+        Scramble::routes(fn (Route $route): bool => str_starts_with($route->uri(), 'api'));
+    }
+
+    private function configureQueue(): void
+    {
+        Queue::withoutInterruptionPolling();
     }
 }

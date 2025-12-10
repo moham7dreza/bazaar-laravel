@@ -12,33 +12,40 @@ class SetClientLocaleMiddleware
 {
     public function handle(Request $request, Closure $next)
     {
-        if ($request->route()?->hasParameter('lang'))
+        // TODO: handle with cookie or header
+        if ( ! $request->route()->hasParameter('lang'))
         {
-            $lang = ClientLocale::tryFrom($request->route('lang'));
+            return $next($request);
+        }
 
-            $request->route()->forgetParameter('lang');
+        $lang = ClientLocale::tryFrom($request->route('lang'));
 
-            if (blank($lang))
-            {
-                app()->setLocale(config()->string('app.locale', ClientLocale::Farsi->value));
+        config()->set('app.timezone', $lang->timezone()->value);
 
-                return $next($request);
-            }
+        $request->route()->forgetParameter('lang');
 
-            app()->setLocale($lang->value);
+        if (blank($lang))
+        {
+            app()->setLocale(
+                config()->string('app.locale', ClientLocale::Farsi->value)
+            );
 
-            $user = $request->user();
+            return $next($request);
+        }
 
-            if (blank($user))
-            {
-                return $next($request);
-            }
+        app()->setLocale($lang->value);
 
-            if ($user->locale !== $lang->toNumber())
-            {
-                $user->locale = $lang->toNumber();
-                $user->saveQuietly();
-            }
+        $user = $request->user();
+
+        if (blank($user))
+        {
+            return $next($request);
+        }
+
+        if ($user->locale !== $lang->toNumber())
+        {
+            $user->locale = $lang->toNumber();
+            $user->saveQuietly();
         }
 
         return $next($request);

@@ -29,7 +29,7 @@ it('can get memoized cache value', function (): void {
 
 it('can conditionally modify values in a fluent instance', function (): void {
 
-    $user = User::factory()->admin()->create();
+    $user = User::factory()->create();
 
     asAdminUser($user);
 

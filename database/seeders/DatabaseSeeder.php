@@ -19,7 +19,7 @@ final class DatabaseSeeder extends Seeder
 
         ]);
 
-        if ( ! isEnvProduction())
+        if ( ! app()->isProduction())
         {
             $this->call([
                 PermissionSeeder::class,

@@ -7,7 +7,7 @@ use App\Models\User;
 
 it('can generate routes', function (): void {
 
-    $user = User::factory()->admin()->create();
+    $user = User::factory()->create();
 
     $response = asAdminUser($user)->getJson(route('web.domain-router'))->assertOk();
 

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Enums;
 
-use App\Enums\Concerns\EnumDataListTrait;
+use App\Concerns\EnumDataListTrait;
 use RuntimeException;
 
 enum ClientLocale: string
@@ -12,6 +12,7 @@ enum ClientLocale: string
     use EnumDataListTrait;
 
     case Farsi   = 'fa';
+
     case English = 'en';
 
     public const array NUMBER_MAP = [
@@ -28,7 +29,6 @@ enum ClientLocale: string
     {
         return match (app()->getLocale())
         {
-
             self::Farsi->value => [
                 'timezone' => self::Farsi->timezone(),
                 'country'  => self::Farsi->country(),
@@ -52,12 +52,12 @@ enum ClientLocale: string
         return false !== $key ? $key : throw new RuntimeException('Case is missing in NUMBER_MAP: ' . $this->value);
     }
 
-    public function timezone(): string
+    public function timezone(): Timezone
     {
         return match ($this)
         {
-            self::Farsi   => 'Asia\Tehran',
-            self::English => 'UTC',
+            self::Farsi   => Timezone::Tehran,
+            self::English => Timezone::Utc,
         };
     }
 

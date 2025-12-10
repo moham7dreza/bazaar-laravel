@@ -15,7 +15,7 @@ class CityFactory extends Factory
     public function definition(): array
     {
         return [
-            'name'   => fake()->city(),
+            'name'   => persian_faker()->city(),
             'status' => true,
         ];
     }

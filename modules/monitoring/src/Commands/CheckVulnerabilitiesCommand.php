@@ -30,7 +30,7 @@ final class CheckVulnerabilitiesCommand extends Command
             $text = 'Composer Audit: No security vulnerability advisories found.';
         }
 
-        admin()?->notify(new VulnerabilitiesFoundNotification($text));
+        admin()->notify(new VulnerabilitiesFoundNotification($text));
 
         $this->components->info($text);
 

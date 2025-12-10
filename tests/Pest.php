@@ -2,22 +2,48 @@
 
 declare(strict_types=1);
 
-use App\Enums\UserPermission;
 use App\Models\User;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
+use Illuminate\Foundation\Testing\WithCachedConfig;
+use Illuminate\Foundation\Testing\WithCachedRoutes;
+use Illuminate\Support\Facades\Http;
 use Illuminate\Validation\ValidationException;
-use Spatie\Permission\Models\Permission;
 use Tests\TestCase;
 use Tests\TestDataGenerator;
 use Tests\UnitTestCase;
+use VoltTest\Laravel\Testing\PerformanceTestCase;
 
-pest()->extend(TestCase::class)
+pest()
+    ->extend(TestCase::class)
     ->use(DatabaseTransactions::class)
-    ->in('Feature', 'EndToEnd', '../modules/*/tests/Feature', '../modules/*/tests/EndToEnd');
+    ->use(WithCachedConfig::class)
+    ->use(WithCachedRoutes::class)
+    ->beforeEach(function (): void {
+        Http::preventStrayRequests();
+    })
+    ->in(
+        'Feature',
+        'EndToEnd',
+        '../modules/*/tests/Feature',
+        '../modules/*/tests/EndToEnd'
+    );
 
-pest()->extend(UnitTestCase::class)
-    ->in('Arch', 'Unit', '../modules/*/tests/Arch', '../modules/*/tests/Unit');
+pest()
+    ->extend(UnitTestCase::class)
+    ->in(
+        'Arch',
+        'Unit',
+        '../modules/*/tests/Arch',
+        '../modules/*/tests/Unit'
+    );
+
+pest()
+    ->extend(PerformanceTestCase::class)
+    ->in(
+        'Performance',
+        '../modules/*/tests/Performance'
+    );
 
 expect()->extend(
     'toBeDefinedInEnum',
@@ -70,12 +96,7 @@ function asAnAuthenticatedUser(): TestCase
 
 function asAdminUser(User $user): TestCase
 {
-    // TODO: fix seeder and remove
-    Permission::findOrCreate(UserPermission::SeePanel->value);
-
-    $user->givePermissionTo(
-        UserPermission::SeePanel,
-    );
+    $user->makeAdmin();
 
     return test()->be($user);
 }
@@ -95,7 +116,7 @@ function validateFormRequest(string $class, array $parameters): array
     {
         $request = request()->create('/', 'POST', $parameters);
         app()->bind('request', fn () => $request);
-        app($class);
+        resolve($class);
 
         return [];
     } catch (ValidationException $validationException)

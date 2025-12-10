@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\File;
 use function Laravel\Prompts\confirm;
 use function Laravel\Prompts\error;
 use function Laravel\Prompts\info;
+use function Laravel\Prompts\note;
 use function Laravel\Prompts\select;
 use function Laravel\Prompts\suggest;
 use function Laravel\Prompts\text;
@@ -45,13 +46,13 @@ class AddChangelogEntryCommand extends Command
 
     public function handle(): void
     {
-        $this->components->info('=== Adding New Changelog Entry ===');
-        $this->components->line('Please provide the following details for the changelog entry.');
-        $this->components->line('Refer to the project guidelines:');
-        $this->components->warn('- Be clear and concise');
-        $this->components->warn('- Focus on what changed');
-        $this->components->warn('- Use Consistent Language');
-        $this->components->warn('- Include relevant details like Jira tickets or MR links');
+        info('=== Adding New Changelog Entry ===');
+        note('Please provide the following details for the changelog entry.');
+        note('Refer to the project guidelines:');
+        warning('- Be clear and concise');
+        warning('- Focus on what changed');
+        warning('- Use Consistent Language');
+        warning('- Include relevant details like Jira tickets or MR links');
         $this->newLine();
 
         // Get and validate datetime

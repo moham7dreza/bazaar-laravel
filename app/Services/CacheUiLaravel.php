@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Services;
 
 use Exception;
-use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
 use Symfony\Component\Finder\SplFileInfo;
@@ -34,7 +33,7 @@ final class CacheUiLaravel
      */
     public function forgetKey(string $key, ?string $store = null): bool
     {
-        $cacheStore = null !== $store && '' !== $store && '0' !== $store ? Cache::store($store) : Cache::store();
+        $cacheStore = null !== $store && '' !== $store && '0' !== $store ? cache()->store($store) : cache()->store();
 
         return $cacheStore->forget($key);
     }
@@ -43,7 +42,7 @@ final class CacheUiLaravel
     {
         try
         {
-            $cacheStore = Cache::store($store);
+            $cacheStore = cache()->store($store);
             $prefix     = config('database.redis.options.prefix', '');
             $connection = $cacheStore->getStore()->connection();
             $keys       = $connection->keys('*');
