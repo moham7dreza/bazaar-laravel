@@ -40,6 +40,12 @@ return Application::configure(basePath: dirname(__DIR__))
         $middleware->statefulApi();
         $middleware->throttleApi('api-custom', true);
         $middleware->trustHosts();
+        $middleware->preventRequestsDuringMaintenance([
+            '/register',
+            '/register/*',
+            '/terms',
+            '/privacy',
+        ]);
 
         $middleware->append([
             App\Http\Middleware\UserCheckSuspendedMiddleware::class,
