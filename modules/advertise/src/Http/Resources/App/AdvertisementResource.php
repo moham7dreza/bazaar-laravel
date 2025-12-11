@@ -72,7 +72,7 @@ final class AdvertisementResource extends JsonResource
             'is_special'       => $this->is_special,
             'is_ladder'        => $this->is_ladder,
             'image'            => $this->image,
-            'price'            => $price->getAmount(),
+            'price'            => $price?->getAmount(),
             'tags'             => $this->tags,
             'lat'              => $this->lat,
             'lng'              => $this->lng,

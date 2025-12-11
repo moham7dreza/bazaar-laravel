@@ -166,7 +166,7 @@ final class Advertisement extends Model
         return $this->hasMany(AdvertisementPrice::class);
     }
 
-    public function currentPrice(): Money
+    public function currentPrice(): ?Money
     {
         return $this->prices()
             ->where('currency', Currency::currentCurrency())
@@ -179,7 +179,7 @@ final class Advertisement extends Model
             'id'          => $this->id,
             'title'       => $this->title,
             'description' => $this->description,
-            'price'       => $this->currentPrice()->getAmount(),
+            'price'       => $this->currentPrice()?->getAmount(),
             'tags'        => $this->tags ?? [],
             'status'      => $this->status->value,
             'created_at'  => $this->created_at?->toIso8601String(),

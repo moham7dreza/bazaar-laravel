@@ -115,10 +115,7 @@ Route::prefix('advertisements')
         Route::controller(HomeAdvertisementController::class)
             ->group(function (): void {
                 Route::get('/', 'index')
-                    ->name('api.advertisements.index')
-                    ->middleware(
-                        CacheResponse::using(120, 'advertisements', 'plp')
-                    );
+                    ->name('api.advertisements.index');
 
                 // test route for query builder
                 // /api/advertisements/query-builder?filter[title]=Prof&filter[price]=200&sort=-price
