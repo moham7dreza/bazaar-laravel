@@ -1,0 +1,16 @@
+{
+    "servers": {
+        "laravel-boost": {
+            "type": "stdio",
+            "command": "php",
+            "args": [
+                "artisan",
+                "mcp:serve"
+            ],
+            "env": {
+                "APP_ENV": "local"
+            }
+        }
+    }
+}
+
