@@ -15,7 +15,7 @@ class ValidationBusinessException extends BaseBusinessException
         ?Throwable $previous = null
     ) {
         parent::__construct(
-            code: ExceptionCode::ValidationError,
+            exceptionCode: ExceptionCode::ValidationError,
             message: $message,
             context: $context,
             previous: $previous

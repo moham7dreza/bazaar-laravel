@@ -9,7 +9,6 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Date;
 use Illuminate\Support\Fluent;
-use Throwable;
 
 final readonly class SettingsManager
 {
@@ -47,7 +46,7 @@ final readonly class SettingsManager
     }
 
     /**
-     * @throws MissingSettingsException|Throwable
+     * @throws MissingSettingsException
      */
     public function validateEssentialKeys(array $settings): true
     {
@@ -61,8 +60,17 @@ final readonly class SettingsManager
             ->diffKeys($settings)
             ->keys();
 
-        throw_if($missing->isNotEmpty(), MissingSettingsException::class, 'Essential settings missing: ' .
-        $missing->implode(', '));
+        if ($missing->isNotEmpty())
+        {
+            throw new MissingSettingsException(
+                message: 'Essential settings missing: ' . $missing->implode(', '),
+                context: [
+                    'missing_settings' => $missing->all(),
+                    'essential_keys'   => array_keys($essential),
+                    'provided_keys'    => array_keys($settings),
+                ]
+            );
+        }
 
         return true;
     }

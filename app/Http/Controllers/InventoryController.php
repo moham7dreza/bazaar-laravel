@@ -6,6 +6,7 @@ namespace App\Http\Controllers;
 
 use App\Events\PricingUpdateFailed;
 use App\Exceptions\InsufficientStockException;
+use App\Exceptions\ResourceNotFoundException;
 use App\Models\Item;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Log;
@@ -26,15 +27,25 @@ class InventoryController extends Controller
             });
     }
 
-    public function reserveItem($itemId, $quantity)
+    public function reserveItem($itemId, $quantity): bool
     {
-        return Item::query()->whereKey($itemId)
-            ->where('available_quantity', '>=', $quantity)
-            ->existsOr(function () use ($itemId, $quantity): void {
-                throw new InsufficientStockException(
-                    sprintf('Cannot reserve %s units of item %s', $quantity, $itemId)
-                );
-            });
+        $item = Item::query()->whereKey($itemId)->first();
+
+        throw_unless($item, ResourceNotFoundException::class, resourceName: 'Item', context: ['item_id' => $itemId]);
+
+        if ($item->available_quantity < $quantity)
+        {
+            throw new InsufficientStockException(
+                message: sprintf('Cannot reserve %s units of item %s', $quantity, $itemId),
+                context: [
+                    'item_id'   => $itemId,
+                    'requested' => $quantity,
+                    'available' => $item->available_quantity,
+                ]
+            );
+        }
+
+        return true;
     }
 
     public function updatePricing($itemId, $newPrice)

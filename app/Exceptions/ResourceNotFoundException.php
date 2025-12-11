@@ -15,7 +15,7 @@ class ResourceNotFoundException extends BaseBusinessException
         array $context = [],
         ?Throwable $previous = null
     ) {
-        $code = ExceptionCode::ResourceNotFound;
+        $exceptionCode = ExceptionCode::ResourceNotFound;
 
         if ($resourceName)
         {
@@ -23,6 +23,6 @@ class ResourceNotFoundException extends BaseBusinessException
             $message ??= trans('exception_codes.client.RES_3001', ['resource' => $resourceName]);
         }
 
-        parent::__construct($code, $message, $context, $previous);
+        parent::__construct($exceptionCode, $message, $context, $previous);
     }
 }

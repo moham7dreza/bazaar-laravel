@@ -10,11 +10,11 @@ use Throwable;
 class SystemException extends BaseBusinessException
 {
     public function __construct(
-        ExceptionCode $code = ExceptionCode::InternalServerError,
+        ExceptionCode $exceptionCode = ExceptionCode::InternalServerError,
         ?string $message = null,
         array $context = [],
         ?Throwable $previous = null
     ) {
-        parent::__construct($code, $message, $context, $previous);
+        parent::__construct($exceptionCode, $message, $context, $previous);
     }
 }

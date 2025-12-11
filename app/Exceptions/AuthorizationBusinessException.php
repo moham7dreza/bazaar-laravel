@@ -10,11 +10,11 @@ use Throwable;
 class AuthorizationBusinessException extends BaseBusinessException
 {
     public function __construct(
-        ExceptionCode $code = ExceptionCode::Forbidden,
+        ExceptionCode $exceptionCode = ExceptionCode::Forbidden,
         ?string $message = null,
         array $context = [],
         ?Throwable $previous = null
     ) {
-        parent::__construct($code, $message, $context, $previous);
+        parent::__construct($exceptionCode, $message, $context, $previous);
     }
 }
