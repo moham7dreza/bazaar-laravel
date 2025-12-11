@@ -61,11 +61,10 @@ if ( ! function_exists('mongo_info'))
         if ($queueable)
         {
             dispatch(new MongoLogJob($data, $log_key));
-
-            return;
+        } else
+        {
+            dispatch_sync(new MongoLogJob($data, $log_key));
         }
-
-        dispatch_sync(new MongoLogJob($data, $log_key));
     }
 }
 
