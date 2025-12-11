@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Modules\Advertise\Services;
+namespace Modules\Advertise\Services\Price;
 
 use Cknow\Money\Money;
 
-class AdvertisementDiscountService
+final readonly class AdvertisementDiscountService
 {
     public function getDiscount(
         Money $advertisementPrice,

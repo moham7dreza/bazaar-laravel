@@ -75,6 +75,7 @@ final readonly class AdvertisementElasticSearchRepository implements Advertiseme
         {
             switch ($searchDTO->sort)
             {
+                // TODO use relation
                 case Sort::PriceAsc:
                     Arr::set($body, 'sort', [['price' => ['order' => 'asc']]]);
                     break;

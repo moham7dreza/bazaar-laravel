@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Modules\Advertise\Database\Seeders;
 
+use App\Enums\Currency;
 use App\Models\Geo\City;
 use App\Models\User;
 use Exception;
@@ -13,9 +14,11 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Date;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
 use Modules\Advertise\Enums\AdvertisementStatus;
 use Modules\Advertise\Enums\AdvertisementType;
 use Modules\Advertise\Models\Advertisement;
+use Modules\Advertise\Models\AdvertisementPrice;
 use Modules\Advertise\Models\Category;
 
 class AdvertisementBatchSeeder extends Seeder
@@ -51,6 +54,9 @@ class AdvertisementBatchSeeder extends Seeder
 
         $maxAdId = DB::table('advertisements')->max('id') ?? 0;
         $adId    = $maxAdId + 1;
+
+        $maxAdPriceId = DB::table('advertisement_pirces')->max('id') ?? 0;
+        $adPriceId    = $maxAdPriceId + 1;
 
         foreach ($users as $user)
         {
@@ -89,9 +95,9 @@ class AdvertisementBatchSeeder extends Seeder
 
                 $ads[] = [
                     'id'           => $adId,
-                    'title'        => fake()->jobTitle(),
-                    'slug'         => fake()->slug(),
-                    'description'  => fake()->text(),
+                    'title'        => $title = persian_faker()->sentence(),
+                    'slug'         => Str::slug($title),
+                    'description'  => persian_faker()->text(),
                     'ads_type'     => fake()->randomElement(AdvertisementType::cases()),
                     'ads_status'   => fake()->randomElement(AdvertisementStatus::cases()),
                     'category_id'  => $categoryId,
@@ -102,7 +108,6 @@ class AdvertisementBatchSeeder extends Seeder
                     'expired_at'   => fake()->boolean(40) ? fake()->dateTimeBetween('+2 months', '+4 months') : null,
                     'contact'      => fake()->phoneNumber(),
                     'image'        => fake()->imageUrl(200, 200, 'people'),
-                    'price'        => fake()->randomFloat(2, 10),
                     'tags'         => fake()->tags(),
                     'lat'          => fake()->latitude(),
                     'lng'          => fake()->longitude(),
@@ -110,10 +115,18 @@ class AdvertisementBatchSeeder extends Seeder
                     'updated_at'   => Date::now()->toDateTimeString(),
                 ];
 
+                $adsPrices = [
+                    'id'               => $adPriceId,
+                    'advertisement_id' => $adId,
+                    'price'            => fake()->numberBetween(100000, 999999) * 1000, // convert to IRR
+                    'currency'         => Currency::currentCurrency(),
+                ];
+
                 $this->command->info(sprintf('ads %s is processing', $adId));
 
                 //                $userAdIds[$adId] = $adId;
                 $adId++;
+                $adPriceId++;
             }
 
             //            unset($userAdIds);
@@ -137,6 +150,22 @@ class AdvertisementBatchSeeder extends Seeder
 
         // free memory between batches
         unset($ads);
+
+        // insert in chunks of 5000
+        foreach (array_chunk($adsPrices, 5000) as $chunk)
+        {
+            $this->command->info('chunk is processing');
+            try
+            {
+                AdvertisementPrice::query()->insert($chunk);
+            } catch (Exception $e)
+            {
+                $this->command->error($e->getMessage());
+            }
+        }
+
+        // free memory between batches
+        unset($adsPrices);
     }
 
     private function getAdDepth(int $adId, array $userAdIds): int
