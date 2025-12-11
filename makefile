@@ -656,5 +656,111 @@ find-ip: ## Find local IP address
 	fi
 
 # --------------------------------------------------------------------------
+# MCP Configuration
+# --------------------------------------------------------------------------
+
+# MCP configuration paths
+MCP_SOURCE = mcp.json
+MCP_INTELLIJ_DIR = $(HOME)/.config/github-copilot/intellij
+MCP_INTELLIJ_TARGET = $(MCP_INTELLIJ_DIR)/mcp.json
+MCP_VSCODE_DIR = $(HOME)/.config/Code/User/globalStorage/github.copilot-chat
+MCP_VSCODE_TARGET = $(MCP_VSCODE_DIR)/mcp.json
+
+mcp-copy: ## Copy mcp.json to IntelliJ Copilot configuration directory
+	@printf "${COLOR_BLUE}▶ Copying MCP configuration to IntelliJ...${COLOR_RESET}\n"
+	@if [ ! -f "$(MCP_SOURCE)" ]; then \
+		printf "${COLOR_YELLOW}⚠ Warning: $(MCP_SOURCE) not found in project root${COLOR_RESET}\n"; \
+		exit 1; \
+	fi
+	@mkdir -p "$(MCP_INTELLIJ_DIR)"
+	@cp -v "$(MCP_SOURCE)" "$(MCP_INTELLIJ_TARGET)"
+	@printf "${COLOR_GREEN}✓ MCP configuration copied to IntelliJ successfully!${COLOR_RESET}\n"
+	@printf "${COLOR_CYAN}  Target: $(MCP_INTELLIJ_TARGET)${COLOR_RESET}\n"
+
+mcp-copy-vscode: ## Copy mcp.json to VSCode Copilot configuration directory
+	@printf "${COLOR_BLUE}▶ Copying MCP configuration to VSCode...${COLOR_RESET}\n"
+	@if [ ! -f "$(MCP_SOURCE)" ]; then \
+		printf "${COLOR_YELLOW}⚠ Warning: $(MCP_SOURCE) not found in project root${COLOR_RESET}\n"; \
+		exit 1; \
+	fi
+	@mkdir -p "$(MCP_VSCODE_DIR)"
+	@cp -v "$(MCP_SOURCE)" "$(MCP_VSCODE_TARGET)"
+	@printf "${COLOR_GREEN}✓ MCP configuration copied to VSCode successfully!${COLOR_RESET}\n"
+	@printf "${COLOR_CYAN}  Target: $(MCP_VSCODE_TARGET)${COLOR_RESET}\n"
+
+mcp-copy-all: ## Copy mcp.json to all supported IDEs
+	@make mcp-copy
+	@make mcp-copy-vscode
+
+mcp-sync: ## Sync mcp.json from IntelliJ back to project root
+	@printf "${COLOR_BLUE}▶ Syncing MCP configuration from IntelliJ to project...${COLOR_RESET}\n"
+	@if [ ! -f "$(MCP_INTELLIJ_TARGET)" ]; then \
+		printf "${COLOR_YELLOW}⚠ Warning: $(MCP_INTELLIJ_TARGET) not found${COLOR_RESET}\n"; \
+		exit 1; \
+	fi
+	@cp -v "$(MCP_INTELLIJ_TARGET)" "$(MCP_SOURCE)"
+	@printf "${COLOR_GREEN}✓ MCP configuration synced from IntelliJ successfully!${COLOR_RESET}\n"
+
+mcp-diff: ## Show differences between project and IntelliJ mcp.json
+	@printf "${COLOR_BLUE}▶ Comparing MCP configurations...${COLOR_RESET}\n"
+	@if [ ! -f "$(MCP_SOURCE)" ]; then \
+		printf "${COLOR_YELLOW}⚠ Project mcp.json not found${COLOR_RESET}\n"; \
+	elif [ ! -f "$(MCP_INTELLIJ_TARGET)" ]; then \
+		printf "${COLOR_YELLOW}⚠ IntelliJ mcp.json not found${COLOR_RESET}\n"; \
+	else \
+		diff -u "$(MCP_INTELLIJ_TARGET)" "$(MCP_SOURCE)" || true; \
+	fi
+
+mcp-edit: ## Open project mcp.json in default editor
+	@${EDITOR:-nano} "$(MCP_SOURCE)"
+
+mcp-validate: ## Validate mcp.json syntax
+	@printf "${COLOR_BLUE}▶ Validating MCP configuration...${COLOR_RESET}\n"
+	@if [ ! -f "$(MCP_SOURCE)" ]; then \
+		printf "${COLOR_YELLOW}⚠ Warning: $(MCP_SOURCE) not found${COLOR_RESET}\n"; \
+		exit 1; \
+	fi
+	@if command -v jq >/dev/null 2>&1; then \
+		jq empty "$(MCP_SOURCE)" && \
+		printf "${COLOR_GREEN}✓ MCP configuration is valid JSON${COLOR_RESET}\n"; \
+	else \
+		printf "${COLOR_YELLOW}⚠ jq not installed, skipping validation${COLOR_RESET}\n"; \
+		printf "${COLOR_CYAN}  Install with: sudo apt install jq${COLOR_RESET}\n"; \
+	fi
+
+mcp-show: ## Display current mcp.json configuration
+	@printf "${COLOR_BLUE}▶ Current MCP Configuration:${COLOR_RESET}\n"
+	@if [ -f "$(MCP_SOURCE)" ]; then \
+		if command -v jq >/dev/null 2>&1; then \
+			jq . "$(MCP_SOURCE)"; \
+		else \
+			cat "$(MCP_SOURCE)"; \
+		fi \
+	else \
+		printf "${COLOR_YELLOW}⚠ $(MCP_SOURCE) not found${COLOR_RESET}\n"; \
+	fi
+
+mcp-backup: ## Backup IntelliJ mcp.json configuration
+	@printf "${COLOR_BLUE}▶ Backing up IntelliJ MCP configuration...${COLOR_RESET}\n"
+	@if [ -f "$(MCP_INTELLIJ_TARGET)" ]; then \
+		cp "$(MCP_INTELLIJ_TARGET)" "$(MCP_INTELLIJ_TARGET).backup.$$(date +%Y%m%d_%H%M%S)"; \
+		printf "${COLOR_GREEN}✓ Backup created successfully${COLOR_RESET}\n"; \
+	else \
+		printf "${COLOR_YELLOW}⚠ No IntelliJ mcp.json found to backup${COLOR_RESET}\n"; \
+	fi
+
+mcp-help: ## Show MCP commands help
+	@printf "${COLOR_CYAN}MCP Configuration Management Commands:${COLOR_RESET}\n"
+	@printf "  ${COLOR_GREEN}make mcp-copy${COLOR_RESET}        Copy mcp.json to IntelliJ\n"
+	@printf "  ${COLOR_GREEN}make mcp-copy-vscode${COLOR_RESET} Copy mcp.json to VSCode\n"
+	@printf "  ${COLOR_GREEN}make mcp-copy-all${COLOR_RESET}    Copy mcp.json to all IDEs\n"
+	@printf "  ${COLOR_GREEN}make mcp-sync${COLOR_RESET}        Sync from IntelliJ to project\n"
+	@printf "  ${COLOR_GREEN}make mcp-diff${COLOR_RESET}        Compare configurations\n"
+	@printf "  ${COLOR_GREEN}make mcp-edit${COLOR_RESET}        Edit project mcp.json\n"
+	@printf "  ${COLOR_GREEN}make mcp-validate${COLOR_RESET}    Validate JSON syntax\n"
+	@printf "  ${COLOR_GREEN}make mcp-show${COLOR_RESET}        Display configuration\n"
+	@printf "  ${COLOR_GREEN}make mcp-backup${COLOR_RESET}      Backup IntelliJ config\n"
+
+# --------------------------------------------------------------------------
 # End
 # --------------------------------------------------------------------------

@@ -7,7 +7,7 @@ namespace App\Exceptions;
 use App\Enums\ExceptionCode;
 use Throwable;
 
-class InsufficientStockException extends BaseBusinessException
+class ValidationBusinessException extends BaseBusinessException
 {
     public function __construct(
         ?string $message = null,
@@ -15,7 +15,7 @@ class InsufficientStockException extends BaseBusinessException
         ?Throwable $previous = null
     ) {
         parent::__construct(
-            exceptionCode: ExceptionCode::InsufficientStock,
+            exceptionCode: ExceptionCode::ValidationError,
             message: $message,
             context: $context,
             previous: $previous

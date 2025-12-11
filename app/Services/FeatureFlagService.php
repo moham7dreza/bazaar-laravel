@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Services;
 
 use App\Exceptions\FeatureAccessException;
-use Throwable;
 
 final class FeatureFlagService
 {
@@ -22,7 +21,7 @@ final class FeatureFlagService
     }
 
     /**
-     * @throws FeatureAccessException|Throwable
+     * @throws FeatureAccessException
      */
     public function validateFeatureAccess(array $userFlags, array $requiredFeatures): true
     {
@@ -30,11 +29,17 @@ final class FeatureFlagService
             ->diffKeys($userFlags)
             ->keys();
 
-        throw_if(
-            $unavailable->isNotEmpty(),
-            FeatureAccessException::class,
-            'Access denied to features: ' . $unavailable->implode(', '),
-        );
+        if ($unavailable->isNotEmpty())
+        {
+            throw new FeatureAccessException(
+                message: 'Access denied to features: ' . $unavailable->implode(', '),
+                context: [
+                    'unavailable_features' => $unavailable->all(),
+                    'user_flags'           => array_keys($userFlags),
+                    'required_features'    => $requiredFeatures,
+                ]
+            );
+        }
 
         return true;
     }

@@ -4,30 +4,32 @@ declare(strict_types=1);
 
 namespace App\Support;
 
-use Illuminate\Auth\AuthenticationException;
+use App\Enums\ExceptionCode;
+use App\Exceptions\BusinessAuthenticationException;
 use Illuminate\Contracts\Auth\Authenticatable;
-use Throwable;
 
 class Impersonator
 {
     /**
      * Impersonate the given user.
      *
-     * @throws Throwable
+     * @throws BusinessAuthenticationException
      */
     public function take(Authenticatable $user): void
     {
-        throw_if(
-            condition: $this->impersonating(),
-            exception: AuthenticationException::class,
-            parameters: 'Cannot impersonate while already impersonating'
-        );
+        if ($this->impersonating())
+        {
+            throw new BusinessAuthenticationException(
+                exceptionCode: ExceptionCode::OperationNotAllowed,
+                message: 'Cannot impersonate while already impersonating',
+                context: [
+                    'current_impersonator_id' => session()->get($this->sessionName()),
+                    'target_user_id'          => $user->getAuthIdentifier(),
+                ]
+            );
+        }
 
-        throw_if(
-            condition: ! auth()->check(),
-            exception: AuthenticationException::class,
-            parameters: 'Cannot impersonate without a currently authenticated user'
-        );
+        throw_unless(auth()->check(), BusinessAuthenticationException::class, exceptionCode: ExceptionCode::Unauthenticated, message: 'Cannot impersonate without a currently authenticated user');
 
         session()->put($this->sessionName(), auth()->id());
 
