@@ -26,7 +26,17 @@ class BackupService
 
             $response = Http::timeout(300)->get($backupUrl);
 
-            throw_if($response->failed(), BackupDownloadException::class, 'Failed to retrieve backup from ' . $backupUrl);
+            if ($response->failed())
+            {
+                throw new BackupDownloadException(
+                    message: 'Failed to retrieve backup from ' . $backupUrl,
+                    context: [
+                        'backup_url'  => $backupUrl,
+                        'status_code' => $response->status(),
+                        'reason'      => $response->reason(),
+                    ]
+                );
+            }
 
             $fileSize = $response->header('Content-Length');
             $this->logBackupStart($backupUrl, $fileSize);
@@ -44,7 +54,17 @@ class BackupService
         } catch (Exception $exception)
         {
             $this->logBackupError($backupUrl, $exception->getMessage());
-            throw new BackupProcessingException('Backup operation failed: ' . $exception->getMessage());
+
+            throw_if($exception instanceof BackupDownloadException, $exception);
+
+            throw new BackupProcessingException(
+                message: 'Backup operation failed: ' . $exception->getMessage(),
+                context: [
+                    'backup_url'       => $backupUrl,
+                    'destination_path' => $destinationPath,
+                ],
+                previous: $exception
+            );
         }
     }
 

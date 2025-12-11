@@ -7,18 +7,14 @@ namespace App\Exceptions;
 use App\Enums\ExceptionCode;
 use Throwable;
 
-class BackupProcessingException extends BaseBusinessException
+class SystemException extends BaseBusinessException
 {
     public function __construct(
+        ExceptionCode $exceptionCode = ExceptionCode::InternalServerError,
         ?string $message = null,
         array $context = [],
         ?Throwable $previous = null
     ) {
-        parent::__construct(
-            exceptionCode: ExceptionCode::BackupFailed,
-            message: $message,
-            context: $context,
-            previous: $previous
-        );
+        parent::__construct($exceptionCode, $message, $context, $previous);
     }
 }

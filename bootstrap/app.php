@@ -101,7 +101,18 @@ return Application::configure(basePath: dirname(__DIR__))
             FilamentExceptions::report($e);
         });
 
+        // Don't report custom business exceptions that shouldn't be reported
+        $exceptions->dontReport([
+            App\Exceptions\BaseBusinessException::class,
+        ]);
+
         $exceptions->renderable(function (Throwable $e) {
+            // Custom business exceptions handle their own response
+            if ($e instanceof App\Exceptions\BaseBusinessException)
+            {
+                return $e->toResponse(request());
+            }
+
             $responseData = App\Exceptions\ExceptionMapper::map($e);
 
             if ($e instanceof QueryException && 1451 === $e->errorInfo[1])
@@ -113,7 +124,10 @@ return Application::configure(basePath: dirname(__DIR__))
                 report($e);
             }
 
-            return ApiJsonResponse::error($responseData['status'], $responseData['message']);
+            return ApiJsonResponse::error(
+                httpStatus: $responseData['status'],
+                message: $responseData['message']
+            );
         });
 
         $exceptions->map(function (ThrottleRequestsException $e) {
