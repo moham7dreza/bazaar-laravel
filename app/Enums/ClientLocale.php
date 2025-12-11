@@ -7,6 +7,7 @@ namespace App\Enums;
 use App\Concerns\EnumDataListTrait;
 use RuntimeException;
 
+// TODO make separated services for use default method.
 enum ClientLocale: string
 {
     use EnumDataListTrait;
@@ -70,12 +71,12 @@ enum ClientLocale: string
         };
     }
 
-    public function currency(): string
+    public function currency(): Currency
     {
         return match ($this)
         {
-            self::Farsi   => 'IRR',
-            self::English => 'USD',
+            self::Farsi   => Currency::Irr,
+            self::English => Currency::Usd,
         };
     }
 
