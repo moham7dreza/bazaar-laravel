@@ -93,11 +93,13 @@ final class StoreAdvertisementRequest extends FormRequest
 
     protected function prepareForValidation(): void
     {
+        /*
         if ($this->filled('price'))
         {
             $this->merge([
                 'price' => str_replace(',', '', $this->input('price')),
             ]);
         }
+        */
     }
 }
