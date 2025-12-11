@@ -13,6 +13,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Modules\Advertise\Database\Factories\AdvertisementPriceFactory;
+use Override;
 
 #[UseFactory(AdvertisementPriceFactory::class)]
 class AdvertisementPrice extends Model
@@ -31,6 +32,17 @@ class AdvertisementPrice extends Model
     public function advertisement(): BelongsTo
     {
         return $this->belongsTo(Advertisement::class);
+    }
+
+    #[Override]
+    protected static function boot(): void
+    {
+        parent::boot();
+
+        // use AdvertisementPriceCreateService
+        // static::creating(static fn (self $model) => $model->currency = Currency::currentCurrency());
+
+        static::addGlobalScope('currency', static fn (Builder $builder) => $builder->where('currency', Currency::currentCurrency()));
     }
 
     #[Scope]

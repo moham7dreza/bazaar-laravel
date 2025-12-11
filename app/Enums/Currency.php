@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace App\Enums;
 
-use Illuminate\Support\Arr;
-
 enum Currency: string
 {
     case Irr = 'IRR';
@@ -13,6 +11,17 @@ enum Currency: string
 
     public static function currentCurrency(): Currency
     {
-        return Arr::get(ClientLocale::default(), 'currency');
+        $currency = config()->string('app.currency');
+
+        return $currency ? self::tryFrom($currency) : self::getCurrencyFromClientLocale();
+    }
+
+    private static function getCurrencyFromClientLocale(): Currency
+    {
+        return match (ClientLocale::from(app()->currentLocale()))
+        {
+            ClientLocale::Farsi   => self::Irr,
+            ClientLocale::English => self::Usd,
+        };
     }
 }

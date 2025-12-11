@@ -26,17 +26,18 @@ enum ClientLocale: string
         return self::NUMBER_MAP[$number];
     }
 
-    public static function default(): array
+    // TODO use Class or enums to return data.
+    public static function config(): array
     {
-        return match (app()->getLocale())
+        return match (self::from(app()->currentLocale()))
         {
-            self::Farsi->value => [
+            self::Farsi => [
                 'timezone' => self::Farsi->timezone(),
                 'country'  => self::Farsi->country(),
                 'currency' => self::Farsi->currency(),
                 'flag'     => self::Farsi->flag(),
             ],
-            self::English->value => [
+            self::English => [
                 'timezone' => self::English->timezone(),
                 'country'  => self::English->country(),
                 'currency' => self::English->currency(),
