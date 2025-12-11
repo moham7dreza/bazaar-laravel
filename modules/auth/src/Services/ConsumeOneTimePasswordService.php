@@ -7,7 +7,6 @@ namespace Modules\Auth\Services;
 use Amiriun\SMS\DataContracts\SendSMSDTO;
 use Amiriun\SMS\Services\SMSService;
 use App\Models\User;
-use Exception;
 use Illuminate\Support\Facades\Date;
 use Illuminate\Support\Str;
 use Modules\Auth\Enums\NoticeType;
@@ -30,13 +29,15 @@ final readonly class ConsumeOneTimePasswordService
     {
         $user = User::query()->firstWhere('mobile', $mobile);
 
-        throw_unless($user, Exception::class);
+        $metric = metric('auth:otp')
+            ->date(Date::today());
 
-        metric('auth:otp')
-            ->date(Date::today())
-            ->measurable($user)
-            ->hourly()
-            ->record();
+        if ($user)
+        {
+            $metric->measurable($user);
+        }
+
+        $metric->hourly()->record();
 
         $otpCode = random_int(1000, 9999);
         $token   = Str::random(60);
