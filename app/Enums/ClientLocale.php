@@ -7,6 +7,7 @@ namespace App\Enums;
 use App\Concerns\EnumDataListTrait;
 use RuntimeException;
 
+// TODO make separated services for use default method.
 enum ClientLocale: string
 {
     use EnumDataListTrait;
@@ -25,17 +26,18 @@ enum ClientLocale: string
         return self::NUMBER_MAP[$number];
     }
 
-    public static function default(): array
+    // TODO use Class or enums to return data.
+    public static function config(): array
     {
-        return match (app()->getLocale())
+        return match (self::from(app()->currentLocale()))
         {
-            self::Farsi->value => [
+            self::Farsi => [
                 'timezone' => self::Farsi->timezone(),
                 'country'  => self::Farsi->country(),
                 'currency' => self::Farsi->currency(),
                 'flag'     => self::Farsi->flag(),
             ],
-            self::English->value => [
+            self::English => [
                 'timezone' => self::English->timezone(),
                 'country'  => self::English->country(),
                 'currency' => self::English->currency(),
@@ -70,12 +72,12 @@ enum ClientLocale: string
         };
     }
 
-    public function currency(): string
+    public function currency(): Currency
     {
         return match ($this)
         {
-            self::Farsi   => 'IRT',
-            self::English => 'USD',
+            self::Farsi   => Currency::Irr,
+            self::English => Currency::Usd,
         };
     }
 

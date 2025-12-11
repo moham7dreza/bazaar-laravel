@@ -26,6 +26,7 @@
         "amiriun/sms": "dev-master",
         "ashallendesign/email-utilities": "^1.0",
         "christophrumpel/artisan-benchmark": "^0.0.4",
+        "cknow/laravel-money": "^8.4",
         "cviebrock/eloquent-sluggable": "^12.0",
         "cybercog/laravel-ban": "^4.10",
         "dedoc/scramble": "^0.13",

@@ -16,8 +16,6 @@ use Modules\Advertise\Http\Controllers\Panel\HistoryAdvertisementController;
 use Modules\Advertise\Http\Requests\App\AdvertisementListViewRequest;
 use Modules\Advertise\Models\Advertisement;
 use Modules\Advertise\Repositories\Search\AdvertisementSearchRepository;
-use Spatie\QueryBuilder\AllowedFilter;
-use Spatie\QueryBuilder\Enums\FilterOperator;
 use Spatie\QueryBuilder\QueryBuilder;
 use Throwable;
 
@@ -89,13 +87,15 @@ final class AdvertisementController extends Controller
                     'title',
                     'description',
                     'tags',
-                    AllowedFilter::operator('price', FilterOperator::GREATER_THAN_OR_EQUAL),
+                    // TODO use relation
+                    // AllowedFilter::operator('price', FilterOperator::GREATER_THAN_OR_EQUAL),
                 ]
             )
             ->allowedSorts(
                 [
                     'title',
-                    'price',
+                    // TODO
+                    // 'price',
                     'published_at',
                     'is_ladder',
                     'is_special',

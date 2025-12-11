@@ -14,9 +14,7 @@ class ValidateNationalCodeRule implements ValidationRule
     {
         $nationalCode = $value;
 
-        $nationalCode = mb_trim($nationalCode, ' .');
-        $nationalCode = convertArabicToEnglish($nationalCode);
-        $nationalCode = convertPersianToEnglish($nationalCode);
+        $nationalCode = convertPersianToEnglish(mb_trim($nationalCode, ' .'));
         $bannedArray  = ['0000000000', '1111111111', '2222222222', '3333333333', '4444444444', '5555555555', '6666666666', '7777777777', '8888888888', '9999999999'];
 
         if (blank($nationalCode))

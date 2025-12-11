@@ -17,6 +17,8 @@ use Modules\Advertise\Http\Requests\Admin\UpdateAdvertisementRequest;
 use Modules\Advertise\Http\Resources\Admin\AdvertisementResource;
 use Modules\Advertise\Jobs\ProcessNewAdvertisementJob;
 use Modules\Advertise\Models\Advertisement;
+use Modules\Advertise\Models\AdvertisementPrice;
+use Modules\Advertise\Services\Price\AdvertisementPriceCreateService;
 use Throwable;
 
 final class AdvertisementController extends Controller
@@ -38,7 +40,7 @@ final class AdvertisementController extends Controller
      *
      * @throws Throwable
      */
-    public function store(StoreAdvertisementRequest $request, ImageService $imageService)
+    public function store(StoreAdvertisementRequest $request, ImageService $imageService, AdvertisementPriceCreateService $priceCreateService): JsonResponse
     {
         $inputs = $request->all();
         if ($request->hasFile('image'))
@@ -54,13 +56,15 @@ final class AdvertisementController extends Controller
             }
         }
 
-        $ad = DB::transaction(static function () use ($inputs, $request) {
+        $ad = DB::transaction(static function () use ($inputs, $request, $priceCreateService) {
             Arr::forget($inputs, 'category_value_id');
             $ad = Advertisement::query()->create($inputs);
 
             $request->whenFilled('category_value_id', function (string $input) use ($ad): void {
                 $ad->categoryValues()->attach($input);
             });
+
+            $request->whenFilled('price', fn (int $price): AdvertisementPrice => $priceCreateService->handle($ad, $price));
 
             return $ad;
         }, 3);
@@ -81,8 +85,12 @@ final class AdvertisementController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateAdvertisementRequest $request, Advertisement $advertisement, ImageService $imageService): JsonResource|JsonResponse
-    {
+    public function update(
+        UpdateAdvertisementRequest $request,
+        Advertisement $advertisement,
+        ImageService $imageService,
+        AdvertisementPriceCreateService $priceCreateService,
+    ): JsonResource|JsonResponse {
         $inputs = $request->all();
         if ($request->hasFile('image'))
         {
@@ -114,6 +122,8 @@ final class AdvertisementController extends Controller
         $request->whenFilled('category_value_id', function (string $input) use ($advertisement): void {
             $advertisement->categoryValues()->sync($input);
         });
+
+        $request->whenFilled('price', fn (int $price): AdvertisementPrice => $priceCreateService->handle($advertisement, $price));
 
         return $advertisement->toResource(AdvertisementResource::class);
     }

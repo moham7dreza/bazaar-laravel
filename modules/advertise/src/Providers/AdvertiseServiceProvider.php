@@ -10,7 +10,7 @@ use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Support\ServiceProvider;
 use Modules\Advertise\Commands\AdvertisementLadderCommand;
 use Modules\Advertise\Commands\AdvertisementReindexElasticCommand;
-use Modules\Advertise\Database\Seeders\AdvertiseSeeder;
+use Modules\Advertise\Database\Seeders\AdvertisementSeeder;
 use Modules\Advertise\Repositories\Search\AdvertisementElasticSearchRepository;
 use Modules\Advertise\Repositories\Search\AdvertisementEloquentSearchRepository;
 use Modules\Advertise\Repositories\Search\AdvertisementSearchRepository;
@@ -39,7 +39,7 @@ final class AdvertiseServiceProvider extends ServiceProvider
 
     private function setupSeeders(): void
     {
-        DatabaseSeeder::$seeders[] = AdvertiseSeeder::class;
+        DatabaseSeeder::$seeders[] = AdvertisementSeeder::class;
     }
 
     private function bindSearchRepository(): void

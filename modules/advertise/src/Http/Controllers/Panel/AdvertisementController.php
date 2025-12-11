@@ -9,14 +9,16 @@ use App\Http\Responses\ApiJsonResponse;
 use App\Services\Image\ImageService;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Http\Resources\Json\ResourceCollection;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Gate;
 use Modules\Advertise\Enums\AdvertisementPublishStatus;
-use Modules\Advertise\Http\Requests\App\StoreAdvertisementRequest;
+use Modules\Advertise\Http\Requests\Panel\StoreAdvertisementRequest;
+use Modules\Advertise\Http\Requests\Panel\UpdateAdvertisementRequest;
 use Modules\Advertise\Models\Advertisement;
+use Modules\Advertise\Models\AdvertisementPrice;
+use Modules\Advertise\Services\Price\AdvertisementPriceCreateService;
 use Throwable;
 
 final class AdvertisementController extends Controller
@@ -41,7 +43,7 @@ final class AdvertisementController extends Controller
      *
      * @throws Throwable
      */
-    public function store(StoreAdvertisementRequest $request, ImageService $imageService): JsonResource|JsonResponse
+    public function store(StoreAdvertisementRequest $request, ImageService $imageService, AdvertisementPriceCreateService $priceCreateService): JsonResource|JsonResponse
     {
         Gate::authorize('create', Advertisement::class);
 
@@ -54,7 +56,6 @@ final class AdvertisementController extends Controller
             'city_id'          => $request->city_id,
             'contact'          => $request->contact,
             'image'            => $request->image,
-            'price'            => $request->price,
             'tags'             => $request->tags,
             'lng'              => $request->lng,
             'lat'              => $request->lat,
@@ -81,6 +82,8 @@ final class AdvertisementController extends Controller
             $ad->categoryValues()->attach($input);
         });
 
+        $request->whenFilled('price', fn (int $price): AdvertisementPrice => $priceCreateService->handle($ad, $price));
+
         return $ad->toResource();
     }
 
@@ -101,7 +104,7 @@ final class AdvertisementController extends Controller
      *
      * @throws Throwable
      */
-    public function update(Request $request, Advertisement $advertisement, ImageService $imageService): JsonResource|JsonResponse
+    public function update(UpdateAdvertisementRequest $request, Advertisement $advertisement, ImageService $imageService, AdvertisementPriceCreateService $priceCreateService): JsonResource|JsonResponse
     {
         Gate::authorize('update', $advertisement);
 
@@ -151,6 +154,8 @@ final class AdvertisementController extends Controller
         $request->whenFilled('category_values', function (string $input) use ($advertisement): void {
             $advertisement->categoryValues()->sync($input);
         });
+
+        $request->whenFilled('price', fn (int $price): AdvertisementPrice => $priceCreateService->handle($advertisement, $price));
 
         return $advertisement->toResource();
     }

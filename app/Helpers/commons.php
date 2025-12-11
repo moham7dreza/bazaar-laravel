@@ -61,11 +61,10 @@ if ( ! function_exists('mongo_info'))
         if ($queueable)
         {
             dispatch(new MongoLogJob($data, $log_key));
-
-            return;
+        } else
+        {
+            dispatch_sync(new MongoLogJob($data, $log_key));
         }
-
-        dispatch_sync(new MongoLogJob($data, $log_key));
     }
 }
 
@@ -243,5 +242,17 @@ if ( ! function_exists('appUrl'))
     function appUrl(): string
     {
         return Sanctum::currentApplicationUrlWithPort();
+    }
+}
+
+if ( ! function_exists('convertPersianToEnglish'))
+{
+    function convertPersianToEnglish($number): array|string
+    {
+        return str_replace(
+            ['۰', '۱', '۲', '۳', '۴', '۵', '۶', '۷', '۸', '۹'],
+            ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'],
+            $number
+        );
     }
 }

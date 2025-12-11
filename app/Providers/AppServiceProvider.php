@@ -6,7 +6,7 @@ namespace App\Providers;
 
 use App\Broadcasting\WhatsappChannel;
 use App\Console\Commands\System\DataMigrationCommand;
-use App\Enums\ClientLocale;
+use App\Enums\Currency;
 use App\Enums\Status;
 use App\Exceptions\ManagerConfigException;
 use App\Helpers\JalalianFactory;
@@ -203,7 +203,7 @@ final class AppServiceProvider extends ServiceProvider
     private function configureNumber(): void
     {
         Number::useCurrency(
-            Arr::get(ClientLocale::default(), 'currency')
+            Currency::currentCurrency()->value
         );
     }
 

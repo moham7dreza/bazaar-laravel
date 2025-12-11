@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 use App\Enums\ClientDomain;
 use App\Enums\ClientLocale;
+use App\Enums\Currency;
 use App\Enums\Environment;
+use App\Enums\Timezone;
 
 return [
     /**
@@ -81,7 +83,7 @@ return [
     |
     */
 
-    'timezone' => env('APP_TIMEZONE', ClientLocale::Farsi->timezone()->value),
+    'timezone' => env('APP_TIMEZONE', Timezone::Tehran->value),
 
     /*
     |--------------------------------------------------------------------------
@@ -97,6 +99,8 @@ return [
     'locale' => env('APP_LOCALE', ClientLocale::English->value),
 
     'available_locales' => env('APP_LOCALES', ClientLocale::values()),
+
+    'currency' => env('APP_CURRENCY', Currency::Irr->value),
 
     'fallback_locale' => env('APP_FALLBACK_LOCALE', ClientLocale::Farsi->value),
 

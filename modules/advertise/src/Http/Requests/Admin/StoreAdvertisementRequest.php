@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Modules\Advertise\Http\Requests\Admin;
 
 use App\Enums\Image\ImageSize;
+use Cknow\Money\Rules\Money;
 use Closure;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Contracts\Validation\Validator;
@@ -78,7 +79,7 @@ final class StoreAdvertisementRequest extends FormRequest
             'contact'            => ['nullable', 'max:255', 'min:2'],
             'is_special'         => ['nullable', 'numeric', 'in:0,1'],
             'image'              => ['nullable', 'max:2000', 'image', 'mimes:png,jpg,jpeg,gif'],
-            'price'              => ['nullable', 'numeric'],
+            'price'              => ['nullable', new Money()],
             'tags'               => ['nullable'],
             'lng'                => ['nullable', 'numeric'],
             'lat'                => ['nullable', 'numeric'],
@@ -92,11 +93,13 @@ final class StoreAdvertisementRequest extends FormRequest
 
     protected function prepareForValidation(): void
     {
+        /*
         if ($this->filled('price'))
         {
             $this->merge([
                 'price' => str_replace(',', '', $this->input('price')),
             ]);
         }
+        */
     }
 }

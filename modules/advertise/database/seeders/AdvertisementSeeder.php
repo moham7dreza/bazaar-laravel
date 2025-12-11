@@ -9,13 +9,14 @@ use Illuminate\Database\Seeder;
 use Illuminate\Support\Collection;
 use Modules\Advertise\Models\Advertisement;
 use Modules\Advertise\Models\AdvertisementNote;
+use Modules\Advertise\Models\AdvertisementPrice;
 use Modules\Advertise\Models\Category;
 use Modules\Advertise\Models\CategoryAttribute;
 use Modules\Advertise\Models\CategoryValue;
 use Modules\Advertise\Models\Gallery;
 use Modules\Advertise\Models\State;
 
-final class AdvertiseSeeder extends Seeder
+final class AdvertisementSeeder extends Seeder
 {
     public function run(
         #[Context('users')]
@@ -43,6 +44,7 @@ final class AdvertiseSeeder extends Seeder
             ->hasAttached($users->random(2), relationship: 'favoritedByUsers')
             ->hasAttached($users->random(2), relationship: 'viewedByUsers')
             ->hasAttached(CategoryValue::factory(2)->create(), relationship: 'categoryValues')
-            ->insert();
+            ->has(AdvertisementPrice::factory(), 'prices')
+            ->create();
     }
 }

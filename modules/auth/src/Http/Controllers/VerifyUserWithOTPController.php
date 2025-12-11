@@ -52,15 +52,11 @@ final class VerifyUserWithOTPController extends Controller
 
         $user = User::query()->firstWhere('mobile', $request->mobile);
 
-        metric('auth:verify')
-            ->date(Date::today())
-            ->measurable($user)
-            ->hourly()
-            ->record();
+        $metric = metric('auth:verify')
+            ->date(Date::today());
 
         if ( ! $user)
         {
-
             $user = User::query()->create([
                 'password'           => Str::random(10),
                 'mobile'             => $request->mobile,
@@ -72,9 +68,12 @@ final class VerifyUserWithOTPController extends Controller
             $message = 'ثبت نام و ورود با موفقیت انجام شد';
         } else
         {
+            $metric->measurable($user);
 
             $message = 'با موفقیت وارد شدید';
         }
+
+        $metric->hourly()->record();
 
         event(new Registered($user));
 

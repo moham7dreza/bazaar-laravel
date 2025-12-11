@@ -7,9 +7,11 @@ namespace Modules\Advertise\Models;
 use App\Concerns\Attributable;
 use App\Concerns\ClearsResponseCache;
 use App\Concerns\Searchable;
+use App\Enums\Currency;
 use App\Models\Geo\City;
 use App\Models\Scopes\LatestScope;
 use App\Models\User;
+use Cknow\Money\Money;
 use Cviebrock\EloquentSluggable\Sluggable;
 use Dyrynda\Database\Support\CascadeSoftDeletes;
 use Illuminate\Database\Eloquent\Attributes\Scope;
@@ -19,6 +21,7 @@ use Illuminate\Database\Eloquent\Attributes\UsePolicy;
 use Illuminate\Database\Eloquent\Attributes\UseResource;
 use Illuminate\Database\Eloquent\Attributes\UseResourceCollection;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Prunable;
@@ -156,6 +159,21 @@ final class Advertisement extends Model
         );
     }
 
+    /**
+     * @return HasMany<AdvertisementPrice, $this>
+     */
+    public function prices(): HasMany
+    {
+        return $this->hasMany(AdvertisementPrice::class);
+    }
+
+    public function currentPrice(): ?Money
+    {
+        return $this->prices()
+            ->where('currency', Currency::currentCurrency())
+            ->value('price');
+    }
+
     public function toElasticsearchDocumentArray(): array
     {
         return [
@@ -189,6 +207,16 @@ final class Advertisement extends Model
         return (bool) $this->published_at?->lt(Date::now());
     }
 
+    protected function price(): Attribute
+    {
+        if (($price = $this->currentPrice()) !== null)
+        {
+            $price = (int) $price->getAmount();
+        }
+
+        return Attribute::make(get: static fn (): ?int => $price);
+    }
+
     #[Scope]
     protected function inCategory(Builder $builder, int $categoryId): Builder
     {
@@ -196,17 +224,11 @@ final class Advertisement extends Model
     }
 
     #[Scope]
-    protected function priceRange(Builder $builder, ?float $min = null, ?float $max = null): Builder
-    {
-        return $builder->when($min, fn (Builder $query) => $query->where('price', '>=', $min))
-            ->when($max, fn (Builder $query) => $query->where('price', '<=', $max));
-    }
-
-    #[Scope]
     protected function sortBy(Builder $builder, Sort $sort): Builder
     {
         return match ($sort)
         {
+            // TODO use prices relation
             Sort::PriceAsc   => $builder->oldest('price'),
             Sort::PriceDesc  => $builder->latest('price'),
             Sort::Newest     => $builder->latest(),
