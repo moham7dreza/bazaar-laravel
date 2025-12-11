@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Modules\Advertise\Http\Resources\App;
 
-use Cknow\Money\Money;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Modules\Advertise\Models\Advertisement;
@@ -26,9 +25,6 @@ final class AdvertisementResource extends JsonResource
         /** @var Advertisement $this */
         $categoryAttributes = $this->category->attributes;
         $categoryValues     = $this->categoryValues;
-
-        /** @var Money $price */
-        $price = $this->currentPrice();
 
         return [
             'id'          => $this->id,
@@ -72,7 +68,7 @@ final class AdvertisementResource extends JsonResource
             'is_special'       => $this->is_special,
             'is_ladder'        => $this->is_ladder,
             'image'            => $this->image,
-            'price'            => $price?->getAmount(),
+            'price'            => $this->price,
             'tags'             => $this->tags,
             'lat'              => $this->lat,
             'lng'              => $this->lng,

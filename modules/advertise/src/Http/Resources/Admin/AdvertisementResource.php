@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Modules\Advertise\Http\Resources\Admin;
 
-use Cknow\Money\Money;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Override;
@@ -19,9 +18,6 @@ final class AdvertisementResource extends JsonResource
     #[Override]
     public function toArray(Request $request): array
     {
-        /** @var Money $price */
-        $price = $this->currentPrice();
-
         return [
             'id'               => $this->id,
             'title'            => $this->title,
@@ -40,7 +36,7 @@ final class AdvertisementResource extends JsonResource
             'is_special'       => $this->is_special,
             'is_ladder'        => $this->is_ladder,
             'image'            => $this->image,
-            'price'            => $price->getAmount(),
+            'price'            => $this->price,
             'tags'             => $this->tags,
             'lat'              => $this->lat,
             'lng'              => $this->lng,

@@ -21,6 +21,7 @@ use Illuminate\Database\Eloquent\Attributes\UsePolicy;
 use Illuminate\Database\Eloquent\Attributes\UseResource;
 use Illuminate\Database\Eloquent\Attributes\UseResourceCollection;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Prunable;
@@ -179,7 +180,7 @@ final class Advertisement extends Model
             'id'          => $this->id,
             'title'       => $this->title,
             'description' => $this->description,
-            'price'       => $this->currentPrice()?->getAmount(),
+            'price'       => $this->price,
             'tags'        => $this->tags ?? [],
             'status'      => $this->status->value,
             'created_at'  => $this->created_at?->toIso8601String(),
@@ -204,6 +205,16 @@ final class Advertisement extends Model
     public function isLive(): bool
     {
         return (bool) $this->published_at?->lt(Date::now());
+    }
+
+    protected function price(): Attribute
+    {
+        if (($price = $this->currentPrice()) !== null)
+        {
+            $price = (int) $price->getAmount();
+        }
+
+        return Attribute::make(get: static fn (): ?int => $price);
     }
 
     #[Scope]

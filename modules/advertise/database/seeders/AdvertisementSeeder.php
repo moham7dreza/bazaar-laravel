@@ -44,7 +44,7 @@ final class AdvertisementSeeder extends Seeder
             ->hasAttached($users->random(2), relationship: 'favoritedByUsers')
             ->hasAttached($users->random(2), relationship: 'viewedByUsers')
             ->hasAttached(CategoryValue::factory(2)->create(), relationship: 'categoryValues')
-            ->has(AdvertisementPrice::factory())
-            ->insert();
+            ->has(AdvertisementPrice::factory(), 'prices')
+            ->create();
     }
 }
