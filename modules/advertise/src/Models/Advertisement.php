@@ -7,10 +7,11 @@ namespace Modules\Advertise\Models;
 use App\Concerns\Attributable;
 use App\Concerns\ClearsResponseCache;
 use App\Concerns\Searchable;
+use App\Enums\Currency;
 use App\Models\Geo\City;
 use App\Models\Scopes\LatestScope;
 use App\Models\User;
-use Cknow\Money\Casts\MoneyIntegerCast;
+use Cknow\Money\Money;
 use Cviebrock\EloquentSluggable\Sluggable;
 use Dyrynda\Database\Support\CascadeSoftDeletes;
 use Illuminate\Database\Eloquent\Attributes\Scope;
@@ -157,13 +158,28 @@ final class Advertisement extends Model
         );
     }
 
+    /**
+     * @return HasMany<AdvertisementPrice, $this>
+     */
+    public function prices(): HasMany
+    {
+        return $this->hasMany(AdvertisementPrice::class);
+    }
+
+    public function currentPrice(): Money
+    {
+        return $this->prices()
+            ->where('currency', Currency::currentCurrency())
+            ->value('price');
+    }
+
     public function toElasticsearchDocumentArray(): array
     {
         return [
             'id'          => $this->id,
             'title'       => $this->title,
             'description' => $this->description,
-            'price'       => $this->price->getAmount(),
+            'price'       => $this->currentPrice()->getAmount(),
             'tags'        => $this->tags ?? [],
             'status'      => $this->status->value,
             'created_at'  => $this->created_at?->toIso8601String(),
@@ -197,17 +213,11 @@ final class Advertisement extends Model
     }
 
     #[Scope]
-    protected function priceRange(Builder $builder, ?float $min = null, ?float $max = null): Builder
-    {
-        return $builder->when($min, fn (Builder $query) => $query->where('price', '>=', $min))
-            ->when($max, fn (Builder $query) => $query->where('price', '<=', $max));
-    }
-
-    #[Scope]
     protected function sortBy(Builder $builder, Sort $sort): Builder
     {
         return match ($sort)
         {
+            // TODO use prices relation
             Sort::PriceAsc   => $builder->oldest('price'),
             Sort::PriceDesc  => $builder->latest('price'),
             Sort::Newest     => $builder->latest(),
@@ -247,7 +257,6 @@ final class Advertisement extends Model
             'expired_at'       => 'immutable_datetime',
             //            'ads_type'         => AdvertisementType::class,
             'ads_status'       => AdvertisementStatus::class,
-            'price'            => MoneyIntegerCast::class,
         ];
     }
 }
