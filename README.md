@@ -1,4 +1,4 @@
-# Bazaar App Made With Laravel
+# Adhub App Made With Laravel
 <div style="display:flex;flex-direction: column;gap: 1rem;">
     <div>Root</div>
     <img style="margin: auto;" src="public/images/backend-services.png" width="810" height="407" alt="backend-services">
@@ -29,7 +29,7 @@
 3. activate your idea's `PHPStan` inspection
 
 ### Super Admin Panel
-1. goto http://bazaar.local/super-admin
+1. goto http://adhub.local/super-admin
 2. use `admin` user credentials: admin@admin.com, password
 3. use `ctrl+i` or `cmd+i` for global search modal
 4. use `ctrl+k` or `cmd+k` for search resources
@@ -37,10 +37,10 @@
 
 ### Setup
 1. run `make fix-permissions` for fix project directory access
-2. run `make setup` to configure Nginx for http://bazaar.local
+2. run `make setup` to configure Nginx for http://adhub.local
 3. apply required changes in env files (`MYSQL`, `REDIS`, `MONGO`, ...)
 4. run `make dev` to an init project and start servers
-5. if you use `herd` goto http://bazaar-laravel.test
+5. if you use `herd` goto http://adhub-laravel.test
 6. for `admin` user use these credentials: admin@admin.com, password
 7. fill pusher credentials in .env for use `chatify`
 8. you are up, `explore` and have `fun`

@@ -9,7 +9,7 @@ Successfully implemented comprehensive MCP (Model Context Protocol) configuratio
 ## 📊 What Was Created
 
 ### 1. MCP Configuration File ✅
-**File:** `/var/www/bazaar-laravel/mcp.json`
+**File:** `/var/www/adhub-laravel/mcp.json`
 
 ```json
 {
@@ -30,7 +30,7 @@ Successfully implemented comprehensive MCP (Model Context Protocol) configuratio
 ```
 
 ### 2. Makefile Commands ✅
-**Location:** `/var/www/bazaar-laravel/makefile` (lines 657-750)
+**Location:** `/var/www/adhub-laravel/makefile` (lines 657-750)
 
 **10 New Commands Added:**
 1. ✅ `make mcp-copy` - Copy to IntelliJ
@@ -76,7 +76,7 @@ Successfully implemented comprehensive MCP (Model Context Protocol) configuratio
 ## 📁 File Structure
 
 ```
-/var/www/bazaar-laravel/
+/var/www/adhub-laravel/
 ├── mcp.json                                    # ✅ Source configuration
 ├── makefile                                    # ✅ Updated with MCP commands
 ├── MCP_README.md                               # ✅ Quick start guide
@@ -382,7 +382,7 @@ make mcp-show
 
 ### First Time Setup
 ```bash
-cd /var/www/bazaar-laravel
+cd /var/www/adhub-laravel
 make mcp-validate  # Ensure config is valid
 make mcp-copy      # Copy to IntelliJ
 # Restart IntelliJ IDEA

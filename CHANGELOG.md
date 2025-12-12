@@ -10,7 +10,7 @@
 - **Category**: Updated
 - **Impact**: Medium
 - **Jira Ticket**: -
-- **Merge Request**: [!3](https://github.com/moham7dreza/bazaar-laravel/pull/3)
+- **Merge Request**: [!3](https://github.com/moham7dreza/adhub-laravel/pull/3)
 
 test description
 

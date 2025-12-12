@@ -263,13 +263,13 @@ class AddChangelogEntryCommand extends Command
         {
             $mrNumber = Arr::get($matches, 1);
 
-            return sprintf('[!%s](https://github.com/moham7dreza/bazaar-laravel/pull/%s)', $mrNumber, $mrNumber);
+            return sprintf('[!%s](https://github.com/moham7dreza/adhub-laravel/pull/%s)', $mrNumber, $mrNumber);
         }
 
         // If numeric, format as MR link
         if (is_numeric($input))
         {
-            return sprintf('[!%s](https://github.com/moham7dreza/bazaar-laravel/pull/%s)', $input, $input);
+            return sprintf('[!%s](https://github.com/moham7dreza/adhub-laravel/pull/%s)', $input, $input);
         }
 
         return $input;
