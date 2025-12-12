@@ -35,12 +35,12 @@ UNAME_S := $(shell uname -s)
 # Set OS-specific variables
 ifeq ($(UNAME_S),Linux)
     OS = linux
-    NEXTJS_PATH = /var/www/bazaar-next
+    NEXTJS_PATH = /var/www/adhub-next
     CD_CMD = cd
     EXEC_CMD =
 else ifeq ($(UNAME_S),Darwin)
     OS = macos
-    NEXTJS_PATH = /Users/mohammadreza/Documents/GitHub/bazaar-next
+    NEXTJS_PATH = /Users/mohammadreza/Documents/GitHub/adhub-next
     CD_CMD = cd
     EXEC_CMD =
 else
@@ -48,17 +48,17 @@ else
     # Windows paths - adjust based on your setup
     ifneq (,$(findstring Microsoft,$(shell uname -r)))
         # WSL2
-        NEXTJS_PATH = /var/www/bazaar-next
+        NEXTJS_PATH = /var/www/adhub-next
         CD_CMD = cd
         EXEC_CMD =
     else ifneq (,$(findstring MINGW,$(UNAME_S)))
         # Git Bash / MinGW
-        NEXTJS_PATH = /c/var/www/bazaar-next
+        NEXTJS_PATH = /c/var/www/adhub-next
         CD_CMD = cd
         EXEC_CMD =
     else
         # Native Windows CMD
-        NEXTJS_PATH = C:\var\www\bazaar-next
+        NEXTJS_PATH = C:\var\www\adhub-next
         CD_CMD = cd /d
         EXEC_CMD = cmd /C
     endif
@@ -519,8 +519,8 @@ fix-permissions: ## Fix project directory permissions
 	@sudo chmod -R ug+rwx storage bootstrap/cache
 	@printf "${COLOR_GREEN}✓ All permissions fixed successfully!${COLOR_RESET}\n"
 
-setup: ## Configure Nginx for bazaar.local
-	@printf "${COLOR_BLUE}▶ Starting bazaar.local setup...${COLOR_RESET}\n"
+setup: ## Configure Nginx for adhub.local
+	@printf "${COLOR_BLUE}▶ Starting adhub.local setup...${COLOR_RESET}\n"
 	@printf '%s\n' 'map $$http_upgrade $$connection_upgrade {' \
 	'    default upgrade;' \
 	'    ""      close;' \
@@ -529,9 +529,9 @@ setup: ## Configure Nginx for bazaar.local
 	'server {' \
 	'    listen 80;' \
 	'    listen [::]:80;' \
-	'    server_name bazaar.local;' \
+	'    server_name adhub.local;' \
 	'    server_tokens off;' \
-	'    root /var/www/bazaar-laravel/public;' \
+	'    root /var/www/adhub-laravel/public;' \
 	'' \
 	'    index index.php;' \
 	'' \
@@ -549,7 +549,7 @@ setup: ## Configure Nginx for bazaar.local
 	'    location = /robots.txt  { access_log off; log_not_found off; }' \
 	'' \
 	'    access_log off;' \
-	'    error_log  /var/log/nginx/bazaar-error.log error;' \
+	'    error_log  /var/log/nginx/adhub-error.log error;' \
 	'' \
 	'    error_page 404 /index.php;' \
 	'' \
@@ -571,25 +571,25 @@ setup: ## Configure Nginx for bazaar.local
 	'' \
 	'        proxy_pass http://127.0.0.1:9000$$suffix;' \
 	'    }' \
-	'}' | sudo tee /etc/nginx/sites-available/bazaar >/dev/null
+	'}' | sudo tee /etc/nginx/sites-available/adhub >/dev/null
 
-	@sudo ln -sf /etc/nginx/sites-available/bazaar /etc/nginx/sites-enabled/
+	@sudo ln -sf /etc/nginx/sites-available/adhub /etc/nginx/sites-enabled/
 	@sudo nginx -t
 	@sudo systemctl reload nginx
 	@sudo systemctl reload ${PHP_VERSION}-fpm
-	@if ! grep -q "bazaar.local" /etc/hosts; then \
-		sudo sed -i '1s/^/127.0.0.1 bazaar.local\n/' /etc/hosts; \
-		printf "${COLOR_GREEN}✓ Added bazaar.local to /etc/hosts${COLOR_RESET}\n"; \
+	@if ! grep -q "adhub.local" /etc/hosts; then \
+		sudo sed -i '1s/^/127.0.0.1 adhub.local\n/' /etc/hosts; \
+		printf "${COLOR_GREEN}✓ Added adhub.local to /etc/hosts${COLOR_RESET}\n"; \
 	else \
-		printf "${COLOR_YELLOW}ℹ bazaar.local already exists in /etc/hosts${COLOR_RESET}\n"; \
+		printf "${COLOR_YELLOW}ℹ adhub.local already exists in /etc/hosts${COLOR_RESET}\n"; \
 	fi
-	@printf "${COLOR_GREEN}✓ bazaar.local setup completed!${COLOR_RESET}\n"
+	@printf "${COLOR_GREEN}✓ adhub.local setup completed!${COLOR_RESET}\n"
 
 setup-worker: ## Configure Supervisor for Laravel queue worker
 	@printf "${COLOR_BLUE}▶ Starting Laravel worker setup...${COLOR_RESET}\n"
 	@printf '%s\n' '[program:laravel-worker]' \
 	'process_name=%(program_name)s_%(process_num)02d' \
-	'command=php /var/www/bazaar-laravel/artisan queue:work redis --sleep=3 --tries=3 --max-time=86400' \
+	'command=php /var/www/adhub-laravel/artisan queue:work redis --sleep=3 --tries=3 --max-time=86400' \
 	'autostart=true' \
 	'autorestart=true' \
 	'stopasgroup=true' \
@@ -597,7 +597,7 @@ setup-worker: ## Configure Supervisor for Laravel queue worker
 	'user=www-data' \
 	'numprocs=8' \
 	'redirect_stderr=true' \
-	'stdout_logfile=/var/www/bazaar-laravel/storage/logs/worker.log' \
+	'stdout_logfile=/var/www/adhub-laravel/storage/logs/worker.log' \
 	'stopwaitsecs=3600' | sudo tee /etc/supervisor/conf.d/laravel-worker.conf >/dev/null
 
 	@sudo supervisorctl reread >/dev/null
@@ -616,12 +616,12 @@ setup-horizon: ## Configure Supervisor for Laravel horizon
 	@printf "${COLOR_BLUE}▶ Starting Laravel horizon setup...${COLOR_RESET}\n"
 	@printf '%s\n' '[program:horizon]' \
 	'process_name=%(program_name)s_%(process_num)02d' \
-	'command=php /var/www/bazaar-laravel/artisan horizon' \
+	'command=php /var/www/adhub-laravel/artisan horizon' \
 	'autostart=true' \
 	'autorestart=true' \
 	'user=www-data' \
 	'redirect_stderr=true' \
-	'stdout_logfile=/var/www/bazaar-laravel/storage/logs/horizon.log' \
+	'stdout_logfile=/var/www/adhub-laravel/storage/logs/horizon.log' \
 	'stopwaitsecs=3600' | sudo tee /etc/supervisor/conf.d/horizon.conf >/dev/null
 
 	@sudo supervisorctl reread >/dev/null

@@ -11,17 +11,17 @@ enum ClientDomain: string
 {
     use EnumDataListTrait;
 
-    case Staging                = 'https://bazaar.dev';
+    case Staging                = 'https://adhub.dev';
 
-    case ProdIR                 = 'https://www.bazaar.ir';
+    case ProdIR                 = 'https://www.adhub.ir';
 
-    case ProdApp                = 'https://bazaar.app';
+    case ProdApp                = 'https://adhub.app';
 
     case Local                  = 'http://localhost:3000';
 
     case LocalAdminPanel        = 'http://localhost:3000/admin';
 
-    case LocalSuperAdminPanel   = 'http://bazaar.local/super-admin';
+    case LocalSuperAdminPanel   = 'http://adhub.local/super-admin';
 
     public const array NUMBER_MAP = [
         1  => self::Staging,
@@ -48,9 +48,9 @@ enum ClientDomain: string
     {
         return match ($this)
         {
-            self::Local   => 'http://bazaar.local',
-            self::Staging => 'http://staging.bazaar.dev',
-            default       => 'https://api.bazaar.ir',
+            self::Local   => 'http://adhub.local',
+            self::Staging => 'http://staging.adhub.dev',
+            default       => 'https://api.adhub.ir',
         };
     }
 

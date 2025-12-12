@@ -9,7 +9,7 @@ use function Pest\Stressless\stress;
 pest()->group(TestGroup::Manual);
 
 it('has a fast response time', function (): void {
-    $result = stress('http://bazaar.local')
+    $result = stress('http://adhub.local')
         ->concurrently(requests: 2)
         ->for(5)
         ->seconds()

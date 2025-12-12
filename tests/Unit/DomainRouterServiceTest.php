@@ -48,15 +48,15 @@ it('generates routes for staging environment', function (): void {
 it('generates routes for local environment', function (): void {
 
     $this->request->shouldReceive('host')->andReturn('localhost');
-    $this->request->shouldReceive('schemeAndHttpHost')->andReturn('http://bazaar.local');
+    $this->request->shouldReceive('schemeAndHttpHost')->andReturn('http://adhub.local');
     $this->request->shouldReceive('httpHost')->andReturn('localhost');
 
     $routes = $this->sut->generateRoutes($this->request);
 
     expect($routes)->toBe([
-        'api'         => 'http://bazaar.local/api',
+        'api'         => 'http://adhub.local/api',
         'web'         => 'http://localhost:3000',
-        'assets'      => 'http://bazaar.local',
+        'assets'      => 'http://adhub.local',
         'environment' => Environment::Local->value,
     ]);
 });

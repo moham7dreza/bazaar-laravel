@@ -17,7 +17,7 @@ final class HomeController extends Controller
         Log::warning('this is sample log to view queued jobs [{date}]', ['date' => Date::now()->toDateTimeString()]);
 
         return new JsonResponse([
-            'ServiceName'    => 'Bazaar Api',
+            'ServiceName'    => sprintf('%s %s', config()->string('app.name'), 'Api'),
             'ServiceVersion' => 'v1.0',
             'HostName'       => $request->getHost(),
             'Time'           => Date::now()->toDateTimeString(),
