@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Models;
 
 use Afsakar\FilamentOtpLogin\Models\Contracts\CanLoginDirectly;
+use App\Concerns\GeneratesUsernames;
 use App\Concerns\InteractWithSensitiveColumns;
 use App\Concerns\MustVerifyMobile;
 use App\Contracts\MustVerifyMobile as ShouldVerifiedMobile;
@@ -74,7 +75,7 @@ final class User extends Authenticatable implements
     BannableInterface
 {
     use Bannable;
-    //    use GeneratesUsernames;
+    use GeneratesUsernames;
     use HasApiTokens;
 
     use HasFactory;
@@ -363,6 +364,13 @@ final class User extends Authenticatable implements
     {
         return Attribute::make(
             get: fn () => $this->relationLoaded('advertisements') ? $this->advertisements()->exists() : null,
+        )->shouldCache();
+    }
+
+    protected function username(): Attribute
+    {
+        return Attribute::make(
+            get: static fn (): string => self::generateUsername(null),
         )->shouldCache();
     }
 
