@@ -146,4 +146,6 @@ return [
     ],
 
     'trusted_hosts' => explode(',', env('APP_TRUSTED_HOSTS', ClientDomain::Local->backendUrl())),
+
+    'scheduler_token' => env('APP_SCHEDULER_TOKEN'),
 ];

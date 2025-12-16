@@ -7,6 +7,7 @@ use App\Http\Controllers\FallbackController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ImageController;
 use App\Http\Controllers\SyncRolePermissionsController;
+use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Route;
 
 require __DIR__ . '/auth.php';
@@ -36,6 +37,12 @@ Route::prefix('image')
         Route::post('store', 'store')
             ->name('web.image.store');
     });
+
+Route::get('run-scheduler/{token}', function (string $token): void {
+    abort_if($token !== config()->string('app.scheduler_token'), 403);
+
+    Artisan::call('scheduler:run');
+})->name('web.run-scheduler');
 
 when(app()->isLocal(), function (): void {
     Route::get('/toon-benchmark', function () {
