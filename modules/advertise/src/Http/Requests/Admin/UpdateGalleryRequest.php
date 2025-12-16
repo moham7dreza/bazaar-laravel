@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Modules\Advertise\Http\Requests\Admin;
 
-use App\Data\DTOs\Image\ImageUploadDTO;
+use App\Data\DataTransferObjects\Image\ImageUploadDTO;
 use App\Enums\Image\ImageSize;
 use App\Enums\Image\ImageUploadMethod;
 use Illuminate\Foundation\Http\FormRequest;

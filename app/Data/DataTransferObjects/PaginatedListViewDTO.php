@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Data\DTOs;
+namespace App\Data\DataTransferObjects;
 
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Collection;

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Modules\Advertise\Repositories;
 
-use App\Data\DTOs\PaginatedListViewDTO;
+use App\Data\DataTransferObjects\PaginatedListViewDTO;
 use App\Enums\UserId;
 use App\Models\Scopes\LatestScope;
 use DateTimeInterface;

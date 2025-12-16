@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Data\DTOs\Image;
+namespace App\Data\DataTransferObjects\Image;
 
 use App\Enums\Image\ImageSize;
 use App\Enums\Image\ImageUploadMethod;
