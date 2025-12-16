@@ -47,7 +47,7 @@ use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Pipeline\Hub;
 use Illuminate\Pipeline\Pipeline;
-use Illuminate\Routing\Route;
+use Illuminate\Routing\Route as RoutingRoute;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection as SupportCollection;
 use Illuminate\Support\Facades\Date;
@@ -58,6 +58,7 @@ use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Facades\Queue;
 use Illuminate\Support\Facades\RateLimiter;
+use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Vite;
@@ -74,6 +75,8 @@ use Morilog\Jalali\Jalalian;
 use Override;
 use ReflectionClass;
 use Throwable;
+
+use function Illuminate\Support\minutes;
 
 final class AppServiceProvider extends ServiceProvider
 {
@@ -94,7 +97,7 @@ final class AppServiceProvider extends ServiceProvider
         $this->configureGates();
         $this->logSlowQuery();
         $this->loadExtraMigrationsPath();
-//        $this->handleMissingTrans();
+        // $this->handleMissingTrans();
         $this->configureValidator();
         $this->configureDate();
         $this->configurePassword();
@@ -103,13 +106,13 @@ final class AppServiceProvider extends ServiceProvider
         $this->configureSchedule();
         $this->configureUri();
         $this->configureEmail();
-        //        $this->configureVerifyEmail();
+        // $this->configureVerifyEmail();
         $this->configureStringable();
         $this->configureStr();
         $this->configureSupportCollection();
         $this->configureEloquentBuilder();
         $this->configureQueryBuilder();
-        $this->configureRoute();
+        $this->configureRoutingRoute();
         $this->configureBlueprint();
         $this->configureHttpClientResponse();
         $this->configureMail();
@@ -119,6 +122,7 @@ final class AppServiceProvider extends ServiceProvider
         $this->configureScramble();
         $this->configureResetPassword();
         // $this->configureQueue();
+        // $this->configureRoute();
     }
 
     public function configureResetPassword(): void
@@ -493,14 +497,14 @@ final class AppServiceProvider extends ServiceProvider
         QueryBuilder::macro('c2c', fn () => c2c(getSqlWithBindings($this)));
     }
 
-    private function configureRoute(): void
+    private function configureRoutingRoute(): void
     {
-        Route::$validators = [
-            ...Route::getValidators(),
+        RoutingRoute::$validators = [
+            ...RoutingRoute::getValidators(),
             new IgnoreBindingValidator(),
         ];
 
-        Route::macro('ignoreMissingBindings', fn (): bool => true === Arr::get($this->action, 'ignoreMissingBindings'));
+        RoutingRoute::macro('ignoreMissingBindings', fn (): bool => true === Arr::get($this->action, 'ignoreMissingBindings'));
     }
 
     private function configureBlueprint(): void
@@ -565,8 +569,8 @@ final class AppServiceProvider extends ServiceProvider
         ]);
 
         RateLimiter::for('uploads', fn (Request $request) => $request->user()?->isPremium()
-                ? Limit::none()
-                : Limit::perMinute(10));
+            ? Limit::none()
+            : Limit::perMinute(10));
     }
 
     private function configureCommandsToRunOnReload(): void
@@ -587,5 +591,19 @@ final class AppServiceProvider extends ServiceProvider
     private function configureQueue(): void
     {
         Queue::withoutInterruptionPolling();
+    }
+
+    private function configureRoute(): void
+    {
+        Route::model(
+            'user',
+            User::class,
+            fn (int $id) => cache()->remember(
+                "user.{$id}",
+                minutes(5),
+                fn () => User::query()
+                    ->findOrFail($id)
+            )
+        );
     }
 }
