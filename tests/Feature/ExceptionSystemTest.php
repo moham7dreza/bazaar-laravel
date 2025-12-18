@@ -14,57 +14,68 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Arr;
 
 test('exception code enum has correct http status codes', function (): void {
-    expect(ExceptionCode::Unauthenticated->httpStatus())->toBe(401);
-    expect(ExceptionCode::Forbidden->httpStatus())->toBe(403);
-    expect(ExceptionCode::ResourceNotFound->httpStatus())->toBe(404);
-    expect(ExceptionCode::ValidationError->httpStatus())->toBe(422);
-    expect(ExceptionCode::TooManyRequests->httpStatus())->toBe(429);
-    expect(ExceptionCode::InternalServerError->httpStatus())->toBe(500);
-    expect(ExceptionCode::ServiceUnavailable->httpStatus())->toBe(503);
+    expect(ExceptionCode::Unauthenticated->httpStatus())->toBe(401)
+        ->and(ExceptionCode::Forbidden->httpStatus())
+        ->toBe(403)
+        ->and(ExceptionCode::ResourceNotFound->httpStatus())
+        ->toBe(404)
+        ->and(ExceptionCode::ValidationError->httpStatus())
+        ->toBe(422)
+        ->and(ExceptionCode::TooManyRequests->httpStatus())
+        ->toBe(429)
+        ->and(ExceptionCode::InternalServerError->httpStatus())
+        ->toBe(500)
+        ->and(ExceptionCode::ServiceUnavailable->httpStatus())
+        ->toBe(503);
 });
 
 test('exception code has translated client messages', function (): void {
     $message = ExceptionCode::Unauthenticated->clientMessage();
-    expect($message)->toBeString();
-    expect($message)->not->toBeEmpty();
+    expect($message)->toBeString()->not->toBeEmpty();
 });
 
 test('exception code has developer messages', function (): void {
     $message = ExceptionCode::DatabaseError->developerMessage();
-    expect($message)->toBeString();
-    expect($message)->not->toBeEmpty();
+    expect($message)->toBeString()->not->toBeEmpty();
 });
 
 test('exception code has support messages', function (): void {
     $message = ExceptionCode::PaymentFailed->supportMessage();
-    expect($message)->toBeString();
-    expect($message)->not->toBeEmpty();
+    expect($message)->toBeString()->not->toBeEmpty();
 });
 
 test('exception code reports critical errors', function (): void {
-    expect(ExceptionCode::InternalServerError->shouldReport())->toBeTrue();
-    expect(ExceptionCode::DatabaseError->shouldReport())->toBeTrue();
-    expect(ExceptionCode::ServiceUnavailable->shouldReport())->toBeTrue();
+    expect(ExceptionCode::InternalServerError->shouldReport())->toBeTrue()
+        ->and(ExceptionCode::DatabaseError->shouldReport())
+        ->toBeTrue()
+        ->and(ExceptionCode::ServiceUnavailable->shouldReport())
+        ->toBeTrue();
 });
 
 test('exception code does not report user errors', function (): void {
-    expect(ExceptionCode::ValidationError->shouldReport())->toBeFalse();
-    expect(ExceptionCode::Unauthenticated->shouldReport())->toBeFalse();
-    expect(ExceptionCode::ResourceNotFound->shouldReport())->toBeFalse();
+    expect(ExceptionCode::ValidationError->shouldReport())->toBeFalse()
+        ->and(ExceptionCode::Unauthenticated->shouldReport())
+        ->toBeFalse()
+        ->and(ExceptionCode::ResourceNotFound->shouldReport())
+        ->toBeFalse();
 });
 
 test('exception code has correct severity levels', function (): void {
-    expect(ExceptionCode::InternalServerError->severity())->toBe('critical');
-    expect(ExceptionCode::ServiceUnavailable->severity())->toBe('error');
-    expect(ExceptionCode::TooManyRequests->severity())->toBe('warning');
-    expect(ExceptionCode::ValidationError->severity())->toBe('info');
+    expect(ExceptionCode::InternalServerError->severity())->toBe('critical')
+        ->and(ExceptionCode::ServiceUnavailable->severity())
+        ->toBe('error')
+        ->and(ExceptionCode::TooManyRequests->severity())
+        ->toBe('warning')
+        ->and(ExceptionCode::ValidationError->severity())
+        ->toBe('info');
 });
 
 test('base business exception creates with enum code', function (): void {
     $exception = new BaseBusinessException(ExceptionCode::FeatureNotAvailable);
 
-    expect($exception->getExceptionCode())->toBe(ExceptionCode::FeatureNotAvailable);
-    expect($exception->getMessage())->toBe(ExceptionCode::FeatureNotAvailable->clientMessage());
+    expect($exception->getExceptionCode())->toBe(ExceptionCode::FeatureNotAvailable)
+        ->and($exception->getMessage())
+        ->toBe(ExceptionCode::FeatureNotAvailable->clientMessage());
 });
 
 test('base business exception accepts custom message', function (): void {
@@ -102,8 +113,9 @@ test('authorization exception defaults to forbidden code', function (): void {
 test('resource not found exception handles resource name', function (): void {
     $exception = new ResourceNotFoundException('User');
 
-    expect($exception->getContext())->toHaveKey('resource');
-    expect(Arr::get($exception->getContext(), 'resource'))->toBe('User');
+    expect($exception->getContext())->toHaveKey('resource')
+        ->and(Arr::get($exception->getContext(), 'resource'))
+        ->toBe('User');
 });
 
 test('validation exception uses validation error code', function (): void {
@@ -123,13 +135,15 @@ test('base business exception returns json response', function (): void {
 
     $response = $exception->toResponse(request());
 
-    expect($response)->toBeInstanceOf(JsonResponse::class);
-    expect($response->getStatusCode())->toBe(422);
+    expect($response)->toBeInstanceOf(JsonResponse::class)
+        ->and($response->getStatusCode())
+        ->toBe(422);
 
     $data = $response->getData(true);
-    expect($data)->toHaveKey('meta');
-    expect(Arr::get($data, 'meta'))->toHaveKey('status');
-    expect(Arr::get($data, 'meta'))->toHaveKey('messages');
+    expect($data)->toHaveKey('meta')
+        ->and(Arr::get($data, 'meta'))
+        ->toHaveKey('status')
+        ->toHaveKey('messages');
 });
 
 test('exception response includes developer info in debug mode', function (): void {
@@ -143,8 +157,8 @@ test('exception response includes developer info in debug mode', function (): vo
     $response = $exception->toResponse(request());
     $data     = $response->getData(true);
 
-    expect(Arr::get($data, 'meta.messages'))->toHaveKey('developer');
-    expect(Arr::get($data, 'meta.messages'))->toHaveKey('code');
+    expect(Arr::get($data, 'meta.messages'))->toHaveKey('developer')
+        ->toHaveKey('code');
 });
 
 test('exception response hides developer info in production', function (): void {
@@ -159,8 +173,7 @@ test('exception response hides developer info in production', function (): void 
     $response = $exception->toResponse(request());
     $data     = $response->getData(true);
 
-    expect(Arr::get($data, 'meta.messages'))->not->toHaveKey('developer');
-    expect(Arr::get($data, 'meta.messages'))->not->toHaveKey('context');
+    expect(Arr::get($data, 'meta.messages'))->not->toHaveKey('developer')->not->toHaveKey('context');
 });
 
 test('all exception codes have translations', function (): void {
@@ -170,9 +183,9 @@ test('all exception codes have translations', function (): void {
         $developerMessage = $code->developerMessage();
         $supportMessage   = $code->supportMessage();
 
-        expect($clientMessage)->not->toContain('exceptions.client');
-        expect($developerMessage)->not->toContain('exceptions.developer');
-        expect($supportMessage)->not->toContain('exceptions.support');
+        expect($clientMessage)->not->toContain('exceptions.client')
+            ->and($developerMessage)->not->toContain('exceptions.developer')
+            ->and($supportMessage)->not->toContain('exceptions.support');
     }
 });
 
@@ -181,10 +194,11 @@ test('exception mapper handles business exceptions', function (): void {
 
     $mapped = ExceptionMapper::map($exception);
 
-    expect($mapped)->toHaveKey('status');
-    expect($mapped)->toHaveKey('message');
-    expect($mapped)->toHaveKey('code');
-    expect(Arr::get($mapped, 'code'))->toBe('BUS_4002');
+    expect($mapped)->toHaveKey('status')
+        ->toHaveKey('message')
+        ->toHaveKey('code')
+        ->and(Arr::get($mapped, 'code'))
+        ->toBe('BUS_4002');
 });
 
 test('exception mapper adds exception code to mapped data', function (): void {

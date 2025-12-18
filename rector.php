@@ -28,6 +28,8 @@ use RectorLaravel\Rector\StaticCall\EloquentMagicMethodToQueryBuilderRector;
 use RectorLaravel\Rector\StaticCall\RouteActionCallableRector;
 use RectorLaravel\Set\LaravelLevelSetList;
 use RectorLaravel\Set\LaravelSetList;
+use RectorPest\Set\PestLevelSetList;
+use RectorPest\Set\PestSetList;
 
 return RectorConfig::configure()
     ->withPaths([
@@ -75,6 +77,8 @@ return RectorConfig::configure()
         //                RectorLaravel\Set\LaravelSetList::LARAVEL_STATIC_TO_INJECTION,
         LaravelSetList::LARAVEL_TESTING,
         LaravelSetList::LARAVEL_TYPE_DECLARATIONS,
+        PestLevelSetList::UP_TO_PEST_40,
+        PestSetList::PEST_CODE_QUALITY,
     ])
     ->withRules([
         EloquentMagicMethodToQueryBuilderRector::class,

@@ -18,7 +18,8 @@ test('no test should call assignRole or syncRoles on User model directly', funct
 
     if ( ! $output)
     {
-        expect([])->toBe([]); // No violations found
+        expect([])
+            ->toBeEmpty(); // No violations found
 
         return;
     }
@@ -58,7 +59,8 @@ test('no test should call assignRole or syncRoles on User model directly', funct
 
     if (blank($violations))
     {
-        expect([])->toBe([]);
+        expect([])
+            ->toBeEmpty();
 
         return;
     }

@@ -27,7 +27,8 @@ it('returns empty array when no supervisors exist', function (): void {
     $this->supervisors->shouldReceive('all')->andReturn([]);
     $this->waitTime->shouldReceive('calculate')->andReturn([]);
 
-    expect($this->sut->get())->toBe([]);
+    expect($this->sut->get())
+        ->toBeEmpty();
 });
 
 it('correctly processes single queue supervisors', function (): void {

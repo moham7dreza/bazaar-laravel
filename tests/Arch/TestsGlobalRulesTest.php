@@ -8,5 +8,6 @@ test('Using DatabaseTransactions trait directly is forbidden', function (): void
 
     $files = array_filter($files, static fn ($file): bool => '' !== $file && ! preg_match("/(TestsGlobalRulesTest|Pest\.php)/", (string) $file));
 
-    expect($files)->toBe([]);
+    expect($files)
+        ->toBeEmpty();
 });

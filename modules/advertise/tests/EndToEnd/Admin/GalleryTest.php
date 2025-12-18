@@ -61,8 +61,7 @@ it('can show specific gallery', function (): void {
         ->assertOk();
 
     expect($response->json('data'))
-        ->id->toBe($gallery->id)
-        ->url->toBeString();
+        ->toBeString()->id->toBe($gallery->id)->url;
 });
 
 it('can update gallery', function (): void {
