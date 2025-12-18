@@ -123,6 +123,7 @@ final class AppServiceProvider extends ServiceProvider
         $this->configureResetPassword();
         // $this->configureQueue();
         // $this->configureRoute();
+        $this->validateEnvironmentVariables();
     }
 
     public function configureResetPassword(): void
@@ -605,5 +606,19 @@ final class AppServiceProvider extends ServiceProvider
                     ->findOrFail($id)
             )
         );
+    }
+
+    private function validateEnvironmentVariables(): void
+    {
+        $variables = [
+            'APP_ENV',
+            'DB_HOST',
+            'DB_DATABASE',
+        ];
+
+        foreach ($variables as $variable)
+        {
+            throw_unless(env($variable), "Missing env variable: {$variable}");
+        }
     }
 }
