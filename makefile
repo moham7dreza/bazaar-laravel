@@ -469,7 +469,7 @@ boost-update:
 # --------------------------------------------------------------------------
 
 wayfinder:
-	${ENTRYPOINT} php artisan wayfinder:generate --path=resources/js/wayfinder
+	${ENTRYPOINT} php artisan wayfinder:generate
 
 # --------------------------------------------------------------------------
 # Others
