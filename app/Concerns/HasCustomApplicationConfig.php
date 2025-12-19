@@ -39,6 +39,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Events\QueryExecuted;
 use Illuminate\Database\Query\Builder as QueryBuilder;
 use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Http\Client\ConnectionException;
 use Illuminate\Http\Client\Response as HttpClientResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\UploadedFile;
@@ -147,6 +148,16 @@ trait HasCustomApplicationConfig
             ])
                 ->baseUrl('https://api.openai.com/v1/chat');
         });
+
+        Http::macro('profile', static fn () => Http::retry(
+            3,
+            100,
+            static fn ($e, $attempts): bool => $e instanceof ConnectionException
+        )
+            ->connectTimeout(5)
+            ->timeout(5)
+            ->get('https://thispersondoesnotexist.com/')
+            ->throw());
     }
 
     public function configureVite(): void

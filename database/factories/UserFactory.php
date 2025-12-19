@@ -9,8 +9,6 @@ use App\Enums\Theme;
 use App\Models\Geo\City;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
-use Illuminate\Http\Client\ConnectionException;
-use Illuminate\Http\Client\RequestException;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Date;
 use Illuminate\Support\Facades\Http;
@@ -98,21 +96,13 @@ class UserFactory extends Factory
 
     /**
      * TODO: fix method.
-     *
-     * @throws RequestException
-     * @throws ConnectionException
      */
     private function getRealProfilePhotoFor(User $user): void
     {
-        $response = Http::retry(3, 100, fn ($e, $attempts): bool => $e instanceof ConnectionException)
-            ->timeout(5)
-            ->get('https://thispersondoesnotexist.com/')
-            ->throw();
-
         Storage::disk(Disk::Public)
             ->put(
                 $url = 'images/profile-pic.jpg',
-                $response->body()
+                Http::profile()->body()
             );
 
         $user->update([
