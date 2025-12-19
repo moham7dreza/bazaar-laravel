@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Tests;
 
 use App\Console\Commands\System\SyncRoleHasPermissionsCommand;
-use App\Enums\StorageDisk;
+use App\Enums\Disk;
 use Closure;
 use Database\Seeders\TestsReferenceDataSeeder;
 use Illuminate\Foundation\Testing\TestCase as BaseTestCase;
@@ -62,7 +62,7 @@ abstract class TestCase extends BaseTestCase
 
     private function setStorageDisksAsFake(): void
     {
-        StorageDisk::setDisksAsFake();
+        Disk::setDisksAsFake();
     }
 
     private function clearCache(): void

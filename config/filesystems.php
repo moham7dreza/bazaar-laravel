@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-use App\Enums\StorageDisk;
+use App\Enums\Disk;
 
 return [
 
@@ -17,7 +17,7 @@ return [
     |
     */
 
-    'default' => env('FILESYSTEM_DISK', StorageDisk::Local->value),
+    'default' => env('FILESYSTEM_DISK', Disk::Local->value),
 
     /*
     |--------------------------------------------------------------------------

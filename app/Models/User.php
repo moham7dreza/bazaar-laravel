@@ -11,7 +11,7 @@ use App\Concerns\MustVerifyMobile;
 use App\Contracts\MustVerifyMobile as ShouldVerifiedMobile;
 use App\Enums\ClientDomain;
 use App\Enums\ClientLocale;
-use App\Enums\StorageDisk;
+use App\Enums\Disk;
 use App\Enums\Theme;
 use App\Enums\UserPermission;
 use App\Events\UserUpdatedEvent;
@@ -166,7 +166,9 @@ final class User extends Authenticatable implements
 
     public function getFilamentAvatarUrl(): ?string
     {
-        return $this->avatar_url ? Storage::disk(StorageDisk::Public->value)->url($this->avatar_url) : null;
+        return $this->avatar_url
+            ? Storage::disk(Disk::Public)->url($this->avatar_url)
+            : null;
     }
 
     public function shouldApplyBannedAtScope(): true

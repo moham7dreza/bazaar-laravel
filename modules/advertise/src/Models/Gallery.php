@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Modules\Advertise\Models;
 
-use App\Enums\StorageDisk;
+use App\Enums\Disk;
 use App\Models\Scopes\LatestScope;
 use Illuminate\Database\Eloquent\Attributes\ObservedBy;
 use Illuminate\Database\Eloquent\Attributes\ScopedBy;
@@ -57,7 +57,7 @@ final class Gallery extends Model
 
     protected function pruning(): void
     {
-        Storage::disk(StorageDisk::Local->value)->delete($this->url);
+        Storage::disk(Disk::Local)->delete($this->url);
     }
 
     // _____________________________________________ model related methods SECTION ______________________________

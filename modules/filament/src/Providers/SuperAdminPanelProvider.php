@@ -7,8 +7,8 @@ namespace Modules\Filament\Providers;
 use Afsakar\FilamentOtpLogin\FilamentOtpLoginPlugin;
 use Althinect\FilamentSpatieRolesPermissions\FilamentSpatieRolesPermissionsPlugin;
 use App\Enums\ClientLocale;
+use App\Enums\Disk;
 use App\Enums\Queue;
-use App\Enums\StorageDisk;
 use Awcodes\FilamentQuickCreate\QuickCreatePlugin;
 use Awcodes\Overlook\OverlookPlugin;
 use Awcodes\Overlook\Widgets\OverlookWidget;
@@ -131,7 +131,10 @@ final class SuperAdminPanelProvider extends PanelProvider
                         shouldRegisterNavigation: true,
                         hasAvatars: true,
                     )
-                    ->avatarUploadComponent(fn (): FileUpload => FileUpload::make('avatar_url')->disk(StorageDisk::Public->value))
+                    ->avatarUploadComponent(
+                        fn (): FileUpload => FileUpload::make('avatar_url')
+                            ->disk(Disk::Public->value)
+                    )
                     ->enableTwoFactorAuthentication()
                     ->enableSanctumTokens(),
                 SpotlightPlugin::make(),

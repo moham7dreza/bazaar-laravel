@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Services;
 
-use App\Enums\StorageDisk;
+use App\Enums\Disk;
 use App\Exceptions\BackupDownloadException;
 use App\Exceptions\BackupIntegrityException;
 use App\Exceptions\BackupProcessingException;
@@ -41,7 +41,7 @@ class BackupService
             $fileSize = $response->header('Content-Length');
             $this->logBackupStart($backupUrl, $fileSize);
 
-            Storage::disk(StorageDisk::Backups->value)->writeStream(
+            Storage::disk(Disk::Backups)->writeStream(
                 $destinationPath,
                 $response->resource()
             );
@@ -82,7 +82,7 @@ class BackupService
 
                 if ($response->successful())
                 {
-                    Storage::disk(StorageDisk::Media->value)->writeStream(
+                    Storage::disk(Disk::Media)->writeStream(
                         'library/' . $filename,
                         $response->resource()
                     );
@@ -112,7 +112,7 @@ class BackupService
      */
     private function verifyBackupIntegrity(string $path, $expectedSize): void
     {
-        $actualSize = Storage::disk(StorageDisk::Backups->value)->size($path);
+        $actualSize = Storage::disk(Disk::Backups)->size($path);
 
         throw_if($expectedSize && $actualSize !== (int) $expectedSize, BackupIntegrityException::class, 'File size mismatch during backup verification');
     }

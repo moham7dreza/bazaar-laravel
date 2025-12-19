@@ -7,7 +7,7 @@ namespace App\Enums;
 use App\Concerns\EnumDataListTrait;
 use Illuminate\Support\Facades\Storage;
 
-enum StorageDisk: string
+enum Disk: string
 {
     use EnumDataListTrait;
 
@@ -29,6 +29,6 @@ enum StorageDisk: string
 
     public function fake(): void
     {
-        Storage::fake($this->value);
+        Storage::fake($this);
     }
 }

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Database\Factories;
 
-use App\Enums\StorageDisk;
+use App\Enums\Disk;
 use App\Enums\Theme;
 use App\Models\Geo\City;
 use App\Models\User;
@@ -34,8 +34,8 @@ class UserFactory extends Factory
             'remember_token'    => Str::random(10),
             'theme'             => Theme::Dracula->value,
             // TODO remove
-            'suspended_at'      => fake()->optional(0.1)->dateTimeBetween('-30 days'),
-            'suspended_until'   => fn (array $attributes) => Arr::get($attributes, 'suspended_at')
+            'suspended_at'    => fake()->optional(0.1)->dateTimeBetween('-30 days'),
+            'suspended_until' => fn (array $attributes) => Arr::get($attributes, 'suspended_at')
                 ? Date::parse(Arr::get($attributes, 'suspended_at'))->addWeek()
                 : null,
             'is_active'          => true,
@@ -64,7 +64,7 @@ class UserFactory extends Factory
             }
 
             // $this->getRealProfilePhotoFor($user);
-            Storage::disk(StorageDisk::Public->value)
+            Storage::disk(Disk::Public)
                 ->put(
                     $user->avatar_url,
                     file_get_contents(public_path($user->avatar_url))
@@ -106,15 +106,17 @@ class UserFactory extends Factory
     {
         $response = Http::retry(3, 100, fn ($e, $attempts): bool => $e instanceof ConnectionException)
             ->timeout(5)
-            ->get('https://thispersondoesnotexist.com/');
-        $response->throw();
+            ->get('https://thispersondoesnotexist.com/')
+            ->throw();
 
-        $imageName = 'profile-pic.jpg';
-        Storage::disk(StorageDisk::Public->value)
+        Storage::disk(Disk::Public)
             ->put(
-                'images/' . $imageName,
+                $url = 'images/profile-pic.jpg',
                 $response->body()
             );
-        $user->update(['avatar_url' => 'images/' . $imageName]);
+
+        $user->update([
+            'avatar_url' => $url,
+        ]);
     }
 }
