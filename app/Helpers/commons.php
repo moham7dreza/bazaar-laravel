@@ -146,9 +146,8 @@ if ( ! function_exists('c2c'))
         // macOS
         if (PHP_OS_FAMILY === 'Darwin')
         {
-        $command = sprintf('pbcopy < %s; rm %s;', $path, $path);
-        }
-        elseif (PHP_OS_FAMILY === 'Linux')
+            $command = sprintf('pbcopy < %s; rm %s;', $path, $path);
+        } elseif (PHP_OS_FAMILY === 'Linux')
         {
             // Try xclip first, then xsel (sudo apt install xclip)
             $command = sprintf('xclip -selection clipboard < %s 2>/dev/null || xsel --clipboard --input < %s 2>/dev/null; rm %s;', $path, $path, $path);
@@ -254,5 +253,34 @@ if ( ! function_exists('convertPersianToEnglish'))
             ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'],
             $number
         );
+    }
+}
+
+if ( ! function_exists('maskPhoneNumber'))
+{
+    function maskPhoneNumber(string $phoneNumber): string
+    {
+        return Str::mask($phoneNumber, '*', 2, 6);
+    }
+}
+
+if ( ! function_exists('maskCardNumber'))
+{
+    function maskCardNumber(string $cardNumber): string
+    {
+        return Str::mask($cardNumber, '*', 4, 8);
+    }
+}
+
+if ( ! function_exists('maskEmailAddress'))
+{
+    function maskEmailAddress(string $email): string
+    {
+        $afterMail = Str::after($email, '@');
+
+        return Str::of($email)
+            ->before('@')
+            ->pipe(fn (string $name) => Str::mask($name, '*', 1))
+            . $afterMail;
     }
 }
