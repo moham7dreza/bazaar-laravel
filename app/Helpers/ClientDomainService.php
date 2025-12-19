@@ -12,7 +12,7 @@ class ClientDomainService
 {
     public static function getUserDomainWithFallback(User $user): ClientDomain
     {
-        return $user->getDomain() ?? self::getFallbackDomain();
+        return $user->getDomain() ?? value(static fn (): ClientDomain => self::getFallbackDomain());
     }
 
     public static function getFallbackDomain(): ClientDomain

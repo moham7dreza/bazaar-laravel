@@ -210,7 +210,7 @@ final class SmsBuilder
 
     private function createShortlink(): string
     {
-        $baseUrl = $this->baseUrl ?? ClientDomainService::getUserDomainWithFallback($this->user)->value;
+        $baseUrl = $this->baseUrl ?? value(fn (): string => ClientDomainService::getUserDomainWithFallback($this->user)->value);
 
         $uri = Uri::of($baseUrl)
             ->withPath($this->path)
