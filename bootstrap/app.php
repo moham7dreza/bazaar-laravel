@@ -2,11 +2,13 @@
 
 declare(strict_types=1);
 
+use App\Console\Commands\User\UserSuspendClearCommand;
 use App\Enums\UserPermission as P;
 use App\Exceptions\HasCustomizedThrottling;
 use App\Http\Middleware\EnsureMobileIsVerified;
 use App\Http\Responses\ApiJsonResponse;
 use BezhanSalleh\FilamentExceptions\FilamentExceptions;
+use Cmsmaxinc\FilamentSystemVersions\Commands\CheckDependencyVersions;
 use Cog\Laravel\Ban\Console\Commands\DeleteExpiredBans;
 use DirectoryTree\Metrics\Commands\CommitMetrics;
 use Illuminate\Auth\Middleware\Authenticate;
@@ -20,6 +22,11 @@ use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
 use Illuminate\Http\Exceptions\ThrottleRequestsException;
 use Illuminate\Support\Facades\Date;
+use Modules\Monitoring\Commands\CheckVulnerabilitiesCommand;
+use Spatie\Backup\Commands\BackupCommand;
+use Spatie\Health\Commands\DispatchQueueCheckJobsCommand;
+use Spatie\Health\Commands\RunHealthChecksCommand;
+use Spatie\Health\Commands\ScheduleCheckHeartbeatCommand;
 
 return Application::configure(basePath: dirname(__DIR__))
     ->withRouting(
@@ -90,8 +97,27 @@ return Application::configure(basePath: dirname(__DIR__))
         ]);
     })
     ->withSchedule(function (Schedule $schedule): void {
+        $commandOutputLogPath = storage_path('logs/command_output.log');
+
         $schedule->command(DeleteExpiredBans::class)->everyMinute();
         $schedule->command(CommitMetrics::class)->hourly();
+        $schedule->command(RunHealthChecksCommand::class)->everyMinute();
+        $schedule->command(DispatchQueueCheckJobsCommand::class)->everyMinute();
+        $schedule->command(ScheduleCheckHeartbeatCommand::class)->everyMinute();
+        $schedule->command(BackupCommand::class)->daily()
+            ->appendOutputTo($commandOutputLogPath);
+        $schedule->command('telescope:prune --hours=48')->daily();
+        $schedule->command('sanctum:prune-expired --hours=48')->daily();
+        $schedule->command('horizon:snapshot')->everyFiveMinutes();
+        $schedule->command('cache:prune-stale-tags ')->weekly();
+        $schedule->command(CheckDependencyVersions::class)->everyFiveMinutes();
+        $schedule->command(CheckVulnerabilitiesCommand::class)->everySixHours()
+            ->appendOutputTo($commandOutputLogPath);
+        //  ->emailOutputOnFailure(admin()->email);
+        $schedule->command('model:prune')->daily();
+        // TODO remove
+        $schedule->command(UserSuspendClearCommand::class)->everyFiveMinutes();
+        $schedule->command('spy:clean', ['--days' => 30])->daily();
     })
     ->withExceptions(function (Exceptions $exceptions): void {
         $exceptions->shouldRenderJsonWhen(fn () => request()->is('api/*') || request()->expectsJson());
