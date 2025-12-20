@@ -28,7 +28,7 @@ enum UserPermission: string
     case PublishAd = 'publish_ad';
     case Upload    = 'upload';
 
-    // TODO
+    // @todo:high: unused
     public function isAdminLevel(): bool
     {
         $permissions = [

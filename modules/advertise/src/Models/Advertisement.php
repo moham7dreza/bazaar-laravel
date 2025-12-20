@@ -228,7 +228,7 @@ final class Advertisement extends Model
     {
         return match ($sort)
         {
-            // TODO use prices relation
+            // @todo:high: use prices relation
             Sort::PriceAsc   => $builder->oldest('price'),
             Sort::PriceDesc  => $builder->latest('price'),
             Sort::Newest     => $builder->latest(),

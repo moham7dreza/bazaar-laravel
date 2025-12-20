@@ -22,7 +22,7 @@ final class ContentManager
     }
 
     /*
-     * TODO
+     * @todo:high: model not exists.
     public function getUnmoderatedContent()
     {
         return Article::query()

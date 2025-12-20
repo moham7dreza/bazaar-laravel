@@ -31,7 +31,7 @@ class UserFactory extends Factory
             'password'          => 'password',
             'remember_token'    => Str::random(10),
             'theme'             => Theme::Dracula->value,
-            // TODO remove
+            // @todo:high: remove
             'suspended_at'    => fake()->optional(0.1)->dateTimeBetween('-30 days'),
             'suspended_until' => fn (array $attributes) => Arr::get($attributes, 'suspended_at')
                 ? Date::parse(Arr::get($attributes, 'suspended_at'))->addWeek()
@@ -85,7 +85,7 @@ class UserFactory extends Factory
         });
     }
 
-    // TODO remove
+    // @todo:high: remove
     public function suspended(): static
     {
         return $this->state(fn (array $attributes): array => [
@@ -95,7 +95,7 @@ class UserFactory extends Factory
     }
 
     /**
-     * TODO: fix method.
+     * @todo:high: fix method.
      */
     private function getRealProfilePhotoFor(User $user): void
     {

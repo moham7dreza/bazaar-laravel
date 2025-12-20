@@ -183,4 +183,13 @@ return [
         'group'          => 'Tools',
         'sort'           => 12,
     ],
+    'ghost-notes' => [
+        'title'          => 'Ghost Notes',
+        'description'    => 'Transform Code Comments into a Dev Diary',
+        'url'            => '/ghost-notes',
+        'heroicon'       => 'heroicon-o-pencil-square',
+        'icon'           => null,
+        'group'          => 'Tools',
+        'sort'           => 13,
+    ],
 ];

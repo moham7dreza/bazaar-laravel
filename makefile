@@ -326,6 +326,7 @@ reload: ## Update and refresh application
 	${ENTRYPOINT} php artisan schedule:run
 	${ENTRYPOINT} php artisan backup:list
 	${ENTRYPOINT} php artisan scramble:analyze
+	make notes
 	make ide
 	${ENTRYPOINT} php artisan up
 
@@ -339,6 +340,7 @@ reload-quick: ## Update and refresh application
 	${ENTRYPOINT} php artisan migrate --force
 	${ENTRYPOINT} php artisan schedule-monitor:sync
 	${ENTRYPOINT} php artisan scramble:analyze
+	make notes
 	make ide
 	${ENTRYPOINT} php artisan up
 
@@ -474,6 +476,9 @@ wayfinder:
 # --------------------------------------------------------------------------
 # Others
 # --------------------------------------------------------------------------
+
+notes:
+	${ENTRYPOINT} php artisan ghost:write
 
 upgrade:
 	composer update

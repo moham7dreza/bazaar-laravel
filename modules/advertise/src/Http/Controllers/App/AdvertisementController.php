@@ -59,7 +59,7 @@ final class AdvertisementController extends Controller
 
         if (auth()->check())
         {
-            // TODO: make service
+            // @todo:high: make service
             $historyController = new HistoryAdvertisementController();
             $historyController->store($advertisement);
         }
@@ -87,14 +87,14 @@ final class AdvertisementController extends Controller
                     'title',
                     'description',
                     'tags',
-                    // TODO use relation
+                    // @todo:high: use relation
                     // AllowedFilter::operator('price', FilterOperator::GREATER_THAN_OR_EQUAL),
                 ]
             )
             ->allowedSorts(
                 [
                     'title',
-                    // TODO
+                    // @todo:high: price is relation
                     // 'price',
                     'published_at',
                     'is_ladder',

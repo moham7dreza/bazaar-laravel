@@ -4,12 +4,11 @@ declare(strict_types=1);
 
 namespace App\Repositories\Message;
 
-use App\Data\DTOs\PaginatedListViewDTO;
+use App\Data\DataTransferObjects\PaginatedListViewDTO;
 use App\Models\Message;
 use Illuminate\Database\Eloquent\Builder;
 
-// TODO implement Message entity
-
+// @todo:high: implement Message entity
 final class MessageReadRepository
 {
     public function getUserUnreadMessages(int $userId, int $limit = 20, int $perPage = 20): PaginatedListViewDTO

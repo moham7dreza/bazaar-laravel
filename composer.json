@@ -33,6 +33,7 @@
         "doctrine/dbal": "^4.2",
         "dyrynda/laravel-cascade-soft-deletes": "^4.0",
         "elasticsearch/elasticsearch": "^8.0",
+        "iamsabbiralam/ghost-notes": "^1.0",
         "infinitypaul/idempotency-laravel": "^1.0",
         "internachi/modular": "^2.3",
         "intervention/image-laravel": "^1.5",

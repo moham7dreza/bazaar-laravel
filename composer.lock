@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "7e2f0eaefebc6006e701f264bd31be8c",
+    "content-hash": "bc4413a1dd74a638b4c116106f746d4c",
     "packages": [
         {
             "name": "afsakar/filament-otp-login",
@@ -5248,6 +5248,54 @@
                 "source": "https://github.com/houdaslassi/vantage/tree/v0.1.22"
             },
             "time": "2025-12-12T18:06:23+00:00"
+        },
+        {
+            "name": "iamsabbiralam/ghost-notes",
+            "version": "v1.0.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/iamsabbiralam/ghost-notes.git",
+                "reference": "565ba70727f5e523a3f6dd0ff444bed9769642db"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/iamsabbiralam/ghost-notes/zipball/565ba70727f5e523a3f6dd0ff444bed9769642db",
+                "reference": "565ba70727f5e523a3f6dd0ff444bed9769642db",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/support": "^9.0|^10.0|^11.0|^12.0",
+                "php": "^8.0"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Iamsabbiralam\\GhostNotes\\GhostNotesServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Iamsabbiralam\\GhostNotes\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Sabbir Alam",
+                    "email": "sabbiriph4@gmail.com"
+                }
+            ],
+            "description": "A Laravel package to generate a dev-diary from @ghost tags in your code.",
+            "support": {
+                "issues": "https://github.com/iamsabbiralam/ghost-notes/issues",
+                "source": "https://github.com/iamsabbiralam/ghost-notes/tree/v1.0.1"
+            },
+            "time": "2025-12-18T13:44:58+00:00"
         },
         {
             "name": "infinitypaul/idempotency-laravel",

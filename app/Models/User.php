@@ -287,7 +287,7 @@ final class User extends Authenticatable implements
         );
     }
 
-    // TODO remove suspend from user
+    // @todo:high: remove suspend from user
     // suspend section
 
     public function isSuspended(): bool
@@ -345,7 +345,7 @@ final class User extends Authenticatable implements
         );
     }
 
-    // TODO remove
+    // @todo:high: remove
     #[Scope]
     protected function suspended(Builder $query): Builder
     {

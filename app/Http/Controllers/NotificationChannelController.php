@@ -8,7 +8,7 @@ use App\Http\Responses\ApiJsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
-// TODO: implement notification channels for user
+// @todo:high: implement notification channels for user
 final class NotificationChannelController extends Controller
 {
     public function update(Request $request)

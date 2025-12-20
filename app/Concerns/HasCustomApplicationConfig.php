@@ -118,7 +118,7 @@ trait HasCustomApplicationConfig
     {
         URL::forceHttps(app()->isProduction());
 
-        // TODO
+        // @todo:high: have problem in admin.
         /*
         URL::useOrigin(
             ClientDomainService::getDomainWithFallBack()->value
@@ -174,8 +174,8 @@ trait HasCustomApplicationConfig
 
     public function configureGates(): void
     {
-        // TODO fix
-//        Gate::before(static fn (?User $user): ?bool => $user?->isAdmin());
+        // @todo:high: fix gate.
+        // Gate::before(static fn (?User $user): ?bool => $user?->isAdmin());
     }
 
     public function logSlowQuery(): void
@@ -333,7 +333,7 @@ trait HasCustomApplicationConfig
         // custom email verification template
         VerifyEmail::toMailUsing(static fn (User $user, string $url) => new MailMessage()
             ->subject('Verify Email Address')
-            ->view('mail.email-verification', [ // TODO add template for it
+            ->view('mail.email-verification', [ // @todo:high: add template for it
                 'title'       => 'Confirm your email address',
                 'previewText' => 'Please confirm your email address',
                 'user'        => $user,

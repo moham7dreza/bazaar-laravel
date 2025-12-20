@@ -7,7 +7,7 @@ namespace App\Enums;
 use App\Concerns\EnumDataListTrait;
 use RuntimeException;
 
-// TODO make separated services for use default method.
+// @todo:high: make separated services for use default method.
 enum ClientLocale: string
 {
     use EnumDataListTrait;
@@ -26,7 +26,7 @@ enum ClientLocale: string
         return self::NUMBER_MAP[$number];
     }
 
-    // TODO use Class or enums to return data.
+    // @todo:high: use Class or enums to return data.
     public static function config(): array
     {
         return match (self::from(app()->currentLocale()))

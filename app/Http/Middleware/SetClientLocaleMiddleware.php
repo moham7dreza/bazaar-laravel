@@ -12,7 +12,7 @@ class SetClientLocaleMiddleware
 {
     public function handle(Request $request, Closure $next)
     {
-        // TODO: handle with cookie or header
+        // @todo:high: handle with cookie or header
         if ( ! $request->route()->hasParameter('lang'))
         {
             return $next($request);

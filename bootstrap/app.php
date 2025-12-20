@@ -35,7 +35,7 @@ return Application::configure(basePath: dirname(__DIR__))
         commands: __DIR__ . '/../routes/console.php',
         channels: __DIR__ . '/../routes/channels.php',
         health: '/up',
-        // TODO setup version 1
+        // @todo:high: setup version 1
         //        then: function () {
         //            Route::middleware('api')
         //                ->prefix('api/v1')
@@ -115,7 +115,7 @@ return Application::configure(basePath: dirname(__DIR__))
             ->appendOutputTo($commandOutputLogPath);
         //  ->emailOutputOnFailure(admin()->email);
         $schedule->command('model:prune')->daily();
-        // TODO remove
+        // @todo:high: remove
         $schedule->command(UserSuspendClearCommand::class)->everyFiveMinutes();
         $schedule->command('spy:clean', ['--days' => 30])->daily();
     })
