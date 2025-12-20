@@ -28,12 +28,11 @@ final class CacheUiLaravelCommand extends Command
 
     public function handle(): int
     {
-        $storeName    = $this->option('store');
-
-        if (blank($storeName))
-        {
-            $storeName = config('cache-ui-laravel.default_store') ?? config('cache.default');
-        }
+         $storeName    = $this->option('store') ?? config('cache-ui-laravel.default_store');
+         if (null === $storeName)
+         {
+             $storeName = config()->string('cache.default');
+         }
 
         $this->store  = cache()->store($storeName);
         $this->driver = config(sprintf('cache.stores.%s.driver', $storeName));

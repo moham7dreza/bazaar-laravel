@@ -20,6 +20,7 @@
 5. use `php artisan changelog` to add new change log entry to __CHANGELOG.md file.
 6. use `php artisan reload` to restart queue workers, reverb server, horizon, pulse and octane workers.
 7. use `php artisan stats` to see code details.
+8. use `php artisan cache:list` to see cache ui for specific cache store.
 
 ### Guide
 1. use `php artisan make:data-migration` to make data migrations when changing database states (not running in testing env)
