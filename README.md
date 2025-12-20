@@ -19,6 +19,7 @@
 4. use `php artisan docs` to search `laravel` document topics.
 5. use `php artisan changelog` to add new change log entry to __CHANGELOG.md file.
 6. use `php artisan reload` to restart queue workers, reverb server, horizon, pulse and octane workers.
+7. use `php artisan stats` to see code details.
 
 ### Guide
 1. use `php artisan make:data-migration` to make data migrations when changing database states (not running in testing env)
