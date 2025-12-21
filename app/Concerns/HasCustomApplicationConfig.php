@@ -514,22 +514,12 @@ trait HasCustomApplicationConfig
 
     public function configureRateLimiter(): void
     {
-        RateLimiter::for('global', static fn (
-            Request $request
-        ) => Limit::perMinute(100)->by($request->ip()));
-
-        RateLimiter::for('api-custom', static fn (
-            Request $request
-        ) => Limit::perMinute(60)->by($request->user()?->id ?: $request->ip()));
-
-        RateLimiter::for('auth', static fn () => Limit::perMinute(5));
-
         RateLimiter::for('otp-request', static fn (Request $request): array => [
             Limit::perMinutes(2, 5)
                 ->by($request->get('mobile') ?: $request->ip()),
         ]);
 
-        RateLimiter::for('uploads', fn (Request $request) => $request->user()?->isPremium()
+        RateLimiter::for('uploads', static fn (Request $request) => $request->user()?->isPremium()
             ? Limit::none()
             : Limit::perMinute(10));
     }

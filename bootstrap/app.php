@@ -45,9 +45,10 @@ return Application::configure(basePath: dirname(__DIR__))
     )
     ->withMiddleware(function (Middleware $middleware): void {
         $middleware->statefulApi();
-        $middleware->throttleApi('api-custom', true);
+        $middleware->throttleApi();
+        $middleware->throttleWithRedis();
         $middleware->trustHosts();
-        $middleware->preventRequestsDuringMaintenance([
+        $middleware->preventRequestsDuringMaintenance(except: [
             '/register',
             '/register/*',
             '/terms',
@@ -55,6 +56,7 @@ return Application::configure(basePath: dirname(__DIR__))
         ]);
 
         $middleware->append([
+            // @todo:high: remove.
             App\Http\Middleware\UserCheckSuspendedMiddleware::class,
             App\Http\Middleware\EnableDebugForDeveloper::class,
             App\Http\Middleware\HttpsRedirectMiddleware::class,
