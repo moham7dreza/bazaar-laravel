@@ -5,8 +5,9 @@ declare(strict_types=1);
 namespace Modules\Advertise\Notifications;
 
 use App\Enums\Queue;
-use Illuminate\Bus\Queueable;
+use App\Http\Middleware\EmailRateLimit;
 use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Foundation\Queue\Queueable;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 
@@ -37,6 +38,15 @@ final class NewAdPostedNotification extends Notification implements ShouldQueue
     {
         return [
 
+        ];
+    }
+
+    public function middleware(): array
+    {
+        $this->release();
+
+        return [
+            new EmailRateLimit(),
         ];
     }
 }
