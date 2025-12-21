@@ -19,25 +19,25 @@ Artisan::command('inspire', fn () => $this->comment(Inspiring::quote()));
 
 $commandOutputLogPath = storage_path('logs/command_output.log');
 
-Artisan::call(DeleteExpiredBans::class)->everyMinute();
-Artisan::call(CommitMetrics::class)->hourly();
-Artisan::call(RunHealthChecksCommand::class)->everyMinute();
-Artisan::call(DispatchQueueCheckJobsCommand::class)->everyMinute();
-Artisan::call(ScheduleCheckHeartbeatCommand::class)->everyMinute();
-Artisan::call(BackupCommand::class)->daily()
+Schedule::command(DeleteExpiredBans::class)->everyMinute();
+Schedule::command(CommitMetrics::class)->hourly();
+Schedule::command(RunHealthChecksCommand::class)->everyMinute();
+Schedule::command(DispatchQueueCheckJobsCommand::class)->everyMinute();
+Schedule::command(ScheduleCheckHeartbeatCommand::class)->everyMinute();
+Schedule::command(BackupCommand::class)->daily()
     ->appendOutputTo($commandOutputLogPath);
-Artisan::call('telescope:prune --hours=48')->daily();
-Artisan::call('sanctum:prune-expired --hours=48')->daily();
-Artisan::call('horizon:snapshot')->everyFiveMinutes();
-Artisan::call('cache:prune-stale-tags ')->weekly();
-Artisan::call(CheckDependencyVersions::class)->everyFiveMinutes();
-Artisan::call(CheckVulnerabilitiesCommand::class)->everySixHours()
+Schedule::command('telescope:prune --hours=48')->daily();
+Schedule::command('sanctum:prune-expired --hours=48')->daily();
+Schedule::command('horizon:snapshot')->everyFiveMinutes();
+Schedule::command('cache:prune-stale-tags ')->weekly();
+Schedule::command(CheckDependencyVersions::class)->everyFiveMinutes();
+Schedule::command(CheckVulnerabilitiesCommand::class)->everySixHours()
     ->appendOutputTo($commandOutputLogPath);
 //  ->emailOutputOnFailure(admin()->email);
-Artisan::call('model:prune')->daily();
+Schedule::command('model:prune')->daily();
 // @todo:high: remove
-Artisan::call(UserSuspendClearCommand::class)->everyFiveMinutes();
-Artisan::call('spy:clean', ['--days' => 30])->daily();
+Schedule::command(UserSuspendClearCommand::class)->everyFiveMinutes();
+Schedule::command('spy:clean', ['--days' => 30])->daily();
 
 /*
 Schedule::command('queue:work --tries=2 --stop-when-empty')
