@@ -76,6 +76,7 @@
         "laravel/breeze": "^2.0",
         "laravel/pail": "^1.2",
         "laravel/pint": "^1.21",
+        "ldaidone/laravel-ddd-commands": "^0.1.1",
         "mockery/mockery": "^1.6",
         "mrpunyapal/laravel-extended-commands": "^1.2",
         "mrpunyapal/rector-pest": "^0.1.3",

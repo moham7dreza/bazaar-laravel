@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "bc4413a1dd74a638b4c116106f746d4c",
+    "content-hash": "613c0e112bba77623973f7d56af2c6a8",
     "packages": [
         {
             "name": "afsakar/filament-otp-login",
@@ -23574,6 +23574,68 @@
                 "source": "https://github.com/laravel/roster"
             },
             "time": "2025-10-20T09:56:46+00:00"
+        },
+        {
+            "name": "ldaidone/laravel-ddd-commands",
+            "version": "v0.1.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/ldaidone/laravel-ddd-commands.git",
+                "reference": "d9c53b6d5d70e34f25b4a75e222a357d115926b8"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/ldaidone/laravel-ddd-commands/zipball/d9c53b6d5d70e34f25b4a75e222a357d115926b8",
+                "reference": "d9c53b6d5d70e34f25b4a75e222a357d115926b8",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/console": "^10.0 || ^11.0 || ^12.0",
+                "illuminate/support": "^10.0 || ^11.0 || ^12.0",
+                "php": ">=8.1"
+            },
+            "require-dev": {
+                "laravel/pint": "^1.0 || ^2.0",
+                "orchestra/testbench": "^9.0 || ^10.0",
+                "phpstan/phpstan": "^1.10",
+                "phpunit/phpunit": "^10.0 || ^11.0"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Ldaidone\\LaravelDddCommands\\LaravelDddCommandsServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Ldaidone\\LaravelDddCommands\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "Apache-2.0"
+            ],
+            "authors": [
+                {
+                    "name": "Leo Daidone",
+                    "email": "leo.daidone@gmail.com"
+                }
+            ],
+            "description": "A lightweight toolkit that adds Domain-Driven Design scaffolding to any Laravel project. Generate domains, use cases, entities, value objects, repositories, and more with expressive artisan commands — keeping your architecture clean and consistent with zero friction.",
+            "keywords": [
+                "artisan",
+                "ddd",
+                "domain-driven-design",
+                "laravel",
+                "scaffolding"
+            ],
+            "support": {
+                "issues": "https://github.com/ldaidone/laravel-ddd-commands/issues",
+                "source": "https://github.com/ldaidone/laravel-ddd-commands/tree/v0.1.1"
+            },
+            "time": "2025-11-25T21:38:24+00:00"
         },
         {
             "name": "mockery/mockery",

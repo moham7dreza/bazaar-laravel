@@ -21,6 +21,7 @@
 6. use `php artisan reload` to restart queue workers, reverb server, horizon, pulse and octane workers.
 7. use `php artisan stats` to see code details.
 8. use `php artisan cache:list` to see cache ui for specific cache store.
+9. use `php artisan list ddd` to see available ddd commands.
 
 ### Guide
 1. use `php artisan make:data-migration` to make data migrations when changing database states (not running in testing env)
