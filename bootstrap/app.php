@@ -44,16 +44,17 @@ return Application::configure(basePath: dirname(__DIR__))
         //        },
     )
     ->withMiddleware(function (Middleware $middleware): void {
-        $middleware->statefulApi();
-        $middleware->throttleApi();
-        $middleware->throttleWithRedis();
-        $middleware->trustHosts();
-        $middleware->preventRequestsDuringMaintenance(except: [
-            '/register',
-            '/register/*',
-            '/terms',
-            '/privacy',
-        ]);
+        $middleware
+            ->statefulApi()
+            ->throttleApi()
+            ->throttleWithRedis()
+            ->trustHosts()
+            ->preventRequestsDuringMaintenance(except: [
+                '/register',
+                '/register/*',
+                '/terms',
+                '/privacy',
+            ]);
 
         $middleware->append([
             // @todo:high: remove.
