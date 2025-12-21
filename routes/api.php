@@ -10,7 +10,7 @@ use App\Http\Middleware\MetricsLoggerMiddleware;
 use App\Mail\UserLandMail;
 use Illuminate\Auth\Middleware\RedirectIfAuthenticated;
 use Illuminate\Http\Request;
-use Illuminate\Routing\Middleware\ThrottleRequests;
+use Illuminate\Routing\Middleware\ThrottleRequestsWithRedis;
 use Illuminate\Support\Facades\Route;
 use Infinitypaul\Idempotency\Middleware\EnsureIdempotency;
 use Modules\Advertise\Http\Controllers\Admin\AdvertisementController;
@@ -56,7 +56,7 @@ Route::get('user', static fn (Request $request) => $request->user())
 Route::prefix('auth')
     ->middleware([
         RedirectIfAuthenticated::class,
-        ThrottleRequests::using('otp-request'),
+        ThrottleRequestsWithRedis::using('otp-request'),
     ])
     ->group(function (): void {
         Route::post('register', RegisteredUserController::class)
