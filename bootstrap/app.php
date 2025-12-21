@@ -35,13 +35,6 @@ return Application::configure(basePath: dirname(__DIR__))
         commands: __DIR__ . '/../routes/console.php',
         channels: __DIR__ . '/../routes/channels.php',
         health: '/up',
-        // @todo:high: setup version 1
-        //        then: function () {
-        //            Route::middleware('api')
-        //                ->prefix('api/v1')
-        //                ->name('api.v1.')
-        //                ->group(base_path('routes/api_v1.php'));
-        //        },
     )
     ->withMiddleware(function (Middleware $middleware): void {
         $middleware
