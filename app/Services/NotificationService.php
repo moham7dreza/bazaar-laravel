@@ -4,46 +4,44 @@ declare(strict_types=1);
 
 namespace App\Services;
 
-use Illuminate\Support\Collection;
+use App\Contracts\NotificationChannelInterface;
+use App\Services\Notifications\EmailNotification;
+use App\Services\Notifications\PushNotification;
+use App\Services\Notifications\SmsNotification;
+use Illuminate\Support\Arr;
 
-final readonly class NotificationService
+class NotificationService
 {
-    public function sendEmails($recipients, $message)
-    {
-        return Collection::wrap($recipients)
-            ->map(fn ($email) => $this->validateEmail($email))
-            ->filter()
-            ->each(fn ($email) => $this->dispatch($email, $message));
+    protected array $channels = [];
+
+    public function __construct(
+        public readonly EmailNotification $emailNotification,
+        public readonly SmsNotification $smsNotification,
+        public readonly PushNotification $pushNotification,
+    ) {
+        $this->channels = [
+            'email' => $emailNotification,
+            'sms'   => $smsNotification,
+            'push'  => $pushNotification,
+        ];
     }
 
-    public function assignCategories($ad, $categories)
+    public function sendVia(string $channel, string $recipient, string $message): bool
     {
-        $currentCategories = $ad->categories;
-        $newCategories     = Collection::wrap($categories)
-            ->unique()
-            ->diff($currentCategories);
+        throw_unless(Arr::has($this->channels, $channel));
 
-        $ad->categories()->sync($newCategories);
+        /** @var NotificationChannelInterface $channel */
+        $channel = Arr::get($this->channels, $channel);
 
-        return $ad;
+        return $channel->send($recipient, $message);
     }
 
-    public function formatNotifications($notifications)
+    public function broadcast(string $recipient, string $message): void
     {
-        return Collection::wrap($notifications)
-            ->map(fn ($notification): array => [
-                'id'        => $notification->id,
-                'message'   => $notification->content,
-                'timestamp' => $notification->created_at,
-            ])
-            ->sortByDesc('timestamp');
-    }
-
-    private function validateEmail($email): void
-    {
-    }
-
-    private function dispatch($email, $message): void
-    {
+        /** @var NotificationChannelInterface $channel */
+        foreach ($this->channels as $channel)
+        {
+            $channel->send($recipient, $message);
+        }
     }
 }
