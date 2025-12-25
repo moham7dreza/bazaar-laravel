@@ -22,6 +22,7 @@
 7. use `php artisan stats` to see code details.
 8. use `php artisan cache:list` to see cache ui for specific cache store.
 9. use `php artisan list ddd` to see available ddd commands.
+10. use `php artisan api:status` to view status of all API versions.
 
 ### Guide
 1. use `php artisan make:data-migration` to make data migrations when changing database states (not running in testing env)
