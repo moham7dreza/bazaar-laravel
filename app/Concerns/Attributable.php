@@ -8,23 +8,24 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Concerns\HasRelationships;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
-use Illuminate\Support\Arr;
 
 trait Attributable
 {
     use HasRelationships;
 
     /**
-     * Get attributes.
+     * Get custom attributes.
      *
      * @return MorphMany
      */
-    public function attributes()
+    public function customAttributes()
     {
         return $this->morphMany(
             config('laravel-attributes.attributes_model'),
             'attributable',
-            'attributable'
+            null,
+            null,
+            'id'
         );
     }
 
@@ -36,13 +37,11 @@ trait Attributable
     public function attachAttribute(string $title, string $value)
     {
         $attributes = [
-            'title'           => $title,
-            'value'           => $value,
-            'attributable_id' => $this->getKey(),
-            'attributable'    => $this::class,
+            'title' => $title,
+            'value' => $value,
         ];
 
-        return $this->attributes()->create($attributes);
+        return $this->customAttributes()->create($attributes);
     }
 
     /**
@@ -54,10 +53,7 @@ trait Attributable
     {
         foreach ($values as $value)
         {
-            Arr::set($value, 'attributable_id', $this->getKey());
-            Arr::set($value, 'attributable', $this::class);
-
-            $this->attributes()->create($value);
+            $this->customAttributes()->create($value);
         }
 
         return $this;
@@ -146,8 +142,6 @@ trait Attributable
      */
     private function getAttributeWhere(): MorphMany
     {
-        return $this->attributes()
-            ->where('attributable_id', $this->getKey())
-            ->where('attributable', $this::class);
+        return $this->customAttributes();
     }
 }

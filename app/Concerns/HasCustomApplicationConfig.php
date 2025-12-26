@@ -36,6 +36,7 @@ use Illuminate\Database\Console\DumpCommand;
 use Illuminate\Database\Eloquent\Builder as EloquentBuilder;
 use Illuminate\Database\Eloquent\Collection as EloquentCollection;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Database\Events\QueryExecuted;
 use Illuminate\Database\Query\Builder as QueryBuilder;
 use Illuminate\Database\Schema\Blueprint;
@@ -69,6 +70,7 @@ use Illuminate\Support\Uri;
 use Illuminate\Validation\InvokableValidationRule;
 use Illuminate\Validation\Rules\Email;
 use Illuminate\Validation\Rules\Password;
+use Modules\Advertise\Models\Advertisement;
 use Monolog\Formatter\JsonFormatter;
 use Morilog\Jalali\Jalalian;
 
@@ -570,5 +572,13 @@ trait HasCustomApplicationConfig
         {
             throw_unless(env($variable), "Missing env variable: {$variable}");
         }
+    }
+
+    public function configureEloquentRelation(): void
+    {
+        Relation::enforceMorphMap([
+            'user'          => User::class,
+            'advertisement' => Advertisement::class,
+        ]);
     }
 }

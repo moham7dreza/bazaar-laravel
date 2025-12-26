@@ -56,5 +56,6 @@ final class AppServiceProvider extends ServiceProvider
         // $this->configureQueue();
         // $this->configureRoute();
         $this->validateEnvironmentVariables();
+        $this->configureEloquentRelation();
     }
 }

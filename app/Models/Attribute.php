@@ -6,6 +6,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\MorphTo;
 
 /**
  * @property string $title
@@ -24,5 +25,10 @@ class Attribute extends Model
         $this->table = config('laravel-attributes.tables.name', 'attributes');
 
         parent::__construct($attributes);
+    }
+
+    public function attributable(): MorphTo
+    {
+        return $this->morphTo();
     }
 }
