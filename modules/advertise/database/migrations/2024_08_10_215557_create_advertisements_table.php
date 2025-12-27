@@ -19,7 +19,7 @@ return new class() extends Migration {
             $table->string('ads_type')->nullable()->comment('بازی');
             $table->string('ads_status')->default('as_good_as_new')->comment('در حد نوع');
             $table->foreignId('category_id')->constrained('categories')->onDelete('cascade')->onUpdate('cascade');
-            $table->foreignId('city_id')->constrained('cities')->onDelete('cascade')->onUpdate('cascade');
+            $table->foreignId('city_id');
             $table->foreignId('user_id')->constrained('users')->onDelete('cascade')->onUpdate('cascade');
             $table->tinyInteger('status')->default(1)->comment('1 => enable, 0 => disable, 2 => active, 3 => pending, 4 => expire');
             $table->dateTime('published_at')->nullable();

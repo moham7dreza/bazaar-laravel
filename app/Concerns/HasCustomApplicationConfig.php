@@ -180,10 +180,7 @@ trait HasCustomApplicationConfig
 
     public function logSlowQuery(): void
     {
-        DB::enableQueryLog();
-
         DB::whenQueryingForLongerThan(5000, static function (Connection $connection, QueryExecuted $event): void {
-
             mongo_info('slow-query', [
                 'connection'     => $event->connection,
                 'connectionName' => $event->connectionName,
@@ -191,7 +188,7 @@ trait HasCustomApplicationConfig
                 'sql'            => $event->sql,
                 'bindings'       => Str::replaceArray('?', $event->bindings, $event->sql),
                 'path'           => request()->path(),
-                'req'            => request()->all(),
+                'request-data'   => request()->all(),
             ]);
 
             Log::build([
@@ -201,8 +198,6 @@ trait HasCustomApplicationConfig
                 'formatter'            => JsonFormatter::class,
             ])->warning('Long running queries detected', $connection->getQueryLog());
         });
-
-        DB::disableQueryLog();
     }
 
     public function loadExtraMigrationsPath(): void

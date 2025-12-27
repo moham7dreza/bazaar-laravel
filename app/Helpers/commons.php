@@ -63,7 +63,7 @@ if ( ! function_exists('mongo_info'))
             dispatch(new MongoLogJob($data, $log_key));
         } else
         {
-            dispatch_sync(new MongoLogJob($data, $log_key));
+            new MongoLogJob($data, $log_key)->handle();
         }
     }
 }

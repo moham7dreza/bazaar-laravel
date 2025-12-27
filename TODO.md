@@ -20,3 +20,12 @@
 ## Bugfix
 1. fix price related TODOs.
 2. fix query-builder route for price filter.
+
+## packages to install
+1. laravel wallet or credits.
+2. smart cache.
+3. qr code generator.
+4. elastic query builder.
+5. taxonomy.
+6. payment and order handler.
+7. 

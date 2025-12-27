@@ -1,0 +1,24 @@
+{
+	"name": "modules/region",
+	"description": "",
+	"type": "library",
+	"version": "1.0",
+	"license": "proprietary",
+	"require": {},
+	"autoload": {
+		"psr-4": {
+			"Modules\\Region\\": "src/",
+			"Modules\\Region\\Tests\\": "tests/",
+			"Modules\\Region\\Database\\Factories\\": "database/factories/",
+			"Modules\\Region\\Database\\Seeders\\": "database/seeders/"
+		}
+	},
+	"minimum-stability": "stable",
+	"extra": {
+		"laravel": {
+			"providers": [
+				"Modules\\Region\\Providers\\RegionServiceProvider"
+			]
+		}
+	}
+}

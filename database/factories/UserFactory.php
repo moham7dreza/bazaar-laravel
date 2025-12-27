@@ -6,7 +6,6 @@ namespace Database\Factories;
 
 use App\Enums\Disk;
 use App\Enums\Theme;
-use App\Models\Geo\City;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Arr;
@@ -14,6 +13,7 @@ use Illuminate\Support\Facades\Date;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
+use Modules\Region\Models\City;
 use Override;
 use Random\RandomException;
 
@@ -39,7 +39,7 @@ class UserFactory extends Factory
             'is_active'          => true,
             'mobile'             => persian_faker()->cellPhone(),
             'mobile_verified_at' => Date::now(),
-            'city_id'            => City::factory(),
+            'city_id'            => City::query()->inRandomOrder()->value('id'),
             'avatar_url'         => '/images/admin.jpg',
             'secrets'            => [
                 'stripe'  => Str::random(32),
