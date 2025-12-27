@@ -6,6 +6,7 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use Modules\Region\Database\Seeders\IranCitiesSeeder;
 
 final class DatabaseSeeder extends Seeder
 {
@@ -23,6 +24,7 @@ final class DatabaseSeeder extends Seeder
         {
             $this->call([
                 PermissionSeeder::class,
+                IranCitiesSeeder::class,
                 TopToDownSeeder::class,
             ]);
 

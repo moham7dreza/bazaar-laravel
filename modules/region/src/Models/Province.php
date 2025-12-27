@@ -18,11 +18,11 @@ class Province extends Model
     ];
 
     /**
-     * @return HasMany<Country, $this>
+     * @return HasMany<County, $this>
      */
     public function counties(): HasMany
     {
-        return $this->hasMany(Country::class);
+        return $this->hasMany(County::class);
     }
 
     /**

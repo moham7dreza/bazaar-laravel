@@ -27,10 +27,10 @@ class City extends Model
     }
 
     /**
-     * @return BelongsTo<Country, $this>
+     * @return BelongsTo<County, $this>
      */
-    public function county(): BelongsTo
+    public function country(): BelongsTo
     {
-        return $this->belongsTo(Country::class);
+        return $this->belongsTo(County::class);
     }
 }

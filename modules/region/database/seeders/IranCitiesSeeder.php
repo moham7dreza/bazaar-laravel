@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace Sadegh19b\LaravelIranCities\Seeders;
+namespace Modules\Region\Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Arr;
 use Modules\Region\Models\City;
-use Modules\Region\Models\Country;
+use Modules\Region\Models\County;
 use Modules\Region\Models\Province;
 
 class IranCitiesSeeder extends Seeder
@@ -37,7 +37,7 @@ class IranCitiesSeeder extends Seeder
 
             foreach ($provinceCounties as $countyData)
             {
-                $county = Country::query()
+                $county = County::query()
                     ->firstOrCreate(['province_id' => $province->id, 'name' => Arr::get($countyData, 'name')]);
 
                 $countyCities = array_filter($cities, fn ($c): bool => Arr::get($c, 'county_id') === Arr::get($countyData, 'id'));
