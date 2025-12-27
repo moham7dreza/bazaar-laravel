@@ -27,7 +27,7 @@ final class AdvertisementFactory extends Factory
             'ads_type'         => AdvertisementType::random(),
             'ads_status'       => AdvertisementStatus::random(),
             'category_id'      => Category::factory(),
-            'city_id'          => City::factory(),
+            'city_id'          => City::query()->inRandomOrder()->value('id'),
             'user_id'          => User::factory(),
             'status'           => AdvertisementPublishStatus::Active,
             'published_at'     => Date::now()->subMonth(),

@@ -39,7 +39,7 @@ class UserFactory extends Factory
             'is_active'          => true,
             'mobile'             => persian_faker()->cellPhone(),
             'mobile_verified_at' => Date::now(),
-            'city_id'            => City::factory(),
+            'city_id'            => City::query()->inRandomOrder()->value('id'),
             'avatar_url'         => '/images/admin.jpg',
             'secrets'            => [
                 'stripe'  => Str::random(32),
