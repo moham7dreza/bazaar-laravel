@@ -6,7 +6,6 @@ namespace Database\Factories;
 
 use App\Enums\Disk;
 use App\Enums\Theme;
-use App\Models\Geo\City;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Arr;
@@ -14,6 +13,7 @@ use Illuminate\Support\Facades\Date;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
+use Modules\Region\Models\City;
 use Override;
 use Random\RandomException;
 

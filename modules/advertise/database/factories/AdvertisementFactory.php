@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Modules\Advertise\Database\Factories;
 
-use App\Models\Geo\City;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Facades\Date;
@@ -13,6 +12,7 @@ use Modules\Advertise\Enums\AdvertisementStatus;
 use Modules\Advertise\Enums\AdvertisementType;
 use Modules\Advertise\Models\Advertisement;
 use Modules\Advertise\Models\Category;
+use Modules\Region\Models\City;
 
 /**
  * @extends Factory<Advertisement>
