@@ -9,6 +9,7 @@
 8. fix before gate for admin.
 9. implement api ver 1 (see mr #21).
 10. fix user real photo fetch in factory.
+11. improve git hooks (add rector auto fix files).
 
 ## Features
 1. implement price ratio for other currencies.
