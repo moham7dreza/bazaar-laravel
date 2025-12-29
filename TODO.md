@@ -1,15 +1,14 @@
 ## Tasks
-1. refactor image upload operations in controllers.
+1. refactor image upload operations in controllers (can we use package to handle image upload operation?).
 2. define Repositories for important actions.
 3. complete end-to-end tests for api routes.
 4. cron jobs for scheduled tasks.
-5. remove user suspend related codes.
-6. implement user locale config data with classes.
-7. implement multi language.
-8. implement shortlink.
-9. fix before gate for admin.
-10. implement api ver 1.
-11. fix user real photo fetch in factory.
+5. implement user locale config data with classes (see ClientLocale enum).
+6. implement multi language (laravel localization package).
+7. implement shortlink (found package).
+8. fix before gate for admin.
+9. implement api ver 1 (see mr #21).
+10. fix user real photo fetch in factory.
 
 ## Features
 1. implement price ratio for other currencies.
