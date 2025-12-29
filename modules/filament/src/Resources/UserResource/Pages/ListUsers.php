@@ -23,7 +23,7 @@ final class ListUsers extends ListRecords
     {
         return [
             null        => Tab::make('All'),
-            'Suspended' => Tab::make()->query(fn (Builder $query) => $query->suspended()),
+            'Banned'    => Tab::make()->query(fn (Builder $query) => $query->onlyBanned()),
             'Inactive'  => Tab::make()->query(fn (Builder $query) => $query->where('is_active', 0)),
         ];
     }

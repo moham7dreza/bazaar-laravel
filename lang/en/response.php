@@ -10,7 +10,6 @@ return [
         'successful'        => 'operation done',
         'not-found'         => 'page not found',
         'unauthorized'      => 'you should login first',
-        'suspended'         => 'Your account is suspended',
         'forbidden'         => 'you have not permission for this action',
         'failed'            => 'operation failed',
         'unverified-email'  => 'Your email address is not verified.',

@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 use App\Http\Controllers\Admin\User\UserController;
 use App\Http\Controllers\App\Home\CityController;
-use App\Http\Controllers\Examples\ExceptionExampleController;
 use App\Http\Controllers\ImageController;
 use App\Http\Middleware\MetricsLoggerMiddleware;
 use App\Mail\UserLandMail;
@@ -414,8 +413,6 @@ when(app()->isLocal(), static function (): void {
             'body'    => 'test',
         ],
     ));
-
-    Route::get('new-exception-sysyem', [ExceptionExampleController::class, 'basicException']);
 });
 
 when(isEnvLocalOrTesting(), static function (): void {

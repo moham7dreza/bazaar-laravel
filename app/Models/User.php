@@ -22,13 +22,11 @@ use App\Models\Scopes\LatestScope;
 use Cog\Contracts\Ban\Bannable as BannableInterface;
 use Cog\Laravel\Ban\Traits\Bannable;
 use Database\Factories\UserFactory;
-use DateTimeInterface;
 use DirectoryTree\Metrics\HasMetrics;
 use Filament\Models\Contracts\FilamentUser;
 use Filament\Models\Contracts\HasAvatar;
 use Filament\Panel;
 use Illuminate\Contracts\Translation\HasLocalePreference;
-use Illuminate\Database\Eloquent\Attributes\Scope;
 use Illuminate\Database\Eloquent\Attributes\ScopedBy;
 use Illuminate\Database\Eloquent\Attributes\UseFactory;
 use Illuminate\Database\Eloquent\Attributes\UseResource;
@@ -108,8 +106,7 @@ final class User extends Authenticatable implements
         'mobile_verified_at',
         'city_id',
         'is_active',
-        'suspended_at',
-        'suspended_until',
+        'banned_at',
         'avatar_url',
         'last_login_at',
         'last_login_ip',
@@ -144,8 +141,7 @@ final class User extends Authenticatable implements
                 'email',
                 'mobile',
                 'is_active',
-                'suspended_at',
-                'suspended_until',
+                'banned_at',
             ]);
     }
 
@@ -287,31 +283,6 @@ final class User extends Authenticatable implements
         );
     }
 
-    // @todo:high: remove suspend from user
-    // suspend section
-
-    public function isSuspended(): bool
-    {
-        return null !== $this->suspended_at && Date::now()->lte($this->suspended_until);
-    }
-
-    public function suspend(): bool
-    {
-        return $this->update([
-            'suspend_at'      => Date::now(),
-            'suspended_until' => Date::now()->addWeek(),
-        ]);
-    }
-
-    public function unsuspend(): bool
-    {
-        return $this->update([
-            'suspended_until' => null,
-        ]);
-    }
-
-    // end suspend section
-
     /**
      * determine if the user owns the given model.
      */
@@ -345,20 +316,6 @@ final class User extends Authenticatable implements
         );
     }
 
-    // @todo:high: remove
-    #[Scope]
-    protected function suspended(Builder $query): Builder
-    {
-        return $query->whereNotNull('suspended_at')
-            ->where('suspended_until', '>=', Date::now());
-    }
-
-    #[Scope]
-    protected function createdAfter(Builder $query, DateTimeInterface|string|int $date): void
-    {
-        $query->where('created_at', '>=', Date::parse($date));
-    }
-
     /**
      * @accessor has_advertisements
      */
@@ -383,8 +340,7 @@ final class User extends Authenticatable implements
             'mobile_verified_at' => 'datetime',
             'password'           => 'hashed',
             'is_active'          => 'bool',
-            'suspended_at'       => 'datetime',
-            'suspended_until'    => 'datetime',
+            'banned_at'          => 'datetime',
             'last_login_at'      => 'datetime',
             //            'addresses' => \Illuminate\Database\Eloquent\Casts\AsCollection::of(\App\Data\ValueObjects\Address::class),
             'domain'  => 'integer',
