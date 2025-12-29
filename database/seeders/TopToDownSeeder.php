@@ -20,7 +20,7 @@ final class TopToDownSeeder extends Seeder
         //        User $admin,
     ): void {
         // User
-        User::factory(5)->suspended()->insert();
+        User::factory(5)->banned()->insert();
         $users = User::factory(5)->create();
         context()->add(ContextItem::Users, $users);
         /*

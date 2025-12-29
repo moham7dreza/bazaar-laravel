@@ -2,7 +2,6 @@
 
 declare(strict_types=1);
 
-use App\Console\Commands\User\UserSuspendClearCommand;
 use Cmsmaxinc\FilamentSystemVersions\Commands\CheckDependencyVersions;
 use Cog\Laravel\Ban\Console\Commands\DeleteExpiredBans;
 use DirectoryTree\Metrics\Commands\CommitMetrics;
@@ -35,8 +34,6 @@ Schedule::command(CheckVulnerabilitiesCommand::class)->everySixHours()
     ->appendOutputTo($commandOutputLogPath);
 //  ->emailOutputOnFailure(admin()->email);
 Schedule::command('model:prune')->daily();
-// @todo:high: remove
-Schedule::command(UserSuspendClearCommand::class)->everyFiveMinutes();
 Schedule::command('spy:clean', ['--days' => 30])->daily();
 
 /*

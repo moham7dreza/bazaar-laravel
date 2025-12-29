@@ -11,7 +11,7 @@ return new class() extends Migration {
     {
         Schema::table('users', function (Blueprint $table): void {
             $table->timestamp('banned_at')
-                ->after('suspended_until')
+                ->after('is_active')
                 ->nullable();
         });
     }
