@@ -7,6 +7,7 @@ use App\Http\Controllers\App\Home\CityController;
 use App\Http\Controllers\ImageController;
 use App\Http\Middleware\MetricsLoggerMiddleware;
 use App\Mail\UserLandMail;
+use Grazulex\ApiRoute\Facades\ApiRoute;
 use Illuminate\Auth\Middleware\RedirectIfAuthenticated;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Middleware\ThrottleRequestsWithRedis;
@@ -44,343 +45,345 @@ use Spatie\ResponseCache\Middlewares\CacheResponse;
  *      for better finding routes with simple search
  *      and better categorize route sections and find them.
  */
-Route::get('user', static fn (Request $request) => $request->user())
-    ->name('api.user.info')
-    ->middleware('user');
-/*
-|--------------------------------------------------------------------------
-| Auth Routes
-|--------------------------------------------------------------------------
-*/
-Route::prefix('auth')
-    ->middleware([
-        RedirectIfAuthenticated::class,
-        ThrottleRequestsWithRedis::using('otp-request'),
-    ])
-    ->group(function (): void {
-        Route::post('register', RegisteredUserController::class)
-            ->name('api.auth.register');
-
-        Route::post('send-otp', RegisteredUserWithOTPController::class)
-            ->name('api.auth.send-otp')
-            ->middleware(MetricsLoggerMiddleware::class);
-
-        Route::post('verify-otp', VerifyUserWithOTPController::class)
-            ->name('api.auth.verify-otp');
-    });
-/*
-|--------------------------------------------------------------------------
-| Primary Routes
-|--------------------------------------------------------------------------
-*/
-Route::prefix('')->group(function (): void {
-    Route::controller(HomeCategoryController::class)
+ApiRoute::version('v1', function (): void {
+    Route::get('user', static fn (Request $request) => $request->user())
+        ->name('api.user.info')
+        ->middleware('user');
+    /*
+    |--------------------------------------------------------------------------
+    | Auth Routes
+    |--------------------------------------------------------------------------
+    */
+    Route::prefix('auth')
+        ->middleware([
+            RedirectIfAuthenticated::class,
+            ThrottleRequestsWithRedis::using('otp-request'),
+        ])
         ->group(function (): void {
-            Route::get('categories', 'index')
-                ->name('api.categories.index');
-        });
+            Route::post('register', RegisteredUserController::class)
+                ->name('api.auth.register');
 
-    Route::controller(HomeMenuController::class)
-        ->group(function (): void {
-            Route::get('menus', 'index')
-                ->name('api.menus.index');
-        });
+            Route::post('send-otp', RegisteredUserWithOTPController::class)
+                ->name('api.auth.send-otp')
+                ->middleware(MetricsLoggerMiddleware::class);
 
-    Route::controller(HomePageController::class)
-        ->group(function (): void {
-            Route::get('pages', 'index')
-                ->name('api.pages.index');
+            Route::post('verify-otp', VerifyUserWithOTPController::class)
+                ->name('api.auth.verify-otp');
         });
-
-    Route::controller(HomeStateController::class)
-        ->group(function (): void {
-            Route::get('states', 'index')
-                ->name('api.states.index');
-        });
-
-    Route::controller(CityController::class)
-        ->group(function (): void {
-            Route::get('cities', 'index')
-                ->name('api.cities.index');
-        });
-});
-/*
-|--------------------------------------------------------------------------
-| Advertisement Routes
-|--------------------------------------------------------------------------
-*/
-Route::prefix('advertisements')
-    ->group(function (): void {
-        Route::controller(HomeAdvertisementController::class)
+    /*
+    |--------------------------------------------------------------------------
+    | Primary Routes
+    |--------------------------------------------------------------------------
+    */
+    Route::prefix('')->group(function (): void {
+        Route::controller(HomeCategoryController::class)
             ->group(function (): void {
-                Route::get('/', 'index')
-                    ->name('api.advertisements.index');
-
-                // test route for query builder
-                // /api/advertisements/query-builder?filter[title]=Prof&filter[price]=200&sort=-price
-                Route::get('query-builder', 'queryBuilder');
-
-                Route::get('{advertisement}', 'show')
-                    ->name('api.advertisements.show')
-                    ->middleware(
-                        CacheResponse::using(180, 'advertisement', 'pdp')
-                    )
-                    ->withTrashed();
+                Route::get('categories', 'index')
+                    ->name('api.categories.index');
             });
 
-        Route::controller(HomeAdvertisementGalleryController::class)
+        Route::controller(HomeMenuController::class)
             ->group(function (): void {
-                Route::get('{advertisement}/gallery', 'index')
-                    ->name('api.advertisements.gallery.index');
+                Route::get('menus', 'index')
+                    ->name('api.menus.index');
             });
 
-        Route::prefix('category')
+        Route::controller(HomePageController::class)
             ->group(function (): void {
-                Route::get('{category}/attributes', HomeCategoryAttributeController::class)
-                    ->name('api.advertisements.category.attributes.index');
+                Route::get('pages', 'index')
+                    ->name('api.pages.index');
+            });
 
-                Route::get('{categoryAttribute}/values', HomeCategoryValueController::class)
-                    ->name('api.advertisements.category.values.index');
+        Route::controller(HomeStateController::class)
+            ->group(function (): void {
+                Route::get('states', 'index')
+                    ->name('api.states.index');
+            });
+
+        Route::controller(CityController::class)
+            ->group(function (): void {
+                Route::get('cities', 'index')
+                    ->name('api.cities.index');
             });
     });
+    /*
+    |--------------------------------------------------------------------------
+    | Advertisement Routes
+    |--------------------------------------------------------------------------
+    */
+    Route::prefix('advertisements')
+        ->group(function (): void {
+            Route::controller(HomeAdvertisementController::class)
+                ->group(function (): void {
+                    Route::get('/', 'index')
+                        ->name('api.advertisements.index');
 
-/*
-|--------------------------------------------------------------------------
-| Image Routes
-|--------------------------------------------------------------------------
-*/
-Route::prefix('images')
-    ->controller(ImageController::class)
-    ->group(function (): void {
-        Route::post('store', 'store')
-            ->name('api.images.store');
+                    // test route for query builder
+                    // /api/advertisements/query-builder?filter[title]=Prof&filter[price]=200&sort=-price
+                    Route::get('query-builder', 'queryBuilder');
 
-        Route::put('update', 'update')
-            ->name('api.images.destroy');
-    });
-/*
-|--------------------------------------------------------------------------
-| Admin Panel Routes
-|--------------------------------------------------------------------------
-*/
-Route::prefix('admin')
-    ->middleware('administrator')
-    ->group(function (): void {
-        /*
-        |--------------------------------------------------------------------------
-        | Advertisements Routes
-        |--------------------------------------------------------------------------
-        */
-        Route::prefix('advertisements')
-            ->group(function (): void {
-                Route::apiResource('category', CategoryController::class)
-                    ->names([
-                        'index'   => 'api.admin.advertisements.category.index',
-                        'store'   => 'api.admin.advertisements.category.store',
-                        'show'    => 'api.admin.advertisements.category.show',
-                        'update'  => 'api.admin.advertisements.category.update',
-                        'destroy' => 'api.admin.advertisements.category.destroy',
-                    ]);
+                    Route::get('{advertisement}', 'show')
+                        ->name('api.advertisements.show')
+                        ->middleware(
+                            CacheResponse::using(180, 'advertisement', 'pdp')
+                        )
+                        ->withTrashed();
+                });
 
-                Route::apiResource('{advertisement}/gallery', GalleryController::class)
-                    ->names([
-                        'index'   => 'api.admin.advertisements.gallery.index',
-                        'store'   => 'api.admin.advertisements.gallery.store',
-                        'show'    => 'api.admin.advertisements.gallery.show',
-                        'update'  => 'api.admin.advertisements.gallery.update',
-                        'destroy' => 'api.admin.advertisements.gallery.destroy',
-                    ]);
+            Route::controller(HomeAdvertisementGalleryController::class)
+                ->group(function (): void {
+                    Route::get('{advertisement}/gallery', 'index')
+                        ->name('api.advertisements.gallery.index');
+                });
 
-                Route::apiResource('state', StateController::class)
-                    ->names([
-                        'index'   => 'api.admin.advertisements.state.index',
-                        'store'   => 'api.admin.advertisements.state.store',
-                        'show'    => 'api.admin.advertisements.state.show',
-                        'update'  => 'api.admin.advertisements.state.update',
-                        'destroy' => 'api.admin.advertisements.state.destroy',
-                    ]);
+            Route::prefix('category')
+                ->group(function (): void {
+                    Route::get('{category}/attributes', HomeCategoryAttributeController::class)
+                        ->name('api.advertisements.category.attributes.index');
 
-                Route::apiResource('category-attribute', CategoryAttributeController::class)
-                    ->names([
-                        'index'   => 'api.admin.advertisements.category-attributes.index',
-                        'store'   => 'api.admin.advertisements.category-attributes.store',
-                        'show'    => 'api.admin.advertisements.category-attributes.show',
-                        'update'  => 'api.admin.advertisements.category-attributes.update',
-                        'destroy' => 'api.admin.advertisements.category-attributes.destroy',
-                    ]);
+                    Route::get('{categoryAttribute}/values', HomeCategoryValueController::class)
+                        ->name('api.advertisements.category.values.index');
+                });
+        });
 
-                Route::apiResource('category-value', CategoryValueController::class)
-                    ->names([
-                        'index'   => 'api.admin.advertisements.category-value.index',
-                        'store'   => 'api.admin.advertisements.category-value.store',
-                        'show'    => 'api.admin.advertisements.category-value.show',
-                        'update'  => 'api.admin.advertisements.category-value.update',
-                        'destroy' => 'api.admin.advertisements.category-value.destroy',
-                    ]);
+    /*
+    |--------------------------------------------------------------------------
+    | Image Routes
+    |--------------------------------------------------------------------------
+    */
+    Route::prefix('images')
+        ->controller(ImageController::class)
+        ->group(function (): void {
+            Route::post('store', 'store')
+                ->name('api.images.store');
 
-                Route::apiResource('advertisement', AdvertisementController::class)
-                    ->names([
-                        'index'   => 'api.admin.advertisements.advertisement.index',
-                        'store'   => 'api.admin.advertisements.advertisement.store',
-                        'show'    => 'api.admin.advertisements.advertisement.show',
-                        'update'  => 'api.admin.advertisements.advertisement.update',
-                        'destroy' => 'api.admin.advertisements.advertisement.destroy',
-                    ])
-                    ->withTrashed();
-            });
-        /*
-        |--------------------------------------------------------------------------
-        | Content Section Routes
-        |--------------------------------------------------------------------------
-        */
-        Route::prefix('content')
-            ->group(function (): void {
-                Route::apiResource('menu', MenuController::class)
-                    ->names([
-                        'index'   => 'api.admin.content.menu.index',
-                        'store'   => 'api.admin.content.menu.store',
-                        'show'    => 'api.admin.content.menu.show',
-                        'update'  => 'api.admin.content.menu.update',
-                        'destroy' => 'api.admin.content.menu.destroy',
-                    ]);
+            Route::put('update', 'update')
+                ->name('api.images.destroy');
+        });
+    /*
+    |--------------------------------------------------------------------------
+    | Admin Panel Routes
+    |--------------------------------------------------------------------------
+    */
+    Route::prefix('admin')
+        ->middleware('administrator')
+        ->group(function (): void {
+            /*
+            |--------------------------------------------------------------------------
+            | Advertisements Routes
+            |--------------------------------------------------------------------------
+            */
+            Route::prefix('advertisements')
+                ->group(function (): void {
+                    Route::apiResource('category', CategoryController::class)
+                        ->names([
+                            'index'   => 'api.admin.advertisements.category.index',
+                            'store'   => 'api.admin.advertisements.category.store',
+                            'show'    => 'api.admin.advertisements.category.show',
+                            'update'  => 'api.admin.advertisements.category.update',
+                            'destroy' => 'api.admin.advertisements.category.destroy',
+                        ]);
 
-                Route::apiResource('page', PageController::class)
-                    ->names([
-                        'index'   => 'api.admin.content.page.index',
-                        'store'   => 'api.admin.content.page.store',
-                        'show'    => 'api.admin.content.page.show',
-                        'update'  => 'api.admin.content.page.update',
-                        'destroy' => 'api.admin.content.page.destroy',
-                    ]);
-            });
-        /*
-        |--------------------------------------------------------------------------
-        | Users Routes
-        |--------------------------------------------------------------------------
-        */
-        Route::prefix('users')
-            ->group(function (): void {
-                Route::apiResource('user', UserController::class)
-                    ->names([
-                        'index'   => 'api.admin.users.user.index',
-                        'store'   => 'api.admin.users.user.store',
-                        'show'    => 'api.admin.users.user.show',
-                        'update'  => 'api.admin.users.user.update',
-                        'destroy' => 'api.admin.users.user.destroy',
-                    ]);
-            });
-    });
+                    Route::apiResource('{advertisement}/gallery', GalleryController::class)
+                        ->names([
+                            'index'   => 'api.admin.advertisements.gallery.index',
+                            'store'   => 'api.admin.advertisements.gallery.store',
+                            'show'    => 'api.admin.advertisements.gallery.show',
+                            'update'  => 'api.admin.advertisements.gallery.update',
+                            'destroy' => 'api.admin.advertisements.gallery.destroy',
+                        ]);
 
-/*
-|--------------------------------------------------------------------------
-| User Panel Routes
-|--------------------------------------------------------------------------
-*/
-Route::prefix('panel')
-    ->middleware('user')
-    ->group(function (): void {
-        /*
-        |--------------------------------------------------------------------------
-        | Advertisements Routes
-        |--------------------------------------------------------------------------
-        */
-        Route::prefix('advertisements')
-            ->group(function (): void {
-                Route::apiResource('advertisement', PanelAdvertisementController::class)
-                    ->names([
-                        'index'   => 'api.panel.advertisements.advertisement.index',
-                        'store'   => 'api.panel.advertisements.advertisement.store',
-                        'show'    => 'api.panel.advertisements.advertisement.show',
-                        'update'  => 'api.panel.advertisements.advertisement.update',
-                        'destroy' => 'api.panel.advertisements.advertisement.destroy',
-                    ])
-                    ->withTrashed(['show', 'update']);
+                    Route::apiResource('state', StateController::class)
+                        ->names([
+                            'index'   => 'api.admin.advertisements.state.index',
+                            'store'   => 'api.admin.advertisements.state.store',
+                            'show'    => 'api.admin.advertisements.state.show',
+                            'update'  => 'api.admin.advertisements.state.update',
+                            'destroy' => 'api.admin.advertisements.state.destroy',
+                        ]);
 
-                /*
-                |--------------------------------------------------------------------------
-                | Gallery Routes
-                |--------------------------------------------------------------------------
-                */
-                Route::prefix('gallery')
-                    ->controller(PanelGalleryController::class)
-                    ->group(function (): void {
-                        Route::get('{advertisement}', 'index')
-                            ->name('api.panel.advertisements.gallery.index');
+                    Route::apiResource('category-attribute', CategoryAttributeController::class)
+                        ->names([
+                            'index'   => 'api.admin.advertisements.category-attributes.index',
+                            'store'   => 'api.admin.advertisements.category-attributes.store',
+                            'show'    => 'api.admin.advertisements.category-attributes.show',
+                            'update'  => 'api.admin.advertisements.category-attributes.update',
+                            'destroy' => 'api.admin.advertisements.category-attributes.destroy',
+                        ]);
 
-                        Route::post('{advertisement}/store', 'store')
-                            ->name('api.panel.advertisements.gallery.store');
+                    Route::apiResource('category-value', CategoryValueController::class)
+                        ->names([
+                            'index'   => 'api.admin.advertisements.category-value.index',
+                            'store'   => 'api.admin.advertisements.category-value.store',
+                            'show'    => 'api.admin.advertisements.category-value.show',
+                            'update'  => 'api.admin.advertisements.category-value.update',
+                            'destroy' => 'api.admin.advertisements.category-value.destroy',
+                        ]);
 
-                        Route::get('show/{gallery}', 'show')
-                            ->name('api.panel.advertisements.gallery.show')
-                            ->withTrashed();
+                    Route::apiResource('advertisement', AdvertisementController::class)
+                        ->names([
+                            'index'   => 'api.admin.advertisements.advertisement.index',
+                            'store'   => 'api.admin.advertisements.advertisement.store',
+                            'show'    => 'api.admin.advertisements.advertisement.show',
+                            'update'  => 'api.admin.advertisements.advertisement.update',
+                            'destroy' => 'api.admin.advertisements.advertisement.destroy',
+                        ])
+                        ->withTrashed();
+                });
+            /*
+            |--------------------------------------------------------------------------
+            | Content Section Routes
+            |--------------------------------------------------------------------------
+            */
+            Route::prefix('content')
+                ->group(function (): void {
+                    Route::apiResource('menu', MenuController::class)
+                        ->names([
+                            'index'   => 'api.admin.content.menu.index',
+                            'store'   => 'api.admin.content.menu.store',
+                            'show'    => 'api.admin.content.menu.show',
+                            'update'  => 'api.admin.content.menu.update',
+                            'destroy' => 'api.admin.content.menu.destroy',
+                        ]);
 
-                        Route::put('{gallery}', 'update')
-                            ->name('api.panel.advertisements.gallery.update')
-                            ->withTrashed();
+                    Route::apiResource('page', PageController::class)
+                        ->names([
+                            'index'   => 'api.admin.content.page.index',
+                            'store'   => 'api.admin.content.page.store',
+                            'show'    => 'api.admin.content.page.show',
+                            'update'  => 'api.admin.content.page.update',
+                            'destroy' => 'api.admin.content.page.destroy',
+                        ]);
+                });
+            /*
+            |--------------------------------------------------------------------------
+            | Users Routes
+            |--------------------------------------------------------------------------
+            */
+            Route::prefix('users')
+                ->group(function (): void {
+                    Route::apiResource('user', UserController::class)
+                        ->names([
+                            'index'   => 'api.admin.users.user.index',
+                            'store'   => 'api.admin.users.user.store',
+                            'show'    => 'api.admin.users.user.show',
+                            'update'  => 'api.admin.users.user.update',
+                            'destroy' => 'api.admin.users.user.destroy',
+                        ]);
+                });
+        });
 
-                        Route::delete('{gallery}', 'destroy')
-                            ->name('api.panel.advertisements.gallery.destroy');
-                    });
-                /*
-                |--------------------------------------------------------------------------
-                | Note Routes
-                |--------------------------------------------------------------------------
-                */
-                Route::prefix('notes')
-                    ->controller(AdvertisementNoteController::class)
-                    ->group(function (): void {
-                        Route::post('{advertisement}/store', 'store')
-                            ->name('api.panel.advertisements.note.store');
+    /*
+    |--------------------------------------------------------------------------
+    | User Panel Routes
+    |--------------------------------------------------------------------------
+    */
+    Route::prefix('panel')
+        ->middleware('user')
+        ->group(function (): void {
+            /*
+            |--------------------------------------------------------------------------
+            | Advertisements Routes
+            |--------------------------------------------------------------------------
+            */
+            Route::prefix('advertisements')
+                ->group(function (): void {
+                    Route::apiResource('advertisement', PanelAdvertisementController::class)
+                        ->names([
+                            'index'   => 'api.panel.advertisements.advertisement.index',
+                            'store'   => 'api.panel.advertisements.advertisement.store',
+                            'show'    => 'api.panel.advertisements.advertisement.show',
+                            'update'  => 'api.panel.advertisements.advertisement.update',
+                            'destroy' => 'api.panel.advertisements.advertisement.destroy',
+                        ])
+                        ->withTrashed(['show', 'update']);
 
-                        Route::get('/', 'index')
-                            ->name('api.panel.advertisements.note.index');
+                    /*
+                    |--------------------------------------------------------------------------
+                    | Gallery Routes
+                    |--------------------------------------------------------------------------
+                    */
+                    Route::prefix('gallery')
+                        ->controller(PanelGalleryController::class)
+                        ->group(function (): void {
+                            Route::get('{advertisement}', 'index')
+                                ->name('api.panel.advertisements.gallery.index');
 
-                        Route::get('{advertisement}/show', 'show')
-                            ->name('api.panel.advertisements.note.show')
-                            ->withTrashed();
+                            Route::post('{advertisement}/store', 'store')
+                                ->name('api.panel.advertisements.gallery.store');
 
-                        Route::delete('{advertisement}/destroy', 'destroy')
-                            ->name('api.panel.advertisements.note.destroy');
-                    });
-            });
-        Route::prefix('users')
-            ->group(function (): void {
-                Route::prefix('advertisements')
-                    ->group(function (): void {
-                        /*
-                        |--------------------------------------------------------------------------
-                        | User Favorite Routes
-                        |--------------------------------------------------------------------------
-                        */
-                        Route::prefix('favorite')
-                            ->controller(FavoriteAdvertisementController::class)
-                            ->group(function (): void {
-                                Route::get('/', 'index')
-                                    ->name('api.panel.users.advertisements.favorite.index');
+                            Route::get('show/{gallery}', 'show')
+                                ->name('api.panel.advertisements.gallery.show')
+                                ->withTrashed();
 
-                                Route::post('{advertisement}', 'store')
-                                    ->name('api.panel.users.advertisements.favorite.store');
+                            Route::put('{gallery}', 'update')
+                                ->name('api.panel.advertisements.gallery.update')
+                                ->withTrashed();
 
-                                Route::delete('{advertisement}', 'destroy')
-                                    ->name('api.panel.users.advertisements.favorite.destroy');
-                            });
-                        /*
-                        |--------------------------------------------------------------------------
-                        | User History Routes
-                        |--------------------------------------------------------------------------
-                        */
-                        Route::prefix('history')
-                            ->controller(HistoryAdvertisementController::class)
-                            ->group(function (): void {
-                                Route::get('/', 'index')
-                                    ->name('api.panel.users.advertisements.history.index');
+                            Route::delete('{gallery}', 'destroy')
+                                ->name('api.panel.advertisements.gallery.destroy');
+                        });
+                    /*
+                    |--------------------------------------------------------------------------
+                    | Note Routes
+                    |--------------------------------------------------------------------------
+                    */
+                    Route::prefix('notes')
+                        ->controller(AdvertisementNoteController::class)
+                        ->group(function (): void {
+                            Route::post('{advertisement}/store', 'store')
+                                ->name('api.panel.advertisements.note.store');
 
-                                Route::post('{advertisement}', 'store')
-                                    ->name('api.panel.users.advertisements.history.store');
-                            });
-                    });
-            });
-    });
+                            Route::get('/', 'index')
+                                ->name('api.panel.advertisements.note.index');
+
+                            Route::get('{advertisement}/show', 'show')
+                                ->name('api.panel.advertisements.note.show')
+                                ->withTrashed();
+
+                            Route::delete('{advertisement}/destroy', 'destroy')
+                                ->name('api.panel.advertisements.note.destroy');
+                        });
+                });
+            Route::prefix('users')
+                ->group(function (): void {
+                    Route::prefix('advertisements')
+                        ->group(function (): void {
+                            /*
+                            |--------------------------------------------------------------------------
+                            | User Favorite Routes
+                            |--------------------------------------------------------------------------
+                            */
+                            Route::prefix('favorite')
+                                ->controller(FavoriteAdvertisementController::class)
+                                ->group(function (): void {
+                                    Route::get('/', 'index')
+                                        ->name('api.panel.users.advertisements.favorite.index');
+
+                                    Route::post('{advertisement}', 'store')
+                                        ->name('api.panel.users.advertisements.favorite.store');
+
+                                    Route::delete('{advertisement}', 'destroy')
+                                        ->name('api.panel.users.advertisements.favorite.destroy');
+                                });
+                            /*
+                            |--------------------------------------------------------------------------
+                            | User History Routes
+                            |--------------------------------------------------------------------------
+                            */
+                            Route::prefix('history')
+                                ->controller(HistoryAdvertisementController::class)
+                                ->group(function (): void {
+                                    Route::get('/', 'index')
+                                        ->name('api.panel.users.advertisements.history.index');
+
+                                    Route::post('{advertisement}', 'store')
+                                        ->name('api.panel.users.advertisements.history.store');
+                                });
+                        });
+                });
+        });
+})->beta();
 
 /*
 |--------------------------------------------------------------------------
