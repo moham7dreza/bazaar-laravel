@@ -452,10 +452,23 @@ phpstan-baseline: ## Run phpstan analysis and generate baseline
 	vendor/bin/phpstan analyse --memory-limit=2G --generate-baseline
 
 rector-test: ## Run rector analysis
-	vendor/bin/rector process --dry-run
+	@echo "Starting Rector at $$(date)"
+	@start=$$(date +%s); \
+	vendor/bin/rector --dry-run; \
+	end=$$(date +%s); \
+	duration=$$((end - start)); \
+	echo "Rector completed in $$duration seconds"
 
 rector: ## Run rector analysis and change files
-	vendor/bin/rector process
+	@echo "Starting Rector at $$(date)"
+	@start=$$(date +%s); \
+	vendor/bin/rector; \
+	end=$$(date +%s); \
+	duration=$$((end - start)); \
+	echo "Rector completed in $$duration seconds"
+
+rector-rules:
+	vendor/bin/rector list-rules
 
 # --------------------------------------------------------------------------
 # Boost
