@@ -8,7 +8,6 @@ use App\Concerns\Attributable;
 use App\Concerns\ClearsResponseCache;
 use App\Concerns\Searchable;
 use App\Enums\Currency;
-use App\Models\Geo\City;
 use App\Models\Scopes\LatestScope;
 use App\Models\User;
 use Cknow\Money\Money;
@@ -39,6 +38,7 @@ use Modules\Advertise\Enums\Sort;
 use Modules\Advertise\Http\Resources\App\AdvertisementCollection;
 use Modules\Advertise\Http\Resources\App\AdvertisementResource;
 use Modules\Advertise\Policies\AdvertisementPolicy;
+use Modules\Region\Models\City;
 use Safemood\MagicScopes\Traits\HasMagicScopes;
 
 #[UsePolicy(AdvertisementPolicy::class)]

@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "c43dbfe13984ba4b98ef283e4b15dcb3",
+    "content-hash": "7e2526115710d70f60197a734b2c98b6",
     "packages": [
         {
             "name": "afsakar/filament-otp-login",
@@ -9418,6 +9418,38 @@
             }
         },
         {
+            "name": "modules/region",
+            "version": "1.0",
+            "dist": {
+                "type": "path",
+                "url": "modules/region",
+                "reference": "9fb8417d6d64b49e4ef870bf27819cf78390f784"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Modules\\Region\\Providers\\RegionServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Modules\\Region\\": "src/",
+                    "Modules\\Region\\Tests\\": "tests/",
+                    "Modules\\Region\\Database\\Factories\\": "database/factories/",
+                    "Modules\\Region\\Database\\Seeders\\": "database/seeders/"
+                }
+            },
+            "license": [
+                "proprietary"
+            ],
+            "transport-options": {
+                "symlink": true,
+                "relative": true
+            }
+        },
+        {
             "name": "mokhosh/filament-jalali",
             "version": "v4.10.0",
             "source": {
@@ -14485,6 +14517,73 @@
                 }
             ],
             "time": "2025-01-22T05:39:31+00:00"
+        },
+        {
+            "name": "spatie/async",
+            "version": "1.8.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/spatie/async.git",
+                "reference": "f9e9d4908ac1b7887a5725322399ae5935bea077"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/spatie/async/zipball/f9e9d4908ac1b7887a5725322399ae5935bea077",
+                "reference": "f9e9d4908ac1b7887a5725322399ae5935bea077",
+                "shasum": ""
+            },
+            "require": {
+                "laravel/serializable-closure": "^1.3.7|^2.0.0",
+                "php": "^8.3|^8.4|^8.5",
+                "symfony/process": "^7.2|^8.0"
+            },
+            "require-dev": {
+                "larapack/dd": "^1.1",
+                "pestphp/pest": "^3.0|^4.0",
+                "symfony/stopwatch": "^7.2|^8.0"
+            },
+            "suggest": {
+                "ext-pcntl": "Required to use async processes",
+                "ext-posix": "Required to use async processes"
+            },
+            "type": "library",
+            "autoload": {
+                "files": [
+                    "src/helpers.php"
+                ],
+                "psr-4": {
+                    "Spatie\\Async\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Brent Roose",
+                    "email": "brent@spatie.be",
+                    "homepage": "https://spatie.be",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Asynchronous and parallel PHP with the PCNTL extension",
+            "homepage": "https://github.com/spatie/async",
+            "keywords": [
+                "async",
+                "spatie"
+            ],
+            "support": {
+                "issues": "https://github.com/spatie/async/issues",
+                "source": "https://github.com/spatie/async/tree/1.8.1"
+            },
+            "funding": [
+                {
+                    "url": "https://github.com/spatie",
+                    "type": "github"
+                }
+            ],
+            "time": "2025-11-28T10:22:46+00:00"
         },
         {
             "name": "spatie/backtrace",

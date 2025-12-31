@@ -51,12 +51,14 @@
         "modules/filament": "*",
         "modules/monitoring": "*",
         "modules/payment": "*",
+        "modules/region": "*",
         "mongodb/laravel-mongodb": "^5.4",
         "morilog/jalali": "^3.4",
         "munafio/chatify": "^1.6",
         "nunomaduro/pokio": "^0.1",
         "safemood/laravel-magic-scopes": "^0.0.1",
         "sbsaga/toon": "^1.1",
+        "spatie/async": "^1.8",
         "spatie/laravel-data": "^4.18",
         "spatie/laravel-query-builder": "^6.3",
         "spatie/laravel-responsecache": "^7.6",
@@ -113,9 +115,7 @@
         "post-autoload-dump": [
             "Illuminate\\Foundation\\ComposerScripts::postAutoloadDump"
         ],
-        "post-update-cmd": [
-
-        ],
+        "post-update-cmd": [],
         "post-root-package-install": [
             "@php -r \"file_exists('.env') || copy('.env.example', '.env');\"",
             "@php -r \"file_exists('.env.testing') || copy('.env.testing.example', '.env.testing');\"",

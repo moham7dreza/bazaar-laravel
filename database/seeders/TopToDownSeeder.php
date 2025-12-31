@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Database\Seeders;
 
 use App\Classes\ContextItem;
-use App\Models\Geo\City;
 use App\Models\Holiday;
 use App\Models\Item;
 use App\Models\PaymentGateway;
@@ -21,7 +20,7 @@ final class TopToDownSeeder extends Seeder
         //        User $admin,
     ): void {
         // User
-        User::factory(5)->suspended()->insert();
+        User::factory(5)->banned()->insert();
         $users = User::factory(5)->create();
         context()->add(ContextItem::Users, $users);
         /*
@@ -43,9 +42,6 @@ final class TopToDownSeeder extends Seeder
 
         // days
         Holiday::factory(5)->insert();
-
-        // geo
-        City::factory(5)->insert();
 
         // item
         Item::factory(5)->insert();

@@ -40,8 +40,8 @@ return Application::configure(basePath: dirname(__DIR__))
             ]);
 
         $middleware->append([
-            // @todo:high: remove.
-            App\Http\Middleware\UserCheckSuspendedMiddleware::class,
+            Cog\Laravel\Ban\Http\Middleware\ForbidBannedUser::class,
+            Cog\Laravel\Ban\Http\Middleware\LogsOutBannedUser::class,
             App\Http\Middleware\EnableDebugForDeveloper::class,
             App\Http\Middleware\HttpsRedirectMiddleware::class,
             App\Http\Middleware\UserPermissionsMiddleware::class,
@@ -53,8 +53,6 @@ return Application::configure(basePath: dirname(__DIR__))
             App\Http\Middleware\SetClientDomainMiddleware::class,
             App\Http\Middleware\SetClientLocaleMiddleware::class,
             App\Http\Middleware\SanitizeInputMiddleware::class,
-            Cog\Laravel\Ban\Http\Middleware\ForbidBannedUser::class,
-            Cog\Laravel\Ban\Http\Middleware\LogsOutBannedUser::class,
         ]);
 
         $middleware->alias([

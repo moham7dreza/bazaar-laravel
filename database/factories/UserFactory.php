@@ -6,7 +6,6 @@ namespace Database\Factories;
 
 use App\Enums\Disk;
 use App\Enums\Theme;
-use App\Models\Geo\City;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Arr;
@@ -14,6 +13,7 @@ use Illuminate\Support\Facades\Date;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
+use Modules\Region\Models\City;
 use Override;
 use Random\RandomException;
 
@@ -25,21 +25,17 @@ class UserFactory extends Factory
     public function definition(): array
     {
         return [
-            'name'              => persian_faker()->name(),
-            'email'             => fake()->unique()->safeEmail(),
-            'email_verified_at' => Date::now(),
-            'password'          => 'password',
-            'remember_token'    => Str::random(10),
-            'theme'             => Theme::Dracula->value,
-            // @todo:high: remove
-            'suspended_at'    => fake()->optional(0.1)->dateTimeBetween('-30 days'),
-            'suspended_until' => fn (array $attributes) => Arr::get($attributes, 'suspended_at')
-                ? Date::parse(Arr::get($attributes, 'suspended_at'))->addWeek()
-                : null,
+            'name'               => persian_faker()->name(),
+            'email'              => fake()->unique()->safeEmail(),
+            'email_verified_at'  => Date::now(),
+            'password'           => 'password',
+            'remember_token'     => Str::random(10),
+            'theme'              => Theme::Dracula->value,
+            'banned_at'          => fake()->optional(0.1)->dateTimeBetween('-30 days'),
             'is_active'          => true,
             'mobile'             => persian_faker()->cellPhone(),
             'mobile_verified_at' => Date::now(),
-            'city_id'            => City::factory(),
+            'city_id'            => City::query()->inRandomOrder()->value('id'),
             'avatar_url'         => '/images/admin.jpg',
             'secrets'            => [
                 'stripe'  => Str::random(32),
@@ -85,12 +81,10 @@ class UserFactory extends Factory
         });
     }
 
-    // @todo:high: remove
-    public function suspended(): static
+    public function banned(): static
     {
         return $this->state(fn (array $attributes): array => [
-            'suspended_at'    => Date::now(),
-            'suspended_until' => Date::now()->addWeek(),
+            'banned_at' => Date::now(),
         ]);
     }
 
@@ -105,7 +99,7 @@ class UserFactory extends Factory
                 Http::profile()->body()
             );
 
-        $user->update([
+        $user->updateQuietly([
             'avatar_url' => $url,
         ]);
     }

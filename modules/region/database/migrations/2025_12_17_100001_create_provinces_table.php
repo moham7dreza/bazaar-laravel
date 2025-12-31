@@ -9,17 +9,16 @@ use Illuminate\Support\Facades\Schema;
 return new class() extends Migration {
     public function up(): void
     {
-        Schema::table('users', function (Blueprint $table): void {
-            $table->timestamp('banned_at')
-                ->after('is_active')
-                ->nullable();
+        Schema::create('provinces', function (Blueprint $table): void {
+            $table->id();
+            $table->string('name');
+            $table->string('tel_prefix', 3);
+            $table->timestamps();
         });
     }
 
     public function down(): void
     {
-        Schema::table('users', function (Blueprint $table): void {
-            $table->dropColumn('banned_at');
-        });
+        Schema::dropIfExists('provinces');
     }
 };

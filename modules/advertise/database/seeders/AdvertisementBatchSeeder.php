@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Modules\Advertise\Database\Seeders;
 
 use App\Enums\Currency;
-use App\Models\Geo\City;
 use App\Models\User;
 use Exception;
 use Illuminate\Container\Attributes\Context;
@@ -20,6 +19,7 @@ use Modules\Advertise\Enums\AdvertisementType;
 use Modules\Advertise\Models\Advertisement;
 use Modules\Advertise\Models\AdvertisementPrice;
 use Modules\Advertise\Models\Category;
+use Modules\Region\Models\City;
 
 class AdvertisementBatchSeeder extends Seeder
 {
@@ -48,9 +48,6 @@ class AdvertisementBatchSeeder extends Seeder
 
         $categories = Category::factory($adsPerUser)->make();
         $categories->chunk($chunkSize)->each(fn (Collection $categories) => Category::query()->insert($categories->toArray()));
-
-        $cities = City::factory($adsPerUser)->make();
-        $cities->chunk($chunkSize)->each(fn (Collection $cities) => City::query()->insert($cities->toArray()));
 
         $maxAdId = DB::table('advertisements')->max('id') ?? 0;
         $adId    = $maxAdId + 1;
@@ -82,7 +79,7 @@ class AdvertisementBatchSeeder extends Seeder
                 //                }
 
                 $categoryId = $categories->random()->first()->id;
-                $cityId     = $cities->random()->first()->id;
+                $cityId     = City::query()->inRandomOrder()->value('id');
                 if ( ! $categoryId)
                 {
                     continue;

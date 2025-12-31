@@ -15,10 +15,8 @@ return new class() extends Migration {
         Schema::table('users', function (Blueprint $table): void {
             $table->string('mobile')->nullable()->unique();
             $table->dateTime('mobile_verified_at')->nullable();
-            $table->foreignId('city_id')->nullable()->constrained('cities');
+            $table->foreignId('city_id')->nullable();
             $table->tinyInteger('is_active')->default(0);
-            $table->timestamp('suspended_at')->nullable();
-            $table->timestamp('suspended_until')->nullable();
             $table->string('avatar_url')->nullable();
             $table->softDeletes();
         });
@@ -35,8 +33,6 @@ return new class() extends Migration {
                 'mobile_verified_at',
                 'city_id',
                 'is_active',
-                'suspended_at',
-                'suspended_until',
                 'avatar_url',
             ]);
             $table->dropSoftDeletes();

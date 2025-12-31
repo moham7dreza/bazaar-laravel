@@ -117,15 +117,11 @@ final class UserResource extends Resource
                                     ->translateLabel()
                                     ->relationship('roles', 'name'),
                             ]),
-                        Section::make('Suspension')
+                        Section::make('Ban')
                             ->translateLabel()
                             ->columns()
                             ->schema([
-                                DateTimePicker::make('suspended_at')
-                                    ->jalali()
-                                    ->nullable()
-                                    ->translateLabel(),
-                                DateTimePicker::make('suspended_until')
+                                DateTimePicker::make('banned_at')
                                     ->jalali()
                                     ->nullable()
                                     ->translateLabel(),
@@ -151,14 +147,13 @@ final class UserResource extends Resource
                 TextColumn::make('email')->translateLabel()->sortable()->searchable(),
                 TextColumn::make('mobile')->translateLabel()->searchable(),
                 TextColumn::make('is_active')->translateLabel()->sortable()->badge(),
-                TextColumn::make('suspended_at')->jalaliDate()->translateLabel(),
-                TextColumn::make('suspended_until')->jalaliDate()->translateLabel(),
+                TextColumn::make('banned_at')->jalaliDate()->translateLabel(),
                 TextColumn::make('city.name')->translateLabel(),
                 TextColumn::make('mobile_verified_at')->jalaliDate()->translateLabel(),
                 TextColumn::make('email_verified_at')->jalaliDate()->translateLabel(),
             ])
             ->filters([
-                DateRangeFilter::make('suspended_at'),
+                DateRangeFilter::make('banned_at'),
                 Filter::make('mobile_verified_at')
                     ->label('not verified mobile')
                     ->translateLabel()
@@ -170,8 +165,7 @@ final class UserResource extends Resource
                         TextConstraint::make('mobile')->translateLabel(),
                         TextConstraint::make('mobile_verified_at')->translateLabel(),
                         TextConstraint::make('email_verified_at')->translateLabel(),
-                        TextConstraint::make('suspended_at')->translateLabel(),
-                        TextConstraint::make('suspended_until')->translateLabel(),
+                        TextConstraint::make('banned_at')->translateLabel(),
                     ])
                     ->constraintPickerColumns(),
             ], layout: FiltersLayout::Dropdown)
