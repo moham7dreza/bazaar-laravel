@@ -8,12 +8,6 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
 
-/**
- * @property string $title
- * @property string $value
- * @property string $attributable
- * @property string|int $attributable_id
- */
 class Attribute extends Model
 {
     use HasFactory;
@@ -22,7 +16,7 @@ class Attribute extends Model
 
     public function __construct(array $attributes = [])
     {
-        $this->table = config('laravel-attributes.tables.name', 'attributes');
+        $this->table = config()->string('laravel-attributes.tables.name', 'attributes');
 
         parent::__construct($attributes);
     }
