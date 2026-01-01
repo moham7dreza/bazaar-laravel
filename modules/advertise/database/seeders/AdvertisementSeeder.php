@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Modules\Advertise\Database\Seeders;
 
+use App\Models\Attribute;
 use Illuminate\Container\Attributes\Context;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Collection;
@@ -45,6 +46,7 @@ final class AdvertisementSeeder extends Seeder
             ->hasAttached($users->random(2), relationship: 'viewedByUsers')
             ->hasAttached(CategoryValue::factory(2)->create(), relationship: 'categoryValues')
             ->has(AdvertisementPrice::factory(), 'prices')
+            ->has(Attribute::factory(3))
             ->create();
     }
 }

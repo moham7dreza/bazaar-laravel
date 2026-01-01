@@ -213,7 +213,7 @@ if ( ! function_exists('isRunningTestsInParallel'))
     {
         if (
             app()->runningUnitTests() &&
-            (bool) request()->server('LARAVEL_PARALLEL_TESTING')
+            request()->server('LARAVEL_PARALLEL_TESTING')
         ) {
             return true;
         }

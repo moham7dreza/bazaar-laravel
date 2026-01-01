@@ -20,7 +20,7 @@ use Illuminate\Database\Eloquent\Attributes\UsePolicy;
 use Illuminate\Database\Eloquent\Attributes\UseResource;
 use Illuminate\Database\Eloquent\Attributes\UseResourceCollection;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\Casts\Attribute;
+use Illuminate\Database\Eloquent\Casts\Attribute as CastAttribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Prunable;
@@ -207,14 +207,14 @@ final class Advertisement extends Model
         return (bool) $this->published_at?->lt(Date::now());
     }
 
-    protected function price(): Attribute
+    protected function price(): CastAttribute
     {
         if (($price = $this->currentPrice()) !== null)
         {
             $price = (int) $price->getAmount();
         }
 
-        return Attribute::make(get: static fn (): ?int => $price);
+        return CastAttribute::make(get: static fn (): ?int => $price);
     }
 
     #[Scope]

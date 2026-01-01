@@ -9,10 +9,9 @@ use App\Enums\Disk;
 use Closure;
 use Database\Seeders\TestsReferenceDataSeeder;
 use Illuminate\Foundation\Testing\TestCase as BaseTestCase;
+use Illuminate\Support\Facades\Artisan;
 use Override;
 use ReflectionFunction;
-
-use function Pest\Laravel\artisan;
 
 abstract class TestCase extends BaseTestCase
 {
@@ -74,9 +73,9 @@ abstract class TestCase extends BaseTestCase
     {
         if ( ! self::$migrated && ! isRunningTestsInParallel())
         {
-            artisan('migrate', ['--force' => true]);
-            artisan('db:seed', ['--class' => TestsReferenceDataSeeder::class]);
-            artisan(SyncRoleHasPermissionsCommand::class, ['--sync' => true]);
+            Artisan::call('migrate', ['--force' => true]);
+            Artisan::call('db:seed', ['--class' => TestsReferenceDataSeeder::class]);
+            Artisan::call(SyncRoleHasPermissionsCommand::class, ['--sync' => true]);
 
             self::$migrated = true;
         }
