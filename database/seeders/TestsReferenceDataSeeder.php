@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
-use Modules\Region\Database\Seeders\IranCitiesSeeder;
 
 final class TestsReferenceDataSeeder extends Seeder
 {
@@ -13,7 +12,6 @@ final class TestsReferenceDataSeeder extends Seeder
     {
         $this->call([
             PermissionSeeder::class,
-            IranCitiesSeeder::class,
         ]);
     }
 }
