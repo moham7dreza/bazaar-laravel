@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Concerns\HasRelationships;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\Date;
 
 trait Attributable
 {
@@ -19,7 +20,7 @@ trait Attributable
      *
      * @return MorphMany
      */
-    public function attributes()
+    public function attributes(): MorphMany
     {
         return $this->morphMany(
             config('laravel-attributes.attributes_model'),
@@ -30,34 +31,48 @@ trait Attributable
     /**
      * Attach attribute.
      *
+     * @param  string  $title
+     * @param  string  $value
      * @return Builder|Model
      */
-    public function attachAttribute(string $title, string $value)
+    public function attachAttribute(string $title, string $value): Model|Builder
     {
         $attributes = [
-            'title'                => $title,
-            'value'                => $value,
-            'attributable_id'      => $this->getKey(),
-            'attributable_type'    => $this->getMorphClass(),
+            'title' => $title,
+            'value' => $value,
         ];
 
         return $this->attributes()->create($attributes);
     }
 
     /**
-     * Attach multiple attributes.
+     * Attach multiple attributes. send array of array with title and value keys.
      *
      * @return $this
+     *
+     * @example
+     * [
+     *  [
+     *      'key' => 'key',
+     *      'value' => 'value',
+     *  ]
+     * ]
      */
-    public function attachAttributes(array $values)
+    public function attachAttributes(array $values): static
     {
-        foreach ($values as $value)
+        foreach ($values as $key => $value)
         {
-            Arr::set($value, 'attributable_id', $this->getKey());
-            Arr::set($value, 'attributable_type', $this->getMorphClass());
-
-            $this->attributes()->create($value);
+            $value = [
+                'attributable_id'   => $this->getKey(),
+                'attributable_type' => $this->getMorphClass(),
+                'created_at'        => $now = Date::now()->toDateTimeString(),
+                'updated_at'        => $now,
+                ...$value,
+            ];
+            Arr::set($values, $key, $value);
         }
+
+        $this->attributes()->insert($values);
 
         return $this;
     }
@@ -65,11 +80,12 @@ trait Attributable
     /**
      * Check attribute have special value.
      *
+     * @param  string  $value
      * @return bool
      */
-    public function hasAttributeValue(string $value)
+    public function hasAttributeValue(string $value): bool
     {
-        return $this->getAttributeWhere()
+        return $this->attributes()
             ->where('value', $value)
             ->exists();
     }
@@ -77,11 +93,12 @@ trait Attributable
     /**
      * Check attribute have special title.
      *
+     * @param  string  $title
      * @return bool
      */
-    public function hasAttributeTitle(string $title)
+    public function hasAttributeTitle(string $title): bool
     {
-        return $this->getAttributeWhere()
+        return $this->attributes()
             ->where('title', $title)
             ->exists();
     }
@@ -91,14 +108,9 @@ trait Attributable
      *
      * @return Attributable
      */
-    public function deleteAllAttribute()
+    public function deleteAllAttributes(): static
     {
-        $attributes = $this->getAttributeWhere()->get();
-
-        foreach ($attributes as $attribute)
-        {
-            $attribute->delete();
-        }
+        $this->attributes()->delete();
 
         return $this;
     }
@@ -106,24 +118,29 @@ trait Attributable
     /**
      * Delete special attribute.
      *
+     * @param  string  $title
+     * @param  string  $value
      * @return int
      */
-    public function deleteAttribute(string $title, string $value)
+    public function deleteAttribute(string $title, string $value): int
     {
-        return $this->getAttributeWhere()
-            ->where('title', $title)
-            ->where('value', $value)
+        return $this->attributes()
+            ->where([
+                'title' => $title,
+                'value' => $value,
+            ])
             ->delete();
     }
 
     /**
      * Delete attribute by title.
      *
-     * @return int
+     * @param  string  $title
+     * @return bool
      */
-    public function deleteAttributeByTitle(string $title)
+    public function deleteAttributeByTitle(string $title): bool
     {
-        return $this->getAttributeWhere()
+        return (bool) $this->attributes()
             ->where('title', $title)
             ->delete();
     }
@@ -131,22 +148,13 @@ trait Attributable
     /**
      * Delete attribute by value.
      *
-     * @return int
+     * @param  string  $value
+     * @return bool
      */
-    public function deleteAttributeByValue(string $value)
+    public function deleteAttributeByValue(string $value): bool
     {
-        return $this->getAttributeWhere()
+        return (bool) $this->attributes()
             ->where('value', $value)
             ->delete();
-    }
-
-    /**
-     * Get attribute with this (model).
-     */
-    private function getAttributeWhere(): MorphMany
-    {
-        return $this->attributes()
-            ->where('attributable_id', $this->getKey())
-            ->where('attributable_type', $this->getMorphClass());
     }
 }

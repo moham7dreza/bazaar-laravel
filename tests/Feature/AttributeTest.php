@@ -110,7 +110,7 @@ test('test can attribute delete from model', function (): void {
 test('test can delete all attributes of one model', function (): void {
     $this->advertise->attachAttribute('role', 'developer');
     $this->advertise->attachAttribute('stack', 'laravel');
-    $this->advertise->deleteAllAttribute();
+    $this->advertise->deleteAllAttributes();
 
     assertDatabaseCount('advertisements', 1);
     assertDatabaseCount('attributes', 0);

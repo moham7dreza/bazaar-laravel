@@ -99,7 +99,7 @@ it('can delete all attributes', function (): void {
         ['title' => 'attr3', 'value' => 'val3'],
     ]);
 
-    $this->advertisement->deleteAllAttribute();
+    $this->advertisement->deleteAllAttributes();
 
     // Unset the cached relationship to force reload
     $this->advertisement->unsetRelation('attributes');
