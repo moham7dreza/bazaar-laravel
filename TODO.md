@@ -10,6 +10,8 @@
 9. implement api ver 1 (see mr #21).
 10. fix user real photo fetch in factory.
 11. improve git hooks (add rector auto fix files).
+12. doc automation. 
+13. translations for static contents.
 
 ## Features
 1. implement price ratio for other currencies.
@@ -28,4 +30,5 @@
 4. elastic query builder.
 5. taxonomy.
 6. payment and order handler.
-7. 
+7. multi lang (database translations for langs).
+8. laravel lang.
