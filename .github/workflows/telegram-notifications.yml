@@ -1,0 +1,82 @@
+name: Deployment Notifications
+
+on:
+  push:
+    branches: [ main, master ]
+
+jobs:
+  notify-telegram:
+    runs-on: ubuntu-latest
+    name: Send Telegram Notification
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: Extract deployment information
+        id: extract_info
+        run: |
+          # Get the commit message
+          COMMIT_MSG=$(git log -1 --pretty=%B)
+          AUTHOR=$(git log -1 --pretty=format:'%an')
+          COMMIT_HASH=$(git log -1 --pretty=format:'%h')
+
+          # Try to extract Jira ticket from commit message or branch
+          JIRA_TICKET=$(echo "$COMMIT_MSG" | grep -oP '[A-Z]+-\d+' | head -1 || echo "")
+
+          # Find documentation file
+          DOC_FILE=""
+          DOC_URL=""
+          if [ ! -z "$JIRA_TICKET" ]; then
+            DOC_FILE=$(find docs/features -name "${JIRA_TICKET}-*.md" | head -1 || echo "")
+            if [ ! -z "$DOC_FILE" ]; then
+              DOC_FILENAME=$(basename "$DOC_FILE")
+              # Update this URL to match your actual deployment URL
+              DOC_URL="${{ secrets.APP_URL }}/docs/${DOC_FILENAME}"
+            fi
+          fi
+
+          echo "commit_msg=$COMMIT_MSG" >> $GITHUB_OUTPUT
+          echo "author=$AUTHOR" >> $GITHUB_OUTPUT
+          echo "commit_hash=$COMMIT_HASH" >> $GITHUB_OUTPUT
+          echo "jira_ticket=$JIRA_TICKET" >> $GITHUB_OUTPUT
+          echo "doc_url=$DOC_URL" >> $GITHUB_OUTPUT
+
+      - name: Send Telegram notification
+        if: steps.extract_info.outputs.jira_ticket != ''
+        uses: appleboy/telegram-action@master
+        with:
+          to: ${{ secrets.TELEGRAM_CHAT_ID }}
+          token: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          format: markdown
+          message: |
+            🚀 *Feature Deployed: ${{ steps.extract_info.outputs.jira_ticket }}*
+
+            📝 ${{ steps.extract_info.outputs.commit_msg }}
+
+            👤 Author: ${{ steps.extract_info.outputs.author }}
+            🔗 Commit: `${{ steps.extract_info.outputs.commit_hash }}`
+            📅 Deployed: $(date -u +"%Y-%m-%d %H:%M UTC")
+
+            ${{ steps.extract_info.outputs.doc_url != '' && format('📚 Documentation: {0}', steps.extract_info.outputs.doc_url) || '📚 Documentation: Not available' }}
+
+            🎫 Jira: ${{ secrets.JIRA_URL }}/browse/${{ steps.extract_info.outputs.jira_ticket }}
+
+      - name: Send generic deployment notification
+        if: steps.extract_info.outputs.jira_ticket == ''
+        uses: appleboy/telegram-action@master
+        with:
+          to: ${{ secrets.TELEGRAM_CHAT_ID }}
+          token: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          format: markdown
+          message: |
+            🚀 *Deployment to Production*
+
+            📝 ${{ steps.extract_info.outputs.commit_msg }}
+
+            👤 Author: ${{ steps.extract_info.outputs.author }}
+            🔗 Commit: `${{ steps.extract_info.outputs.commit_hash }}`
+            📅 Deployed: $(date -u +"%Y-%m-%d %H:%M UTC")
+
