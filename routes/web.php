@@ -2,6 +2,7 @@
 
 declare(strict_types=1);
 
+use App\Http\Controllers\DocumentationController;
 use App\Http\Controllers\DomainRouterController;
 use App\Http\Controllers\FallbackController;
 use App\Http\Controllers\HomeController;
@@ -36,6 +37,16 @@ Route::prefix('image')
             ->name('web.image.index');
         Route::post('store', 'store')
             ->name('web.image.store');
+    });
+
+Route::prefix('docs')
+    ->controller(DocumentationController::class)
+    ->group(function (): void {
+        Route::get('/', 'index')
+            ->name('documentation.index');
+        Route::get('/{filename}', 'show')
+            ->name('documentation.show')
+            ->where('filename', '.*\.md');
     });
 
 Route::get('run-scheduler/{token}', function (string $token): void {
